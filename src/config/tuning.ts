@@ -1,6 +1,9 @@
 // Every tunable number lives here. Nothing in this file is player-facing text
 // (that is config/strings.ts).
 
+import type { StoryPropDef } from '../sim/story-props';
+import type { ColliderFlag, ColliderShape } from './grove-layout';
+
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
@@ -1831,9 +1834,6 @@ export const STORY = {
   /** At most this many guests stand in for one scene. */
   guestMax: 4,
 } as const;
-
-import type { StoryPropDef } from '../sim/story-props';
-import type { ColliderFlag, ColliderShape } from './grove-layout';
 
 /** Fun quests Q1-Q65 (sim/fun-quests.ts): how they offer themselves. */
 export const FUN = {

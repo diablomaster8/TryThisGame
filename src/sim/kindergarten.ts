@@ -5,14 +5,14 @@ import { decidePersonality } from './personality';
 import { hashSeed } from './rng';
 import { hasSkill } from './skills';
 import { traitsOf, type TraitId } from './traits';
+import { bandOf, childHint, winningType } from './alignment';
+import { addHappiness } from './needs';
+import type { LessonId, Nubbin, SimEvent, World } from './types';
 
 /** Lessons cost less with the Teacher's pet skill. */
 function lessonPrice(world: World): number {
   return Math.round(LESSONS.price * (hasSkill(world, 'teachersPet') ? 0.8 : 1));
 }
-import { bandOf, childHint, winningType } from './alignment';
-import { addHappiness } from './needs';
-import type { LessonId, Nubbin, SimEvent, World } from './types';
 
 /**
  * The kindergarten: lessons that give a Nubbin a skill it performs idly (drawing,

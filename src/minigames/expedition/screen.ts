@@ -11,11 +11,11 @@ import type { GraphicsMode, Nubbin, NubbinType, Rewards } from '../../sim/types'
 import { button, el } from '../../ui/dom';
 import { ExpeditionPixelView } from './pixel-view';
 import { createRun, jumpPressed, jumpReleased, stepRun, superlative, type RunState } from './run';
+import type { ExpeditionTheme, ExpeditionView } from './view';
+import { showUpdateNotice } from '../../ui/update-notice';
 
 /** R0324: how long a bumped obstacle's line stays up (ms of run time). */
 const EXPEDITION_QUIP_MS = 1400;
-import type { ExpeditionTheme, ExpeditionView } from './view';
-import { showUpdateNotice } from '../../ui/update-notice';
 
 /**
  * The Expedition screen: a full-screen overlay that owns the flow (taps and keys, the

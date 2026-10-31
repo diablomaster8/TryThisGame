@@ -34,8 +34,6 @@ import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types'
 import { Actors } from './actors';
 import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
-
-export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
 import { GearPop3D } from './hollow-gear-pop';
 import { crackWarmObject } from './egg-crack';
@@ -88,6 +86,8 @@ import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from '
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
+
+export { prewarmCreatures } from './prewarm';
 
 /**
  * The full-3D Grove: the same sim and the same OrbitCamera controls as the pixel

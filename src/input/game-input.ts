@@ -3,6 +3,10 @@ import { ShakeDetector } from './shake';
 import { INPUT, THROW } from '../config/tuning';
 import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
+import type { Camera, Object3D } from 'three';
+import { isControlTarget, isGameKey } from './keys';
+import { isDrag, isLongPress, isTap } from './press-kind';
+import { POINTER_INPUT } from '../config/tuning-r9d3';
 
 /** What a ground tap places while a panel is in placing mode. */
 export type Placing =
@@ -11,10 +15,6 @@ export type Placing =
   | { mode: 'plant'; plantKind: 'tree' | 'crop'; flavor: Flavor }
   | { mode: 'toy'; toy: ToyKind }
   | null;
-import type { Camera, Object3D } from 'three';
-import { isControlTarget, isGameKey } from './keys';
-import { isDrag, isLongPress, isTap } from './press-kind';
-import { POINTER_INPUT } from '../config/tuning-r9d3';
 
 /** Hits a near-miss Nubbin may override: open ground and the scenery around it. */
 const LOOSE_KINDS = new Set<PickHit['kind']>(['ground', 'tree', 'building', 'decor', 'plant']);

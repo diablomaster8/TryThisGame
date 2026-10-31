@@ -179,6 +179,8 @@ export class SculptFarm {
   private pumpMain(): void {
     if (this.mainBusy || !this.queue.length) return;
     this.mainBusy = true;
+    // Safe: the body catches its own errors, so the promise setTimeout drops never rejects.
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setTimeout(async () => {
       const job = this.queue.shift();
       if (job) {

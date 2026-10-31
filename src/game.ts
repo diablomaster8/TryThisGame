@@ -56,11 +56,6 @@ import { deckY, groveHeight, hillHeight } from './sim/terrain';
 import { runFloor } from './sim/dungeon';
 import { terraceY } from './render/scene-stage';
 import { SpriteCuller } from './render/chunks';
-
-/** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
-function reduce0(reduce: boolean, dtMs: number, rate: number): number {
-  return reduce ? 1 : 1 - Math.exp((-rate * dtMs) / 1000);
-}
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
 import { buzz } from './platform/haptics';
@@ -74,6 +69,11 @@ import { slotId } from './platform/storage';
 import { takeBackup, writeCheckpoint } from './platform/save-backups';
 import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
 import { playSoulSounds } from './ui/soul-sounds';
+
+/** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
+function reduce0(reduce: boolean, dtMs: number, rate: number): number {
+  return reduce ? 1 : 1 - Math.exp((-rate * dtMs) / 1000);
+}
 
 /* Lane E r9 */
 /** FUN-43: listeners told of every command sent (the curiosity triggers read them). */
