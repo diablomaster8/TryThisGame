@@ -43,6 +43,8 @@ export class TownPanel {
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, HOLLOW_ZONE_TEXT.stashTitle, UI_TEXT.close);
+    // R0193: a full-width bottom sheet on a phone (dungeon.css).
+    this.dialog.root.classList.add('hollow-sheet');
     this.heading = this.dialog.root.querySelector('h2')!;
     this.content = el('div', 'town-panel');
     this.dialog.body.appendChild(this.content);

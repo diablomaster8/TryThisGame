@@ -12,6 +12,9 @@ import type { Floor } from './dungeon';
 import { generateV3 } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
 import { placeUniques } from './dungeon-uniques';
+import { HOLLOW_R9D } from '../config/dungeon-r9-d';
+import { gentleFloor } from './dungeon-kid';
+import { raiseShelves } from './dungeon-shelves';
 import type { ActProgress, World } from './types';
 
 const cache = new Map<string, Floor>();
@@ -26,15 +29,16 @@ export function actFloor(
   depth: number,
   version = 3,
   difficulty: Difficulty = 'cosy',
+  kid = false,
 ): Floor {
-  // R0179: a tier changes the packs, so each tier's floor is its own.
-  const key = `${seed}:${act}:${depth}:${version >= 4 ? 4 : 3}:${difficulty}`;
+  // R0179: a tier changes the packs, so each tier's floor is its own (and R0188 kid floors).
+  const key = `${seed}:${act}:${depth}:${version >= 4 ? 4 : 3}:${difficulty}${kid ? ':kid' : ''}`;
   let f = cache.get(key);
   if (!f) {
     const def = ACTS[act]!;
     const level = Math.max(0, Math.min(def.levels.length - 1, depth - actStartDepth(act)));
     f = generateV3(seed, depth, {
-      level: def.levels[level]!,
+      level: kid ? HOLLOW_R9D.kid.level : def.levels[level]!,
       tileset: def.tileset,
       boss: level === def.levels.length - 1,
     });
@@ -50,7 +54,10 @@ export function actFloor(
       placeUniques(f, act, level + 1, band);
       // R0201, R0198: no bare rooms; the act's own wild ones.
       fillRooms(f, seed, depth, act);
+      // R0191: raised shelves, a jump (or a flying friend) up.
+      raiseShelves(f, seed, depth);
     }
+    if (kid) gentleFloor(f);
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
