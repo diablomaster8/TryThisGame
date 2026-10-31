@@ -1,3 +1,5 @@
+import { canShareText, shareText } from '../platform/share';
+import { SHARE_TEXT } from '../config/strings-r9d3';
 import {
   EGG_COLOR_LABELS,
   formatDuration,
@@ -229,6 +231,18 @@ export class RosterMenu {
     );
     const actions = el('div', 'roster-actions');
     actions.appendChild(copy);
+    // TECH-66: a phone can send the code straight to a friend through the share sheet.
+    if (canShareText())
+      actions.appendChild(
+        button(
+          SHARE_TEXT.codeButton,
+          () =>
+            void shareText(code, SHARE_TEXT.codeTitle).then((ok) => {
+              if (!ok) status.textContent = UI_TEXT.copyByHand;
+            }),
+          'btn btn-small',
+        ),
+      );
     if (trade) {
       actions.appendChild(
         button(

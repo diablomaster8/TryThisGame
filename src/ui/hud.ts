@@ -179,6 +179,8 @@ import { noteEventKinds } from '../platform/bug-log';
 import { isKeysHintKey, keysHintDone, showKeysHintAgain, watchKeysHint } from './keys-hint';
 import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/strings-r8d';
 import { ShakeMeter } from './shake-meter';
+import { ShakeHint } from './shake-hint';
+import { SelectionLive } from './a11y-live';
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
@@ -587,6 +589,10 @@ export function mountHud(
   });
   // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
   const guide = new Guide(root, game, () => sheet.selectedId);
+  // TECH-62: the ghost hand that shows how to shake a selected egg.
+  const shakeHint = new ShakeHint(root);
+  // TECH-28: the selected Nubbin said aloud, and Tab through the Nubbins on the canvas.
+  const selectionLive = new SelectionLive(root, game, (id) => sheet.open(id));
   edu.onShowMe(() => guide.show());
   // Lane E r8, R0685: the sticker book, from the results card's sticker (and Places).
   const stickerBook = new StickerBook(root, game);
@@ -1206,6 +1212,8 @@ export function mountHud(
           g.catchingUp;
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
+        shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
+        selectionLive.update(g.world);
         kidNotices.flush();
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());

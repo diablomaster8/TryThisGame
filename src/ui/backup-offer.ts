@@ -1,7 +1,8 @@
 import { BACKUP_OFFER_TEXT } from '../config/strings-tech';
 import type { Game } from '../game';
 import { backupOfferDue, noteBackupExported, noteBackupOffered } from '../platform/backup-offer';
-import { downloadText } from '../platform/storage';
+import { shareOrDownload } from '../platform/share';
+import { SHARE_TEXT } from '../config/strings-r9d3';
 
 /**
  * TECH-03: the one-time "Save a backup file" card (platform/backup-offer.ts). It checks now
@@ -27,8 +28,10 @@ export function mountBackupOffer(root: HTMLElement, game: () => Game | null): vo
     const g = game();
     if (g) {
       const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-      downloadText(`grove-save-${stamp}.json`, g.exportJson());
-      noteBackupExported();
+      // TECH-66: the share sheet on a phone, the download elsewhere.
+      void shareOrDownload(`grove-save-${stamp}.json`, g.exportJson(), SHARE_TEXT.saveTitle).then(
+        (r) => r !== 'cancelled' && noteBackupExported(),
+      );
     }
     card.hidden = true;
   });

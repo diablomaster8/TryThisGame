@@ -1,3 +1,5 @@
+import { shareOrDownload } from '../platform/share';
+import { SHARE_TEXT } from '../config/strings-r9d3';
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
 import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
@@ -748,8 +750,10 @@ export class SettingsMenu {
     const g = this.game();
     if (!g) return;
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-    downloadText(`grove-save-${stamp}.json`, g.exportJson());
-    noteBackupExported();
+    // TECH-66: the share sheet on a phone, the download elsewhere.
+    void shareOrDownload(`grove-save-${stamp}.json`, g.exportJson(), SHARE_TEXT.saveTitle).then(
+      (r) => r !== 'cancelled' && noteBackupExported(),
+    );
   }
 
   /** The newest copy of a save that failed to load, as a file the player can keep. */
