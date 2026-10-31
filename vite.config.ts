@@ -3,6 +3,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
+import { TOOL_FILES, UNIT_FILES } from './tests/test-projects';
 
 // BASE_PATH is set by the GitHub Pages workflow to "/<repo-name>/".
 // Locally it is unset, so the app is served from "/".
@@ -80,9 +81,22 @@ export default defineConfig({
     port: 5173,
   },
   test: {
-    include: ['tests/**/*.test.ts'],
-    // The app loads the campaign and side-story scripts as chunks at boot; tests register them up front.
-    setupFiles: ['tests/setup-side-stories.ts'],
     environment: 'node',
+    // TECH-42: two projects. `unit` skips the story scripts (see tests/test-projects.ts);
+    // `stories` registers them up front, as the app's boot does. The sample generators in
+    // TOOL_FILES only run with TOOLS=1, so a plain run reports no skipped files.
+    projects: [
+      { extends: true, test: { name: 'unit', include: [...UNIT_FILES] } },
+      {
+        extends: true,
+        test: {
+          name: 'stories',
+          include: ['tests/**/*.test.ts'],
+          exclude: [...UNIT_FILES, ...(process.env.TOOLS ? [] : TOOL_FILES), '**/node_modules/**'],
+          // The app loads the campaign and side-story scripts as chunks at boot; tests register them up front.
+          setupFiles: ['tests/setup-side-stories.ts'],
+        },
+      },
+    ],
   },
 });
