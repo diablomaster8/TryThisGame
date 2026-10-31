@@ -74,6 +74,8 @@ export function worldLine(g: Game): string {
     ` ${cr.hulls} outlined, ${cr.proxied} merged, ${cr.far} far` +
     `\nmem tex ${of(textureMb(s.scene), cap.gpuTexMB)}MB geo ${of(mem.geometries, cap.geometries)}` +
     ` heap ${heapMb === null ? '?' : of(heapMb, cap.heapMB)}MB` +
+    // R0456 (lane D r10): linked programs and the creature pool's sizes.
+    ` prog ${s.renderer.info.programs?.length ?? '?'} pool ${poolLine(s.poolCounts)}` +
     `  gov ${s.governor.ratio}/cpu${s.governor.cpuLevel}/shed${s.governor.shedLevel}`
   );
 }
@@ -130,4 +132,9 @@ export function worldControls(game: () => Game | null): HTMLElement {
   );
   row.append(poi, lod, freeze, grid);
   return row;
+}
+
+/** R0456: looks cached / coarse surfaces / spare rigs / rigs out, for the memory line. */
+function poolLine(c: { looks: number; low: number; spares: number; lent: number }): string {
+  return `${c.looks}L ${c.low}low ${c.spares}S ${c.lent}R`;
 }

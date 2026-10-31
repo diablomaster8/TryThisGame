@@ -450,6 +450,13 @@ export class CreaturePool {
     }
   }
 
+  /** R0456 (lane D r10): sizes for the debug panel's memory line. */
+  get counts(): { looks: number; low: number; spares: number; lent: number } {
+    let spares = 0;
+    for (const l of this.free.values()) spares += l.length;
+    return { looks: this.ready.size, low: this.low.size, spares, lent: this.lent.size };
+  }
+
   /** Whether a look's surfaces are back, so `acquire` can build it. */
   isReady(key: string): boolean {
     return this.ready.has(key) || (this.free.get(key)?.length ?? 0) > 0;

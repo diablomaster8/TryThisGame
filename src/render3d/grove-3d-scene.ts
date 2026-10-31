@@ -307,6 +307,10 @@ export class Grove3dScene {
   private readonly villageSquare: VillageSquare;
   private readonly water: GroveWater;
   private readonly actors: Actors;
+  /** R0456 (lane D r10): the creature pool's sizes, for the debug panel's memory line. */
+  get poolCounts(): CreaturePool['counts'] {
+    return this.actors.pool.counts;
+  }
   private readonly dungeonFloor: THREE.Mesh;
   /** A neighbour's Grove, dressed, for `visit:<trainer>`. */
   private readonly visit: VisitSet;
