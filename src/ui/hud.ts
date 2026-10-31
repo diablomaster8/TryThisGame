@@ -1,4 +1,8 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { setBiomeBed } from '../platform/biome-beds';
+import { REGIONS } from '../config/regions';
+import { regionOf } from '../sim/regions';
+import { hintToast, secretToasts } from './world-hints-ui';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
@@ -1141,6 +1145,12 @@ export function mountHud(
                 stream: nearStream,
               },
         );
+        // R0139 (lane D r9): the biome's sound bed, quiet whenever the ambience is.
+        setBiomeBed(
+          dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
+            ? null
+            : REGIONS[regionOf(g.world.location)].biome,
+        );
       }
       if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
       // Learning Grove: no races or karate; the 🧭 button is the games; breaks on time.
@@ -1912,6 +1922,14 @@ export function mountHud(
           // R0091: one-time collectibles and their sets.
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
+        } else if (e.kind === 'worldHint') {
+          // R0127 (lane D r9): a mechanic taught once, in the world.
+          const t = hintToast(e.id, game()?.world);
+          if (t) toast(t);
+        } else if (e.kind === 'secretFound') {
+          // R0111 (lane D r9): the region's secret, found with its Old Key.
+          for (const line of secretToasts(e.region)) toast(line);
+          playSound('win');
         } else if (e.kind === 'landmarkFound') {
           landmarkCard(e.id, events);
           playSound('pickup');

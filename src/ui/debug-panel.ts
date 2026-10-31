@@ -1,4 +1,5 @@
 import { worldControls, worldLine } from './world-debug';
+import { DEBUG_SEASON_TEXT } from '../config/strings-r9d4';
 import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
 import { debugIdleOdds } from '../sim/behavior';
 import { confirmModal } from './confirm';
@@ -83,6 +84,19 @@ export class DebugPanel {
       ),
     );
     this.root.appendChild(give);
+
+    // R0118 (lane D r9): force a season to check its Grove dressing; Calendar goes back.
+    const seasonRow = el('div', 'debug-row');
+    seasonRow.appendChild(el('span', undefined, DEBUG_SEASON_TEXT.label));
+    for (const season of [null, 'spring', 'summer', 'autumn', 'winter'] as const)
+      seasonRow.appendChild(
+        button(
+          season ? DEBUG_SEASON_TEXT.names[season] : DEBUG_SEASON_TEXT.calendar,
+          () => this.game()?.send({ kind: 'debugSeason', season }),
+          'btn btn-small',
+        ),
+      );
+    this.root.appendChild(seasonRow);
 
     const time = el('div', 'debug-row');
     time.appendChild(el('span', undefined, 'Time'));

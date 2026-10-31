@@ -9,7 +9,7 @@ import {
   type MeshLambertMaterial,
   type Texture,
 } from 'three';
-import { seasonFor } from '../config/campaign-look';
+import { freeIce, seasonHere } from './grove-season';
 import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import { HUSH } from '../config/tuning-e';
@@ -380,14 +380,16 @@ class PixelW implements PixelDressing {
 
     // C7: the pond's ice.
     if (this.ice) {
-      const on = home && pondIceWanted(stage, flags.campaign, flags.chapter);
+      // R0118 (lane D r9): a free-play winter freezes the pond too.
+      const here = seasonHere(world, staged, flags.campaign, flags.chapter, flags.location);
+      const on = home && (pondIceWanted(stage, flags.campaign, flags.chapter) || freeIce(here));
       this.ice.visible = on;
       if (this.stream) this.stream.visible = on;
       if (on) this.ice.material.color.setScalar(0.5 + 0.5 * (1 - daylight.darkness));
     }
 
     // H8: winter on the ground and the crowns.
-    const season = seasonFor(staged, flags.campaign, flags.chapter);
+    const season = seasonHere(world, staged, flags.campaign, flags.chapter, flags.location);
     const winter = home && season?.season === 'winter' && season.strength >= 0.9;
     // K25, K26: snow and path wear are two more levels of the same repainted ground.
     const snow = home ? levelOf(snowCover(flags), CG4_D4.snow.levels) : 0;

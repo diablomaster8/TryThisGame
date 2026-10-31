@@ -38,6 +38,7 @@ import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE, GROVE3D, SIM } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
+import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
@@ -156,6 +157,8 @@ export class WorldView {
   /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
   private cave: Floor | null = null;
   private readonly ambience = new CaveAmbience();
+  /** R0118 (lane D r9): the season's drift in the Grove. */
+  private readonly seasonDrift = new SeasonDrift();
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
@@ -680,6 +683,17 @@ export class WorldView {
         this.density,
       );
     }
+    // R0118 (lane D r9): the season's drift (blossom, summer fireflies, autumn leaves).
+    if (inGrove)
+      this.seasonDrift.update(
+        this.particles,
+        world.season,
+        this.keeperDrawPos(world, alpha),
+        nowMs,
+        this.particles.reduceMotion,
+        this.density,
+        this.daylight?.phase === 'night' || this.daylight?.phase === 'dusk',
+      );
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {

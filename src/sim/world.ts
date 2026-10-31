@@ -65,6 +65,7 @@ import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
@@ -599,6 +600,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
       return;
     }
+    // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.
+    case 'debugSeason':
+      if (cmd.season) {
+        world.debugSeason = cmd.season;
+        world.season = cmd.season;
+      } else delete world.debugSeason;
+      return;
     case 'debugGive':
       if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
       else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
@@ -1274,7 +1282,8 @@ export function stepWorld(
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
     if (wallMs !== undefined) {
-      world.season = seasonAt(wallMs, tzOf(world));
+      // R0118 (lane D r9): the debug panel can force a season for checks.
+      world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
       stepDaily(world, wallMs, rng, events);
     }
     stepLineQueue(world, dtMs, events);
@@ -1296,6 +1305,8 @@ export function stepWorld(
   stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
+  // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
+  stepWorldHints(world, events);
   stepLittleGrove(world);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
