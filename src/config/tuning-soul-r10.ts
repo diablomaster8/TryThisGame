@@ -31,7 +31,7 @@ export const RIVALS = {
   friction: 3,
   /** Rivals this near, both idling: a puff at each other now and then. */
   puffRadius: 3,
-  puffChancePerSecond: 0.05,
+  puffChancePerSecond: 0.2,
   puffMs: 2_000,
   /** No second puff for this long per Nubbin. */
   puffRestMs: 45_000,
@@ -46,7 +46,9 @@ export const RIVALS = {
   /** A good fit (this or more) within `kindredRadius` is sought out now and then. */
   kindredFit: 1.2,
   kindredRadius: 12,
-  kindredChance: 0.12,
+  kindredChance: 0.1,
+  /** Its top rival within `kindredRadius` is gone up to, to stand its ground. */
+  seekRival: 0.08,
   /** R0545: after its fruit was snatched, its next fruit search is this much quicker. */
   victimSearch: 1.2,
 } as const;
@@ -136,4 +138,18 @@ export const CARE_MEMORY = {
   followChance: 0.6,
   followMs: 3_000,
   followGap: 1.4,
+} as const;
+
+/** R0558 (SOUL-41): personality-flavoured eating, napping and swimming (sim side). */
+export const STATE_FLAVOUR = {
+  /** A glutton gulps its fruit (eat time ×0.6) and burps after; a shy one nibbles (×1.3). */
+  gulpScale: 0.6,
+  nibbleScale: 1.3,
+  /** A tired shy one walks to the nearest tree this near to nap under it; a cheerful one
+   * to its best friend this near. Walking there may take this long at most. */
+  napTreeRadius: 8,
+  napFriendRadius: 10,
+  napWalkMs: 10_000,
+  /** A lazy swimmer floats on its back, drifting at this share of the swim speed. */
+  lazyFloat: 0.5,
 } as const;

@@ -222,12 +222,25 @@ function clearMakeUp(a: Nubbin, b: Nubbin): void {
 }
 
 /**
- * The idle choice's pull toward a kindred spirit: now and then a Nubbin wanders over to sit
- * by the best fit near it that is not a rival, so good fits spend their time together and
- * become friends first. Live play only.
+ * The idle choice's pull toward a kindred spirit: now and then a Nubbin wanders over to
+ * sit by the best fit near it that is not a rival, so good fits spend their time together
+ * and become friends first. A grudge draws it too, now and then, to stand its ground by
+ * its rival (where the puffs happen). Live play only.
  */
 export function kindredAct(n: Nubbin, world: World, now: number): IdleAct | null {
   if (!soulLive() || n.stage === 'egg' || n.stage === 'cocoon') return null;
+  // A grudge draws it over too, now and then, to stand its ground (and puff).
+  const r = topRival(world, n);
+  if (
+    r &&
+    dist(r.pos, n.pos) < RIVALS.kindredRadius &&
+    roll(n, 'rivalSeek', now) < RIVALS.seekRival
+  )
+    return {
+      state: 'wander',
+      ms: 12_000,
+      target: { x: r.pos.x + (n.pos.x > r.pos.x ? 1.6 : -1.6), z: r.pos.z },
+    };
   if (roll(n, 'kindred', now) >= RIVALS.kindredChance) return null;
   let best: Nubbin | null = null;
   let fit: number = RIVALS.kindredFit;
