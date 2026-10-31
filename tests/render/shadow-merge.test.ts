@@ -8,7 +8,12 @@ function fakeRenderer(inPass: () => void = () => {}): {
   renderer: THREE.WebGLRenderer;
   shadowPass: () => void;
 } {
-  const map = { render: (...args: unknown[]) => void args.length + inPass() };
+  const map = {
+    render: (...args: unknown[]): void => {
+      void args.length;
+      inPass();
+    },
+  };
   const renderer = { shadowMap: map } as unknown as THREE.WebGLRenderer;
   return { renderer, shadowPass: () => map.render([], new THREE.Scene(), new THREE.Camera()) };
 }
