@@ -57,7 +57,9 @@ export type PoseName =
   | 'swim'
   | 'sit'
   | 'kneel'
-  | 'itemGet';
+  | 'itemGet'
+  // LOOK-21: crying: seated, fists rubbing the eyes in turn, wailing.
+  | 'cry';
 /** The creature cycle on the stage. `carry` and `throw` are the Keeper's: see `KEEPER_POSES`. */
 export const POSES: PoseName[] = ['idle', 'happy', 'pet', 'walk', 'eat', 'sleep'];
 /**
@@ -72,6 +74,7 @@ export const MOTION_POSES: PoseName[] = [
   'tumble',
   'flap',
   'swim',
+  'cry',
 ];
 /**
  * Campaign graphics 4 (K1, K39): the story stage's poses. `sit` lowers the hips onto a seat
@@ -373,6 +376,8 @@ export const EXPRESSIONS: Record<PoseName, Expression> = {
   sit: { lid: 0.1, squint: 0.1, brow: 0.05, browLift: 0, arc: false },
   kneel: { lid: 0, squint: 0.1, brow: 0.1, browLift: 0.02, arc: false },
   itemGet: { lid: 0, squint: 0, brow: 0.2, browLift: 0.2, arc: false, gape: 0.6 },
+  // LOOK-21: eyes screwed shut, brows knitted up at the inner ends, the mouth a wailing 'O'.
+  cry: { lid: 1, squint: 0.6, brow: -0.5, browLift: 0.08, arc: false, gape: 1 },
 };
 
 export interface Rigged extends Creature {
@@ -450,6 +455,13 @@ const GESTURE_IN = 0.3;
 const GESTURE_HOLD = 1.6;
 
 const smooth = (k: number) => k * k * (3 - 2 * k);
+/** LOOK-21: seconds each fist rubs before the other takes over (the pixel clip's beat ×2). */
+const CRY_SWAP = 0.52;
+/** LOOK-21: the crying arms: the rubbing fist up at the eye, the other half raised. */
+const CRY_ARM = {
+  rub: { pitch: -2.0, yaw: 0.35, roll: 0.75 },
+  rest: { pitch: -1.3, yaw: 0.25, roll: 0.55 },
+};
 
 /** A tiny seeded generator for render-side jitter (ear flicks), keyed by a name. */
 function seeded(name: string): () => number {
@@ -1712,7 +1724,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         break;
       }
       case 'sit':
-      case 'kneel': {
+      case 'kneel':
+      case 'cry': {
         // K1, the stock sit: the belly settles onto the seat (the ground, or a step), the
         // legs reach forward with the knees soft, the hands rest at the sides. Awake: the
         // eyes stay open and no Zzz rises, unlike `sleep`. A kneel is the same, lower.
@@ -1742,6 +1755,23 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('tail', 0.2, s(t * 1.1) * 0.25, 0);
         }
         mouthOpen = 0.06;
+        // LOOK-21: crying sits the same way, the head bowed with a sob in it, a fist up at
+        // each eye in turn (the rubbing one circles), and the mouth open in a wail.
+        if (pose === 'cry') {
+          const sob = still ? 0 : s(t * 9) * 0.04;
+          set('head', 0.22 * ease + sob, 0, 0);
+          if (!spider && !hover && !quad) {
+            const side = still ? 0 : Math.floor(t / CRY_SWAP) % 2;
+            const rub = still ? 0 : s(t * 14) * 0.12;
+            const up = (on: boolean) => (on ? CRY_ARM.rub : CRY_ARM.rest);
+            const l = up(side === 0);
+            const r = up(side === 1);
+            set('armL', l.pitch * ease + (side === 0 ? rub : 0), l.yaw, l.roll * ease);
+            set('armR', r.pitch * ease + (side === 1 ? rub : 0), -r.yaw, -r.roll * ease);
+          }
+          mouthOpen = 0.55 + (still ? 0 : s(t * 6) * 0.1);
+          earFold = 0.35 * ease;
+        }
         break;
       }
       case 'itemGet': {
@@ -2137,7 +2167,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       // Positive rotation.x drops the nose (local +z), so a higher front pitches it up
       // with the negative sign; positive rotation.z lifts the local +x side.
       // A seated body stays upright on its seat instead of leaning down the slope (K1).
-      const tilt = pose === 'sit' || pose === 'kneel' ? 0.15 : 0.85;
+      const tilt = pose === 'sit' || pose === 'kneel' || pose === 'cry' ? 0.15 : 0.85;
       root.rotation.x = -Math.atan2(hF - hB, 2 * f) * tilt;
       root.rotation.z = Math.atan2(hR - hL, 2 * f) * tilt;
       root.position.y = (hF + hB + hR + hL) / 4 - GROUND_SINK - footY * spec.scale;

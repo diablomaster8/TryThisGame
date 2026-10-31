@@ -19,7 +19,9 @@ export type BurstKind =
   // R0410 (LOOK-44): the signature beats' cheek sparks, sung notes and tail embers.
   | 'spark'
   | 'note'
-  | 'ember';
+  | 'ember'
+  // LOOK-21 (lane E r10): a crying Nubbin's tear drops.
+  | 'tear';
 
 interface Particle {
   p: THREE.Vector3;
@@ -40,6 +42,7 @@ const COLORS: Record<BurstKind, string[]> = {
   spark: ['#fff27a', '#ffe040', '#ffffff'],
   note: ['#5a4fd0', '#d04f9a', '#2f8fd0'],
   ember: ['#ff9a30', '#ffcf50', '#ff6020'],
+  tear: ['#8fd4ff', '#b8e6ff', '#6cc0f4'],
 };
 
 /**
@@ -59,6 +62,7 @@ const MOTION: Record<
   spark: { gravity: 0, drag: 5, flutter: 0, lands: false },
   note: { gravity: -0.3, drag: 1.2, flutter: 1.4, lands: false },
   ember: { gravity: -0.5, drag: 1.8, flutter: 0.6, lands: false },
+  tear: { gravity: 3.2, drag: 0.6, flutter: 0, lands: true },
 };
 
 const MAX = 320;
@@ -75,6 +79,7 @@ const LOOK: Record<BurstKind, { shape: QuadShape; size: number; additive: boolea
     spark: { shape: 'star', size: 0.3, additive: true, spin: 4 },
     note: { shape: 'note', size: 0.3, additive: false, spin: 0 },
     ember: { shape: 'glow', size: 0.16, additive: true, spin: 0 },
+    tear: { shape: 'dot', size: 0.09, additive: false, spin: 0 },
   };
 
 /** Reduced motion: at most this many glints a burst, drawn this close, for this long. */
@@ -133,6 +138,19 @@ export class Bursts {
         phase: this.rand() * 6.28,
       });
     }
+  }
+
+  /** LOOK-21: one particle thrown with a given velocity (a tear arcing out from an eye). */
+  drop(kind: BurstKind, at: THREE.Vector3, v: THREE.Vector3, lifeMs: number, nowMs: number): void {
+    if (this.calm || this.list.length >= MAX) return;
+    this.list.push({
+      p: at.clone(),
+      v: v.clone(),
+      born: nowMs,
+      life: lifeMs,
+      kind,
+      phase: this.rand() * 6.28,
+    });
   }
 
   update(nowMs: number, dt: number, ground: (x: number, z: number) => number): void {

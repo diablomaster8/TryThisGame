@@ -432,7 +432,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   // MetalGreymon: Greymon's body and helmet with a metal arm, a chest plate and bat wings.
   ironsaur: spec(pal(C.orange, C.ember, C.lilacGrey, C.sand, C.deepWater, C.ink, C.deepWater), {
     plan: 'tall',
-    extras: ['skullHelmet', 'dinoSnout'],
+    extras: ['skullHelmet', 'dinoSnout', 'metalArm'],
     wings: 'bat',
     tail: 'long',
     arms: 'metal',

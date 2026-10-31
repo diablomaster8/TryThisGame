@@ -13,6 +13,8 @@ import type { PerformLook, PerformProp } from '../render/perform-look';
 import { buildPerformSheet, doodleKey, propKey } from '../render/sprites/perform-art';
 import type { FrameRect, SpriteSheet } from '../render/sprites/atlas';
 import { doodleAlpha } from '../sim/perform';
+import { actDoodleAlpha, actDoodles } from '../render/idle-acts';
+import { IDLE_ACTS } from '../config/tuning-look-r10e';
 import type { World } from '../sim/types';
 
 const NOTE_MS = 1100;
@@ -157,6 +159,27 @@ export class Perform3D {
       }
       mat.opacity = 0.85 * a;
       m.position.set(d.x, this.ground(d.x, d.z) + 0.03, d.z);
+      m.scale.setScalar(1);
+      m.visible = true;
+    }
+    // R0421 (LOOK-51, lane E r10): the idle acts' smaller crayon scribbles, gone after 30 s.
+    for (const d of inGrove ? actDoodles() : []) {
+      const a = actDoodleAlpha(d, world.timeMs);
+      if (a <= 0 || used >= PERFORM.doodleMax + IDLE_ACTS.doodleMax) continue;
+      const m = this.doodleAt(used++);
+      const mat = m.material as THREE.MeshBasicMaterial;
+      if (m.userData.kind !== d.kind) {
+        const rect = this.ensureSheet().frames.get(doodleKey(d.kind));
+        if (rect) {
+          mat.map?.dispose();
+          mat.map = this.framed(rect);
+          mat.needsUpdate = true;
+        }
+        m.userData.kind = d.kind;
+      }
+      mat.opacity = 0.8 * a;
+      m.position.set(d.x, this.ground(d.x, d.z) + 0.03, d.z);
+      m.scale.setScalar(0.6);
       m.visible = true;
     }
     for (let i = used; i < this.doodles.length; i++) this.doodles[i]!.visible = false;

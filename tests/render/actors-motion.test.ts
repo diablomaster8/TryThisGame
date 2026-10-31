@@ -24,8 +24,9 @@ function nubbin(
 }
 
 describe('poseFor (3D poses by the pixel view rule)', () => {
-  it('cries, and sits sad when low or hungry', () => {
-    expect(poseFor(nubbin('cry'), false, false)).toBe('sad');
+  it('cries (LOOK-21), and sits sad when low or hungry', () => {
+    expect(poseFor(nubbin('cry'), false, false)).toBe('cry');
+    expect(poseFor(nubbin('cry'), true, false)).toBe('walk');
     const low = nubbin('sit');
     low.needs.happiness = -50;
     expect(poseFor(low, false, false)).toBe('sad');

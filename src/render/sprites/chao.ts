@@ -2092,6 +2092,32 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
         ),
       );
     }
+    // LOOK-51 (lane E r10): the garden idle acts' own frames: a stretch (arms high, up on the
+    // toes, eyes shut) and a yawn (a wide 'o', eyes shut, a slight sag after).
+    for (let f = 0; f < 2; f++) {
+      atlas.add(
+        frameKey('stretch', angle, f),
+        drawChao(
+          angle,
+          { ...BASE, arms: 'up', eyes: 'closed', mouth: f ? 'o' : 'smile', lift: -1 - f },
+          look,
+        ),
+      );
+      atlas.add(
+        frameKey('yawn', angle, f),
+        drawChao(
+          angle,
+          {
+            ...BASE,
+            arms: f ? 'down' : 'out',
+            eyes: f ? 'half' : 'closed',
+            mouth: f ? 'flat' : 'wail',
+            squash: f ? 0.96 : 1,
+          },
+          look,
+        ),
+      );
+    }
     atlas.add(
       frameKey('glide', angle, 0),
       drawChao(angle, { ...BASE, wings: 2, legs: 'tucked', arms: 'out', lift: -2 }, look),

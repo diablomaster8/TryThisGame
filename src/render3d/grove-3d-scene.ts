@@ -52,6 +52,7 @@ import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
 import { SignatureFx } from './signature-fx';
+import { CryTears } from './cry-tears';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
@@ -546,6 +547,7 @@ export class Grove3dScene {
     this.bursts = new Bursts(this.scene);
     this.gearPop = new GearPop3D(this.scene);
     /* Lane E r9 */ this.actors.sigFx = new SignatureFx(this.bursts);
+    /* Lane E r10 */ this.actors.cryFx = new CryTears(this.bursts);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
     useBuildingKit(this.tex);
     this.garden = new Garden(this.world3d);
@@ -919,6 +921,8 @@ export class Grove3dScene {
       // R0551 (lane A r8): a pet and a throw's landing play out by personality.
       if (e.kind === 'petted' || e.kind === 'landed')
         this.actors.handledBeat(e.nubbinId, e.kind, now);
+      // R0299 (lane E r10): a throw into a trunk splats flat against it.
+      if (e.kind === 'bonked' && e.thrown) this.actors.pop(e.nubbinId, 'splat', now);
       if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
       else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
         this.actors.pop(e.nubbinId, 'pop', now);
