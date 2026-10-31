@@ -34,6 +34,8 @@ import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
 import { cellCentre, runFloor } from '../sim/dungeon';
 import { screenBearing } from './hud-world-math';
 import { tzOf } from '../sim/local-time';
+import { guideOn, hollowKid } from '../sim/dungeon-kid';
+import { HOLLOW_R9D_TEXT as R9D } from '../config/strings-hollow-r9-d';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -372,9 +374,9 @@ export class DungeonMenu {
     this.acts.append(speed);
     // R0208: "Show me the way", for anyone, off until switched on.
     const guide = button(
-      world.hollow.guide ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
+      guideOn(world) ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
       () => {
-        this.game()?.send({ kind: 'hollowGuide', on: !world.hollow.guide });
+        this.game()?.send({ kind: 'hollowGuide', on: !guideOn(world) });
         setTimeout(() => {
           const g = this.game();
           if (g && this.dialog.isOpen()) this.listActs(g.world);
@@ -382,9 +384,25 @@ export class DungeonMenu {
       },
       'btn btn-small hollow-tier',
     );
-    guide.setAttribute('aria-pressed', String(!!world.hollow.guide));
+    guide.setAttribute('aria-pressed', String(guideOn(world)));
     guide.title = HOLLOW_R8_TEXT.guideHelp;
     this.acts.append(guide);
+    // R0188: kid mode; a Learning Grove keeps it on.
+    const kid = button(
+      world.edu ? R9D.kidEdu : hollowKid(world) ? R9D.kidOn : R9D.kidOff,
+      () => {
+        this.game()?.send({ kind: 'hollowKid', on: !hollowKid(world) });
+        setTimeout(() => {
+          const g = this.game();
+          if (g && this.dialog.isOpen()) this.listActs(g.world);
+        }, 250);
+      },
+      'btn btn-small hollow-tier',
+    );
+    kid.disabled = !!world.edu;
+    kid.setAttribute('aria-pressed', String(hollowKid(world)));
+    kid.title = R9D.kidHelp;
+    this.acts.append(kid, el('small', 'help', R9D.kidHelp));
     ACTS.forEach((act, i) => {
       const text = ACT_TEXT[act.id]!;
       const open = actOpen(world, i);

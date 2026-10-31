@@ -21,6 +21,7 @@ import { screenBearing } from './hud-world-math';
 import { footprints, guidePath } from '../sim/dungeon-guide';
 import { ghostTrail } from '../sim/dungeon-speed';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
+import { guideOn } from '../sim/dungeon-kid';
 
 /**
  * The Hollow's maps (item 40, R0154), drawn from the sim's explored mask so they work in
@@ -532,7 +533,7 @@ export class HollowMap {
     const h = window.innerHeight;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const k = cellPoint(f, world.keeper.pos);
-    const assists = `${!!world.hollow.guide}:${!!world.hollow.speedRun}`;
+    const assists = `${guideOn(world)}:${!!world.hollow.speedRun}`;
     const key = `${run.seed}:${run.depth}:${run.explored}:${marks
       .map((m) => `${m.x.toFixed(2)},${m.y.toFixed(2)}`)
       .join(';')}:${yaw.toFixed(3)}:${w}x${h}@${dpr}:${run.chestOpen}:${assists}`;
@@ -569,7 +570,7 @@ export class HollowMap {
       .filter((m) => m.kind === 'party')
       .map((m) => `${Math.floor(m.x)},${Math.floor(m.y)}`)
       .join(';');
-    const assists = `${!!world.hollow.guide}:${!!world.hollow.speedRun}`;
+    const assists = `${guideOn(world)}:${!!world.hollow.speedRun}`;
     const level = `${run.seed}:${run.depth}:${run.explored}`;
     const keyR8 = `${level}:${kc.x},${kc.y}:${run.chestOpen}:${party}:${assists}`;
     if (keyR8 === this.key) return;

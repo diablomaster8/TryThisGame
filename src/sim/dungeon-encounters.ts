@@ -367,7 +367,7 @@ export function encounterSpec(
     tier: pack.tier,
     ...(pack.kind === 'boss' ? { phases: bossPhases(run.act) } : {}),
     // R0179: the run's tier, as FIGHT's assist flag.
-    fight: fightFlag(run.difficulty),
+    fight: run.kid ? 'gentle' : fightFlag(run.difficulty),
     ...braveOf(world, run.party),
   };
 }

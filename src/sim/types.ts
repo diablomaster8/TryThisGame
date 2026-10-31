@@ -866,7 +866,10 @@ export interface DungeonRun {
   };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
-  /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
+  /**
+   * A storyline's fixed floor. R0197: new ones are authored story floors; a run saved on
+   * generator version 2 stays on version 2 all the way down.
+   */
   story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
@@ -921,6 +924,11 @@ export interface DungeonRun {
   seals?: string[];
   /** R0202: puzzle progress by seal id (block cells, or torches lit). */
   puzzles?: Record<string, number[]>;
+  // Lane B round 9.
+  /** R0188: a kid run: small floors, no traps, gentle packs. */
+  kid?: true;
+  /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
+  flyLiftDepth?: number;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -1315,8 +1323,10 @@ export interface World {
     roles?: Record<string, HollowRole>;
     /** R0207: acts whose "Story so far" scroll has been shown. */
     scrolls?: number[];
-    /** R0208: the "Show me the way" guide (off by default). */
+    /** R0208: the "Show me the way" guide (off by default; on by default in kid mode). */
     guide?: boolean;
+    /** Lane B r9 (R0188): kid mode for new Hollow runs (always on in a Learning Grove). */
+    kid?: boolean;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1602,6 +1612,8 @@ export type Command =
   | { kind: 'hollowSpeedRun'; on: boolean }
   | { kind: 'setHollowRole'; id: string; role: HollowRole | null }
   | { kind: 'hollowGuide'; on: boolean }
+  // Lane B r9 (R0188): kid mode at the cave mouth.
+  | { kind: 'hollowKid'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1703,6 +1715,8 @@ export type SimEvent =
   | { kind: 'bushRustle'; id: string; x: number; z: number; leaves: boolean; found: boolean }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
+  // Lane B r9 (R0191): a flying party Nubbin lifted the Keeper onto a raised shelf.
+  | { kind: 'hollowFlyLift'; name: string }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.

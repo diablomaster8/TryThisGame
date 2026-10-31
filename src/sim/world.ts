@@ -115,6 +115,7 @@ import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
 import { setHollowParty } from './dungeon-party';
 import { setHollowRole } from './dungeon-roles';
+import { setGuide, setHollowKid } from './dungeon-kid';
 import {
   dungeonGo,
   encounterDone,
@@ -921,8 +922,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       setHollowRole(world, cmd.id, cmd.role);
       return;
     case 'hollowGuide':
-      if (cmd.on) world.hollow.guide = true;
-      else delete world.hollow.guide;
+      setGuide(world, cmd.on);
+      return;
+    case 'hollowKid':
+      setHollowKid(world, cmd.on);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

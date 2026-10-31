@@ -57,7 +57,7 @@ export function goToLevel(
   delete run.zone;
   delete run.side;
   run.depth = depth;
-  run.genVersion = run.story ? 2 : HOLLOW.genVersion;
+  run.genVersion = run.story && run.genVersion <= 2 ? 2 : HOLLOW.genVersion;
   const f = floorOfRun(run);
   populate(run, f);
   restoreLevel(run);

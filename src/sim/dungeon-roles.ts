@@ -16,6 +16,7 @@ import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { DUNGEON } from '../config/tuning';
 import { cellOf, FLOOR, type Floor } from './dungeon';
 import { levelOf } from './stats';
+import { mayFetchShelf } from './dungeon-shelves';
 import type { DungeonRun, HollowRole, Nubbin, SimEvent, StatKey, World } from './types';
 
 export const ROLES: readonly HollowRole[] = ['fetch', 'fight', 'light', 'scout', 'swim'];
@@ -138,7 +139,8 @@ export function onIsland(world: World, f: Floor, cell: { x: number; y: number })
 
 /** Whether this Nubbin may go for loot on `cell`: islands are for Swim Nubbins only. */
 export function mayFetch(world: World, f: Floor, n: Nubbin, cell: { x: number; y: number }) {
-  return roleOf(world, n) === 'swim' || !onIsland(world, f, cell);
+  // R0191: a raised shelf's find is for a flier.
+  return (roleOf(world, n) === 'swim' || !onIsland(world, f, cell)) && mayFetchShelf(f, n, cell);
 }
 
 // ---------------------------------------------------------------- Fight and Scout

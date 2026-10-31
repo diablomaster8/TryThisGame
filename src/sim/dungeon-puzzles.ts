@@ -397,7 +397,7 @@ export function partFriend(world: World, run: DungeonRun, part: PartShortcut): s
 }
 
 function kidMode(world: World): boolean {
-  return !!world.edu || world.settings.bouts === 'gentle';
+  return !!world.edu || world.settings.bouts === 'gentle' || !!world.dungeon?.kid;
 }
 
 /** Each tick: plates, torches, blocks and part spots on the floor's puzzle. */

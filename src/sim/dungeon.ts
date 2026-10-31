@@ -75,6 +75,11 @@ import {
 import { newId, uniqueName } from './world';
 import { bankSack, partySpent, stepSack, tumbleHome } from './dungeon-sack';
 import { noteDailyDepth, noteLevelDone, notePickup, noteTripEnd } from './dungeon-log';
+// Lane B r9 (helper d): kid mode, raised shelves, authored story floors.
+import { HOLLOW_R9D } from '../config/dungeon-r9-d';
+import { gentleFloor, hollowKid } from './dungeon-kid';
+import { raiseShelves, type Shelf } from './dungeon-shelves';
+import { storyFloor } from './dungeon-story-floors';
 
 /**
  * The Hollow Below: a seeded cave under the Grove, one floor at a time. Each floor is
@@ -242,6 +247,8 @@ export interface Floor {
   act?: number;
   /** Lane B r8: secret rooms, puzzle gates and the boss door (dungeon-secrets.ts). */
   seals?: Seal[];
+  /** Lane B r9 (R0191): raised shelves, a jump up (dungeon-shelves.ts). */
+  shelves?: Shelf[];
 }
 
 /** A camp service (R0152): who keeps it is a trainer id, `local`, or '' for the stash. */
@@ -265,7 +272,8 @@ export interface PlacedPiece {
 }
 
 export interface FloorLayout {
-  level: HollowLevel;
+  /** R0188: 'kid' on kid mode's smaller floors. */
+  level: HollowLevel | 'kid';
   tileset: string;
   /** In walk order: `pieces[0]` is the entry; `rooms[i]` is `pieces[i]`'s rectangle. */
   pieces: PlacedPiece[];
@@ -660,23 +668,31 @@ const cache = new Map<string, Floor>();
  * The floor for a run's seed and depth, generated once. `version` picks the generator: a
  * saved run passes the one its floor was made with (`DungeonRun.genVersion`).
  */
-export function floorOf(seed: number, depth: number, version: number = HOLLOW.genVersion): Floor {
-  const key = `${seed}:${depth}:${version}`;
+export function floorOf(
+  seed: number,
+  depth: number,
+  version: number = HOLLOW.genVersion,
+  kid = false,
+): Floor {
+  // R0188: a kid run's floors are their own (smaller, gentler); older versions ignore it.
+  kid &&= version >= 3;
+  const key = `${seed}:${depth}:${version}${kid ? ':kid' : ''}`;
   let f = cache.get(key);
   if (!f) {
+    const opts = kid ? { ...v3OptionsFor(depth), level: HOLLOW_R9D.kid.level } : v3OptionsFor(depth);
     f =
       version <= 1
         ? generateV1(seed, depth)
         : version === 2
           ? generateV2(seed, depth)
           : version === 3
-            ? generateV3(seed, depth, v3OptionsFor(depth))
-            : fillRooms(
-                platformFloor(generateV3(seed, depth, v3OptionsFor(depth)), seed, depth),
+            ? generateV3(seed, depth, opts)
+            : raiseShelves(
+                fillRooms(platformFloor(generateV3(seed, depth, opts), seed, depth), seed, depth, null),
                 seed,
                 depth,
-                null,
               );
+    if (kid) gentleFloor(f);
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
@@ -691,8 +707,10 @@ export function floorOfRun(run: DungeonRun): Floor {
   return withSeals(
     run,
     run.act !== undefined
-      ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty)
-      : floorOf(run.seed, run.depth, run.genVersion),
+      ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty, !!run.kid)
+      : run.story && run.genVersion >= 3
+        ? storyFloor(run.seed, run.depth)
+        : floorOf(run.seed, run.depth, run.genVersion, !!run.kid),
   );
 }
 
@@ -1030,12 +1048,15 @@ export function enterDungeon(
     fetch: {},
     haul: { shells: 0, items: 0 },
     startedMs: world.timeMs,
-    // Story floors keep the version-2 set pieces their scenes were written on.
-    genVersion: story ? 2 : HOLLOW.genVersion,
+    // R0197: new story runs get their authored floors (dungeon-story-floors.ts); a story run
+    // saved on a version-2 floor keeps version 2 all the way down.
+    genVersion: HOLLOW.genVersion,
     explored: '',
     // R0209: co-op hooks, data only; the run's other Keepers (none yet).
     keepers: [],
     ...(story ? { story: true as const } : {}),
+    // R0188: kid mode (story floors are the story's own).
+    ...(!story && hollowKid(world) ? { kid: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
     // R0179: an act run keeps the tier it set out on.
     ...(act !== undefined && world.hollow.difficulty
@@ -1121,7 +1142,7 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   rememberLevel(run);
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
-  run.genVersion = run.story ? 2 : HOLLOW.genVersion;
+  run.genVersion = run.story && run.genVersion <= 2 ? 2 : HOLLOW.genVersion;
   const f = floorOfRun(run);
   populate(run, f);
   restoreLevel(run);
