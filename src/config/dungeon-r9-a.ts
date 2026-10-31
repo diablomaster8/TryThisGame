@@ -192,8 +192,8 @@ export const PORTAL_R9 = {
   /** How long the closing portal lingers on the floor after stepping back, ms. */
   closeMs: 1600,
   /** Billboard size in world units, and the leaf ring's radius. */
-  size: 1.1,
-  ring: 0.9,
+  size: 1.6,
+  ring: 1.15,
   /** Leaf-swirl turn speed, radians a second (still under reduced motion). */
   spin: 1.6,
 } as const;
@@ -201,11 +201,11 @@ export const PORTAL_R9 = {
 /** The guide's footprints on the cave floor (R0208), drawn on the path's footprint cells. */
 export const FOOTPRINT_R9 = {
   /** World size of one print. */
-  size: 0.55,
+  size: 0.85,
   /** Sideways offset of a left or right print from the path line. */
-  side: 0.16,
+  side: 0.22,
   /** Opacity, and the soft travelling pulse's depth and speed (static under reduced motion). */
-  opacity: 0.7,
+  opacity: 0.85,
   pulse: 0.3,
   pulseCellsPerSec: 4,
 } as const;

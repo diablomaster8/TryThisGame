@@ -173,8 +173,8 @@ export function paintAcorn(g: CanvasRenderingContext2D, s: number): void {
 /** The leaf-swirl: eight leaves round a soft green ring, seen from above. */
 export function paintSwirl(g: CanvasRenderingContext2D, s: number): void {
   const c = s / 2;
-  g.strokeStyle = 'rgba(160, 230, 140, 0.55)';
-  g.lineWidth = s * 0.05;
+  g.strokeStyle = 'rgba(170, 240, 150, 0.85)';
+  g.lineWidth = s * 0.07;
   g.beginPath();
   g.arc(c, c, s * 0.38, 0, Math.PI * 2);
   g.stroke();
@@ -185,7 +185,7 @@ export function paintSwirl(g: CanvasRenderingContext2D, s: number): void {
     g.rotate(t + Math.PI / 2.6);
     g.fillStyle = i % 2 ? '#8ad06a' : '#c8e070';
     g.beginPath();
-    g.ellipse(0, 0, s * 0.09, s * 0.04, 0, 0, Math.PI * 2);
+    g.ellipse(0, 0, s * 0.12, s * 0.055, 0, 0, Math.PI * 2);
     g.fill();
     g.restore();
   }

@@ -279,7 +279,8 @@ export function crowdFor(
         const a = facing + Math.PI + (i - 1) * 0.9;
         const r = i === 0 ? 0 : 0.55;
         out.push({
-          id: `:`,
+          // One figure per member (the id was a bare ":" and every member shared one rig).
+          id: `${p.id}:${i}`,
           kind: 'ambient',
           // A named unique's leader wears its own look, a size up (R0156, `unique-art.ts`).
           look: i === 0 && spec.unique ? uniqueLook(spec.unique) : artLook(m.species),
