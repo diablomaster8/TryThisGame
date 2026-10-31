@@ -5,7 +5,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
-import { GROVE3D, READ3D, UI } from '../config/tuning';
+import { GROVE3D, READ3D, SHADOW_MERGE, UI } from '../config/tuning';
 import {
   PERF_BUDGET,
   WORLD_LOD,
@@ -83,6 +83,7 @@ import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
+import { ShadowMerge } from './shadow-merge';
 
 /**
  * The full-3D Grove: the same sim and the same OrbitCamera controls as the pixel
@@ -267,6 +268,8 @@ export class Grove3dScene {
    * programs keep their shadow sampling, so going down the stairs links nothing new.
    */
   private caveShadowOff = false;
+  /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
+  private shadowMerge!: ShadowMerge;
   private caveShadowCleared = false;
   private sunShadowMask = 0;
   private readonly sky: GroveSky;
@@ -486,6 +489,7 @@ export class Grove3dScene {
     this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
     this.tex = this.textures.tex;
     this.scene.add(this.world3d);
+    this.shadowMerge = new ShadowMerge(this.world3d, this.renderer);
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
     this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };
@@ -1088,6 +1092,7 @@ export class Grove3dScene {
     // for the longest evening shadows; a phone leaves them out.
     sc.near = WORLD_LOD.shadowNear[this.tier];
     sc.updateProjectionMatrix();
+    this.shadowMerge.enabled = SHADOW_MERGE.tiers[this.tier];
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
@@ -1127,6 +1132,11 @@ export class Grove3dScene {
     const trees = buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time);
     for (const t of trees) this.crowns.add(t);
     this.farTrees = new FarTrees(this.world3d, trees, this.time);
+    this.shadowMerge.addLod(
+      this.farTrees.lodMeshes,
+      this.farTrees.standIns,
+      this.farTrees.shadowCrown,
+    );
     this.actors.warm(world);
   }
 
@@ -1725,6 +1735,7 @@ export class Grove3dScene {
     this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
     if (hold) return;
     this.prelinkActors(t0);
+    if (this.world3d.visible) this.shadowMerge.update(t0);
     this.governRenderScale(this.composer, interval);
     this.dof.tick(interval);
     if (!NO_LOD) {

@@ -163,3 +163,22 @@ export const FRAME_LOG = {
   /** Sprite sheets baked at most per frame once the first frame is drawn. */
   bakesPerFrame: 1,
 } as const;
+
+/**
+ * Lane D round 8, phone budget headroom: static small scenery casters are folded into one
+ * shadow-only mesh (`render3d/shadow-merge.ts`), so the sun's shadow pass draws them in one
+ * call instead of one each (farOrchard had ~40 such casters). Per `WORLD_TIER` device tier.
+ */
+export const SHADOW_MERGE = {
+  tiers: { desktop: false, phone: true, slow: true },
+  /** Meshes over this many triangles keep their own shadow draw (terrain, far trees). */
+  maxTris: 6000,
+  /** How often new casters are looked for and members checked for movement. */
+  sweepMs: 1000,
+  /** At most one rebuild of the merged mesh this often (it is a CPU merge, not free). */
+  rebuildMs: 4000,
+  /** Added to each member's bounding sphere when testing it against the shadow box (u). */
+  boxMargin: 1,
+  /** A mesh that has moved this many times casts its own shadow for good. */
+  moves: 3,
+} as const;
