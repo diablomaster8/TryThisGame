@@ -125,11 +125,22 @@ describe('service worker (TECH-43)', () => {
     expect(sw.fetch).not.toHaveBeenCalled();
   });
 
-  it('leaves range requests, other origins and non-GETs to the browser', async () => {
+  it('cuts range requests from a whole cached file, else passes them to the network', async () => {
+    // TECH-20: a clip kept for offline play is answered with a 206 slice of the cached body.
     const sw = boot();
-    expect(await sw.get(`${ORIGIN}/music/theme.ogg`, { headers: { range: 'bytes=0-' } })).toBe(
-      undefined,
-    );
+    await sw.fire('install');
+    sw.caches.get('grove-new')!.store.set(`${ORIGIN}/audio/a.mp3`, new Response('0123456789'));
+    const part = await sw.get(`${ORIGIN}/audio/a.mp3`, { headers: { range: 'bytes=2-5' } });
+    expect(part?.status).toBe(206);
+    expect(part?.headers.get('Content-Range')).toBe('bytes 2-5/10');
+    expect(await part?.text()).toBe('2345');
+    const net = await sw.get(`${ORIGIN}/music/theme.ogg`, { headers: { range: 'bytes=0-' } });
+    expect(await net?.text()).toBe('net');
+    expect(sw.caches.get('grove-new')!.store.has(`${ORIGIN}/music/theme.ogg`)).toBe(false);
+  });
+
+  it('leaves other origins and non-GETs to the browser', async () => {
+    const sw = boot();
     expect(await sw.get('https://elsewhere.test/a.js')).toBe(undefined);
     expect(await sw.get(`${ORIGIN}/x`, { method: 'POST' })).toBe(undefined);
     expect(sw.fetch).not.toHaveBeenCalled();
