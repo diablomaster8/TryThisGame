@@ -15,7 +15,7 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'peekTree') return n.behavior.target ? 'question' : 'none';
       if (id === 'giggle') return 'note';
       if (id === 'burp') return 'puff';
-      if (id.startsWith('snatch')) return 'spiky';
+      if (id.startsWith('snatch')) return 'smirk';
       // R0542: sharing carries a heart over; hoarding is a spiky business.
       if (id.startsWith('share')) return 'heart';
       if (id.startsWith('hoard')) return 'spiky';
@@ -27,10 +27,12 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'makeUpHug') return 'heart';
       // R0542 (lane A r10): tidying a toy home, and the pleased look after.
       if (id.startsWith('tidy')) return 'star';
+      // R0527 (lane A r10): peeking out of the cottage window.
+      if (id === 'cottageHide') return 'question';
       return null;
     case 'wander':
       if (id === 'hum') return 'note';
-      if (id === 'inspect') return 'exclaim';
+      if (id === 'inspect') return 'bulb';
       if (id === 'callKeeper') return 'question';
       if (id === 'callFruit') return 'exclaim';
       return null;

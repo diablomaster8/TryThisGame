@@ -1239,6 +1239,8 @@ export interface World {
 export type Command =
   // Lane E (R0332): the UI spotted a curiosity; the sim logs it once.
   | { kind: 'curiosity'; id: string }
+  // Lane A r10 (R0527): the cottage door tapped, coaxing out a Nubbin hiding inside.
+  | { kind: 'coaxOut' }
   // Lane C: the battle core (sim/battle/index.ts).
   | { kind: 'battleStart'; context: BattleContext }
   | { kind: 'battleAct'; action: BattleAction }
@@ -1596,6 +1598,8 @@ export type SimEvent =
   | { kind: 'keeperDipped'; shells: number }
   // R0025 (lane A r10): a splash-down without the Swim perk puffed the Keeper back ashore.
   | { kind: 'keeperPoofed'; from: Vec2; to: Vec2 }
+  // R0026 item 4 (lane A r10): the hidden keepsake on the shelf behind the waterfall, found.
+  | { kind: 'fallsKeepsake'; id: string }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
   | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
   | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }
@@ -1648,6 +1652,9 @@ export type SimEvent =
   | { kind: 'rivalsMade'; a: string; b: string }
   | { kind: 'rivalPuff'; a: string; b: string }
   | { kind: 'madeUp'; a: string; b: string }
+  /** Lane A r10 (R0527): in the Learning Grove, hiding in the cottage, and coming out. */
+  | { kind: 'cottageHid'; nubbinId: string }
+  | { kind: 'coaxedOut'; nubbinId: string; coaxed: boolean }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

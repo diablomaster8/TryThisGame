@@ -12,7 +12,7 @@ import {
   TRAIT_LABELS,
   TRAIT_TOASTS,
 } from '../config/strings-soul-r9';
-import { RIVAL_TEXT } from '../config/strings-soul-r10';
+import { COTTAGE_HIDE_TEXT, RIVAL_TEXT } from '../config/strings-soul-r10';
 import { likesOf } from '../sim/likes';
 import type { SoundName } from '../platform/audio';
 import type { SimEvent, World } from '../sim/types';
@@ -35,6 +35,13 @@ export function soulToast(world: World, e: SimEvent): string | null {
     return RIVAL_TEXT[e.kind === 'rivalsMade' ? 'made' : 'madeUp'][toastBand(world)]
       .replaceAll('{a}', nm(e.a))
       .replaceAll('{b}', nm(e.b));
+  }
+  // Lane A r10 (R0527): hiding in the cottage, and coaxed out (the Learning Grove).
+  if (e.kind === 'cottageHid' || (e.kind === 'coaxedOut' && e.coaxed)) {
+    const nm = world.nubbins.find((x) => x.id === e.nubbinId)?.name ?? NAMES.creature;
+    return COTTAGE_HIDE_TEXT[e.kind === 'cottageHid' ? 'hid' : 'coaxed'][
+      toastBand(world)
+    ].replaceAll('{n}', nm);
   }
   // Lane A r9: a trait picked up (R0528), a burp (R0546), a shy one found (R0543).
   if (e.kind === 'traitEarned' || e.kind === 'burp' || e.kind === 'peekFound') {
@@ -87,6 +94,7 @@ export function soulSound(e: SimEvent): SoundName | null {
     case 'rivalPuff':
       return 'squeak';
     case 'madeUp':
+    case 'coaxedOut':
       return 'pet';
     case 'traitEarned':
       return 'ding';

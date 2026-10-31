@@ -66,6 +66,7 @@ import { travel } from './regions';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepLittleGrove } from './little-grove';
+import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
@@ -391,6 +392,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (world.inventory.fruit <= 0) return;
       k.intent = { kind: 'feed', nubbinId: cmd.nubbinId };
       k.moveTarget = null;
+      return;
+    case 'coaxOut':
+      coaxOut(world, events);
       return;
     case 'shakeTree':
       k.intent = { kind: 'shakeTree', treeId: cmd.treeId };
@@ -1269,6 +1273,8 @@ export function stepWorld(
     // clock at ×1 with the tab showing), so scripted runs and catch-up never see them.
     if (!offline && countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
     stepTrust(world, dtMs, events);
+    // R0527 (lane A r10): in the Learning Grove a Nubbin hides in the cottage, never runs.
+    stepCottageHide(world, offline, events);
     stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);
     stepWeather(world, dtMs, rng, events);

@@ -1429,6 +1429,10 @@ export function mountHud(
         } else if (e.kind === 'hopLesson' && e.stage === 'done') {
           // MOVE-58: the first clear.
           toast(HOP_LESSON_TEXT.done);
+        } else if (e.kind === 'fallsKeepsake') {
+          // R0026 (lane A r10): the shelf behind the waterfall's one-time find.
+          playSound('pickup');
+          toast(MOVE_R10_TEXT.fallsKeepsake);
         } else if (e.kind === 'lookoutFind') {
           // MOVE-55: a lookout's one-time find.
           playSound('pickup');
@@ -1954,6 +1958,9 @@ export function mountHud(
         const which = id.slice('building:'.length);
         if (which === 'school') kindergarten.open();
         else if (which === 'dojo') karate.open();
+        // R0527 (lane A r10): a Nubbin hiding inside is coaxed out by a tap on the door.
+        else if (which === 'cottage' && g.world.nubbins.some((n) => n.cottageHide))
+          g.send({ kind: 'coaxOut' });
         else if (which === 'cottage') pocket.open(sheet.selectedId);
         else if (which === 'workshop') decorate.open('workshop');
         else if (which === 'nursery') toast(UI_TEXT.nurseryTap);

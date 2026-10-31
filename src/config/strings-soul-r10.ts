@@ -23,3 +23,17 @@ export const RIVAL_TEXT = {
     sprout: '🤗 {a} and {b} made up!',
   },
 } as const;
+
+/** R0527: the Learning Grove's cottage hiding. {n} is the Nubbin's name. */
+export const COTTAGE_HIDE_TEXT = {
+  hid: {
+    main: '{n} has gone to hide in the cottage. Tap the door, gently.',
+    reader: '{n} felt scared and is hiding in the cottage. Tap the door to say sorry.',
+    sprout: '🏠👀 {n} is hiding. Tap the door!',
+  },
+  coaxed: {
+    main: '{n} comes out for a hug.',
+    reader: '{n} comes out and gives you a big hug. Gentle hands help it feel safe.',
+    sprout: '🤗 {n} came out!',
+  },
+} as const;

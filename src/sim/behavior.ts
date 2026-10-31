@@ -24,6 +24,7 @@ import { mossOnHill, mossSeat } from './roster';
 import { isWary } from './trust';
 import { bestLesson, finishLesson } from './kindergarten';
 import { notePerformStart } from './perform';
+import { isChat, startChat, stepChat } from './chat';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
 import {
@@ -60,6 +61,7 @@ import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
 import { carryAct, carryArrive } from './carry-fruit';
 import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
+import { cottageHideAct } from './cottage-hide';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
@@ -547,6 +549,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     setState(n, 'nap', now, NEEDS.napMs * napScale(n));
     return;
   }
+  // R0527 (lane A r10): one hiding in the cottage goes back to the window (Learning Grove).
+  const hide = cottageHideAct(n, world);
+  if (hide) {
+    startAct(n, hide, now);
+    return;
+  }
   // R0559 (lane A r9): a slip on its way: it calls for attention (no rng drawn).
   const call = callAct(n, world);
   if (call) {
@@ -672,6 +680,11 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Buddies seek each other out for a chat.
   const buddy = bestFriend(world, n);
   if (buddy && rng.chance(FRIENDS.chatChance * m.play)) {
+    // R0540 (lane A r10): in live play they meet face to face and trade bubbles (sim/chat.ts).
+    if (startChat(world, n, buddy, now)) {
+      addHappiness(n, 1);
+      return;
+    }
     setState(n, 'greet', now, FRIENDS.chatMs);
     n.behavior.target = { x: buddy.pos.x + 0.9, z: buddy.pos.z };
     n.facing = Math.atan2(buddy.pos.x - n.pos.x, buddy.pos.z - n.pos.z);
@@ -933,6 +946,13 @@ function stepBehavior(
     chooseIdle(n, world, rng, now);
   }
 
+  // R0540 (lane A r10): a friend chat walks over, then talks turn about (sim/chat.ts).
+  if (b.state === 'greet' && isChat(b.itemId)) {
+    const walk = (to: Vec2): boolean =>
+      walkToward(world, n, to, BEHAVIOR.walkSpeed, dtMs, 0.15) || approachStalled(n, to, now);
+    if (stepChat(n, world, now, walk, events)) chooseIdle(n, world, rng, now);
+    return;
+  }
   switch (b.state) {
     case 'wander':
     case 'avoid': {

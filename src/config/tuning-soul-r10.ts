@@ -73,3 +73,22 @@ export const TIDY = {
   /** Pleased with itself after: happiness. */
   happiness: 2,
 } as const;
+
+/**
+ * R0527 (SOUL-09), the r10 half: in the Learning Grove, a Nubbin left at the trust floor as
+ * long as one elsewhere would run away hides in the cottage instead, at the window.
+ */
+export const COTTAGE_HIDE = {
+  /** Trust within this of the Learning Grove's floor counts as "at the floor". */
+  margin: 2,
+  /** Where it waits, peeking out: in front of the cottage's window (pushed clear). */
+  window: { x: -5.6, z: 16.4 },
+  /** Each spell at the window before it looks again (it still goes to eat). */
+  waitMs: 60_000,
+  /** Coaxed out: trust and happiness, and a hug this long. */
+  coaxTrust: 10,
+  coaxHappiness: 5,
+  hugMs: 2_500,
+  /** Trust back up this far above the floor (pets through the window): out on its own. */
+  outAbove: 15,
+} as const;
