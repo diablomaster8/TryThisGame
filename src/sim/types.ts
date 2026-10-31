@@ -276,6 +276,17 @@ export interface Nubbin {
   recentMeals?: number[];
   /** R0543: no hide and seek again before this sim time. */
   peekAfterMs?: number;
+  // Lane A r10 (SOUL), optional with defaults, no save bump:
+  /** R0538: how much it holds against other Nubbins, by id (0..100; one-sided). */
+  rivals?: Record<string, number>;
+  /** R0538: minutes spent near each rival, toward making up. */
+  makeUp?: Record<string, number>;
+  /** R0545: its fruit was snatched; its next fruit search is quicker, until it eats. */
+  searchBoost?: true;
+  /** R0541: how the Keeper treated it lately, newest last (at most eight; fades). */
+  recentCare?: Array<{ kind: import('../config/tuning-soul-r10').CareKind; atMs: number }>;
+  /** R0527: hiding in the cottage (Learning Grove) until the Keeper taps the door. */
+  cottageHide?: true;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -1219,6 +1230,8 @@ export interface World {
   festivalGags?: Season[];
   /** Atlas and Arcade festivals already announced in this Grove (sim/atlas.ts), by id. */
   atlasFestivals: string[];
+  /** R0525 (lane A r10): crayon doodles on the Grove's ground, fading after ten minutes. */
+  doodles?: Array<{ x: number; z: number; kind: number; atMs: number; by: string }>;
 }
 
 // ---------- commands (input → sim) ----------
@@ -1581,6 +1594,8 @@ export type SimEvent =
   | { kind: 'hopCourse'; stage: 'finish'; ms: number; ghost: number[]; hat: boolean }
   // MOVE-65: the Keeper dips under the pond (shells: a one-time find there, or 0).
   | { kind: 'keeperDipped'; shells: number }
+  // R0025 (lane A r10): a splash-down without the Swim perk puffed the Keeper back ashore.
+  | { kind: 'keeperPoofed'; from: Vec2; to: Vec2 }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
   | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
   | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }
@@ -1612,6 +1627,9 @@ export type SimEvent =
   | { kind: 'pranked'; nubbinId: string; markId: string }
   /** R0551: a plain pet landed (the renderers play it by personality). */
   | { kind: 'petted'; nubbinId: string }
+  /** Lane A r10: a lesson performed (R0525); one bubble of a friend chat (R0540). */
+  | { kind: 'performStart'; nubbinId: string; lesson: LessonId; level: number }
+  | { kind: 'chatTurn'; nubbinId: string; turn: number; topic: string }
   /** R0539: a missed buddy came back and the two hugged. */
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
@@ -1626,6 +1644,10 @@ export type SimEvent =
   | { kind: 'jealous'; nubbinId: string; of: string }
   /** R0542: a Sun Nubbin brought a hungry one a fruit. */
   | { kind: 'sharedFruit'; nubbinId: string; markId: string }
+  /** Lane A r10 (R0538): a rivalry formed, two rivals huffed, two rivals made up. */
+  | { kind: 'rivalsMade'; a: string; b: string }
+  | { kind: 'rivalPuff'; a: string; b: string }
+  | { kind: 'madeUp'; a: string; b: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

@@ -22,6 +22,9 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       // R0560: jealous: asking to be picked up too, or a cheeky nudge.
       if (id === 'askUp') return 'heart';
       if (id.startsWith('nudge:')) return 'spiky';
+      // R0538 (lane A r10): rivals huff at each other; making up is a hug.
+      if (id === 'rivalPuff') return 'puff';
+      if (id === 'makeUpHug') return 'heart';
       return null;
     case 'wander':
       if (id === 'hum') return 'note';

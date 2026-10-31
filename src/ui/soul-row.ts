@@ -14,6 +14,9 @@ import {
 } from '../config/strings-soul-r8';
 import { TRAIT_LABELS, TRAIT_SHEET } from '../config/strings-soul-r9';
 import { traitsOf } from '../sim/traits';
+import { bestFriend } from '../sim/friendships';
+import { topRival } from '../sim/rivals';
+import { BONDS_SHEET } from '../config/strings-soul-r10';
 import { recently } from '../sim/diary';
 import { likesOf } from '../sim/likes';
 import type { Nubbin, World } from '../sim/types';
@@ -80,7 +83,10 @@ export class RecentlyBox {
 
   update(world: World, n: Nubbin): void {
     const items = recently(n);
-    const key = `${n.id}:${items.map((e) => `${e.kind}${e.atMs}`).join(',')}`;
+    // R0538 (lane A r10): the best friend and the rival, by name, under the list.
+    const friend = bestFriend(world, n);
+    const rival = topRival(world, n);
+    const key = `${n.id}:${items.map((e) => `${e.kind}${e.atMs}`).join(',')}:${friend?.name}:${rival?.name}`;
     if (key === this.shown) return;
     this.shown = key;
     this.root.hidden = n.stage === 'egg';
@@ -94,5 +100,15 @@ export class RecentlyBox {
     }
     if (!items.length) list.appendChild(el('li', 'soul-help', RECENTLY_TEXT.none));
     this.root.appendChild(list);
+    const bonds = el('p', 'soul-bonds');
+    bonds.append(
+      el('span', 'soul-icon', '♥'),
+      el('span', undefined, ` ${BONDS_SHEET.friend}: `),
+      el('strong', undefined, friend?.name ?? BONDS_SHEET.none),
+      el('span', 'soul-icon', ' 😤'),
+      el('span', undefined, ` ${BONDS_SHEET.rival}: `),
+      el('strong', undefined, rival?.name ?? BONDS_SHEET.none),
+    );
+    this.root.appendChild(bonds);
   }
 }

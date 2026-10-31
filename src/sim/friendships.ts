@@ -3,6 +3,7 @@ import { FRIENDS_AWAY } from '../config/tuning-fun-r7';
 import { stepPairPlay } from './pair-play';
 import { addHappiness } from './needs';
 import { isFree } from './nubbin';
+import { areRivals, compat, flushRivalEvents, stepRivals } from './rivals';
 import type { Nubbin, SimEvent, World } from './types';
 
 /**
@@ -30,6 +31,7 @@ export function bestFriend(world: World, n: Nubbin): Nubbin | null {
 
 export function stepFriendships(world: World, dtMs: number, events: SimEvent[]): void {
   stepReunions(world, events);
+  flushRivalEvents(events);
   // R0330 (FUN-41): Nubbins near each other play together now and then.
   stepPairPlay(world, events);
   const minutes = dtMs / 60_000;
@@ -38,11 +40,17 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
     for (let j = i + 1; j < live.length; j++) {
       const a = live[i]!;
       const b = live[j]!;
-      if (Math.hypot(a.pos.x - b.pos.x, a.pos.z - b.pos.z) > FRIENDS.reach) continue;
+      const near = Math.hypot(a.pos.x - b.pos.x, a.pos.z - b.pos.z) <= FRIENDS.reach;
+      // R0538 (lane A r10): rivalry's friction, puffs and making up (live play only).
+      stepRivals(world, a, b, near, minutes, events);
+      if (!near) continue;
       a.friends ??= {};
       b.friends ??= {};
       const before = a.friends[b.id] ?? 0;
-      const after = Math.min(100, before + FRIENDS.perMinute * minutes);
+      // R0538: how fast they warm to each other depends on how their personalities fit.
+      // Rivals near each other work toward making up instead (sim/rivals.ts).
+      const gain = areRivals(a, b) ? 0 : FRIENDS.perMinute * compat(a, b) * minutes;
+      const after = Math.min(100, before + gain);
       a.friends[b.id] = after;
       b.friends[a.id] = after;
       if (before < FRIENDS.buddyAt && after >= FRIENDS.buddyAt) {
@@ -70,6 +78,16 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
       if (left > 0 && !flower) n.friends[id] = left;
       else delete n.friends[id];
     }
+  }
+  // R0538 (lane A r10): a grudge against one no longer in the Grove is let go.
+  for (const n of live) {
+    if (!n.rivals) continue;
+    const gone = Object.keys(n.rivals).filter((id) => !world.nubbins.some((x) => x.id === id));
+    if (!gone.length) continue;
+    const r = { ...n.rivals };
+    for (const id of gone) delete r[id];
+    if (Object.keys(r).length) n.rivals = r;
+    else delete n.rivals;
   }
 }
 

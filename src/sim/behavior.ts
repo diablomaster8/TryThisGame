@@ -23,6 +23,7 @@ import { isFree } from './nubbin';
 import { mossOnHill, mossSeat } from './roster';
 import { isWary } from './trust';
 import { bestLesson, finishLesson } from './kindergarten';
+import { notePerformStart } from './perform';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
 import {
@@ -58,6 +59,7 @@ import { peekAct } from './peek';
 import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
 import { carryAct, carryArrive } from './carry-fruit';
+import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
   hasTrait,
@@ -679,6 +681,8 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   if (bestLesson(n) && rng.chance(LESSONS.performChance * m.play * performScale(n, world))) {
     setState(n, 'perform', now, LESSONS.performMs);
     n.behavior.itemId = bestLesson(n);
+    // R0538 (lane A r10): two show-offs at once rub each other up the wrong way.
+    noteShowOff(world, n, now);
     addHappiness(n, 1);
     return;
   }
@@ -711,6 +715,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     : null;
   if (own) {
     startAct(n, own, now);
+    return;
+  }
+  // R0538 (lane A r10): now and then it goes to sit by a kindred spirit.
+  const kin = kindredAct(n, world, now);
+  if (kin) {
+    startAct(n, kin, now);
     return;
   }
   // R0524: the everyday choice is one weighted pick (sim/idle-choice.ts), not a cascade.
@@ -831,6 +841,8 @@ export function updateBehavior(
     (b.itemId === 'stomp' || b.itemId === 'raindrop')
   )
     noteTraitCare(n, 'brave', events);
+  // R0525 (lane A r10): a lesson performed starts its own look and sound (sim/perform.ts).
+  if (b.sinceMs !== since && b.state === 'perform') notePerformStart(world, n, events);
 }
 
 function stepBehavior(
@@ -964,8 +976,10 @@ function stepBehavior(
         chooseIdle(n, world, rng, now);
         break;
       }
-      if (walkToward(world, n, item.pos, BEHAVIOR.walkSpeed, dtMs)) {
+      // R0538/R0545 (lane A r10): a race with a rival, or a hurry after a snatch.
+      if (walkToward(world, n, item.pos, BEHAVIOR.walkSpeed * fruitPace(world, n), dtMs)) {
         world.items = world.items.filter((i) => i.id !== item.id);
+        noteFruitWon(world, n, item.id, events);
         eat(n, now, events, item.flavor);
       } else if (approachStalled(n, item.pos, now, true)) {
         skipItem(n, item.id, now);
@@ -1141,6 +1155,8 @@ function stepBehavior(
 }
 
 export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor): void {
+  // R0545 (lane A r10): a snatch victim's hurry ends with its next meal.
+  if (n.searchBoost) delete n.searchBoost;
   noteAteForAntics(n, now);
   // Lane A r9: a neat one grooms after (R0528); a snack counts toward glutton; a third
   // fruit in five minutes fills the belly (R0546).

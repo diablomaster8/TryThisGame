@@ -7,8 +7,10 @@
  * Chances are hashed from the Nubbin and the second (no world rng drawn), as the traits'.
  */
 import { NEEDS, SNATCH } from '../config/tuning';
-import { liveliness } from './antics';
+import { liveliness, soulLive } from './antics';
 import { roll } from './traits';
+import { addRivalry } from './rivals';
+import { RIVALS } from '../config/tuning-soul-r10';
 import type { IdleAct } from './soul-idle';
 import { isFree } from './nubbin';
 import type { Flavor, Nubbin, SimEvent, World } from './types';
@@ -29,6 +31,8 @@ function cheek(n: Nubbin): number {
  */
 export function snatchAct(n: Nubbin, world: World, now: number, dtMs: number): IdleAct | null {
   if (Math.floor(now / 1000) === Math.floor((now - dtMs) / 1000)) return null;
+  // Lane A r10: a snatch (and the grudge it leaves) is for watching, never in catch-up.
+  if (!soulLive()) return null;
   const c = cheek(n);
   if (c <= 0 || n.stage === 'egg' || n.stage === 'cocoon') return null;
   if (roll(n, 'snatch', now) >= SNATCH.perSecond * c * liveliness(world)) return null;
@@ -106,6 +110,9 @@ export function snatchArrive(
     const f = { ...(victim.friends ?? {}) };
     f[n.id] = Math.max(0, (f[n.id] ?? 0) - SNATCH.friendshipCost);
     victim.friends = f;
+    // R0538/R0545 (lane A r10): a grudge, and a hurry on its next fruit so it isn't starved.
+    addRivalry(victim, n, RIVALS.snatch, events);
+    victim.searchBoost = true;
     events.push({ kind: 'snatched', nubbinId: n.id, victimId: victim.id });
   }
   return true;

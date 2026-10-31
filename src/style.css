@@ -4488,3 +4488,9 @@ body.edu-sprout .modal-head .btn-close {
     animation: none !important;
   }
 }
+
+/* Lane A r10 (R0538): the best friend and rival line on the stats sheet. */
+.soul-bonds {
+  margin: 4px 0 0;
+  font-size: 0.85em;
+}
