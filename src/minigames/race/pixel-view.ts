@@ -1,3 +1,4 @@
+import { reducedMotion } from '../../platform/motion';
 import { RACE_LOOK } from '../../config/campaign-look';
 import { drawBib, drawStoryTrack } from '../../render/dress-f-race';
 import { drawShadowText, FONT_H, measureText } from '../../render/sprites/font';
@@ -33,9 +34,7 @@ function hopLift(race: RaceState, pos: number): number {
   return 0;
 }
 
-const reduceMotion = (): boolean =>
-  document.documentElement.classList.contains('reduce-motion') ||
-  (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const reduceMotion = reducedMotion;
 
 /** Landscape view height in low-res pixels; the width follows the screen. */
 const VIEW_H = 270;

@@ -12,6 +12,21 @@ export default tseslint.config(
     languageOptions: { globals: { ...globals.browser } },
   },
   {
+    // R0500: reduced motion is read through platform/motion.ts only, so the setting and the
+    // system query are always combined the same way.
+    files: ['src/**/*.ts'],
+    ignores: ['src/platform/motion.ts'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[arguments.0.value=/prefers-reduced-motion/]',
+          message: 'Use reducedMotion() from platform/motion.ts.',
+        },
+      ],
+    },
+  },
+  {
     files: ['tests/**/*.ts', 'vite.config.ts', 'eslint.config.js'],
     languageOptions: { globals: { ...globals.node } },
   },

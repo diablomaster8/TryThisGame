@@ -1,3 +1,4 @@
+import { reducedMotion } from '../platform/motion';
 import { WORLD_TRAVEL } from '../config/tuning-world';
 
 /**
@@ -11,7 +12,7 @@ export function playIris(atDark: () => void): void {
     atDark();
     return;
   }
-  const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  const still = reducedMotion();
   const veil = document.createElement('div');
   veil.className = still ? 'travel-fade' : 'travel-iris';
   veil.setAttribute('aria-hidden', 'true');

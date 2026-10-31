@@ -1,3 +1,4 @@
+import { reducedMotion } from '../platform/motion';
 import { BATTLE_MOVE_TEXT, moveName } from '../config/strings-battle-moves';
 import { TYPE_WORDS } from '../config/strings-battle';
 import { BOOK_TEXT as BATTLE_BOOK_TEXT, LADDER_TEXT } from '../config/strings-battle-r6';
@@ -220,8 +221,7 @@ export class CollectionBook {
       i++;
     };
     tick();
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
-      this.spin = window.setInterval(tick, 400);
+    if (!reducedMotion()) this.spin = window.setInterval(tick, 400);
     const at = world.seen[key];
     const by = world.seenBy?.[key];
     this.page.append(

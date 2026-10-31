@@ -6,6 +6,7 @@
  * with the same look rules as the Grove (`SheetCache.forNubbin`). Every button is at least
  * 44 px and the list scrolls under one thumb.
  */
+import { reducedMotion } from '../platform/motion';
 import { COSMETICS } from '../config/cosmetics';
 import { BELT_TEXT, WARDROBE_TEXT } from '../config/strings-look';
 import { LADDER_TEXT } from '../config/strings-battle-r6';
@@ -67,7 +68,7 @@ export class Wardrobe {
     this.syncBelt(n, !n.hideBelt);
     this.preview();
     this.stopSpin();
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
+    if (!reducedMotion())
       this.spin = window.setInterval(() => {
         this.step++;
         this.draw();

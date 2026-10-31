@@ -1,3 +1,4 @@
+import { systemReducedMotion } from '../platform/motion';
 import { MathUtils, OrthographicCamera, Vector3 } from 'three';
 import { applyViewShift, NO_SHIFT, type ViewShift } from './view-shift';
 import { CAMERA, RENDER } from '../config/tuning';
@@ -110,8 +111,10 @@ export class OrbitCamera {
   private frameHeight: number = RENDER.targetHeight;
   private yawTween: Tween | null = null;
   private zoomTween: Tween | null = null;
-  /** The system's prefers-reduced-motion, read once. */
-  readonly prefersReducedMotion: boolean;
+  /** The system's prefers-reduced-motion, live (platform/motion.ts). */
+  get prefersReducedMotion(): boolean {
+    return systemReducedMotion();
+  }
   /**
    * Snap turns and zooms instead of easing them. Starts at the system setting; the game
    * sets it each frame from the player's Reduced motion choice in Settings.
@@ -124,10 +127,6 @@ export class OrbitCamera {
     this.viewHeight = computeViewHeight(RENDER.targetHeight, this.pixelsPerUnit);
     this.camera = new OrthographicCamera(-1, 1, 1, -1, CAMERA.near, CAMERA.far);
     this.camera.up.set(0, 1, 0);
-    this.prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.reduceMotion = this.prefersReducedMotion;
     this.applyProjection();
     this.applyPose();

@@ -1,3 +1,4 @@
+import { reducedMotion as motionReduced } from '../platform/motion';
 import { BATTLE_R6 } from '../config/tuning-battle-r6';
 import type { Combatant } from '../sim/battle/types';
 
@@ -107,7 +108,4 @@ export function idlePose(
 }
 
 /** Reduced motion, from the page's class or the system setting. */
-export const reducedMotion = (): boolean =>
-  typeof document !== 'undefined' &&
-  (document.documentElement.classList.contains('reduce-motion') ||
-    !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+export const reducedMotion = (): boolean => motionReduced();

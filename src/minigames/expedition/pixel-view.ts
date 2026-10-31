@@ -1,3 +1,4 @@
+import { reducedMotion } from '../../platform/motion';
 import { EXPEDITION } from '../../config/tuning';
 import { drawShadowText } from '../../render/sprites/font';
 import { PX } from '../../render/sprites/pixel-canvas';
@@ -45,7 +46,7 @@ export class ExpeditionPixelView implements ExpeditionView {
   }
 
   start(runner: Nubbin, sheet: SpriteSheet, theme: ExpeditionTheme): void {
-    this.reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    this.reduceMotion = reducedMotion();
     this.theme = theme;
     this.art ??= buildExpeditionArt();
     this.runner = { sheet, name: runner.name };
@@ -108,15 +109,17 @@ export class ExpeditionPixelView implements ExpeditionView {
         ? [C.ink, C.nightBlue, C.nightBlue, C.tealDeep, C.deepGreen]
         : [C.water, C.water, C.shallows, C.shallows, C.skyLight],
     );
-    this.drawRidge(run.distance, W, hollow);
+    // R0500: under reduced motion the far layers hold still; only the ground scrolls.
+    const far = this.reduceMotion ? 0 : run.distance;
+    this.drawRidge(far, W, hollow);
 
     // Parallax clouds and hills.
-    const cloudShift = (run.distance * 0.2) % (W + 60);
+    const cloudShift = (far * 0.2) % (W + 60);
     for (let i = 0; i < 4; i++) {
       const x = ((i * 150 - cloudShift) % (W + 60)) - 30;
       blit(art.cloud, x < -40 ? x + W + 60 : x, 20 + (i % 2) * 24);
     }
-    const hillShift = (run.distance * 0.45) % 140;
+    const hillShift = (far * 0.45) % 140;
     for (let x = -hillShift - 140; x < W + 140; x += 140) {
       blit(art.hill, x, EXPEDITION.groundY - 40);
     }
@@ -136,7 +139,7 @@ export class ExpeditionPixelView implements ExpeditionView {
     }
 
     // Things.
-    const bob = Math.floor(nowMs / 250) % 2;
+    const bob = this.reduceMotion ? 0 : Math.floor(nowMs / 250) % 2;
     for (const t of run.things) {
       const sx = Math.round(t.x - run.distance);
       if (sx + t.w < 0 || sx > W) continue;
