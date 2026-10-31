@@ -11,6 +11,8 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { bravePower } from './dungeon-gear-effects';
+import { GEAR_EFFECTS } from '../config/dungeon-items-r8';
+import { friendBrave, friendPower } from './dungeon-friends';
 import { packKeyWin } from './dungeon-keys';
 import { arenaFor, type HollowArena } from './dungeon-arena';
 import { fightFlag, noteFinalBoss } from './dungeon-tiers';
@@ -243,8 +245,13 @@ function partyPower(world: World, run: DungeonRun): number {
       levelOf(s.fly.points);
     power += E.memberBase + sum / 5;
   }
-  // The Keeper counts for one small Nubbin.
-  return power + E.memberBase + bravePower(world, run.party);
+  // The Keeper counts for one small Nubbin; R0181 (round 9): a hired friend for another.
+  return (
+    power +
+    E.memberBase * (1 + friendPower(world)) +
+    bravePower(world, run.party) +
+    friendBrave(world) * GEAR_EFFECTS.bravePower
+  );
 }
 
 /** The stub until FIGHT lands: the party's weight against the pack's, then a seeded roll. */
@@ -374,7 +381,8 @@ export function encounterSpec(
 
 /** Each party Nubbin's Brave (its own gear plus the Keeper's), or nothing when none has any. */
 function braveOf(world: World, party: string[]): { brave?: Record<string, number> } {
-  const keeper = gearStat(world, 'brave');
+  // R0181 (round 9): a hired friend cheers every party Nubbin on.
+  const keeper = gearStat(world, 'brave') + friendBrave(world);
   const brave: Record<string, number> = {};
   for (const id of party) {
     const b = keeper + gearStat(world, 'brave', id);

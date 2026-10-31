@@ -12,6 +12,7 @@ import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import { friendOf, friendWalking } from '../sim/dungeon-friends';
 import { rumbleOpen } from '../sim/dungeon-rumble';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
@@ -1481,6 +1482,27 @@ export class WorldView {
           tint: this.dim,
         });
       }
+    }
+    // R0181 (lane B round 9): a friend hired at a camp walks with the party underground.
+    const friend = runFloor(world) ? friendOf(world) : null;
+    if (friend) {
+      const fsheet = this.sheets.keeper(friend.trainer, 'sun');
+      const fwalk = friendWalking(world, friend);
+      const fclip: ClipName = fwalk ? 'walk' : 'idle';
+      const fview = viewAngle(friend.facing, yaw);
+      const frect = fsheet.frames.get(frameKey(fclip, fview.angle, frameAt(CLIPS[fclip], nowMs)));
+      shadow(friend.pos.x, 0, friend.pos.z, 0.45, 0);
+      if (frect)
+        batch.draw({
+          sheet: fsheet,
+          rect: frect,
+          flip: fview.flip,
+          x: friend.pos.x,
+          y: 0,
+          z: friend.pos.z,
+          mode: 'billboard',
+          tint: this.dim,
+        });
     }
     // MOVE-46: the step's surface; a deck or a bench top leaves no dust, grass a tuft.
     this.footfall.step(world, kx, kz);

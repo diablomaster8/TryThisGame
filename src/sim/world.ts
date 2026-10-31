@@ -133,6 +133,8 @@ import { takeFromStash } from './dungeon-sack';
 import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
 import { stepGearNeeds } from './dungeon-gear-effects';
+import { dismissFriend, hireFriend } from './dungeon-friends';
+import { takeActQuest } from './dungeon-quests';
 import { itemsCommand } from './dungeon-items';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -923,6 +925,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'hollowGuide':
       if (cmd.on) world.hollow.guide = true;
       else delete world.hollow.guide;
+      return;
+    // Lane B round 9 (helper c): act quests (R0166) and friends for hire (R0181).
+    case 'hollowR9':
+      if (cmd.what === 'quest') takeActQuest(world, cmd.id, events);
+      else if (cmd.what === 'hire') hireFriend(world, cmd.id, events);
+      else dismissFriend(world, events);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

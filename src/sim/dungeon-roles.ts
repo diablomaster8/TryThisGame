@@ -15,6 +15,7 @@
 import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { DUNGEON } from '../config/tuning';
 import { cellOf, FLOOR, type Floor } from './dungeon';
+import { friendFetch } from './dungeon-friends';
 import { levelOf } from './stats';
 import type { DungeonRun, HollowRole, Nubbin, SimEvent, StatKey, World } from './types';
 
@@ -80,9 +81,11 @@ export function lightBonus(world: World, run: DungeonRun): number {
 /** How far (u) this Nubbin goes for loot. */
 export function fetchRadiusOf(world: World, n: Nubbin): number {
   if (n.personality === 'lazy') return Math.min(DUNGEON.fetchRadius, PARTY_R8.roles.lazyFetch);
-  if (roleOf(world, n) !== 'fetch') return DUNGEON.fetchRadius;
+  // R0181 (round 9): a friend with the fetch aura sends everyone a little further.
+  const aura = friendFetch(world);
+  if (roleOf(world, n) !== 'fetch') return DUNGEON.fetchRadius + aura;
   const F = PARTY_R8.roles.fetch;
-  return DUNGEON.fetchRadius + Math.min(F.maxExtra, levelOf(n.stats.run.points) / F.runPer);
+  return DUNGEON.fetchRadius + aura + Math.min(F.maxExtra, levelOf(n.stats.run.points) / F.runPer);
 }
 
 // ---------------------------------------------------------------- islands (Swim)

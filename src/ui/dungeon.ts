@@ -34,6 +34,7 @@ import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
 import { cellCentre, runFloor } from '../sim/dungeon';
 import { screenBearing } from './hud-world-math';
 import { tzOf } from '../sim/local-time';
+import { dailyChainLine, questChipText, roundNineCToast } from './hollow-r9-c';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -232,6 +233,9 @@ export class DungeonMenu {
       day === dailySeed(g.world.lastWallMs, tzOf(g.world)).day && t!.deepest > 0
         ? HOLLOW_R6_TEXT.today(t!.deepest, clockText(t!.bestMs), t!.finds)
         : HOLLOW_R6_TEXT.todayNone,
+      // R0185 (round 9): today's five-level act chain.
+      el('br'),
+      dailyChainLine(g.world),
     );
     this.party.render(g.world, partyIds(g.world));
     this.listActs(g.world);
@@ -257,6 +261,8 @@ export class DungeonMenu {
         toast(HOLLOW_R8_TEXT.scoutSpotted(who));
       } else if (e.kind === 'storyScroll')
         this.scrollWaiting = { act: e.act, since: performance.now() };
+      // Lane B round 9 (helper c): moods, act quests and friends.
+      else roundNineCToast(e, world, toast);
     }
   }
 
@@ -328,6 +334,8 @@ export class DungeonMenu {
     // R0175: what rides in the sack until the next waypoint, camp, acorn or home.
     const sack = sackCount(run);
     if (sack > 0) this.barText.textContent += ` · ${HOLLOW_R6_TEXT.sack(sack)}`;
+    // R0166 (round 9): the act quest on this level.
+    this.barText.textContent += questChipText(world);
     // R0208: the guide's arrow toward the stairs or the unexplored, turned with the camera.
     const hint = guideHint(world, this.game()?.camera.currentYaw ?? 0);
     if (hint) this.barText.textContent += ` · ${hint}`;

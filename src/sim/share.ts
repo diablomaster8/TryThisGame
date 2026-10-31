@@ -64,6 +64,58 @@ export function decodeNubbin(code: string): Nubbin | null {
 }
 
 /**
+ * R0185 (lane B round 9): today's Hollow results as a short code a Keeper can paste to a
+ * friend, `H1-YYMMDD-deepest-seconds-finds-check` (numbers in base 36), so two Keepers can
+ * compare the same day's cave off-platform. No server, no account, nothing stored.
+ */
+export interface TodayResult {
+  day: string;
+  deepest: number;
+  bestMs: number;
+  finds: number;
+}
+
+const TODAY_PREFIX = 'H1';
+
+export function encodeTodayCode(t: TodayResult): string | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(t.day);
+  if (!m) return null;
+  const body = [
+    `${m[1]!.slice(2)}${m[2]}${m[3]}`,
+    Math.max(0, Math.round(t.deepest)).toString(36),
+    Math.max(0, Math.round(t.bestMs / 1000)).toString(36),
+    Math.max(0, Math.round(t.finds)).toString(36),
+  ].join('-');
+  return `${TODAY_PREFIX}-${body}-${checksum(body).slice(-2)}`.toUpperCase();
+}
+
+export function decodeTodayCode(code: string): TodayResult | null {
+  const parts = code.trim().toLowerCase().split('-');
+  if (parts.length !== 6 || parts[0] !== TODAY_PREFIX.toLowerCase()) return null;
+  const [, day, deep, secs, finds, check] = parts as [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
+  const body = [day, deep, secs, finds].join('-');
+  if (checksum(body).slice(-2) !== check || !/^\d{6}$/.test(day)) return null;
+  const num = (s: string) => (/^[0-9a-z]{1,7}$/.test(s) ? parseInt(s, 36) : NaN);
+  const d = num(deep);
+  const s = num(secs);
+  const f = num(finds);
+  if (![d, s, f].every(Number.isFinite)) return null;
+  return {
+    day: `20${day.slice(0, 2)}-${day.slice(2, 4)}-${day.slice(4, 6)}`,
+    deepest: d,
+    bestMs: s * 1000,
+    finds: f,
+  };
+}
+
+/**
  * Whether a Nubbin belongs to the story (Moss, Sable): never traded, fused or given away.
  * The UI uses this to hide the Trade away button.
  */

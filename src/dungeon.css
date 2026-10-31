@@ -232,3 +232,29 @@
   margin: 6px 0;
   font-size: 1rem;
 }
+/* Lane B round 9 (helper c): compare a friend's Hollow code (R0185). */
+.hollow-compare {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+  margin-top: 12px;
+}
+.hollow-compare label {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 160px;
+  gap: 4px;
+}
+.hollow-compare input {
+  min-height: 44px;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.hollow-compare .btn {
+  min-height: 44px;
+}
+.hollow-compare p {
+  flex-basis: 100%;
+  margin: 0;
+}

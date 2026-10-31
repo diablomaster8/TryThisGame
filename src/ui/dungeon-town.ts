@@ -19,11 +19,12 @@ import { ITEMS_R8_TEXT } from '../config/strings-hollow-r8-items';
 import { wheelbarrowOpen } from '../sim/dungeon-wheelbarrow';
 import { WheelbarrowPanel } from './dungeon-barrow';
 import { StashPanel } from './dungeon-stash';
+import { renderActQuests, renderHireBoard } from './hollow-r9-c';
 
 /**
  * An act camp's services (R0152): the panel that opens from the Hollow bar's service button
- * when the Keeper stands at one. The stash, the vendor and the quest-giver work; crafting,
- * gambling and hiring say they are not open yet.
+ * when the Keeper stands at one. The stash, the vendor, the quest-giver (with the act quests,
+ * round 9), the crafting table and the hire board (round 9) work.
  */
 export class TownPanel {
   private readonly dialog;
@@ -93,6 +94,11 @@ export class TownPanel {
     if (!g) return;
     g.send(cmd);
     this.render(g.world);
+    // Lane B round 9: a command lands on the next sim step; draw the panel again after it.
+    setTimeout(() => {
+      const again = this.game();
+      if (again && this.dialog.isOpen()) this.render(again.world);
+    }, 250);
   }
 
   private render(world: World): void {
@@ -190,6 +196,11 @@ export class TownPanel {
           this.send({ kind: 'townQuest' }),
         );
       }
+      // R0166 (round 9): the act's two quests.
+      renderActQuests(world, this.content, act, (cmd) => this.send(cmd));
+    } else if (s.kind === 'hire') {
+      // R0181 (round 9): friends for hire.
+      renderHireBoard(world, this.content, act, (cmd) => this.send(cmd));
     } else if (s.kind === 'craft') {
       // R0177: the crafting table is the Gardener's Wheelbarrow.
       this.content.append(
