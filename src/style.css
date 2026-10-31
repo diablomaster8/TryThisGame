@@ -4406,3 +4406,85 @@ body.edu-sprout .modal-head .btn-close {
     display: none;
   }
 }
+
+/* Lane A r10 (R0556, R0557): the doctor's check-up and the fortune card. */
+.kg-checkup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.kg-patient canvas {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+.kg-say {
+  font-weight: 600;
+}
+.kg-listen .kg-patient {
+  animation: kg-thump 0.45s ease-in-out infinite;
+}
+.kg-tongue .kg-patient {
+  animation: kg-aah 0.9s ease-out 1;
+}
+.kg-kick .kg-patient {
+  animation: kg-kick 0.35s ease-out 2;
+}
+@keyframes kg-thump {
+  50% {
+    transform: scale(1.06);
+  }
+}
+@keyframes kg-aah {
+  40% {
+    transform: scaleY(1.12) translateY(-4px);
+  }
+}
+@keyframes kg-kick {
+  30% {
+    transform: rotate(-12deg) translateY(-6px);
+  }
+}
+.kg-card {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.kg-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+}
+.kg-label {
+  width: 6.5em;
+  font-size: 0.85em;
+}
+.kg-track {
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.kg-fill {
+  height: 100%;
+  background: #7ed36b;
+}
+.kg-lean {
+  background: linear-gradient(90deg, #ffd94a, #8a6ad8);
+}
+.kg-lean .kg-fill {
+  background: transparent;
+  border-right: 3px solid #fff;
+}
+.kg-note {
+  margin: 6px 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kg-checkup .kg-patient {
+    animation: none !important;
+  }
+}

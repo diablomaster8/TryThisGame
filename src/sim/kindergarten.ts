@@ -1,6 +1,10 @@
-import { LESSONS, SERVICES } from '../config/tuning';
+import { CHAT, DOCTOR, LESSONS, PERFORM, SERVICES } from '../config/tuning';
+import { bestFriend } from './friendships';
+import { likesOf, type Taste } from './likes';
 import { decidePersonality } from './personality';
+import { hashSeed } from './rng';
 import { hasSkill } from './skills';
+import { traitsOf, type TraitId } from './traits';
 
 /** Lessons cost less with the Teacher's pet skill. */
 function lessonPrice(world: World): number {
@@ -53,6 +57,10 @@ export function finishLesson(world: World, n: Nubbin, events: SimEvent[]): void 
   const level = Math.min(LESSONS.maxLevel, lessonLevel(n, lesson) + 1);
   n.lessons ??= {};
   n.lessons[lesson] = level;
+  // R0525 (lane A r10): a new player is handed its instrument (bell, drum or trumpet) for good.
+  if (lesson === 'instrument' && n.lessons.instrumentKind === undefined)
+    n.lessons.instrumentKind =
+      hashSeed(`instrument:${n.seed}:${world.timeMs}`) % PERFORM.instruments.length;
   addHappiness(n, LESSONS.happiness);
   events.push({ kind: 'lessonDone', nubbinId: n.id, lesson, level });
 }
@@ -141,6 +149,122 @@ export function payService(
   const price = SERVICES[service];
   const ok = world.inventory.shells >= price;
   if (ok) world.inventory.shells -= price;
+  // R0557 (lane A r10): each reading reveals one like the Keeper has not seen yet.
+  const reveal = ok && service === 'fortune' ? nextReveal(n) : null;
+  if (reveal) n.tasteSeen = { ...n.tasteSeen, [reveal]: true };
   events.push({ kind: 'service', service, nubbinId: n.id, ok });
   return ok;
+}
+
+export type Instrument = (typeof PERFORM.instruments)[number];
+
+/** R0525: the instrument it plays: the one it was handed, or one from its seed (old saves). */
+export function instrumentOf(n: Pick<Nubbin, 'seed' | 'lessons'>): Instrument {
+  const k = n.lessons?.instrumentKind ?? hashSeed(`instrument:${n.seed}`);
+  return PERFORM.instruments[k % PERFORM.instruments.length]!;
+}
+
+// ---------------------------------------------------------------- fortune (R0557, SOUL-40)
+
+export type RevealKind = 'yum' | 'toy' | 'bleh';
+
+/** The like a fortune would reveal next: the favourite fruit, then the toy, then the dislike. */
+export function nextReveal(n: Pick<Nubbin, 'tasteSeen'>): RevealKind | null {
+  const seen = n.tasteSeen ?? {};
+  for (const k of ['yum', 'toy', 'bleh'] as const) if (!seen[k]) return k;
+  return null;
+}
+
+export interface Reading {
+  /** Keys into FORTUNE_TEXT: the character line, then the road ahead. */
+  character: { kind: 'personality'; id: string; pick: number } | { kind: 'trait'; id: TraitId };
+  band: { id: 'sun' | 'moon' | 'neutral'; pick: number };
+  /** The like this visit reveals (what the sim marks seen once paid), or null when all known. */
+  reveal:
+    | { kind: 'yum'; taste: Taste }
+    | { kind: 'toy'; toy: string }
+    | { kind: 'bleh'; taste: Taste }
+    | null;
+}
+
+/**
+ * What the fortune teller sees: a line on the character (its leaning personality or one of
+ * its traits), one on the road ahead (its alignment trend), and one like it has not shown the
+ * Keeper yet. The picks turn with the minute, so a second visit reads differently.
+ */
+export function reading(n: Nubbin, now: number): Reading {
+  const h = hashSeed(`fortune:${n.seed}:${Math.floor(now / 60_000)}`);
+  const personality = n.personality ?? decidePersonality(n.childCare);
+  const traits = traitsOf(n);
+  const pickTrait = h % (traits.length + 1);
+  const character: Reading['character'] =
+    pickTrait < traits.length
+      ? { kind: 'trait', id: traits[pickTrait]! }
+      : { kind: 'personality', id: personality, pick: (h >>> 4) % 2 };
+  const band = n.form ? bandOf(n.alignment) : childHint(n.alignment);
+  const likes = likesOf(n);
+  const next = nextReveal(n);
+  const reveal: Reading['reveal'] =
+    next === 'yum'
+      ? { kind: 'yum', taste: likes.fruit }
+      : next === 'toy'
+        ? { kind: 'toy', toy: likes.toy }
+        : next === 'bleh'
+          ? { kind: 'bleh', taste: likes.dislike }
+          : null;
+  return { character, band: { id: band, pick: (h >>> 8) % 2 }, reveal };
+}
+
+// ---------------------------------------------------------------- doctor (R0556, SOUL-39)
+
+export type DoctorNote =
+  | { id: 'noHug' | 'hungry' | 'tired' | 'sad' | 'wary' | 'lonely' | 'glad' | 'fine' }
+  | { id: 'sunward' | 'moonward' }
+  | { id: 'buddy'; friend: string }
+  | { id: 'lean'; type: string }
+  | { id: 'favMystery' | 'toyMystery' | 'blehMystery' | 'likesKnown' };
+
+/** Sociable sorts miss a cuddle sooner. */
+function sociable(n: Nubbin): boolean {
+  const p = n.personality ?? decidePersonality(n.childCare);
+  return p === 'cheerful' || traitsOf(n).some((t) => t === 'ticklish' || t === 'showoff');
+}
+
+/**
+ * The doctor's two plain-language notes: the first on how it is doing (the most pressing
+ * need first, else something nice), the second on its likes, so the Keeper knows what is
+ * still to find out (SOUL-18).
+ */
+export function doctorNotes(n: Nubbin, world: World): [DoctorNote, DoctorNote] {
+  const D = DOCTOR;
+  const now = world.timeMs;
+  const others = world.nubbins.some(
+    (o) => o.id !== n.id && o.stage !== 'egg' && o.stage !== 'cocoon',
+  );
+  const buddy = bestFriend(world, n);
+  const lean = Object.entries(n.typeLean).sort((a, b) => b[1] - a[1]);
+  let first: DoctorNote;
+  if (n.needs.hunger < D.hungryBelow) first = { id: 'hungry' };
+  else if (n.needs.energy < D.tiredBelow) first = { id: 'tired' };
+  else if (n.shadow && !n.bond && n.trust < D.shyTrustBelow) first = { id: 'wary' };
+  else if (n.needs.happiness < D.sadBelow) first = { id: 'sad' };
+  else if (sociable(n) && now - n.lastPetMs > D.hugGapMs) first = { id: 'noHug' };
+  else if (others && !buddy) first = { id: 'lonely' };
+  else if (n.needs.happiness > D.gladAbove) first = { id: 'glad' };
+  else if (buddy && (n.friends?.[buddy.id] ?? 0) >= CHAT.hugAt)
+    first = { id: 'buddy', friend: buddy.name };
+  else if (n.alignment > D.alignLean) first = { id: 'sunward' };
+  else if (n.alignment < -D.alignLean) first = { id: 'moonward' };
+  else if (lean[0] && lean[0][1] - (lean[1]?.[1] ?? 0) >= D.leanLead)
+    first = { id: 'lean', type: lean[0][0] };
+  else first = { id: 'fine' };
+  const seen = n.tasteSeen ?? {};
+  const second: DoctorNote = !seen.yum
+    ? { id: 'favMystery' }
+    : !seen.toy
+      ? { id: 'toyMystery' }
+      : !seen.bleh
+        ? { id: 'blehMystery' }
+        : { id: 'likesKnown' };
+  return [first, second];
 }

@@ -1538,3 +1538,4 @@ export * from './strings-camp';
 export * from './strings-r8d';
 export * from './strings-r8d-perf';
 export * from './strings-move-r10';
+export * from './strings-soul-r10b';
