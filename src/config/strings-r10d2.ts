@@ -15,3 +15,8 @@ export const KB_CARE_TEXT = {
   petted: (name: string) => `You pet ${name}.`,
   fed: (name: string) => `Feeding ${name}.`,
 } as const;
+
+/** TECH-28: names for panel controls that axe found unnamed. */
+export const PANEL_A11Y_TEXT = {
+  hatFor: (name: string) => `${name}'s hat`,
+} as const;

@@ -5164,3 +5164,42 @@ html.story-resting canvas {
     border-color: Highlight;
   }
 }
+
+/* TECH-78 (R0519): a light HUD when the system asks for a light scheme. Only the always-on
+   chrome over the Grove turns light (top bar, phone action bar, camera and Run buttons, chips,
+   hints and toasts); panels, the sheet and the dialogue keep their dark cards, so text set
+   for them stays readable. Forced colours and "more contrast" still win (blocks above). */
+@media (prefers-color-scheme: light) and (not (forced-colors: active)) and (not (prefers-contrast: more)) {
+  .topbar,
+  .actionbar,
+  .camera-buttons,
+  .run-btn,
+  .fps,
+  .carry,
+  .hint,
+  .toasts {
+    --hud-fg: #2a2140;
+    --hud-bg: rgba(255, 248, 230, 0.9);
+    --hud-border: rgba(42, 33, 64, 0.45);
+    --px-bg: rgba(255, 246, 222, 0.94);
+    --px-edge: #7d6b4c;
+    --px-light: rgba(255, 255, 255, 0.75);
+    --px-dark: rgba(90, 70, 40, 0.3);
+    color: var(--hud-fg);
+  }
+  .topbar .btn,
+  .actionbar .btn,
+  .camera-buttons button,
+  .run-btn,
+  .toasts > * {
+    color: var(--hud-fg);
+    text-shadow: none;
+  }
+  .topbar .chip,
+  .fps,
+  .carry,
+  .hint,
+  .toasts > * {
+    background: var(--hud-bg);
+  }
+}

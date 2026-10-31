@@ -1,3 +1,4 @@
+import { PANEL_A11Y_TEXT } from '../config/strings-r10d2';
 import { canShareText, shareText } from '../platform/share';
 import { SHARE_TEXT } from '../config/strings-r9d3';
 import {
@@ -157,6 +158,7 @@ export class RosterMenu {
     const actions = el('div', 'roster-actions');
     if (n.stage !== 'egg') {
       const hatSelect = el('select', 'roster-hat');
+      hatSelect.setAttribute('aria-label', PANEL_A11Y_TEXT.hatFor(n.name)); // TECH-28
       const none = el('option', undefined, UI_TEXT.noHat);
       none.value = '';
       hatSelect.appendChild(none);
