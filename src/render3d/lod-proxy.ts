@@ -216,7 +216,11 @@ export function setProxy(p: CreatureProxy, on: boolean): void {
     // uploads them again if the rig comes near). The hull shares the part's geometry.
     if (on) part.geometry.dispose();
     part.layers.set(on ? HIDDEN_LAYER : 0);
-    for (const c of part.children) if (c.userData.hull) c.layers.set(on ? HIDDEN_LAYER : 0);
+    // The Keeper's see-through twins (`occluders.ts`) go with their part: layers are not
+    // inherited, so they drew a part the stand-in already shows (R0451 lane D r10: up to 110k
+    // triangles at the falls and the west hill, and the disposed buffers came straight back).
+    for (const c of part.children)
+      if (c.userData.hull || c.userData.obxGhost) c.layers.set(on ? HIDDEN_LAYER : 0);
   }
 }
 
@@ -224,7 +228,10 @@ export function setProxy(p: CreatureProxy, on: boolean): void {
 export function setFar(p: CreatureProxy, far: boolean): void {
   if (p.far === far || (far && !p.on)) return;
   p.far = far;
-  for (const m of p.details) m.layers.set(far ? HIDDEN_LAYER : 0);
+  for (const m of p.details) {
+    m.layers.set(far ? HIDDEN_LAYER : 0);
+    for (const c of m.children) if (c.userData.obxGhost) c.layers.set(far ? HIDDEN_LAYER : 0);
+  }
 }
 
 /** Remove a stand-in from its rig and free its geometry and material. */
