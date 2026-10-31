@@ -73,6 +73,10 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - `quadCorners()` returns shared vectors: copy them to keep them.
 - At 375 px a world speech bubble draws over the More modal; carry chip overlaps the objective chip.
 - Typed lint makes `npm run lint` ~1 min (longer under load).
+- Merge with main 44bcc725: the sculpt worker died on load (TDZ in the campaign ↔ side-rule-kit
+  import cycle, reached via looks → sim/npcs and unique-art → sim/dungeon-uniques), so Full 3D sculpted
+  on the page. Fixed with leaf modules (sim/extra-looks, unique-species, hash-string) and
+  tests/arch/worker-graph.test.ts; the `unit` test project now loads sim/world first.
 ## Round 10 · Lane E LOOK + KIDS + FUN (2026-10-31, branch r10/e)
 
 26 items (21 done, 5 partial), lines in `recs-2026-10-27/STATUS.md`. Ten more items the round was
