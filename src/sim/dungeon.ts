@@ -230,7 +230,8 @@ export interface Floor {
   shrines?: Shrine[];
   /** Traps (R0161, version 4). */
   traps?: Trap[];
-  /** An act's camp, field or side cave (R0152, R0147); absent on dungeon levels. */
+  /** An act's camp, field or side cave (R0152, R0147); absent on dungeon levels. The secret
+   * levels (lane B r9) wear 'field' (the Moo Meadow) or 'side' (the Pillow Fort). */
   zone?: 'town' | 'field' | 'side';
   /** A camp's services. */
   services?: Service[];

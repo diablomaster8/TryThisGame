@@ -10,6 +10,7 @@ import { CHARM_GRADES, WHEELBARROW, type KeyId, type RecipeId } from '../config/
 import { AFFIXES, RARITIES, type GearSlot } from '../config/dungeon-loot';
 import { CRITTER_SPECIES } from './critters';
 import { addCharm, charmKey, parseCharm, takeCharm } from './dungeon-charms';
+import { mooRecipeReady } from './dungeon-secret-levels';
 import { makeSpecial, noteFound, ownedSpecials } from './dungeon-sets';
 import { ensureGear, keepGear, rollGear, unequipGear } from './gear';
 import type { Rng } from './rng';
@@ -94,7 +95,7 @@ export function mixWheelbarrow(
     if (!book.includes(res.recipe)) book.push(res.recipe);
     events.push({
       kind: 'hollowItems',
-      what: res.recipe === 'pillow-fort' ? 'fort' : 'mix',
+      what: res.recipe === 'pillow-fort' ? 'fort' : res.recipe === 'moo-meadow' ? 'moo' : 'mix',
       id: res.recipe,
     });
   } else events.push({ kind: 'hollowItems', what: 'noMix', id: '' });
@@ -181,6 +182,18 @@ function match(world: World, g: GearState, s: Sorted, rng: Rng): MixResult {
     for (const k of want) g.keys![k] = (g.keys![k] ?? 0) - 1;
     g.pillowFort = 'open';
     return { ok: true, recipe: 'pillow-fort', out: 'pillow-fort' };
+  }
+  // Lane B r9 (R0189): Gran's Teaspoon + a milk bell → the Moo Meadow's portal, once a trip.
+  if (
+    only(s, { keys: 2 }) &&
+    s.keys.includes('teaspoon') &&
+    s.keys.includes('bell') &&
+    mooRecipeReady(world)
+  ) {
+    g.keys!.teaspoon = (g.keys!.teaspoon ?? 0) - 1;
+    g.keys!.bell = (g.keys!.bell ?? 0) - 1;
+    g.mooMeadow = 'open';
+    return { ok: true, recipe: 'moo-meadow', out: 'moo-meadow' };
   }
   return { ok: false };
 }

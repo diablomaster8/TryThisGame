@@ -18,6 +18,7 @@ import { noteActTime } from './dungeon-speed';
 import { noteStoryScroll } from './dungeon-log';
 import { shellPay } from './dungeon-economy';
 import { uniqueBeaten } from './dungeon-uniques';
+import { secretPackWon } from './dungeon-secret-levels';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { bossAnteroom } from './dungeon-secrets';
 import { noteFight } from './dungeon-log';
@@ -474,6 +475,8 @@ export function finishEncounter(
     // R0163: the pack's drop table, seeded by the run, the level and the pack.
     const drops = Rng.fromSeed(`${run.seed}:${run.depth}:${run.act ?? -1}:${packId}:drops`);
     rollDrops(world, drops, spec.reward, spec.members[0]?.level ?? run.depth, events);
+    // Lane B r9: the secret levels' prizes and the meadow's keepsakes (R0189, R0183).
+    secretPackWon(world, run, spec, drops, events);
     if (spec.unique) uniqueBeaten(world, run, spec, events);
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;

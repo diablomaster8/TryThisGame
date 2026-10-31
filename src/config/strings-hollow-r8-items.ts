@@ -3,6 +3,8 @@
  * the Gardener's Wheelbarrow (R0177), the key set (R0183) and the named sets and uniques with
  * their collection log (R0172). Re-exported from `strings.ts`.
  */
+import { SECRETS_R9B_TEXT } from './strings-hollow-r9-b';
+
 export const ITEMS_R8_TEXT = {
   // R0174: the stash.
   stashTitle: 'Stash chest',
@@ -80,13 +82,20 @@ export const ITEMS_R8_TEXT = {
     'essence-critter': '6 essences of one type → 1 critter of that type',
     'set-swap': '1 set piece + 3 perfect charms → a set piece you do not have',
     'pillow-fort': 'The three keys → the way to the Pillow Fort',
+    'moo-meadow': SECRETS_R9B_TEXT.recipeMoo,
   } as Record<string, string>,
   // R0183: keys.
-  keyName: { giggles: 'Key of Giggles', yawns: 'Key of Yawns', brrr: 'Key of Brrr' } as Record<
+  keyName: {
+    giggles: 'Key of Giggles',
+    yawns: 'Key of Yawns',
+    brrr: 'Key of Brrr',
+    // Lane B r9 (R0189): the Moo Meadow's keepsakes.
+    ...SECRETS_R9B_TEXT.keyName,
+  } as Record<string, string>,
+  keyIcon: { giggles: '🗝️😄', yawns: '🗝️😴', brrr: '🗝️🥶', ...SECRETS_R9B_TEXT.keyIcon } as Record<
     string,
     string
   >,
-  keyIcon: { giggles: '🗝️😄', yawns: '🗝️😴', brrr: '🗝️🥶' } as Record<string, string>,
   keyFound: (name: string) => `A key! ${name}. Three of them open something.`,
   fortOpen: 'The three keys turn together. Somewhere deep down, a Pillow Fort is waiting.',
   keysTitle: 'Keys',

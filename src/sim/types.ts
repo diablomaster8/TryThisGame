@@ -881,6 +881,8 @@ export interface DungeonRun {
   zone?: DungeonZone;
   /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
   side?: number;
+  /** Lane B r9: secret levels already visited on this run (each opens once a run). */
+  secretsVisited?: HollowSecret[];
   /**
    * Rumble rooms (R0257, R0282): level ids whose room is won, and the one the Keeper must
    * step out of before it starts again (after a loss, or a start nobody could fight).
@@ -924,7 +926,9 @@ export interface DungeonRun {
 }
 
 /** An act's places above its dungeon (lane B round 4). */
-export type DungeonZone = 'town' | 'field' | 'side';
+export type DungeonZone = 'town' | 'field' | 'side' | 'moo' | 'fort';
+/** Lane B r9 (R0189, R0183): the two secret levels a wheelbarrow mix opens. */
+export type HollowSecret = 'moo' | 'fort';
 
 /** A Hollow level as the Keeper left it (R0151). */
 export interface LevelState {
@@ -1598,6 +1602,8 @@ export type Command =
   | { kind: 'socketCharm'; itemId: string; charm: string }
   | { kind: 'unsocketCharms'; itemId: string }
   | { kind: 'wheelbarrowMix'; slots: BarrowSlot[] }
+  /** Lane B r9: through an opened secret's portal, from the camp (R0189, R0183). */
+  | { kind: 'enterHollowSecret'; where: HollowSecret }
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowSpeedRun'; on: boolean }
   | { kind: 'setHollowRole'; id: string; role: HollowRole | null }
@@ -1975,7 +1981,11 @@ export type SimEvent =
   | { kind: 'strayCalmed'; ok: boolean; shells: number }
   | { kind: 'gearFound'; item: GearItem }
   /** Lane B round 8, items: a charm, a key, a chain, a mix or the fort (`ui/dungeon-items.ts` words it). */
-  | { kind: 'hollowItems'; what: 'charm' | 'key' | 'chain' | 'mix' | 'noMix' | 'fort'; id: string }
+  | {
+      kind: 'hollowItems';
+      what: 'charm' | 'key' | 'chain' | 'mix' | 'noMix' | 'fort' | 'moo' | 'herd' | 'secret';
+      id: string;
+    }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
@@ -2066,6 +2076,8 @@ export interface GearState {
   keyPity?: Record<string, number>;
   /** R0183: the Pillow Fort, opened by the three keys in the wheelbarrow. */
   pillowFort?: 'open';
+  /** Lane B r9 (R0189): the Moo Meadow's portal, opened by Gran's Teaspoon and a milk bell. */
+  mooMeadow?: 'open';
   /** R0177: wheelbarrow recipes found, for the recipe book. */
   recipes?: string[];
   /** R0172: set pieces and uniques found at least once, by id, with where (the log). */

@@ -905,6 +905,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'socketCharm':
     case 'unsocketCharms':
     case 'wheelbarrowMix':
+    case 'enterHollowSecret':
       itemsCommand(world, cmd, events);
       return;
     // Lane B round 7: difficulty tiers (R0179).

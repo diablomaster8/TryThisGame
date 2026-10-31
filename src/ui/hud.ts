@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
 import { regionOf } from '../sim/regions';
@@ -1714,7 +1715,9 @@ export function mountHud(
           // Lane B round 7: a boss's keepsake (R0206).
           toast(
             HOLLOW_R7_TEXT.wearableGiven(
-              HOLLOW_R7_TEXT.wearables[e.id as keyof typeof HOLLOW_R7_TEXT.wearables] ?? e.id,
+              HOLLOW_R7_TEXT.wearables[e.id as keyof typeof HOLLOW_R7_TEXT.wearables] ??
+                SECRETS_R9B_TEXT.wearables[e.id] ??
+                e.id,
             ),
           );
         } else if (e.kind === 'hollowTier' || e.kind === 'hollowTierOpened') {

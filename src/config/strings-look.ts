@@ -236,6 +236,9 @@ export const FLAVOUR = {
     'hollow-noodle': 'Al dente. Do not let anyone near it with a fork.',
     'hollow-hearth': 'Warm on top. The Gloom remembers who lit it.',
     'hollow-cape': 'All five acts, one cape. It swishes on its own.',
+    // Lane B r9 (R0183, R0189): the secret levels' keepsakes.
+    'pillow-crown': 'Soft on the outside, champion on the inside. Mostly soft.',
+    'moo-bonnet': 'There is no Moo Meadow. This bonnet is from somewhere else entirely.',
   } as Record<string, string>,
 };
 

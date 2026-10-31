@@ -28,6 +28,7 @@ import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
 import type { SimEvent } from '../sim/types';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
+import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { HollowScroll, ShareCard } from './hollow-scroll';
 import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
@@ -320,7 +321,11 @@ export class DungeonMenu {
           ? HOLLOW_ZONE_TEXT.field(actName)
           : run.zone === 'side'
             ? HOLLOW_ZONE_TEXT.side(actName, (run.side ?? 0) + 1)
-            : DUNGEON_TEXT.floor(run.depth);
+            : run.zone === 'moo'
+              ? SECRETS_R9B_TEXT.placeMoo
+              : run.zone === 'fort'
+                ? SECRETS_R9B_TEXT.placeFort
+                : DUNGEON_TEXT.floor(run.depth);
     this.barText.textContent = `${place} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
     // R0187: the speed run's clock, on the sim clock (it stops when the game does).
     if (world.hollow.speedRun && run.act !== undefined)
