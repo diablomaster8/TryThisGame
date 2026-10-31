@@ -6,6 +6,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, SHADOW_MERGE, UI } from '../config/tuning';
+import { POOL_LOOKS } from '../config/tuning-r10d1';
 import {
   PERF_BUDGET,
   WORLD_LOD,
@@ -306,6 +307,10 @@ export class Grove3dScene {
   private readonly villageSquare: VillageSquare;
   private readonly water: GroveWater;
   private readonly actors: Actors;
+  /** R0456 (lane D r10): the creature pool's sizes, for the debug panel's memory line. */
+  get poolCounts(): CreaturePool['counts'] {
+    return this.actors.pool.counts;
+  }
   private readonly dungeonFloor: THREE.Mesh;
   /** A neighbour's Grove, dressed, for `visit:<trainer>`. */
   private readonly visit: VisitSet;
@@ -1139,6 +1144,7 @@ export class Grove3dScene {
     this.actors.pool.quality = qualityForRes(res);
     this.tier = tierForRes(res);
     this.actors.pool.spareCap = WORLD_MEM.poolSpares[this.tier];
+    this.actors.pool.lookCap = POOL_LOOKS[this.tier]; // R0456 (lane D r10)
     this.creatureLod.fullTrisCap = WORLD_LOD.creature.fullTris[this.tier];
     // Round 5: a phone draws a narrower sun shadow box (a portrait view is narrow, and every
     // caster inside the box is drawn again into the shadow map).

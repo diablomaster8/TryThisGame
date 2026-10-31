@@ -7,6 +7,7 @@
  */
 import { Vector3, type Camera } from 'three';
 import { STAGE4 } from '../config/tuning-f4';
+import { VIEW_RECT_CACHE } from '../config/tuning-r10d1';
 
 /** A screen rectangle in CSS pixels, viewport coordinates (y down). */
 export interface ScreenRect {
@@ -16,9 +17,43 @@ export interface ScreenRect {
   h: number;
 }
 
-/** The viewport the game is drawn into: the `#game` element, else the window. */
+/**
+ * The viewport the game is drawn into: the `#game` element, else the window. R0473 (lane D
+ * r10): every bubble, gag and building rect reads it each frame, often right after writing a
+ * style, and each read forced a layout (about 5% of the main thread in a Pixel Grove at x10).
+ * The box is now kept: a ResizeObserver refreshes it after the browser's own layout (no forced
+ * one), a window resize drops it, and it is re-read at most every `VIEW_RECT_CACHE.ttlMs`
+ * as a safety net. Treat the result as read-only.
+ */
 export function viewRect(): ScreenRect {
   if (typeof document === 'undefined') return { x: 0, y: 0, w: 1, h: 1 };
+  const now = performance.now();
+  if (viewCache && now - viewCache.at < VIEW_RECT_CACHE.ttlMs) return viewCache.r;
+  watchView();
+  viewCache = { at: now, r: measureView() };
+  return viewCache.r;
+}
+
+let viewCache: { at: number; r: ScreenRect } | null = null;
+let viewWatched: Element | null | undefined;
+
+function watchView(): void {
+  const host = document.getElementById('game');
+  if (viewWatched === host) return;
+  if (viewWatched === undefined && typeof window !== 'undefined') {
+    window.addEventListener('resize', () => (viewCache = null));
+    window.addEventListener('orientationchange', () => (viewCache = null));
+  }
+  viewWatched = host;
+  if (!host || typeof ResizeObserver === 'undefined') return;
+  // The callback runs after layout, so reading the box there costs nothing extra.
+  new ResizeObserver(() => {
+    if (document.getElementById('game') === host)
+      viewCache = { at: performance.now(), r: measureView() };
+  }).observe(host);
+}
+
+function measureView(): ScreenRect {
   const host = document.getElementById('game');
   const r = host?.getBoundingClientRect();
   if (r && r.width > 0 && r.height > 0) return { x: r.left, y: r.top, w: r.width, h: r.height };

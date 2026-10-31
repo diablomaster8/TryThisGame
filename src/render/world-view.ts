@@ -51,7 +51,7 @@ import { fernStones } from '../sim/fern-stone';
 import { townUnlocks } from '../sim/town';
 import { drawVillage } from './region-village';
 import { Particles } from './particles';
-import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
+import { NATIVE_PPU, SpriteBatch, type SpriteDraw } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
@@ -619,18 +619,21 @@ export class WorldView {
     const shadow = (x: number, y: number, z: number, radius: number, at = 0) => {
       if (!shadowRect) return;
       const s = Math.max(0.35, 1 - y * 0.25);
-      batch.draw({
-        sheet: shadowSheet,
-        rect: shadowRect,
-        flip: false,
-        x,
-        y: at,
-        z,
-        mode: 'flat',
-        w: radius * 2 * s,
-        h: radius * 2 * s,
-        opacity: 0.35 * Math.max(0.3, 1 - y * 0.2),
-      });
+      batch.draw(
+        reuseDraw(
+          SHADOW_DRAW,
+          shadowSheet,
+          shadowRect,
+          false,
+          x,
+          at,
+          z,
+          'flat',
+          radius * 2 * s,
+          radius * 2 * s,
+          0.35 * Math.max(0.3, 1 - y * 0.2),
+        ),
+      );
     };
 
     this.drawDoodles(world);
@@ -761,18 +764,20 @@ export class WorldView {
             s.size * (s.kind.startsWith('tree') ? 0.3 : 0.42),
           );
         }
-        const sprite = {
-          sheet: scenery,
+        const sprite = reuseDraw(
+          SCENERY_DRAW,
+          scenery,
           rect,
-          flip: false,
-          x: s.x + sway,
-          y: 0,
-          z: s.z,
-          mode: 'billboard' as const,
-          w: s.size,
-          h: (s.size * rect.h) / rect.w,
-          tint: this.lightAt(s.x, s.z),
-        } as Parameters<SpriteBatch['draw']>[0];
+          false,
+          s.x + sway,
+          0,
+          s.z,
+          'billboard',
+          s.size,
+          (s.size * rect.h) / rect.w,
+          undefined,
+          this.lightAt(s.x, s.z),
+        );
         if (!s.kind.startsWith('rock') && !s.kind.startsWith('log')) sprite.opacity = hides(sprite);
         const bid = s.pick?.kind === 'building' ? s.pick.id : s.kind === 'well' ? 'well' : null;
         if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
@@ -854,18 +859,22 @@ export class WorldView {
       const fence = scenery.frames.get(frameKey('fencePost', 'front', 0));
       if (fence) {
         for (const f of this.fences) {
-          batch.draw({
-            sheet: scenery,
-            rect: fence,
-            flip: false,
-            x: f.x,
-            y: 0,
-            z: f.z,
-            mode: 'billboard',
-            w: 0.75,
-            h: (0.75 * fence.h) / fence.w,
-            tint: this.lightAt(f.x, f.z),
-          });
+          batch.draw(
+            reuseDraw(
+              SCENERY_DRAW,
+              scenery,
+              fence,
+              false,
+              f.x,
+              0,
+              f.z,
+              'billboard',
+              0.75,
+              (0.75 * fence.h) / fence.w,
+              undefined,
+              this.lightAt(f.x, f.z),
+            ),
+          );
         }
       }
     }
@@ -873,16 +882,22 @@ export class WorldView {
     for (const d of inGrove ? this.decor : []) {
       const rect = props.frames.get(frameKey(d.frame, 'front', 0));
       if (!rect) continue;
-      batch.draw({
-        sheet: props,
-        rect,
-        flip: d.flip,
-        x: d.x,
-        y: d.flat ? 0.03 : 0,
-        z: d.z,
-        mode: d.flat ? 'flat' : 'billboard',
-        tint: this.dim,
-      });
+      batch.draw(
+        reuseDraw(
+          SCENERY_DRAW,
+          props,
+          rect,
+          d.flip,
+          d.x,
+          d.flat ? 0.03 : 0,
+          d.z,
+          d.flat ? 'flat' : 'billboard',
+          undefined,
+          undefined,
+          undefined,
+          this.dim,
+        ),
+      );
     }
     const flower = props.frames.get(frameKey('flower', 'front', 0));
     // Placed garden pieces, tappable so they can be picked up again.
@@ -2747,4 +2762,49 @@ export function emoteFor(
       return hint === 'sun' ? 'halo' : hint === 'moon' ? 'spiky' : 'ball';
     }
   }
+}
+
+/**
+ * R0473 (lane D r10): scratch draws for the per-frame scenery, shadow, fence and decor loops,
+ * refilled for each sprite. `SpriteBatch.draw` copies what it keeps, so one object serves the
+ * whole loop and the Grove's hundreds of static sprites make no garbage a frame.
+ */
+const blankDraw = (): SpriteDraw => ({
+  sheet: null as unknown as SpriteSheet,
+  rect: null as unknown as FrameRect,
+  flip: false,
+  x: 0,
+  y: 0,
+  z: 0,
+  mode: 'billboard',
+});
+const SHADOW_DRAW = blankDraw();
+const SCENERY_DRAW = blankDraw();
+function reuseDraw(
+  o: SpriteDraw,
+  sheet: SpriteSheet,
+  rect: FrameRect,
+  flip: boolean,
+  x: number,
+  y: number,
+  z: number,
+  mode: SpriteDraw['mode'],
+  w?: number,
+  h?: number,
+  opacity?: number,
+  tint?: number,
+): SpriteDraw {
+  o.sheet = sheet;
+  o.rect = rect;
+  o.flip = flip;
+  o.x = x;
+  o.y = y;
+  o.z = z;
+  o.mode = mode;
+  o.w = w;
+  o.h = h;
+  o.opacity = opacity;
+  o.tint = tint;
+  o.dither = undefined;
+  return o;
 }

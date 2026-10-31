@@ -1288,7 +1288,11 @@ export function mountHud(
       // measured from the sheet itself rather than a fixed share of the view.
       g.cameraLift = 0;
       g.cameraSide = 0;
-      g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
+      // R0473 (lane D r10): measure the canvas only with the sheet open (it forced a layout).
+      g.sheetFocus =
+        sheet.root.hidden || !sheet.selectedId
+          ? null
+          : sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
       // R0552 (lane A r9): snores and chat chirps near the Keeper.
       const amb = soulAmbient.tick(g.world, performance.now());
       if (amb) playSound(amb);
