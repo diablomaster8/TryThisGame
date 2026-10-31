@@ -20,3 +20,11 @@ export const KB_CARE_TEXT = {
 export const PANEL_A11Y_TEXT = {
   hatFor: (name: string) => `${name}'s hat`,
 } as const;
+
+/** R0472: what a long press on an item or a villager says. */
+export const INSPECT_TEXT = {
+  notebook: { name: 'Notebook', help: 'Someone’s notes. Tap to pick it up.' },
+  tapItem: 'Tap to pick it up.',
+  tapNpc: 'Tap to talk.',
+  visitor: 'A visitor',
+} as const;

@@ -194,6 +194,7 @@ import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/string
 import { ShakeMeter } from './shake-meter';
 import { ShakeHint } from './shake-hint';
 import { SelectionLive } from './a11y-live';
+import { PressInfo } from './press-info';
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
@@ -613,6 +614,7 @@ export function mountHud(
   const shakeHint = new ShakeHint(root);
   // TECH-28: the selected Nubbin said aloud, and Tab through the Nubbins on the canvas.
   const selectionLive = new SelectionLive(root, game, (id) => sheet.open(id));
+  new PressInfo(root, game); // R0472: the long-press info card
   edu.onShowMe(() => guide.show());
   // Lane E r8, R0685: the sticker book, from the results card's sticker (and Places).
   const stickerBook = new StickerBook(root, game);

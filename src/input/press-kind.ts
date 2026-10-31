@@ -29,3 +29,17 @@ export function isLongPress(pointerType: string, movedPx: number, heldMs: number
     heldMs >= POINTER_INPUT.longPressMs
   );
 }
+
+/**
+ * R0472 (TECH-30): a touch or pen long press on one of these says what it is in a small card
+ * (ui/press-info.ts) instead of acting; input fires `INSPECT_EVENT` on the canvas.
+ */
+export const INSPECT_KINDS: ReadonlySet<string> = new Set(['item', 'npc']);
+export const INSPECT_EVENT = 'grove-inspect';
+export interface InspectDetail {
+  kind: string;
+  id: string;
+  /** Where the finger is, in CSS pixels. */
+  x: number;
+  y: number;
+}
