@@ -47,6 +47,7 @@ const ALL_SPOTS = [
   ['cornerNE', 44, -44],
   ['cornerSW', -44, 44],
   ['cornerSE', 44, 44],
+  ['village', -21, 39],
 ];
 // PROBE_SPOTS=heart,cornerSE probes only those; PROBE_BREAKDOWN=1 adds each spot's draw calls
 // and triangles by category (creature, its hulls, shadow pass, scenery groups).
@@ -106,6 +107,63 @@ async function clearDialogue(page) {
   }
 }
 
+/**
+ * Teleport the Keeper to (x, z) and wait until the camera has caught up and fresh 3D frames
+ * have drawn. Returns the 3D frame count from before the settle wait.
+ */
+async function settleAt(page, x, z) {
+  await page.evaluate(([x, z]) => window.grove.send({ kind: 'teleport', pos: { x, z } }), [x, z]);
+  // Software GL can take most of a second per 3D frame: wait for fresh frames after the
+  // teleport (the first few settle the camera), not only a fixed time.
+  await page.waitForTimeout(500);
+  await clearDialogue(page);
+  // The camera eases after the Keeper: wait until it aims near them.
+  await page
+    .waitForFunction(
+      () => {
+        const g = window.grove;
+        const k = g.world.keeper.pos;
+        return Math.hypot(g.camera.target.x - k.x, g.camera.target.z - k.z) < 6;
+      },
+      null,
+      { timeout: 30000 },
+    )
+    .catch(() => {});
+  const f0 = await page.evaluate(() => window.grove.scene3d?.geoFrames ?? 0);
+  await page.waitForTimeout(1500);
+  await page
+    .waitForFunction((f) => !window.grove.scene3d || window.grove.scene3d.geoFrames >= f, f0 + 24, {
+      timeout: 90000,
+    })
+    .catch(() => {});
+  return f0;
+}
+
+/**
+ * R0131 (WORLD-65): PROBE_PARITY=1 also screenshots every Grove POI in both renderers into
+ * docs/logs/parity/<poi>-px.png and <poi>-3d.png (git-ignored). The POIs are read from the
+ * Grove's RegionDef so a new POI is shot without editing the probe.
+ */
+const PARITY = !!process.env.PROBE_PARITY;
+const PARITY_DIR = path.join(ROOT, 'docs/logs/parity');
+function grovePois() {
+  const src = fs.readFileSync(path.join(ROOT, 'src/config/regions.ts'), 'utf8');
+  const grove = src.slice(src.indexOf('  grove: {'));
+  const list = grove.slice(grove.indexOf('pois: ['), grove.indexOf('],', grove.indexOf('pois: [')));
+  const pois = [];
+  const re = /\{ id: '([\w-]+)', x: (-?[\d.]+), z: (-?[\d.]+)/g;
+  for (let m; (m = re.exec(list));) pois.push([m[1], Number(m[2]), Number(m[3])]);
+  return pois;
+}
+
+async function parityShots(page, TAG) {
+  fs.mkdirSync(PARITY_DIR, { recursive: true });
+  for (const [id, x, z] of grovePois()) {
+    await settleAt(page, x, z);
+    await page.screenshot({ path: path.join(PARITY_DIR, `${id}-${TAG}.png`) });
+  }
+}
+
 async function probe(TAG) {
   const browser = await chromium.launch({
     executablePath: EDGE,
@@ -143,36 +201,15 @@ async function probe(TAG) {
   ))
     await page.evaluate((id) => window.grove.send({ kind: 'debugHatchNow', nubbinId: id }), id);
   if (SURVEY) await page.evaluate(() => window.grove.camera.setZoom(-1));
+  // PROBE_SEASON=spring|summer|autumn|winter forces the season first (R0118's dressing).
+  if (process.env.PROBE_SEASON)
+    await page.evaluate(
+      (season) => window.grove.send({ kind: 'debugSeason', season }),
+      process.env.PROBE_SEASON,
+    );
   const rows = [];
   for (const [name, x, z] of SPOTS) {
-    await page.evaluate(([x, z]) => window.grove.send({ kind: 'teleport', pos: { x, z } }), [x, z]);
-    // Software GL can take most of a second per 3D frame: wait for fresh frames after the
-    // teleport (the first few settle the camera), not only a fixed time.
-    await page.waitForTimeout(500);
-    await clearDialogue(page);
-    // The camera eases after the Keeper: wait until it aims near them.
-    await page
-      .waitForFunction(
-        () => {
-          const g = window.grove;
-          const k = g.world.keeper.pos;
-          return Math.hypot(g.camera.target.x - k.x, g.camera.target.z - k.z) < 6;
-        },
-        null,
-        { timeout: 30000 },
-      )
-      .catch(() => {});
-    const f0 = await page.evaluate(() => window.grove.scene3d?.geoFrames ?? 0);
-    await page.waitForTimeout(1500);
-    await page
-      .waitForFunction(
-        (f) => !window.grove.scene3d || window.grove.scene3d.geoFrames >= f,
-        f0 + 24,
-        {
-          timeout: 90000,
-        },
-      )
-      .catch(() => {});
+    const f0 = await settleAt(page, x, z);
     if (ALL_CATS) await page.evaluate(() => (window.__probeAll = true));
     const cats =
       BREAKDOWN && TAG === '3d'
@@ -288,6 +325,7 @@ async function probe(TAG) {
       }, f0)),
     });
   }
+  if (PARITY) await parityShots(page, TAG);
   await browser.close();
   return { rows, errors: logs };
 }

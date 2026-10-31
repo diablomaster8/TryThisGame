@@ -106,7 +106,7 @@ export class TraceGame {
     this.help.textContent = target.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
     this.renderWord();
     // The glyph needs its font before its ink can be measured.
-    void loadLangFonts()
+    void loadLangFonts(target.lang)
       .then(() => document.fonts?.load(`200px ${FONT[target.lang]}`, target.glyphs.join('')))
       .catch(() => undefined)
       .finally(() => {

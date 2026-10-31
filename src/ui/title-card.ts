@@ -13,6 +13,7 @@ import {
   type SetFlags,
   type StagedWeather,
 } from '../config/campaign-look';
+import { seasonHere } from '../render/grove-season';
 import { HAZEL_PS } from '../config/strings-fun-r6';
 import type { SceneStage } from '../config/story';
 import { LOOK_F } from '../config/tuning-f';
@@ -586,7 +587,8 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
     ending: c?.ending ?? null,
     finalChoice: c?.flags.finalChoice,
     fx,
-    season: seasonFor(stage, f.campaign, f.chapter),
+    // R0118 (lane D r9): free play wears the world's own season at home.
+    season: seasonHere(world, stage, f.campaign, f.chapter, f.location),
     below: stage.grade === 'beetle-below',
   };
   // `props.loggedSet = 'hide'`: the scene plays with no game-world set ("There is no visor").

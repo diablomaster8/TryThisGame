@@ -77,6 +77,145 @@ Commits 11b648cf (sim) and ed982a86 (UI and renderers). Save stays **v13**: ever
 - props within 18 units of the Keeper only, so they pop in when you walk up; a 3D model rebuild happens on pop-in.
 - Under full-suite load the timing tests (lifecycle, nav, world, species, gen1a art) time out; each passes alone.
 
+## Round 10 · Lane A SOUL + MOVE (2026-10-30, branch r10/a)
+
+24 items (22 done, 2 partial) from four helper agents, plus two gate fixes. Lines per item in
+`recs-2026-10-27/STATUS.md`. No save version change (optional fields only: `Nubbin.rivals`,
+`makeUp`, `searchBoost`, `recentCare`, `lessons.instrumentKind`, `world.doodles`); no
+`src/content` change.
+
+- *Works:* MOVE: ⤢ in More on phones; grey ✕ / ⤒ flags on refused taps (both renderers); Pixel
+  Keeper leans uphill; wider 3D arm swing when running; a glide can cross the pond, a jump out
+  over the pond without Swim puffs back to the last safe spot; the waterfall-shelf keepsake
+  (double jump from tier 2 by the falls); fence posts in the shared collider table; Pixel decor
+  drawn turned from its yaw; visitors pause 600 ms and step round a Nubbin; the see-through
+  Keeper has a rim, and Corvin's, the guard and visit houses fade. SOUL: friendships by
+  personality fit, rivalries (snatches, fruit races, show-offs) with puffs and making up, the
+  sheet's best friend / rival line; a visitor sends a shy one behind a tree; Sun Nubbins tidy
+  toys; Learning Grove cottage hiding (tap the cottage to coax out); per-personality idle
+  quirks (distinctness test now passes); care memory (flinch after a throw, asks after pets,
+  trails the fruit hand); eat/nap/float flavours; lessons look and sound different (doodles,
+  ♪, dance styles, instruments); fortune teller reads traits and hints likes; doctor check-up
+  card; 12 new morphing emote shapes; buddies chat in picture bubbles.
+- *Stubbed / left:* Hollow leaf-bridge (R0025, lane B); cry variants and render clips for the
+  eat/swim flavours (R0558); rival chats never start yet (only buddies chat); no singing mouth
+  frame; `recentCare` never records `ignore`; R0018 has no pixel sweep in a browser; the ⤒
+  flag has no real spot found in a test.
+- *Bugs / notes:* the pond poof fires only after a jump from dry ground (it fired every step
+  for a Keeper placed by the water). `soul-toys` now averages three worlds against the same
+  bounds (seed 77 alone read shy 14.7% vs an 8-seed mean of ~16% on main and here).
+  `tests/render/shadow-merge.test.ts` from main failed `tsc` (build); typed here.
+  HOT-1 (`hot1.cjs`, 8 runs) passes; on 3D phone the sheet opens almost full height, so the
+  clear strip is 12 px wide (same on main); a pixel-phone tap fell back to the hook while a
+  talking visitor stood by the Nubbin, and passed on rerun.
+
+## Round 9 · Lane D WORLD + TECH (2026-10-30, branch r9/d)
+
+20 items from four helper branches (r9/d1–d4, merged) plus one perf fix after the merge. Lines
+per item in `recs-2026-10-27/STATUS.md`. No save version change (optional fields only:
+`world.hintsSeen`, `world.secrets`, `world.debugSeason`); `src/content` gains one world trace.
+
+- *Works:* tap-path footprints every 0.8 u with a "?" puff for a shut-in tap (lane A's
+  tap-path/tap-marks, no new draws); the Grove's soft border (`sim/border.ts`: hedge and
+  "not yet" logs, one toast per stretch); world hints taught once (`sim/world-hints.ts`); the Old
+  Key opens the nook at the falls; a synthesised sound bed per biome after the first tap
+  (`platform/biome-beds.ts`); free play wears the season (Pixel blossom/fireflies/leaves, both
+  renderers' existing season paths) with a debug Season row; per-POI parity shots
+  (`PROBE_PARITY=1`, `docs/logs/parity/`, git-ignored); unused creature surfaces dropped on hide
+  (heap 203 → 192 MB); language fonts load per language; battle/tactics text follows Text size;
+  dialogue and selection live regions, Tab through Nubbins; hold-to-erase with a 7-day restore;
+  touch long press and pointer-sized drag thresholds; Web Share for exports on phones; shake
+  how-to over the egg; an offline "needs the internet once" card for lazy parts.
+- *Stubbed / left:* snowmen, leaf piles, 3D pond ice and 3D season particles (R0118); the egg's
+  crack stages (R0503); axe on every panel (R0470); long press on items/NPCs (R0472); Klee One
+  subsetting (R0490); per-chapter side-story loading needs a skeleton/scene split (R0491); the
+  eager bundle is 899 kB gz and cannot reach 450 by lazy imports alone, lazy HUD panels would
+  save 58 kB (R0446/R0451); heap ~190 MB vs the 180 cap (R0081).
+- *Bugs / notes:* after the merge 3D farOrchard read 461k tris (cap 450k): the 158 border
+  hedge bushes were 80-triangle shadow-casting instances drawn from every spot. Now their own
+  20-triangle, shadowless mesh on the bushes' material (5a9278a5). Four phone probes on the
+  head (`PROBE_URL='http://localhost:5186/?debug'`, now 20 spots × 2 with `village`): 0/40 over
+  each, farOrchard 153, 154, 154, 151 calls at 412–440k tris. Edge smoke
+  `recs-2026-10-27/tools/r9-d-smoke.cjs`: 0 console errors in Pixel and 3D at 1280×800 and
+  375×812. Full `npm test` under load: 10 timing failures (lifecycle, nav, world, species,
+  obstacle-grid, battle-balance); all 7 files pass alone. Forcing a season fires its festival
+  dialogue (existing behaviour). In 3D a border way that opens later keeps its log until a
+  rebuild.
+- *After merging main c3a8b43c (E r9, B r8):* conflicts in hud.ts/title.ts imports (both kept; the
+  slot row keeps the edu colour tag and the ⋯ menu); main's shadow-merge test kept. Gate green
+  (timing tests pass alone), Edge smoke 0 errors in all four, four phone probes 0/40 over,
+  farOrchard 154, 156, 154, 156 calls at 440–442k tris.
+
+## Round 8 · Lane B DUNG (2026-10-30, branch r8/b)
+
+- *Works:* Pixel now draws Hollow packs (`render/hollow-packs-pixel.ts`): huddles of up to 3
+  stand-in sprites, "!", "?" and Zzz, ◆/◈/★ plates from one shared `packPlate` (3D uses it
+  too), and fog hides packs, strays and the wild one out of sight, with loot remembered at 55%.
+  A rarity-shape pop rises over the Keeper on each gear find, in both renderers. Items: boots
+  and charms speed the Keeper, Snug/Naps/Brave/Crumbs are read; the stash has 4+ tabs, a slot
+  filter and search, `stashPut`/`stashMove`, and a 🧺 Cottage chest by the cottage door. Charms
+  (8 kinds, 3 grades) go into 0–3 sockets, with 6 ordered Charm Chains. The Gardener's
+  Wheelbarrow at the act camp's Crafting table has 7 tested recipes. Brisk/Wild keys (pity by
+  the 10th win) open `gear.pillowFort`. There are 6 sets and 20 uniques, logged on the Journal.
+  Floors: secret side caves stay rock until leaned on for 1 s or found by a Light/Scout friend
+  (✧ on the map). Puzzles: plates, torch order, and 12 push-block layouts proven solvable. A
+  critter part (fins/wings/strong arms) solves a puzzle on the spot. Boss doors seal behind
+  the Keeper, and a lost boss fight retries from the anteroom. Floor 99 generates in ~13 ms
+  (was ~19 ms in Node), and layouts are byte-identical. Party: roles Fetch/Fight/Light/Scout/Swim
+  (`dungeon-roles.ts`), a role button on each picker card, and a party of 3, rising to 4 after
+  Act II's boss. A "Story so far" scroll appears once per act boss (skipped in ch. 9–11). "👣 Show me the way"
+  (off by default) puts footprints on the maps and an arrow on the bar. The speed-run ghost
+  line is drawn on both maps. "📤 Share today" opens a card. A Homing Acorn row is in the shop.
+  Economy bands are in `config/dungeon-economy.ts`, with a per-act payout scale (tested 26→62
+  Shells/min).
+- *Balance changes to review:* Hollow Shells are about 2.5× lower everywhere (`shellPay`, the
+  rec's 25→60/min line); `DUNGEON.partySize` is 3 (4 after Act II); gear speed applies to all
+  Keeper walking while worn.
+- *Stubbed:* the Pillow Fort level, its trio fight and crown (keys only set a flag); the
+  Moo Meadow recipe; Brave isn't passed to lane C's battle core; the backpack `carry` stat is
+  unread. Role personality behaviours, and Light revealing secrets. Guide footprint decals in
+  the worlds. The fixed daily act chain. Pixel crack art on secret walls (only a faint glint).
+  New optional save fields, no version bump: gear `charms`, `keys`, `found`, `pillowFort`, item
+  `sockets`/`setPiece`/`unique`/`tab`; hollow `roles`, `scrolls`, `guide`, `records[].trails`; run
+  `scouted`, `trail`, `seals`, `puzzles`.
+- *Fixed (follow-up):* a seal flip no longer rebuilds the cave. Both renderers build one
+  floor per level (`sealDisplay`: every secret open, finds laid out); what a seal shuts stands
+  as plug blocks (3D: sunk or raised through the cutaway's height texture; Pixel: a small
+  mesh per seal) and shut finds hide (`lootHeld`). Headless Edge, worst frame around a flip:
+  3D 108 ms → 20–31 ms, Pixel 1.8–3.2 s → 19–23 ms (`tools/r8-b-seal.cjs`); a test checks
+  drawn rock = sim rock in every state. The boss scroll waits for the fight and the boss card.
+- *Known:* secret rooms come about 1 level
+  in 3, lower than the rec's 0–2. Edge smoke `tools/r8-b.cjs` passes 14/14 in Pixel and 3D,
+  on desktop and at 375×812, with 0 errors and 56–57 fps. Timing tests (lifecycle, nav, world,
+  species, battle-balance) fail under the full parallel run and pass alone.
+
+## Round 9 · Lane E LOOK + KIDS + FUN (2026-10-30, branch r9/e)
+
+- *Works:* **KIDS.** R0720/R0696 an age tile leads to a name, colour and animal step; edu
+  slots show the child's icon, name and colour edge, the Learning Grove lists first once one
+  exists, and `./?kids` (a manifest shortcut) is a picture-only picker. R0704 a session arc
+  (`eduPhase`: hello, main, care, second, wind-down, goodnight) drives the entry prompt, the
+  first prompt calls the Nubbins, and R0724 idle Nubbins yawn in the wind-down. R0730 optional
+  read-aloud auto-advance (`edu.autoAdvance`, off). R0734 co-play prompts as "For grown-ups"
+  chips. R0736 Hebrew and Japanese glosses as ruby under the word. R0737 a sun-and-moon clock
+  for Ori and Hana's next visit, plus a grown-up skip (`edu.langSkipAt`). R0678/R0679/R0677
+  more sprout 64 px fixes, HUD labels and choice icons. **LOOK.** R0380 3D crown spring; R0418
+  Moon-band rim and R0404 Eternal rims/eyes as uniforms (no new programs); R0398 3D shiny star
+  glint; R0410 3D signature particles in the shared burst cloud; R0405 a bird plan in both
+  modes plus Charizard, Gyarados, Lapras, Arcanine and Tauros; R0407 Angemon, an insect recipe,
+  Andromon, Etemon, Numemon/Sukamon; R0379 a flickering 3D tail flame, Charmander's flame seen
+  from the front, wings raised; R0435 the quad-plan reference check. **FUN.** R0358 field notes
+  for all 243 pocket and digital species; R0332 the last 8 curiosity triggers; R0338 the Q86
+  hint jokes; R0441 the "With me" photo selfie; R0424 a remembrance flower hat for bonded
+  friends; R0356 a pixel gate scene under the title logo; R0325 the 3D race butterfly.
+- *Stubbed:* the first Nubbin's portrait on kids tiles; the Story tile still opens the journal;
+  ~7.1k sprout choices still have no icon; the Run crown shape; the joyful race trip (needs sim);
+  Ponyta, the Bulbasaur line, Exeggutor, Doduo and Horsea likenesses; sprout field notes.
+- *Bugs / notes:* none known. No save version bump; the new fields (`edu.icon`, `tagColour`,
+  `autoAdvance`, `langSkipAt`, `Nubbin.remembers`) are optional. Open for Maor: the Eternal rim
+  and eye signatures (R0404). Smoke: `recs-2026-10-27/tools/lane-e-r9.cjs`, `lane-e-game-r9.cjs`
+  and `lane-e-r9-extra.cjs` (port 5189) in Pixel, Full 3D, desktop, 375×812 and reader: 0 console
+  errors. The selfie was reached but not seen with a hatched Nubbin.
 ## Round 9 · Lane C CAMP + FIGHT (2026-10-30, branch r9/c)
 
 - *Plan:* the CAMP/FIGHT partials, then the top new CAMP items, in four disjoint groups. 24 STATUS lines (10 done, 14 partial). Save stays **v13**; every new field is optional (`Nubbin.home`, offer `expiresMs`, `Combatant.mod`, `EncounterSpec.brave`).

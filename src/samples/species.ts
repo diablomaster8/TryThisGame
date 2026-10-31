@@ -20,6 +20,7 @@ import {
 } from './creatures';
 import { sdf, smin, V, type Prim } from './sculpted';
 import { defineRule } from './sculpt-rules';
+import { splitCrown } from './crown-spring';
 import {
   primData,
   primFromData,
@@ -251,6 +252,8 @@ export interface SpeciesSpec {
     extra?: Array<{ x: number; y: number; z: number; r: number }>;
     /** LOOK-64: the iris's own light (0.3 by default): a Shadow Nubbin's ember eyes read at dusk. */
     glow?: number;
+    /** R0398 (LOOK-30): a shiny's star catchlight in place of the round one. */
+    star?: boolean;
   };
   mouth: {
     x: number;
@@ -301,6 +304,8 @@ export interface SpeciesSpec {
     size: number;
     color: string;
     shape?: 'fairy' | 'feather' | 'bat';
+    /** Radians the wings lift in their own plane, tips up (LOOK-10: Charizard's 20 degrees). */
+    raise?: number;
   };
   /**
    * The Chao emote ball, if the species has one: a plain ball, a flat halo ring or a
@@ -391,6 +396,8 @@ export interface Rigged extends Creature {
   glide?: boolean;
   /** LOOK-22: set by the stage: the walk's waddle roll scaled by personality (1 when unset). */
   waddleScale?: number;
+  /** R0042: set by the stage: the biped walk's arm swing scaled (a running Keeper; 1 unset). */
+  armSwingScale?: number;
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
@@ -1032,6 +1039,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       e.style ?? 'anime',
       side,
       e.pupil ?? 'round',
+      e.star === true,
     );
     if (e.glow !== undefined) {
       const glow = e.glow;
@@ -1133,6 +1141,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       pivot.rotation.y = -dx * WING_SPLAY;
       // The Chao leaf leans outward too, so it reads beside the shoulders, not behind the head.
       if (w.shape === undefined) pivot.rotation.z = -dx * 0.75;
+      // Raised wings (LOOK-10) tip up in their own plane; the rig resets to this rest pose.
+      else if (w.raise) pivot.rotation.z = dx * w.raise;
       pivot.add(
         new THREE.Mesh(
           new THREE.ShapeGeometry(shape, 18),
@@ -1229,6 +1239,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   // Extras (jaws, a ring, a trail) are part of the figure, so they hang before the feet
   // are measured.
   const extrasUpdate = spec.extras?.({ root, hips, bones, meshes, mat }) ?? null;
+  // R0380 (LOOK-11): the head point on its own spring bone (fur-less heads only).
+  const crownSpring =
+    !spec.fur && !onBody ? splitCrown(spec.head.prims, head, meshes.head!, headOrigin) : null;
+  if (crownSpring) bones.crown = crownSpring.pivot;
 
   // Where the feet are: the lowest point of the figure at rest. The specs put their
   // feet near y = 0 but not on it (Bolder's leg tips reach 0.2 below, Mossling stops
@@ -1604,6 +1618,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       }
       case 'walk': {
         const cycle = t / stride.period;
+        const armSwing = 0.4 * (rig.armSwingScale ?? 1);
         const w = cycle * Math.PI * 2;
         if (spec.hop) {
           // LOOK-45: the in-training blobs hop instead of stepping, two hops a cycle: up long
@@ -1651,8 +1666,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           }
           if (quad) set('tail', 0.15, s(w * 0.5) * 0.3, 0);
           else if (!spider) {
-            set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
-            set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
+            set('armL', -s(w) * armSwing + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+            set('armR', s(w) * armSwing + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
           }
         } else if (spider) {
           // Alternating tetrapod: legs 1 and 3 on one side step with 2 and 4 on the other.
@@ -1669,8 +1684,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         } else {
           set('legL', s(w) * legSwing, 0, 0);
           set('legR', -s(w) * legSwing, 0, 0);
-          set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
-          set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
+          set('armL', -s(w) * armSwing + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+          set('armR', s(w) * armSwing + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
         }
         mouthOpen = 0.1;
         break;
@@ -2161,6 +2176,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         bp.setY(i, (rig.ground(px + bp.getX(i) * bs, pz + bp.getZ(i) * bs) + BLOB_CLEARANCE) / bs);
       bp.needsUpdate = true;
     }
+    crownSpring?.update(fdt, still);
     mouth.open(mouthOpen);
     // The face: the pose's expression (with the species' overrides) eased in over a beat.
     const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}) };

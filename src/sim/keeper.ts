@@ -1,5 +1,7 @@
 import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
-import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
+import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from './terrain';
+import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
+import { CG_C } from '../config/tuning-c';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { springBounce, springShroomAt } from './decorate';
@@ -29,6 +31,7 @@ import {
   KEEPER_WADE,
 } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
+import { shakeFruitBonus } from './dungeon-gear-effects';
 import { swimHint, waterPace } from './swim-tow';
 import { surfacePace } from './surface-pace';
 import { dropFruit, withRng } from './world';
@@ -43,9 +46,11 @@ import { addTrust, isWary, settleStray } from './trust';
 import { noteCampaign } from './campaign';
 import { hasTrait, noteTraitCare } from './traits';
 import { findHiding } from './peek';
+import { rememberCare } from './care-memory';
 import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
+import { noteBorderPush } from './border';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -129,7 +134,8 @@ export function freeSpot(
 export function unstickKeeper(world: World): boolean {
   if (runFloor(world)) return false;
   const k = world.keeper;
-  const to = freeSpot(world, k.pos, keeperPerks(world).wade, k.y);
+  // R0027/R0025 (lane A r10): in the air the Keeper may be over the pond (a jump, a glide).
+  const to = freeSpot(world, k.pos, keeperPerks(world).wade || !k.grounded, k.y);
   if (to === k.pos) return false;
   k.pos = { x: to.x, z: to.z };
   return true;
@@ -345,10 +351,30 @@ function autoHop(world: World, dx: number, dz: number): void {
  * from a little further off.
  */
 const standIns = new WeakMap<Vec2, Vec2>();
+/** WORLD-41: the tap a stand-in target stands for, if `target` is one (read-only). */
+export function standInTap(target: Vec2): Vec2 | undefined {
+  return standIns.get(target);
+}
 /** When a stand-in walk last asked whether its real tap had come within reach (sim ms). */
 const tapRecheck = new WeakMap<World, number>();
 /** How often (ms) a stand-in walk looks again at its real tap. */
 const RECHECK_MS = 1000;
+
+/**
+ * R0035 (lane A r10): the last refused or shut-in tap, for the tap marker's ✕ / ⤒ variants.
+ * Transient (never saved); a new object each time, so a renderer can tell a fresh one.
+ */
+export interface TapVerdict {
+  /** Where the player tapped. */
+  at: Vec2;
+  /** 'cant': nowhere near it is reachable; 'jump': a jump from here would get up there. */
+  kind: 'cant' | 'jump';
+}
+const tapVerdicts = new WeakMap<World, TapVerdict>();
+/** The latest unreachable-tap verdict (read only, for the tap markers). */
+export function tapVerdict(world: World): TapVerdict | undefined {
+  return tapVerdicts.get(world);
+}
 
 /** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
 const autoPressed = new WeakSet<World>();
@@ -580,6 +606,74 @@ function stepMantle(world: World, dtMs: number, events: SimEvent[]): void {
   land(world, 0, events);
 }
 
+/**
+ * R0025 (MOVE-25, lane A r10): the last spot the Keeper stood ashore in the Grove, transient.
+ * A splash-down in the pond without the Swim perk puffs back here, with nothing lost.
+ */
+const lastSafe = new WeakMap<World, Vec2>();
+
+/** R0025: where a bad landing puts the Keeper back (read only, for tests and the debug panel). */
+export function keeperLastSafe(world: World): Vec2 | undefined {
+  return lastSafe.get(world);
+}
+
+/** Inside the ring where the Keeper cannot stand without the Swim perk. */
+function overDeepWater(p: Vec2): boolean {
+  const pond = GROVE.pond;
+  return Math.hypot(p.x - pond.x, p.z - pond.z) < pond.r + 0.5 - 0.05;
+}
+
+/** R0025: note the Keeper's spot as safe when it stands on dry ground in the Grove. */
+function noteSafe(world: World): void {
+  const k = world.keeper;
+  if (!k.grounded || runFloor(world) || overDeepWater(k.pos)) return;
+  const at = lastSafe.get(world);
+  if (at) {
+    at.x = k.pos.x;
+    at.z = k.pos.z;
+  } else lastSafe.set(world, { x: k.pos.x, z: k.pos.z });
+}
+
+/**
+ * R0025/R0027: coming down over the pond without the Swim perk, at the water the Keeper
+ * puffs back to `lastSafe` (or the nearest shore) and lands there: no fall, no penalty,
+ * nothing dropped. True when it did.
+ */
+function poofOverWater(world: World, under: number, events: SimEvent[]): boolean {
+  const k = world.keeper;
+  if (!overDeepWater(k.pos) || keeperPerks(world).wade || !leftAshore.has(world)) return false;
+  if (k.y > Math.max(under, WATER_LEVEL) + KEEPER_POOF.surface) return false;
+  const from = { x: k.pos.x, z: k.pos.z };
+  const back = lastSafe.get(world) ?? shoreline(k.pos);
+  k.pos = { x: back.x, z: back.z };
+  k.y = keeperFooting(world, back.x, back.z).y;
+  k.moveTarget = null;
+  k.intent = null;
+  halt(world);
+  glided.delete(world);
+  events.push({ kind: 'keeperPoofed', from, to: { x: back.x, z: back.z } });
+  land(world, 0, events);
+  // The nearest friend close by is glad to see the Keeper back: a heart over it.
+  let near: Nubbin | null = null;
+  for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon' || !isFree(n)) continue;
+    const d = dist(n.pos, back);
+    if (d <= KEEPER_POOF.friendRange && (!near || d < dist(near.pos, back))) near = n;
+  }
+  if (near) react(near, 'love', world.timeMs, events);
+  return true;
+}
+
+/**
+ * Set by a jump from dry ground, so only a jump (or glide) out over the pond poofs. A Keeper
+ * that slips off the shore's lip or is placed by the water just settles, as it did before.
+ */
+const leftAshore = new WeakSet<World>();
+const noteLeft = (world: World, jumped: boolean): void => {
+  if (jumped && !overDeepWater(world.keeper.pos)) leftAshore.add(world);
+  else leftAshore.delete(world);
+};
+
 /** The highest the feet got since they left the ground, for the landing's fall height. */
 const peakY = new WeakMap<World, number>();
 
@@ -602,6 +696,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.coyoteMs = tune.coyoteMs;
       k.airJumps = JUMP.airJumps;
       peakY.set(world, k.y);
+      noteLeft(world, false);
     } else {
       // Slopes, ramps and steps up to `stepUp` are followed.
       k.y = ground;
@@ -618,7 +713,10 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.grounded = false;
       k.coyoteMs = 0;
       k.bufferMs = 0;
-      if (fromGround) peakY.set(world, k.y);
+      if (fromGround) {
+        peakY.set(world, k.y);
+        noteLeft(world, true);
+      }
       events.push({ kind: 'keeperJumped', air: !fromGround });
       if (autoPressed.delete(world)) k.jumpHeld = false;
     }
@@ -638,6 +736,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
+  if (!dungeon && k.vy < 0 && poofOverWater(world, under, events)) return;
   if (k.y <= under) {
     // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
     // The feet were under it before this substep's move, so a fast fall onto flat ground is a landing.
@@ -807,6 +906,17 @@ export function markRunWalk(world: World, at: Vec2): void {
   tapRuns.set(world, { at, run: true });
 }
 
+/**
+ * R0042 (lane A r10), for the renderers: whether the Keeper is running now (the Run toggle
+ * or Shift, or a tap walk Auto-run or Travel assist runs). Reads only.
+ */
+export function keeperRunningNow(world: World): boolean {
+  const k = world.keeper;
+  if (k.running) return true;
+  const t = tapRuns.get(world);
+  return !!t?.run && !!k.moveTarget && t.at === k.moveTarget;
+}
+
 /** Whether this tap walk runs: the Run toggle, or Auto-run on a walk over ten units. */
 function tapRunning(world: World, target: Vec2): boolean {
   const k = world.keeper;
@@ -876,7 +986,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     k.intent = null;
     // Without the Swim perk the Keeper does not wade: a step into the pond stops at the
     // shore, as a tap target in the pond does below.
-    if (!dungeonFloor && !keeperPerks(world).wade) {
+    // R0027 (lane A r10): a jump or a glide may carry on out over the water; a splash-down
+    // there poofs back ashore (`poofOverWater`).
+    if (!dungeonFloor && !keeperPerks(world).wade && k.grounded) {
       const s = shoreline(k.pos);
       // R0088: stopped by deep water: say a swimmer could take the Keeper across.
       if (Math.hypot(s.x - k.pos.x, s.z - k.pos.z) > 1e-4) swimHint(world, events);
@@ -981,8 +1093,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         } else if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
           // MOVE-35: a plain tap with nowhere reachable near it says so.
-          else if (!stuck)
+          else if (!stuck) {
             events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
+            const at = standIns.get(target) ?? target;
+            tapVerdicts.set(world, { at: { x: at.x, z: at.z }, kind: 'cant' });
+          }
           k.intent = null;
           k.moveTarget = null;
         } else {
@@ -990,9 +1105,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
             // MOVE-35: the tap is shut in; walk to the nearest reachable point and say so,
             // with a hint when a jump would get there.
             k.moveTarget = leg.end;
-            standIns.set(leg.end, standIns.get(target) ?? target);
+            const at = standIns.get(target) ?? target;
+            standIns.set(leg.end, at);
             const jump = !autoHopOn(world) && hopReaches(world, k.pos, target);
             events.push({ kind: 'moveUnreachable', nearest: { ...leg.end }, jump });
+            tapVerdicts.set(world, { at: { x: at.x, z: at.z }, kind: jump ? 'jump' : 'cant' });
           }
           const to = leg.next;
           const td = Math.max(dist(k.pos, to), 1e-6);
@@ -1063,6 +1180,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.pos.z += out.nz * out.depth * ease;
     }
     clampToWorld(k.pos);
+    // WORLD-67: walking into the edge says why it ends here.
+    noteBorderPush(world, events, k.moveTarget ? standInTap(k.moveTarget) : undefined);
     // Still inside something (two blockers, or a blocker and the shore, pushing in turn):
     // step out to the nearest free spot so no position can trap the Keeper.
     unstickKeeper(world);
@@ -1083,6 +1202,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     return;
   }
   stepVertical(world, dt, !!dungeonFloor, events);
+  noteSafe(world);
   if (!k.grounded && !dungeonFloor) jumpPlay(world, events);
   rideCarried(world);
 }
@@ -1137,6 +1257,37 @@ function jumpPlay(world: World, events: SimEvent[]): void {
     addHappiness(n, P.leapHappiness);
     react(n, 'love', world.timeMs, events);
   }
+  if (world.location === 'grove') fallsShelf(world, events);
+}
+
+/**
+ * R0026 item 4 (lane A r10): the rock shelf behind the waterfall, where the 3D Grove draws it
+ * (`render3d/hill-dress.ts` `buildLedge`): on hill 1's second tier, behind the falls' sheet.
+ */
+export function fallsShelfSpot(): Vec2 {
+  const wf = GROVE.waterfall;
+  const first = GROVE.river.inflow[0]!;
+  const dx = first.x - wf.x;
+  const dz = first.z - wf.z;
+  const len = Math.hypot(dx, dz);
+  const t = CG_C.ledge.along;
+  return {
+    x: wf.x + dx * t - (dx / len) * CG_C.ledge.behind,
+    z: wf.z + dz * t - (dz / len) * CG_C.ledge.behind,
+  };
+}
+
+/** R0026: a double jump up behind the falls finds the shelf's hidden keepsake, once. */
+function fallsShelf(world: World, events: SimEvent[]): void {
+  const id = FALLS_SHELF.keepsake;
+  const kept = world.inventory.keepsakes;
+  if (kept.includes(id)) return;
+  const k = world.keeper;
+  const at = fallsShelfSpot();
+  if (dist(k.pos, at) > FALLS_SHELF.reach) return;
+  if (k.y - keeperFooting(world, at.x, at.z).y < FALLS_SHELF.rise) return;
+  kept.push(id);
+  events.push({ kind: 'fallsKeepsake', id });
 }
 
 /** Shake a fruit tree: the next fruit comes sooner, now and then wood, and Power drops fruit. */
@@ -1152,6 +1303,9 @@ function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEve
     if (keeperPerks(world).power) {
       for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
     }
+    // R0164: Crumbs on worn gear shakes loose a little more.
+    const extra = shakeFruitBonus(world, () => rng.next());
+    for (let i = 0; i < extra; i++) dropFruit(world, tree, rng, events);
   });
 }
 
@@ -1187,6 +1341,8 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       if (n.stray) settleStray(n);
       nudgeAlignment(n, world.keeper.alignment);
       noteCare(n, 'feeds');
+      // R0541 (lane A r10): fed by hand, it remembers (and trails a Keeper with fruit).
+      rememberCare(n, 'feed', now);
       return;
     }
     case 'shakeTree': {
@@ -1233,6 +1389,8 @@ export function interact(world: World, n: Nubbin, action: Interaction, events: S
   }
   // R0530: every kind of care shapes a child's personality, not only pets.
   noteTouch(n, action, now);
+  // R0541 (lane A r10): a hug is remembered as a hug, the other kind touches as pets.
+  rememberCare(n, action === 'hug' ? 'hug' : 'pet', now);
   switch (action) {
     case 'tickle':
       addHappiness(n, 4);
@@ -1306,6 +1464,8 @@ export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   if (n.stray) settleStray(n);
   nudgeAlignment(n, world.keeper.alignment);
   if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
+  // R0541 (lane A r10): it remembers the pet for a while.
+  if (now - n.lastPetMs >= NEEDS.petCooldownMs) rememberCare(n, 'pet', now);
   n.lastPetMs = now;
   pet(n, world.keeper.pos, now, events);
   // R0560 (lane A r9): the others nearby notice.

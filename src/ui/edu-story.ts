@@ -7,6 +7,7 @@
  */
 import { EDU_STORY_TEXT } from '../config/strings';
 import { READ_TEXT } from '../config/strings-fun-r7';
+import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
 import type { EduBand } from '../content/types';
 import type { Game } from '../game';
 import { eduContent } from '../sim/story-scenes';
@@ -90,6 +91,21 @@ export function storySettings(body: HTMLElement, g: Game): void {
   );
   row.append(cb, text);
   body.appendChild(row);
+  /* Lane E r9, R0730: the read-aloud story can turn its own pages (off by default). */
+  const rowAuto = el('label', 'check-row');
+  const cbAuto = el('input');
+  cbAuto.type = 'checkbox';
+  cbAuto.checked = e.autoAdvance === true;
+  cbAuto.addEventListener('change', () =>
+    g.send({ kind: 'eduSetAutoAdvance', on: cbAuto.checked }),
+  );
+  const textAuto = el('span');
+  textAuto.append(
+    el('strong', undefined, KIDS_READ_TEXT.autoLabel),
+    el('small', undefined, KIDS_READ_TEXT.autoHelp),
+  );
+  rowAuto.append(cbAuto, textAuto);
+  body.appendChild(rowAuto);
   // R0343: Grove Readers keep reading for themselves unless the grown-up opts in.
   const row2 = el('label', 'check-row');
   const cb2 = el('input');

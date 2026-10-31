@@ -32,7 +32,7 @@ export function slotTagText(tag: SlotTag | undefined): string {
 /** Style a slot row by its tag (a coloured edge; the icon and word carry it too). */
 export function tagRow(row: HTMLElement, s: SaveSummary | null): void {
   const tag = s?.label?.tag;
-  if (tag) row.classList.add('title-slot-tagged', `slot-tag-${tag}`);
+  if (tag) row.classList.add('title-slot-labelled', `slot-tag-${tag}`);
 }
 
 /** Open the name-and-tag dialog for a filled slot; `done` runs after a save. */

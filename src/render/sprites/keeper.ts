@@ -6,6 +6,7 @@ import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C, lightOf, shadeOf } from './palette';
 import { drawFace, type Expression } from './faces';
 import { PixelCanvas } from './pixel-canvas';
+import { KEEPER_LEAN_CLIP, leanFrame } from './keeper-lean';
 
 export const KEEPER_SIZE = 32;
 
@@ -860,6 +861,14 @@ export function buildKeeperSheet(col: KeeperColors, look?: NpcLook, kid = false)
     for (const clip of KEEPER_JUMP_CLIPS)
       for (const angle of DRAWN_ANGLES)
         atlas.add(frameKey(clip, angle, 0), drawKeeper(angle, clip, 0, col, look, undefined, kid));
+  // R0041: the uphill lean, for the player only (NPCs keep to the flat).
+  if (!look)
+    for (const angle of DRAWN_ANGLES)
+      for (let f = 0; f < CLIPS.walk.frames; f++)
+        atlas.add(
+          frameKey(KEEPER_LEAN_CLIP, angle, f),
+          leanFrame(drawKeeper(angle, 'walk', f, col, look, undefined, kid), angle),
+        );
   for (const [clip, frames] of Object.entries(KEEPER_STAGE_CLIPS) as Array<[KeeperClip, number]>)
     for (const angle of DRAWN_ANGLES)
       for (let f = 0; f < frames; f++)

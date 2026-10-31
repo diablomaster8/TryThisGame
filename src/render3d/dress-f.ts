@@ -8,6 +8,7 @@ import {
 } from '../config/campaign-look';
 import type { BuntingShape } from '../config/campaign-look';
 import { markAt } from '../config/stage-marks';
+import { occluders } from './occluders';
 import { LANTERN_POSTS } from '../config/tuning';
 import { LOOK_F } from '../config/tuning-f';
 import { CG4_U4 } from '../config/tuning-u4';
@@ -73,6 +74,9 @@ const treeParts = {
   grass: [] as THREE.MeshStandardMaterial[],
 };
 const disposables: Array<() => void> = [];
+/** R0018: the guard house's fade box (centre, foot) and whether it is registered. */
+let cabinAt: { x: number; y: number; z: number } | null = null;
+let cabinBox = false;
 
 function place(o: THREE.Object3D, x: number, z: number, yaw = 0): void {
   o.position.set(x, groveHeight(x, z), z);
@@ -118,6 +122,7 @@ export const dress3dF: Dressing3d = {
     const cab = LOOK_F.beetle.cabin;
     const cabin = kitCabin(c.tex, cab, { window: true, doorW: 1 });
     place(cabin, gh.x, gh.z);
+    cabinAt = { x: gh.x, y: cabin.position.y, z: gh.z };
     const bans = buildBanners();
     const spots: Array<[number, number, number, number]> = [
       [-cab.w / 2 + 0.55, cab.h - 0.35, cab.d / 2 + 0.07, 0],
@@ -143,6 +148,8 @@ export const dress3dF: Dressing3d = {
     counter.position.set(-cab.w * 0.25, 0, cab.d / 2 + 0.95);
     cabin.add(counter);
     g.beetle.add(cabin);
+    // R0018: the guard house thins out when it hides the Keeper (the kit's shared materials).
+    occluders.patch(cabin);
     const cart = buildCart();
     place(cart, LOOK_F.beetle.cart.x, LOOK_F.beetle.cart.z, -0.5);
     g.beetle.add(cart);
@@ -204,6 +211,24 @@ export const dress3dF: Dressing3d = {
     g.festival!.visible = s.festival;
     g.picnic!.visible = s.picnic;
     g.beetle!.visible = s.beetle;
+    if (s.beetle !== cabinBox) {
+      cabinBox = s.beetle;
+      occluders.clear('dress-f-cabin');
+      if (s.beetle && cabinAt) {
+        const cab = LOOK_F.beetle.cabin;
+        // The kit cabin's roof overhangs and rises about half its height again.
+        occluders.add(
+          'dress-f-cabin',
+          cabinAt.x,
+          cabinAt.z,
+          cab.w / 2 + 0.55,
+          cab.d / 2 + 0.55,
+          cabinAt.y - 0.2,
+          cabinAt.y + cab.h * 1.6 + 0.5,
+          cabinAt.y + cab.h,
+        );
+      }
+    }
     g.logged!.visible = s.logged;
     g.room!.visible = s.rootRoom;
 
@@ -298,6 +323,9 @@ export const dress3dF: Dressing3d = {
 
   dispose() {
     if (bunting) bunting.dispose();
+    occluders.clear('dress-f-cabin');
+    cabinBox = false;
+    cabinAt = null;
     for (const d of disposables) d();
     disposables.length = 0;
     bunting = null;

@@ -16,6 +16,7 @@ import { DRAWN_ANGLES } from '../render/sprites/angles';
 import { frameKey } from '../render/sprites/animations';
 import { SheetCache } from '../render/sprites/sheets';
 import type { Nubbin } from '../sim/types';
+import { mayWear } from '../sim/remembrance'; /* Lane E r9 */
 import { button, el, modal } from './dom';
 
 /** The eight views, the five drawn angles and three mirrored back round to the front. */
@@ -96,7 +97,9 @@ export class Wardrobe {
     this.list.appendChild(this.item(null, WARDROBE_TEXT.none, true, ''));
     const all = [...COSMETICS].sort((a, b) => Number(owned.has(b.id)) - Number(owned.has(a.id)));
     for (const c of all) {
-      const has = owned.has(c.id);
+      // Lane E r9 (R0424): the remembrance flower only for a friend of someone on the hill.
+      const n = this.nubbin();
+      const has = owned.has(c.id) && (!n || mayWear(n, c.id));
       this.list.appendChild(
         this.item(c.id, c.label, has, has ? '' : (WARDROBE_TEXT.locked[c.source] ?? '')),
       );

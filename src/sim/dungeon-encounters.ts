@@ -10,11 +10,16 @@
  * which may answer at once or later through the `encounterDone` command. The default is
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
+import { bravePower } from './dungeon-gear-effects';
+import { packKeyWin } from './dungeon-keys';
 import { arenaFor, type HollowArena } from './dungeon-arena';
 import { fightFlag, noteFinalBoss } from './dungeon-tiers';
 import { noteActTime } from './dungeon-speed';
+import { noteStoryScroll } from './dungeon-log';
+import { shellPay } from './dungeon-economy';
 import { uniqueBeaten } from './dungeon-uniques';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
+import { bossAnteroom } from './dungeon-secrets';
 import { noteFight } from './dungeon-log';
 import { lostTo, sneaking, startsAsleep, stepSleepy } from './dungeon-sleepy';
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER } from '../config/tuning';
@@ -239,7 +244,7 @@ function partyPower(world: World, run: DungeonRun): number {
     power += E.memberBase + sum / 5;
   }
   // The Keeper counts for one small Nubbin.
-  return power + E.memberBase;
+  return power + E.memberBase + bravePower(world, run.party);
 }
 
 /** The stub until FIGHT lands: the party's weight against the pack's, then a seeded roll. */
@@ -454,8 +459,12 @@ export function finishEncounter(
     // The battle core already paid its prize; the pack's reward tops it up, never doubles it.
     const shells = Math.max(
       boutShells,
-      (E.rewardShells + spec.tier * E.rewardPerTier + run.depth * 2) *
-        (spec.kind === 'normal' ? 1 : 2),
+      // R0178: the act's payout scale.
+      shellPay(
+        run,
+        (E.rewardShells + spec.tier * E.rewardPerTier + run.depth * 2) *
+          (spec.kind === 'normal' ? 1 : 2),
+      ),
     );
     world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
@@ -473,9 +482,13 @@ export function finishEncounter(
       noteFinalBoss(world, run.act, events);
       // R0187: a speed run's time for the act.
       noteActTime(world, run, events);
+      // R0207: the act's "Story so far" scroll, once.
+      noteStoryScroll(world, run.act, events);
       // R0160: the big chest, the celebration and the next act's waypoint (first time only).
       bossWon(world, run, spec.members[0]?.level ?? run.depth, drops, events);
     }
+    // R0183: the key set, on Brisk or Wild.
+    packKeyWin(world, run, spec, drops, events);
     return;
   }
   pack.state = 'home';
@@ -485,7 +498,8 @@ export function finishEncounter(
     lostTo(world, run, packId, events);
     if (spec.kind === 'boss') bossRetry(world, run);
     const k = world.keeper;
-    const at = cellCentre(f, f.stairsUp);
+    // R0160: a lost boss fight retries from the arena's anteroom.
+    const at = cellCentre(f, (spec.kind === 'boss' && bossAnteroom(f)) || f.stairsUp);
     k.pos = { x: at.x, z: at.z };
     k.moveTarget = null;
     k.intent = null;

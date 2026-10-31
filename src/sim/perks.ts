@@ -1,5 +1,6 @@
 import { PERKS } from '../config/tuning';
 import type { NubbinType, World } from './types';
+import { gearSpeedMul } from './dungeon-gear-effects';
 import { rideSpeed } from './ride';
 import { swimTower } from './swim-tow';
 
@@ -53,5 +54,6 @@ export function keeperSpeedMultiplier(
   const p = keeperPerks(world);
   let m = running ? (p.sprint ? PERKS.runBonus : runMultiplier) : 1;
   if (p.glide && running) m *= PERKS.flyGlideSpeed / 1.3 + 0.3;
-  return m;
+  // R0164: boots, Bouncy and Feather charms.
+  return m * gearSpeedMul(world);
 }

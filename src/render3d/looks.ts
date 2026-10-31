@@ -156,7 +156,9 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
     ...(gem || shiny
       ? { surface: { ...(shiny ? SHINY_FINISH.surface : {}), ...(gem ? JEWEL_FINISH : {}) } }
       : {}),
-    ...(gem ? { eyes: { iris: gem.crownShade } } : {}),
+    ...(gem || shiny
+      ? { eyes: { ...(gem ? { iris: gem.crownShade } : {}), ...(shiny ? { star: true } : {}) } }
+      : {}),
   });
 }
 

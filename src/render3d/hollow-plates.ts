@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import { championMod, PLATE_GLYPH } from '../config/dungeon-foes';
-import { UNIQUE_TEXT } from '../config/strings-dungeon';
+import { packPlate } from '../render/hollow-packs-pixel';
 import { elevationAt, type Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
 import { disposeObjects, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
@@ -19,16 +18,10 @@ export class HollowPlates implements HollowModule {
   build(f: Floor, ctx: HollowCtx): void {
     this.floor = f;
     for (const p of f.packs ?? []) {
-      const glyph = PLATE_GLYPH[p.kind];
-      if (!glyph) continue;
-      const mods = p.members[0]?.mods ?? [];
-      const words = mods.map((m) => `${championMod(m).icon} ${championMod(m).name}`).join('  ');
-      // A named unique (R0156) shows its name before its modifiers.
-      const name = p.unique ? (UNIQUE_TEXT[p.unique]?.name ?? '') : '';
-      const sprite = plate(
-        [glyph, name, words].filter(Boolean).join(' '),
-        COLOUR[p.kind] ?? '#fff',
-      );
+      // The plate's words are shared with the Pixel view (`packPlate`, lane B r8).
+      const ps = packPlate(p);
+      if (!ps) continue;
+      const sprite = plate(ps.text, ps.colour);
       sprite.name = 'hollow-plate';
       sprite.visible = false;
       ctx.group.add(sprite);
@@ -67,12 +60,6 @@ export class HollowPlates implements HollowModule {
 }
 
 const LIFT = 1.55;
-const COLOUR: Partial<Record<string, string>> = {
-  champion: '#9fd0ff',
-  elite: '#ffd27a',
-  unique: '#ffb08a',
-  boss: '#ffb08a',
-};
 
 /** A rounded label on a canvas, as a sprite about 0.3 world units tall. */
 export function plate(text: string, colour: string): THREE.Sprite {

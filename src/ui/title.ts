@@ -1,5 +1,9 @@
 import { SLOT_LINES_TEXT } from '../config/strings-camp';
 import { confirmModal } from './confirm';
+import { TRASH_TEXT } from '../config/strings-r9d3';
+import { SLOT_TRASH } from '../config/tuning-r9d3';
+import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../platform/slot-trash';
+import { titleGate } from './title-gate'; /* Lane E r9 */
 import { CAMP_TEXT } from '../config/strings';
 import {
   KEEPER_LOOK_BLURBS,
@@ -11,7 +15,8 @@ import {
 import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
 import {
-  clearSlot,
+  hasSave,
+  summarize,
   readGraphicsPref,
   readSlotIndex,
   slotId,
@@ -38,6 +43,8 @@ import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { SLOT_LABEL_TEXT } from '../config/strings';
 import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
+/* Lane E r9, R0696 / R0720 */
+import { eduTagLabel, tagCss, tagStep, type EduTag } from './kids-launch';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -51,6 +58,8 @@ export interface TitleChoice {
   age?: EduAge;
   /** The story's band for a new Learning Grove (Grove Readers picks age 6 for the games). */
   band?: EduBand;
+  /** Lane E r9, R0696: the new Learning Grove's name, colour and animal. */
+  tag?: EduTag;
 }
 
 const MODES: SaveMode[] = ['campaign', 'hundred', 'logged', 'beetle', 'dawndusk', 'free', 'edu'];
@@ -66,6 +75,8 @@ const MODE_STORYLINE: Record<string, string> = {
 function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
   const parts: string[] = [];
   const story = mode === 'campaign' || isStorylineMode(mode);
+  /* Lane E r9, R0696: a Learning Grove slot names its child first. */
+  if (mode === 'edu' && (s.eduName || s.eduIcon)) parts.push(eduTagLabel(s, 0));
   if (story && s.trainer) parts.push(KEEPER_LOOK_NAMES[s.trainer] ?? s.trainer);
   if (mode === 'dawndusk' && s.storyline)
     parts.push(STORYLINE_TEXT.sides[s.storyline] ?? s.storyline);
@@ -116,6 +127,7 @@ export function showTitle(
   const sub = el('div', 'title-sub', STORY_TEXT.title);
   const tag = el('div', 'title-tag', STORY_TEXT.tagline);
   card.append(sub, tag);
+  card.appendChild(titleGate()); /* Lane E r9, R0356: the living gate */
   // R0720: the Learning Grove's age screen carries its own subtitle, not the campaign's.
   const subtitle = (edu: boolean) => {
     sub.textContent = edu ? EDU_TEXT.learningGrove : STORY_TEXT.title;
@@ -166,7 +178,13 @@ export function showTitle(
     const now = Date.now();
     // Lane C r10 agent B (R0622): one read of the slot index in place of parsing every save.
     const slotIndex = readSlotIndex();
-    for (const mode of MODES) {
+    /* Lane E r9, R0696: the Learning Grove moves to the top once a child has a Grove. */
+    const kidsFirst = Array.from(
+      { length: SLOTS_PER_MODE },
+      (_, i) => slotIndex.slots[slotId({ mode: 'edu', index: i + 1 })] !== undefined,
+    ).some(Boolean);
+    const order = kidsFirst ? ['edu' as SaveMode, ...MODES.filter((m) => m !== 'edu')] : MODES;
+    for (const mode of order) {
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
       section.appendChild(el('div', 'title-mode-name', modeName));
@@ -208,27 +226,54 @@ export function showTitle(
             () => {
               const ask = { title: CAMP_TEXT.confirmTitle, body: SLOT_TEXT.newOverConfirm(index) };
               void confirmModal({ ...ask, confirm: CAMP_TEXT.startOverYes, danger: true }).then(
-                (ok) => ok && grownUp(() => startNew(slot)),
+                // TECH-29: the old save is kept for a week before the new one replaces it.
+                (ok) =>
+                  ok &&
+                  grownUp(() => {
+                    keepInTrash(slot, Date.now());
+                    startNew(slot);
+                  }),
               );
             },
             'btn btn-small',
           );
           fresh.setAttribute('aria-label', SLOT_TEXT.newOverLabel(modeName, index));
+          // TECH-29: Erase sits behind ⋯ (not beside Continue), is held for a moment, and
+          // the slot is kept for a week under Recently erased.
           const erase = button(
-            '✕',
+            SLOT_TEXT.erase,
             () => {
-              const ask = { title: CAMP_TEXT.confirmTitle, body: SLOT_TEXT.eraseConfirm(index) };
-              void confirmModal({ ...ask, confirm: CAMP_TEXT.eraseYes, danger: true }).then(
+              const ask = {
+                title: CAMP_TEXT.confirmTitle,
+                body: `${TRASH_TEXT.eraseBody(index, said)} ${TRASH_TEXT.holdHint}`,
+              };
+              void confirmModal({
+                ...ask,
+                confirm: TRASH_TEXT.holdToErase,
+                danger: true,
+                holdMs: SLOT_TRASH.holdMs,
+              }).then(
                 (ok) =>
                   ok &&
                   grownUp(() => {
-                    clearSlot(slot);
+                    trashSlot(slot, Date.now());
                     mainMenu();
                   }),
               );
             },
-            'btn btn-small btn-icon title-slot-erase',
+            'btn btn-small btn-danger title-slot-erase',
           );
+          erase.hidden = true;
+          const more = button(
+            TRASH_TEXT.more,
+            () => {
+              more.hidden = true;
+              erase.hidden = false;
+              erase.focus();
+            },
+            'btn btn-small btn-icon title-slot-more',
+          );
+          more.setAttribute('aria-label', TRASH_TEXT.moreLabel(modeName, index));
           erase.title = SLOT_TEXT.erase;
           // Each mode has a Slot 1: the mode name tells the three apart (review C, item 25).
           erase.setAttribute(
@@ -246,7 +291,13 @@ export function showTitle(
             SLOT_LABEL_TEXT.renameLabel(`${modeName}, ${SLOT_TEXT.slot(index)}`),
           );
           tagRow(row, summary);
-          row.append(main, name, fresh, erase);
+          row.append(main, name, fresh, more, erase);
+          /* Lane E r9, R0696: the child's colour tag down the slot's edge. */
+          const tagColour = mode === 'edu' ? tagCss(summary?.eduColour) : null;
+          if (tagColour) {
+            row.classList.add('title-slot-tagged');
+            row.style.setProperty('--tag', tagColour);
+          }
         } else {
           const main = button('', () => startNew(slot), 'btn title-slot-main');
           main.append(
@@ -261,19 +312,60 @@ export function showTitle(
       menu.appendChild(section);
       if (mode === focusMode) focus.section = section;
     }
+    recentlyErased(now);
+  };
+
+  /** TECH-29: erased slots from the last week, each with Restore while its slot is empty. */
+  const recentlyErased = (now: number) => {
+    const kept = listTrash(MODES, SLOTS_PER_MODE, now);
+    if (kept.length === 0) return;
+    const section = el('div', 'title-mode title-trash');
+    section.appendChild(el('div', 'title-mode-name', TRASH_TEXT.recent));
+    for (const k of kept) {
+      const modeName = SLOT_TEXT.modes[k.slot.mode] ?? k.slot.mode;
+      const s = summarize(k.json);
+      const said = s ? describe(k.slot.mode, s, now) : '';
+      const days = Math.floor((now - k.at) / (24 * 60 * 60 * 1000));
+      const row = el('div', 'title-slot');
+      const info = el('div', 'title-slot-main title-trash-info');
+      info.append(
+        el('strong', undefined, `${modeName} · ${SLOT_TEXT.slot(k.slot.index)}`),
+        el('small', undefined, [said, TRASH_TEXT.erasedAgo(days)].filter(Boolean).join(' · ')),
+      );
+      const inUse = hasSave(k.slot);
+      const back = button(
+        inUse ? TRASH_TEXT.slotInUse : TRASH_TEXT.restore,
+        () => {
+          if (restoreTrash(k.slot)) mainMenu();
+        },
+        'btn btn-small',
+      );
+      back.disabled = inUse;
+      back.setAttribute('aria-label', TRASH_TEXT.restoreLabel(modeName, k.slot.index));
+      row.append(info, back);
+      section.appendChild(row);
+    }
+    menu.appendChild(section);
   };
   const focus = { section: null as HTMLElement | null };
 
   const ageMenu = (slot: SaveSlot) => {
     menu.innerHTML = '';
     subtitle(true);
+    // Lane E r9, R0720 / R0696: the age pick leads to the name, colour and animal step.
+    const named = (c: TitleChoice) =>
+      tagStep(
+        menu,
+        (tag) => finish({ ...c, tag }),
+        backButton(() => ageMenu(slot)),
+      );
     menu.appendChild(el('div', 'help', EDU_TEXT.chooseAge));
     // R0720: four sprout tiles in a row, then one wide reader tile, so nothing wraps at 375 px.
     const row = el('div', 'title-ages');
     for (const age of EDU_AGES) {
       const b = button(
         '',
-        () => finish({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
+        () => named({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
         'btn title-age',
       );
       b.append(el('span', 'title-age-n', String(age)), el('span', 'title-age-badge', '🌱'));
@@ -283,7 +375,7 @@ export function showTitle(
     // Grove Readers (7–10): the story in the reader band; the six games stay at their top age.
     const reader = button(
       '',
-      () => finish({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
+      () => named({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
       'btn title-age title-age-reader',
     );
     reader.append(

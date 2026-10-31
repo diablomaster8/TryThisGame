@@ -56,6 +56,7 @@ import { rarityOf } from '../render/rarity';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
+import type { SignatureFx } from './signature-fx';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
 import { FernCairn3D } from './fern-cairn-3d';
@@ -69,7 +70,15 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
+import {
+  keeperDip,
+  keeperFooting,
+  keeperGliding,
+  keeperMantle,
+  keeperRoll,
+  keeperRunningNow,
+} from '../sim/keeper';
+import { RUN_ARMS } from '../config/tuning-move-r10';
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
 import { sitWithBeat, towardKeeper } from '../render/sit-with';
@@ -77,6 +86,10 @@ import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
+import { noteDue, performClip, performLook } from '../render/perform-look';
+import { Perform3D } from './perform-3d';
+import { chatClip, chatHop } from '../render/chat-look';
+import { emoteMotion } from '../render/emote-mood';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -157,6 +170,8 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
     case 'perform':
+      // R0525 (lane A r10): a lesson performed sits to draw, sings, dances or plays.
+      if (performClip(n)) return performClip(n)!;
       // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
       if (n.behavior.itemId === 'visitFlower') return moving ? 'walk' : 'sit';
       return 'happy';
@@ -364,9 +379,18 @@ export class Actors {
   /** R0313: Fern's cairn by the signpost. */
   private readonly fernCairn: FernCairn3D;
 
+  /** R0525 (lane A r10): performance props, rising notes and crayon doodles. */
+  private readonly perform3d: Perform3D;
+  private readonly performRight = new THREE.Vector3();
+
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
     this.group.name = 'actors';
+    this.perform3d = new Perform3D(
+      this.group,
+      () => this.emoteMats.get(frameKey('note', 'front', 0)),
+      (x, z) => this.ground(x, z),
+    );
     this.crowd = new Crowd(
       this.group,
       this.pool,
@@ -376,7 +400,9 @@ export class Actors {
     // The emote ball frames: the plain set and the Shadow's plum one, one sprite material
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
-    this.tapMarks = new TapMarks3D(this.group);
+    this.tapMarks = new TapMarks3D(this.group, () =>
+      this.emoteMats.get(frameKey('question', 'front', 0)),
+    );
     this.heldRing = new HeldRing3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
     this.fernCairn = new FernCairn3D(this.group);
@@ -509,6 +535,8 @@ export class Actors {
 
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
+  sigFx: SignatureFx | null = null;
   /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
   emoteBig = false;
 
@@ -800,6 +828,22 @@ export class Actors {
     return d.lengthSq() > 1e-6 ? d.normalize() : null;
   }
 
+  /* Lane E r9 */
+  /** R0441: the Keeper's feet, head and facing, for the photo mode's "With me" selfie. */
+  keeperSpot(): { feet: THREE.Vector3; head: THREE.Vector3; front: THREE.Vector3 | null } | null {
+    const o = this.keeper?.rig?.group ?? this.keeper?.stand;
+    if (!o) return null;
+    const feet = new THREE.Vector3(
+      o.position.x,
+      this.ground(o.position.x, o.position.z),
+      o.position.z,
+    );
+    const head = this.keeper?.rig?.bones.head;
+    const top = head ? head.getWorldPosition(new THREE.Vector3()) : feet.clone().setY(feet.y + 1.4);
+    const d = head ? head.getWorldDirection(new THREE.Vector3()).setY(0) : null;
+    return { feet, head: top, front: d && d.lengthSq() > 1e-6 ? d.normalize() : null };
+  }
+
   /** Where an item is drawn, or null once it is gone. */
   itemPosition(id: string): THREE.Vector3 | null {
     return this.items.get(id)?.mesh.position.clone() ?? null;
@@ -900,6 +944,7 @@ export class Actors {
 
   /** Give a Keeper slot back: its rig to the pool, its stand-in out of the scene. */
   private dropKeeper(k: KeeperSlot | null): null {
+    if (k?.rig) k.rig.armSwingScale = 1;
     if (k?.rig) this.pool.release(k.key, k.rig);
     k?.stand?.removeFromParent();
     return null;
@@ -1046,6 +1091,16 @@ export class Actors {
       );
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;
+      // R0525 (lane A r10): a lesson performance's look (render/perform-look.ts).
+      const perfMs = world.timeMs - (1 - alpha) * SIM.stepMs;
+      const perf = held || !a.rig ? null : performLook(n, perfMs, this.calm);
+      if (perf) {
+        // Camera-right on the ground, from the camera toward this Nubbin.
+        const fx = x - cameraPos.x;
+        const fz = z - cameraPos.z;
+        const fl = Math.hypot(fx, fz) || 1;
+        this.performRight.set(-fz / fl, 0, fx / fl);
+      }
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
       if (a.rig) {
         const near = Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < 1.5;
@@ -1101,6 +1156,9 @@ export class Actors {
             ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
             : null;
         if (gag) pose = gag.look.pose3d;
+        // R0540 (lane A r10): a chatter speaks with the happy pose, listens idle, hugs.
+        const cc = held ? null : chatClip(n, world.timeMs - (1 - alpha) * SIM.stepMs);
+        if (cc) pose = cc;
         a.gagEmote = gag && gag.look.emote !== 'none' ? gag.look.emote : null;
         a.rig.glide = fly?.phase === 'glide';
         a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
@@ -1140,6 +1198,8 @@ export class Actors {
         // LOOK-37: an Eternal floats a hand's breadth off the ground with a slow bob.
         if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
         if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
+        /* Lane E r9 */ if (sigOn && sig!.burst)
+          this.sigFx?.play(n.id, sig!, this.nubbinSpot(n.id), nowMs, this.calm);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt =
           pose === 'pet'
@@ -1157,6 +1217,7 @@ export class Actors {
         const pp = this.pops.get(n.id);
         const turn =
           (a.quipTurn ?? 0) +
+          (perf?.turn ?? 0) +
           (n.stage === 'adult' && pp?.kind === 'pop'
             ? revealTurn(pp.startMs, nowMs, this.calm)
             : 0);
@@ -1214,6 +1275,29 @@ export class Actors {
         o.position.y += a.beat.dy * 0.9;
         o.position.x += a.beat.dx * 0.9;
       }
+      // R0540 (lane A r10): the laugh at the end of a chat bounces.
+      if (a.rig) o.position.y += chatHop(n, perfMs, this.calm) * 0.6;
+      // R0525 (lane A r10): the performance's squash, sway and hop, the prop and the notes.
+      if (perf) {
+        if (!a.squash) a.squash = { o, base: o.scale.clone() };
+        o.scale.x *= perf.sw;
+        o.scale.y *= perf.sh;
+        o.scale.z *= perf.sw;
+        o.position.y += perf.dy;
+        o.position.x += this.performRight.x * perf.dx;
+        o.position.z += this.performRight.z * perf.dx;
+      }
+      this.perform3d.nubbin(
+        n.id,
+        perf,
+        o.position.x,
+        o.position.y,
+        o.position.z,
+        this.performRight,
+        a.squash ? a.squash.base.y : o.scale.y,
+        !!perf && noteDue(n.id, perf, perfMs, n.behavior.sinceMs),
+        nowMs,
+      );
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
       // LOOK-58: a legendary one (jewel, glass, Eternal) carries a soft gold halo that breathes.
@@ -1250,8 +1334,10 @@ export class Actors {
             heldEmote(n, keeper.alignment) ??
             a.gagEmote ??
             a.swEmote ??
-            emoteFor(n));
-      const flip = Math.floor(nowMs / 400) % 2;
+            emoteFor(n, world));
+      // R0548 (lane A r10): a happy ball bobs quicker and higher, a sad one droops and slows.
+      const em = emoteMotion(n, nowMs, this.calm);
+      const flip = Math.floor(nowMs / em.flipMs) % 2;
       const key =
         shape === 'none' ? '' : `${n.shadow ? 'shadow:' : ''}${frameKey(shape, 'front', flip)}`;
       if (key !== a.emoteKey) {
@@ -1274,14 +1360,24 @@ export class Actors {
           const ball = this.emoteSprings.step(
             n.id,
             this.tmp.x - Math.sin(n.facing) * back,
-            top + Math.sin(t * 2) * 0.03,
+            top + Math.sin(t * 2) * 0.03 + em.dy * 0.5,
             this.tmp.z - Math.cos(n.facing) * back,
             shape,
             nowMs,
             EMOTE_SPRING.clamp3d,
             0,
             pop?.kind === 'squash' ? pop.startMs : null,
+            !this.calm,
           );
+          // R0548: during a morph the old shape squashes away before the new one pops in.
+          const drawn = `${n.shadow ? 'shadow:' : ''}${frameKey(ball.shape, 'front', flip)}`;
+          if (drawn !== a.emoteKey) {
+            const mat = this.emoteMats.get(drawn);
+            if (mat) {
+              a.emote.material = mat;
+              a.emoteKey = drawn;
+            }
+          }
           a.emote.position.set(ball.x, ball.y, ball.z);
           // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
           const es = emoteScale(
@@ -1300,6 +1396,7 @@ export class Actors {
     this.bondGlow.keep(live);
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
+    this.perform3d.finish(world, this.location === 'grove', live, nowMs);
 
     // The Keeper.
     if (this.keeperSquash) {
@@ -1343,6 +1440,9 @@ export class Actors {
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     const kAt = kRide ? { x: kp.x + kRide.dx, z: kp.z + kRide.dz } : kp;
+    // R0042 (lane A r10): running, the arms swing wider.
+    const kRig = this.keeper?.rig;
+    if (kRig) kRig.armSwingScale = kPose === 'walk' && keeperRunningNow(world) ? RUN_ARMS.swing : 1;
     this.driveKeeper(
       this.keeper!,
       kPose,
@@ -1482,6 +1582,7 @@ export class Actors {
   }
 
   dispose(): void {
+    this.perform3d.dispose();
     for (const id of [...this.nubbins.keys()]) this.drop(id);
     this.keeper = this.dropKeeper(this.keeper);
     this.keeper2 = this.dropKeeper(this.keeper2);

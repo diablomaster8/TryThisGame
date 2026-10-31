@@ -50,6 +50,8 @@ import {
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import { cellAt, WALL, type Floor } from '../sim/dungeon';
+import { plugUp, sealDisplay, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
+import type { DungeonRun } from '../sim/types';
 import { pixelTiers, TERRACES } from '../sim/terrain';
 import {
   floorWorldSize,
@@ -192,6 +194,10 @@ export class GroveScene {
   private dungeonTorches: Array<{ x: number; z: number }> = [];
   private dungeonParts: Array<{ dispose(): void }> = [];
   private dungeonPickables: Object3D[] = [];
+  /** The floor and depth band built now (lane B r8: one build for every seal state). */
+  private dungeonShown: { floor: Floor | null; depth: number } = { floor: null, depth: 1 };
+  /** A rock block per sealed cell, shown while its seal is shut (`updateDungeonSeals`). */
+  private dungeonPlugs: Array<{ plug: SealPlug; mesh: Object3D }> = [];
   /** The Hollow's fog of war (R0153): the game refills it each frame underground. */
   readonly dungeonFog = new FogField();
   /** The Hollow floor showing is an act's camp or field, under the open sky (lane B). */
@@ -878,7 +884,13 @@ export class GroveScene {
    * meet the floor (tops carry the same painting, faces the cliff texture), and the
    * lights parked until `updateDungeonLights` places them.
    */
-  setDungeon(floor: Floor | null, depth = 1): void {
+  setDungeon(input: Floor | null, depth = 1): void {
+    // Every seal state of one floor builds the same floor (lane B r8): a found secret or the
+    // boss door shows or hides a plug block instead of repainting the cave (a 1–3 s freeze).
+    const floor = input && sealDisplay(input);
+    if (floor === this.dungeonShown.floor && depth === this.dungeonShown.depth) return;
+    this.dungeonShown = { floor, depth };
+    this.dungeonPlugs = [];
     for (const p of this.dungeonParts) p.dispose();
     this.dungeonParts = [];
     for (const o of this.dungeonPickables) {
@@ -1031,6 +1043,7 @@ export class GroveScene {
     const sideMesh = new Mesh(sideGeo, faceMat);
     this.dungeonGroup.add(sideMesh);
     this.dungeonParts.push(topGeo, topMat, faceTex, faceMat, sideGeo);
+    this.buildDungeonPlugs(floor, w, h, topMat, faceMat);
     this.dungeonTorches = floor.torches.map((t) => ({
       x: (t.x + 0.5 - floor.cols / 2) * cell,
       z: (t.y + 0.1 - floor.rows / 2) * cell,
@@ -1068,6 +1081,116 @@ export class GroveScene {
         );
     };
     m.customProgramCacheKey = () => 'caveCut';
+  }
+
+  /**
+   * Lane B r8: the plug blocks of a floor's seals (a secret room's rock, the boss door), in
+   * the walls' materials. A plug's top borrows the painting of the nearest real rock cell,
+   * so a shut secret reads as rock; its faces go wherever open ground is beside it.
+   */
+  private buildDungeonPlugs(
+    floor: Floor,
+    w: number,
+    h: number,
+    topMat: MeshLambertMaterial,
+    faceMat: MeshLambertMaterial,
+  ): void {
+    const cell = DUNGEON.cell;
+    const top = PX.wallH;
+    for (const plug of sealPlugs(floor)) {
+      const mine = new Set(plug.cells.map((c) => c.y * floor.cols + c.x));
+      const tops: number[] = [];
+      const topUv: number[] = [];
+      const sides: number[] = [];
+      const sideUv: number[] = [];
+      const sideN: number[] = [];
+      for (const c of plug.cells) {
+        const x0 = (c.x - floor.cols / 2) * cell;
+        const z0 = (c.y - floor.rows / 2) * cell;
+        const x1 = x0 + cell;
+        const z1 = z0 + cell;
+        // The nearest rock cell's square of the floor painting.
+        let rock = c;
+        for (let r = 1; r <= 3 && rock === c; r++)
+          for (let dy = -r; dy <= r && rock === c; dy++)
+            for (let dx = -r; dx <= r && rock === c; dx++)
+              if (cellAt(floor, c.x + dx, c.y + dy) === WALL) rock = { x: c.x + dx, y: c.y + dy };
+        const rx0 = (rock.x - floor.cols / 2) * cell;
+        const rz0 = (rock.y - floor.rows / 2) * cell;
+        const u0 = (rx0 + w / 2) / w;
+        const u1 = (rx0 + cell + w / 2) / w;
+        const v0 = 1 - (rz0 + h / 2) / h;
+        const v1 = 1 - (rz0 + cell + h / 2) / h;
+        const tp: Array<[number, number, number]> = [
+          [x0, top, z0],
+          [x0, top, z1],
+          [x1, top, z1],
+          [x1, top, z0],
+        ];
+        const tt: Array<[number, number]> = [
+          [u0, v0],
+          [u0, v1],
+          [u1, v1],
+          [u1, v0],
+        ];
+        for (const i of [0, 1, 2, 0, 2, 3]) {
+          tops.push(...tp[i]!);
+          topUv.push(...tt[i]!);
+        }
+        const faces: Array<[number, number, [number, number, number]]> = [
+          [0, 1, [0, 0, 1]],
+          [0, -1, [0, 0, -1]],
+          [1, 0, [1, 0, 0]],
+          [-1, 0, [-1, 0, 0]],
+        ];
+        for (const [dx, dy, n] of faces) {
+          const nx = c.x + dx;
+          const ny = c.y + dy;
+          if (cellAt(floor, nx, ny) === WALL || mine.has(ny * floor.cols + nx)) continue;
+          const [ax0, az0, ax1, az1] =
+            dy === 1
+              ? [x0, z1, x1, z1]
+              : dy === -1
+                ? [x1, z0, x0, z0]
+                : dx === 1
+                  ? [x1, z1, x1, z0]
+                  : [x0, z0, x0, z1];
+          const p: Array<[number, number, number]> = [
+            [ax0, 0, az0],
+            [ax1, 0, az1],
+            [ax1, top, az1],
+            [ax0, top, az0],
+          ];
+          const along = (q: [number, number, number]) => (dx === 0 ? q[0] : q[2]) / PX.faceUnitsW;
+          for (const i of [0, 1, 2, 0, 2, 3]) {
+            const q = p[i]!;
+            sides.push(...q);
+            sideUv.push(along(q), 1 - (top - q[1]) / PX.wallH);
+            sideN.push(...n);
+          }
+        }
+      }
+      const group = new Group();
+      const topGeo = new BufferGeometry();
+      topGeo.setAttribute('position', new Float32BufferAttribute(tops, 3));
+      topGeo.setAttribute('uv', new Float32BufferAttribute(topUv, 2));
+      topGeo.computeVertexNormals();
+      group.add(new Mesh(topGeo, topMat));
+      const sideGeo = new BufferGeometry();
+      sideGeo.setAttribute('position', new Float32BufferAttribute(sides, 3));
+      sideGeo.setAttribute('uv', new Float32BufferAttribute(sideUv, 2));
+      sideGeo.setAttribute('normal', new Float32BufferAttribute(sideN, 3));
+      group.add(new Mesh(sideGeo, faceMat));
+      group.visible = plugUp(null, plug);
+      this.dungeonGroup.add(group);
+      this.dungeonParts.push(topGeo, sideGeo);
+      this.dungeonPlugs.push({ plug, mesh: group });
+    }
+  }
+
+  /** Lane B r8: stand each seal's plug while its seal is shut on this run. */
+  updateDungeonSeals(run: DungeonRun | null): void {
+    for (const p of this.dungeonPlugs) p.mesh.visible = plugUp(run, p.plug);
   }
 
   /** The Keeper's lamp and the five torches nearest them, every frame underground. */

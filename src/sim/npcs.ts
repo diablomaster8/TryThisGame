@@ -1,7 +1,7 @@
 import { NPC_MOVE } from '../config/tuning-move-npc';
 import { nubbinAim, type NubbinRoute } from './nav';
 import { blocked, resolve, wayAt } from './obstacles';
-import { GROVE, KEEPER, NPC_ROUTINE } from '../config/tuning';
+import { GROVE, KEEPER, NPC_ROUTINE, NPC_YIELD } from '../config/tuning';
 import { routineArrived, routineTarget } from './npc-routines';
 import { stepChatter } from './npc-chatter';
 import { clampToWorld } from './behavior';
@@ -111,7 +111,7 @@ interface NpcWalk {
   /** The path request for the next aim: 1 on a fresh target, 2 after being stuck, then 0. */
   want: 0 | 1 | 2;
   pauseMs: number;
-  /** Already waited once for the Keeper this stretch, so it goes round next. */
+  /** Already waited once for a body in the way this stretch, so it goes round next. */
   yielded: boolean;
   stuckMs: number;
   gaveUp: boolean;
@@ -135,18 +135,37 @@ function wanderTarget(world: World, npc: Npc, rng: Rng, centre: Vec2 = npc.home)
   return null;
 }
 
-/** Whether a probe at (x, z) is open ground and clear of the Keeper. */
-function open(world: World, x: number, z: number, withKeeper: boolean): boolean {
+/**
+ * Whether a free Nubbin stands within `NPC_YIELD.nubbinBlock` of the probe (R0017): eggs,
+ * cocoons and anyone held, carried, thrown or swimming are not in the way.
+ */
+function nubbinInWay(world: World): boolean {
+  if (world.location !== 'grove') return false;
+  const r = NPC_YIELD.nubbinBlock;
+  for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon' || n.id === world.keeper.carrying) continue;
+    const s = n.behavior.state;
+    if (s === 'held' || s === 'carried' || s === 'thrown' || s === 'swim') continue;
+    const dx = n.pos.x - probeAt.x;
+    const dz = n.pos.z - probeAt.z;
+    if (dx * dx + dz * dz < r * r) return true;
+  }
+  return false;
+}
+
+/** Whether a probe at (x, z) is open ground and clear of the Keeper and the Nubbins. */
+function open(world: World, x: number, z: number, withBodies: boolean): boolean {
   probeAt.x = x;
   probeAt.z = z;
   if (wayAt(probeAt, world, NPC_MOVE.radius, 'keeper') === 2) return false;
-  return !(withKeeper && dist(probeAt, world.keeper.pos) < NPC_MOVE.keeperBlock);
+  if (!withBodies) return true;
+  return !(dist(probeAt, world.keeper.pos) < NPC_MOVE.keeperBlock || nubbinInWay(world));
 }
 
 /**
  * One step of a wander: aim at the next corner of a planned path (planned once per target,
  * the Nubbins' grid), look ahead, turn aside for a solid, and stop 600 ms when the Keeper
- * is in the way before walking round.
+ * or a Nubbin is in the way before walking round (R0017).
  */
 function walkStep(world: World, npc: Npc, d: number, dt: number, dtMs: number): void {
   const st = walkOf.get(npc) ?? {
@@ -173,7 +192,7 @@ function walkStep(world: World, npc: Npc, d: number, dt: number, dtMs: number): 
   let heading = h0;
   if (!at(h0, true)) {
     if (at(h0, false) && !st.yielded) {
-      // Only the Keeper is in the way: wait a beat, then go round.
+      // Only a body (the Keeper, a Nubbin) is in the way: wait a beat, then go round.
       st.pauseMs = NPC_MOVE.keeperPauseMs;
       st.yielded = true;
       return;

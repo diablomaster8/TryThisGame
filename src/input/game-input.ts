@@ -13,6 +13,8 @@ export type Placing =
   | null;
 import type { Camera, Object3D } from 'three';
 import { isControlTarget, isGameKey } from './keys';
+import { isDrag, isLongPress, isTap } from './press-kind';
+import { POINTER_INPUT } from '../config/tuning-r9d3';
 
 /** Hits a near-miss Nubbin may override: open ground and the scenery around it. */
 const LOOSE_KINDS = new Set<PickHit['kind']>(['ground', 'tree', 'building', 'decor', 'plant']);
@@ -73,6 +75,10 @@ export interface InputHost {
   send(cmd: Command): void;
   /** Called on a tap that selected or deselected something. */
   onSelect(id: string | null): void;
+  /** TECH-30: the Nubbin the Keeper carries, so a tap on it puts it down gently. */
+  carrying?(): string | null;
+  /** TECH-30: a short buzz when a long press lifts a Nubbin. */
+  haptic?(name: 'pet'): void;
   /**
    * MOVE-49: what a gamepad driving Keeper 1 needs (co-op off): whether co-op is on, the
    * nearest Nubbin within reach, whether something is held, and the camera's steps.
@@ -133,6 +139,10 @@ export class GameInput {
   private downClient: Vec2 = { x: 0, z: 0 };
   private pressed: { kind: string; id: string } | null = null;
   private dragging: string | null = null;
+  /** TECH-30: the long-press timer, the furthest the press has wandered, and a lift done. */
+  private longTimer = 0;
+  private maxMoved = 0;
+  private longLifted = false;
   private samples: Sample[] = [];
   /** TECH-16: the shake gesture, from clientX. */
   readonly shake = new ShakeDetector();
@@ -388,7 +398,28 @@ export class GameInput {
     this.pressed = hit && hit.kind !== 'ground' ? { kind: hit.kind, id: hit.id } : null;
     this.samples = [];
     this.shake.reset(e.clientX);
+    this.armLongPress(e);
   };
+
+  /** TECH-30: a touch or pen held still on a Nubbin lifts it, as the Pick up button would. */
+  private armLongPress(e: PointerEvent): void {
+    window.clearTimeout(this.longTimer);
+    this.maxMoved = 0;
+    this.longLifted = false;
+    const id = this.pressed?.kind === 'nubbin' ? this.pressed.id : null;
+    if (!id || e.pointerType === 'mouse') return;
+    const pointerId = e.pointerId;
+    const type = e.pointerType;
+    this.longTimer = window.setTimeout(() => {
+      const held = performance.now() - this.downAt;
+      if (this.pointerId !== pointerId || this.dragging || this.down.size > 1) return;
+      if (!isLongPress(type, this.maxMoved, held) || !this.host.canGrab(id)) return;
+      if (this.host.carrying?.() === id) return;
+      this.longLifted = true;
+      this.host.send({ kind: 'pickUp', nubbinId: id });
+      this.host.haptic?.('pet');
+    }, POINTER_INPUT.longPressMs);
+  }
 
   private lastHoverMs = 0;
   private tapGlow = 0;
@@ -433,9 +464,10 @@ export class GameInput {
     if (e.pointerId !== this.pointerId || this.down.size > 1) return;
     const dx = e.clientX - this.downClient.x;
     const dy = e.clientY - this.downClient.z;
+    this.maxMoved = Math.max(this.maxMoved, Math.hypot(dx, dy));
     if (!this.dragging) {
-      if (!this.pressed || this.pressed.kind !== 'nubbin') return;
-      if (Math.hypot(dx, dy) < INPUT.dragThresholdPx) return;
+      if (!this.pressed || this.pressed.kind !== 'nubbin' || this.longLifted) return;
+      if (!isDrag(e.pointerType, Math.hypot(dx, dy))) return;
       if (!this.host.canGrab(this.pressed.id)) return;
       this.dragging = this.pressed.id;
       this.host.send({ kind: 'grab', nubbinId: this.dragging });
@@ -464,9 +496,15 @@ export class GameInput {
       this.surface.style.cursor = '';
       return;
     }
+    window.clearTimeout(this.longTimer);
+    if (this.longLifted) {
+      // The long press already lifted it; letting go is not also a tap.
+      this.longLifted = false;
+      this.pressed = null;
+      return;
+    }
     const moved = Math.hypot(e.clientX - this.downClient.x, e.clientY - this.downClient.z);
-    const quick = now - this.downAt <= INPUT.tapMaxMs;
-    if (moved <= INPUT.dragThresholdPx && quick) this.tap(e);
+    if (isTap(e.pointerType, moved, now - this.downAt)) this.tap(e);
     this.pressed = null;
   };
 
@@ -484,6 +522,11 @@ export class GameInput {
     }
     switch (hit.kind) {
       case 'nubbin':
+        // TECH-30: a tap on the Nubbin the Keeper carries puts it down gently.
+        if (this.host.carrying?.() === hit.id) {
+          this.host.send({ kind: 'putDown' });
+          return;
+        }
         this.host.send({ kind: 'select', id: hit.id });
         this.host.onSelect(hit.id);
         return;
@@ -585,6 +628,7 @@ export class GameInput {
   }
 
   private cancelDrag(): void {
+    window.clearTimeout(this.longTimer);
     if (!this.dragging) return;
     this.host.send({ kind: 'release', vel: { x: 0, z: 0 } });
     this.dragging = null;

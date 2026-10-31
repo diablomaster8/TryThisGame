@@ -12,6 +12,7 @@ import { cellDist, FLOOR, type Cell, type Floor } from './dungeon';
 import { waypointCell } from './dungeon-levels';
 import { DENSITY } from '../config/dungeon-foes';
 import { Rng } from './rng';
+import { addSeals } from './dungeon-puzzles';
 import type { DungeonRun, DungeonWild, World } from './types';
 
 function inside(r: { x: number; y: number; w: number; h: number }, c: Cell): boolean {
@@ -89,6 +90,8 @@ export function fillRooms(f: Floor, seed: number, depth: number, act: number | n
     const cell = species ? nookCell(f, i, rng) : null;
     if (species && cell) f.wildSpots.push({ cell, species, nook: true });
   }
+  // Lane B r8: puzzle rooms, secret rooms and the boss door, on their own stream.
+  addSeals(f, seed, depth, act);
   return f;
 }
 

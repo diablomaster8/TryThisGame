@@ -12,12 +12,14 @@ import { PEEK } from '../config/tuning';
 import { addAffection } from './needs';
 import { leaningPersonality } from './personality';
 import { roll } from './traits';
+import { soulLive } from './antics';
 import { addTrust } from './trust';
 import type { IdleAct } from './soul-idle';
 import type { Nubbin, SimEvent, World } from './types';
 
-/** Whether the Keeper was inside the trigger ring last step, per Nubbin (transient). */
-const wasNear = new WeakMap<Nubbin, boolean>();
+/** Who was inside the trigger ring last step (the Keeper, visitors), per Nubbin (transient). */
+const wasNear = new WeakMap<Nubbin, ReadonlySet<string>>();
+const NONE: ReadonlySet<string> = new Set();
 
 const dist = (a: { x: number; z: number }, b: { x: number; z: number }): number =>
   Math.hypot(a.x - b.x, a.z - b.z);
@@ -32,11 +34,18 @@ function shyness(n: Nubbin): number {
  * side of the nearest tree within reach). Called for a wandering or sitting Nubbin.
  */
 export function peekAct(n: Nubbin, world: World, now: number): IdleAct | null {
-  const k = world.keeper.pos;
-  const near = dist(n.pos, k) < PEEK.keeperRadius;
-  const before = wasNear.get(n) ?? false;
-  wasNear.set(n, near);
-  if (!near || before || n.stage === 'egg' || n.stage === 'cocoon') return null;
+  // Lane A r10: a stranger, a visiting Keeper walking up, sets it off as the Keeper does
+  // (in live play only: visitors still potter about while catching up on time away).
+  const watchers = [{ id: 'keeper', pos: world.keeper.pos }];
+  if (soulLive()) for (const v of world.npcs) watchers.push({ id: v.id, pos: v.pos });
+  const near = new Set(
+    watchers.filter((w) => dist(n.pos, w.pos) < PEEK.keeperRadius).map((w) => w.id),
+  );
+  const before = wasNear.get(n) ?? NONE;
+  wasNear.set(n, near.size ? near : NONE);
+  const fresh = watchers.find((w) => near.has(w.id) && !before.has(w.id));
+  if (!fresh || n.stage === 'egg' || n.stage === 'cocoon') return null;
+  const k = fresh.pos;
   const s = shyness(n);
   if (s <= 0 || now < (n.peekAfterMs ?? 0)) return null;
   if (roll(n, 'peek', now) >= PEEK.chance * s) return null;

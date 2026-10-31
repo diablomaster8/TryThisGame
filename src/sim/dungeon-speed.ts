@@ -5,6 +5,9 @@
  * game is paused or hidden. There is no reward but the ⏱ on the Journal page: nothing to
  * grind, nothing missed by leaving it off. Pure sim: no DOM.
  */
+import { PARTY_R8 } from '../config/dungeon-party-r8';
+import { cellOf, type Floor } from './dungeon';
+import { levelIdOf } from './dungeon-levels';
 import { hollowTier } from './dungeon-tiers';
 import type { DungeonRun, SimEvent, World } from './types';
 
@@ -37,6 +40,36 @@ export function noteActTime(world: World, run: DungeonRun, events: SimEvent[]): 
   const records = (world.hollow.records ??= {});
   const old = records[key];
   const best = !old || ms < old.bestMs;
-  if (best) records[key] = { bestMs: ms, splits: [...(run.splits ?? [])] };
+  if (best)
+    records[key] = {
+      bestMs: ms,
+      splits: [...(run.splits ?? [])],
+      ...(run.trail ? { trails: run.trail } : {}),
+    };
   events.push({ kind: 'speedFinish', ms, best, ...(old ? { was: old.bestMs } : {}) });
+}
+
+// ---------------------------------------------------------------- the ghost line (R0187)
+
+/** The trail key of the level in play: its floor seed and its level id. */
+function trailKey(run: DungeonRun): string {
+  return `${run.seed}:${levelIdOf(run)}`;
+}
+
+/** A speed run notes each new cell the Keeper steps on, per level, for the next run's ghost. */
+export function noteTrail(world: World, run: DungeonRun, f: Floor): void {
+  if (!world.hollow.speedRun || run.act === undefined) return;
+  const c = cellOf(f, world.keeper.pos);
+  const i = c.y * f.cols + c.x;
+  const trails = (run.trail ??= {});
+  const list = (trails[trailKey(run)] ??= []);
+  if (list[list.length - 1] === i || list.length >= PARTY_R8.ghost.maxCells) return;
+  list.push(i);
+}
+
+/** The personal best's path on this level, as cell indices; empty when there is none. */
+export function ghostTrail(world: World, run: DungeonRun): readonly number[] {
+  if (!world.hollow.speedRun || run.act === undefined) return [];
+  const rec = world.hollow.records?.[speedKey(run.act, hollowTier(world))];
+  return rec?.trails?.[trailKey(run)] ?? [];
 }

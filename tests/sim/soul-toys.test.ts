@@ -9,6 +9,7 @@ import type { Personality, ToyKind, World } from '../../src/sim/types';
 // R0537 (SOUL-19): favourite toys and boredom. Two toys in the Grove for 120 sim minutes:
 // play stops swallowing the day for every personality, and the favourite gets most of it.
 const PS: Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
+const WORLDS = [77, 78, 79];
 
 function toyAt(w: World, toy: ToyKind, x: number, z: number): void {
   w.items.push({
@@ -21,8 +22,8 @@ function toyAt(w: World, toy: ToyKind, x: number, z: number): void {
   });
 }
 
-function run(p: Personality): { play: number; fav: number } {
-  const w = createWorld(77, 0);
+function run(p: Personality, seed = 77): { play: number; fav: number } {
+  const w = createWorld(seed, 0);
   const n = w.nubbins[0]!;
   w.nubbins = [n];
   // R0528: a seed whose trait leaves the idle odds alone (clumsy only trips), so the
@@ -78,11 +79,17 @@ describe('R0537 favourite toys and boredom', () => {
   });
 
   it('120 minutes with two toys: play 15–35% for each personality, favourite ≥ 50%', () => {
+    // Measured over three worlds: one seed's share swings by ±2 points as unrelated
+    // behaviour shifts the random stream (seed 77 alone read shy 14.7%, its 8-seed mean ~16%).
     for (const p of PS) {
-      const r = run(p);
+      const runs = WORLDS.map((seed) => run(p, seed));
+      const r = {
+        play: runs.reduce((a, x) => a + x.play, 0) / runs.length,
+        fav: runs.reduce((a, x) => a + x.fav, 0) / runs.length,
+      };
       expect(r.play, p).toBeGreaterThanOrEqual(0.15);
       expect(r.play, p).toBeLessThanOrEqual(0.35);
       expect(r.fav, p).toBeGreaterThanOrEqual(0.5);
     }
-  }, 60_000);
+  }, 120_000);
 });

@@ -9,6 +9,7 @@ import {
   writeCheckpoint,
 } from '../../src/platform/save-backups';
 import { INDEX_KEY, parseIndex } from '../../src/platform/slot-index';
+import { restoreTrash, trashSlot } from '../../src/platform/slot-trash';
 import {
   clearSlot,
   labelSlot,
@@ -225,6 +226,17 @@ describe('slot index (R0622)', () => {
     writeSave(save(1));
     clearSlot({ mode: 'free', index: 2 });
     expect(readSlotIndex().slots['free:2']).toBeUndefined();
+  });
+
+  it('a slot put back from Recently erased is in the index again', () => {
+    fakeStorage();
+    const slot: SaveSlot = { mode: 'free', index: 2 };
+    setSaveSlot(slot);
+    writeSave(save(1));
+    expect(trashSlot(slot, 1000)).toBe(true);
+    expect(readSlotIndex().slots['free:2']).toBeUndefined();
+    expect(restoreTrash(slot)).toBe(true);
+    expect(readSlotIndex().slots['free:2']).toBeDefined();
   });
 });
 

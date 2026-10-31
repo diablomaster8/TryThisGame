@@ -1,7 +1,8 @@
 import { BACKUP_NUDGE } from '../config/tuning';
 import { CAMP_TEXT } from '../config/strings';
 import type { Game } from '../game';
-import { downloadText } from '../platform/storage';
+import { shareOrDownload } from '../platform/share';
+import { SHARE_TEXT } from '../config/strings-r9d3';
 import type { SimEvent } from '../sim/types';
 import { button, el, modal } from './dom';
 
@@ -103,7 +104,8 @@ export class BackupNudge {
         CAMP_TEXT.backupYes,
         () => {
           const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-          downloadText(`grove-save-${stamp}.json`, g.exportJson());
+          // TECH-66: the share sheet on a phone, the download elsewhere.
+          void shareOrDownload(`grove-save-${stamp}.json`, g.exportJson(), SHARE_TEXT.saveTitle);
           done();
         },
         'btn btn-small btn-primary',

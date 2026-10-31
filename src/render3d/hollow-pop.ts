@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { cellCentre, exploredRooms, type Floor } from '../sim/dungeon';
+import { lootHeld } from '../sim/dungeon-secrets';
 import { caveShed } from './cave-shed';
 import {
   CELL,
@@ -174,7 +175,7 @@ export class HollowPop implements HollowModule {
     const taken = run.taken;
     this.loot.visible = this.lootPos.length > 0;
     this.lootPos.forEach((l, i) => {
-      const gone = taken.includes(l.id);
+      const gone = taken.includes(l.id) || lootHeld(run, f, l.id);
       const bob =
         calm || this.shed ? 0 : Math.sin(t * r.loot.bobHz * Math.PI * 2 + l.h) * r.loot.bob;
       this.m.compose(

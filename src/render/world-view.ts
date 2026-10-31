@@ -1,4 +1,5 @@
 import { openSky } from './cave-bands';
+import { floorMarks } from './floor-features-r8';
 import { ridePose } from './ride-pose';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
@@ -29,6 +30,8 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
+import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -36,6 +39,7 @@ import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE, GROVE3D, SIM } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
+import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
@@ -65,7 +69,11 @@ import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { wantsFirstFruit } from '../sim/first-feed';
-import { buildShadowSheet } from './sprites/props';
+import { buildShadowSheet, decorFrame } from './sprites/props';
+import { buildTapFlagSheet } from './sprites/tap-flags';
+import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
+import { KEEPER_SLOPE } from '../config/tuning-move';
+import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
@@ -74,7 +82,7 @@ import { shroomHopY } from '../sim/behavior';
 import { nubbinsHere } from '../sim/nubbin-home';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
-import { STAGE2 } from '../config/tuning';
+import { PERFORM, STAGE2 } from '../config/tuning';
 import { HELD_RING } from '../config/tuning-tech';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
 import { heldMood, heldStyle, type HeldMood } from './held-mood';
@@ -83,6 +91,12 @@ import { cocoonShake, revealTurn } from './evolve-reveal';
 import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
+import { noteDue, performClip, performEmote, performLook } from './perform-look';
+import { emoteMotion, familySign, moodShape } from './emote-mood';
+import { chatClip, chatEmote, chatHop } from './chat-look';
+import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
+import { doodleAlpha } from '../sim/perform';
+import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 
 interface Snapshot {
   pos: Vec2;
@@ -155,6 +169,8 @@ export class WorldView {
   /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
   private cave: Floor | null = null;
   private readonly ambience = new CaveAmbience();
+  /** R0118 (lane D r9): the season's drift in the Grove. */
+  private readonly seasonDrift = new SeasonDrift();
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
@@ -173,6 +189,8 @@ export class WorldView {
   private readonly seenItems = new Set<string>();
   private readonly seenNubbins = new Set<string>();
   private readonly liveStrays = new Set<string>();
+  /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
+  private readonly hollowPacks = new PixelHollowPacks();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -191,6 +209,8 @@ export class WorldView {
   /** How long the land frame holds: longer after a big fall (MOVE-25's plop). */
   private keeperLandMs: number = JUMP.landSquashMs;
   private shadowSheet: SpriteSheet | null = null;
+  /** R0035 (lane A r10): the tap marker's ✕ / ⤒ glyphs. */
+  private tapFlagSheet: SpriteSheet | null = null;
   private readonly tmp = new Vector3();
 
   get root() {
@@ -311,6 +331,22 @@ export class WorldView {
    * touching down, crouch just after take-off while still near the floor, then rise, apex
    * and fall by the vertical speed.
    */
+  /** R0041 (lane A r10): walking up a Grove hill, the Pixel Keeper leans into it. */
+  private keeperClimbing(
+    world: World,
+    x: number,
+    z: number,
+    sheet: SpriteSheet,
+    angle: string,
+  ): boolean {
+    if (world.location !== 'grove' || !sheet.frames.has(frameKey(KEEPER_LEAN_CLIP, angle, 0)))
+      return false;
+    const r = KEEPER_SLOPE.probe;
+    const f = world.keeper.facing;
+    const rise = hillHeight(x + Math.sin(f) * r, z + Math.cos(f) * r) - hillHeight(x, z);
+    return rise / r >= PIXEL_LEAN.minSlope;
+  }
+
   private keeperJumpClip(world: World, nowMs: number, gap: number): KeeperJumpClip | null {
     const k = world.keeper;
     if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
@@ -456,6 +492,8 @@ export class WorldView {
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
       this.burstFor(e);
+      if (e.kind === 'gearFound')
+        this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
         // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
@@ -595,6 +633,7 @@ export class WorldView {
       });
     };
 
+    this.drawDoodles(world);
     // TECH-02: under a held Nubbin, a ring that turns green when letting go would be a place.
     this.heldRing.frame(world, nowMs, this.particles.reduceMotion);
     const hr = this.heldRing.spot;
@@ -679,6 +718,17 @@ export class WorldView {
         this.density,
       );
     }
+    // R0118 (lane D r9): the season's drift (blossom, summer fireflies, autumn leaves).
+    if (inGrove)
+      this.seasonDrift.update(
+        this.particles,
+        world.season,
+        this.keeperDrawPos(world, alpha),
+        nowMs,
+        this.particles.reduceMotion,
+        this.density,
+        this.daylight?.phase === 'night' || this.daylight?.phase === 'dusk',
+      );
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
@@ -728,6 +778,33 @@ export class WorldView {
         if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
         else batch.draw(sprite, s.pick);
       }
+      // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
+      // yet, just outside the clamp; only the stretch near the Keeper is drawn.
+      const kp = world.keeper.pos;
+      const bushes = (['bush-1', 'bush-2', 'bush-3'] as const).map((k) =>
+        scenery.frames.get(frameKey(k, 'front', 0)),
+      );
+      const logRect = scenery.frames.get(frameKey('log', 'front', 0));
+      borderBlockers().forEach((b, i) => {
+        if (Math.abs(b.x - kp.x) > BORDER.pxDraw || Math.abs(b.z - kp.z) > BORDER.pxDraw) return;
+        const log = b.kind === 'log';
+        if (log && borderEdge(b.x, b.z, world).kind === 'exit') return;
+        const rect = log ? logRect : bushes[i % bushes.length];
+        if (!rect) return;
+        const size = log ? BORDER.logLen : BORDER.bushSize;
+        batch.draw({
+          sheet: scenery,
+          rect,
+          flip: i % 2 === 1,
+          x: b.x,
+          y: 0,
+          z: b.z,
+          mode: 'billboard',
+          w: size,
+          h: (size * rect.h) / rect.w,
+          tint: this.lightAt(b.x, b.z),
+        });
+      });
       // The village square fills in as prosperity grows.
       const unlocks = townUnlocks(world);
       const stall = scenery.frames.get(frameKey('stall', 'front', 0));
@@ -866,14 +943,16 @@ export class WorldView {
         );
         continue;
       }
-      const rect = props.frames.get(frameKey(d.kind, 'front', 0));
+      // R0007: a turned fence, bench or bed shows its three-quarter or end-on frame.
+      const turned = decorFrame(d.kind, d.yaw, yaw);
+      const rect = props.frames.get(turned.key);
       if (!rect) continue;
       const flat = d.kind === 'pathTile';
       batch.draw(
         {
           sheet: props,
           rect,
-          flip: false,
+          flip: turned.flip,
           x: d.pos.x,
           y: flat ? 0.02 : 0,
           z: d.pos.z,
@@ -1252,7 +1331,9 @@ export class WorldView {
           : kidleKey && ksheet.frames.has(kidleKey)
             ? kidleKey
             : frameKey(
-                kclip,
+                kclip === 'walk' && this.keeperClimbing(world, kx, kz, ksheet, kview.angle)
+                  ? KEEPER_LEAN_CLIP
+                  : kclip,
                 kview.angle,
                 frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
               ),
@@ -1276,7 +1357,7 @@ export class WorldView {
     // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
     if (shadowRect && this.tapPath.update(world, nowMs)) {
       const calm = this.particles.reduceMotion;
-      const mark = (m: TapMark, r: number, a: number) =>
+      const mark = (m: TapMark, r: number, a: number, rl = r) =>
         batch.draw({
           sheet: shadowSheet,
           rect: shadowRect,
@@ -1286,13 +1367,67 @@ export class WorldView {
           z: m.z,
           mode: 'flat',
           w: r * 2,
-          h: r * 2,
+          h: rl * 2,
           opacity: 0.45 * a,
         });
+      // WORLD-41: soft footprints every 0.8 u, as small long shadows.
       const da = this.tapPath.dotAlpha(nowMs, calm);
-      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
+      if (da > 0)
+        for (const d of this.tapPath.dots) {
+          // Flat sprites lie square to the axes: a print runs along whichever the walk follows.
+          const across = Math.abs(Math.sin(d.yaw)) > Math.abs(Math.cos(d.yaw));
+          const pw = (across ? TAP_PRINTS.l : TAP_PRINTS.w) / 2;
+          const pl = (across ? TAP_PRINTS.w : TAP_PRINTS.l) / 2;
+          mark(d, pw, Math.min(2.2, da * 2.2), pl);
+        }
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
+      // R0035: a grey ✕ flat where a refused tap landed, or a bobbing ⤒ over a ledge.
+      const fl = this.tapPath.flag;
+      const fa = this.tapPath.flagAlpha(nowMs, calm);
+      if (fl && fa > 0) {
+        this.tapFlagSheet ??= buildTapFlagSheet();
+        const up = fl.kind === 'jump';
+        const frect = this.tapFlagSheet.frames.get(
+          frameKey(up ? 'tapJump' : 'tapCant', 'front', 0),
+        );
+        const bob =
+          up && !calm ? Math.sin((nowMs / TAP_FLAG.bobMs) * Math.PI * 2) * TAP_FLAG.bob : 0;
+        if (frect)
+          batch.draw({
+            sheet: this.tapFlagSheet,
+            rect: frect,
+            flip: false,
+            x: fl.x,
+            y: fl.y - paintedGround(fl.x, fl.z) + (up ? TAP_FLAG.lift + bob : 0.02),
+            z: fl.z,
+            mode: up ? 'billboard' : 'flat',
+            w: TAP_FLAG.size,
+            h: TAP_FLAG.size,
+            opacity: fa,
+          });
+      }
+      // WORLD-41: the tap can't be reached; a "?" puff rises at the nearest point.
+      const pl = this.tapPath.puffLife(nowMs, calm);
+      const pu = this.tapPath.unreached;
+      if (pl !== null && pu) {
+        const emotes = this.sheets.emotes(false);
+        const q = emotes.frames.get(frameKey('question', 'front', 0));
+        const sz = TAP_PRINTS.puffSize * (calm ? 1 : Math.min(1, 0.4 + pl * 3) * (1 - pl * 0.3));
+        if (q)
+          batch.draw({
+            sheet: emotes,
+            rect: q,
+            flip: false,
+            x: pu.x,
+            y: pu.y - paintedGround(pu.x, pu.z) + TAP_PRINTS.puffY + TAP_PRINTS.puffRise * pl,
+            z: pu.z,
+            mode: 'billboard',
+            w: sz,
+            h: sz,
+            opacity: calm ? 1 : Math.min(1, (1 - pl) * 3),
+          });
+      }
     }
     const jclip =
       kpose?.clip || kHeld || krideRect ? null : this.keeperJumpClip(world, nowMs, off - floor);
@@ -1516,9 +1651,33 @@ export class WorldView {
         });
       }
     }
+    // Lane B r8 (floors): secret glints, plates, torches, blocks and the hint (R0182, R0202).
+    for (const m of floorMarks(run, f, nowMs, this.particles.reduceMotion)) {
+      const rect = frame(m.key);
+      if (!rect) continue;
+      const size =
+        m.mode === 'flat'
+          ? { w: cell * m.size, h: cell * m.size }
+          : m.size
+            ? { w: (rect.w / NATIVE_PPU) * m.size, h: (rect.h / NATIVE_PPU) * m.size }
+            : {};
+      batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: m.x,
+        y: m.y,
+        z: m.z,
+        mode: m.mode,
+        ...size,
+        tint: m.tint,
+      });
+    }
     // Loot bobs gently until someone walks over it.
     for (const l of f.loot) {
       if (run.taken.includes(l.id)) continue;
+      const lf = lootFog(run, f, world.keeper.pos, l.cell);
+      if (lf === 0) continue;
       const rect = frame(`loot-${l.kind}`);
       if (!rect) continue;
       const p = cellCentre(f, l.cell);
@@ -1533,7 +1692,7 @@ export class WorldView {
           y: bob,
           z: p.z,
           mode: 'billboard',
-          tint: this.lightAt(p.x, p.z),
+          tint: this.lightAt(p.x, p.z) * lf,
         },
         { id: l.id, kind: 'loot' },
       );
@@ -1544,6 +1703,7 @@ export class WorldView {
     liveIds.clear();
     run.strays.forEach((s, i) => {
       liveIds.add(s.id);
+      if (actorFog(run, f, world.keeper.pos, s.pos) === 0) return;
       let prev = this.strayPrev.get(s.id);
       if (!prev) {
         prev = { x: s.pos.x, z: s.pos.z };
@@ -1580,6 +1740,7 @@ export class WorldView {
     // The wild creature keeps to its nook until the Keeper creeps up on it.
     for (const w of run.wild) {
       if (w.scanned) continue;
+      if (actorFog(run, f, world.keeper.pos, w.pos) === 0) continue;
       const wsheet = this.sheets.species(w.species);
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
@@ -1613,7 +1774,19 @@ export class WorldView {
         });
       }
     }
-    void world;
+    // Lane B r8: monster packs with their plates, and gear pickup pops (hollow-packs-pixel.ts).
+    const pctx = {
+      batch,
+      sheets: this.sheets,
+      nowMs,
+      yaw,
+      alpha,
+      reduceMotion: this.particles.reduceMotion,
+      shadow,
+      lightAt: (x: number, z: number) => this.lightAt(x, z),
+    };
+    this.hollowPacks.draw(f, run, world.keeper.pos, world.timeMs, pctx);
+    this.hollowPacks.drawPops(world.keeper.pos, pctx);
   }
 
   /** Grey Nubbins that live in the other places; render-only dressing. */
@@ -1679,6 +1852,26 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'keeperPoofed': {
+        // R0025 (lane A r10): a cloud where the Keeper splashed down, sparkles where it is back.
+        if (p.reduceMotion) break;
+        const life = KEEPER_POOF.cloudMs;
+        p.burst('dust', e.from.x, 0.2, e.from.z, KEEPER_POOF.puffs, {
+          spread: 0.35,
+          speed: 0.6,
+          rise: 0.4,
+          lifeMs: life,
+          size: 0.5,
+        });
+        p.burst('sparkle', e.to.x, 0.3, e.to.z, KEEPER_POOF.puffs, {
+          spread: 0.25,
+          speed: 0.4,
+          rise: 0.3,
+          lifeMs: life,
+          size: 0.4,
+        });
+        break;
+      }
       case 'keeperRolled':
       case 'keeperLanded':
       case 'keeperJumped': {
@@ -1927,6 +2120,9 @@ export class WorldView {
       this.heldRing.lowerY(n.id, nowMs),
     );
 
+    // R0525 (lane A r10): a lesson performance's look (render/perform-look.ts).
+    const perfMs = world.timeMs - (1 - alpha) * SIM.stepMs;
+    const perf = held ? null : performLook(n, perfMs, this.particles.reduceMotion);
     let key: string;
     let flip = false;
     let eggHop = 0;
@@ -1969,6 +2165,9 @@ export class WorldView {
           : 'sleep'
         : clipFor(n);
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
+      // R0540 (lane A r10): a chatter speaks with the happy clip and listens standing.
+      const cc = held ? null : chatClip(n, perfMs);
+      if (cc) clip = cc;
       // R0355: sitting with the Keeper, it leans in, then nods off on the Keeper's foot.
       const sw = sitWithBeat(world, n, world.timeMs);
       if (sw?.doze && sheet.frames.has(frameKey('sleep', 'front', 0))) clip = 'sleep';
@@ -1985,11 +2184,13 @@ export class WorldView {
       else if (qb?.phase === 'sit') clip = 'sit';
       else if (qb) clip = 'idle';
       // LOOK-62: a newly evolved form spins one turn as it lands.
-      const turn =
+      let turn =
         (qb?.turn ?? 0) +
         (n.stage === 'adult' && v.pop?.kind === 'pop'
           ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
           : 0);
+      // R0525 (lane A r10): a dancer sways round or spins.
+      if (perf) turn += perf.turn;
       // R0533 (lane A r9): a resting Nubbin turns to look at the Keeper close by.
       const look = held ? null : noticeFace(n, world.keeper.pos);
       const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
@@ -2066,7 +2267,7 @@ export class WorldView {
       const gkey = gag ? frameKey(gag.look.clip, view.angle, gag.frame) : '';
       const gagOn = !!gag && sheet.frames.has(gkey);
       if (gagOn) key = gkey;
-      emote = emoteFor(n);
+      emote = emoteFor(n, world);
       if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
       // R0355: the snore bubble swells, pops with a sparkle, and the Zs carry on between.
       if (sw?.doze) emote = sw.bubble > 0 ? 'ball' : 'zz';
@@ -2144,6 +2345,10 @@ export class WorldView {
         sw *= sig.sw;
         sh *= sig.sh;
       }
+      if (perf) {
+        sw *= perf.sw;
+        sh *= perf.sh;
+      }
       if (v.pop) {
         const dur = v.pop.kind === 'squash' ? 260 : 420;
         const t = (nowMs - v.pop.startMs) / dur;
@@ -2178,11 +2383,20 @@ export class WorldView {
           rect,
           flip,
           // LOOK-62: the evolving cocoon shakes in its last moments.
-          x: x + swDx + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
+          x:
+            x +
+            swDx +
+            (beat?.dx ?? 0) * 2 +
+            cocoonShake(n, nowMs) * 0.08 +
+            Math.cos(yaw) * (perf?.dx ?? 0),
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
           y:
-            (beat?.dy ?? 0) * 2 + eggHop + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
-          z: z + swDz,
+            (beat?.dy ?? 0) * 2 +
+            eggHop +
+            (perf?.dy ?? 0) +
+            chatHop(n, perfMs, this.particles.reduceMotion) +
+            (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
+          z: z + swDz - Math.sin(yaw) * (perf?.dx ?? 0),
           mode: 'billboard',
           opacity,
           tint: this.dim * glowTint,
@@ -2191,6 +2405,8 @@ export class WorldView {
         },
         { id: n.id, kind: 'nubbin' },
       );
+      // R0525 (lane A r10): the held prop (crayon, bell, drum, trumpet) and rising notes.
+      if (perf) this.drawPerformProp(perf, n, x, y, z, yaw, flip, perfMs, opacity);
       // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
       // laid on the head in the sprite's own plane, a hair toward the camera.
       const cam = PIXEL_VIEW.camera;
@@ -2267,22 +2483,27 @@ export class WorldView {
     else v.bubble = null;
     if (emote !== 'none' && n.stage !== 'egg' && n.stage !== 'cocoon') {
       const emotes = this.sheets.emotes(n.shadow);
-      const erect = emotes.frames.get(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
+      // R0548 (lane A r10): a happy ball bobs quicker and higher, a sad one droops and slows.
+      const em = emoteMotion(n, nowMs, this.particles.reduceMotion);
+      // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
+      // rounded to whole native pixels, and squashes on a landing or morphs to a new shape.
+      const back = EMOTE_SPRING.backPixel;
+      const ball = this.emoteSprings.step(
+        n.id,
+        x - Math.sin(n.facing) * back,
+        y + 2.15 + em.dy,
+        z - Math.cos(n.facing) * back,
+        emote,
+        nowMs,
+        EMOTE_SPRING.clampPixel,
+        1 / NATIVE_PPU,
+        v.pop?.kind === 'squash' ? v.pop.startMs : null,
+        !this.particles.reduceMotion,
+      );
+      const erect = emotes.frames.get(
+        frameKey(ball.shape, 'front', Math.floor(nowMs / em.flipMs) % 2),
+      );
       if (erect) {
-        // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
-        // rounded to whole native pixels, and squashes on a landing or pops on a new shape.
-        const back = EMOTE_SPRING.backPixel;
-        const ball = this.emoteSprings.step(
-          n.id,
-          x - Math.sin(n.facing) * back,
-          y + 2.15,
-          z - Math.cos(n.facing) * back,
-          emote,
-          nowMs,
-          EMOTE_SPRING.clampPixel,
-          1 / NATIVE_PPU,
-          v.pop?.kind === 'squash' ? v.pop.startMs : null,
-        );
         // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
         const es = emoteScale(
           this.emoteBig || emoteFocused(n.id),
@@ -2304,8 +2525,77 @@ export class WorldView {
     }
   }
 
+  /** R0525 (lane A r10): a performer's prop beside it and a note now and then above it. */
+  private drawPerformProp(
+    perf: NonNullable<ReturnType<typeof performLook>>,
+    n: Nubbin,
+    x: number,
+    y: number,
+    z: number,
+    yaw: number,
+    flip: boolean,
+    simMs: number,
+    opacity: number,
+  ): void {
+    const P = PERFORM;
+    if (perf.prop) {
+      const sheet = this.sheets.get('soul:perform', buildPerformSheet);
+      const rect = sheet.frames.get(propKey(perf.prop));
+      const cam = PIXEL_VIEW.camera?.matrixWorld.elements;
+      if (rect && cam) {
+        const side = (flip ? -1 : 1) * P.propSide + perf.propDx;
+        this.batch.draw({
+          sheet,
+          rect,
+          flip,
+          x: x + Math.cos(yaw) * side + cam[8]! * 0.06,
+          y: Math.max(0, y) + P.propUp + perf.propDy - P.propSize / 2,
+          z: z - Math.sin(yaw) * side + cam[10]! * 0.06,
+          mode: 'billboard',
+          opacity,
+          tint: this.dim,
+          w: P.propSize,
+          h: P.propSize,
+        });
+      }
+    }
+    if (noteDue(n.id, perf, simMs, n.behavior.sinceMs))
+      this.particles.burst('note', x, Math.max(0, y) + 1.5, z, 1, {
+        spread: 0.3,
+        speed: 0.2,
+        rise: 0.7,
+        lifeMs: 1100,
+      });
+  }
+
+  /** R0525 (lane A r10): crayon doodles left on the Grove's ground, fading after a while. */
+  private drawDoodles(world: World): void {
+    const list = world.doodles;
+    if (!list?.length || world.location !== 'grove') return;
+    const sheet = this.sheets.get('soul:perform', buildPerformSheet);
+    for (const d of list) {
+      const a = doodleAlpha(d, world.timeMs);
+      const rect = a > 0 ? sheet.frames.get(doodleKey(d.kind)) : undefined;
+      if (!rect) continue;
+      this.batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: d.x,
+        y: 0.02,
+        z: d.z,
+        mode: 'flat',
+        w: PERFORM.doodleSize,
+        h: PERFORM.doodleSize,
+        opacity: 0.85 * a,
+        tint: this.dim,
+      });
+    }
+  }
+
   dispose(): void {
     this.batchLazy?.dispose();
+    this.hollowPacks.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }
@@ -2326,6 +2616,9 @@ function lerp(a: number, b: number, t: number): number {
 
 /** Which clip a free Nubbin plays. */
 export function clipFor(n: Nubbin): string {
+  // R0525 (lane A r10): a lesson performed sits to draw, sings open-mouthed, dances, plays.
+  const pc = performClip(n);
+  if (pc) return pc;
   switch (n.behavior.state) {
     case 'wander':
     case 'findFood':
@@ -2400,10 +2693,19 @@ const HELD_CLIPS: Record<HeldMood, string> = {
   flail: 'heldFlail',
 };
 
-/** Resting emote shape by mood and alignment hint. */
-export function emoteFor(n: Nubbin): EmoteShape {
+/**
+ * Resting emote shape by mood and alignment hint. `world` (sim time and items) lets the
+ * newer shapes in (R0548): the favourite toy's sparkle and the families' content signs.
+ */
+export function emoteFor(
+  n: Nubbin,
+  world?: { timeMs: number; items: readonly { id: string; toy?: string }[] },
+): EmoteShape {
   const mood = moodOf(n);
-  if (n.behavior.state === 'nap') return 'zz';
+  // R0540 (lane A r10): a friend chat's picture bubbles, turn about.
+  const talk = world ? chatEmote(n, world.timeMs) : null;
+  if (talk) return talk;
+  if (n.behavior.state === 'nap') return n.needs.energy < 0.3 ? 'zzbig' : 'zz';
   // Lane A r9: the new acts' own balls (render/soul-emotes.ts).
   const own = soulEmote(n);
   if (own) return own;
@@ -2411,16 +2713,22 @@ export function emoteFor(n: Nubbin): EmoteShape {
   if (wantsFirstFruit(n)) return 'fruit';
   // R0532 (lane A r8): a harrumph huffs.
   if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
-  if (n.behavior.state === 'lesson') return 'question';
+  // R0548 (lane A r10): the new mood shapes (render/emote-mood.ts).
+  const ms = moodShape(n, world);
+  if (ms) return ms;
+  // R0525 (lane A r10): a note over a song or a tune, a star over a dance.
+  const pe = performEmote(n);
+  if (pe) return pe;
   if (n.behavior.state === 'perform') {
     // R0542 (lane A r8): a comforter carries a heart over; a prankster a spiky grin.
     const id = n.behavior.itemId ?? '';
-    if (id.startsWith('prank:')) return 'spiky';
+    if (id.startsWith('prank:')) return 'smirk';
     return id === 'visitFlower' || id.startsWith('comfort:') ? 'heart' : 'star';
   }
   if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
-  if (n.species !== 'chao' && mood === 'content') return 'none';
+  if (n.species !== 'chao' && mood === 'content')
+    return (world && familySign(n, world.timeMs)) ?? 'none';
   // A wary Shadow Nubbin shows nothing it does not have to; a bonded one carries a dark heart.
   if (n.shadow && !n.bond && mood === 'content') return 'none';
   if (n.shadow && n.bond && mood === 'content') return 'heart';
@@ -2430,6 +2738,7 @@ export function emoteFor(n: Nubbin): EmoteShape {
     case 'hungry':
       return 'exclaim';
     case 'sad':
+      return 'droop';
     case 'dizzy':
       return 'spiral';
     default: {

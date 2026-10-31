@@ -6,6 +6,7 @@ import { REGIONS, regionHour } from './config/regions';
 import { regionOf } from './sim/regions';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
+import { secretGlint } from './sim/world-hints';
 import { CAMERA, KEEPER, LANDMARK_HOLD, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
@@ -62,6 +63,7 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
 }
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { buzz } from './platform/haptics';
 import { PixelGovernor } from './render/pixel-gov';
 import { FAST_TIME } from './config/tuning-r8d-perf';
 import { dedupeEvents } from './ui/event-dedupe';
@@ -71,6 +73,11 @@ import { tierForRes } from './config/tuning-world';
 import { slotId } from './platform/storage';
 import { takeBackup, writeCheckpoint } from './platform/save-backups';
 import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
+import { playSoulSounds } from './ui/soul-sounds';
+
+/* Lane E r9 */
+/** FUN-43: listeners told of every command sent (the curiosity triggers read them). */
+export const commandTaps = new Set<(cmd: Command) => void>();
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
@@ -568,6 +575,9 @@ export class Game {
       canGrab: (id) => this.canGrab(id),
       send: (cmd) => this.send(cmd),
       onSelect: (id) => this.hooks.onSelect(id),
+      // TECH-30: a tap on the carried Nubbin puts it down; a long press lift buzzes.
+      carrying: () => this.world.keeper.carrying,
+      haptic: (name) => void buzz(name, this.world.settings, this.reduceMotion),
       // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
       pad: {
         coop: () => this.world.coop.active,
@@ -802,6 +812,7 @@ export class Game {
 
   send(cmd: Command): void {
     this.pending.push(cmd);
+    for (const tap of commandTaps) tap(cmd); /* Lane E r9 */
   }
 
   setTimeScale(scale: number): void {
@@ -932,6 +943,8 @@ export class Game {
         this.clock.timeScale > FAST_TIME.fromScale ? dedupeEvents(events) : events,
       );
       this.keepCheckpoints(events);
+      // Lane A r10: performance and chat sounds (R0525, R0540).
+      playSoulSounds(events, this.world, this.clock.timeScale);
       for (const e of events) {
         // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
         const shake = this.world.settings.screenShake && !this.reduceMotion;
@@ -1079,6 +1092,10 @@ export class Game {
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon')
           this.grove.updateDungeonLights(kp, this.camera.currentYaw);
+        // Lane B r8: sealed rock (secrets, the boss door) stands or sinks without a rebuild.
+        this.grove.updateDungeonSeals(
+          this.world.location === 'dungeon' ? this.world.dungeon : null,
+        );
         // Fog of war (R0153): the Hollow floor's materials read this each frame.
         this.grove.dungeonFog.update(
           this.world.location === 'dungeon' ? this.world.dungeon : null,
@@ -1134,9 +1151,12 @@ export class Game {
     if (nowMs - this.glintMs < COLLECT.sparkleEveryMs) return;
     this.glintMs = nowMs;
     const k = this.world.keeper.pos;
-    const near = openHere(this.world).filter(
+    const near: Array<{ x: number; z: number }> = openHere(this.world).filter(
       (c) => Math.hypot(c.x - k.x, c.z - k.z) <= COLLECT.sparkleRadius,
     );
+    // R0111 (lane D r9): the Grove's secret nook twinkles while its Old Key is held.
+    const nook = secretGlint(this.world);
+    if (nook) near.push(nook);
     if (!near.length) return;
     if (this.scene3d) this.scene3d.glint(near, nowMs);
     else this.view.particles.glint(near);

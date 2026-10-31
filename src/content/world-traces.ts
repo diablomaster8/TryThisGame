@@ -58,6 +58,16 @@ export const WORLD_TRACES: WorldTrace[] = [
     ],
     childLines: {},
   },
+  {
+    // R0111 (WORLD-28): the clue to the Grove's secret, 4 u from the nook at the falls' foot.
+    id: 'grove-falls-moss',
+    region: 'grove',
+    at: { x: 9.2, z: -12.6 },
+    lines: [
+      { who: 'narrator', text: 'Moss on this stone has grown round the shape of a key. It points at the falls.' },
+    ],
+    childLines: {},
+  },
   // The Wood
   {
     id: 'wood-winter-seat',

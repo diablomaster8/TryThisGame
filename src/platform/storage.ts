@@ -159,6 +159,10 @@ export interface SaveSummary {
   questsDone?: number;
   /** Lane C r10 agent B (R0649): the slot's name and tag. */
   label?: SlotLabel;
+  /* Lane E r9, R0696: the child's name, animal icon and colour tag (Learning Grove). */
+  eduName?: string;
+  eduIcon?: string;
+  eduColour?: string;
 }
 
 /** R0648: the lines and the finished quests a save holds, read defensively from its JSON. */
@@ -189,7 +193,13 @@ export function summarize(json: string): SaveSummary | null {
       storyline?: unknown;
       ending?: unknown;
     } | null;
-    const edu = (w.edu ?? null) as { age?: unknown; band?: unknown } | null;
+    const edu = (w.edu ?? null) as {
+      age?: unknown;
+      band?: unknown;
+      childName?: unknown;
+      icon?: unknown;
+      tagColour?: unknown;
+    } | null;
     return {
       savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
       nubbins: nubbins.length,
@@ -206,6 +216,12 @@ export function summarize(json: string): SaveSummary | null {
       playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
       ...storySummary(w),
       ...labelOf(w),
+      /* Lane E r9, R0696 */
+      ...(edu && typeof edu.childName === 'string' && edu.childName.trim()
+        ? { eduName: edu.childName.trim() }
+        : {}),
+      ...(edu && typeof edu.icon === 'string' ? { eduIcon: edu.icon } : {}),
+      ...(edu && typeof edu.tagColour === 'string' ? { eduColour: edu.tagColour } : {}),
     };
   } catch {
     return null;
@@ -544,6 +560,15 @@ function indexWritten(slot: SaveSlot, json: string, played: boolean): void {
   if (!summary) return;
   const index = parseIndex(loadIndexJson()) ?? rebuildSlotIndex();
   storeIndex(withEntry(index, slotId(slot), { summary, bytes: json.length * 2 }, played));
+}
+
+/** R0622: a save put back by another path (the title's Recently erased) joins the index. */
+export function indexRestored(slot: SaveSlot, json: string): void {
+  try {
+    indexWritten(slot, json, false);
+  } catch {
+    // Blocked storage: the next read rebuilds the index.
+  }
 }
 
 function indexCleared(slot: SaveSlot): void {

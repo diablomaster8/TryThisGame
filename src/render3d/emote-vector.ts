@@ -223,6 +223,149 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       g.quadraticCurveTo(cx + 30, cy - 26, cx + 26, cy - 4);
       inked(g, hex(C.violet), 8);
       break;
+    // Lane A r10 (R0548, R0540): the new moods, the chat's pictures and the families' signs.
+    case 'drop':
+      g.moveTo(cx, cy - 38);
+      g.bezierCurveTo(cx + 8, cy - 16, cx + 26, cy, cx + 24, cy + 14);
+      g.arc(cx, cy + 14, 24, 0, Math.PI);
+      g.bezierCurveTo(cx - 26, cy, cx - 8, cy - 16, cx, cy - 38);
+      g.closePath();
+      paint(g, hex(C.skyDeep), cy + 8, 28);
+      shine(g, cx - 9, cy + 6, 6);
+      break;
+    case 'bulb':
+      g.arc(cx, cy - 8, 28, 0, Math.PI * 2);
+      paint(g, hex(C.sunYellow), cy - 8, 28);
+      shine(g, cx - 10, cy - 18, 7);
+      g.beginPath();
+      g.roundRect(cx - 13, cy + 18, 26, 18, 5);
+      paint(g, hex(C.greyLight), cy + 26, 14);
+      break;
+    case 'dots':
+      for (let i = 0; i < 3; i++) {
+        g.beginPath();
+        g.arc(cx - 30 + i * 30, cy + 6, 11, 0, Math.PI * 2);
+        const lit = i === frame + 1 || (frame === 0 && i === 0);
+        paint(g, lit ? '#ffffff' : hex(C.lilacGrey), cy + 6, 11);
+      }
+      break;
+    case 'sparkle': {
+      const star = (x: number, y: number, r: number): void => {
+        g.beginPath();
+        g.moveTo(x, y - r);
+        g.quadraticCurveTo(x, y, x + r, y);
+        g.quadraticCurveTo(x, y, x, y + r);
+        g.quadraticCurveTo(x, y, x - r, y);
+        g.quadraticCurveTo(x, y, x, y - r);
+        g.closePath();
+        paint(g, hex(C.sunYellow), y, r);
+      };
+      star(cx, cy, 40);
+      star(cx + (frame === 0 ? 30 : -30), cy - 30, 14);
+      break;
+    }
+    case 'smirk':
+      g.arc(cx, cy, 30, 0, Math.PI * 2);
+      paint(g, hex(C.violet), cy, 30);
+      g.beginPath();
+      g.moveTo(cx - 16, cy - 8);
+      g.lineTo(cx - 4, cy - 8);
+      g.moveTo(cx + 6, cy - 6);
+      g.lineTo(cx + 16, cy - 14);
+      round(g, 6);
+      g.strokeStyle = OUTLINE;
+      g.stroke();
+      g.beginPath();
+      g.moveTo(cx - 12, cy + 14);
+      g.quadraticCurveTo(cx + 6, cy + 18, cx + 18, cy + 6);
+      round(g, 6);
+      g.strokeStyle = '#ffffff';
+      g.stroke();
+      break;
+    case 'zzbig': {
+      const z = (x: number, y: number, w: number, col: string): void => {
+        g.beginPath();
+        g.moveTo(x, y);
+        g.lineTo(x + w, y);
+        g.lineTo(x, y + w);
+        g.lineTo(x + w, y + w);
+        inked(g, col, 7);
+      };
+      z(cx - 40, cy + 18, 16, hex(C.pale));
+      z(cx - 14, cy - 4, 22, hex(C.pale));
+      z(cx + 14, cy - 38, 28, '#ffffff');
+      break;
+    }
+    case 'droop':
+      // A soft ball sagging at the bottom, a drip running off it (never a broken heart).
+      g.moveTo(cx - 26, cy);
+      g.bezierCurveTo(cx - 26, cy - 34, cx + 26, cy - 34, cx + 26, cy);
+      g.bezierCurveTo(cx + 30, cy + 24, cx - 30, cy + 24, cx - 26, cy);
+      g.closePath();
+      paint(g, hex(C.lilacGrey), cy, 28);
+      g.beginPath();
+      g.ellipse(cx + 18, cy + 30, 5, 8, 0, 0, Math.PI * 2);
+      paint(g, hex(C.skyDeep), cy + 30, 8);
+      break;
+    case 'toyball':
+      g.arc(cx, cy, 30, 0, Math.PI * 2);
+      paint(g, '#ffffff', cy, 30);
+      g.beginPath();
+      g.moveTo(cx - 30, cy);
+      g.quadraticCurveTo(cx, cy - 20, cx + 30, cy);
+      g.quadraticCurveTo(cx, cy + 14, cx - 30, cy);
+      g.fillStyle = hex(C.rose);
+      g.fill();
+      g.beginPath();
+      g.arc(cx, cy, 30, 0, Math.PI * 2);
+      round(g, 7);
+      g.strokeStyle = OUTLINE;
+      g.stroke();
+      break;
+    case 'keeper':
+      g.arc(cx, cy + 8, 26, 0, Math.PI * 2);
+      paint(g, hex(C.cream), cy + 8, 26);
+      g.beginPath();
+      g.roundRect(cx - 40, cy - 16, 80, 10, 5);
+      g.roundRect(cx - 20, cy - 38, 40, 24, 6);
+      paint(g, hex(C.roseDeep), cy - 20, 30);
+      for (const dx of [-9, 9]) {
+        g.beginPath();
+        g.arc(cx + dx, cy + 8, 4, 0, Math.PI * 2);
+        g.fillStyle = OUTLINE;
+        g.fill();
+      }
+      break;
+    case 'cloud':
+      g.arc(cx - 20, cy + 2, 18, 0, Math.PI * 2);
+      g.arc(cx + 4, cy - 10, 24, 0, Math.PI * 2);
+      g.arc(cx + 26, cy + 6, 16, 0, Math.PI * 2);
+      paint(g, '#f2f4f8', cy, 34);
+      g.beginPath();
+      g.ellipse(cx - 2, cy + 32, 5, 8, 0, 0, Math.PI * 2);
+      paint(g, hex(C.skyDeep), cy + 32, 8);
+      break;
+    case 'pspark':
+      g.moveTo(cx, cy - 22);
+      g.lineTo(cx + 6, cy - 6);
+      g.lineTo(cx + 22, cy);
+      g.lineTo(cx + 6, cy + 6);
+      g.lineTo(cx, cy + 22);
+      g.lineTo(cx - 6, cy + 6);
+      g.lineTo(cx - 22, cy);
+      g.lineTo(cx - 6, cy - 6);
+      g.closePath();
+      paint(g, frame === 0 ? hex(C.sunYellow) : hex(C.sunLight), cy, 22);
+      break;
+    case 'dblink':
+      if (frame === 0) {
+        g.rect(cx - 14, cy - 14, 28, 28);
+        paint(g, hex(C.leaf), cy, 16);
+      } else {
+        g.rect(cx - 5, cy - 5, 10, 10);
+        paint(g, hex(C.leafDeep), cy, 6);
+      }
+      break;
     case 'none':
       break;
   }

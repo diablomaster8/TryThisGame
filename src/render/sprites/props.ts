@@ -2,6 +2,7 @@ import { frameKey } from './animations';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
+import { viewAngle } from './angles';
 
 export const PROP_SIZE = 16;
 
@@ -328,6 +329,102 @@ function drawDecor(kind: string): PixelCanvas {
   return pc;
 }
 
+/**
+ * The placed pieces whose look changes when turned (R0007, MOVE-04 ↻ Turn): Pixel draws a
+ * three-quarter and an end-on frame beside the front one, mirrored for the other side, the
+ * way the 3D mesh turns by the piece's yaw. Round pieces look the same from every side.
+ */
+export const TURNED_DECOR = ['fence', 'bench', 'flowerbed'] as const;
+type TurnedAngle = 'frontQuarter' | 'side';
+
+export function drawTurnedDecor(kind: string, angle: TurnedAngle): PixelCanvas {
+  const pc = new PixelCanvas(PROP_SIZE, PROP_SIZE);
+  const q = angle === 'frontQuarter';
+  switch (kind) {
+    case 'fence':
+      if (q) {
+        // The right end runs away up the screen and comes out a little smaller.
+        pc.rect(11.5, 5, 1.25, 7, C.wood);
+        pc.tri(11.25, 5, 13, 5, 12.1, 3.5, C.wood);
+        pc.line(1.5, 8.5, 13.5, 6, C.sand);
+        pc.line(1.5, 12.5, 13.5, 9.5, C.sand);
+        pc.rect(2, 6, 1.5, 9, C.wood);
+        pc.tri(1.5, 6, 4, 6, 2.75, 4, C.wood);
+      } else {
+        // End on: the near post, the far post above it and the rails between.
+        pc.rect(7.25, 3, 1.5, 7, C.wood);
+        pc.rect(7.5, 8, 1, 6, C.sand);
+        pc.rect(6.5, 8, 3, 1.5, C.sand);
+        pc.rect(6.5, 12, 3, 1.5, C.sand);
+        pc.rect(7, 7, 2, 8, C.wood);
+        pc.tri(6.5, 7, 9.5, 7, 8, 5, C.wood);
+      }
+      break;
+    case 'bench':
+      if (q) {
+        pc.line(3, 5, 13, 3, C.wood);
+        pc.line(3, 8, 13, 6, C.wood);
+        pc.line(4, 9, 13, 7.5, C.wood);
+        pc.rect(12, 7, 1.25, 4, C.bark);
+        pc.rect(12, 3.5, 1.25, 3, C.bark);
+        pc.rect(3.5, 9, 1.5, 5, C.bark);
+        pc.rect(3.5, 5.5, 1.5, 3, C.bark);
+        pc.thinLine(3, 8.5, 13, 6.5, C.sand);
+      } else {
+        // From the end: the seat's edge, the backrest behind it and two legs.
+        pc.rect(9, 3, 1.5, 6, C.wood);
+        pc.rect(5, 7, 6, 2, C.wood);
+        pc.rect(5.5, 9, 1.5, 5, C.bark);
+        pc.rect(9, 9, 1.5, 5, C.bark);
+        pc.thinLine(5, 7.5, 11, 7.5, C.sand);
+      }
+      break;
+    case 'flowerbed': {
+      const rx = q ? 5.5 : 3.6;
+      pc.ellipse(8, 12, rx, 3, C.darkBark);
+      pc.ellipse(8, 11.5, rx - 1, 2.2, C.bark);
+      const flowers: ReadonlyArray<readonly [number, number, number]> = q
+        ? [
+            [5, 8, C.rose],
+            [7.5, 7, C.sunYellow],
+            [10, 8, C.blush],
+            [8.5, 9.5, C.white],
+          ]
+        : [
+            [6.5, 8, C.rose],
+            [9, 7, C.sunYellow],
+            [8, 9.5, C.skyLight],
+          ];
+      for (const [x, y, c] of flowers) {
+        pc.thinLine(x, 11, x, y + 1, C.forest);
+        pc.disc(x, y, 1.1, c);
+      }
+      break;
+    }
+  }
+  pc.finish(C.darkPlum, [C.white]);
+  return pc;
+}
+
+/**
+ * Which frame shows a placed piece turned by `yaw` (a three.js rotation.y, so its front
+ * faces atan2-facing `yaw`) to a camera at `cameraYaw`. Back views reuse the front ones.
+ */
+export function decorFrame(
+  kind: string,
+  yaw: number | undefined,
+  cameraYaw: number,
+): { key: string; flip: boolean } {
+  if (!yaw || !(TURNED_DECOR as readonly string[]).includes(kind))
+    return { key: frameKey(kind, 'front', 0), flip: false };
+  const v = viewAngle(yaw, cameraYaw);
+  const angle =
+    v.angle === 'side' ? 'side' : v.angle.endsWith('Quarter') ? 'frontQuarter' : 'front';
+  // A back quarter shows the far end on the other side: the front quarter, mirrored.
+  const flip = v.angle === 'backQuarter' ? !v.flip : v.flip;
+  return { key: frameKey(kind, angle, 0), flip: angle === 'front' ? false : flip };
+}
+
 export const DECOR_FRAMES = [
   'tuft',
   'daisy',
@@ -386,6 +483,9 @@ export function buildPropSheet(): SpriteSheet {
   atlas.add(frameKey('flower', 'front', 0), drawFlower());
   atlas.add(frameKey('toy', 'front', 0), drawToy());
   for (const d of DECOR_FRAMES) atlas.add(frameKey(d, 'front', 0), drawDecor(d));
+  for (const d of TURNED_DECOR)
+    for (const a of ['frontQuarter', 'side'] as const)
+      atlas.add(frameKey(d, a, 0), drawTurnedDecor(d, a));
   for (const f of ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon']) {
     atlas.add(frameKey(`fruit-${f}`, 'front', 0), drawFlavouredFruit(f));
   }

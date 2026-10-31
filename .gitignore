@@ -7,3 +7,4 @@ Thumbs.db
 .env
 .env.*
 script-book-whole/
+docs/logs/parity/

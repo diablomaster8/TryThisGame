@@ -80,17 +80,25 @@ export function burpEvent(n: Nubbin): SimEvent {
 /** The burp, then the nap, each once per full belly; transient, as the looks are. */
 const burpDue = new WeakSet<Nubbin>();
 const napDue = new WeakSet<Nubbin>();
+/** R0558 (lane A r10): a glutton's gulped fruit is followed by a burp, and no nap. */
+const burpOnly = new WeakSet<Nubbin>();
 
 /** Queue the burp and the nap that follow a full belly. */
 export function queueBurp(n: Nubbin): void {
   burpDue.add(n);
+  burpOnly.delete(n);
+}
+
+export function queueGulpBurp(n: Nubbin): void {
+  burpDue.add(n);
+  burpOnly.add(n);
 }
 
 /** The belly's act for this idle choice: the burp, then a nap if it has any yawn in it. */
 export function bellyAct(n: Nubbin): IdleAct | null {
   if (burpDue.has(n)) {
     burpDue.delete(n);
-    napDue.add(n);
+    if (!burpOnly.delete(n)) napDue.add(n);
     return { state: 'perform', ms: GLUTTON.burpMs, itemId: 'burp' };
   }
   if (napDue.has(n)) {

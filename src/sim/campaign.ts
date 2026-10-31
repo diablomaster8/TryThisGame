@@ -126,7 +126,7 @@ export function startCampaign(world: World, events: SimEvent[]): void {
   // All ten valley Keepers, the player's pick included: the player is Hazel's grandchild.
   world.npcs = [];
   ensureTrainers(world);
-  world.season = campaignSeason(c);
+  world.season = world.debugSeason ?? campaignSeason(c); // R0118: the debug season wins
   // A restart leaves the last campaign's Moss behind; there is only ever one.
   if (oldMossId) world.nubbins = world.nubbins.filter((n) => n.id !== oldMossId);
   // Moss: the old Eternal on the western hill. He stays off the roster until he comes down.
@@ -552,7 +552,7 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
     }
   }
   // Hazel's Grove sets the Grove's season to its chapter's (review 2026-10-24, item 2).
-  world.season = campaignSeason(c);
+  world.season = world.debugSeason ?? campaignSeason(c); // R0118: the debug season wins
   // After the ending the chapter machine is done, but the spring stories still run.
   const over = c.chapter > FINAL_CHAPTER;
   if (!over) stepVigil(world, c, dtMs, events);

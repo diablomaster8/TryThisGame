@@ -1667,7 +1667,8 @@ export const DUNGEON = {
   scanRadius: 2.2,
   chestShells: [30, 60] as const,
   chestEggChance: 0.25,
-  partySize: 2,
+  /** R0167: 3 come along, 4 after Act II (`hollowPartySize`, config/dungeon-party-r8.ts). */
+  partySize: 3,
   followDistance: 1.7,
   nubbinSpeed: 2.8,
   fetchRadius: 4,
@@ -2010,6 +2011,7 @@ export * from './tuning-kids';
 export * from './tuning-fun-r7';
 export * from './tuning-camp';
 export * from './tuning-soul-r8';
+export * from './tuning-look-r9e';
 export * from './tuning-camp9';
 export * from './tuning-camp9r';
 export * from './tuning-camp10';
@@ -2017,3 +2019,7 @@ export * from './tuning-r8d';
 export * from './tuning-r8d-audio';
 export * from './tuning-r8d-perf';
 export * from './tuning-soul-r9';
+export * from './tuning-move-r10';
+export * from './tuning-soul-r10b';
+export * from './tuning-soul-r10';
+export * from './tuning-move-r10b';

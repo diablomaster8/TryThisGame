@@ -66,7 +66,10 @@ import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
+import { rememberCare } from './care-memory';
+import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
@@ -111,6 +114,7 @@ import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from '.
 import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
 import { setHollowParty } from './dungeon-party';
+import { setHollowRole } from './dungeon-roles';
 import {
   dungeonGo,
   encounterDone,
@@ -128,6 +132,8 @@ import { gambleBasket } from './dungeon-gamble';
 import { takeFromStash } from './dungeon-sack';
 import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
+import { stepGearNeeds } from './dungeon-gear-effects';
+import { itemsCommand } from './dungeon-items';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -151,6 +157,8 @@ import {
   clampRounds,
 } from './edu';
 import { eduSetLimits, eduUnlockLimits } from './edu-limits';
+/* Lane E r9 */
+import { eduSetTag } from './edu-session';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -164,6 +172,7 @@ import {
   type World,
 } from './types';
 import { findCuriosity } from './curiosities';
+import { mayWear } from './remembrance'; /* Lane E r9 */
 import { hatchInArms } from './hatch-arms';
 import { noteCheckpoint } from './story-marks';
 import { enterStoryRegion, leaveStoryRegion } from './story-regions';
@@ -400,6 +409,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       k.intent = { kind: 'feed', nubbinId: cmd.nubbinId };
       k.moveTarget = null;
       return;
+    case 'coaxOut':
+      coaxOut(world, events);
+      return;
     case 'shakeTree':
       k.intent = { kind: 'shakeTree', treeId: cmd.treeId };
       k.moveTarget = null;
@@ -465,6 +477,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
       if (speed >= THROW.minSpeed) {
         noteCare(n, 'throws');
+        // R0541 (lane A r10): it remembers the throw (a flinch when the Keeper next walks up);
+        // not a Learning Grove toss and catch, which it lands laughing.
+        if (!world.edu) rememberCare(n, 'throw', now);
         // R0527: in the Learning Grove a throw is a toss and catch: no trust is lost.
         if (!world.edu) addTrust(n, TRUST.throw, events);
         noteCampaign(world, 'throw', n.id);
@@ -474,6 +489,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         putDown(n, now, events, 'happy');
       } else {
         if (n.stage !== 'egg') applyDrop(n, THROW.dropScale);
+        rememberCare(n, 'drop', now);
         addTrust(n, TRUST.drop * THROW.dropScale, events, !!world.edu);
         putDown(n, now, events);
       }
@@ -573,6 +589,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
+      if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
       n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
       noteNubbin(world, n, events);
@@ -607,6 +624,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
       return;
     }
+    // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.
+    case 'debugSeason':
+      if (cmd.season) {
+        world.debugSeason = cmd.season;
+        world.season = cmd.season;
+      } else delete world.debugSeason;
+      return;
     case 'debugGive':
       if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
       else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
@@ -875,6 +899,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'stashTake':
       takeFromStash(world, cmd.itemId);
       return;
+    // Lane B round 8, items: stash tabs (R0174), sockets (R0173), the wheelbarrow (R0177).
+    case 'stashPut':
+    case 'stashMove':
+    case 'socketCharm':
+    case 'unsocketCharms':
+    case 'wheelbarrowMix':
+      itemsCommand(world, cmd, events);
+      return;
     // Lane B round 7: difficulty tiers (R0179).
     case 'hollowTier':
       setHollowTier(world, cmd.tier, events);
@@ -883,6 +915,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // R0187: the speed-run toggle; off drops nothing.
       if (cmd.on) world.hollow.speedRun = true;
       else delete world.hollow.speedRun;
+      return;
+    // Lane B round 8: party roles (R0167) and the Hollow guide (R0208).
+    case 'setHollowRole':
+      setHollowRole(world, cmd.id, cmd.role);
+      return;
+    case 'hollowGuide':
+      if (cmd.on) world.hollow.guide = true;
+      else delete world.hollow.guide;
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
@@ -1012,6 +1052,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetReadToMe':
       if (world.edu) world.edu.readToMe = cmd.on;
       return;
+    /* Lane E r9 */
+    case 'eduSetAutoAdvance':
+      if (world.edu) {
+        if (cmd.on) world.edu.autoAdvance = true;
+        else delete world.edu.autoAdvance;
+      }
+      return;
+    case 'langSkipWait':
+      if (world.edu) world.edu.langSkipAt = world.timeMs;
+      return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
       return;
@@ -1036,6 +1086,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetName':
       eduSetName(world, cmd.name);
+      return;
+    /* Lane E r9, R0696 */
+    case 'eduSetTag':
+      eduSetTag(world, cmd.icon, cmd.colour);
       return;
     case 'eduResult':
       eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
@@ -1259,6 +1313,8 @@ export function stepWorld(
         continue;
       }
       decayNeeds(n, dtMs);
+      // R0164: Snug and Naps from worn gear.
+      stepGearNeeds(world, n, dtMs);
       advanceStage(n, dtMs, events, world, offline);
       // Party members underground are moved by the Hollow step instead.
       // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
@@ -1290,12 +1346,15 @@ export function stepWorld(
     // clock at ×1 with the tab showing), so scripted runs and catch-up never see them.
     if (!offline && countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
     stepTrust(world, dtMs, events);
+    // R0527 (lane A r10): in the Learning Grove a Nubbin hides in the cottage, never runs.
+    stepCottageHide(world, offline, events);
     stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
     if (wallMs !== undefined) {
-      world.season = seasonAt(wallMs, tzOf(world));
+      // R0118 (lane D r9): the debug panel can force a season for checks.
+      world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
       stepDaily(world, wallMs, rng, events);
     }
     stepLineQueue(world, dtMs, events);
@@ -1317,6 +1376,8 @@ export function stepWorld(
   stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
+  // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
+  stepWorldHints(world, events);
   stepLittleGrove(world);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);

@@ -1452,6 +1452,54 @@ export function playChirp(
   }
 }
 
+/** R0525 (lane A r10): each level's four-note song (Hz), sung in a chirp. */
+export const PERFORM_MELODIES: readonly (readonly number[])[] = [
+  [523, 659, 784, 659],
+  [784, 659, 1047, 784],
+  [523, 784, 1319, 1047],
+];
+
+/**
+ * R0525 (SOUL-07): the sound of a lesson performed: a four-note song that grows with the
+ * level, a stomp-and-squeak dance, a crayon's scratch, or the instrument it was handed (a
+ * ringing bell, a drum's thump, a little trumpet fanfare). Quiet, under the sound setting.
+ */
+export function playPerform(
+  lesson: 'drawing' | 'singing' | 'dance' | 'instrument',
+  level: number,
+  instrument: 'bell' | 'drum' | 'trumpet' = 'bell',
+  pitch = 1,
+): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  const lv = Math.max(1, Math.min(3, level));
+  try {
+    if (lesson === 'singing') {
+      PERFORM_MELODIES[lv - 1]!.forEach((f, i) =>
+        tone(f * pitch, i * 260, 230, 'sine', 0.04, f * pitch * 1.03),
+      );
+    } else if (lesson === 'dance') {
+      for (let i = 0; i < lv + 1; i++) tone(95, i * 300, 120, 'sine', 0.07, 60);
+      tone(1200 * pitch, (lv + 1) * 300, 90, 'triangle', 0.03, 1600 * pitch);
+    } else if (lesson === 'drawing') {
+      for (let i = 0; i < 3; i++) burst(i * 140, 90, 0.025, 3500);
+    } else if (instrument === 'bell') {
+      tone(1568, 0, 1100, 'triangle', 0.04);
+      tone(2350, 0, 600, 'sine', 0.015);
+      if (lv > 1) tone(1319, 380, 900, 'triangle', 0.03);
+    } else if (instrument === 'drum') {
+      for (let i = 0; i < lv + 1; i++) {
+        tone(140, i * 260, 160, 'sine', 0.09, 55);
+        burst(i * 260, 60, 0.03, 900);
+      }
+    } else {
+      const notes = [392, 523, 659, 784].slice(0, lv + 1);
+      notes.forEach((f, i) => tone(f, i * 180, 170, 'sawtooth', 0.018, f * 1.01));
+    }
+  } catch {
+    // Audio problems must never break the game.
+  }
+}
+
 // ---------------------------------------------------------------- Hollow cues (lane B r7)
 
 /**
@@ -1503,4 +1551,16 @@ export function playHollowCue(cue: HollowCue): void {
   } catch {
     // As above.
   }
+}
+
+// ---------------------------------------------------------------- R0139 (lane D r9): biome beds
+
+/**
+ * Where a biome sound bed (platform/biome-beds.ts) plugs in: the running context, the
+ * ambience bus (so the Ambience setting, the SFX volume and mute all govern it) and the shared
+ * noise buffer. Null until the first tap unlocks sound, so nothing is built or heard before.
+ */
+export function ambienceOut(): { ctx: AudioContext; bus: GainNode; noise: AudioBuffer } | null {
+  if (!unlocked || !ctx || !ensureAmbience() || !ambienceBus) return null;
+  return { ctx, bus: ambienceBus, noise: noise(ctx) };
 }

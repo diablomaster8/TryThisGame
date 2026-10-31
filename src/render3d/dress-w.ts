@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { seasonFor } from '../config/campaign-look';
+import { seasonHere } from '../render/grove-season';
 import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import { HUSH } from '../config/tuning-e';
@@ -241,6 +241,8 @@ class Dress3dW implements Dressing3d {
 
     // C7: the pond's ice.
     if (this.ice) {
+      // R0118 (lane D r9): no free-play ice in 3D: the ice and stream sheets cost 2 to 4 draws
+      // (farOrchard 143 → 147), over this pass's zero-draw rule; Pixel freezes its pond.
       this.ice.visible = home && pondIceWanted(stage, flags.campaign, flags.chapter);
       if (this.stream) this.stream.visible = this.ice.visible;
       (this.ice.material as THREE.MeshStandardMaterial).emissiveIntensity =
@@ -249,7 +251,7 @@ class Dress3dW implements Dressing3d {
 
     // H8: the meadow's height follows the season.
     this.findGrass(ctx);
-    const season = seasonFor(staged, flags.campaign, flags.chapter);
+    const season = seasonHere(world, staged, flags.campaign, flags.chapter, flags.location);
     const winter = home && season?.season === 'winter' && season.strength >= 0.9;
     const goal = winter ? CG2_W.winter.grassScale : 1;
     const step = reduce ? 1 : Math.min(1, dt / CG2_W.winter.grassEase);

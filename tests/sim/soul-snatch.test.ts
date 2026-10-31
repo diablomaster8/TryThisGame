@@ -90,6 +90,8 @@ describe('R0545 fruit snatching', () => {
       if (!snatched) continue;
       expect(ate).toBe(true);
       expect(kid.friends?.['thief'] ?? 0).toBeLessThan(40);
+      // R0538 (lane A r10): and holds a grudge (the hurry on its next fruit ends as it eats).
+      expect(kid.rivals?.['thief'] ?? 0).toBeGreaterThanOrEqual(15);
       return;
     }
     throw new Error('no snatch in 10 seeds');

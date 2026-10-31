@@ -37,6 +37,7 @@ import { pauseAfter, voiceOf } from './type-timing';
 import { holdMusicDuck, playBlip, playSound } from '../platform/audio';
 import { renderLineAct, sayItButton } from './line-act';
 import { refrainOf } from '../config/edu-refrains';
+import { AutoAdvance } from './auto-advance'; /* Lane E r9 */
 import '../fun.css';
 
 /**
@@ -51,6 +52,9 @@ export class Dialogue {
   /** R0342: the karaoke light over the text while it is read aloud. */
   private readonly wordLight: WordLight;
   private readonly choices: HTMLDivElement;
+  /** TECH-28: the whole line, once, for a screen reader (the typed text is not live). */
+  private readonly live: HTMLDivElement;
+  private liveKey = '';
   private readonly next: HTMLDivElement;
   private readonly endCard: HTMLDivElement;
   private readonly endParent: HTMLElement;
@@ -88,6 +92,8 @@ export class Dialogue {
   private held = false;
   /** R0304: the line whose act was last put up, so a re-render never shows it twice. */
   private actShown = '';
+  /** Lane E r9, R0730: the read-aloud story's own page turns, and its ▶️/⏸️ toggle. */
+  private readonly auto: AutoAdvance;
 
   constructor(
     parent: HTMLElement,
@@ -106,11 +112,31 @@ export class Dialogue {
     this.next = el('div', 'dialogue-next', '▼');
     this.choices = el('div', 'dialogue-choices');
     body.append(this.name, this.text, this.choices);
+    // TECH-28: a screen reader hears each line once, whole, not letter by letter.
+    this.live = el('div', 'sr-only');
+    this.live.setAttribute('role', 'log');
+    this.live.setAttribute('aria-live', 'polite');
+    this.choices.setAttribute('role', 'group');
+    body.append(this.live);
     // r1025 item 1: skip to the next real choice (or the scene's end), never past one.
     this.skipBtn = button(`${DIALOGUE_TEXT.skip} ⏭`, () => this.skip(), 'btn dialogue-skip');
     this.skipBtn.setAttribute('aria-label', DIALOGUE_TEXT.skipLabel);
     this.skipBtn.title = DIALOGUE_TEXT.skipLabel;
-    box.append(this.portrait, body, this.next, this.skipBtn);
+    /* Lane E r9, R0730 */
+    this.auto = new AutoAdvance(
+      game,
+      () => ({
+        open: !this.root.hidden,
+        blocked: this.waiting() || this.held,
+        choicesUp: this.choices.childElementCount > 0,
+      }),
+      () => {
+        // A line still typing is finished first, then the page turns.
+        if (this.shown < this.fullText.length) this.advance();
+        this.advance();
+      },
+    );
+    box.append(this.portrait, body, this.next, this.skipBtn, this.auto.btn);
     this.root.appendChild(box);
     // The box takes focus when a scene starts, so Space and Enter advance it rather than
     // pressing whatever sheet button had focus before (r1025 item 2).
@@ -123,7 +149,7 @@ export class Dialogue {
     // Choices and lesson cards fill this row; Skip steps aside while they are up.
     new MutationObserver(() => this.syncSkip()).observe(this.choices, { childList: true });
     this.root.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('.dialogue-skip')) return;
+      if ((e.target as HTMLElement).closest('.dialogue-skip, .dialogue-auto')) return;
       if (this.waiting()) return;
       if (this.held) {
         this.hooks.skip?.();
@@ -377,6 +403,8 @@ export class Dialogue {
       );
     }
     this.choices.append(...made);
+    // TECH-28: the choices are a group named by the line that asks.
+    this.choices.setAttribute('aria-label', this.fullText);
     // R0677: a sprout sees numbered picture buttons and hears the choices read out.
     const g = this.game();
     if (g && textBandOf(g.world) === 'sprout')
@@ -385,6 +413,7 @@ export class Dialogue {
 
   private finish(choice: string | null): void {
     const g = this.game();
+    this.auto.stop(); /* Lane E r9 */
     const scene = this.scene;
     this.root.hidden = true;
     this.scene = null;
@@ -472,10 +501,12 @@ export class Dialogue {
     this.wordLight.reset();
     const band = textBandOf(g.world);
     const e = g.world.edu;
+    const autoNext = this.auto.line(); /* Lane E r9, R0730 */
     if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
       speakLine(this.fullText, {
         speaker: chorus ? 'narrator' : who,
         onWord: (w) => this.wordLight.light(w),
+        onDone: autoNext,
       });
     // R0303: a line's sound cue plays however the text appears.
     if (line.sfx) playSound(line.sfx);
@@ -555,6 +586,16 @@ export class Dialogue {
       },
     );
     this.lineExtras();
+    this.announce();
+  }
+
+  /** TECH-28: write the finished line to the live twin, once per line. */
+  private announce(): void {
+    const key = `${this.scene ?? ''}:${this.index}:${this.fullText}`;
+    if (key === this.liveKey) return;
+    this.liveKey = key;
+    const who = this.name.textContent?.trim();
+    this.live.textContent = who ? `${who}: ${this.fullText}` : this.fullText;
   }
 
   /**

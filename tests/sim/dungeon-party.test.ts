@@ -26,7 +26,8 @@ describe('the party picker (R0168)', () => {
     const pick = [ids[3]!, ids[2]!];
     applyCommand(world, { kind: 'setHollowParty', ids: pick }, []);
     applyCommand(world, { kind: 'enterTown', act: 0 }, []);
-    expect(world.dungeon!.party).toEqual(pick);
+    // R0167: a party of three now, so the third place fills from the rest.
+    expect(world.dungeon!.party.slice(0, 2)).toEqual(pick);
     applyCommand(world, { kind: 'leaveDungeon' }, []);
     const back = deserialize(serialize(world, 0)).world;
     expect(back.hollow.lastParty).toEqual(pick);

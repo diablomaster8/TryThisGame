@@ -6,6 +6,7 @@
  * render-side only (the sim never sees it).
  */
 import { EMOTE_SPRING } from '../config/tuning-look';
+import { EMOTE_MOOD } from '../config/tuning-soul-r10b';
 
 interface Ball {
   x: number;
@@ -17,6 +18,8 @@ interface Ball {
   lastMs: number;
   shape: string;
   popMs: number;
+  /** R0548: the shape it is morphing away from (shown squashing for the first beat). */
+  prev: string;
 }
 
 export interface BallPose {
@@ -26,6 +29,8 @@ export interface BallPose {
   /** Width and height scale for the ball sprite this frame. */
   sx: number;
   sy: number;
+  /** R0548: the shape to draw this frame (the old one while it squashes away in a morph). */
+  shape: string;
 }
 
 /** The pop curve: 0.6 → 1.15 at the midpoint → 1 at the end. */
@@ -35,9 +40,24 @@ export function popScale(t: number): number {
   return 1.15 - 0.15 * ((t - 0.5) / 0.5);
 }
 
+/** R0548: the share of a morph spent squashing the old shape away. */
+export const MORPH_SPLIT = 0.4;
+
+/** R0548: the morph's scale at `t` 0..1: the old shape flattens, the new one pops past 1. */
+export function morphScale(t: number): { sx: number; sy: number } {
+  if (t >= 1) return { sx: 1, sy: 1 };
+  if (t < MORPH_SPLIT) {
+    const u = t / MORPH_SPLIT;
+    return { sx: 1 + 0.35 * u, sy: 1 - 0.75 * u };
+  }
+  const u = (t - MORPH_SPLIT) / (1 - MORPH_SPLIT);
+  const s = popScale(u);
+  return { sx: s * (1.1 - 0.1 * u), sy: s * (0.9 + 0.1 * u) };
+}
+
 export class EmoteSprings {
   private readonly balls = new Map<string, Ball>();
-  private readonly out: BallPose = { x: 0, y: 0, z: 0, sx: 1, sy: 1 };
+  private readonly out: BallPose = { x: 0, y: 0, z: 0, sx: 1, sy: 1, shape: 'none' };
 
   /**
    * Advance one Nubbin's ball toward its anchor and return where to draw it. `clamp` caps the
@@ -54,16 +74,29 @@ export class EmoteSprings {
     clamp: number,
     snap: number,
     landedMs: number | null,
+    morph = false,
   ): BallPose {
     const S = EMOTE_SPRING;
     let b = this.balls.get(id);
     if (!b) {
-      b = { x: ax, y: ay, z: az, vx: 0, vy: 0, vz: 0, lastMs: nowMs, shape, popMs: -1e9 };
+      b = {
+        x: ax,
+        y: ay,
+        z: az,
+        vx: 0,
+        vy: 0,
+        vz: 0,
+        lastMs: nowMs,
+        shape,
+        popMs: -1e9,
+        prev: shape,
+      };
       this.balls.set(id, b);
     }
     if (shape !== b.shape) {
       // Only a change between two shapes pops; the first ball after none just appears.
       if (b.shape !== 'none' && shape !== 'none') b.popMs = nowMs;
+      b.prev = b.shape;
       b.shape = shape;
     }
     // Semi-implicit Euler in steps of at most 1/60 s; a long gap (tab away) just snaps.
@@ -108,10 +141,23 @@ export class EmoteSprings {
     o.x = ax + dx;
     o.y = ay + dy;
     o.z = az + dz;
-    const pop = popScale((nowMs - b.popMs) / S.popMs);
     const landed = landedMs !== null && nowMs - landedMs >= 0 && nowMs - landedMs < S.squashMs;
-    o.sx = pop * (landed ? S.squash[0] : 1);
-    o.sy = pop * (landed ? S.squash[1] : 1);
+    o.shape = b.shape;
+    let px: number;
+    let py: number;
+    const mt = (nowMs - b.popMs) / EMOTE_MOOD.morphMs;
+    if (morph && mt >= 0 && mt < 1) {
+      // R0548: the Chao ball's morph. The old shape squashes flat and wide, then the new one
+      // pops up through an overshoot: squash, flat, pop, settle.
+      const k = morphScale(mt);
+      if (mt < MORPH_SPLIT) o.shape = b.prev;
+      px = k.sx;
+      py = k.sy;
+    } else {
+      px = py = popScale((nowMs - b.popMs) / S.popMs);
+    }
+    o.sx = px * (landed ? S.squash[0] : 1);
+    o.sy = py * (landed ? S.squash[1] : 1);
     return o;
   }
 

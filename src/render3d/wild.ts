@@ -13,6 +13,8 @@ import { BUSH } from '../config/tuning-move';
 import { buildTree, pbr, type Tex } from '../samples/aaa-kit';
 import { treeOf, type GroveTree } from './crowns';
 import { groveHeight } from './terrain';
+import { borderBlockers } from '../sim/border';
+import { BORDER } from '../config/tuning-r9d2';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 /**
@@ -219,6 +221,35 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
     }
   });
 
+  // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
+  // yet. The ~160 hedge bushes are their own low-poly mesh (20 triangles each, no shadow,
+  // the bushes' material so no new program): one draw and ~3k triangles from every spot,
+  // where 80-triangle shadow-casting bush instances cost ~25k (farOrchard 436k → 461k).
+  const hedge: typeof bushes = [];
+  borderBlockers().forEach((b, i) => {
+    const y = groveHeight(b.x, b.z);
+    if (b.kind === 'hedge') {
+      const r = BORDER.bushSize * T.bushRadius * (0.9 + hash(i, 7) * 0.25);
+      hedge.push({
+        m: matrix(b.x, y + r * T.bushSquash * 0.55, b.z, hash(i, 5) * 6.28, r, r * T.bushSquash, r),
+        c: tint(T.bushColours[i % T.bushColours.length]!, i + 500),
+      });
+    } else {
+      logs.push({
+        m: matrix(
+          b.x,
+          y + T.logRadius * 1.1,
+          b.z,
+          b.yaw,
+          BORDER.logLen,
+          T.logRadius * 1.4,
+          T.logRadius * 1.4,
+        ),
+        c: tint(T.logColour, i + 500),
+      });
+    }
+  });
+
   // Bush: a unit blob; log: a unit-length cylinder along x; rock: a faceted unit blob.
   const blob = new THREE.IcosahedronGeometry(1, 1);
   const cyl = new THREE.CylinderGeometry(0.5, 0.5, 1, 10).rotateZ(Math.PI / 2);
@@ -234,8 +265,11 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
   const rockMat = pbr(tex.rock, { scale: 0.6 });
   bushMesh = instanced(blob, bushMat, bushes, 'wild-bushes');
   bushShakes.clear();
+  const hedgeMesh = instanced(new THREE.IcosahedronGeometry(1, 0), bushMat, hedge, 'border-hedge');
+  if (hedgeMesh) hedgeMesh.castShadow = false;
   for (const m of [
     bushMesh,
+    hedgeMesh,
     instanced(cyl, logMat, logs, 'wild-logs'),
     instanced(rockGeo, rockMat, rocks, 'wild-rocks'),
   ])
