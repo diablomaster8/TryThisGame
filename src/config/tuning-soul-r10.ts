@@ -92,3 +92,25 @@ export const COTTAGE_HIDE = {
   /** Trust back up this far above the floor (pets through the window): out on its own. */
   outAbove: 15,
 } as const;
+
+/**
+ * R0553 (SOUL-36), the r10 half: each personality's own idle quirk, so the four spend their
+ * day measurably differently (the cheerful twirl, the mischievous sneak, the shy hide, the
+ * lazy doze). Chance per plain sit or wander pick for an adult; a leaning child at half.
+ */
+export const QUIRKS = {
+  chance: { cheerful: 0.6, mischievous: 0.7, shy: 0.4, lazy: 0.4 },
+  childStrength: 0.5,
+  /** Cheerful: a happy twirl on the spot. */
+  twirlMs: [2_500, 4_000] as const,
+  /** Mischievous: tiptoes up behind another Nubbin or the Keeper, then a cheeky grin. */
+  sneakRadius: 10,
+  sneakBehind: 1.2,
+  sneakMs: 3_000,
+  /** Shy: hides its face when the Keeper is this near; else watches from afar. */
+  hideRadius: 4,
+  hideMs: [4_000, 7_000] as const,
+  watchMs: [5_000, 9_000] as const,
+  /** Lazy: lies down for a doze, eyes shut. */
+  dozeMs: [8_000, 14_000] as const,
+} as const;
