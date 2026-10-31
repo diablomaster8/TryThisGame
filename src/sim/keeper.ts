@@ -635,7 +635,7 @@ function noteSafe(world: World): void {
  */
 function poofOverWater(world: World, under: number, events: SimEvent[]): boolean {
   const k = world.keeper;
-  if (!overDeepWater(k.pos) || keeperPerks(world).wade) return false;
+  if (!overDeepWater(k.pos) || keeperPerks(world).wade || !leftAshore.has(world)) return false;
   if (k.y > Math.max(under, WATER_LEVEL) + KEEPER_POOF.surface) return false;
   const from = { x: k.pos.x, z: k.pos.z };
   const back = lastSafe.get(world) ?? shoreline(k.pos);
@@ -657,6 +657,16 @@ function poofOverWater(world: World, under: number, events: SimEvent[]): boolean
   if (near) react(near, 'love', world.timeMs, events);
   return true;
 }
+
+/**
+ * Set by a jump from dry ground, so only a jump (or glide) out over the pond poofs. A Keeper
+ * that slips off the shore's lip or is placed by the water just settles, as it did before.
+ */
+const leftAshore = new WeakSet<World>();
+const noteLeft = (world: World, jumped: boolean): void => {
+  if (jumped && !overDeepWater(world.keeper.pos)) leftAshore.add(world);
+  else leftAshore.delete(world);
+};
 
 /** The highest the feet got since they left the ground, for the landing's fall height. */
 const peakY = new WeakMap<World, number>();
@@ -680,6 +690,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.coyoteMs = tune.coyoteMs;
       k.airJumps = JUMP.airJumps;
       peakY.set(world, k.y);
+      noteLeft(world, false);
     } else {
       // Slopes, ramps and steps up to `stepUp` are followed.
       k.y = ground;
@@ -696,7 +707,10 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.grounded = false;
       k.coyoteMs = 0;
       k.bufferMs = 0;
-      if (fromGround) peakY.set(world, k.y);
+      if (fromGround) {
+        peakY.set(world, k.y);
+        noteLeft(world, true);
+      }
       events.push({ kind: 'keeperJumped', air: !fromGround });
       if (autoPressed.delete(world)) k.jumpHeld = false;
     }
