@@ -391,6 +391,8 @@ export interface Rigged extends Creature {
   glide?: boolean;
   /** LOOK-22: set by the stage: the walk's waddle roll scaled by personality (1 when unset). */
   waddleScale?: number;
+  /** R0042: set by the stage: the biped walk's arm swing scaled (a running Keeper; 1 unset). */
+  armSwingScale?: number;
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
@@ -1604,6 +1606,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       }
       case 'walk': {
         const cycle = t / stride.period;
+        const armSwing = 0.4 * (rig.armSwingScale ?? 1);
         const w = cycle * Math.PI * 2;
         if (spec.hop) {
           // LOOK-45: the in-training blobs hop instead of stepping, two hops a cycle: up long
@@ -1651,8 +1654,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           }
           if (quad) set('tail', 0.15, s(w * 0.5) * 0.3, 0);
           else if (!spider) {
-            set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
-            set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
+            set('armL', -s(w) * armSwing + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+            set('armR', s(w) * armSwing + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
           }
         } else if (spider) {
           // Alternating tetrapod: legs 1 and 3 on one side step with 2 and 4 on the other.
@@ -1669,8 +1672,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         } else {
           set('legL', s(w) * legSwing, 0, 0);
           set('legR', -s(w) * legSwing, 0, 0);
-          set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
-          set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
+          set('armL', -s(w) * armSwing + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+          set('armR', s(w) * armSwing + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
         }
         mouthOpen = 0.1;
         break;

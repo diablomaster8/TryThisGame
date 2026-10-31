@@ -23,3 +23,8 @@ export const TAP_FLAG = {
 export const PIXEL_LEAN = {
   minSlope: 0.12,
 } as const;
+
+/** R0042: a running Keeper's 3D arms swing this many times wider than a walk's (0.4 rad). */
+export const RUN_ARMS = {
+  swing: 1.8,
+} as const;

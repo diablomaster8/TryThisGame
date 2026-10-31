@@ -69,7 +69,15 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
+import {
+  keeperDip,
+  keeperFooting,
+  keeperGliding,
+  keeperMantle,
+  keeperRoll,
+  keeperRunningNow,
+} from '../sim/keeper';
+import { RUN_ARMS } from '../config/tuning-move-r10';
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
 import { sitWithBeat, towardKeeper } from '../render/sit-with';
@@ -898,6 +906,7 @@ export class Actors {
 
   /** Give a Keeper slot back: its rig to the pool, its stand-in out of the scene. */
   private dropKeeper(k: KeeperSlot | null): null {
+    if (k?.rig) k.rig.armSwingScale = 1;
     if (k?.rig) this.pool.release(k.key, k.rig);
     k?.stand?.removeFromParent();
     return null;
@@ -1341,6 +1350,9 @@ export class Actors {
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     const kAt = kRide ? { x: kp.x + kRide.dx, z: kp.z + kRide.dz } : kp;
+    // R0042 (lane A r10): running, the arms swing wider.
+    const kRig = this.keeper?.rig;
+    if (kRig) kRig.armSwingScale = kPose === 'walk' && keeperRunningNow(world) ? RUN_ARMS.swing : 1;
     this.driveKeeper(
       this.keeper!,
       kPose,

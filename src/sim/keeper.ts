@@ -823,6 +823,17 @@ export function markRunWalk(world: World, at: Vec2): void {
   tapRuns.set(world, { at, run: true });
 }
 
+/**
+ * R0042 (lane A r10), for the renderers: whether the Keeper is running now (the Run toggle
+ * or Shift, or a tap walk Auto-run or Travel assist runs). Reads only.
+ */
+export function keeperRunningNow(world: World): boolean {
+  const k = world.keeper;
+  if (k.running) return true;
+  const t = tapRuns.get(world);
+  return !!t?.run && !!k.moveTarget && t.at === k.moveTarget;
+}
+
 /** Whether this tap walk runs: the Run toggle, or Auto-run on a walk over ten units. */
 function tapRunning(world: World, target: Vec2): boolean {
   const k = world.keeper;
