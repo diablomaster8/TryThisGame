@@ -4146,6 +4146,333 @@ body.edu-sprout .modal-head .btn-close {
   opacity: 0.7;
 }
 
+/* Lane E r9 (kidsread), R0734 KIDS-66: co-play prompts as dashed grown-up chips under the line. */
+.edu-coplay-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.edu-coplay {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 6px 10px;
+  border: 2px dashed #9fd3ff;
+  border-radius: 10px;
+  background: rgba(159, 211, 255, 0.1);
+  font-size: 1em;
+  font-style: normal;
+  line-height: 1.35;
+}
+.edu-coplay-icon {
+  font-size: 1.2em;
+}
+.edu-coplay-label {
+  font-weight: 700;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9fd3ff;
+}
+.edu-coplay-text {
+  flex: 1 1 12em;
+}
+
+/* Lane E r9 (kidsread), R0736 KIDS-68: a language word stacked over its romanisation. */
+.lang-ruby {
+  ruby-position: under;
+  ruby-align: center;
+  cursor: pointer;
+  /* Room below for the romanisation, so it never sits on the next line's text. */
+  line-height: 2.4;
+  margin: 0 2px;
+}
+.lang-ruby .lang-roman {
+  font-size: 0.62em;
+  font-style: italic;
+  opacity: 0.9;
+  letter-spacing: 0.02em;
+}
+
+/* Lane E r9 (kidsread), R0730 KIDS-62: the story box's auto-advance toggle. */
+.dialogue-auto {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 1.2rem;
+}
+body.edu-sprout .dialogue-auto {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+}
+.dialogue-auto[aria-pressed='true'] {
+  outline: 2px solid currentColor;
+}
+
+/* Lane E r9 (kidsread), R0737 KIDS-69: Ori and Hana's next visit as a sun-and-moon clock. */
+.lang-wait {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(242, 211, 76, 0.12);
+}
+.lang-wait-clock {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+}
+
+/* Lane E r9: the Learning Grove's name-and-icon step and the ?kids picker (R0696, R0720). */
+.kids-tag-q {
+  font-weight: 700;
+  margin-top: 10px;
+}
+.kids-tag-name {
+  width: 100%;
+  max-width: 320px;
+  min-height: 48px;
+  font-size: 1.25rem;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+.kids-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.kids-tag-colour,
+.kids-tag-icon {
+  min-width: 64px;
+  min-height: 64px;
+}
+.kids-tag-colour {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+}
+.kids-tag-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 70%);
+}
+.kids-tag-icon {
+  font-size: 2rem;
+}
+.kids-tag-row [aria-pressed='true'] {
+  outline: 4px solid #ffe27a;
+  outline-offset: 2px;
+}
+.kids-tag-row [aria-pressed='true']::after {
+  content: ' ✓';
+}
+.kids-tag-go {
+  min-height: 64px;
+  margin-top: 12px;
+  font-size: 1.2rem;
+}
+.title-slot-tagged {
+  border-left: 8px solid var(--tag);
+  padding-left: 4px;
+}
+.kids-pick-title {
+  text-align: center;
+  font-size: 1.6rem;
+}
+.kids-pick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 12px 0;
+}
+.kids-pick-tile {
+  width: var(--tile, 160px);
+  height: var(--tile, 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 6px solid var(--tag, #8bc28c);
+  border-radius: 24px;
+  font-size: 1.2rem;
+  overflow: hidden;
+}
+.kids-pick-icon {
+  font-size: 4rem;
+  line-height: 1;
+}
+.kids-pick-tile strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.kids-pick-grown {
+  display: block;
+  margin: 8px auto 0;
+}
+
+/*
+ * Lane E r9 (kidsread), R0678 KIDS-10: the sprout size sweep. Controls whose own rules are
+ * more specific than the r7 `body.edu-sprout .btn` floor (journal lines, offer cards, modal
+ * close, say-it, act buttons, word rows, the guide's home button) still came out at 44-56 px.
+ * The doubled class lifts this above those (0,3,0) rules but stays below the 72/80 px HUD rule.
+ * Inline word controls in the text (course words, glossary words) stay text-sized.
+ */
+body.edu-sprout.edu-sprout :is(.btn, button, [role='button']):not(.lang-word, .edu-gloss) {
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+}
+/* Text-only sheet actions get a picture in the sprout band (colour is never the only cue). */
+body.edu-sprout .sheet-actions .btn[data-guide='pet']::before {
+  content: '🤗 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='pickup']::before {
+  content: '🤲 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='feed']::before {
+  content: '🍎 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='shake']::before {
+  content: '🌳 ';
+}
+
+/* Lane C r9 (agent J): the journal's tabs, Quests page, Errands and endings shelf, its phone
+   sheet (R0660), and the offer card's giver portrait (R0606). */
+.journal-tabs {
+  flex-wrap: wrap;
+}
+.journal-quests .journal-search {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 0;
+}
+.journal-quests .journal-search input {
+  min-height: 44px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 10px;
+  font-size: 1rem;
+}
+.journal-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.journal-chip[aria-pressed='true'] {
+  outline: 2px solid #f2d34c;
+}
+.journal-quest-list .journal-line.done {
+  opacity: 0.75;
+}
+.journal-errands {
+  margin: 8px 0;
+}
+.journal-errands > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.journal-shelf-list {
+  margin: 4px 0 10px;
+  padding-left: 18px;
+}
+.journal-shelf-list li {
+  margin: 4px 0;
+}
+.journal-shelf-list li.reached {
+  font-weight: 700;
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .journal-tabs.journal-tabs-foot {
+    position: sticky;
+    bottom: 72px;
+    z-index: 1;
+    margin-top: 12px;
+    padding: 6px 0;
+    background: #231c3f;
+    box-shadow: 0 -8px 10px 0 #1a1530;
+  }
+  .journal-modal .sheet-grip {
+    touch-action: none;
+    padding-top: 10px;
+    position: relative;
+  }
+  .journal-modal .sheet-grip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+.offer-card .offer-from-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.offer-card .offer-portrait {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  image-rendering: pixelated;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Lane C r9 (R0661, R0616): the chip's "Go there" and "Rest until …", beside its arrow. */
+.objective-go,
+.objective-rest {
+  pointer-events: auto;
+  position: absolute;
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+}
+.objective-go {
+  left: calc(var(--safe-left) + 64px);
+  font-size: 20px;
+}
+.objective-rest {
+  left: calc(var(--safe-left) + 116px);
+  padding: 0 12px;
+  font-size: 14px;
+}
+/* The soft dim while resting: the Grove stays visible, only quieter. */
+html.story-resting canvas {
+  filter: brightness(0.7) saturate(0.8);
+  transition: filter 0.4s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.story-resting canvas {
+    transition: none;
+  }
+}
 /* ---------- lane D r8: the shake meter (TECH-16) ---------- */
 
 /* Over the field, clear of the thumb that is shaking: the carry chip is not up during a drag. */
@@ -4493,4 +4820,188 @@ body.edu-sprout .modal-head .btn-close {
 .soul-bonds {
   margin: 4px 0 0;
   font-size: 0.85em;
+}
+
+/* Lane D r9, TECH-62: the ghost hand over a selected egg, looping tap → lift → shake. */
+.shake-hint {
+  position: fixed;
+  z-index: 14;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.6));
+}
+.shake-hint[hidden] {
+  display: none;
+}
+.shake-hint > span {
+  position: absolute;
+  left: -16px;
+  bottom: 0;
+  font-size: 32px;
+  line-height: 1;
+}
+.shake-hint-egg {
+  opacity: 0;
+  font-size: 22px !important;
+  left: -11px !important;
+  animation: shake-hint-egg 2.4s ease-in-out infinite;
+}
+.shake-hint-tap {
+  bottom: -30px !important;
+  animation: shake-hint-tap 2.4s ease-in-out infinite;
+}
+.shake-hint-hold {
+  opacity: 0;
+  bottom: -14px !important;
+  animation: shake-hint-hold 2.4s ease-in-out infinite;
+}
+@keyframes shake-hint-tap {
+  0% {
+    opacity: 1;
+    transform: translateY(12px);
+  }
+  15% {
+    transform: translateY(0);
+  }
+  22% {
+    transform: translateY(6px);
+  }
+  30% {
+    opacity: 1;
+  }
+  34%,
+  100% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes shake-hint-egg {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  34% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -22px);
+  }
+  58%,
+  74% {
+    transform: translate(-7px, -22px) rotate(-14deg);
+  }
+  66%,
+  82% {
+    transform: translate(7px, -22px) rotate(14deg);
+  }
+  92% {
+    opacity: 1;
+    transform: translate(0, -22px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -22px);
+  }
+}
+@keyframes shake-hint-hold {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  34% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -22px);
+  }
+  58%,
+  74% {
+    transform: translate(-7px, -22px) rotate(-14deg);
+  }
+  66%,
+  82% {
+    transform: translate(7px, -22px) rotate(14deg);
+  }
+  92% {
+    opacity: 1;
+    transform: translate(0, -22px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -22px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shake-hint > span {
+    animation: none;
+  }
+  .shake-hint-hold,
+  .shake-hint-egg {
+    opacity: 1;
+  }
+  .shake-hint-tap {
+    opacity: 0;
+  }
+}
+.reduce-motion .shake-hint > span {
+  animation: none;
+}
+.reduce-motion .shake-hint-hold,
+.reduce-motion .shake-hint-egg {
+  opacity: 1;
+}
+.reduce-motion .shake-hint-tap {
+  opacity: 0;
+}
+
+/* Lane D r9, TECH-28: text for screen readers only. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lane D r9, TECH-29: press-and-hold to erase fills the button; ⋯ hides Erase until asked. */
+.btn-hold {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.btn-hold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(224, 86, 46, 0.45);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.btn-hold.holding::before {
+  transform: scaleX(1);
+  transition: transform var(--hold-ms, 1500ms) linear;
+}
+.title-slot-more {
+  margin-left: 10px;
+}
+.title-slot-erase[hidden],
+.title-slot-more[hidden] {
+  display: none;
+}
+.title-trash-info {
+  cursor: default;
+  text-align: left;
 }

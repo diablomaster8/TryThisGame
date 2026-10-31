@@ -25,11 +25,17 @@
   display: flex;
   gap: 3px;
   flex: 1 1 100%;
-  overflow: hidden;
+  /* TECH-27: at larger text the turn order runs past the edge; swipe it instead of clipping. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.tactics-strip > * {
+  flex: none;
 }
 .tactics-chip-unit,
 .tactics-chip-ghost {
-  font-size: 11px;
+  font-size: 0.6875rem;
   padding: 2px 4px;
   border-radius: 4px;
   background: #4a3657;
@@ -41,7 +47,7 @@
 }
 .tactics-chip {
   flex: 1 1 auto;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .tactics-tools {
   display: flex;
@@ -60,7 +66,7 @@
 }
 .tactics-log {
   white-space: pre-line;
-  font-size: 12px;
+  font-size: 0.75rem;
   padding: 2px 10px;
   min-height: 3.9em;
   opacity: 0.9;
@@ -79,7 +85,7 @@
 .tactics-btn {
   min-height: 64px;
   min-width: 64px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 .tactics-go {
   background: #6fbf73;
@@ -91,7 +97,7 @@
 }
 .tactics-move {
   min-height: 56px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .tactics-card {
   background: #4a3657;
@@ -144,7 +150,7 @@
   grid-area: w;
 }
 .tactics-hint {
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-align: center;
 }
 .tactics-tile {
@@ -160,7 +166,7 @@
 }
 .tactics-tile-name {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 1rem;
 }
 .tactics-end {
   position: absolute;
@@ -174,7 +180,7 @@
   text-align: center;
 }
 .tactics-end-title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   margin-bottom: 8px;
 }

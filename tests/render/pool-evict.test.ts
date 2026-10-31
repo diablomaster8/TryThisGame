@@ -78,3 +78,33 @@ describe('creature pool sculpt retries', () => {
     warn.mockRestore();
   });
 });
+
+// R0081 round 9: a hidden page drops the surfaces of looks no rig is using, and keeps the
+// ones on screen (their stand-ins read them).
+describe('creature pool trim', () => {
+  it('drops unused looks and keeps the ones lent out', async () => {
+    const { BufferGeometry, Group } = await import('three');
+    const pool = new CreaturePool();
+    const made: Record<string, InstanceType<typeof BufferGeometry>> = {};
+    (pool as unknown as { farm: unknown }).farm = {
+      surfaces: (key: string) => Promise.resolve([(made[key] = new BufferGeometry())]),
+      surfaceCount: () => 1,
+      forget: () => {},
+      dispose: () => {},
+    };
+    for (const key of ['look-a', 'look-b']) expect(pool.acquire({ key, height: 1 })).toBeNull();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(pool.isReady('look-a') && pool.isReady('look-b')).toBe(true);
+    const group = new Group();
+    group.userData.lookKey = 'look-a';
+    const rig = { group } as unknown as Parameters<CreaturePool['release']>[1];
+    pool.release('look-a', rig);
+    expect(pool.acquire({ key: 'look-a', height: 1 })).toBe(rig);
+    const freed = vi.spyOn(made['look-b']!, 'dispose');
+    pool.trim();
+    expect(pool.isReady('look-a')).toBe(true);
+    expect(pool.isReady('look-b')).toBe(false);
+    expect(freed).toHaveBeenCalled();
+  });
+});

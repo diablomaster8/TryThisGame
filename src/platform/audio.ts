@@ -1552,3 +1552,15 @@ export function playHollowCue(cue: HollowCue): void {
     // As above.
   }
 }
+
+// ---------------------------------------------------------------- R0139 (lane D r9): biome beds
+
+/**
+ * Where a biome sound bed (platform/biome-beds.ts) plugs in: the running context, the
+ * ambience bus (so the Ambience setting, the SFX volume and mute all govern it) and the shared
+ * noise buffer. Null until the first tap unlocks sound, so nothing is built or heard before.
+ */
+export function ambienceOut(): { ctx: AudioContext; bus: GainNode; noise: AudioBuffer } | null {
+  if (!unlocked || !ctx || !ensureAmbience() || !ambienceBus) return null;
+  return { ctx, bus: ambienceBus, noise: noise(ctx) };
+}

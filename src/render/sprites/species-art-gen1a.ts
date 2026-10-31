@@ -103,7 +103,11 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     marks: ['belly'],
     size: 1.05,
   }),
+  // Charizard (LOOK-39): a tall dragon with a muzzle instead of a round face, horns swept
+  // back, teal inner wings held raised and the flame tail tip.
   cinderwing: spec(pal(C.orange, C.ember, C.cream, C.ember, C.teal), {
+    plan: 'tall',
+    extras: ['dinoSnout'],
     size: 1.25,
     ears: 'horns',
     wings: 'bat',
@@ -549,12 +553,13 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     ears: 'round',
     tail: 'curl',
     eyes: 'angry',
-    marks: ['stripes'],
+    // LOOK-39: black tiger slashes on orange, the cream mane, chest and a long muzzle.
+    marks: ['stripes', 'chest'],
     addons: [ex('mane', C.cream)],
     plan: 'quad',
     arms: 'none',
     legs: 'none',
-    quad: { legLen: 0.85, neck: 0.35, snout: 0.3 },
+    quad: { legLen: 0.85, neck: 0.35, snout: 0.4 },
   }),
   // ---- swirl line ----
   swirlet: spec(pal(C.water, C.deepWater, C.white, C.ink, C.ink), {

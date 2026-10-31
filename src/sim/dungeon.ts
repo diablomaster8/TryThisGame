@@ -5,6 +5,8 @@ import { tzOf } from './local-time';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
+import { stepSecrets, withSeals, type Seal } from './dungeon-secrets';
+import { stepPuzzles } from './dungeon-puzzles';
 import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
 import {
@@ -43,6 +45,16 @@ import {
   type EncounterPack,
 } from './dungeon-encounters';
 import { nubbinWaypoint } from './dungeon-nav';
+import {
+  fetchRadiusOf,
+  hollowPartySize,
+  leadFirst,
+  lightBonus,
+  mayFetch,
+  stepScout,
+} from './dungeon-roles';
+import { noteTrail } from './dungeon-speed';
+import { shellPay } from './dungeon-economy';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
 import { noteScan } from './scans';
@@ -228,6 +240,8 @@ export interface Floor {
   stone?: Cell;
   /** The act a camp, field or side cave belongs to, by `ACTS` index. */
   act?: number;
+  /** Lane B r8: secret rooms, puzzle gates and the boss door (dungeon-secrets.ts). */
+  seals?: Seal[];
 }
 
 /** A camp service (R0152): who keeps it is a trainer id, `local`, or '' for the stash. */
@@ -576,12 +590,24 @@ export function scatterFinds(
       !special.has(`${c.x},${c.y}`) &&
       cellDist(c, floor.stairsUp) > 3,
   );
+  // R0205: the same pick as filtering the open cells by distance and taking the k-th, without
+  // building the filtered list on every call (it was a tenth of a deep floor's time).
+  const su = floor.stairsUp;
+  const far = (c: Cell, m: number) => (c.x - su.x) ** 2 + (c.y - su.y) ** 2 >= m * m;
   const pickOpen = (minFromStairs: number): Cell | null => {
-    const pool = open.filter((c) => cellDist(c, floor.stairsUp) >= minFromStairs);
-    if (pool.length === 0) return null;
-    const c = pool[rng.int(0, pool.length - 1)]!;
-    open.splice(open.indexOf(c), 1);
-    return c;
+    let count = 0;
+    for (const c of open) if (far(c, minFromStairs)) count++;
+    if (count === 0) return null;
+    let k = rng.int(0, count - 1);
+    for (let i = 0; i < open.length; i++) {
+      const c = open[i]!;
+      if (!far(c, minFromStairs)) continue;
+      if (k-- === 0) {
+        open.splice(i, 1);
+        return c;
+      }
+    }
+    return null;
   };
   const lootCount =
     counts?.loot ??
@@ -661,9 +687,13 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
 export function floorOfRun(run: DungeonRun): Floor {
   const zone = zoneFloor(run);
   if (zone) return zone;
-  return run.act !== undefined
-    ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty)
-    : floorOf(run.seed, run.depth, run.genVersion);
+  // Lane B r8: the run's opened secrets, puzzle gates and the boss door.
+  return withSeals(
+    run,
+    run.act !== undefined
+      ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty)
+      : floorOf(run.seed, run.depth, run.genVersion),
+  );
 }
 
 export function runFloor(world: World): Floor | null {
@@ -873,18 +903,20 @@ function canJoin(n: Nubbin): boolean {
 
 function choosePartyFor(world: World): string[] {
   const party: string[] = [];
+  // R0167: 3 come along, 4 after Act II.
+  const size = hollowPartySize(world);
   if (world.keeper.carrying) party.push(world.keeper.carrying);
   // The party picked at the cave mouth (R0168), then partners, then anyone.
   for (const id of [...world.hollow.lastParty, ...world.partners]) {
     const n = id ? world.nubbins.find((x) => x.id === id) : undefined;
-    if (n && canJoin(n) && !party.includes(n.id) && party.length < DUNGEON.partySize)
-      party.push(n.id);
+    if (n && canJoin(n) && !party.includes(n.id) && party.length < size) party.push(n.id);
   }
   for (const n of world.nubbins) {
-    if (party.length >= DUNGEON.partySize) break;
+    if (party.length >= size) break;
     if (canJoin(n) && !party.includes(n.id)) party.push(n.id);
   }
-  return party;
+  // R0167: a Fight Nubbin walks at the front and leads the bouts.
+  return leadFirst(world, party);
 }
 
 /** A floor's strays, wild creatures and packs, fresh; nothing taken, seen or opened. */
@@ -1203,7 +1235,9 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     if (run.chestOpen) return;
     run.chestOpen = true;
     const rng = Rng.fromSeed(`${run.seed}:${run.depth}:chest`);
-    const shells = Math.round(
+    // R0178: scaled by the act's payout, so the bigger floors don't flood the shop.
+    const shells = shellPay(
+      run,
       (rng.int(DUNGEON.chestShells[0], DUNGEON.chestShells[1]) + run.depth * 10) *
         shrineShells(run),
     );
@@ -1258,7 +1292,8 @@ function takeLoot(
     case 'shells':
       // A Sunny shrine finds a quarter more (R0159).
       // Gloves and Sunny gear add a few to every handful (R0164).
-      amount = Math.round(amount * shrineShells(run) + gearStat(world, 'shells'));
+      // R0178: the act's payout scale applies before the gear's flat bonus.
+      amount = shellPay(run, amount * shrineShells(run)) + Math.round(gearStat(world, 'shells'));
       inv.shells += amount;
       run.haul.shells += amount;
       break;
@@ -1331,7 +1366,10 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const dt = dtMs / 1000;
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
-  revealAround(run, f, cellOf(f, k.pos), Math.floor(gearStat(world, 'explore')));
+  // R0167: a Light Nubbin's glow orb shows more of the floor.
+  const sight = Math.floor(gearStat(world, 'explore')) + lightBonus(world, run);
+  revealAround(run, f, cellOf(f, k.pos), sight);
+  noteTrail(world, run, f);
   stepFall(world, run, f, events);
 
   // Anything the Keeper walks over.
@@ -1344,6 +1382,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   stepSack(world, run, events);
   stepShrines(world, run, f, dtMs, events);
   stepTraps(world, run, f, dtMs, events);
+  stepSecrets(world, run, f, dtMs, events);
+  stepPuzzles(world, run, f, dtMs, events);
   stepPicnic(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
@@ -1381,6 +1421,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     return;
   }
 
+  // R0167: a Scout calls out a pack before it notices.
+  stepScout(world, run, events);
   // Monster packs (R0146); a fight under way holds the rest of the floor still.
   stepPacks(world, f, dtMs, rng, events, settling);
   if (run.encounter || held || world.dungeon !== run || runFloor(world) !== f) return;
@@ -1438,9 +1480,11 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     if (!fetching) {
       delete run.fetch[id];
       let best: FloorLoot | undefined;
-      let bestD: number = DUNGEON.fetchRadius;
+      // R0167: Fetch reaches further, Lazy stays close, only a Swim Nubbin swims to an island.
+      let bestD: number = fetchRadiusOf(world, n);
       for (const l of f.loot) {
         if (!available(l) || Object.values(run.fetch).includes(l.id)) continue;
+        if (!mayFetch(world, f, n, l.cell)) continue;
         const d = dist(n.pos, cellCentre(f, l.cell));
         if (d < bestD) {
           bestD = d;

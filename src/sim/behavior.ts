@@ -107,6 +107,8 @@ import {
   type IdleAct,
 } from './soul-idle';
 import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
+/* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
+import { eduYawnAct } from './edu-session';
 import type {
   BehaviorState,
   Flavor,
@@ -732,7 +734,10 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Lane A r8: a moody look's own acts (R0532), then the time of day's (R0535).
   // R0575: none of these while catching up on time away; they are for watching.
   const own = soulLive()
-    ? (alignAct(n, world, rng) ?? moodyAct(n, world, rng) ?? phaseAct(n, world, rng))
+    ? (eduYawnAct(n, world, rng) ??
+      alignAct(n, world, rng) ??
+      moodyAct(n, world, rng) ??
+      phaseAct(n, world, rng))
     : null;
   if (own) {
     startAct(n, own, now);

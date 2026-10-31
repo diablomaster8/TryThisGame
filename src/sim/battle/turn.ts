@@ -7,6 +7,7 @@ import type { Rng } from '../rng';
 import { chooseAction, levelFor, replacementFor } from './ai';
 import { addCalm, calmGain } from './befriend';
 import { end, hurt, moveDamage, onField, settle, standing } from './damage';
+import { afterModHit, tickMods } from './hollow-mods';
 import { itemFits, itemsLeft, useItem } from './items';
 import { moveOf } from './moves';
 import { BASIC_MOVES } from './moves-sources';
@@ -310,6 +311,7 @@ function useMove(
       crit,
     });
     hurt(s, rng, to, dmg);
+    afterModHit(s, rng, c, to, dmg);
     if (to.calm !== undefined && to.side !== c.side) addCalm(s, to, BATTLE.befriend.bonk);
     // A bonk wakes a Drowsy target.
     if (def.kind === 'bonk' && to.hp > 0 && to.major?.id === 'drowsy') cure(s, to);
@@ -446,6 +448,7 @@ export function resolveTurn(s: BattleState, rng: Rng): void {
     c.puff = Math.min(c.puffMax, c.puff + BATTLE.puff.regen);
     if (c.decoy > 0) c.decoy -= 1;
     if (c.alignAs && --c.alignAs.turns <= 0) delete c.alignAs;
+    tickMods(c);
   }
   tickFusion(s);
   if (s.result) return;

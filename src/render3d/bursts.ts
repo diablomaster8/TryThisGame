@@ -9,7 +9,17 @@ import { QuadCloud, type QuadShape } from './quad-particles';
  * (leaf, dot, star, heart), turning and fading softly; particles fall with a drag (leaves flutter down slowly,
  * dust settles fast, sparkles hang and hearts float up) and fade before they go.
  */
-export type BurstKind = 'leaf' | 'petal' | 'dust' | 'crumb' | 'sparkle' | 'heart';
+export type BurstKind =
+  | 'leaf'
+  | 'petal'
+  | 'dust'
+  | 'crumb'
+  | 'sparkle'
+  | 'heart'
+  // R0410 (LOOK-44): the signature beats' cheek sparks, sung notes and tail embers.
+  | 'spark'
+  | 'note'
+  | 'ember';
 
 interface Particle {
   p: THREE.Vector3;
@@ -27,6 +37,9 @@ const COLORS: Record<BurstKind, string[]> = {
   crumb: ['#e8b060', '#c88a40', '#f4d08a'],
   sparkle: ['#fff6c0', '#ffffff', '#ffe08a', '#c8f0ff'],
   heart: ['#ff6f9c', '#ff8fb4', '#f2507e'],
+  spark: ['#fff27a', '#ffe040', '#ffffff'],
+  note: ['#5a4fd0', '#d04f9a', '#2f8fd0'],
+  ember: ['#ff9a30', '#ffcf50', '#ff6020'],
 };
 
 /**
@@ -43,6 +56,9 @@ const MOTION: Record<
   crumb: { gravity: 3.2, drag: 2.0, flutter: 0, lands: true },
   sparkle: { gravity: 0, drag: 2.4, flutter: 0, lands: false },
   heart: { gravity: -0.6, drag: 1.5, flutter: 1.2, lands: false },
+  spark: { gravity: 0, drag: 5, flutter: 0, lands: false },
+  note: { gravity: -0.3, drag: 1.2, flutter: 1.4, lands: false },
+  ember: { gravity: -0.5, drag: 1.8, flutter: 0.6, lands: false },
 };
 
 const MAX = 320;
@@ -56,6 +72,9 @@ const LOOK: Record<BurstKind, { shape: QuadShape; size: number; additive: boolea
     crumb: { shape: 'dot', size: 0.11, additive: false, spin: 0 },
     sparkle: { shape: 'star', size: 0.5, additive: true, spin: 0.6 },
     heart: { shape: 'heart', size: 0.34, additive: false, spin: 0 },
+    spark: { shape: 'star', size: 0.3, additive: true, spin: 4 },
+    note: { shape: 'note', size: 0.3, additive: false, spin: 0 },
+    ember: { shape: 'glow', size: 0.16, additive: true, spin: 0 },
   };
 
 /** Reduced motion: at most this many glints a burst, drawn this close, for this long. */

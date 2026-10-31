@@ -15,6 +15,8 @@ import { loadStoryScripts } from './sim/story-scenes';
 import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
+/* Lane E r9, R0696 */
+import { showKidsPicker, type EduTag } from './ui/kids-launch';
 import { readKidsLock } from './platform/kids-lock';
 import { showUpdateNotice } from './ui/update-notice';
 import { showBootError } from './ui/boot-error';
@@ -114,6 +116,17 @@ function route(): void {
     // Lane E r8, R0695: a grown-up locked this device to a Learning Grove; `?title` skips it.
     setSaveSlot({ mode: 'edu', index: kidsLock });
     startGame(null);
+  } else if (params.has('kids')) {
+    /* Lane E r9, R0696: the "Learning Grove" home-screen shortcut: the children's Groves only. */
+    loadStoryScripts().catch(() => undefined);
+    showKidsPicker(
+      hudRoot,
+      (slot) => {
+        setSaveSlot(slot);
+        startGame(null);
+      },
+      () => location.assign(location.pathname),
+    );
   } else {
     // Fetch the campaign and side-story chunks while the title is up.
     // A failure here is retried, and reported, when the game starts.
@@ -130,7 +143,11 @@ function route(): void {
             ? choice.trainer
             : null,
           choice.slot.mode === 'edu' && choice.fresh && choice.age
-            ? { age: choice.age, band: choice.band ?? 'sprout' }
+            ? {
+                age: choice.age,
+                band: choice.band ?? 'sprout',
+                ...(choice.tag ? { tag: choice.tag } : {}),
+              }
             : undefined,
           choice.fresh ? (choice.storyline ?? null) : null,
         );
@@ -144,6 +161,8 @@ function route(): void {
 interface NewEdu {
   age: EduAge;
   band: EduBand;
+  /** Lane E r9, R0696: the name, colour and animal from the title's step. */
+  tag?: EduTag;
 }
 
 /**
@@ -274,6 +293,11 @@ function boot(
     }
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
+  /* Lane E r9, R0696 */
+  if (eduAge?.tag) {
+    if (eduAge.tag.name) game.send({ kind: 'eduSetName', name: eduAge.tag.name });
+    game.send({ kind: 'eduSetTag', icon: eduAge.tag.icon, colour: eduAge.tag.colour });
+  }
   // The time away is made up now, in slices the indicator can paint between; story scenes
   // and the away screen wait for it (review C, items 12 and 16).
   void game.catchUpOnLoad();

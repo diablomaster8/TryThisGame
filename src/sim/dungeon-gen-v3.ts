@@ -47,12 +47,9 @@ const STEP: Record<Side, readonly [number, number]> = {
   w: [-1, 0],
 };
 const OPP: Record<Side, Side> = { n: 's', e: 'w', s: 'n', w: 'e' };
-const FOUR = [
-  [1, 0],
-  [-1, 0],
-  [0, 1],
-  [0, -1],
-] as const;
+/** R0205: the four steps as plain arrays (destructuring step pairs in hot loops was slow). */
+const DX4 = [1, -1, 0, 0] as const;
+const DY4 = [0, 0, 1, -1] as const;
 
 export interface V3Options {
   level: HollowLevel;
@@ -80,6 +77,16 @@ export function v3OptionsFor(depth: number): V3Options {
   const d = V.deepLevels;
   const level: HollowLevel = depth <= d.small ? 'small' : depth <= d.standard ? 'standard' : 'big';
   return { level, tileset: 'rootways', boss: false };
+}
+
+/**
+ * Lane B r8 (R0182): each version-3 floor's side caves, as cell indexes (the cave and the
+ * tunnel dug to it). Kept beside the floor, not on it, so floors stay as they were.
+ */
+const SIDE_CAVES = new WeakMap<Floor, number[][]>();
+
+export function sideCaves(f: Floor): readonly number[][] {
+  return SIDE_CAVES.get(f) ?? [];
 }
 
 // ---------------------------------------------------------------- turned pieces
@@ -416,9 +423,18 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       for (let x = 2; x < cols - 2; x++) {
         const i = y * cols + x;
         if (kept[i]) continue;
-        let n = 0;
-        for (let dy = -1; dy <= 1; dy++)
-          for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && ca[i + dy * cols + dx]) n++;
+        // R0205: the eight neighbours summed straight (cells are 0 or 1), same count.
+        const up = i - cols;
+        const dn = i + cols;
+        const n =
+          ca[up - 1]! +
+          ca[up]! +
+          ca[up + 1]! +
+          ca[i - 1]! +
+          ca[i + 1]! +
+          ca[dn - 1]! +
+          ca[dn]! +
+          ca[dn + 1]!;
         next[i] = ca[i] ? (n >= 4 ? 1 : 0) : n >= 5 ? 1 : 0;
       }
     ca = next;
@@ -453,7 +469,9 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       const i = out[k]!;
       const x = i % cols;
       const y = (i - x) / cols;
-      for (const [dx, dy] of FOUR) {
+      for (let s4 = 0; s4 < 4; s4++) {
+        const dx = DX4[s4]!;
+        const dy = DY4[s4]!;
         const nx = x + dx;
         const ny = y + dy;
         if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue;
@@ -470,6 +488,8 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
   const from = new Int32Array(cols * rows);
   const seenAt = new Int32Array(cols * rows);
   let stamp = 0;
+  // Lane B r8 (R0182): each side cave and the tunnel dug to it, the secret rooms' candidates.
+  const caves: number[][] = [];
   for (let i = 0; i < cells.length; i++) {
     if (cells[i] === WALL || comp[i]! >= 0) continue;
     const pocket = flood(i, nextId++);
@@ -494,7 +514,9 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       const j = queue[k]!;
       const x = j % cols;
       const y = (j - x) / cols;
-      for (const [dx, dy] of FOUR) {
+      for (let s4 = 0; s4 < 4; s4++) {
+        const dx = DX4[s4]!;
+        const dy = DY4[s4]!;
         const nx = x + dx;
         const ny = y + dy;
         if (!inner(nx, ny)) continue;
@@ -518,6 +540,7 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       }
       continue;
     }
+    const cave = pocket.some((j) => owner[j]! >= 0) ? null : [...pocket];
     for (let j = from[hit]!; j >= 0 && from[j] !== -1; j = from[j]!) {
       const x = j % cols;
       const y = (j - x) / cols;
@@ -526,7 +549,10 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
         const ty = y + (w >> 1);
         const t = ty * cols + tx;
         if (!inner(tx, ty) || owner[t]! >= 0) continue;
-        if (cells[t] === WALL) cells[t] = FLOOR;
+        if (cells[t] === WALL) {
+          cells[t] = FLOOR;
+          cave?.push(t);
+        }
         // Claimed even where it crossed another pocket, so that pocket is never filled
         // in under the tunnel.
         comp[t] = 0;
@@ -534,6 +560,7 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
     }
     // The pocket now belongs to the cave.
     for (const j of pocket) comp[j] = 0;
+    if (cave) caves.push(cave);
   }
   for (let i = 0; i < cells.length; i++) if (cells[i] !== WALL && comp[i] !== 0) cells[i] = WALL;
 
@@ -548,7 +575,9 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       const i = q[k]!;
       const x = i % cols;
       const y = (i - x) / cols;
-      for (const [dx, dy] of FOUR) {
+      for (let s4 = 0; s4 < 4; s4++) {
+        const dx = DX4[s4]!;
+        const dy = DY4[s4]!;
         const j = (y + dy) * cols + (x + dx);
         if (cells[j] === WALL || d[j]! >= 0) continue;
         d[j] = d[i]! + 1;
@@ -687,6 +716,7 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
     boss: boss ? dryNear(floor, boss) : null,
   };
   floor.layout = layout;
+  SIDE_CAVES.set(floor, caves);
   floor.packs = placePacks(floor, rng, depth, rng.int(level.packs[0], level.packs[1]));
   if (opts.boss) {
     const at = layout.boss ?? floor.stairsDown;

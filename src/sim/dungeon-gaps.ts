@@ -28,10 +28,6 @@ const FOUR = [
   [0, -1],
 ] as const;
 
-function hazard(v: number | undefined): boolean {
-  return v === CHASM || v === WATER;
-}
-
 /**
  * Cells reachable from `start`: on foot only, or with jump edges over up to `G.maxJump`
  * hazard cells. `from` seeds more than one start (the fix-up's reached set).
@@ -39,19 +35,26 @@ function hazard(v: number | undefined): boolean {
 export function reachMask(f: Floor, start: Cell | Cell[], jumps: boolean): Uint8Array {
   const { cols, rows, cells } = f;
   const seen = new Uint8Array(cols * rows);
-  const queue: number[] = [];
+  // R0205: a typed queue reused across calls and unrolled steps (the generator runs this
+  // once per candidate cut, so it was a fifth of a deep floor's time). Same cells, same order.
+  if (queueBuf.length < cols * rows) queueBuf = new Int32Array(cols * rows);
+  const queue = queueBuf;
+  let n = 0;
   for (const s of Array.isArray(start) ? start : [start]) {
     const i = s.y * cols + s.x;
     if (cells[i] !== FLOOR || seen[i]) continue;
     seen[i] = 1;
-    queue.push(i);
+    queue[n++] = i;
   }
-  for (let q = 0; q < queue.length; q++) {
+  const reach = jumps ? G.maxJump + 1 : 1;
+  for (let q = 0; q < n; q++) {
     const i = queue[q]!;
     const x = i % cols;
     const y = (i - x) / cols;
-    for (const [dx, dy] of FOUR) {
-      for (let k = 1; k <= (jumps ? G.maxJump + 1 : 1); k++) {
+    for (let d = 0; d < 4; d++) {
+      const dx = d === 0 ? 1 : d === 1 ? -1 : 0;
+      const dy = d === 2 ? 1 : d === 3 ? -1 : 0;
+      for (let k = 1; k <= reach; k++) {
         const nx = x + dx * k;
         const ny = y + dy * k;
         if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) break;
@@ -60,16 +63,18 @@ export function reachMask(f: Floor, start: Cell | Cell[], jumps: boolean): Uint8
         if (v === FLOOR) {
           if (!seen[j]) {
             seen[j] = 1;
-            queue.push(j);
+            queue[n++] = j;
           }
           break;
         }
-        if (!hazard(v)) break;
+        if (v !== CHASM && v !== WATER) break;
       }
     }
   }
   return seen;
 }
+
+let queueBuf = new Int32Array(0);
 
 /** A dry cell next to (or at) `c`, for targets such as a landmark standing in its pool. */
 function standNear(f: Floor, c: Cell): Cell | null {

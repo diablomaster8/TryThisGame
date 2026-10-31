@@ -31,6 +31,7 @@ import {
   KEEPER_WADE,
 } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
+import { shakeFruitBonus } from './dungeon-gear-effects';
 import { swimHint, waterPace } from './swim-tow';
 import { surfacePace } from './surface-pace';
 import { dropFruit, withRng } from './world';
@@ -49,6 +50,7 @@ import { rememberCare } from './care-memory';
 import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
+import { noteBorderPush } from './border';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -349,6 +351,10 @@ function autoHop(world: World, dx: number, dz: number): void {
  * from a little further off.
  */
 const standIns = new WeakMap<Vec2, Vec2>();
+/** WORLD-41: the tap a stand-in target stands for, if `target` is one (read-only). */
+export function standInTap(target: Vec2): Vec2 | undefined {
+  return standIns.get(target);
+}
 /** When a stand-in walk last asked whether its real tap had come within reach (sim ms). */
 const tapRecheck = new WeakMap<World, number>();
 /** How often (ms) a stand-in walk looks again at its real tap. */
@@ -1174,6 +1180,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.pos.z += out.nz * out.depth * ease;
     }
     clampToWorld(k.pos);
+    // WORLD-67: walking into the edge says why it ends here.
+    noteBorderPush(world, events, k.moveTarget ? standInTap(k.moveTarget) : undefined);
     // Still inside something (two blockers, or a blocker and the shore, pushing in turn):
     // step out to the nearest free spot so no position can trap the Keeper.
     unstickKeeper(world);
@@ -1295,6 +1303,9 @@ function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEve
     if (keeperPerks(world).power) {
       for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
     }
+    // R0164: Crumbs on worn gear shakes loose a little more.
+    const extra = shakeFruitBonus(world, () => rng.next());
+    for (let i = 0; i < extra; i++) dropFruit(world, tree, rng, events);
   });
 }
 

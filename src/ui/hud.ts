@@ -1,4 +1,9 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { setBiomeBed } from '../platform/biome-beds';
+import { REGIONS } from '../config/regions';
+import { regionOf } from '../sim/regions';
+import { hintToast, secretToasts } from './world-hints-ui';
+import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
@@ -26,7 +31,9 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
+import { BORDER_TEXT } from '../config/strings-r9d2';
 import { gearGlyph, gearName } from './dungeon-gear';
+import { itemsToast } from './dungeon-items';
 import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
@@ -124,6 +131,7 @@ import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { StickerBook } from './sticker-book';
 import { EduPlaces } from './edu-places';
+import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { LimitCard, syncKidsLock } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
@@ -180,6 +188,8 @@ import { noteEventKinds } from '../platform/bug-log';
 import { isKeysHintKey, keysHintDone, showKeysHintAgain, watchKeysHint } from './keys-hint';
 import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/strings-r8d';
 import { ShakeMeter } from './shake-meter';
+import { ShakeHint } from './shake-hint';
+import { SelectionLive } from './a11y-live';
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
@@ -188,6 +198,8 @@ import { festivalGagDue } from '../sim/festival-gags';
 import { FESTIVAL_GAGS } from '../content/festival-gags';
 import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
+import { commandTaps } from '../game'; /* Lane E r9 */
+import { REMEMBRANCE_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { evolveFlash } from '../render/evolve-reveal';
 import { setEmoteFocus } from '../render/emote-size';
 import { SoulAmbient } from './soul-ambient';
@@ -484,6 +496,7 @@ export function mountHud(
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
+  commandTaps.add((c) => curiosities.onCommand(c)); /* Lane E r9 */
   // R0552 (lane A r9): the Grove's snores and chirps.
   const soulAmbient = new SoulAmbient();
 
@@ -588,6 +601,10 @@ export function mountHud(
   });
   // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
   const guide = new Guide(root, game, () => sheet.selectedId);
+  // TECH-62: the ghost hand that shows how to shake a selected egg.
+  const shakeHint = new ShakeHint(root);
+  // TECH-28: the selected Nubbin said aloud, and Tab through the Nubbins on the canvas.
+  const selectionLive = new SelectionLive(root, game, (id) => sheet.open(id));
   edu.onShowMe(() => guide.show());
   // Lane E r8, R0685: the sticker book, from the results card's sticker (and Places).
   const stickerBook = new StickerBook(root, game);
@@ -606,6 +623,8 @@ export function mountHud(
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // Lane B r8: the boss scroll (R0207) waits for the boss celebration to close.
+  dungeon.scrollBusy = () => celebration.isOpen;
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
   const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);
@@ -1146,6 +1165,12 @@ export function mountHud(
                 stream: nearStream,
               },
         );
+        // R0139 (lane D r9): the biome's sound bed, quiet whenever the ambience is.
+        setBiomeBed(
+          dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
+            ? null
+            : REGIONS[regionOf(g.world.location)].biome,
+        );
       }
       if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
       // Learning Grove: no races or karate; the 🧭 button is the games; breaks on time.
@@ -1171,6 +1196,12 @@ export function mountHud(
       const sprout = isEdu && g.world.edu?.band === 'sprout';
       if (document.body.classList.contains('edu-sprout') !== sprout)
         document.body.classList.toggle('edu-sprout', sprout);
+      /* Lane E r9, R0679: the sprout's four picture buttons say what they open. */
+      setActionLabel(journalBtn, sprout ? SPROUT_HUD_TEXT.story : UI_FX_TEXT.actionLabels.journal);
+      setActionGlyph(rosterBtn, sprout ? '🐣' : '📋');
+      setActionLabel(rosterBtn, sprout ? SPROUT_HUD_TEXT.nubbins : UI_FX_TEXT.actionLabels.roster);
+      setActionGlyph(moreBtn, sprout ? '🗺' : '⋯');
+      setActionLabel(moreBtn, sprout ? SPROUT_HUD_TEXT.places : UI_FX_TEXT.actionLabels.more);
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
@@ -1218,6 +1249,8 @@ export function mountHud(
           g.catchingUp;
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
+        shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
+        selectionLive.update(g.world);
         kidNotices.flush();
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
@@ -1341,6 +1374,12 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      /* Lane E r9, R0424: a friend of a departed Nubbin keeps its flower. */
+      for (const e of events)
+        if (e.kind === 'remembrance') {
+          const who = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (who) toast(REMEMBRANCE_TEXT.given(who.name, e.friend));
+        }
       noteEventKinds(events);
       // TECH-15: a buzz for the moments that have one.
       for (const e of events) {
@@ -1349,6 +1388,13 @@ export function mountHud(
           buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
       }
       backupNudge.onEvents(events);
+      // Lane B r8: the Scout's "!" and the boss scroll (ui/hollow-scroll.ts).
+      dungeon.onEvents(events, g.world, toast);
+      // Lane B r8 (floors): secrets, puzzles, part shortcuts, the boss door (ui/hollow-floors-r8.ts).
+      for (const e of events) {
+        const t = floorsToast(g.world, e);
+        if (t) toast(t);
+      }
       offerCard.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
@@ -1445,6 +1491,9 @@ export function mountHud(
           );
         } else if (e.kind === 'lookedAround' && !e.found) {
           toast(LOOKOUT_TEXT.nothing);
+        } else if (e.kind === 'borderPushed') {
+          // WORLD-67: the Grove's edge says why it ends here, once per stretch a visit.
+          toast(e.edge === 'notYet' ? BORDER_TEXT.notYet : BORDER_TEXT.hedge);
         } else if (e.kind === 'moveUnreachable') {
           // MOVE-35: a gentle bonk every time, the words at most once a while.
           playSound('bonk');
@@ -1711,6 +1760,9 @@ export function mountHud(
           }
         } else if (e.kind === 'gearFound') {
           toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
+        } else if (e.kind === 'hollowItems') {
+          // Lane B round 8: charms, keys, chains, wheelbarrow mixes and the Pillow Fort.
+          toast(itemsToast(e));
         } else if (e.kind === 'haulBanked') {
           // Lane B round 6: the haul card (R0175), boss card (R0160), losses and sleepy packs.
           if (e.items > 0) {
@@ -1916,6 +1968,14 @@ export function mountHud(
           // R0091: one-time collectibles and their sets.
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
+        } else if (e.kind === 'worldHint') {
+          // R0127 (lane D r9): a mechanic taught once, in the world.
+          const t = hintToast(e.id, game()?.world);
+          if (t) toast(t);
+        } else if (e.kind === 'secretFound') {
+          // R0111 (lane D r9): the region's secret, found with its Old Key.
+          for (const line of secretToasts(e.region)) toast(line);
+          playSound('win');
         } else if (e.kind === 'landmarkFound') {
           landmarkCard(e.id, events);
           playSound('pickup');
@@ -1949,6 +2009,7 @@ export function mountHud(
     },
     onSelect(id) {
       const g = game();
+      curiosities.onSelect(id); /* Lane E r9 */
       if (id?.startsWith('memorial:') && g) {
         const m = g.world.memorials.find((x) => x.id === id.slice('memorial:'.length));
         if (m) memorialCard.show(m);

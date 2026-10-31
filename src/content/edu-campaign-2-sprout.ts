@@ -74,15 +74,18 @@ const CH5: EduScene[] = [
         options: [
           {
             label: 'The sun',
+            icon: '☀️',
             best: true,
             reply: [N('Yes! The sun shines on it all day.'), N('Sunshine makes things warm.')],
           },
           {
             label: 'A fish',
+            icon: '🐟',
             reply: [N('A fish with a tiny stove? Splash! That would be funny!'), N('A fish can’t warm a pond.'), N('The sun did. Sunshine makes things warm.')],
           },
           {
             label: 'The moon',
+            icon: '🌙',
             reply: [N('The moon, warming a pond? Brr! It’s a cool, pale moon.'), N('The moon is pretty, but it doesn’t warm things.'), N('The sun warmed the pond.')],
           },
         ],
@@ -99,6 +102,7 @@ const CH5: EduScene[] = [
         options: [
           {
             label: 'Sad and cross',
+            icon: '😠',
             best: true,
             reply: [
               N('Yes. Tight fists can mean cross.'),
@@ -108,10 +112,12 @@ const CH5: EduScene[] = [
           },
           {
             label: 'Happy',
+            icon: '😊',
             reply: [N('Happy Ember, dancing a jig? Hee, hee! Look again.'), N('Her hands are tight fists.'), N('Her voice is quiet. Ember is sad and cross.')],
           },
           {
             label: 'Sleepy',
+            icon: '😴',
             reply: [N('Sleepy Ember, snoring on her feet? Zzz!'), N('Her eyes are wide open. Her hands are fists.'), N('Ember feels sad and cross.')],
           },
         ],
@@ -122,18 +128,21 @@ const CH5: EduScene[] = [
       {
         id: 'sorry',
         label: 'I’m sorry about Ash.',
+        icon: '💛',
         friendship: { ember: 1 },
         then: [EMBER('Sorry doesn’t fix it.'), EMBER('…But thank you. I’ll come with you.', 'soft')],
       },
       {
         id: 'come',
         label: 'Come with me.',
+        icon: '👋',
         friendship: { ember: 3 },
         then: [EMBER('I wasn’t going to.', 'think'), EMBER('…Fine. I’ll walk. But no talking.')],
       },
       {
         id: 'sit',
         label: 'Sit down on the step with Ember.',
+        icon: '🪑',
         friendship: { ember: 2 },
         then: [
           N('You sit on the step. Slowly, Ember sits too.'),
@@ -193,6 +202,7 @@ const CH5: EduScene[] = [
       {
         id: 'race-want',
         label: 'That they want to run.',
+        icon: '🏃',
         friendship: { sparks: 2 },
         then: [
           CORVIN('Gran Hazel’s answer. It loses, mostly.'),
@@ -202,11 +212,13 @@ const CH5: EduScene[] = [
       {
         id: 'race-win',
         label: 'That they win. It’s a race.',
+        icon: '🏆',
         then: [CORVIN('Good. You’ll do well here.'), EMBER('I said that too, when I was young.', 'soft')],
       },
       {
         id: 'race-home',
         label: 'That they come home after.',
+        icon: '🏡',
         friendship: { ember: 2 },
         then: [CORVIN('…That isn’t an answer.', 'think'), EMBER('It’s the best answer.', 'soft')],
       },
@@ -234,15 +246,18 @@ const CH5: EduScene[] = [
         options: [
           {
             label: 'Worried',
+            icon: '😟',
             best: true,
             reply: [N('Yes. It heard Corvin. It feels worried.'), N('Staying close and a gentle pat can help.', 'soft')],
           },
           {
             label: 'Happy',
+            icon: '😊',
             reply: [N('Happy Nubbins bounce about.'), N('This one is very still. It feels worried.')],
           },
           {
             label: 'Sleepy',
+            icon: '😴',
             reply: [N('A sleepy Nubbin, snoring at the start line? Zzz!'), N('Its eyes are wide open.'), N('It feels worried. Staying close can help.', 'soft')],
           },
         ],
@@ -276,15 +291,18 @@ const CH5: EduScene[] = [
         options: [
           {
             label: 'It melts into water',
+            icon: '💧',
             best: true,
             reply: [N('Yes! Warm ice melts. Drip, drip.'), N('Your sleeve will just be a bit wet.')],
           },
           {
             label: 'It grows bigger',
+            icon: '⬆️',
             reply: [N('A giant ice lump on your sleeve? Whoa!'), N('Ice grows in the cold.'), N('In the warm, it melts into water. Drip, drip.')],
           },
           {
             label: 'It turns into sand',
+            icon: '🏖️',
             reply: [N('Ice turning to sand? A beach on your sleeve! Whee!'), N('Warm ice melts into water. Drip, drip.')],
           },
         ],
@@ -332,15 +350,18 @@ const CH6: EduScene[] = [
         options: [
           {
             label: 'Plants need water to grow',
+            icon: '🌱',
             best: true,
             reply: [DUSTY('Yes! Plants need water.', 'happy'), DUSTY('The grass drinks the rain up through its roots.')],
           },
           {
             label: 'So the hill can have a bath',
+            icon: '🛁',
             reply: [DUSTY('Ha! Nearly. The rain gives the plants a drink.'), DUSTY('Plants need water to grow.')],
           },
           {
             label: 'To make the sky dark',
+            icon: '🌑',
             reply: [DUSTY('Rain clouds are dark, it’s true.'), DUSTY('But plants need the rain to grow.')],
           },
         ],
@@ -357,6 +378,7 @@ const CH6: EduScene[] = [
         options: [
           {
             label: 'Sit with Dusty',
+            icon: '🤝',
             best: true,
             reply: [
               DUSTY('Yes. Just sit. You needn’t say anything.', 'soft'),
@@ -365,10 +387,12 @@ const CH6: EduScene[] = [
           },
           {
             label: 'Run off and play',
+            icon: '🏃',
             reply: [N('Playing can come later.'), N('Right now Dusty needs a friend. Let’s sit with them.')],
           },
           {
             label: 'Tell Dusty to stop being sad',
+            icon: '✋',
             reply: [N('Stop being sad? Poof! If only feelings were bubbles.'), N('Sad feelings don’t stop when we say so.'), N('Sitting close helps. Let’s sit with Dusty.')],
           },
         ],
@@ -414,6 +438,7 @@ const CH6: EduScene[] = [
         options: [
           {
             label: 'Sit together and remember Fossil',
+            icon: '🌼',
             best: true,
             reply: [
               DUSTY('Yes. Remember her face in the water? I do.', 'soft'),
@@ -422,10 +447,12 @@ const CH6: EduScene[] = [
           },
           {
             label: 'Forget all about her',
+            icon: '💨',
             reply: [N('Forget all about her? Poof, out of your head! Never.'), N('We don’t need to forget.'), N('Remembering Fossil keeps her close. Let’s remember together.')],
           },
           {
             label: 'Leave Dusty on their own',
+            icon: '🚶',
             reply: [N('Dusty, all alone, with a big sigh? Oh dear!'), N('Being alone can feel lonely.'), N('Let’s stay and remember Fossil with Dusty.')],
           },
         ],
@@ -460,9 +487,9 @@ const CH6: EduScene[] = [
           MOSS('Which word starts with fff too?'),
         ],
         options: [
-          { label: 'Fish', best: true, reply: [MOSS('Yes. Fff-fish. Fff-Fossil. Fff-flower.', 'happy')] },
-          { label: 'Moon', reply: [MOSS('Fossil, up on the moon? Whee, what a jump!'), MOSS('Moon starts with mmm, like Moss. Fish starts with fff.')] },
-          { label: 'Dog', reply: [MOSS('Fossil the dog? Woof, woof! Hee, hee!'), MOSS('Dog starts with d-d-d. Fish starts with fff, like Fossil.')] },
+          { label: 'Fish', icon: '🐟', best: true, reply: [MOSS('Yes. Fff-fish. Fff-Fossil. Fff-flower.', 'happy')] },
+          { label: 'Moon', icon: '🌙', reply: [MOSS('Fossil, up on the moon? Whee, what a jump!'), MOSS('Moon starts with mmm, like Moss. Fish starts with fff.')] },
+          { label: 'Dog', icon: '🐶', reply: [MOSS('Fossil the dog? Woof, woof! Hee, hee!'), MOSS('Dog starts with d-d-d. Fish starts with fff, like Fossil.')] },
         ],
         parentNote: 'Listened for the first sound f in Fossil and flower and found another f word.',
       },
@@ -471,6 +498,7 @@ const CH6: EduScene[] = [
       {
         id: 'tell',
         label: 'Call after Dusty. Tell them what Moss said.',
+        icon: '📣',
         friendship: { dusty: 2 },
         then: [
           N('Dusty stops at the gate and listens.'),
@@ -482,6 +510,7 @@ const CH6: EduScene[] = [
       {
         id: 'keep',
         label: 'Keep it quiet. Some things belong to the hill.',
+        icon: '🤫',
         then: [
           N('Dusty lifts and pushes the gate, and walks home.'),
           N('You and Moss sit by the flower until dark.'),
@@ -539,15 +568,18 @@ const CH7: EduScene[] = [
         options: [
           {
             label: 'A hedgehog',
+            icon: '🦔',
             best: true,
             reply: [LUNA('Yes! Hedgehogs, and owls, and me.', 'happy'), LUNA('We sleep in the day.')],
           },
           {
             label: 'A butterfly',
+            icon: '🦋',
             reply: [LUNA('A butterfly at midnight? She’d be fast asleep!'), LUNA('Butterflies like sunny days.'), LUNA('Hedgehogs are awake at night. So am I.')],
           },
           {
             label: 'A sunflower',
+            icon: '🌻',
             reply: [LUNA('A sunflower wide awake at midnight? Yawn!'), LUNA('Sunflowers love the sun!'), LUNA('Hedgehogs are awake at night. So am I.')],
           },
         ],
@@ -591,6 +623,7 @@ const CH7: EduScene[] = [
       {
         id: 'grey',
         label: 'Why are they grey?',
+        icon: '🩶',
         then: [
           MOSS('Grey is what the cold leaves behind. Like a mark.'),
           MOSS('First the colour goes. Then the wanting to play.', 'sad'),
@@ -599,6 +632,7 @@ const CH7: EduScene[] = [
       {
         id: 'hurt',
         label: 'Does it hurt them?',
+        icon: '🩹',
         then: [
           MOSS('No. It does not hurt.'),
           MOSS('But they stop feeling happy too.', 'sad'), MOSS('That is the sad part.'),
@@ -607,6 +641,7 @@ const CH7: EduScene[] = [
       {
         id: 'sable',
         label: 'Did it happen to Sable?',
+        icon: '❓',
         then: [
           MOSS('A little. Her old home was very cold.'),
           N('Sable turns one ear towards Moss. Just one.'),
@@ -639,9 +674,9 @@ const CH7: EduScene[] = [
           MOSS('Which word rhymes with still?'),
         ],
         options: [
-          { label: 'Spill', best: true, reply: [MOSS('Yes. Still, hill, spill. They all end the same!', 'happy')] },
-          { label: 'Sock', reply: [MOSS('A sock on the hill? Hee, hee, very silly!'), MOSS('Sock ends with ock. Spill ends with ill, like still.')] },
-          { label: 'Moon', reply: [MOSS('A still moon floats up in the sky! Whee!'), MOSS('Moon ends with oon. Spill ends with ill. Still, spill!')] },
+          { label: 'Spill', icon: '💦', best: true, reply: [MOSS('Yes. Still, hill, spill. They all end the same!', 'happy')] },
+          { label: 'Sock', icon: '🧦', reply: [MOSS('A sock on the hill? Hee, hee, very silly!'), MOSS('Sock ends with ock. Spill ends with ill, like still.')] },
+          { label: 'Moon', icon: '🌙', reply: [MOSS('A still moon floats up in the sky! Whee!'), MOSS('Moon ends with oon. Spill ends with ill. Still, spill!')] },
         ],
         parentNote: 'Listened for words that rhyme with "still".',
       },
@@ -650,6 +685,7 @@ const CH7: EduScene[] = [
       {
         id: 'cinder',
         label: 'Did Cinder hear it?',
+        icon: '👂',
         then: [
           MOSS('Yes. She heard it first.'), MOSS('She loved the Nubbins very much.'),
           MOSS('She held them too tight. Love should be gentle.', 'soft'),
@@ -658,6 +694,7 @@ const CH7: EduScene[] = [
       {
         id: 'who',
         label: 'Who would listen to that?',
+        icon: '🤔',
         then: [
           MOSS('Anyone who is scared for someone they love.'),
           MOSS('They aren’t bad. Just scared, and tired.', 'soft'),
@@ -666,6 +703,7 @@ const CH7: EduScene[] = [
       {
         id: 'me',
         label: 'Could I hear it?',
+        icon: '🎧',
         then: [
           MOSS('Maybe. You love your Nubbins very much.'),
           MOSS('So I will stay close to you.', 'soft'), MOSS('You won’t be alone.'),
@@ -698,6 +736,7 @@ const CH7: EduScene[] = [
         options: [
           {
             label: 'Food, water and a cosy home',
+            icon: '🏠',
             best: true,
             reply: [
               MOSS('Yes! Food, water and a home.', 'happy'),
@@ -706,10 +745,12 @@ const CH7: EduScene[] = [
           },
           {
             label: 'A cold, still stone',
+            icon: '🪨',
             reply: [MOSS('A Nubbin on a cold stone? Brr! Still as a pebble, and about as happy.'), MOSS('They need food, water and a home.')],
           },
           {
             label: 'Nothing at all',
+            icon: '🚫',
             reply: [MOSS('Nothing at all? A Nubbin made of air! Hee, hee!'), MOSS('Every living thing needs something! Food, water and a home.')],
           },
         ],
@@ -720,6 +761,7 @@ const CH7: EduScene[] = [
       {
         id: 'what',
         label: 'What can I do for Sable?',
+        icon: '💛',
         then: [
           MOSS('Do what Gran Hazel did.'), MOSS('Feed her first. Never, ever throw her.'),
           MOSS('And when you don’t know what to do—'),
@@ -730,6 +772,7 @@ const CH7: EduScene[] = [
       {
         id: 'where',
         label: 'Where did the stone from this post go?',
+        icon: '🪨',
         then: [
           MOSS('That is not mine to tell.', 'think'),
           MOSS('Gran Hazel wrote everything down. Find what she wrote.'),
@@ -738,6 +781,7 @@ const CH7: EduScene[] = [
       {
         id: 'quiet',
         label: 'Say nothing. Just sit.',
+        icon: '🤫',
         then: [
           N('You sit by the post with Moss and Sable.'), N('The sun warms you.'),
           MOSS('Good. You are learning.', 'soft'),
@@ -776,15 +820,18 @@ const CH7: EduScene[] = [
         options: [
           {
             label: 'Calm and cosy',
+            icon: '😌',
             best: true,
             reply: [N('Yes. Leaning on someone says: I trust you.')],
           },
           {
             label: 'Scared',
+            icon: '😨',
             reply: [N('She was scared before. Now she leans close.'), N('She feels calm, and she trusts you.')],
           },
           {
             label: 'Cross',
+            icon: '😠',
             reply: [N('Cross Nubbins stomp away. Sable leans close.'), N('She feels calm and cosy.')],
           },
         ],
@@ -856,15 +903,18 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'Autumn',
+            icon: '🍂',
             best: true,
             reply: [NOVA('Yes! In autumn, lots of leaves change colour.', 'happy'), NOVA('Yellow, orange, red. Then they fall.')],
           },
           {
             label: 'Spring',
+            icon: '🌷',
             reply: [NOVA('A spring tree in a yellow coat? Silly tree!'), NOVA('In spring, new green leaves grow. Yellow leaves mean autumn.')],
           },
           {
             label: 'Summer',
+            icon: '🌞',
             reply: [NOVA('A summer tree in a yellow jumper? Far too hot!'), NOVA('Summer leaves are green. When they turn yellow, it’s autumn.')],
           },
         ],
@@ -881,11 +931,13 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'Yes. Asking for help is brave',
+            icon: '🙋',
             best: true,
             reply: [MOSS('Yes. Asking for help is brave, and clever too.', 'soft')],
           },
           {
             label: 'No. She should do it alone',
+            icon: '🙅',
             reply: [MOSS('Nova lifting a whole hill all by herself? Oof!'), MOSS('Some things are too big to do alone.'), MOSS('Asking for help is brave.')],
           },
         ],
@@ -896,6 +948,7 @@ const CH8: EduScene[] = [
       {
         id: 'yes',
         label: 'Yes. Let’s go now.',
+        icon: '👣',
         friendship: { nova: 3 },
         then: [
           NOVA('Oh! Good. That was easier than I thought.', 'happy'),
@@ -907,12 +960,14 @@ const CH8: EduScene[] = [
       {
         id: 'hazel',
         label: 'Is Gran all right?',
+        icon: '👵',
         friendship: { nova: 2 },
         then: [NOVA('I don’t know. That’s the true answer.', 'sad'), NOVA('Bring fruit. Lots of fruit. More than that!')],
       },
       {
         id: 'falls',
         label: 'How do we get past the waterfall?',
+        icon: '🌊',
         friendship: { nova: 1, marina: 1 },
         then: [
           NOVA('Marina knows the way. We follow her, very close.'),
@@ -962,15 +1017,18 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'So we don’t slip and fall in',
+            icon: '🦺',
             best: true,
             reply: [MARINA('Yes. Wet rocks are slippery.', 'happy'), MARINA('Go slowly, and stay close to a grown-up.')],
           },
           {
             label: 'So we can be fast',
+            icon: '⚡',
             reply: [MARINA('Fast on wet rocks? Wheee… splash! In you go!'), MARINA('Slow is best! Wet rocks are slippery.'), MARINA('Stay close to a grown-up.')],
           },
           {
             label: 'Because water is boring',
+            icon: '🥱',
             reply: [MARINA('Water is great fun! But wet rocks are slippery.'), MARINA('Go slowly, with a grown-up.')],
           },
         ],
@@ -1003,15 +1061,18 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'Two',
+            icon: '2️⃣',
             best: true,
             reply: [FERN('Two jumpers! One, two. Sorry about the jumpers.', 'happy')],
           },
           {
             label: 'One',
+            icon: '1️⃣',
             reply: [FERN('Look again: one jumper… and another! One, two. Two jumpers.')],
           },
           {
             label: 'Five',
+            icon: '5️⃣',
             reply: [FERN('Five would be a lot!'), FERN('Count again: one, two. Two jumpers.')],
           },
         ],
@@ -1028,15 +1089,18 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'Go slowly and hold on',
+            icon: '🐢',
             best: true,
             reply: [MARINA('Yes! Slow feet. Hand on the rock.', 'happy'), MARINA('And stay close to a grown-up.')],
           },
           {
             label: 'Run and jump',
+            icon: '🦘',
             reply: [MARINA('Run and jump on wet rocks? Wheee… splash!'), MARINA('Wet rocks are slippery.'), MARINA('Go slowly and hold on.')],
           },
           {
             label: 'Go on your own',
+            icon: '🚶',
             reply: [MARINA('Off on your own, with just the frogs? Plop!'), MARINA('Never alone near water.'), MARINA('Stay close to a grown-up, and go slowly.')],
           },
         ],
@@ -1086,15 +1150,18 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'A cuddle, or telling someone',
+            icon: '🤗',
             best: true,
             reply: [N('Yes. A cuddle helps. Saying “I miss her” helps too.')],
           },
           {
             label: 'Keeping it all inside',
+            icon: '🤐',
             reply: [N('Big feelings feel lighter when we share them.'), N('A cuddle or a talk helps.')],
           },
           {
             label: 'Pretending you’re fine',
+            icon: '🎭',
             reply: [N('It’s all right not to feel fine.'), N('A cuddle, or telling someone, helps.')],
           },
         ],
@@ -1105,6 +1172,7 @@ const CH8: EduScene[] = [
       {
         id: 'feed',
         label: 'Fill the bowls before you go.',
+        icon: '🥣',
         friendship: { nova: 2 },
         then: [
           N('You fill all twelve bowls. Plop, plop, plop.'),
@@ -1115,6 +1183,7 @@ const CH8: EduScene[] = [
       {
         id: 'wait',
         label: 'Sit down by the cold fire, and wait.',
+        icon: '🔥',
         friendship: { nova: 2 },
         then: [
           N('You sit and wait. That’s Gran’s rule number three.'),
@@ -1147,15 +1216,18 @@ const CH8: EduScene[] = [
         options: [
           {
             label: 'Tiny beetles that glow',
+            icon: '🪲',
             best: true,
             reply: [NOVA('Yes! The end of their body lights up.', 'happy'), NOVA('They flash to find each other.')],
           },
           {
             label: 'Little lamps',
+            icon: '🏮',
             reply: [NOVA('They look like lamps!'), NOVA('But they’re tiny beetles. The end of their body glows.')],
           },
           {
             label: 'Stars that fell down',
+            icon: '⭐',
             reply: [NOVA('A star, plop, in the grass? What a surprise!'), NOVA('Stars stay up in the sky.'), NOVA('Fireflies are tiny beetles that glow.')],
           },
         ],
@@ -1166,18 +1238,21 @@ const CH8: EduScene[] = [
       {
         id: 'year-mind',
         label: 'Yes. I wish she’d been home.',
+        icon: '🏠',
         friendship: { nova: 2 },
         then: [NOVA('That’s all right. Tell her, when you see her.', 'soft')],
       },
       {
         id: 'year-right',
         label: 'No. The lost Nubbins needed her.',
+        icon: '🐣',
         friendship: { nova: 1 },
         then: [NOVA('Maybe. But you needed her too. Both matter.', 'think')],
       },
       {
         id: 'year-both',
         label: 'Both. I miss her, and she was right.',
+        icon: '💞',
         friendship: { nova: 2 },
         then: [NOVA('Both are true, then.', 'soft'), N('That is just what Gran wrote.')],
       },

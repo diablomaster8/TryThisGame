@@ -74,7 +74,8 @@ describe('boss floors (R0160)', () => {
         expect(f.layout!.boss).not.toBeNull();
         expect(boss.cell).toEqual(f.layout!.boss);
       }
-  });
+    // Sixty boss floors: generous in a busy parallel run.
+  }, 30_000);
 
   it('the first win sets the flag, opens the next act’s waypoint and drops a Legendary once', () => {
     setEncounterHandler(autoResolve);

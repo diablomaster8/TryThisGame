@@ -6,9 +6,10 @@
  *
  * Pure sim: no DOM.
  */
-import { DUNGEON, HOLLOW_ZONES } from '../config/tuning';
+import { HOLLOW_ZONES } from '../config/tuning';
+import { autoRole, hollowPartySize, roleOf } from './dungeon-roles';
 import { levelOf } from './stats';
-import type { Nubbin, StatKey, World } from './types';
+import type { HollowRole, Nubbin, StatKey, World } from './types';
 
 const STATS: readonly StatKey[] = ['swim', 'fly', 'run', 'power', 'stamina'];
 
@@ -20,6 +21,9 @@ export interface PartyChoice {
   /** Its best stat and that stat's level, for the card. */
   best: StatKey;
   level: number;
+  /** R0167: its role underground, and whether the Keeper picked it by hand. */
+  role: HollowRole;
+  picked: boolean;
 }
 
 function canCome(n: Nubbin): boolean {
@@ -41,6 +45,8 @@ export function partyChoices(world: World): PartyChoice[] {
       tired: n.needs.energy < HOLLOW_ZONES.party.tired,
       best,
       level: levelOf(n.stats[best].points),
+      role: roleOf(world, n),
+      picked: roleOf(world, n) !== autoRole(n),
     };
   });
 }
@@ -48,19 +54,33 @@ export function partyChoices(world: World): PartyChoice[] {
 /** Sets the party for the next entries: known, hatched ids, at most the party size. */
 export function setHollowParty(world: World, ids: readonly string[]): void {
   const ok = new Set(world.nubbins.filter(canCome).map((n) => n.id));
-  world.hollow.lastParty = [...new Set(ids)].filter((id) => ok.has(id)).slice(0, DUNGEON.partySize);
+  const size = hollowPartySize(world);
+  world.hollow.lastParty = [...new Set(ids)].filter((id) => ok.has(id)).slice(0, size);
 }
 
-/** "Recommended": the rested Nubbins with the most stat points, then any others. */
+/**
+ * "Recommended": the rested Nubbins with the most stat points, one per role first (R0167's
+ * role coverage), then the strongest of the rest.
+ */
 export function recommendedParty(world: World): string[] {
   const total = (n: Nubbin) => STATS.reduce((s, k) => s + n.stats[k].points, 0);
-  return world.nubbins
+  const ranked = world.nubbins
     .filter(canCome)
     .sort(
       (a, b) =>
         Number(a.needs.energy < HOLLOW_ZONES.party.tired) -
           Number(b.needs.energy < HOLLOW_ZONES.party.tired) || total(b) - total(a),
-    )
-    .slice(0, DUNGEON.partySize)
-    .map((n) => n.id);
+    );
+  const size = hollowPartySize(world);
+  const out: Nubbin[] = [];
+  const roles = new Set<HollowRole>();
+  for (const n of ranked) {
+    if (out.length >= size) break;
+    const r = roleOf(world, n);
+    if (roles.has(r)) continue;
+    roles.add(r);
+    out.push(n);
+  }
+  for (const n of ranked) if (out.length < size && !out.includes(n)) out.push(n);
+  return out.map((n) => n.id);
 }

@@ -5,6 +5,7 @@ import { dailySeed } from '../sim/dungeon';
 import { clockText } from '../sim/dungeon-log';
 import type { World } from '../sim/types';
 import { el } from './dom';
+import { renderCollectionLog } from './dungeon-items';
 import { tzOf } from '../sim/local-time';
 
 /**
@@ -53,6 +54,8 @@ export function renderHollowPage(world: World, body: HTMLElement): void {
         : HOLLOW_R6_TEXT.todayNone,
     ),
   );
+  // R0172 (lane B round 8): the sets and uniques collection log.
+  renderCollectionLog(world, body);
   // R0187: the speed-run bests, a badge and nothing more.
   const recs = Object.entries(h.records ?? {});
   if (recs.length) {

@@ -65,7 +65,8 @@ export function addOutlines(root: THREE.Object3D): void {
     const mat = m.material as THREE.Material | THREE.Material[];
     if (Array.isArray(mat) || mat.transparent || (mat as THREE.MeshBasicMaterial).alphaTest > 0)
       return;
-    if (triangles(m) < GROVE3D.toon.outlineMinTris) return;
+    /* Lane E r9 */ if (triangles(m) < GROVE3D.toon.outlineMinTris && !m.userData.forceOutline)
+      return;
     hosts.push(m);
   });
   for (const o of hosts) addHull(o);

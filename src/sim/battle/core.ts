@@ -26,6 +26,7 @@ import { ladderRival, ladderValid } from './ladder';
 import { fusionPair } from './fusion';
 import { worldFoes } from './world-bout';
 import { friendlyFoes } from './friendly';
+import { dressHollowMods } from './hollow-mods';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
@@ -134,6 +135,8 @@ export function createBattle(
     context,
     ...(mode === 'karate' ? { karate: karateClock(tier) } : {}),
   };
+  // R0155 / R0164: a Hollow foe's modifiers and the party's Brave (no dice rolled).
+  if (mode === 'turn') dressHollowMods(state);
   if (mode === 'turn') dressTurnBout(world, state, rng);
   if (mode === 'turn' && context.kind !== 'karate' && context.mode === 'atb')
     dressAtb(world, state);

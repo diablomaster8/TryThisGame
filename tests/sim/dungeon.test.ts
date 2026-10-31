@@ -13,6 +13,7 @@ import {
   resolveDungeon,
   WALL,
 } from '../../src/sim/dungeon';
+import { shellPay } from '../../src/sim/dungeon-economy';
 import { hatch } from '../../src/sim/lifecycle';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent } from '../../src/sim/types';
@@ -144,7 +145,8 @@ describe('a run', () => {
     }
     const found = step(world, 200).filter((e) => e.kind === 'dungeonFound');
     expect(found.length).toBe(1);
-    expect(world.inventory.shells).toBe(before + shells.amount);
+    // R0178: paid at the act's payout scale.
+    expect(world.inventory.shells).toBe(before + shellPay(run, shells.amount));
     expect(run.taken).toContain(shells.id);
     expect(lootOnFloor(world).some((l) => l.id === shells.id)).toBe(false);
     // Home with the haul.
@@ -155,7 +157,7 @@ describe('a run', () => {
     expect(world.keeper.pos).toEqual(home);
     expect(world.hollow.runs).toBe(1);
     const left = out.find((e) => e.kind === 'dungeonLeft');
-    expect(left && left.kind === 'dungeonLeft' && left.shells).toBe(shells.amount);
+    expect(left && left.kind === 'dungeonLeft' && left.shells).toBe(shellPay(run, shells.amount));
   });
 
   it('party Nubbins fetch loot near them and follow the Keeper', () => {

@@ -416,10 +416,11 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     marks: ['stripes'],
     gen1b: ['pincerHead'],
   }),
+  // Tauros (LOOK-39): curved horns and three dark whip tails.
   stampbull: spec(pal(C.wood, C.bark, C.sand, C.lilacGrey, C.darkBark), {
     size: 1.1,
     ears: 'horns',
-    tail: 'spiky',
+    addons: [ex('foxTails', undefined, C.ink, 3)],
     eyes: 'angry',
     marks: ['belly'],
     plan: 'quad',
@@ -446,6 +447,8 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     legs: 'none',
     arms: 'none',
     gen1b: ['fishTail', 'barbels'],
+    // LOOK-39: the wide roaring mouth, the signature from any angle.
+    addons: [ex('gape', C.berry, C.rose)],
   }),
   // ---- rare ones ----
   ferrysong: spec(pal(C.water, C.deepWater, C.cream, C.lilacGrey, C.pale), {
@@ -532,31 +535,35 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     gen1b: ['beak'],
   }),
   // ---- the three plume birds ----
+  // On the bird plan (LOOK-39): upright, long-necked, thin-legged, a 2.5× wing span.
   frostplume: spec(pal(C.skyLight, C.water, C.shallows, C.deepWater, C.skyDeep), {
+    plan: 'bird',
+    bird: { wing: 'feather', tail: 'ribbon' },
     size: 1.1,
     wings: 'feather',
     crest: 'spikesTop',
-    tail: 'long',
     legs: 'long',
     arms: 'none',
     eyes: 'angry',
     gen1b: ['beak'],
   }),
-  boltplume: spec(pal(C.sunYellow, C.orange, C.cream, C.orange, C.sunYellow), {
+  boltplume: spec(pal(C.sunYellow, C.orange, C.cream, C.orange, C.ink), {
+    plan: 'bird',
+    bird: { wing: 'jagged', tail: 'spiky' },
     size: 1.1,
     wings: 'bat',
     crest: 'spikesTop',
-    tail: 'spiky',
     legs: 'long',
     arms: 'none',
     eyes: 'angry',
     gen1b: ['beak'],
   }),
   blazeplume: spec(pal(C.sunYellow, C.orange, C.orange, C.ember, C.orange), {
+    plan: 'bird',
+    bird: { wing: 'flame', tail: 'flame' },
     size: 1.1,
     wings: 'feather',
     crest: 'flame',
-    tail: 'flame',
     legs: 'long',
     arms: 'none',
     eyes: 'angry',

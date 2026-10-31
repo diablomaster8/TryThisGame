@@ -8,6 +8,8 @@ import { kitLayout, patchKitSpec } from './art-kit-digi';
 import { applyGen1b3d } from './art-species-gen1b';
 import { vivid } from './art-species-colour';
 import { serpentChain, serpentSpec } from './art-serpent';
+import { birdLayout, birdPatch } from './art-bird';
+import { FLAME_PART, flameTailPrims, withFlameFlicker } from './art-flame';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -382,14 +384,12 @@ function tail(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec
         sphere(at(0, 0.3, -0.42), 0.2, c.accent!),
       ];
       break;
-    case 'flame':
-      prims = [
-        cap(at(0, 0, 0), at(0, 0.5, -0.45), 0.12, c.body!),
-        // A flame big enough to read from the game camera (LOOK-10), with a hot core.
-        { ...cone(at(0, 0.5, -0.5), at(0, 1.15, -0.58), 0.3, 0.03, c.accent!), glow: 1 },
-        { ...cone(at(0, 0.5, -0.42), at(0, 0.9, -0.5), 0.16, 0.02, '#ffe27a'), glow: 1 },
-      ];
-      break;
+    case 'flame': {
+      // A flame big enough to read from the game camera, swept aside so it shows past the
+      // head from the front, on a part of its own that flickers (LOOK-10, art-flame.ts).
+      const f = flameTailPrims(art, root, c);
+      return [part('tail', root, f.stem, 56), part(FLAME_PART, f.base, f.flame, 48)];
+    }
     case 'spiky':
       prims = [
         cap(at(0, 0, 0), at(0, 0.1, -0.55), 0.14, c.body!),
@@ -576,7 +576,10 @@ function widen(L: Layout, girth: number | undefined): Layout {
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   // A serpent's layout comes from its spine (art-serpent.ts, LOOK-05).
   const chain = art.plan === 'serpent' ? serpentChain(art) : null;
-  const L = widen(chain ? chain.layout : (kitLayout(art) ?? layout(art.plan)), art.girth);
+  const L = widen(
+    chain ? chain.layout : (kitLayout(art) ?? birdLayout(art) ?? layout(art.plan)),
+    art.girth,
+  );
   // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
   // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {
@@ -677,6 +680,8 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
             z: -b.r.z * 0.85,
             // A big final form's bat wings span well past the body (Charizard, LOOK-10).
             size: wings === 'small' ? 0.8 : wings === 'bat' && art.size >= 1.2 ? 1.6 : 1.15,
+            // ...and are held raised 20 degrees, so they show over the shoulders (LOOK-10).
+            ...(wings === 'bat' && art.size >= 1.2 ? { raise: 0.35 } : {}),
             color: wings === 'feather' ? c.belly! : c.accent!,
             shape:
               wings === 'bat'
@@ -689,6 +694,10 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
   });
-  const shaped = chain ? serpentSpec(spec, art, chain, c, (p) => boxOf(p)) : spec;
+  const shaped = withFlameFlicker(
+    chain
+      ? serpentSpec(spec, art, chain, c, (p) => boxOf(p))
+      : birdPatch(art, L, c, spec, (p) => boxOf(p)),
+  );
   return art.gen1b || art.heads ? applyGen1b3d(shaped, art, L, c) : shaped;
 }

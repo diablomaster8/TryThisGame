@@ -1,4 +1,5 @@
 import { openSky } from './cave-bands';
+import { floorMarks } from './floor-features-r8';
 import { ridePose } from './ride-pose';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
@@ -29,6 +30,8 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
+import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -36,6 +39,7 @@ import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE, GROVE3D, SIM } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
+import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
@@ -91,6 +95,7 @@ import { emoteMotion, familySign, moodShape } from './emote-mood';
 import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
+import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 
 interface Snapshot {
   pos: Vec2;
@@ -163,6 +168,8 @@ export class WorldView {
   /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
   private cave: Floor | null = null;
   private readonly ambience = new CaveAmbience();
+  /** R0118 (lane D r9): the season's drift in the Grove. */
+  private readonly seasonDrift = new SeasonDrift();
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
@@ -181,6 +188,8 @@ export class WorldView {
   private readonly seenItems = new Set<string>();
   private readonly seenNubbins = new Set<string>();
   private readonly liveStrays = new Set<string>();
+  /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
+  private readonly hollowPacks = new PixelHollowPacks();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -482,6 +491,8 @@ export class WorldView {
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
       this.burstFor(e);
+      if (e.kind === 'gearFound')
+        this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
         // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
@@ -706,6 +717,17 @@ export class WorldView {
         this.density,
       );
     }
+    // R0118 (lane D r9): the season's drift (blossom, summer fireflies, autumn leaves).
+    if (inGrove)
+      this.seasonDrift.update(
+        this.particles,
+        world.season,
+        this.keeperDrawPos(world, alpha),
+        nowMs,
+        this.particles.reduceMotion,
+        this.density,
+        this.daylight?.phase === 'night' || this.daylight?.phase === 'dusk',
+      );
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
@@ -755,6 +777,33 @@ export class WorldView {
         if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
         else batch.draw(sprite, s.pick);
       }
+      // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
+      // yet, just outside the clamp; only the stretch near the Keeper is drawn.
+      const kp = world.keeper.pos;
+      const bushes = (['bush-1', 'bush-2', 'bush-3'] as const).map((k) =>
+        scenery.frames.get(frameKey(k, 'front', 0)),
+      );
+      const logRect = scenery.frames.get(frameKey('log', 'front', 0));
+      borderBlockers().forEach((b, i) => {
+        if (Math.abs(b.x - kp.x) > BORDER.pxDraw || Math.abs(b.z - kp.z) > BORDER.pxDraw) return;
+        const log = b.kind === 'log';
+        if (log && borderEdge(b.x, b.z, world).kind === 'exit') return;
+        const rect = log ? logRect : bushes[i % bushes.length];
+        if (!rect) return;
+        const size = log ? BORDER.logLen : BORDER.bushSize;
+        batch.draw({
+          sheet: scenery,
+          rect,
+          flip: i % 2 === 1,
+          x: b.x,
+          y: 0,
+          z: b.z,
+          mode: 'billboard',
+          w: size,
+          h: (size * rect.h) / rect.w,
+          tint: this.lightAt(b.x, b.z),
+        });
+      });
       // The village square fills in as prosperity grows.
       const unlocks = townUnlocks(world);
       const stall = scenery.frames.get(frameKey('stall', 'front', 0));
@@ -1306,7 +1355,7 @@ export class WorldView {
     // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
     if (shadowRect && this.tapPath.update(world, nowMs)) {
       const calm = this.particles.reduceMotion;
-      const mark = (m: TapMark, r: number, a: number) =>
+      const mark = (m: TapMark, r: number, a: number, rl = r) =>
         batch.draw({
           sheet: shadowSheet,
           rect: shadowRect,
@@ -1316,11 +1365,19 @@ export class WorldView {
           z: m.z,
           mode: 'flat',
           w: r * 2,
-          h: r * 2,
+          h: rl * 2,
           opacity: 0.45 * a,
         });
+      // WORLD-41: soft footprints every 0.8 u, as small long shadows.
       const da = this.tapPath.dotAlpha(nowMs, calm);
-      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
+      if (da > 0)
+        for (const d of this.tapPath.dots) {
+          // Flat sprites lie square to the axes: a print runs along whichever the walk follows.
+          const across = Math.abs(Math.sin(d.yaw)) > Math.abs(Math.cos(d.yaw));
+          const pw = (across ? TAP_PRINTS.l : TAP_PRINTS.w) / 2;
+          const pl = (across ? TAP_PRINTS.w : TAP_PRINTS.l) / 2;
+          mark(d, pw, Math.min(2.2, da * 2.2), pl);
+        }
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
       // R0035: a grey ✕ flat where a refused tap landed, or a bobbing ⤒ over a ledge.
@@ -1346,6 +1403,27 @@ export class WorldView {
             w: TAP_FLAG.size,
             h: TAP_FLAG.size,
             opacity: fa,
+          });
+      }
+      // WORLD-41: the tap can't be reached; a "?" puff rises at the nearest point.
+      const pl = this.tapPath.puffLife(nowMs, calm);
+      const pu = this.tapPath.unreached;
+      if (pl !== null && pu) {
+        const emotes = this.sheets.emotes(false);
+        const q = emotes.frames.get(frameKey('question', 'front', 0));
+        const sz = TAP_PRINTS.puffSize * (calm ? 1 : Math.min(1, 0.4 + pl * 3) * (1 - pl * 0.3));
+        if (q)
+          batch.draw({
+            sheet: emotes,
+            rect: q,
+            flip: false,
+            x: pu.x,
+            y: pu.y - paintedGround(pu.x, pu.z) + TAP_PRINTS.puffY + TAP_PRINTS.puffRise * pl,
+            z: pu.z,
+            mode: 'billboard',
+            w: sz,
+            h: sz,
+            opacity: calm ? 1 : Math.min(1, (1 - pl) * 3),
           });
       }
     }
@@ -1571,9 +1649,33 @@ export class WorldView {
         });
       }
     }
+    // Lane B r8 (floors): secret glints, plates, torches, blocks and the hint (R0182, R0202).
+    for (const m of floorMarks(run, f, nowMs, this.particles.reduceMotion)) {
+      const rect = frame(m.key);
+      if (!rect) continue;
+      const size =
+        m.mode === 'flat'
+          ? { w: cell * m.size, h: cell * m.size }
+          : m.size
+            ? { w: (rect.w / NATIVE_PPU) * m.size, h: (rect.h / NATIVE_PPU) * m.size }
+            : {};
+      batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: m.x,
+        y: m.y,
+        z: m.z,
+        mode: m.mode,
+        ...size,
+        tint: m.tint,
+      });
+    }
     // Loot bobs gently until someone walks over it.
     for (const l of f.loot) {
       if (run.taken.includes(l.id)) continue;
+      const lf = lootFog(run, f, world.keeper.pos, l.cell);
+      if (lf === 0) continue;
       const rect = frame(`loot-${l.kind}`);
       if (!rect) continue;
       const p = cellCentre(f, l.cell);
@@ -1588,7 +1690,7 @@ export class WorldView {
           y: bob,
           z: p.z,
           mode: 'billboard',
-          tint: this.lightAt(p.x, p.z),
+          tint: this.lightAt(p.x, p.z) * lf,
         },
         { id: l.id, kind: 'loot' },
       );
@@ -1599,6 +1701,7 @@ export class WorldView {
     liveIds.clear();
     run.strays.forEach((s, i) => {
       liveIds.add(s.id);
+      if (actorFog(run, f, world.keeper.pos, s.pos) === 0) return;
       let prev = this.strayPrev.get(s.id);
       if (!prev) {
         prev = { x: s.pos.x, z: s.pos.z };
@@ -1635,6 +1738,7 @@ export class WorldView {
     // The wild creature keeps to its nook until the Keeper creeps up on it.
     for (const w of run.wild) {
       if (w.scanned) continue;
+      if (actorFog(run, f, world.keeper.pos, w.pos) === 0) continue;
       const wsheet = this.sheets.species(w.species);
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
@@ -1668,7 +1772,19 @@ export class WorldView {
         });
       }
     }
-    void world;
+    // Lane B r8: monster packs with their plates, and gear pickup pops (hollow-packs-pixel.ts).
+    const pctx = {
+      batch,
+      sheets: this.sheets,
+      nowMs,
+      yaw,
+      alpha,
+      reduceMotion: this.particles.reduceMotion,
+      shadow,
+      lightAt: (x: number, z: number) => this.lightAt(x, z),
+    };
+    this.hollowPacks.draw(f, run, world.keeper.pos, world.timeMs, pctx);
+    this.hollowPacks.drawPops(world.keeper.pos, pctx);
   }
 
   /** Grey Nubbins that live in the other places; render-only dressing. */
@@ -2477,6 +2593,7 @@ export class WorldView {
 
   dispose(): void {
     this.batchLazy?.dispose();
+    this.hollowPacks.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }

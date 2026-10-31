@@ -143,6 +143,8 @@ export class CreaturePool {
   private readonly failed = new Map<string, { n: number; untilMs: number }>();
   /** When each look key was last asked for or handed back, for eviction by recency. */
   private readonly used = new Map<string, number>();
+  /** R0081: the rigs handed out and not yet back, so `trim` knows which looks are on screen. */
+  private readonly lent = new Set<Rigged>();
   private tick = 0;
   /** Rigs built this frame; one per frame keeps a crowd of hatchlings from stalling. */
   private builtThisFrame = 0;
@@ -188,7 +190,10 @@ export class CreaturePool {
   acquire(look: Look): Rigged | null {
     this.used.set(look.key, ++this.tick);
     const spare = this.free.get(look.key)?.pop();
-    if (spare) return spare;
+    if (spare) {
+      this.lent.add(spare);
+      return spare;
+    }
     const geos = this.ready.get(look.key);
     if (!geos) {
       this.request(look.key);
@@ -268,7 +273,10 @@ export class CreaturePool {
     const ms = this.buildMs.get(look.key);
     if (ms) ms.rig += took;
     if (import.meta.env.DEV) console.info(`[3d] rigged ${look.key} in ${took.toFixed(0)} ms`);
-    if (!this.compile) return rig;
+    if (!this.compile) {
+      this.lent.add(rig);
+      return rig;
+    }
     // Park the rig until its programs are linked; the next acquire takes it as a spare.
     this.compiling++;
     const settle = () => {
@@ -281,6 +289,7 @@ export class CreaturePool {
 
   /** Hand a rig back for the next creature with the same look. */
   release(key: string, rig: Rigged): void {
+    this.lent.delete(rig);
     rig.group.removeFromParent();
     const list = this.free.get(key) ?? [];
     list.push(rig);
@@ -401,10 +410,21 @@ export class CreaturePool {
    * R0081: let go of what can be rebuilt (the page is hidden, and a phone may kill a hidden tab
    * that holds on to memory): every spare rig and every coarse-grid surface. The surfaces
    * the rigs in the scene were built from stay, so nothing on screen needs a march to come back.
+   * Round 9: so do the surfaces of looks no rig is using (warmed or left behind; CPU-side only,
+   * never drawn). A later rig of such a look reads them back from the sculpt cache.
    */
   trim(): void {
     for (const key of [...this.free.keys()]) this.discard(key);
     for (const key of [...this.low.keys()]) this.dropLow(key);
+    const inUse = new Set<string>();
+    for (const rig of this.lent) inUse.add(rig.group.userData.lookKey as string);
+    for (const key of [...this.ready.keys()]) {
+      if (inUse.has(key)) continue;
+      for (const g of this.ready.get(key) ?? []) g.dispose();
+      this.farm.forget(key, this.quality);
+      this.ready.delete(key);
+      this.asked.delete(key);
+    }
   }
 
   /** Whether a look's surfaces are back, so `acquire` can build it. */
@@ -424,6 +444,7 @@ export class CreaturePool {
    */
   dispose(): void {
     this.farm.dispose();
+    this.lent.clear();
     freeRigs([...this.free.values()].flat(), true);
     this.free.clear();
     for (const geos of this.ready.values()) for (const g of geos) g.dispose();

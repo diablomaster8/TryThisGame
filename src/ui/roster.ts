@@ -1,3 +1,5 @@
+import { canShareText, shareText } from '../platform/share';
+import { SHARE_TEXT } from '../config/strings-r9d3';
 import {
   EGG_COLOR_LABELS,
   formatDuration,
@@ -27,6 +29,7 @@ import { PERSONALITY_CHIP_TEXT } from '../config/strings-fun-r7';
 import { ROSTER_FILTER_TEXT } from '../config/strings-soul-r8';
 import { leaningPersonality } from '../sim/personality';
 import { personalityIcon } from './personality-chip';
+import { mayWear } from '../sim/remembrance'; /* Lane E r9 */
 import { playChirp } from '../platform/audio';
 import { chirpVoice } from '../platform/chirp-voice';
 import { speciesOf } from '../sim/species';
@@ -156,6 +159,7 @@ export class RosterMenu {
       none.value = '';
       hatSelect.appendChild(none);
       for (const hat of new Set(g.world.inventory.hats)) {
+        if (!mayWear(n, hat)) continue; /* Lane E r9, R0424 */
         const o = el('option', undefined, cosmeticLabel(hat));
         o.value = hat;
         hatSelect.appendChild(o);
@@ -229,6 +233,18 @@ export class RosterMenu {
     );
     const actions = el('div', 'roster-actions');
     actions.appendChild(copy);
+    // TECH-66: a phone can send the code straight to a friend through the share sheet.
+    if (canShareText())
+      actions.appendChild(
+        button(
+          SHARE_TEXT.codeButton,
+          () =>
+            void shareText(code, SHARE_TEXT.codeTitle).then((ok) => {
+              if (!ok) status.textContent = UI_TEXT.copyByHand;
+            }),
+          'btn btn-small',
+        ),
+      );
     if (trade) {
       actions.appendChild(
         button(

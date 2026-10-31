@@ -1,3 +1,5 @@
+import { shareOrDownload } from '../platform/share';
+import { SHARE_TEXT } from '../config/strings-r9d3';
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
 import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
@@ -39,6 +41,7 @@ import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
 import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
+import { mountSaveInfo } from './save-info-panel';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
@@ -465,6 +468,8 @@ export class SettingsMenu {
     this.unreadableBtn.hidden = true;
     saves.append(this.unreadableBtn);
     body.appendChild(saves);
+    // R0659 (CAMP-67): last saved, size, and the copies kept.
+    this.syncSaveInfo = mountSaveInfo(body);
     const warn = el('p', 'help', UI_TEXT.mayClearStorage);
     warn.hidden = true;
     body.appendChild(warn);
@@ -480,6 +485,7 @@ export class SettingsMenu {
   }
 
   private readonly storageLine: HTMLParagraphElement;
+  private syncSaveInfo: () => void = () => undefined;
 
   private refreshStorageLine(): void {
     const kb = Math.round(groveBytes() / 1024);
@@ -511,6 +517,7 @@ export class SettingsMenu {
     const g = this.game();
     if (!g) return;
     this.refreshStorageLine();
+    this.syncSaveInfo();
     const s = g.world.settings.offlineAging;
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);
@@ -748,8 +755,10 @@ export class SettingsMenu {
     const g = this.game();
     if (!g) return;
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-    downloadText(`grove-save-${stamp}.json`, g.exportJson());
-    noteBackupExported();
+    // TECH-66: the share sheet on a phone, the download elsewhere.
+    void shareOrDownload(`grove-save-${stamp}.json`, g.exportJson(), SHARE_TEXT.saveTitle).then(
+      (r) => r !== 'cancelled' && noteBackupExported(),
+    );
   }
 
   /** The newest copy of a save that failed to load, as a file the player can keep. */

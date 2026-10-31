@@ -20,8 +20,8 @@ export function appendScriptText(
     box.appendChild(document.createTextNode(text));
     return;
   }
-  loadLangFonts();
   for (const run of scriptRuns(text)) {
+    if (run.kind !== 'latin') void loadLangFonts(run.kind);
     if (run.kind === 'latin') {
       box.appendChild(document.createTextNode(run.text));
       continue;

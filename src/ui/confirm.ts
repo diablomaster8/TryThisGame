@@ -14,6 +14,8 @@ export interface ConfirmOptions {
   confirm: string;
   cancel?: string;
   danger?: boolean;
+  /** TECH-29: the yes button must be held this long (pointer or key), never just clicked. */
+  holdMs?: number;
 }
 
 export function confirmModal(
@@ -46,9 +48,51 @@ export function confirmModal(
       opts.danger ? 'btn btn-danger' : 'btn btn-primary',
     );
     const no = button(opts.cancel ?? CAMP_TEXT.confirmCancel, () => answer(false), 'btn');
+    if (opts.holdMs) holdToConfirm(yes, opts.holdMs, () => answer(true));
     row.append(yes, no);
     m.body.appendChild(row);
     m.show();
     no.focus();
   });
+}
+
+/**
+ * TECH-29: turn a button into press-and-hold. A click alone does nothing; holding the
+ * pointer or Enter/Space for `ms` fills the button and then answers. Letting go early, or
+ * sliding off, starts over.
+ */
+function holdToConfirm(b: HTMLButtonElement, ms: number, done: () => void): void {
+  let timer = 0;
+  b.classList.add('btn-hold');
+  b.style.setProperty('--hold-ms', `${ms}ms`);
+  const start = (): void => {
+    if (timer) return;
+    b.classList.add('holding');
+    timer = window.setTimeout(() => {
+      timer = 0;
+      done();
+    }, ms);
+  };
+  const stop = (): void => {
+    window.clearTimeout(timer);
+    timer = 0;
+    b.classList.remove('holding');
+  };
+  // The click from the shared button() would answer at once; a capturing listener stops it.
+  b.addEventListener('click', (e) => e.stopImmediatePropagation(), { capture: true });
+  b.addEventListener('pointerdown', (e) => {
+    b.setPointerCapture?.(e.pointerId);
+    start();
+  });
+  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture'] as const)
+    b.addEventListener(t, stop);
+  b.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    if (!e.repeat) start();
+  });
+  b.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') stop();
+  });
+  b.addEventListener('contextmenu', (e) => e.preventDefault());
 }

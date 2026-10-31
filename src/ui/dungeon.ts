@@ -13,6 +13,7 @@ import { campPortalHere, canUseAcorn, standingOnWaypoint } from '../sim/dungeon-
 import { parseLevelId } from '../sim/dungeon-levels';
 import { GEAR_TEXT, HOLLOW_ZONE_TEXT, RUMBLE_TEXT } from '../config/strings';
 import { GearPanel } from './dungeon-gear';
+import { CottageChest, StashPanel } from './dungeon-stash';
 import { serviceHere } from '../sim/dungeon-towns';
 import { mouthHere } from '../sim/dungeon-zones';
 import { calmers } from '../sim/dungeon-strays';
@@ -25,6 +26,13 @@ import { clockText } from '../sim/dungeon-log';
 import { runClock } from '../sim/dungeon-speed';
 import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
+import type { SimEvent } from '../sim/types';
+import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
+import { PARTY_R8 } from '../config/dungeon-party-r8';
+import { HollowScroll, ShareCard } from './hollow-scroll';
+import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
+import { cellCentre, runFloor } from '../sim/dungeon';
+import { screenBearing } from './hud-world-math';
 import { tzOf } from '../sim/local-time';
 
 /**
@@ -57,12 +65,20 @@ export class DungeonMenu {
   private readonly snackBtn: HTMLButtonElement;
   /** R0164: the gear panel. */
   private readonly gear: GearPanel;
+  private readonly cottage: CottageChest;
   /** Who comes along (R0168). */
   private readonly party: PartyPicker;
   /** Lane B round 6: End trip with a confirm (R0184), and "Sneak past?" (R0180). */
   private readonly endDialog;
   private readonly endText: HTMLParagraphElement;
   private readonly sneakBtn: HTMLButtonElement;
+  // Lane B round 8: the boss scroll (R0207) and today's share card (R0185).
+  private readonly scroll: HollowScroll;
+  private readonly share: ShareCard;
+  /** A boss scroll waiting its turn: it opens after the fight and the boss card are done. */
+  private scrollWaiting: { act: number; since: number } | null = null;
+  /** Set by the HUD: whether a card the scroll must wait for (the boss celebration) is up. */
+  scrollBusy: () => boolean = () => false;
 
   constructor(
     parent: HTMLElement,
@@ -72,6 +88,18 @@ export class DungeonMenu {
     this.dialog.body.appendChild(el('p', 'help', DUNGEON_TEXT.help));
     this.info = el('div', 'shop-note');
     this.dialog.body.appendChild(this.info);
+    this.share = new ShareCard(parent);
+    this.scroll = new HollowScroll(parent);
+    this.dialog.body.appendChild(
+      button(
+        HOLLOW_R8_TEXT.shareButton,
+        () => {
+          const g = this.game();
+          if (g) this.share.open(g.world);
+        },
+        'btn btn-small',
+      ),
+    );
     this.party = new PartyPicker(game);
     this.dialog.body.appendChild(this.party.root);
     const list = el('div', 'shop-list');
@@ -181,6 +209,8 @@ export class DungeonMenu {
       ),
     );
     this.gear = new GearPanel(parent, game);
+    // R0174 (lane B round 8): the Grove cottage's stash chest.
+    this.cottage = new CottageChest(parent, new StashPanel(parent, game));
     this.bar.append(button(GEAR_TEXT.button, () => this.gear.open(), 'btn btn-small hollow-extra'));
     // The minimap: its button sits in the bar, its panel is the bar's last row.
     this.map = new HollowMap(this.bar);
@@ -215,11 +245,29 @@ export class DungeonMenu {
     this.endDialog.hide();
     this.town.close();
     this.gear.close();
+    this.share.close();
+    this.scroll.close();
+  }
+
+  /** The HUD's event hook: the Scout's "!" (R0167) and the boss scroll (R0207). */
+  onEvents(events: readonly SimEvent[], world: World, toast: (text: string) => void): void {
+    for (const e of events) {
+      if (e.kind === 'scoutSpotted') {
+        const who = world.nubbins.find((n) => n.id === e.nubbinId)?.name ?? '';
+        toast(HOLLOW_R8_TEXT.scoutSpotted(who));
+      } else if (e.kind === 'storyScroll')
+        this.scrollWaiting = { act: e.act, since: performance.now() };
+    }
   }
 
   isOpen(): boolean {
     return (
-      this.dialog.isOpen() || this.waypoints.isOpen() || this.town.isOpen() || this.gear.isOpen()
+      this.dialog.isOpen() ||
+      this.waypoints.isOpen() ||
+      this.town.isOpen() ||
+      this.gear.isOpen() ||
+      this.share.isOpen() ||
+      this.scroll.isOpen()
     );
   }
 
@@ -228,10 +276,24 @@ export class DungeonMenu {
     const run = world.location === 'dungeon' ? world.dungeon : null;
     // R0196: no Hollow bar over a fight.
     this.bar.hidden = !run || !!run.encounter || !!run.strayBout || !!world.tactics;
+    // R0207: the scroll queues behind the fight's end and the boss card (which may open a
+    // tick after the scroll's event), so the two never stack.
+    const wait = this.scrollWaiting;
+    if (
+      wait &&
+      performance.now() - wait.since >= PARTY_R8.scrollDelayMs &&
+      !this.scrollBusy() &&
+      !run?.encounter &&
+      !world.tactics
+    ) {
+      this.scrollWaiting = null;
+      this.scroll.show(wait.act);
+    }
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
     this.buffs.refresh(run);
     this.town.refresh(world);
+    this.cottage.refresh(world);
     if (!run) {
       this.serviceBtn.hidden = this.mouthBtn.hidden = this.portalBtn.hidden = true;
       this.calmBtn.hidden = this.snackBtn.hidden = true;
@@ -266,6 +328,9 @@ export class DungeonMenu {
     // R0175: what rides in the sack until the next waypoint, camp, acorn or home.
     const sack = sackCount(run);
     if (sack > 0) this.barText.textContent += ` · ${HOLLOW_R6_TEXT.sack(sack)}`;
+    // R0208: the guide's arrow toward the stairs or the unexplored, turned with the camera.
+    const hint = guideHint(world, this.game()?.camera.currentYaw ?? 0);
+    if (hint) this.barText.textContent += ` · ${hint}`;
   }
 
   private listActs(world: World): void {
@@ -305,6 +370,21 @@ export class DungeonMenu {
     );
     speed.setAttribute('aria-pressed', String(!!world.hollow.speedRun));
     this.acts.append(speed);
+    // R0208: "Show me the way", for anyone, off until switched on.
+    const guide = button(
+      world.hollow.guide ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
+      () => {
+        this.game()?.send({ kind: 'hollowGuide', on: !world.hollow.guide });
+        setTimeout(() => {
+          const g = this.game();
+          if (g && this.dialog.isOpen()) this.listActs(g.world);
+        }, 250);
+      },
+      'btn btn-small hollow-tier',
+    );
+    guide.setAttribute('aria-pressed', String(!!world.hollow.guide));
+    guide.title = HOLLOW_R8_TEXT.guideHelp;
+    this.acts.append(guide);
     ACTS.forEach((act, i) => {
       const text = ACT_TEXT[act.id]!;
       const open = actOpen(world, i);
@@ -412,4 +492,21 @@ function sneakable(run: DungeonRun | null, now: number): string | null {
     if (run.packs?.some((p) => p.id === id && p.state !== 'beaten')) return id;
   }
   return null;
+}
+
+const ARROWS = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'] as const;
+
+/** R0208: "👣 Stairs ↗" from the guide's path, or null with the guide off or nowhere to go. */
+function guideHint(world: World, yaw: number): string | null {
+  const path = guidePath(world);
+  const f = runFloor(world);
+  const at = path ? lookAheadCell(path) : undefined;
+  if (!path || !f || at === undefined || path.cells.length < 2) return null;
+  const p = cellCentre(f, { x: at % f.cols, y: Math.floor(at / f.cols) });
+  const k = world.keeper.pos;
+  const b = screenBearing(p.x - k.x, p.z - k.z, yaw);
+  const arrow = ARROWS[Math.round(b / (Math.PI / 4)) % 8]!;
+  return path.goal === 'stairs'
+    ? HOLLOW_R8_TEXT.guideStairs(arrow)
+    : HOLLOW_R8_TEXT.guideExplore(arrow);
 }

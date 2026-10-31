@@ -10,7 +10,7 @@ function fakeRenderer(inPass: () => void = () => {}): {
 } {
   const map = {
     render: (...args: unknown[]): void => {
-      void args;
+      void args.length;
       inPass();
     },
   };

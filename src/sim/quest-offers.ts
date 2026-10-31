@@ -1,9 +1,11 @@
 import { REGIONS } from '../config/regions';
-import { QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
+import { OFFER_WINDOWS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { areaOf } from '../content/where-map';
+import { audienceAllowed, isFunQuestCode } from './audience';
 import { homeRegion } from './quest-areas';
 import { regionOf } from './regions';
+import { nextDawn, nextDusk } from './story-state';
 import { sideStory } from './story-scenes';
 import type { CampaignState, QuestBook, QuestEntry, SimEvent, World } from './types';
 
@@ -128,7 +130,10 @@ export function boardState(
   const status = campaignStatus(c, id);
   if (status === 'done' || status === 'closed') return 'done';
   const e = world.questBook?.entries[id];
-  if (!e) return null;
+  if (!e || e.expired) return null;
+  // R0655: a quest above the Mature content setting is hidden, its progress kept.
+  const quest = sideStory(id);
+  if (quest && !questAllowed(world, quest)) return null;
   if (e.state === 'active') return 'active';
   if (e.state === 'shelved') return 'shelved';
   return 'available';
@@ -145,9 +150,15 @@ export function stepQuestOffers(
   candidates: readonly string[],
   opens: (id: string) => boolean,
   events: SimEvent[],
+  hold = false,
 ): void {
   if (!openFlow(world) || c.storyline !== null) return;
   const book = questBook(world);
+  expireOffers(world, c, events);
+  holdAboveAudience(world, c);
+  // R0631: while Hazel's opening is due or her goal is met, no offer is made; the area counts
+  // as entered once the spine has played, so the Keeper standing there is offered then.
+  if (hold) return;
   const here = keeperArea(world);
   if (here === book.here) return;
   book.here = here;
@@ -158,23 +169,33 @@ export function stepQuestOffers(
   seen.visits += 1;
   events.push({ kind: 'areaEntered', area: here });
   if (quiet(c)) return;
+  // R0637: an area that just made an offer rests, so walking in and out is no spam.
+  const lastOffer = book.areaOfferMs?.[here];
+  if (lastOffer !== undefined && now < lastOffer + QUEST_CADENCE.areaOfferCooldownMs) return;
+  const capersFull = activeCapers(world, c) >= QUEST_CADENCE.capersActiveMax;
+  let made = 0;
   for (const id of candidates) {
+    if (made >= QUEST_CADENCE.offerPerEntry) return;
     if (declineRule(id) === 'never' || campaignStatus(c, id) !== undefined) continue;
     const e = book.entries[id];
     if (e && (e.state !== 'offered' || now < e.offeredMs + QUEST_OFFERS.reofferMs)) continue;
     const quest = sideStory(id);
-    if (!quest || !offeredAt(quest, here) || !opens(id)) continue;
+    if (!quest || !offeredAt(quest, here) || !questAllowed(world, quest)) continue;
+    if (capersFull && isFunQuestCode(quest.code)) continue;
+    if (!opens(id)) continue;
     book.entries[id] = {
       state: 'offered',
       area: here,
       offeredMs: now,
       acceptedMs: null,
       declines: e?.declines ?? 0,
+      ...windowOf(id, now),
     };
     book.offer = { quest: id, area: here, atMs: now };
+    (book.areaOfferMs ??= {})[here] = now;
     events.push({ kind: 'questOffered', quest: id, area: here });
     count(world, 'offered');
-    return;
+    made += 1;
   }
 }
 
@@ -192,6 +213,7 @@ export function debugOffer(world: World, id: string, events: SimEvent[]): boolea
     offeredMs: world.timeMs,
     acceptedMs: null,
     declines: prior?.declines ?? 0,
+    ...windowOf(id, world.timeMs),
   };
   book.offer = { quest: id, area, atMs: world.timeMs };
   events.push({ kind: 'questOffered', quest: id, area });
@@ -247,6 +269,8 @@ export function acceptQuest(
   const status = campaignStatus(c, id);
   const prior = world.questBook?.entries[id];
   if (status === 'done' || status === 'closed' || prior?.state === 'active') return false;
+  // R0652: a lapse story whose window passed is gone; R0655: nothing above the setting.
+  if (prior?.expired || !questAllowed(world, sideStory(id)!)) return false;
   // A story that opened on its own (the quiet chapters) is already under way.
   if (status === 'open' && prior?.state !== 'shelved') return false;
   const active = activeQuests(world, c);
@@ -260,6 +284,8 @@ export function acceptQuest(
   const e = entryFor(world, id);
   e.state = 'active';
   e.acceptedMs ??= world.timeMs;
+  delete e.audienceHeld;
+  delete e.expiresMs;
   clearOffer(book, id);
   count(world, 'accepted');
   if (!book.tracked.includes(id) && book.tracked.length < QUEST_OFFERS.trackCap)
@@ -335,4 +361,77 @@ export function questProgress(
   const of = quest.steps.length;
   const step = Math.min(st.step + 1, of);
   return { step, of, minutesLeft: Math.max(1, (of - st.step) * QUEST_OFFERS.minutesPerStep) };
+}
+
+/** R0655: may this save be offered `quest` at its rating (the Mature content setting). */
+export function questAllowed(world: World, quest: Quest): boolean {
+  const ctx = { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
+  return audienceAllowed(quest.audience, ctx);
+}
+
+/**
+ * R0655: lowering Mature content shelves every active quest above it (its cap slot freed, its
+ * chip and board row hidden, its progress kept). Raising it back shows them as shelved, to
+ * take up again from the board; never active on their own.
+ */
+export function holdAboveAudience(world: World, c: CampaignState): void {
+  const book = world.questBook;
+  if (!book) return;
+  for (const [id, e] of Object.entries(book.entries)) {
+    const quest = sideStory(id);
+    if (e.state !== 'active' || !quest || questAllowed(world, quest)) continue;
+    if (['done', 'closed'].includes(campaignStatus(c, id) ?? '')) continue;
+    e.state = 'shelved';
+    e.audienceHeld = true;
+    book.tracked = book.tracked.filter((t) => t !== id);
+    if (book.offer?.quest === id) book.offer = null;
+  }
+}
+
+/** R0637: capers (fun quests) accepted and still under way. */
+export function activeCapers(world: World, c: CampaignState): number {
+  return activeQuests(world, c).filter((id) => isFunQuestCode(sideStory(id)?.code ?? '')).length;
+}
+
+/** R0652: when an offer of `id` made at `now` runs out, if it has a window. */
+export function offerExpiry(id: string, now: number): number | null {
+  const w = OFFER_WINDOWS[id];
+  if (w === undefined) return null;
+  if (w === 'dawn') return nextDawn(now);
+  if (w === 'dusk') return nextDusk(now);
+  return now + w * 60_000;
+}
+
+function windowOf(id: string, now: number): { expiresMs?: number } {
+  const at = offerExpiry(id, now);
+  return at === null ? {} : { expiresMs: at };
+}
+
+/**
+ * R0652: an offer whose window has passed unanswered (offered or put off, never accepted). A
+ * `lapse` story follows its lapse path: it is let go and never opens. A `free` one stays in the
+ * book as offered, so the next window may offer it again.
+ */
+export function expireOffers(world: World, c: CampaignState, events: SimEvent[]): void {
+  const book = world.questBook;
+  if (!book) return;
+  const now = world.timeMs;
+  for (const [id, e] of Object.entries(book.entries)) {
+    if (e.expiresMs === undefined || now < e.expiresMs || e.expired) continue;
+    if (e.state !== 'offered' && e.state !== 'declined') continue;
+    if (campaignStatus(c, id) !== undefined) continue;
+    const lapsed = declineRule(id) === 'lapse';
+    if (lapsed) {
+      e.state = 'declined';
+      e.expired = true;
+      delete e.expiresMs;
+    } else {
+      // Kept in the book (an entry never opens on its own), free to be offered next window.
+      e.state = 'offered';
+      e.offeredMs = now - QUEST_OFFERS.reofferMs;
+      delete e.expiresMs;
+    }
+    if (book.offer?.quest === id) book.offer = null;
+    events.push({ kind: 'questExpired', quest: id, lapsed });
+  }
 }

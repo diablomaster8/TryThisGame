@@ -66,7 +66,7 @@
 }
 .bs-prebout-head h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 .bs-prebout-head .btn {
   min-height: 44px;
@@ -80,14 +80,14 @@
 }
 .bs-pb-sec h3 {
   margin: 6px 0 4px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   opacity: 0.8;
 }
 .bs-pb-obj {
   margin: 0;
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
 }
 .bs-pb-lv {
@@ -132,7 +132,7 @@
   text-align: left;
 }
 .bs-pb-choice small {
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.85;
 }
 .bs-pb-choice[aria-pressed='true'] {
@@ -155,7 +155,7 @@
 }
 .bs-pb-play {
   min-height: 64px;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 
@@ -223,7 +223,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .bs-gauge {
   display: grid;
@@ -271,17 +271,17 @@
   align-items: center;
   justify-content: center;
   background: rgba(13, 10, 26, 0.75);
-  font-size: 22px;
+  font-size: 1.375rem;
 }
 .bs-veil[hidden] {
   display: none;
 }
 .bs-veil p {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .bs-spoils {
   margin: 2px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Debug → Battle (FIGHT-80) must be usable over a live bout. */

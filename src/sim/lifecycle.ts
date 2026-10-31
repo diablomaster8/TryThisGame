@@ -20,6 +20,7 @@ import type {
 } from './types';
 import { NUBBIN_TYPES, STAT_KEYS } from './types';
 import { eduAlwaysReborn } from './edu';
+import { rememberDeparted } from './remembrance'; /* Lane E r9 */
 
 /**
  * Stage timers: egg → child → cocoon → adult → end-of-life check.
@@ -425,6 +426,7 @@ export function memorialForm(n: Nubbin): string {
 /** Moves on for good, leaving a memorial flower where it stood. */
 export function depart(n: Nubbin, events: SimEvent[], world?: World): void {
   if (world) {
+    rememberDeparted(world, n, events); /* Lane E r9, R0424 */
     world.nubbins = world.nubbins.filter((x) => x.id !== n.id);
     world.memorials.push({
       id: `memorial-${n.id}`,
