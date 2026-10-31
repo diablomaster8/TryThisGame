@@ -29,16 +29,16 @@ export interface SpriteDraw {
   /** 'billboard' turns to the camera and tilts back; 'flat' lies on the ground. */
   mode: 'billboard' | 'flat';
   /** World size; defaults to the frame size over NATIVE_PPU. */
-  w?: number;
-  h?: number;
-  opacity?: number;
+  w?: number | undefined;
+  h?: number | undefined;
+  opacity?: number | undefined;
   /** Brightness 0..1 multiplied into the vertex colour (night dimming). */
-  tint?: number;
+  tint?: number | undefined;
   /**
    * Checkerboard thinning 0..1 inside the batch's dither circle (`ditherCircle`): 1 drops
    * every other pixel, as a building fades from in front of the cast (campaign graphics 2).
    */
-  dither?: number;
+  dither?: number | undefined;
 }
 
 /** A sprite's four corners as drawn, kept for CPU picking. */
@@ -78,6 +78,8 @@ export interface DrawnQuad {
  */
 export const SPRITE_TOKENS = { scale: 1 };
 
+const ZERO_UV: readonly number[] = [0, 0, 0, 0];
+
 export class SpriteBatch {
   readonly mesh: Mesh<BufferGeometry, MeshBasicMaterial>;
 
@@ -111,6 +113,22 @@ export class SpriteBatch {
   private readonly up = new Vector3();
   /** What each quad of this frame shows, so its UVs can be rebuilt after an atlas repack. */
   private frameDraws: Array<{ sheet: SpriteSheet; rect: FrameRect; flip: boolean }> = [];
+  /**
+   * R0473 (lane D r10): per-slot storage reused frame to frame, so drawing a sprite makes no
+   * garbage (the Grove draws hundreds a frame; fresh corners, UV tuples and quad records were
+   * about 18 MB/s of allocation and the GC pauses behind the Pixel frame dips). A slot's
+   * corners stay valid until that slot is drawn again in the next frame, which covers picking
+   * between frames.
+   */
+  private slotCorners: Array<[Vector3, Vector3, Vector3, Vector3]> = [];
+  private pickQuads: DrawnQuad[] = [];
+  private readonly scratchCorners: [Vector3, Vector3, Vector3, Vector3] = [
+    new Vector3(),
+    new Vector3(),
+    new Vector3(),
+    new Vector3(),
+  ];
+  private readonly uvOut: [number, number, number, number] = [0, 0, 0, 0];
   /** The atlas generation this frame's UVs were taken from. */
   private uvGeneration = 0;
 
@@ -221,9 +239,17 @@ export class SpriteBatch {
     this.xrayQuads.push({ index: this.count - 1, color: new Color(color) });
   }
 
-  /** The corners a sprite would be drawn with, without drawing it. */
+  /**
+   * The corners a sprite would be drawn with, without drawing it. R0473: shared scratch
+   * vectors, overwritten by the next call; copy them to keep them.
+   */
   quadCorners(d: SpriteDraw): [Vector3, Vector3, Vector3, Vector3] {
-    return this.cornersFor(d, d.w ?? d.rect.w / NATIVE_PPU, d.h ?? d.rect.h / NATIVE_PPU);
+    return this.cornersFor(
+      d,
+      d.w ?? d.rect.w / NATIVE_PPU,
+      d.h ?? d.rect.h / NATIVE_PPU,
+      this.scratchCorners,
+    );
   }
 
   private fillAttributes(geometry: BufferGeometry): void {
@@ -280,7 +306,7 @@ export class SpriteBatch {
     this.count = 0;
     this.quads.length = 0;
     this.xrayQuads.length = 0;
-    this.frameDraws.length = 0;
+    // R0473: frameDraws keeps its records (reused by slot; only the first `count` are read).
     this.atlas.beginFrame();
     this.uvGeneration = this.atlas.generation;
     this.pulse = 0.5 + 0.5 * Math.sin(Date.now() / 160);
@@ -330,7 +356,7 @@ export class SpriteBatch {
     // Placing may evict and repack; then the quads already drawn this frame re-ask their UVs.
     if (!this.atlas.place(d.sheet)) return;
     if (this.atlas.generation !== this.uvGeneration) this.refreshUvs();
-    const uv = this.atlas.uv(d.sheet, d.rect);
+    const uv = this.atlas.uvInto(d.sheet, d.rect, this.uvOut);
     if (!uv) return;
     // The highlight: the same frame, a little larger and bright, drawn first so the real
     // sprite covers its middle and only a glowing rim shows.
@@ -358,40 +384,83 @@ export class SpriteBatch {
     const i = this.count++;
     const w = d.w ?? d.rect.w / NATIVE_PPU;
     const h = d.h ?? d.rect.h / NATIVE_PPU;
-    const corners = this.cornersFor(d, w, h);
+    const corners = this.cornersFor(
+      d,
+      w,
+      h,
+      (this.slotCorners[i] ??= [new Vector3(), new Vector3(), new Vector3(), new Vector3()]),
+    );
     const o = i * 12;
-    corners.forEach((v, c) => {
+    for (let c = 0; c < 4; c++) {
+      const v = corners[c]!;
       this.positions[o + c * 3] = v.x;
       this.positions[o + c * 3 + 1] = v.y;
       this.positions[o + c * 3 + 2] = v.z;
-    });
+    }
     this.writeUv(i, uv, d.flip);
-    this.frameDraws[i] = { sheet: d.sheet, rect: d.rect, flip: d.flip };
+    const fd = this.frameDraws[i];
+    if (fd) {
+      fd.sheet = d.sheet;
+      fd.rect = d.rect;
+      fd.flip = d.flip;
+    } else this.frameDraws[i] = { sheet: d.sheet, rect: d.rect, flip: d.flip };
     const a = d.opacity ?? 1;
     const b = d.tint ?? 1;
-    for (let c = 0; c < 4; c++) this.colors.set([b, b, b, a], i * 16 + c * 4);
+    const co = this.colors;
+    for (let c = 0, k = i * 16; c < 4; c++, k += 4) {
+      co[k] = b;
+      co[k + 1] = b;
+      co[k + 2] = b;
+      co[k + 3] = a;
+    }
     this.dithers.fill(d.dither ?? 0, i * 4, i * 4 + 4);
     this.lastCorners = corners;
     if (pick && pick.kind === 'nubbin' && this.highlight?.id === pick.id && !d.dither) {
       this.markXray(0xfff3b0);
     }
     if (pick) {
-      this.quads.push({
-        id: pick.id,
-        kind: pick.kind,
-        corners,
-        sheet: d.sheet,
-        rect: d.rect,
-        flip: d.flip,
-      });
+      const n = this.quads.length;
+      const q = this.pickQuads[n];
+      if (q) {
+        q.id = pick.id;
+        q.kind = pick.kind;
+        q.corners = corners;
+        q.sheet = d.sheet;
+        q.rect = d.rect;
+        q.flip = d.flip;
+        this.quads.push(q);
+      } else {
+        const fresh: DrawnQuad = {
+          id: pick.id,
+          kind: pick.kind,
+          corners,
+          sheet: d.sheet,
+          rect: d.rect,
+          flip: d.flip,
+        };
+        this.pickQuads[n] = fresh;
+        this.quads.push(fresh);
+      }
     }
   }
 
-  private writeUv(i: number, uv: [number, number, number, number], flip: boolean): void {
-    const [u0, v0, u1, v1] = uv;
+  private writeUv(i: number, uv: readonly number[], flip: boolean): void {
+    const u0 = uv[0]!;
+    const v0 = uv[1]!;
+    const u1 = uv[2]!;
+    const v1 = uv[3]!;
     const left = flip ? u1 : u0;
     const right = flip ? u0 : u1;
-    this.uvs.set([left, v0, right, v0, left, v1, right, v1], i * 8);
+    const t = this.uvs;
+    const k = i * 8;
+    t[k] = left;
+    t[k + 1] = v0;
+    t[k + 2] = right;
+    t[k + 3] = v0;
+    t[k + 4] = left;
+    t[k + 5] = v1;
+    t[k + 6] = right;
+    t[k + 7] = v1;
   }
 
   /** After a repack every sheet may have moved: point this frame's quads at their new places. */
@@ -401,7 +470,7 @@ export class SpriteBatch {
       const f = this.frameDraws[i];
       if (!f) continue;
       // A sheet that no longer fits collapses to an empty quad rather than showing the wrong art.
-      this.writeUv(i, this.atlas.uv(f.sheet, f.rect) ?? [0, 0, 0, 0], f.flip);
+      this.writeUv(i, this.atlas.uvInto(f.sheet, f.rect, this.uvOut) ?? ZERO_UV, f.flip);
     }
   }
 
@@ -409,22 +478,31 @@ export class SpriteBatch {
   lastCorners: [Vector3, Vector3, Vector3, Vector3] | null = null;
 
   /** Corners in order: top-left, top-right, bottom-left, bottom-right. */
-  private cornersFor(d: SpriteDraw, w: number, h: number): [Vector3, Vector3, Vector3, Vector3] {
+  private cornersFor(
+    d: SpriteDraw,
+    w: number,
+    h: number,
+    out: [Vector3, Vector3, Vector3, Vector3],
+  ): [Vector3, Vector3, Vector3, Vector3] {
     const hw = w / 2;
+    const tl = out[0];
+    const tr = out[1];
+    const bl = out[2];
+    const br = out[3];
     if (d.mode === 'flat') {
       const y = 0.012 + d.y;
       const hh = h / 2;
-      return [
-        new Vector3(d.x - hw, y, d.z - hh),
-        new Vector3(d.x + hw, y, d.z - hh),
-        new Vector3(d.x - hw, y, d.z + hh),
-        new Vector3(d.x + hw, y, d.z + hh),
-      ];
+      tl.set(d.x - hw, y, d.z - hh);
+      tr.set(d.x + hw, y, d.z - hh);
+      bl.set(d.x - hw, y, d.z + hh);
+      br.set(d.x + hw, y, d.z + hh);
+      return out;
     }
-    const base = new Vector3(d.x, d.y, d.z);
-    const bl = base.clone().addScaledVector(this.right, -hw);
-    const br = base.clone().addScaledVector(this.right, hw);
-    return [bl.clone().addScaledVector(this.up, h), br.clone().addScaledVector(this.up, h), bl, br];
+    bl.set(d.x, d.y, d.z).addScaledVector(this.right, -hw);
+    br.set(d.x, d.y, d.z).addScaledVector(this.right, hw);
+    tl.copy(bl).addScaledVector(this.up, h);
+    tr.copy(br).addScaledVector(this.up, h);
+    return out;
   }
 
   /** Finish the frame: upload and set the draw range. */
@@ -459,8 +537,11 @@ export class SpriteBatch {
       const to = this.count + k;
       this.positions.copyWithin(to * 12, from * 12, from * 12 + 12);
       this.uvs.copyWithin(to * 8, from * 8, from * 8 + 8);
-      for (let c = 0; c < 4; c++) {
-        this.colors.set([q.color.r, q.color.g, q.color.b, 0.45], to * 16 + c * 4);
+      for (let c = 0, k = to * 16; c < 4; c++, k += 4) {
+        this.colors[k] = q.color.r;
+        this.colors[k + 1] = q.color.g;
+        this.colors[k + 2] = q.color.b;
+        this.colors[k + 3] = 0.45;
       }
     });
     this.xray.geometry.setDrawRange(this.count * 6, n * 6);

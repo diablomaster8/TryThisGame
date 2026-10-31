@@ -176,18 +176,26 @@ export class MegaAtlas {
    * has u shifted by 2k, which the batch's shader reads back as the page.
    */
   uv(sheet: SpriteSheet, rect: FrameRect): [number, number, number, number] | null {
+    return this.uvInto(sheet, rect, [0, 0, 0, 0]);
+  }
+
+  /** R0473 (lane D r10): `uv` written into `out`, so the per-sprite hot path makes no garbage. */
+  uvInto(
+    sheet: SpriteSheet,
+    rect: FrameRect,
+    out: [number, number, number, number],
+  ): [number, number, number, number] | null {
     const p = this.slots.get(sheet);
     if (!p) return null;
     p.lastUsed = this.frame;
     const x = p.x + rect.x;
     const y = p.y + rect.y;
     const u = 2 * p.page;
-    return [
-      u + x / this.size,
-      1 - y / this.size,
-      u + (x + rect.w) / this.size,
-      1 - (y + rect.h) / this.size,
-    ];
+    out[0] = u + x / this.size;
+    out[1] = 1 - y / this.size;
+    out[2] = u + (x + rect.w) / this.size;
+    out[3] = 1 - (y + rect.h) / this.size;
+    return out;
   }
 
   /**

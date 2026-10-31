@@ -117,11 +117,26 @@ export function mountMinimap(
     return c;
   };
 
+  // R0473 (lane D r10): the top bar's bottom is kept, refreshed by a ResizeObserver (after
+  // layout) and dropped on a window resize, instead of a forced layout on every redraw.
+  let barBottom: number | null = null;
+  let watchedBar: HTMLElement | null = null;
+  window.addEventListener('resize', () => (barBottom = null));
   const place = (): void => {
     // Sit just under the top bar's last row (the Shells counter wraps with it on phones).
     const bar = parent.querySelector<HTMLElement>('.topbar');
-    const top = bar ? bar.getBoundingClientRect().bottom + MINIMAP.gapBelowTopbar : 56;
-    root.style.top = `${Math.round(top)}px`;
+    if (bar !== watchedBar) {
+      watchedBar = bar;
+      barBottom = null;
+      if (bar && typeof ResizeObserver !== 'undefined')
+        new ResizeObserver(() => {
+          if (watchedBar === bar) barBottom = bar.getBoundingClientRect().bottom;
+        }).observe(bar);
+    }
+    if (bar && barBottom === null) barBottom = bar.getBoundingClientRect().bottom;
+    const top = bar && barBottom !== null ? barBottom + MINIMAP.gapBelowTopbar : 56;
+    const px = `${Math.round(top)}px`;
+    if (root.style.top !== px) root.style.top = px;
   };
 
   const draw = (g: Game, now: number): void => {
