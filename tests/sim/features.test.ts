@@ -127,8 +127,8 @@ describe('karate', () => {
 
 describe('weather and seasons', () => {
   it('rolls seasons from the calendar and shelters in the rain', () => {
-    expect(seasonOf(new Date(2026, 0, 10))).toBe('winter');
-    expect(seasonOf(new Date(2026, 6, 10))).toBe('summer');
+    expect(seasonOf(0)).toBe('winter');
+    expect(seasonOf(6)).toBe('summer');
     const { world, events, a } = grownWorld();
     setWeather(world, 'rain', new Rng(1), events, 60_000);
     expect(world.weather.kind).toBe('rain');
@@ -181,16 +181,16 @@ describe('daily visits', () => {
   it('a Keeper may visit each real day, but each brings only one gift, ever', () => {
     const world = createWorld(9, 0);
     const events: SimEvent[] = [];
-    const day = new Date(2026, 9, 10, 12).getTime();
+    const day = Date.UTC(2026, 9, 10, 12);
     stepDaily(world, day, new Rng(4), events);
     stepDaily(world, day + 3_600_000, new Rng(5), events);
     expect(events.filter((e) => e.kind === 'visitor').length).toBe(1);
     const first = events.find((e) => e.kind === 'visitor');
     expect(first && first.kind === 'visitor' && first.gift).toBeTruthy();
     expect(world.visits.gifted.length).toBe(1);
-    expect(world.visits.lastDay).toBe(dayKey(new Date(day)));
+    expect(world.visits.lastDay).toBe(dayKey(day, 0));
     expect(world.npcs.length).toBe(1);
-    expect(isLanternNight(new Date(2026, 9, 10))).toBe(true); // a Saturday
+    expect(isLanternNight(Date.UTC(2026, 9, 10, 12), 0)).toBe(true); // a Saturday
   });
 });
 
@@ -198,7 +198,7 @@ describe('one-time story gifts (canon 22)', () => {
   it('a returning Keeper brings no second gift, on any later day', () => {
     const world = createWorld(9, 0);
     const events: SimEvent[] = [];
-    const t0 = new Date(2026, 9, 10, 12).getTime();
+    const t0 = Date.UTC(2026, 9, 10, 12);
     for (let d = 0; d < 60; d++) stepDaily(world, t0 + d * 86_400_000, new Rng(100 + d), events);
     const gifts = events.flatMap((e) => (e.kind === 'visitor' && e.gift ? [e.trainer] : []));
     expect(new Set(gifts).size).toBe(gifts.length);

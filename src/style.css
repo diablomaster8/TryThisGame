@@ -1263,7 +1263,7 @@ button,
 }
 
 .dialogue-text {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.4;
   min-height: 3.2em;
 }
@@ -1293,7 +1293,7 @@ button,
 
 .btn-choice {
   text-align: left;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 @media (max-width: 600px) {
@@ -1302,7 +1302,7 @@ button,
     height: 64px;
   }
   .dialogue-text {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 
@@ -1359,7 +1359,7 @@ button,
 /* Ask options and do cards: big, one-thumb targets. */
 .btn-choice.edu-option {
   min-height: 52px;
-  font-size: 17px;
+  font-size: 1.0625rem;
   text-align: center;
 }
 
@@ -2447,7 +2447,7 @@ select {
 }
 
 .item-card-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.2;
   text-align: center;
   max-width: 120px;
@@ -2484,7 +2484,7 @@ select {
 
 .postcard-hint {
   margin-bottom: 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: rgba(255, 246, 224, 0.7);
 }
 
@@ -2955,12 +2955,12 @@ select {
   min-width: 76px;
   min-height: 44px;
   padding: 6px 12px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .dialogue-skip.small {
   min-width: 56px;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.75;
 }
 
@@ -2985,7 +2985,7 @@ select {
   text-align: left;
   color: inherit;
   font: inherit;
-  font-size: 13px;
+  font-size: 0.8125rem;
   background: rgba(13, 10, 26, 0.78);
   border: 1px solid var(--hud-border);
   border-radius: 10px;
@@ -3011,7 +3011,7 @@ select {
 
 .objective-hint {
   opacity: 0.8;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* A phone keeps the chip to one line: the goal only, the hint is a tap away in the Journal. */
@@ -3055,7 +3055,7 @@ select {
 
 .edu-entry-card h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 1.375rem;
 }
 
 .edu-entry-btn {
@@ -3064,7 +3064,7 @@ select {
   justify-content: center;
   gap: 14px;
   min-height: 84px;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .edu-entry-icon {
@@ -3260,8 +3260,9 @@ select {
     display: block;
     grid-column: 1 / -1;
     width: 100%;
-    min-height: 24px;
-    margin: -6px 0 2px;
+    /* A 44 px tap target; the negative top margin tucks it into the sheet's top padding. */
+    min-height: 44px;
+    margin: -14px 0 0;
     padding: 0;
     border: 0;
     background: none;
@@ -3273,7 +3274,7 @@ select {
     display: block;
     width: 44px;
     height: 5px;
-    margin: 8px auto;
+    margin: 18px auto;
     border-radius: 3px;
     background: rgba(255, 255, 255, 0.45);
   }
@@ -3881,6 +3882,209 @@ body.edu-sprout .modal-head .btn-close {
   min-height: 44px;
 }
 
+/* Lane E r8: R0683 grown-up mastery tiles (green known, amber learning, grey not met; a mark too). */
+.edu-mastery { margin: 6px 0 10px; }
+.edu-mastery-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.edu-mastery-tile {
+  min-width: 30px; height: 30px; padding: 0 6px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; text-transform: capitalize;
+  background: #d9d6df; color: #4a4552; border: 2px solid transparent;
+}
+.edu-mastery-tile.is-known { background: #bfe8b8; color: #1d4d1a; border-color: #3fae4a; }
+.edu-mastery-tile.is-known::after { content: ' ✓'; }
+.edu-mastery-tile.is-learning { background: #ffe1a8; color: #6a4300; border-color: #f2a43a; border-style: dashed; }
+
+/* Lane E r8: R0685 the sticker book ("My Book") and the results card's arriving sticker. */
+.sticker-book .modal-card { width: min(620px, calc(100% - 16px)); }
+.sticker-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sticker-turn { min-width: 64px; min-height: 64px; font-size: 28px; }
+.sticker-title { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sticker-title-icon { font-size: 32px; line-height: 1; }
+.sticker-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 12px 0;
+  touch-action: pan-y;
+}
+@media (max-width: 480px) { .sticker-grid { grid-template-columns: repeat(3, 1fr); } }
+.sticker, .sticker-slot {
+  aspect-ratio: 1; min-height: 72px; display: flex; align-items: center; justify-content: center;
+  padding: 6px; border-radius: 50%;
+}
+.sticker {
+  background: var(--sticker-bg, #fff); border: 4px solid #fff;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); cursor: pointer;
+}
+.sticker-square { border-radius: 14px; }
+.sticker-heart { border-radius: 50% 50% 18% 50%; }
+.sticker-star { border-radius: 30% 70% 30% 70% / 70% 30% 70% 30%; }
+.sticker-slot { border: 3px dashed rgba(255, 255, 255, 0.35); }
+.sticker-art { width: 80%; height: 80%; image-rendering: pixelated; }
+.sticker-fresh { animation: sticker-glow 1.2s ease-in-out 3; }
+@keyframes sticker-glow { 50% { transform: scale(1.12); box-shadow: 0 0 18px #ffe066; } }
+.sticker-dots { display: flex; justify-content: center; gap: 8px; }
+.sticker-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); }
+.sticker-dot.on { background: #ffe066; }
+.sticker-arrive {
+  display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 96px;
+  background: transparent; border: none;
+}
+.sticker-arrive .sticker { width: 72px; height: 72px; }
+.sticker-book-icon { font-size: 56px; }
+.sticker-fly { animation: sticker-fly 1.4s ease-in 0.8s both; }
+@keyframes sticker-fly {
+  0% { transform: scale(1.3) rotate(-10deg); }
+  60% { transform: translateX(60px) scale(0.6) rotate(8deg); opacity: 1; }
+  100% { transform: translateX(80px) scale(0.3); opacity: 0; }
+}
+.reduce-motion .sticker-fly, .reduce-motion .sticker-fresh { animation: none; }
+
+/* Lane E r8: R0680 the Learning Grove's Places picture menu. */
+.edu-places-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.edu-places-grid .edu-place.btn {
+  min-height: 120px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 6px; font-size: 18px; font-weight: 700;
+}
+.edu-place-icon { font-size: 52px; line-height: 1; }
+.edu-places-grownups { margin-top: 14px; opacity: 0.8; }
+
+/* Lane E r8: R0692 the Learning Grove's egg shelf. */
+.edu-egg-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 10px; }
+.edu-egg { min-height: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.edu-egg-art { width: 48px; height: 56px; image-rendering: pixelated; }
+
+/* Lane E r8: R0695 the limits card sits over games and menus. */
+.edu-limit { z-index: 40; }
+
+/* Lane E r8: R0714 counting cues in five-frames, each counted thing staying lit once counted. */
+.edu-icons.edu-frame { display: grid; grid-template-columns: repeat(5, auto); justify-content: center; }
+.edu-icons > span.edu-counted-keep { filter: drop-shadow(0 0 4px #ffd85a); }
+
+/* Lane E r8: R0425 photo album, R0441 photo stickers. */
+.photo-stickers { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 6px 0; }
+.photo-sticker { min-width: 44px; min-height: 44px; font-size: 18px; }
+.album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.album-thumb { position: relative; padding: 2px; min-height: 44px; }
+.album-thumb img { width: 100%; display: block; image-rendering: pixelated; }
+.album-kept { position: absolute; top: 2px; right: 4px; }
+.album-big { width: 100%; image-rendering: pixelated; }
+.memorial-photo { display: block; width: 128px; margin: 6px auto; image-rendering: pixelated; border: 3px solid #f4ecd8; }
+
+/* Lane C r8 (R0606): the Open quest flow's offer card, a bottom sheet, and its folded chip. */
+.offer-card {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  max-height: 60vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(26, 21, 48, 0.95);
+  color: #fff;
+  z-index: 55;
+}
+.offer-card .offer-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.8em;
+}
+.offer-card .offer-tag,
+.offer-card .offer-badge,
+.offer-card .offer-size,
+.offer-card .offer-reward {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.offer-card .offer-badge {
+  background: #7a2d3a;
+}
+.offer-card .offer-title {
+  margin: 6px 0 2px;
+  font-size: 1.1em;
+}
+.offer-card .offer-from,
+.offer-card .offer-lapse {
+  margin: 2px 0;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+.offer-card .offer-pitch {
+  margin: 6px 0;
+}
+.offer-card .offer-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85em;
+}
+.offer-card .offer-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+.offer-card .offer-buttons .btn,
+.offer-card .offer-shelve .btn {
+  min-height: 48px;
+  flex: 1;
+}
+.offer-card .offer-shelve {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.offer-chip {
+  pointer-events: auto;
+  position: absolute;
+  right: 12px;
+  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  min-height: 44px;
+  max-width: 60%;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #e0b13a;
+  color: #1a1530;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 50;
+}
+.journal-board h4 {
+  margin: 8px 0 4px;
+}
+.journal-board .journal-line .btn {
+  min-height: 44px;
+}
+/* Lane C r8 (R0609): the objective chip's count and its arrow to the next tracked goal. */
+.objective-count {
+  align-self: center;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.objective-cycle {
+  pointer-events: auto;
+  position: absolute;
+  /* Just above the chip's left end, where the thumb already is. */
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  font-size: 20px;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+}
+
 /* Lane A r8 (SOUL): the likes row and moody chip on the stats sheet. */
 .soul-row {
   display: flex;
@@ -3940,4 +4144,579 @@ body.edu-sprout .modal-head .btn-close {
 }
 .roster-personality.forming {
   opacity: 0.7;
+}
+
+/* Lane E r9 (kidsread), R0734 KIDS-66: co-play prompts as dashed grown-up chips under the line. */
+.edu-coplay-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.edu-coplay {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 6px 10px;
+  border: 2px dashed #9fd3ff;
+  border-radius: 10px;
+  background: rgba(159, 211, 255, 0.1);
+  font-size: 1em;
+  font-style: normal;
+  line-height: 1.35;
+}
+.edu-coplay-icon {
+  font-size: 1.2em;
+}
+.edu-coplay-label {
+  font-weight: 700;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9fd3ff;
+}
+.edu-coplay-text {
+  flex: 1 1 12em;
+}
+
+/* Lane E r9 (kidsread), R0736 KIDS-68: a language word stacked over its romanisation. */
+.lang-ruby {
+  ruby-position: under;
+  ruby-align: center;
+  cursor: pointer;
+  /* Room below for the romanisation, so it never sits on the next line's text. */
+  line-height: 2.4;
+  margin: 0 2px;
+}
+.lang-ruby .lang-roman {
+  font-size: 0.62em;
+  font-style: italic;
+  opacity: 0.9;
+  letter-spacing: 0.02em;
+}
+
+/* Lane E r9 (kidsread), R0730 KIDS-62: the story box's auto-advance toggle. */
+.dialogue-auto {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 1.2rem;
+}
+body.edu-sprout .dialogue-auto {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+}
+.dialogue-auto[aria-pressed='true'] {
+  outline: 2px solid currentColor;
+}
+
+/* Lane E r9 (kidsread), R0737 KIDS-69: Ori and Hana's next visit as a sun-and-moon clock. */
+.lang-wait {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(242, 211, 76, 0.12);
+}
+.lang-wait-clock {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+}
+
+/* Lane E r9: the Learning Grove's name-and-icon step and the ?kids picker (R0696, R0720). */
+.kids-tag-q {
+  font-weight: 700;
+  margin-top: 10px;
+}
+.kids-tag-name {
+  width: 100%;
+  max-width: 320px;
+  min-height: 48px;
+  font-size: 1.25rem;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+.kids-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.kids-tag-colour,
+.kids-tag-icon {
+  min-width: 64px;
+  min-height: 64px;
+}
+.kids-tag-colour {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+}
+.kids-tag-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 70%);
+}
+.kids-tag-icon {
+  font-size: 2rem;
+}
+.kids-tag-row [aria-pressed='true'] {
+  outline: 4px solid #ffe27a;
+  outline-offset: 2px;
+}
+.kids-tag-row [aria-pressed='true']::after {
+  content: ' ✓';
+}
+.kids-tag-go {
+  min-height: 64px;
+  margin-top: 12px;
+  font-size: 1.2rem;
+}
+.title-slot-tagged {
+  border-left: 8px solid var(--tag);
+  padding-left: 4px;
+}
+.kids-pick-title {
+  text-align: center;
+  font-size: 1.6rem;
+}
+.kids-pick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 12px 0;
+}
+.kids-pick-tile {
+  width: var(--tile, 160px);
+  height: var(--tile, 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 6px solid var(--tag, #8bc28c);
+  border-radius: 24px;
+  font-size: 1.2rem;
+  overflow: hidden;
+}
+.kids-pick-icon {
+  font-size: 4rem;
+  line-height: 1;
+}
+.kids-pick-tile strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.kids-pick-grown {
+  display: block;
+  margin: 8px auto 0;
+}
+
+/*
+ * Lane E r9 (kidsread), R0678 KIDS-10: the sprout size sweep. Controls whose own rules are
+ * more specific than the r7 `body.edu-sprout .btn` floor (journal lines, offer cards, modal
+ * close, say-it, act buttons, word rows, the guide's home button) still came out at 44-56 px.
+ * The doubled class lifts this above those (0,3,0) rules but stays below the 72/80 px HUD rule.
+ * Inline word controls in the text (course words, glossary words) stay text-sized.
+ */
+body.edu-sprout.edu-sprout :is(.btn, button, [role='button']):not(.lang-word, .edu-gloss) {
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+}
+/* Text-only sheet actions get a picture in the sprout band (colour is never the only cue). */
+body.edu-sprout .sheet-actions .btn[data-guide='pet']::before {
+  content: '🤗 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='pickup']::before {
+  content: '🤲 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='feed']::before {
+  content: '🍎 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='shake']::before {
+  content: '🌳 ';
+}
+
+/* Lane C r9 (agent J): the journal's tabs, Quests page, Errands and endings shelf, its phone
+   sheet (R0660), and the offer card's giver portrait (R0606). */
+.journal-tabs {
+  flex-wrap: wrap;
+}
+.journal-quests .journal-search {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 0;
+}
+.journal-quests .journal-search input {
+  min-height: 44px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 10px;
+  font-size: 1rem;
+}
+.journal-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.journal-chip[aria-pressed='true'] {
+  outline: 2px solid #f2d34c;
+}
+.journal-quest-list .journal-line.done {
+  opacity: 0.75;
+}
+.journal-errands {
+  margin: 8px 0;
+}
+.journal-errands > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.journal-shelf-list {
+  margin: 4px 0 10px;
+  padding-left: 18px;
+}
+.journal-shelf-list li {
+  margin: 4px 0;
+}
+.journal-shelf-list li.reached {
+  font-weight: 700;
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .journal-tabs.journal-tabs-foot {
+    position: sticky;
+    bottom: 72px;
+    z-index: 1;
+    margin-top: 12px;
+    padding: 6px 0;
+    background: #231c3f;
+    box-shadow: 0 -8px 10px 0 #1a1530;
+  }
+  .journal-modal .sheet-grip {
+    touch-action: none;
+    padding-top: 10px;
+    position: relative;
+  }
+  .journal-modal .sheet-grip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+.offer-card .offer-from-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.offer-card .offer-portrait {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  image-rendering: pixelated;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Lane C r9 (R0661, R0616): the chip's "Go there" and "Rest until …", beside its arrow. */
+.objective-go,
+.objective-rest {
+  pointer-events: auto;
+  position: absolute;
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+}
+.objective-go {
+  left: calc(var(--safe-left) + 64px);
+  font-size: 20px;
+}
+.objective-rest {
+  left: calc(var(--safe-left) + 116px);
+  padding: 0 12px;
+  font-size: 14px;
+}
+/* The soft dim while resting: the Grove stays visible, only quieter. */
+html.story-resting canvas {
+  filter: brightness(0.7) saturate(0.8);
+  transition: filter 0.4s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.story-resting canvas {
+    transition: none;
+  }
+}
+/* ---------- lane D r8: the shake meter (TECH-16) ---------- */
+
+/* Over the field, clear of the thumb that is shaking: the carry chip is not up during a drag. */
+.shake-meter {
+  position: absolute;
+  left: 50%;
+  top: 26%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 999px;
+  pointer-events: none;
+}
+.shake-meter.full {
+  background: rgba(242, 211, 76, 0.45);
+}
+
+/* ---------- lane D r8: the stats sheet's tabs (TECH-07) ---------- */
+
+.sheet-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 4px;
+}
+.sheet-tab {
+  flex: 1 1 0;
+}
+.sheet-panel > * + * {
+  margin-top: 8px;
+}
+.sheet-faces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 8px 0;
+  font-size: 0.875rem;
+}
+.sheet-more-toggle {
+  width: 100%;
+  margin-top: 8px;
+}
+/* The hatch ring: a conic sweep, its share set from the countdown. */
+.egg-ring {
+  width: 44px;
+  height: 44px;
+  margin: 8px auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(13, 10, 26, 0.95) 58%, transparent 60%),
+    conic-gradient(#f2d34c var(--hatch, 0deg), rgba(255, 241, 201, 0.15) 0);
+}
+
+/* TECH-61: wide screens label the top-bar icons too, a word under each, as phones do in their
+   bottom bar. Short windows keep the icons alone so the bar stays one row. */
+.top-label {
+  display: none;
+}
+@media (min-width: 900px) and (min-height: 501px) {
+  .topbar .act-btn,
+  .topbar .top-labelled {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    min-width: 56px;
+    min-height: 52px;
+    padding: 2px 6px;
+  }
+  .topbar .act-btn .act-glyph,
+  .topbar .top-labelled .act-glyph {
+    font-size: 1.125rem;
+    line-height: 1.1;
+  }
+  .topbar .act-btn .act-label,
+  .topbar .top-labelled .top-label {
+    display: block;
+    font-size: 0.6875rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+}
+
+/* TECH-60: the keys hint's way back is for keyboards, like the hint itself. */
+@media (max-width: 600px), (hover: none), (pointer: coarse) {
+  .keys-hint-again {
+    display: none;
+  }
+}
+
+/* ---- Lane D round 8 (platform) ---- */
+/* R0496 (TECH-55): the "a new Grove is ready" chip, under the top bar. */
+.update-ready {
+  position: absolute;
+  pointer-events: auto;
+  top: calc(var(--topbar-bottom, calc(var(--safe-top) + 52px)) + 6px);
+  left: 50%;
+  z-index: 15;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  max-width: min(420px, calc(100vw - 32px - var(--safe-left) - var(--safe-right)));
+  padding: 6px;
+  border: 2px solid #8fe0a8;
+  border-radius: 14px;
+  background: rgba(13, 10, 26, 0.92);
+  color: #fff7dc;
+}
+.update-ready[hidden] {
+  display: none;
+}
+.update-ready button {
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 0.875rem;
+}
+.update-ready-go {
+  flex: 1 1 auto;
+}
+/* R0520 (TECH-80): a More-menu entry that needs the internet once. */
+.btn .offline-need {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+.btn:disabled:has(.offline-need) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* R0518 (TECH-77): installed on a notched iPhone (black-translucent status bar, viewport-fit
+   cover) the page runs under the status bar and the home indicator. The HUD already offsets
+   by the --safe-* insets; the full-screen layers that centre a card did not, so a tall panel
+   reached the notch. They pad by the insets (zero, so unchanged, everywhere else). In phone
+   portrait the modal card already adds --safe-bottom itself, so the modal does not. */
+.modal {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .modal {
+    padding-bottom: 0;
+  }
+}
+.title,
+.pocket,
+.edu,
+.gym,
+.celebrate,
+.catching,
+.edu-entry,
+.edu-break {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+.dialogue-box {
+  width: min(640px, calc(100% - 24px - var(--safe-left) - var(--safe-right)));
+}
+/* R0519 (TECH-78): the HUD under the player's colour and contrast preferences. The game is
+   dark by design, so native controls (selects, inputs, scrollbars) are told to match. */
+:root {
+  color-scheme: dark;
+}
+.meter-pct {
+  display: none;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+/* Windows high contrast: the system paints text and backgrounds, which can wipe out drawn
+   bars, translucent chips and emoji-only buttons. Give every control a real border, keep
+   the meter fill visible as a system colour, and show the meter's number. */
+@media (forced-colors: active) {
+  /* Important: chip-like buttons set their own thinner border at a higher specificity. */
+  button,
+  .btn,
+  [role='button'],
+  .objective-chip,
+  select,
+  input {
+    border: 2px solid ButtonText !important;
+  }
+  .chip,
+  .toast,
+  .modal-card,
+  .dialogue-box {
+    border: 2px solid CanvasText;
+  }
+  .meter-track {
+    border: 1px solid CanvasText;
+  }
+  .meter-fill {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .meter-pct {
+    display: inline;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+/* Asked for more contrast: solid panels instead of see-through ones, plain borders, a
+   strong focus ring and the meter numbers (the text also starts larger: ui/text-scale.ts). */
+@media (prefers-contrast: more) {
+  :root {
+    --hud-bg: #0d0a1a;
+    --hud-border: #fff1c9;
+  }
+  .toast,
+  .chip,
+  .backup-offer,
+  .update-ready {
+    background: #0d0a1a;
+    border-color: #fff1c9;
+  }
+  .meter-track {
+    background: #3a3358;
+  }
+  .meter-pct {
+    display: inline;
+  }
+  :focus-visible {
+    outline: 3px solid #ffd84a;
+    outline-offset: 2px;
+  }
+}
+/* R0469 (TECH-27): the dialogue box grows upward with its text (it is bottom-anchored) and
+   stops at 45% of the screen; past that its text and choices scroll inside it. */
+.dialogue-body {
+  max-height: calc(45vh - 28px);
+  max-height: calc(45dvh - 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Lane A r9 (SOUL): trait chips on the stats sheet (R0528), each an icon, a word and a blurb. */
+.soul-chip.trait {
+  flex: 1 1 45%;
+  flex-wrap: wrap;
+  min-width: 140px;
+  padding: 2px 6px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
 }

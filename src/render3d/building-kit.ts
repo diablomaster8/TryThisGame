@@ -766,7 +766,7 @@ export function hideDepthMaterial(): THREE.MeshDepthMaterial {
 }
 
 /** Whether a material runs the H9 occluder (a building-kit or occluder-patched program). */
-function isOccludable(mat: THREE.Material | THREE.Material[]): boolean {
+export function isOccludable(mat: THREE.Material | THREE.Material[]): boolean {
   const m = Array.isArray(mat) ? mat[0] : mat;
   if (!m) return false;
   const key = m.customProgramCacheKey();

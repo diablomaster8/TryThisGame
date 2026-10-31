@@ -1,4 +1,5 @@
 import { BATTLE } from '../config/tuning-battle';
+import { AUDIO_MIX } from '../config/tuning-r8d-audio';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
 import { stepSwimTow } from './swim-tow';
 import { festivalGagSeen } from './festival-gags';
@@ -43,7 +44,8 @@ import {
 } from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
-import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
+import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
+import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
@@ -72,6 +74,8 @@ import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
+import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
+import { chooseCastHome } from './line-rewards';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -148,6 +152,9 @@ import {
   stepEdu,
   clampRounds,
 } from './edu';
+import { eduSetLimits, eduUnlockLimits } from './edu-limits';
+/* Lane E r9 */
+import { eduSetTag } from './edu-session';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -161,6 +168,7 @@ import {
   type World,
 } from './types';
 import { findCuriosity } from './curiosities';
+import { mayWear } from './remembrance'; /* Lane E r9 */
 import { hatchInArms } from './hatch-arms';
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
@@ -180,7 +188,8 @@ export function defaultSettings(): Settings {
     joystick: false,
     sound: true,
     music: true,
-    musicVolume: 0.8,
+    // R0464 (TECH-22): music sits under the effects by default.
+    musicVolume: AUDIO_MIX.defaultMusic,
     sfxVolume: 0.8,
     textSpeed: 'normal',
     screenShake: true,
@@ -237,7 +246,7 @@ export function createWorld(seed: number, wallMs: number): World {
     campaign: null,
     lines: {},
     weather: createWeather(),
-    season: seasonOf(new Date(wallMs)),
+    season: seasonAt(wallMs, 0),
     placed: [],
     seen: {},
     visits: { lastDay: '', count: 0, gifted: [] },
@@ -524,7 +533,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     }
     case 'buy':
-      withRng(world, (rng) => buy(world, cmd.item, rng, events));
+      withRng(world, (rng) => buy(world, cmd.item, rng, events, cmd.pick));
       return;
     case 'raceResult': {
       // The UI reports the result, so the sim checks it: a known course, a tier that is open,
@@ -563,15 +572,26 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
+      if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
       n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
       noteNubbin(world, n, events);
+      return;
+    }
+    case 'setTimeZone': {
+      // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
+      const m = Math.round(cmd.offsetMin);
+      if (Number.isFinite(m) && m >= -720 && m <= 840) world.tzOffsetMin = m;
       return;
     }
     case 'setSettings': {
       // The menu validates the cap, but a NaN or out-of-range one must never reach catch-up.
       const next = { ...cmd.settings, offlineAging: { ...cmd.settings.offlineAging } };
       sanitizeOfflineAging(next.offlineAging, world.settings.offlineAging.capHours);
+      // Lane C r8: a settings copy taken before the story began (a phone's first-launch
+      // defaults) must not drop the quest flow it set; the menu always names one.
+      if (next.questFlow === undefined && world.settings.questFlow !== undefined)
+        next.questFlow = world.settings.questFlow;
       world.settings = next;
       return;
     }
@@ -1008,6 +1028,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetReadToMe':
       if (world.edu) world.edu.readToMe = cmd.on;
       return;
+    /* Lane E r9 */
+    case 'eduSetAutoAdvance':
+      if (world.edu) {
+        if (cmd.on) world.edu.autoAdvance = true;
+        else delete world.edu.autoAdvance;
+      }
+      return;
+    case 'langSkipWait':
+      if (world.edu) world.edu.langSkipAt = world.timeMs;
+      return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
       return;
@@ -1033,8 +1063,23 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetName':
       eduSetName(world, cmd.name);
       return;
+    /* Lane E r9, R0696 */
+    case 'eduSetTag':
+      eduSetTag(world, cmd.icon, cmd.colour);
+      return;
     case 'eduResult':
-      eduResult(world, cmd.game, cmd.stars, events);
+      eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
+      return;
+    case 'eduSetLimits':
+      // Lane E r8, R0695.
+      eduSetLimits(world, cmd.limits);
+      return;
+    case 'eduUnlockLimits':
+      eduUnlockLimits(world, world.lastWallMs);
+      return;
+    case 'eduSetPlace':
+      // Lane E r8, R0680.
+      if (world.edu) (world.edu.places ??= {})[cmd.place] = cmd.on;
       return;
     case 'eduResetSession':
       eduResetSession(world);
@@ -1147,6 +1192,26 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
       abandonLine(world, cmd.line);
       return;
+    // Lane C r8 (R0602): the Open quest flow's answers (sim/quest-offers.ts).
+    case 'questAccept':
+      if (world.campaign) acceptQuest(world, world.campaign, cmd.id, cmd.shelve, events);
+      return;
+    case 'questDecline':
+      if (world.campaign) declineQuest(world, world.campaign, cmd.id);
+      return;
+    case 'questShelve':
+      shelveQuest(world, cmd.id);
+      return;
+    case 'questTrack':
+      trackQuest(world, cmd.id, cmd.on);
+      return;
+    case 'debugQuestOffer':
+      debugOffer(world, cmd.id, events);
+      return;
+    // Lane C r9 (R0594): an ended line's Nubbin comes home or stays where the line lives.
+    case 'lineCastHome':
+      chooseCastHome(world, cmd.line, cmd.nubbinId, cmd.home, events);
+      return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
       // R0313: except Fern's stone, a running gag of its own.
@@ -1253,7 +1318,7 @@ export function stepWorld(
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
     if (wallMs !== undefined) {
-      world.season = seasonOf(new Date(wallMs));
+      world.season = seasonAt(wallMs, tzOf(world));
       stepDaily(world, wallMs, rng, events);
     }
     stepLineQueue(world, dtMs, events);

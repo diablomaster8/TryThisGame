@@ -139,6 +139,29 @@ export interface SaveSummary {
   eduBand: string | null;
   /** Sim time lived in this Grove. */
   playMs: number;
+  /** Lane C r8 (R0648): the questlines beside Hazel's Grove, and side stories and capers done. */
+  lines?: Record<string, 'active' | 'done'>;
+  questsDone?: number;
+  /* Lane E r9, R0696: the child's name, animal icon and colour tag (Learning Grove). */
+  eduName?: string;
+  eduIcon?: string;
+  eduColour?: string;
+}
+
+/** R0648: the lines and the finished quests a save holds, read defensively from its JSON. */
+function storySummary(w: Record<string, unknown>): Pick<SaveSummary, 'lines' | 'questsDone'> {
+  const lines: Record<string, 'active' | 'done'> = {};
+  const raw = (w.lines ?? {}) as Record<string, { ending?: unknown } | null>;
+  if (raw && typeof raw === 'object')
+    for (const [id, l] of Object.entries(raw))
+      if (l && typeof l === 'object') lines[id] = typeof l.ending === 'string' ? 'done' : 'active';
+  const c = (w.campaign ?? null) as { side?: unknown; fun?: unknown } | null;
+  let questsDone = 0;
+  for (const store of [c?.side, c?.fun])
+    if (store && typeof store === 'object')
+      for (const st of Object.values(store as Record<string, { status?: unknown }>))
+        if (st?.status === 'done') questsDone += 1;
+  return { lines, questsDone };
 }
 
 /** Pure: a summary from a save's JSON, or null when it cannot be read. */
@@ -153,7 +176,13 @@ export function summarize(json: string): SaveSummary | null {
       storyline?: unknown;
       ending?: unknown;
     } | null;
-    const edu = (w.edu ?? null) as { age?: unknown; band?: unknown } | null;
+    const edu = (w.edu ?? null) as {
+      age?: unknown;
+      band?: unknown;
+      childName?: unknown;
+      icon?: unknown;
+      tagColour?: unknown;
+    } | null;
     return {
       savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
       nubbins: nubbins.length,
@@ -168,6 +197,13 @@ export function summarize(json: string): SaveSummary | null {
       eduAge: edu && typeof edu.age === 'number' ? edu.age : null,
       eduBand: edu && typeof edu.band === 'string' ? edu.band : null,
       playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
+      ...storySummary(w),
+      /* Lane E r9, R0696 */
+      ...(edu && typeof edu.childName === 'string' && edu.childName.trim()
+        ? { eduName: edu.childName.trim() }
+        : {}),
+      ...(edu && typeof edu.icon === 'string' ? { eduIcon: edu.icon } : {}),
+      ...(edu && typeof edu.tagColour === 'string' ? { eduColour: edu.tagColour } : {}),
     };
   } catch {
     return null;

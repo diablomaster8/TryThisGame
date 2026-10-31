@@ -20,7 +20,7 @@ export interface BattlePrefs {
   /** The battle playback speed. */
   speed?: 1 | 2;
 }
-import type { EduAge, EduGameId } from '../config/edu';
+import type { EduAge, EduGameId, EduPlaceId } from '../config/edu';
 import type { EduBand } from '../content/types';
 import type { LineAct } from '../config/story';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -201,6 +201,9 @@ export interface Nubbin {
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: NubbinParts;
   hat: string | null;
+  /* Lane E r9 */
+  /** R0424: names of departed bonded friends this Nubbin remembers (the remembrance hat). */
+  remembers?: string[];
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
   /** Lane E r7, R0437: the Keeper took the Dojo belt off in the Wardrobe (absent: worn). */
@@ -266,6 +269,19 @@ export interface Nubbin {
   /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
   missing?: string[];
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
+  // Lane A r9 (SOUL), optional with defaults, no save bump:
+  /** R0528: the trait earned by care before evolution (the first comes from the seed). */
+  earnedTrait?: import('../config/tuning-soul-r9').TraitId;
+  /** R0528: counts toward the earned trait; cleared once one is earned. */
+  traitCare?: Partial<
+    Record<keyof typeof import('../config/tuning-soul-r9').TRAIT_TUNING.earn, number>
+  >;
+  /** R0546: a full belly (waddle, then a burp and a nap) until this sim time. */
+  fullUntilMs?: number;
+  /** R0546: when it ate its recent fruits, for the full belly (last few only). */
+  recentMeals?: number[];
+  /** R0543: no hide and seek again before this sim time. */
+  peekAfterMs?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -274,6 +290,11 @@ export interface Nubbin {
   battle?: NubbinBattle;
   /** Lane C: the tactical grid's Jump and Move (MOVE-61); reserved, empty by default. */
   combat?: NubbinCombat;
+  /**
+   * Lane C r9 (R0594): where a questline's Nubbin lives after its line ended and the Keeper let
+   * it stay (`fold`, `server`...). Unset: the Grove. Optional; no save bump.
+   */
+  home?: string;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -427,6 +448,48 @@ export interface Settings {
   bouts?: 'play' | 'gentle' | 'skip';
   /** Lane C round 5: "Steady hands" (FIGHT-79), a fixed ×1.1 in place of the timing ring. */
   steadyHands?: boolean;
+  /**
+   * Lane C round 8 (R0602, R0664): `open` offers stories and capers where they happen, to accept
+   * or put off; `guided` (unset) pushes them as before. Optional; no save bump.
+   */
+  questFlow?: QuestFlow;
+}
+
+/** Lane C round 8: how side stories and capers reach the Keeper (sim/quest-offers.ts). */
+export type QuestFlow = 'open' | 'guided';
+
+/** Lane C round 8 (R0602): one quest's place in the Open flow. Done and closed live in campaign. */
+export interface QuestEntry {
+  state: 'offered' | 'declined' | 'active' | 'shelved';
+  /** The area it was offered in (`region/poi`). */
+  area: string;
+  offeredMs: number;
+  acceptedMs: number | null;
+  declines: number;
+  /** Lane C r9 (R0652): when a windowed offer ends (sim ms), if it has a window. */
+  expiresMs?: number;
+  /** Lane C r9 (R0652): a lapse story whose window passed unanswered; it is let go. */
+  expired?: boolean;
+  /** Lane C r9 (R0655): shelved because Mature content was lowered below its rating. */
+  audienceHeld?: boolean;
+}
+
+/** Lane C round 8 (R0602): the Open flow's book of offers, beside `world.campaign`. */
+export interface QuestBook {
+  v: 1;
+  entries: Record<string, QuestEntry>;
+  /** The offer on the card now, if any. */
+  offer: { quest: string; area: string; atMs: number } | null;
+  /** Quest ids pinned to the objective chip (R0609), at most QUESTS.trackCap. */
+  tracked: string[];
+  /** Areas entered (R0596's `areas`). */
+  areas: Record<string, { firstMs: number; lastMs: number; visits: number }>;
+  /** The area the Keeper stands in now (`region/poi`), or null between them. */
+  here: string | null;
+  /** R0670: telemetry-free play counts, kept in the save for pacing by hand. */
+  stats?: { offered: number; accepted: number; declined: number; shelved: number };
+  /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
+  areaOfferMs?: Record<string, number>;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -535,6 +598,20 @@ export interface EduState {
   alwaysReborn?: boolean;
   /** Lane E r7, R0746: rounds per game a grown-up picked (absent: by age, `eduRounds`). */
   roundsPerGame?: number;
+  /** Lane E r8, R0682: each game's rung on its skills ladder (absent: start by age). */
+  skills?: Partial<Record<EduGameId, EduSkill>>;
+  /** Lane E r8, R0683: per-item mastery, by ids like `letter:G` or `count:7`. */
+  items?: Record<string, EduItem>;
+  /** Lane E r8, R0680: places a grown-up opened or closed (absent: `PLACES_EDU` default). */
+  places?: Partial<Record<EduPlaceId, boolean>>;
+  /** Lane E r8, R0692: which of today's three shelf eggs were bought (sim/edu-eggs.ts). */
+  eggShelf?: { day: string; bought: number[] };
+  /** Lane E r8, R0695: a grown-up's daily minutes, quiet hours and boot lock (sim/edu-limits.ts). */
+  limits?: EduLimits;
+  /* Lane E r9 */
+  /** R0696 (KIDS-28): the child's animal icon and colour tag on the title (EDU_TAG). */
+  icon?: string;
+  tagColour?: string;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -560,10 +637,40 @@ export interface EduState {
   readAloud: boolean;
   /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
   readToMe?: boolean;
+  /** Lane E r9, R0730: Little Sprouts' story turns its own pages after the voice (grown-up switch, default off). */
+  autoAdvance?: boolean;
+  /** Lane E r9, R0737: the grown-up's "skip to Grove morning" for language visits (world time it was pressed). */
+  langSkipAt?: number;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
   courses: Record<LangCourseId, boolean>;
+}
+
+/** Lane E r8, R0682: a game's rung, first-try streak, and this sitting's shown answers. */
+export interface EduSkill {
+  level: number;
+  streak: number;
+  misses: number;
+  /** The rung already moved this sitting (never more than once). */
+  moved: boolean;
+}
+
+/** Lane E r8, R0695: a Learning Grove's limits; null = no limit. Hours are local, 0–23. */
+export interface EduLimits {
+  dailyMinutes: number | null;
+  quietFrom: number | null;
+  quietTo: number | null;
+  lockToSlot: boolean;
+  /** Wall-clock ms a grown-up's unlock lasts until. */
+  unlockUntilMs?: number;
+}
+
+/** Lane E r8, R0683: how often an item was asked, how often right first time, and when. */
+export interface EduItem {
+  seen: number;
+  firstTry: number;
+  lastMs: number;
 }
 
 export type LangCourseId = 'hebrew' | 'japanese';
@@ -943,6 +1050,11 @@ export interface VigilState {
 
 export interface World {
   seed: number;
+  /**
+   * TECH-45: the Keeper's time zone, minutes east of UTC, sent by the UI on load
+   * (`setTimeZone`); the sim's days, hours and seasons read it (`sim/local-time.ts`). Unset: UTC.
+   */
+  tzOffsetMin?: number;
   rngState: number;
   /** Sim time in ms since the world was created. */
   timeMs: number;
@@ -1016,6 +1128,8 @@ export interface World {
    * play through `campaign.queue` (sim/story-book.ts). Empty in a separate-campaign save.
    */
   lines: Record<string, CampaignState>;
+  /** Lane C round 8 (R0602): the Open quest flow's offers; absent in the Guided flow. */
+  questBook?: QuestBook;
   weather: Weather;
   /** From the real calendar, updated each live step. */
   season: Season;
@@ -1201,7 +1315,8 @@ export type Command =
   | { kind: 'giveCritter'; nubbinId: string; species: string }
   | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }
   | { kind: 'addRewards'; rewards: Rewards }
-  | { kind: 'buy'; item: ShopItem }
+  /** `pick`: Lane E r8, R0692, which egg on a Learning Grove's shelf. */
+  | { kind: 'buy'; item: ShopItem; pick?: number }
   | {
       kind: 'raceResult';
       nubbinId: string;
@@ -1215,6 +1330,8 @@ export type Command =
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
+  /** TECH-45: the device's time zone, minutes east of UTC. */
+  | { kind: 'setTimeZone'; offsetMin: number }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   /** The UI holds waiting end-of-life checks while the away screen is open. */
@@ -1225,7 +1342,8 @@ export type Command =
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }
   | { kind: 'debugHatchNow'; nubbinId: string }
-  | { kind: 'campaignStart' }
+  // Lane C r8 (R0602): `flow` sets the quest flow as the story begins (a new game plays Open).
+  | { kind: 'campaignStart'; flow?: QuestFlow }
   | { kind: 'sceneDone'; scene: string; choice: string | null }
   /** R0322: the tap toy's beats (a surprised face for hiccups, a dizzy one for the sneeze). */
   | { kind: 'tapToy'; nubbinId: string; beat: 'hiccup' | 'sneeze' }
@@ -1244,6 +1362,15 @@ export type Command =
   | { kind: 'storyAct'; label: string; line?: string }
   /** Lane C round 7 (R0643): leave a questline running beside Hazel's Grove; the Grove keeps its cast. */
   | { kind: 'lineAbandon'; line: string }
+  // Lane C round 8 (R0602): the Open quest flow. Accept may name an active quest to shelve.
+  | { kind: 'questAccept'; id: string; shelve?: string }
+  | { kind: 'questDecline'; id: string }
+  | { kind: 'questShelve'; id: string }
+  | { kind: 'questTrack'; id: string; on: boolean }
+  // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
+  | { kind: 'debugQuestOffer'; id: string }
+  // Lane C r9 (R0594): at a line's end, bring one of its Nubbins home or let it stay.
+  | { kind: 'lineCastHome'; line: string; nubbinId: string; home: boolean }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1333,6 +1460,9 @@ export type Command =
   | { kind: 'eduSetRounds'; rounds: number }
   /** R0343: the Grove Readers' opt-in read-aloud. */
   | { kind: 'eduSetReadToMe'; on: boolean }
+  /* Lane E r9: the read-aloud auto-advance switch, and skip to the next language visit. */
+  | { kind: 'eduSetAutoAdvance'; on: boolean }
+  | { kind: 'langSkipWait' }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
@@ -1340,8 +1470,23 @@ export type Command =
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
-  | { kind: 'eduResult'; game: EduGameId; stars: number }
+  /* Lane E r9, R0696 */
+  | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
+  | {
+      kind: 'eduResult';
+      game: EduGameId;
+      stars: number;
+      /** Lane E r8, R0683: the round's target, like `letter:G`. */
+      item?: string | undefined;
+      /** Lane E r8, R0682: the first round of a sitting. */
+      first?: boolean;
+    }
   | { kind: 'eduResetSession' }
+  /** Lane E r8, R0680: a grown-up opens or closes a place in the Places menu. */
+  | { kind: 'eduSetPlace'; place: EduPlaceId; on: boolean }
+  /** Lane E r8, R0695. */
+  | { kind: 'eduSetLimits'; limits: Partial<Omit<EduLimits, 'unlockUntilMs'>> }
+  | { kind: 'eduUnlockLimits' }
   | { kind: 'eduStartBreak' }
   | { kind: 'eduEndBreak' }
   // The Digimon-inspired ten
@@ -1413,6 +1558,9 @@ export interface RideState {
 export type SimEvent =
   // Lane E (R0332): a curiosity found for the first time (sim/curiosities.ts).
   | { kind: 'curiosityFound'; id: string }
+  /* Lane E r9 */
+  // R0424: a bonded friend of a departed Nubbin may now wear the remembrance flower.
+  | { kind: 'remembrance'; nubbinId: string; friend: string }
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
@@ -1533,6 +1681,16 @@ export type SimEvent =
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
+  /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
+  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
+  | { kind: 'peekFound'; nubbinId: string }
+  | { kind: 'burp'; nubbinId: string }
+  /** R0545: a mischievous one snatched another's fruit. */
+  | { kind: 'snatched'; nubbinId: string; victimId: string }
+  /** R0560: another noticed a pet and wanted one too. */
+  | { kind: 'jealous'; nubbinId: string; of: string }
+  /** R0542: a Sun Nubbin brought a hungry one a fruit. */
+  | { kind: 'sharedFruit'; nubbinId: string; markId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
@@ -1543,6 +1701,15 @@ export type SimEvent =
   | { kind: 'chapter'; chapter: number; line?: string }
   /** Lane C round 7 (R0600): a questline beside Hazel's Grove reached its own ending. */
   | { kind: 'lineEnded'; line: string; ending: string }
+  // Lane C round 8 (R0602): an area entered, an offer made, and accepting at the cap.
+  | { kind: 'areaEntered'; area: string }
+  | { kind: 'questOffered'; quest: string; area: string }
+  | { kind: 'questAtCap'; quest: string; active: string[] }
+  // Lane C r9: a windowed offer passed (R0652); a line's rewards (R0639); its cast's choice (R0594).
+  | { kind: 'questExpired'; quest: string; lapsed: boolean }
+  | { kind: 'lineReward'; line: string; shells: number; keepsake: string; grove: string }
+  | { kind: 'lineCastChoice'; line: string; cast: string[] }
+  | { kind: 'lineCastChose'; line: string; nubbinId: string; home: boolean; ok: boolean }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }

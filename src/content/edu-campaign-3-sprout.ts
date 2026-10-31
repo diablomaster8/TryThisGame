@@ -129,6 +129,7 @@ const C9_CHOICES: Choice[] = [
   {
     id: 'confront',
     label: 'Read him Gran Hazel’s notebook.',
+    icon: '📓',
     set: { corvin: 'reconciled' },
     friendship: { ember: 3, luna: 2 },
     then: [
@@ -143,6 +144,7 @@ const C9_CHOICES: Choice[] = [
   {
     id: 'bargain',
     label: 'Buy Ash back with your Shells.',
+    icon: '🐚',
     set: { corvin: 'bargained', boughtBack: true },
     friendship: { ember: 5 },
     then: [
@@ -154,6 +156,7 @@ const C9_CHOICES: Choice[] = [
   {
     id: 'force',
     label: 'Open every pen, right now.',
+    icon: '🔓',
     set: { corvin: 'forced', freedByForce: true },
     friendship: { ember: 2, marina: -2, fern: -2 },
     then: [
@@ -582,12 +585,14 @@ const C10: EduScene[] = [
         {
           id: 'lull-lanterns',
           label: 'The lanterns. Light is light.',
+          icon: '🏮',
           friendship: { byte: 1 },
           then: [BYTE('Thank you. I like things I can measure.', 'happy')],
         },
         {
           id: 'lull-us',
           label: 'Us! The lanterns just show where to stand.',
+          icon: '🧑‍🤝‍🧑',
           friendship: { byte: 2 },
           then: [
             BYTE('That sounds like Moss. I wish I could hear him.', 'think'),
@@ -597,6 +602,7 @@ const C10: EduScene[] = [
         {
           id: 'lull-matter',
           label: 'Does it matter, if the morning comes?',
+          icon: '🌅',
           friendship: { byte: 1 },
           then: [BYTE('Yes! To me.', 'think'), BYTE('But not tonight. Tonight, I just want the morning.', 'soft')],
         },
@@ -734,6 +740,7 @@ const C10: EduScene[] = [
         {
           id: 'unmake',
           label: 'Unmake it! Back to the water.',
+          icon: '🌊',
           set: { keptStone: false },
           then: [YOU('Unmake it.'), N('You say it loud and clear, so the stone hears.')],
         },
@@ -1384,11 +1391,13 @@ const C11: EduScene[] = [
         {
           id: 'gate-leave',
           label: 'Stay where you are.',
+          icon: '✋',
           then: [N('You stay. The gate creaks once. Then it’s quiet. Corvin doesn’t go.')],
         },
         {
           id: 'gate-cruel',
           label: 'He’ll stand there all night! Isn’t that unkind?',
+          icon: '🥺',
           then: [
             HAZEL('It would be, if someone made him wait. Nobody did.', 'think'),
             HAZEL('He chose to wait. Let him choose something, love.', 'soft'),
@@ -1398,6 +1407,7 @@ const C11: EduScene[] = [
         {
           id: 'gate-tea',
           label: 'Take him a cup of tea. Leave the gate shut.',
+          icon: '🍵',
           then: [
             HAZEL('Oh, you’re kinder than me!', 'happy'),
             HAZEL('Go on. Use the cup that’s upside down.', 'soft'),
@@ -1458,6 +1468,7 @@ const C12: EduScene[] = [
         {
           id: 'keep',
           label: 'A home for all. Keep the gate that sticks.',
+          icon: '🏡',
           set: { finalChoice: 'keep' },
           then: [
             HAZEL('Lift and push. Good.', 'happy'),
@@ -1468,6 +1479,7 @@ const C12: EduScene[] = [
         {
           id: 'free',
           label: 'Open! No gate. They stay if they want.',
+          icon: '🚪',
           set: { finalChoice: 'free', letThemGo: true },
           then: [
             HAZEL('That’s not how I did it. But it might be right.', 'think'),

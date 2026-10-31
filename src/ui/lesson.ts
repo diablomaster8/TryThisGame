@@ -5,8 +5,16 @@
  * the order of things; these only build DOM and call back. Nothing here touches the world.
  */
 import { EDU_STORY_TEXT } from '../config/strings';
+import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
+import { lineParts } from './line-parts';
 import type { Lesson, LessonOption } from '../content/types';
-import { isAudioUnlocked, isSoundEnabled, playSound, type SoundName } from '../platform/audio';
+import {
+  holdMusicDuck,
+  isAudioUnlocked,
+  isSoundEnabled,
+  playSound,
+  type SoundName,
+} from '../platform/audio';
 import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
@@ -68,11 +76,17 @@ export function renderLineText(
 ): void {
   box.textContent = '';
   const plain = (t: string) => appendScriptText(box, t, onLangWord);
-  const parts = showPrompts ? splitPrompts(text) : [{ text, prompt: false }];
+  // Lane E r9 (R0734 / R0736): glosses stack under their word; prompts become chips below.
+  const parts = lineParts(text, showPrompts);
+  const chips: HTMLElement[] = [];
   const words = glossary && glossary.size > 0 ? glossaryPattern(glossary) : null;
   for (const p of parts) {
-    if (p.prompt) {
-      box.appendChild(el('span', 'edu-aside', p.text));
+    if (p.kind === 'prompt') {
+      chips.push(coPlayChip(p.text));
+      continue;
+    }
+    if (p.kind === 'gloss') {
+      box.appendChild(glossWord(p, onLangWord, onWord));
       continue;
     }
     if (!words || !glossary) {
@@ -96,19 +110,50 @@ export function renderLineText(
     }
     if (last < p.text.length) plain(p.text.slice(last));
   }
+  // The chips sit under the line in the box's own flow, so they never cover its text.
+  if (chips.length > 0) {
+    const row = el('div', 'edu-coplay-row');
+    row.append(...chips);
+    box.appendChild(row);
+  }
 }
 
-function splitPrompts(text: string): { text: string; prompt: boolean }[] {
-  const out: { text: string; prompt: boolean }[] = [];
-  let last = 0;
-  for (const m of text.matchAll(PROMPT)) {
-    const at = m.index ?? 0;
-    if (at > last) out.push({ text: text.slice(last, at), prompt: false });
-    out.push({ text: m[0], prompt: true });
-    last = at + m[0].length;
-  }
-  if (last < text.length) out.push({ text: text.slice(last), prompt: false });
-  return out;
+/** Lane E r9 (R0734 KIDS-66): a co-play prompt as a dashed "For grown-ups" chip. */
+function coPlayChip(text: string): HTMLElement {
+  const chip = el('div', 'edu-coplay');
+  chip.append(
+    el('span', 'edu-coplay-icon', '🧑‍🏫'),
+    el('span', 'edu-coplay-label', KIDS_READ_TEXT.forGrownUps),
+    el('span', 'edu-coplay-text', text),
+  );
+  chip.setAttribute('aria-label', `${KIDS_READ_TEXT.forGrownUps}: ${text}`);
+  return chip;
+}
+
+/**
+ * Lane E r9 (R0736 KIDS-68): a language word as a ruby stack, the native script on top and
+ * its romanisation beneath; the meaning comes up in the tap bubble, never inline.
+ */
+function glossWord(
+  p: { native: string; roman: string; meaning: string },
+  onLangWord: ((ids: string[]) => void) | undefined,
+  onWord: (word: string, meaning: string) => void,
+): HTMLElement {
+  const ruby = el('ruby', 'lang-ruby');
+  const tellMeaning = () => {
+    if (p.meaning) onWord(p.roman, p.meaning);
+  };
+  appendScriptText(ruby, p.native, (ids) => {
+    onLangWord?.(ids);
+    tellMeaning();
+  });
+  const rt = el('rt', 'lang-roman', p.roman);
+  ruby.appendChild(rt);
+  ruby.addEventListener('click', (e) => {
+    e.stopPropagation();
+    tellMeaning();
+  });
+  return ruby;
 }
 
 const patterns = new WeakMap<Map<string, string>, RegExp>();
@@ -173,7 +218,11 @@ export function speakLine(text: string, opts: SpeakOptions = {}): void {
         };
         if (c.shout) opts.onWord(c.text, base);
       }
+      // R0464 (TECH-22): the music ducks under the spoken words.
+      u.onstart = () => holdMusicDuck('speech', true);
+      u.onerror = () => holdMusicDuck('speech', false);
       u.onend = () => {
+        holdMusicDuck('speech', false);
         if (token !== speakToken) return;
         if (c.sound) playSound(c.sound);
         window.setTimeout(() => next(i + 1), c.sound ? 260 : 0);
@@ -196,6 +245,7 @@ export interface SpeakOptions {
 export function stopSpeaking(): void {
   try {
     speakToken++;
+    holdMusicDuck('speech', false);
     window.speechSynthesis?.cancel();
   } catch {
     // Nothing to stop.

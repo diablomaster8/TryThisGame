@@ -46,7 +46,9 @@ export type Gen1bPart =
   | 'gas'
   | 'float'
   | 'grin'
-  | 'pincerHead';
+  | 'pincerHead'
+  | 'staff'
+  | 'mic';
 
 export type Gen1bLayer = 'behind' | 'mid' | 'front';
 
@@ -201,6 +203,28 @@ export function drawGen1b(
         break;
       }
       case 'backShell': {
+        if (a.plan === 'quad') {
+          // LOOK-39: Lapras's grey studded dome rides on top of the back, over the body
+          // from the side and back, behind the raised neck from the front.
+          const over = a.back || side;
+          if (over ? layer !== 'mid' : layer !== 'behind') break;
+          const cy = a.bodyCy - Math.round(a.bodyRy * 0.6);
+          const rx = a.bodyRx + 1;
+          const ry = a.bodyRy + 1;
+          pc.ellipse(a.bodyCx, cy, rx, ry, col.accent2);
+          pc.ellipse(a.bodyCx - 1, cy - 1, rx - 1, ry - 1, col.accent);
+          for (const dx of side ? [-4, 0, 4] : [-3, 3])
+            pc.tri(
+              a.bodyCx + dx - 1,
+              cy - 1,
+              a.bodyCx + dx + 1,
+              cy - 1,
+              a.bodyCx + dx,
+              cy - 3,
+              col.accent2,
+            );
+          break;
+        }
         if (!behindPass(layer, a)) break;
         const rx = Math.max(a.bodyRx, a.headRx - 2) + 3;
         const cy = a.bodyRx > 0 ? a.bodyCy - 1 : a.headCy + 2;
@@ -375,6 +399,23 @@ export function drawGen1b(
         pc.disc(hx + 1.5, hy - 6, 1.3, C.cream);
         pc.disc(hx, hy + 3, 1.3, C.cream);
         pc.disc(hx + 1.5, hy + 3, 1.3, C.cream);
+        break;
+      }
+      case 'staff': {
+        // LOOK-41: Angemon's long golden staff, grey knobs at both ends.
+        if (layer !== 'front') break;
+        const [hx, hy] = handAt(a);
+        pc.rect(hx, hy - 11, 1, 18, C.sunYellow);
+        pc.disc(hx, hy - 11, 1.2, C.lilacGrey);
+        pc.disc(hx, hy + 7, 1.2, C.lilacGrey);
+        break;
+      }
+      case 'mic': {
+        // LOOK-41: Etemon's microphone, held up toward the mouth.
+        if (layer !== 'front') break;
+        const [hx, hy] = handAt(a);
+        pc.line(hx, hy + 1, hx - 1, hy - 3, C.ink);
+        pc.disc(hx - 1, hy - 4, 1.5, C.lilacGrey);
         break;
       }
       case 'leek': {

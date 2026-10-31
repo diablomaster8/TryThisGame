@@ -145,6 +145,11 @@ function sprout(s: BattleState, me: Combatant, rng: Rng): BattleAction {
     const kind = opts.filter((o) => !low.includes(targetOfAction(o.a) ?? ''));
     if (kind.length) opts = kind;
   }
+  // A random pick of tricks and huddles dragged kid bouts to 30-odd turns (R0274).
+  // The plain bonk only when it is all there is: a move of its own lands harder.
+  const moves = opts.filter((o) => hits(o.id) && o.id !== 'bonk');
+  const strikes = moves.length ? moves : opts.filter((o) => hits(o.id));
+  if (strikes.length && rng.chance(A.sprout.hitShare)) opts = strikes;
   return opts.length ? rng.pick(opts).a : { k: 'guard' };
 }
 

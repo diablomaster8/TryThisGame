@@ -14,7 +14,7 @@ import * as THREE from 'three';
  *   downpour costs no CPU at all; the mesh follows the camera's focus;
  * - `hover`: written once, wandering and pulsing in the shader (fireflies).
  */
-export type QuadShape = 'dot' | 'star' | 'heart' | 'leaf' | 'streak' | 'glow' | 'ring';
+export type QuadShape = 'dot' | 'star' | 'heart' | 'leaf' | 'streak' | 'glow' | 'ring' | 'note';
 
 const SHAPE: Record<QuadShape, number> = {
   dot: 0,
@@ -24,6 +24,8 @@ const SHAPE: Record<QuadShape, number> = {
   streak: 4,
   glow: 5,
   ring: 6,
+  // R0410 (LOOK-44): a sung eighth note (the signature beats).
+  note: 7,
 };
 
 export type QuadMode = 'cpu' | 'fall' | 'hover';
@@ -102,6 +104,13 @@ const FRAG = /* glsl */ `
       col *= 0.78 + 0.22 * smoothstep( 0.02, 0.1, abs( p.x ) ) * ( 0.85 + 0.15 * p.x );
     } else if ( vShape < 4.5 ) {
       a = exp( -p.x * p.x * 5.0 ) * smoothstep( 1.0, 0.1, abs( p.y ) );
+    } else if ( vShape > 6.5 ) {
+      vec2 h = p - vec2( -0.28, -0.5 );
+      h = vec2( h.x * 0.85 + h.y * 0.5, -h.x * 0.5 + h.y * 0.85 );
+      float head = length( h / vec2( 0.34, 0.24 ) );
+      float stem = step( abs( p.x ), 0.07 ) * step( -0.5, p.y ) * step( p.y, 0.85 );
+      float flag = step( 0.0, p.x ) * step( p.x, 0.45 ) * step( abs( p.y - ( 0.78 - p.x * 0.9 ) ), 0.1 );
+      a = max( smoothstep( 1.0, 0.85, head ), max( stem, flag ) );
     } else if ( vShape > 5.5 ) {
       a = smoothstep( 0.2, 0.0, abs( r - 0.8 ) );
     } else {

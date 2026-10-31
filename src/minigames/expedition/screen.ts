@@ -1,6 +1,7 @@
 import { playArea } from '../play-area';
 import { EXPEDITION_FUN_TEXT } from '../../config/strings-fun-r6';
-import { playSound } from '../../platform/audio';
+import { playChime, playSound } from '../../platform/audio';
+import { ExpeditionSfx } from './sfx';
 import { EXPEDITION, SIM, UI } from '../../config/tuning';
 import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
@@ -37,6 +38,7 @@ export class ExpeditionScreen {
   private view3d: ExpeditionView | null = null;
   private view: ExpeditionView = this.pixel;
   private run: RunState | null = null;
+  private sfx = new ExpeditionSfx();
   private rafId = 0;
   private lastMs = 0;
   private accMs = 0;
@@ -140,6 +142,7 @@ export class ExpeditionScreen {
   ): void {
     const starts = ++this.starts;
     this.run = createRun(seed);
+    this.sfx = new ExpeditionSfx();
     this.quipAt = -1;
     this.quip.hidden = true;
     this.onDone = onDone;
@@ -236,6 +239,11 @@ export class ExpeditionScreen {
     if (!this.loading3d) this.view.draw(run, nowMs);
     this.updateHud(run, live);
     this.quipFor(run);
+    // R0450 (TECH-08): the run's sound effects.
+    for (const c of this.sfx.observe(run)) {
+      if ('sound' in c) playSound(c.sound);
+      else playChime(c.chime);
+    }
     if (run.finished && this.results.hidden) this.showResults(run.rewards, superlative(run));
     if (!run.finished || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
   };
@@ -261,7 +269,6 @@ export class ExpeditionScreen {
     if (lines.length === 0) return;
     this.quip.textContent = lines[run.hits % lines.length]!;
     this.quip.hidden = false;
-    playSound('bonk');
   }
 
   private showResults(rewards: Rewards, best: string): void {

@@ -19,3 +19,17 @@ export function emoteScale(big: boolean, bubbleAgeMs: number | null, calm: boole
   const settle = bubbleAgeMs / EMOTE_READ.popMs;
   return base * (EMOTE_READ.pop - (EMOTE_READ.pop - 1) * settle);
 }
+
+/**
+ * R0549 (lane A r9): the Nubbin whose stats sheet is open has its bubble drawn big too, so
+ * its mood reads beside the sheet. Set by the game each frame; render-only.
+ */
+let focusId: string | null = null;
+
+export function setEmoteFocus(id: string | null): void {
+  focusId = id;
+}
+
+export function emoteFocused(id: string): boolean {
+  return focusId === id;
+}

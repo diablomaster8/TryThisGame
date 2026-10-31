@@ -1,5 +1,6 @@
 /** Player-facing names for the look lane: cosmetics (`cosmetics.ts`). */
 import type { Personality } from '../sim/types';
+import { lineNote } from './field-notes-r9e';
 
 /** Cosmetic names by registry id. The eggshell's name comes from `eggshellLabel`. */
 export const COSMETIC_LABELS: Record<string, string> = {
@@ -193,6 +194,7 @@ export const FLAVOUR = {
   } as Record<string, string>,
   wear: {
     straw: 'Keeps the sun off and the bees interested.',
+    remembrance: 'The same flower as on the hill. Worn for a friend, and a little for luck.', // Lane E r9
     'sprout-cap': 'Two leaves and a lot of optimism.',
     'sun-visor': 'Shades the eyes. Does nothing for the ears.',
     'leaf-crown': 'Fell off a tree. Landed on royalty.',
@@ -270,7 +272,8 @@ export function fieldNote(key: string): string {
   if (FIELD_NOTES[key]) return FIELD_NOTES[key];
   const p = key.split(':');
   if (p[0] === 'chao' && p.length > 3) return FIELD_NOTES[p.slice(0, 3).join(':')] ?? '';
-  return '';
+  // Lane E r9: the pocket and digital lines (`field-notes-r9e.ts`).
+  return lineNote(key);
 }
 
 /** FUN-39 (R0328): photo-mode comedy. `{n}` is the subject's name, `{b}` the photobomber's. */
@@ -336,6 +339,7 @@ export const WARDROBE_TEXT = {
     race: 'Won in races',
     hatch: 'From an egg',
     season: 'In the shop in its season',
+    keepsake: 'Worn by a friend of someone on the hill', // Lane E r9, R0424
   } as Record<string, string>,
 };
 
@@ -367,3 +371,36 @@ export const BELT_TEXT = {
   wear: (belt: string) => `🥋 Wear the ${belt}`,
   off: (belt: string) => `🥋 Take off the ${belt}`,
 } as const;
+
+/** R0425 / R0441: the photo album and photo stickers. */
+export const ALBUM_TEXT = {
+  open: '📚 Album',
+  title: 'Photo album',
+  empty: 'No photos yet. Saved photos land here.',
+  close: 'Close',
+  keep: 'Keep this one',
+  kept: 'Kept',
+  unkeep: 'Stop keeping',
+  keepFull: 'Twelve photos are kept already. Stop keeping one first.',
+  download: 'Save as PNG',
+  saved: 'Saved to the album too.',
+  memorial: 'Their last photo',
+  stickers: 'Stickers',
+  clear: 'Clear',
+} as const;
+
+/** R0441: the twelve photo stickers: the emote shapes plus zZ, !! and ♪. */
+export const PHOTO_STICKER_GLYPHS: readonly string[] = [
+  '♥',
+  '★',
+  '!',
+  '?',
+  '♪',
+  'zZ',
+  '!!',
+  '✿',
+  '☀',
+  '☾',
+  '~',
+  '@',
+];

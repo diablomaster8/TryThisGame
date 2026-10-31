@@ -4,6 +4,7 @@ Short on purpose: this file loads into every session. The full standing brief (g
 systems, milestones, acceptance checks, the look) is `docs/brief.md`; read the section you
 need, not the whole file. `PROGRESS.md` holds the status block and the last few passes;
 older passes are in `docs/progress-archive.md` (search it, never read it whole).
+`docs/architecture.md` maps the real code tree: start there to find things.
 
 ## Context budget (every session)
 

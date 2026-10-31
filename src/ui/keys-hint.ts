@@ -27,9 +27,31 @@ function finish(): void {
   }
 }
 
+/**
+ * TECH-60: bring the hint back (the "?" key, or Keys hint in the More menu). It shows again
+ * and goes the same way as before: once the keys are used, or after its time on screen.
+ */
+export function showKeysHintAgain(target: Window = window): void {
+  done = false;
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    // Storage off: the hint is back for this visit anyway.
+  }
+  watchKeysHint(target);
+}
+
+/** The "?" key (Shift+/ on most layouts) toggles the hint back on, outside text fields. */
+export function isKeysHintKey(e: Pick<KeyboardEvent, 'key' | 'ctrlKey' | 'metaKey' | 'altKey'>) {
+  return e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey;
+}
+
+let watching = false;
+
 /** Start watching for the three kinds of use. */
 export function watchKeysHint(target: Window = window): void {
-  if (done) return;
+  if (done || watching) return;
+  watching = true;
   const used = { move: false, turn: false, zoom: false };
   const check = (): void => {
     if (used.move && used.turn && used.zoom) stop();
@@ -47,6 +69,7 @@ export function watchKeysHint(target: Window = window): void {
   };
   const timer = target.setTimeout(() => stop(), SHOW_MS);
   function stop(): void {
+    watching = false;
     finish();
     target.clearTimeout(timer);
     target.removeEventListener('keydown', onKey);

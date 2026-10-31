@@ -5,7 +5,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
-import { GROVE3D, READ3D, UI } from '../config/tuning';
+import { GROVE3D, READ3D, SHADOW_MERGE, UI } from '../config/tuning';
 import {
   PERF_BUDGET,
   WORLD_LOD,
@@ -41,11 +41,15 @@ import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
 import { caveShed } from './cave-shed';
+import { GroveShed } from './grove-shed';
+import { GovMemory } from '../platform/gov-memory';
+import { GOV_MEMORY, TIER_BUDGET, type PerfTier } from '../config/tuning-r8d-perf';
 import { DofPass } from './dof-pass';
 import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { SignatureFx } from './signature-fx';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
@@ -81,6 +85,7 @@ import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
+import { ShadowMerge } from './shadow-merge';
 
 /**
  * The full-3D Grove: the same sim and the same OrbitCamera controls as the pixel
@@ -246,12 +251,27 @@ export class Grove3dScene {
   private cpuApplied = 0;
   /** Whether the Hollow's shed list has dropped bloom (`cave-shed.ts`). */
   private bloomShed = false;
+  /** TECH-52: the device tier's start settings (`applyTier`). */
+  private tierFx: (typeof TIER_BUDGET)[PerfTier]['three'] = TIER_BUDGET.high.three;
+  /** TECH-52: the Grove's own shed list above ground, and what it has dropped. */
+  private readonly groveShed = new GroveShed();
+  private groveShedStart = 0;
+  private shedCave = false;
+  private particlesShed = false;
+  private groveBloomShed = false;
+  private shadowShed = false;
+  /** A shed step changed something `setDaylight` decides: re-run it next frame. */
+  private dayDirty = false;
+  private readonly smaa: SMAAPass;
+  private readonly govMemory = new GovMemory(GOV_MEMORY.key3d);
   /**
    * Underground the sun's shadow pass draws nothing (`GROVE3D.cave.light.sunShadow`): its
    * camera looks at an empty layer, the map is cleared once and then left alone. The
    * programs keep their shadow sampling, so going down the stairs links nothing new.
    */
   private caveShadowOff = false;
+  /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
+  private shadowMerge!: ShadowMerge;
   private caveShadowCleared = false;
   private sunShadowMask = 0;
   private readonly sky: GroveSky;
@@ -473,6 +493,7 @@ export class Grove3dScene {
     this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
     this.tex = this.textures.tex;
     this.scene.add(this.world3d);
+    this.shadowMerge = new ShadowMerge(this.world3d, this.renderer);
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
     this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };
@@ -522,6 +543,7 @@ export class Grove3dScene {
     };
     this.bursts = new Bursts(this.scene);
     this.gearPop = new GearPop3D(this.scene);
+    /* Lane E r9 */ this.actors.sigFx = new SignatureFx(this.bursts);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
     useBuildingKit(this.tex);
     this.garden = new Garden(this.world3d);
@@ -562,7 +584,24 @@ export class Grove3dScene {
     // Tone mapping, the sRGB encode and the grade in one draw (they were three).
     this.grade = new FinishPass(GRADE_SATURATION);
     this.composer.addPass(this.grade);
-    this.composer.addPass(new SMAAPass());
+    this.smaa = new SMAAPass();
+    this.composer.addPass(this.smaa);
+    // TECH-52: the Grove's shed list (particles, SMAA, bloom, shadow redraws).
+    this.groveShed.register({
+      name: 'smaa',
+      apply: (shed) => (this.smaa.enabled = this.tierFx.smaa && !shed),
+    });
+    for (const name of ['particles', 'bloom', 'shadows'] as const) {
+      this.groveShed.register({
+        name,
+        apply: (shed) => {
+          if (name === 'particles') this.particlesShed = shed;
+          else if (name === 'bloom') this.groveBloomShed = shed;
+          else this.shadowShed = shed;
+          this.dayDirty = true;
+        },
+      });
+    }
     this.buildings3d = new StageBuildings3d(this.pickables, () => this.garden.buildings());
     this.buildings3d.discover();
     this.dressings.build({
@@ -687,9 +726,24 @@ export class Grove3dScene {
       this.sky.fog.density = c.fogDensity;
       this.hollow.lamps.torchColor.set(band.torch);
     }
+    // Underground the governor sheds the cave list before any sharpness; above ground the
+    // Grove's own list (TECH-52), against the governor's own targets.
+    this.shedCave = cave;
+    if (cave) this.governor.setShedSteps(caveShed.steps, 'cave');
+    else
+      this.governor.setShedSteps(
+        this.groveShed.steps,
+        'grove',
+        GROVE3D.governor,
+        this.groveShedStart,
+      );
+    caveShed.apply(cave ? this.governor.shedLevel : 0);
+    this.groveShed.apply(cave ? 0 : this.governor.shedLevel);
+    this.dayDirty = false;
     // The creatures keep their contact shadows; the cave's sun shadow was a second draw of
     // every caster (about 150 calls in the great chamber) for a key light no one can see.
-    const shadowOff = cave && !GROVE3D.cave.light.sunShadow;
+    // TECH-52: above ground the shed list's last step clears it the same way.
+    const shadowOff = (cave && !GROVE3D.cave.light.sunShadow) || (!cave && this.shadowShed);
     if (shadowOff !== this.caveShadowOff) {
       this.caveShadowOff = shadowOff;
       this.caveShadowCleared = false;
@@ -705,10 +759,11 @@ export class Grove3dScene {
     // Bloom at dusk and night above ground, and always underground, whatever the hour (item
     // 3). The governor may still hold it off on a device short of CPU (`governRenderScale`).
     const c = GROVE3D.cave.light;
-    this.bloomWanted = cave || elevation < GROVE3D.bloomBelowDeg;
-    // Underground the governor sheds the cave list before any sharpness; above ground, not.
-    this.governor.setShedSteps(cave ? caveShed.steps : 0);
-    caveShed.apply(this.governor.shedLevel);
+    // TECH-52: a tier without bloom never wakes it; the Grove's shed list may hold it off.
+    this.bloomWanted =
+      (cave || elevation < GROVE3D.bloomBelowDeg) &&
+      this.tierFx.bloom &&
+      (cave || !this.groveBloomShed);
     this.bloom.enabled = this.bloomWanted && this.cpuApplied < 2 && !this.bloomShed;
     this.clamp.enabled = this.bloom.enabled;
     this.bloom.strength = cave ? c.bloom : elevation < -2 ? 0.25 : 0.35;
@@ -768,7 +823,9 @@ export class Grove3dScene {
         sources.push({ ...at(w), color: '#ffb347', intensity: 4, distance: 9, decay: 1.6 });
     }
     this.lampSources = sources;
-    this.weather.set(grove, place, weather, d, particles);
+    // TECH-52: the tier's light particles, or the Grove's first shed step.
+    const light = this.tierFx.particles === 'light' || (!cave && this.particlesShed);
+    this.weather.set(grove, place, weather, d, light && particles === 'full' ? 'light' : particles);
     // Rain cools the grade a touch (it used to grey it to a wash; art pass 2) and snow
     // brightens and cools it, as the pixel post pass.
     const wet = grove && weather === 'rain';
@@ -1005,6 +1062,47 @@ export class Grove3dScene {
     return ctx ? out : null;
   }
 
+  /* Lane E r9 */
+  /**
+   * R0441: the "With me" selfie, the Keeper from in front with the Nubbin in its arms (the
+   * carry pose), framed from the chest up, in the same one-frame way as `portrait`.
+   */
+  selfie(w: number, h: number): HTMLCanvasElement | null {
+    const spot = this.actors.keeperSpot();
+    if (!spot || !this.compiled) return null;
+    const cam = this.camera;
+    const pos = cam.position.clone();
+    const quat = cam.quaternion.clone();
+    const look = spot.feet.clone().lerp(spot.head, 0.62);
+    const tall = Math.max(0.8, spot.head.y - spot.feet.y);
+    const side = pos.clone().sub(look).setY(0);
+    if (side.lengthSq() < 1e-6) side.set(0, 0, 1);
+    side.normalize();
+    const dir = spot.front ? spot.front.clone().multiplyScalar(3).add(side).normalize() : side;
+    const dist = tall * 2.4 + 1.2;
+    cam.position
+      .copy(look)
+      .addScaledVector(dir, dist)
+      .setY(look.y + dist * 0.2);
+    cam.lookAt(look);
+    this.composer.render();
+    const src = this.renderer.domElement;
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (ctx) {
+      const k = Math.min(src.width / w, src.height / h);
+      const sw = w * k;
+      const sh = h * k;
+      ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    }
+    cam.position.copy(pos);
+    cam.quaternion.copy(quat);
+    this.composer.render();
+    return ctx ? out : null;
+  }
+
   /** Creatures under a screen point (NDC), nearest first. */
   pick(ndcX: number, ndcY: number): Pick3d | null {
     this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);
@@ -1042,6 +1140,7 @@ export class Grove3dScene {
     // for the longest evening shadows; a phone leaves them out.
     sc.near = WORLD_LOD.shadowNear[this.tier];
     sc.updateProjectionMatrix();
+    this.shadowMerge.enabled = SHADOW_MERGE.tiers[this.tier];
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
@@ -1081,6 +1180,11 @@ export class Grove3dScene {
     const trees = buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time);
     for (const t of trees) this.crowns.add(t);
     this.farTrees = new FarTrees(this.world3d, trees, this.time);
+    this.shadowMerge.addLod(
+      this.farTrees.lodMeshes,
+      this.farTrees.standIns,
+      this.farTrees.shadowCrown,
+    );
     this.actors.warm(world);
   }
 
@@ -1685,6 +1789,7 @@ export class Grove3dScene {
     this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
     if (hold) return;
     this.prelinkActors(t0);
+    if (this.world3d.visible) this.shadowMerge.update(t0);
     this.governRenderScale(this.composer, interval);
     this.dof.tick(interval);
     if (!NO_LOD) {
@@ -1906,7 +2011,13 @@ export class Grove3dScene {
    */
   governRenderScale(composer: EffectComposer, intervalMs: number): void {
     const r = this.governor.sample(intervalMs);
-    caveShed.apply(this.governor.shedLevel);
+    caveShed.apply(this.shedCave ? this.governor.shedLevel : 0);
+    this.groveShed.apply(this.shedCave ? 0 : this.governor.shedLevel);
+    if (this.dayDirty && this.dayArgs) this.setDaylight(...this.dayArgs);
+    // TECH-52: keep where it settles for the next boot on this device.
+    const settled = { ...this.governor.settled };
+    if (!this.shedCave) this.groveShedStart = settled.shed;
+    this.govMemory.note(settled, performance.now());
     if (r !== null) {
       this.renderer.setPixelRatio(r);
       const css = this.renderer.getSize(new THREE.Vector2());
@@ -1943,6 +2054,28 @@ export class Grove3dScene {
       composer.setPixelRatio(pr);
       this.composerRatio.set(composer, pr);
     }
+  }
+
+  /**
+   * TECH-52: start at the device tier's settings (`TIER_BUDGET[tier].three`) and where the last
+   * session on this device settled. Call before the first frame: the shadow filter is part of
+   * every lit program, so it must be set before anything links.
+   */
+  applyTier(tier: PerfTier): void {
+    const fx = TIER_BUDGET[tier].three;
+    this.tierFx = fx;
+    const sm = this.renderer.shadowMap;
+    sm.enabled = fx.shadows !== 'off';
+    sm.type = fx.shadows === 'basic' ? THREE.BasicShadowMap : THREE.PCFShadowMap;
+    this.smaa.enabled = fx.smaa && !this.groveShed.sheds('smaa');
+    this.governor.capRatio(fx.ratio);
+    const mem = this.govMemory.read();
+    if (mem) {
+      this.governor.restore({ ratio: mem.ratio ?? NaN, cpu: mem.cpu ?? NaN, shed: 0 });
+      this.groveShedStart = Math.max(0, Math.round(mem.shed ?? 0));
+    }
+    this.renderer.setPixelRatio(this.governor.ratio);
+    if (this.dayArgs) this.setDaylight(...this.dayArgs);
   }
 
   resize(width: number, height: number): TargetSize {

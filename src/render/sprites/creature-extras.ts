@@ -32,6 +32,7 @@ export type ExtraKind =
   | 'fourArms'
   | 'leafArms'
   | 'lances'
+  | 'angelWings'
   // face
   | 'trio'
   | 'beak'
@@ -45,6 +46,7 @@ export type ExtraKind =
   | 'whiskers'
   | 'moustache'
   | 'coin'
+  | 'drool'
   // head
   | 'cap'
   | 'bucketHat'
@@ -65,7 +67,8 @@ export type ExtraKind =
   | 'rocks'
   | 'skirt'
   | 'spoons'
-  | 'stem';
+  | 'stem'
+  | 'tubes';
 
 export interface Extra {
   kind: ExtraKind;
@@ -101,6 +104,7 @@ const BACK_KINDS = new Set<ExtraKind>([
   'fourArms',
   'leafArms',
   'lances',
+  'angelWings',
 ]);
 
 /** Whether a kind is mounted on the back (and so drawn behind the body from the front). */
@@ -367,6 +371,21 @@ function drawOne(
       }
       break;
     }
+    case 'angelWings': {
+      // LOOK-41: Angemon's six wings: the base kit's pair plus a tall upper pair and a
+      // small lower pair, white feathers fanning off the shoulders.
+      const y = a.bodyRx > 0 ? a.bodyCy - a.bodyRy + 2 : a.headCy + 2;
+      const lift = pose.wings === 1 ? 2 : 0;
+      const wing = (x: number, d: number) => {
+        pc.tri(x, y + 1, x + d * 8 * s, y - 11 * s - lift, x + d * 5, y + 2, c);
+        pc.line(x + d, y - 1, x + d * Math.round(7 * s), y - Math.round(10 * s) - lift, c2);
+        pc.tri(x, y + 4, x + d * 7 * s, y + 8 * s, x + d * 2, y + 6, c);
+        pc.line(x + d, y + 5, x + d * Math.round(6 * s), y + Math.round(7 * s), c2);
+      };
+      if (v === 'side') wing(backX + 1, -1);
+      else for (const x of pair(trx - 2)) wing(x, sideSign(x));
+      break;
+    }
     case 'trio': {
       // Two smaller copies of the head and body beside and behind the first.
       // Drawn over the first, lower down, each with its own outline so the three read apart.
@@ -622,6 +641,23 @@ function drawOne(
         pc.disc(hx - 1.2, ty - 1, 1.5, c);
         pc.disc(hx + 1.2, ty - 1, 1.5, c);
         pc.tri(hx - 2.6, ty - 0.6, hx + 2.6, ty - 0.6, hx, ty + 2.4, c);
+      }
+      break;
+    case 'tubes':
+      // LOOK-41: Andromon's exposed red tubes, looping from the chest to the hips.
+      if (hasBody && v !== 'back')
+        for (const d of v === 'side' ? [1] : [-1, 1]) {
+          const x0 = a.bodyCx + d * (a.bodyRx - 2);
+          pc.thinLine(x0, tTop + 2, x0 + d, a.bodyCy, c);
+          pc.thinLine(x0 + d, a.bodyCy, x0, a.bodyCy + a.bodyRy - 2, c);
+        }
+      break;
+    case 'drool':
+      // LOOK-41: a drip off the open mouth (Numemon, Sukamon).
+      if (v !== 'back') {
+        const x = (v === 'side' ? a.headCx + a.headRx - 3 : mx) + 1;
+        pc.thinLine(x, my + 1, x, my + 3, c);
+        pc.disc(x, my + 4, 0.9, c);
       }
       break;
     case 'belt':

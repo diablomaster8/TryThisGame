@@ -27,6 +27,47 @@ import { CHAPTERS, type ChapterStep } from '../config/story';
 import { button, el } from './dom';
 import { eduJournal } from './journal';
 import { speakLine } from './lesson';
+import { greet } from './child-name';
+/* Lane E r9, R0704 */
+import { EDU_ARC_TEXT } from '../config/strings';
+import { eduSessionPhase } from '../sim/edu-session';
+import { CHILD_NAME_TEXT } from '../config/strings-kids';
+import { TRACK_TEXT } from '../config/strings-camp';
+import { sideStory } from '../sim/story-scenes';
+import { questProgress } from '../sim/quest-offers';
+import { OFFER_TEXT } from '../config/strings-camp';
+import { GO_TEXT, REST_TEXT } from '../config/strings';
+import { REST } from '../config/tuning';
+import { goalTarget } from '../sim/goal-target';
+import { restOver, restWait } from '../sim/rest';
+import { travelMode } from '../sim/travel';
+import { playIris } from './travel-iris';
+
+/**
+ * Lane C round 8 (R0609): the Open flow's pinned quests, each at its current step, for the chip
+ * to cycle after the spine's goal. A quest between steps (a scene to come) shows its next goal.
+ */
+export function trackedObjectives(world: World): Objective[] {
+  const c = world.campaign;
+  const out: Objective[] = [];
+  for (const id of world.questBook?.tracked ?? []) {
+    const st = c?.side[id] ?? c?.fun[id];
+    const quest = sideStory(id);
+    const step = st?.status === 'open' ? quest?.steps[st.step] : undefined;
+    if (!quest || !step) continue;
+    out.push({
+      key: `quest:${id}:${st!.step}`,
+      goal: TRACK_TEXT.newGoal(quest.title, step.goal),
+      // R0635: the step count rides with the hint.
+      hint: ((p) =>
+        p ? `${OFFER_TEXT.stepOf(p.step, p.of, p.minutesLeft)}. ${step.hint}` : step.hint)(
+        questProgress(world, id),
+      ),
+      story: true,
+    });
+  }
+  return out;
+}
 
 export interface Objective {
   /** Changes when the goal does; a campaign key change is announced. */
@@ -144,6 +185,16 @@ export class ObjectiveChip {
   private readonly hint: HTMLSpanElement;
   private current: Objective | null = null;
   private lastStoryKey: string | null = null;
+  /** R0609: which of the spine's goal and the tracked quests the chip shows, and its arrow. */
+  private pick = 0;
+  private readonly cycle: HTMLButtonElement;
+  private readonly count: HTMLSpanElement;
+  private trackedKeys = new Set<string>();
+  private trackSeeded = false;
+  /** R0661: "Go there" for the shown goal; R0616: "Rest until …" and the rest under way. */
+  private readonly go: HTMLButtonElement;
+  private readonly rest: HTMLButtonElement;
+  private resting: { untilMs: number; scale: number; when: string } | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -159,8 +210,76 @@ export class ObjectiveChip {
     this.goal = el('span', 'objective-goal');
     this.hint = el('span', 'objective-hint');
     words.append(this.goal, this.hint);
-    this.root.append(label, words);
+    this.count = el('span', 'objective-count');
+    this.root.append(label, words, this.count);
     parent.appendChild(this.root);
+    this.cycle = button(
+      '›',
+      () => {
+        this.pick += 1;
+        this.refresh(false);
+      },
+      'objective-cycle',
+    );
+    this.cycle.hidden = true;
+    this.cycle.setAttribute('aria-label', TRACK_TEXT.next);
+    parent.appendChild(this.cycle);
+    this.go = button(GO_TEXT.button, () => this.goThere(), 'objective-go');
+    this.go.hidden = true;
+    this.go.setAttribute('aria-label', GO_TEXT.label);
+    this.go.title = GO_TEXT.label;
+    parent.appendChild(this.go);
+    this.rest = button('', () => this.toggleRest(), 'objective-rest');
+    this.rest.hidden = true;
+    this.rest.title = REST_TEXT.help;
+    parent.appendChild(this.rest);
+  }
+
+  /** R0661: walk (or, with Travel assist, run or hop) to where the shown goal is. */
+  private goThere(): void {
+    const g = this.game();
+    const at = g && this.current ? goalTarget(g.world, this.current.key) : null;
+    if (!g || !at) return;
+    const mode = travelMode(g.world);
+    if (mode === 'skip') playIris(() => g.send({ kind: 'fastTravel', pos: { ...at } }));
+    else if (mode === 'auto') g.send({ kind: 'travelAssist', pos: { ...at } });
+    else g.send({ kind: 'moveKeeperTo', pos: { ...at } });
+  }
+
+  /** R0616: start resting until the story's hour on the ordinary live clock, or stop. */
+  private toggleRest(): void {
+    const g = this.game();
+    if (!g) return;
+    if (this.resting) {
+      this.stopRest(g);
+      return;
+    }
+    const wait = restWait(g.world);
+    if (!wait || g.clock.timeScale !== 1) return;
+    this.resting = { untilMs: wait.untilMs, scale: g.clock.timeScale, when: wait.when };
+    g.setTimeScale(REST.restScale);
+    document.documentElement.classList.add('story-resting');
+  }
+
+  private stopRest(g: Game): void {
+    if (!this.resting) return;
+    g.setTimeScale(this.resting.scale);
+    this.resting = null;
+    document.documentElement.classList.remove('story-resting');
+  }
+
+  /** R0616: the rest button's state, once a refresh. */
+  private refreshRest(g: Game | null, hide: boolean): void {
+    if (g && this.resting && restOver(g.world, this.resting.untilMs)) this.stopRest(g);
+    const wait = g && !this.resting && g.clock.timeScale === 1 ? restWait(g.world) : null;
+    const word = (w: string): string => REST_TEXT.words[w] ?? w;
+    this.rest.hidden = hide && !this.resting ? true : !this.resting && !wait;
+    const text = this.resting
+      ? REST_TEXT.resting(word(this.resting.when))
+      : wait
+        ? REST_TEXT.button(word(wait.when))
+        : '';
+    if (this.rest.textContent !== text) this.rest.textContent = text;
   }
 
   private press(): void {
@@ -174,15 +293,32 @@ export class ObjectiveChip {
   /** Called from the HUD's refresh loop; `hide` covers scenes, minigames and panels. */
   refresh(hide: boolean): void {
     const g = this.game();
-    const o = g ? objectiveOf(g) : null;
+    this.refreshRest(g, hide);
+    let o = g ? objectiveOf(g) : null;
     // A new story goal is announced once, never on load and never over a scene.
     if (o?.story && o.key !== this.lastStoryKey) {
       if (this.lastStoryKey !== null && !hide) this.toast(OBJECTIVE_TEXT.newGoal(o.goal));
       if (!hide || this.lastStoryKey === null) this.lastStoryKey = o.key;
     }
-    this.current = o;
-    this.root.hidden = hide || !o;
-    if (!o) return;
+    // R0609: the tracked quests after the spine's goal; a new step is announced once, if pinned.
+    const tracked = g ? trackedObjectives(g.world) : [];
+    for (const t of tracked) {
+      if (hide || this.trackedKeys.has(t.key)) continue;
+      // Never on load: only a step reached (or a quest pinned) while playing is news.
+      if (this.trackSeeded) this.toast(OBJECTIVE_TEXT.newGoal(t.goal));
+      this.trackedKeys.add(t.key);
+    }
+    if (g && !hide) this.trackSeeded = true;
+    const all = [...(o ? [o] : []), ...tracked];
+    this.pick = all.length > 0 ? this.pick % all.length : 0;
+    const shown = all[this.pick] ?? null;
+    this.cycle.hidden = hide || all.length < 2;
+    this.count.textContent = all.length > 1 ? TRACK_TEXT.of(this.pick + 1, all.length) : '';
+    this.current = shown;
+    this.root.hidden = hide || !shown;
+    this.go.hidden = hide || !shown || !g || goalTarget(g.world, shown.key) === null;
+    if (!shown) return;
+    o = shown;
     if (this.goal.textContent !== o.goal) this.goal.textContent = o.goal;
     if (this.hint.textContent !== o.hint) this.hint.textContent = o.hint;
     this.root.setAttribute('aria-label', `${OBJECTIVE_TEXT.label}: ${o.goal}. ${o.hint}`);
@@ -195,6 +331,10 @@ export class EduPrompt {
   private shownFor: Game | null = null;
   private enteredAt = 0;
   private lastInput = performance.now();
+  /* Lane E r9, R0704: the session arc's heading and its care button. */
+  private readonly heading: HTMLHeadingElement;
+  private readonly careBtn: HTMLButtonElement;
+  private greetedFor: Game | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -211,13 +351,21 @@ export class EduPrompt {
       b.append(el('span', 'edu-entry-icon', icon), el('strong', undefined, label));
       return b;
     };
+    this.heading = el('h2', undefined, EDU_PROMPT_TEXT.title);
+    // R0704: in the care beat a third big button suggests a fruit or a pat; never forced.
+    this.careBtn = big('🍎', EDU_ARC_TEXT.careBtn, () => {
+      this.hide();
+      speakLine(EDU_ARC_TEXT.careHint);
+    });
+    this.careBtn.hidden = true;
     card.append(
-      el('h2', undefined, EDU_PROMPT_TEXT.title),
+      this.heading,
       big('📖', EDU_PROMPT_TEXT.story, () => this.story()),
       big('🎨', EDU_PROMPT_TEXT.play, () => {
         this.hide();
         this.openers.play();
       }),
+      this.careBtn,
       button(EDU_PROMPT_TEXT.look, () => this.hide(), 'btn btn-small edu-entry-look'),
     );
     this.root.appendChild(card);
@@ -281,7 +429,19 @@ export class EduPrompt {
   private show(g: Game): void {
     this.root.hidden = false;
     this.lastInput = performance.now();
-    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(EDU_PROMPT_TEXT.say);
+    // Lane E r9, R0704: the session arc picks the heading and the line said; hello calls the
+    // Nubbins over to the Keeper once per visit, and greets the child by name.
+    const phase = eduSessionPhase(g.world, Date.now()) ?? 'main';
+    const arc = phase === 'goodnight' ? EDU_ARC_TEXT.windDown : EDU_ARC_TEXT[phase];
+    this.heading.textContent = arc.title;
+    this.careBtn.hidden = phase !== 'care';
+    const hello = this.greetedFor !== g;
+    if (hello) {
+      this.greetedFor = g;
+      g.send({ kind: 'call', nubbinId: null });
+    }
+    const say = hello ? greet(arc.say, g.world.edu?.childName, CHILD_NAME_TEXT.hello) : arc.say;
+    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(say);
     this.root.querySelector<HTMLButtonElement>('.edu-entry-btn')?.focus({ preventScroll: true });
   }
 }

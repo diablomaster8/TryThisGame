@@ -173,6 +173,7 @@ async function probe(TAG) {
         },
       )
       .catch(() => {});
+    if (ALL_CATS) await page.evaluate(() => (window.__probeAll = true));
     const cats =
       BREAKDOWN && TAG === '3d'
         ? await page.evaluate(async () => {
@@ -197,7 +198,13 @@ async function probe(TAG) {
               }
               return (
                 (scene ? '' : 'shadow:') +
-                (named || (obj.isInstancedMesh ? 'inst:' : '') + geo.type)
+                (named ||
+                  (obj.isInstancedMesh ? 'inst:' : '') +
+                    geo.type +
+                    // PROBE_BREAKDOWN=all: tell unnamed meshes apart by material and size.
+                    (window.__probeAll
+                      ? `@${obj.material?.type}#${geo.attributes.position?.count ?? 0}`
+                      : ''))
               );
             };
             const acc = {};

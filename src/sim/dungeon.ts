@@ -1,6 +1,7 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
+import { tzOf } from './local-time';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
@@ -970,8 +971,9 @@ export function placeParty(world: World, run: DungeonRun, f: Floor, cell: Cell =
 }
 
 /** Today's seed, the same for everyone: the request board asks for its floors. */
-export function dailySeed(wallMs: number): { day: string; seed: number } {
-  const day = dayKey(new Date(wallMs));
+export function dailySeed(wallMs: number, tzMin = 0): { day: string; seed: number } {
+  // TECH-45: the Keeper's local day, from the time zone the UI sent.
+  const day = dayKey(wallMs, tzMin);
   return { day, seed: hashString(`hollow:${day}`) % 1_000_000_007 };
 }
 
@@ -992,7 +994,7 @@ export function enterDungeon(
   // An act's dungeon (R0145): only once it is open, never as today's shared cave.
   if (act !== undefined && (story || !actOpen(world, act))) return false;
   if (act !== undefined) daily = false;
-  const today = dailySeed(world.lastWallMs);
+  const today = dailySeed(world.lastWallMs, tzOf(world));
   // An act's floors are the same every visit until a reroll (R0149).
   const seed = story
     ? story.seed

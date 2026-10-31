@@ -58,6 +58,7 @@ const CREAM = color(C.cream);
 const WHITE = color(C.white);
 const STEEL = '#9aa4b8';
 const LEAF = color(C.leaf);
+const GOLD = color(C.sunYellow);
 
 /** A prim scaled about `from` by `k` and moved to `to`. */
 function place(p: Prim, from: THREE.Vector3, k: THREE.Vector3, to: THREE.Vector3): Prim {
@@ -321,6 +322,23 @@ export function applyGen1b3d(
           torso.push(sphere(V(x, y, z), r, c.body!, 0.06));
         break;
       case 'backShell':
+        if (art.plan === 'quad') {
+          // LOOK-39: Lapras's grey dome sits on top of the back with a row of studs.
+          torso.push(
+            ell(
+              V(0, b.y + b.r.y * 0.55, -b.r.z * 0.1),
+              V(b.r.x * 1.15, b.r.y * 0.8, b.r.z * 0.9),
+              c.accent!,
+              0.06,
+            ),
+            ...[-0.5, 0, 0.5].flatMap((z) =>
+              [-0.28, 0.28].map((x) =>
+                sphere(V(x, b.y + b.r.y * 1.25, z * b.r.z), 0.1, c.accent2!, 0.04),
+              ),
+            ),
+          );
+          break;
+        }
         torso.push(
           ell(
             V(0, b.y + b.r.y * 0.35, -b.r.z * 0.55),
@@ -457,6 +475,33 @@ export function applyGen1b3d(
           ...[0.45, -0.35].flatMap((y) =>
             [-0.07, 0.07].map((x) => sphere(hd.clone().add(V(x, y, 0.12)), 0.1, CREAM, 0.02)),
           ),
+        ]);
+        break;
+      case 'staff':
+        // LOOK-41: Angemon's staff, upright in the right hand.
+        handProps.push((hd) => [
+          cap(
+            hd.clone().add(V(0, -0.95, 0.14)),
+            hd.clone().add(V(0, 1.05, 0.14)),
+            0.05,
+            GOLD,
+            0.02,
+          ),
+          sphere(hd.clone().add(V(0, 1.1, 0.14)), 0.1, STEEL, 0.02),
+          sphere(hd.clone().add(V(0, -1.0, 0.14)), 0.1, STEEL, 0.02),
+        ]);
+        break;
+      case 'mic':
+        // LOOK-41: Etemon's microphone, tipped toward the mouth.
+        handProps.push((hd) => [
+          cap(
+            hd.clone().add(V(0, -0.05, 0.14)),
+            hd.clone().add(V(-0.08, 0.32, 0.2)),
+            0.05,
+            '#2a2440',
+            0.02,
+          ),
+          sphere(hd.clone().add(V(-0.1, 0.42, 0.22)), 0.13, STEEL, 0.02),
         ]);
         break;
       case 'leek':

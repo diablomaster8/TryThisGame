@@ -177,3 +177,28 @@ export const BIRTHMARK = {
   chance: 0.2,
   rareChance: 0.03,
 };
+
+/** R0425 (LOOK-57): the photo album. */
+export const ALBUM = {
+  /** Thumbnails kept, newest first. */
+  max: 24,
+  /** Thumbnail width in px. */
+  thumbPx: 128,
+  /** Photos whose full picture is kept, and the size cap for each (data URL characters). */
+  keepMax: 12,
+  keepBytes: 1_000_000,
+};
+
+/** R0441 (LOOK-73): photo stickers: where each new one lands on the 160-wide photo. */
+export const PHOTO_STICKERS = {
+  spots: [
+    [24, 20],
+    [136, 22],
+    [30, 58],
+    [130, 56],
+    [80, 14],
+    [60, 40],
+    [104, 40],
+  ] as ReadonlyArray<readonly [number, number]>,
+  max: 7,
+};

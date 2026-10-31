@@ -43,7 +43,30 @@ self.addEventListener('message', (event) => {
   else if (data.type === 'cache-urls' && Array.isArray(data.urls)) {
     event.waitUntil(cacheUrls(data.urls));
   }
+  // R0520: the page asks which of its lazy chunks this cache holds, so it can grey out the
+  // story worlds that cannot open offline. Each entry is a full URL, or a hashed chunk's
+  // stem ending in '-' (".../assets/atlas-catalogue-"), which matches any hash of it.
+  else if (data.type === 'has-urls' && Array.isArray(data.urls) && event.ports[0]) {
+    const port = event.ports[0];
+    event.waitUntil(
+      hasUrls(data.urls).then(
+        (has) => port.postMessage({ type: 'has-urls', has }),
+        () => port.postMessage({ type: 'has-urls', has: null }),
+      ),
+    );
+  }
 });
+
+/** For each asked URL or stem, whether this worker's cache holds it. */
+async function hasUrls(urls) {
+  const cache = await caches.open(CACHE);
+  const keys = (await cache.keys()).map((r) => r.url);
+  return urls.slice(0, 50).map((u) => {
+    if (typeof u !== 'string') return false;
+    if (!u.endsWith('-')) return keys.includes(u);
+    return keys.some((k) => k.startsWith(u) && HASHED.test(new URL(k).pathname));
+  });
+}
 
 /** Fetch and keep the listed hashed chunks this cache does not hold yet (same origin only). */
 async function cacheUrls(urls) {

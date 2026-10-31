@@ -127,9 +127,31 @@ export class FarTrees {
   private readonly crown: THREE.InstancedMesh | null = null;
   private readonly wood: SpanBatch | null = null;
   private readonly fruit: SpanBatch | null = null;
+  /** Every tree's leaf cards, drawn only in the shadow pass (see `ShadowMerge.addShadowOnly`). */
+  readonly shadowCrown: THREE.InstancedMesh | null = null;
   private key = '';
   /** Trees in the far batch after the last update (the debug readout and the probe). */
   far = 0;
+
+  /** Each tree's trunk and fruit, which hide while the batch draws them. */
+  get lodMeshes(): THREE.Mesh[] {
+    return this.entries.flatMap((e) => [
+      ...(e.tree.trunk ? [e.tree.trunk.mesh] : []),
+      ...(e.fruitMesh ? [e.fruitMesh] : []),
+    ]);
+  }
+
+  /**
+   * The trunk and fruit batches, and every crown with the far crown batch: while
+   * `ShadowMerge` is on, their shadows come from it and `shadowCrown` instead.
+   */
+  get standIns(): THREE.Mesh[] {
+    return [
+      this.wood?.mesh,
+      this.fruit?.mesh,
+      ...(this.shadowCrown ? [this.crown, ...this.entries.map((e) => e.tree.crown)] : []),
+    ].filter((m): m is THREE.Mesh => !!m);
+  }
 
   constructor(parent: THREE.Object3D, trees: GroveTree[], time: { value: number }) {
     const m = new THREE.Matrix4();
@@ -199,6 +221,24 @@ export class FarTrees {
       crown.customDepthMaterial = first.tree.crown.customDepthMaterial;
     parent.add(crown);
     this.crown = crown;
+    // Lane D r8: one shadow draw for all crowns, near or far (the crowns' depth program is a
+    // plain alpha-cut leaf, the same for every tree, so the shadow is the same).
+    if (crown.customDepthMaterial) {
+      const all = new THREE.InstancedMesh(new THREE.PlaneGeometry(CARD, CARD), mat, cards);
+      let k = 0;
+      for (const e of this.entries) {
+        (all.instanceMatrix.array as Float32Array).set(e.mats, k * 16);
+        k += e.n;
+      }
+      all.count = k;
+      all.name = 'tree-shadows';
+      all.castShadow = true;
+      all.customDepthMaterial = crown.customDepthMaterial;
+      all.visible = false;
+      all.computeBoundingSphere();
+      parent.add(all);
+      this.shadowCrown = all;
+    }
 
     const trunks = this.entries.filter((e) => e.tree.trunk);
     const wood = merge(trunks.map((e) => e.tree.trunk!.mesh));

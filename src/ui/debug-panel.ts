@@ -2,8 +2,8 @@ import { worldControls, worldLine } from './world-debug';
 import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
 import { debugIdleOdds } from '../sim/behavior';
 import { confirmModal } from './confirm';
-import { CAMP_TEXT } from '../config/strings';
-import { SIM } from '../config/tuning';
+import { CAMP_TEXT, FAST_TIME_TEXT, QUALITY_TEXT } from '../config/strings';
+import { FRAME_LOG, SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { clearSave } from '../platform/storage';
@@ -175,6 +175,38 @@ export class DebugPanel {
     );
     this.root.appendChild(lines);
 
+    // Lane C r8 (R0644): the Open quest flow: switch flows, offer any quest, answer it.
+    const offers = el('div', 'debug-row');
+    offers.appendChild(el('span', undefined, 'Offers'));
+    const questId = Object.assign(el('input'), { type: 'text', value: 'q01' });
+    questId.setAttribute('aria-label', 'Quest id');
+    questId.style.width = '4.5em';
+    offers.appendChild(questId);
+    const flow = (f: 'open' | 'guided') => () => {
+      const g = this.game();
+      if (g) g.send({ kind: 'setSettings', settings: { ...g.world.settings, questFlow: f } });
+    };
+    offers.append(
+      button('Open', flow('open'), 'btn btn-small'),
+      button('Guided', flow('guided'), 'btn btn-small'),
+      button(
+        'Offer',
+        () => this.game()?.send({ kind: 'debugQuestOffer', id: questId.value.trim() }),
+        'btn btn-small',
+      ),
+      button(
+        'Accept',
+        () => this.game()?.send({ kind: 'questAccept', id: questId.value.trim() }),
+        'btn btn-small',
+      ),
+      button(
+        'Not now',
+        () => this.game()?.send({ kind: 'questDecline', id: questId.value.trim() }),
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(offers);
+
     const force = el('div', 'debug-row');
     force.append(
       button(
@@ -277,6 +309,7 @@ export class DebugPanel {
   }
 
   refresh(): void {
+    this.syncSpeed();
     if (this.root.hidden) return;
     const g = this.game();
     const id = this.selected();
@@ -319,8 +352,15 @@ export class DebugPanel {
   }
 
   private syncSpeed(): void {
-    const scale = this.game()?.clock.timeScale ?? 1;
-    this.speedButtons.forEach((b, i) => b.classList.toggle('active', SIM.timeScales[i] === scale));
+    const g = this.game();
+    const scale = g?.clock.timeScale ?? 1;
+    this.speedButtons.forEach((b, i) => {
+      const s = SIM.timeScales[i];
+      b.classList.toggle('active', s === scale);
+      // TECH-54: the active speed says when the steps cannot keep up with it.
+      const text = s === scale && g?.simBehind && s > 1 ? FAST_TIME_TEXT.behind(s) : `×${s}`;
+      if (b.textContent !== text) b.textContent = text;
+    });
   }
 }
 
@@ -337,8 +377,15 @@ function frameLine(g: Game): string {
     `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
     `\n${worldLine(g)}` +
     hollowLine(g) +
-    spikeLine(g)
+    spikeLine(g) +
+    tierLine(g)
   );
+}
+
+/** TECH-09: the device tier and the signal that decided it. */
+function tierLine(g: Game): string {
+  return `
+${QUALITY_TEXT.debug(QUALITY_TEXT.tier[g.tier.tier], g.tier.why)}`;
 }
 
 /** HOT-2: frame times over the last minute or so, and what the longest frame spent them on. */
@@ -350,14 +397,26 @@ function spikeLine(g: Game): string {
         .filter(([, ms]) => ms >= 1)
         .map(([k, ms]) => `${k} ${Math.round(ms)}`)
         .concat(`outside ${Math.round(top.outsideMs)}`)
+        // TECH-31: what the sections hid: sheet bakes inside `update`, the HUD refresh outside.
+        .concat(top.work.bakes ? [`bakes ${top.work.bakes}/${Math.round(top.work.bakeMs)}`] : [])
+        .concat(top.work.hudMs >= 1 ? [`hud ${Math.round(top.work.hudMs)}`] : [])
+        .concat(top.steps ? [`steps ${top.steps}`] : [])
         .join(' ')
     : '';
   const a = g.view.batch.atlas;
   const atlas = g.scene3d ? '' : `  atlas pages ${a.pagesOpen} repacks ${a.generation}`;
   return (
     `\nframes p95 ${s.p95.toFixed(1)} ms  worst ${s.worst.toFixed(0)} ms  long ${s.long}${atlas}` +
-    (why ? `\nlongest: ${why}` : '')
+    (why ? `\nlongest: ${why}` : '') +
+    recentLine(g)
   );
+}
+
+/** TECH-31: the last ten seconds as a frame-time histogram: p50, p95 and p99. */
+function recentLine(g: Game): string {
+  const r = g.spikes.summary(FRAME_LOG.windowMs);
+  const f = (ms: number) => ms.toFixed(1);
+  return `\nlast ${FRAME_LOG.windowMs / 1000} s: p50 ${f(r.p50)}  p95 ${f(r.p95)}  p99 ${f(r.p99)} ms  long ${r.long}`;
 }
 
 /** Lane B round 6 (R0211): the Hollow's rolling tuning numbers, underground only. */

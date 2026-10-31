@@ -18,6 +18,11 @@ import { button, el, modal } from './dom';
 import { CHAPTER_PHOTO_EVENT, chapterShot, type ChapterShot } from './chapter-photo';
 import { PHOTO_TEXT } from '../config/strings-look';
 import { photoComedy, wrapCaption } from './photo-comedy';
+import { ALBUM_TEXT, PHOTO_STICKER_GLYPHS } from '../config/strings-look';
+import { ALBUM, PHOTO_STICKERS } from '../config/tuning-look';
+import { addPhoto, listPhotos } from '../platform/photo-album';
+import { Album } from './album';
+import { PHOTO_SELFIE_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 
 /** A framed snapshot of a Nubbin, drawn on the pixel grid, saved as a PNG. */
 export class PhotoMode {
@@ -47,6 +52,95 @@ export class PhotoMode {
     this.switcher = button('', () => this.toggle(), 'btn');
     this.dialog.body.appendChild(this.switcher);
     window.addEventListener(CHAPTER_PHOTO_EVENT, () => this.openChapter());
+    // R0441: stickers on the photo; R0425: the album of saved photos.
+    const row = el('div', 'photo-stickers');
+    row.setAttribute('aria-label', ALBUM_TEXT.stickers);
+    for (const glyph of PHOTO_STICKER_GLYPHS)
+      row.appendChild(button(glyph, () => this.addSticker(glyph), 'btn btn-small photo-sticker'));
+    row.appendChild(button(ALBUM_TEXT.clear, () => this.clearStickers(), 'btn btn-small'));
+    this.dialog.body.appendChild(row);
+    this.album = new Album(parent);
+    this.albumBtn = button(ALBUM_TEXT.open, () => void this.album.open(), 'btn');
+    this.dialog.body.appendChild(this.albumBtn);
+    // Lane E r9, R0441: the "With me" selfie with the Keeper.
+    this.selfieBtn = button(`🤳 ${PHOTO_SELFIE_TEXT.withMe}`, () => this.toggleSelfie(), 'btn');
+    this.dialog.body.appendChild(this.selfieBtn);
+  }
+
+  private readonly album: Album;
+  /* Lane E r9 */
+  private readonly selfieBtn: HTMLButtonElement;
+  /** R0441: the Keeper is in the photo, holding the Nubbin. */
+  private withMe = false;
+
+  /** R0441: switch the selfie on or off; in Full 3D the Keeper first picks the Nubbin up. */
+  private toggleSelfie(): void {
+    const g = this.game();
+    const n = this.nubbin(g);
+    if (!g || !n || this.mode !== 'nubbin') return;
+    this.withMe = !this.withMe;
+    this.selfieBtn.textContent = this.withMe
+      ? PHOTO_SELFIE_TEXT.alone
+      : `🤳 ${PHOTO_SELFIE_TEXT.withMe}`;
+    if (this.withMe && g.scene3d && g.world.keeper.carrying !== n.id) {
+      g.send({ kind: 'pickUp', nubbinId: n.id });
+      this.help.textContent = PHOTO_SELFIE_TEXT.fetching;
+      this.waitCarry(n.id, 0);
+    }
+    this.redraw();
+  }
+
+  /** R0441: redraw once the Keeper has the Nubbin in its arms (a few seconds at most). */
+  private waitCarry(id: string, tries: number): void {
+    window.setTimeout(() => {
+      const g = this.game();
+      if (!g || !this.withMe || !this.isOpen()) return;
+      if (g.world.keeper.carrying === id) window.setTimeout(() => this.redraw(), 300);
+      else if (tries < 24) this.waitCarry(id, tries + 1);
+    }, 250);
+  }
+
+  private readonly albumBtn: HTMLButtonElement;
+  /** R0441: stickers placed on this photo, in 160-wide photo units. */
+  private stickers: { glyph: string; x: number; y: number }[] = [];
+  /** R0425: who is in the photo and its caption, for the album. */
+  private lastIds: string[] = [];
+  private lastCaption = '';
+
+  private addSticker(glyph: string): void {
+    const spots = PHOTO_STICKERS.spots;
+    if (this.stickers.length >= PHOTO_STICKERS.max) this.stickers.shift();
+    const [x, y] = spots[this.stickers.length % spots.length]!;
+    this.stickers.push({ glyph, x, y });
+    this.redraw();
+  }
+
+  private clearStickers(): void {
+    this.stickers = [];
+    this.redraw();
+  }
+
+  /** Draw the same photo again (stickers changed), without a new shot. */
+  private redraw(): void {
+    const g = this.game();
+    const n = this.nubbin(g);
+    if (g && n && this.mode === 'nubbin') this.render(g, n);
+  }
+
+  /** R0441: the stickers, outlined so they read on sky and grass alike. */
+  private drawStickers(ctx: CanvasRenderingContext2D): void {
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color(C.cream);
+    ctx.fillStyle = color(C.berry);
+    for (const s of this.stickers) {
+      ctx.strokeText(s.glyph, s.x, s.y);
+      ctx.fillText(s.glyph, s.x, s.y);
+    }
+    ctx.restore();
   }
 
   private readonly switcher: HTMLButtonElement;
@@ -148,7 +242,12 @@ export class PhotoMode {
       g.world.nubbins.find((x) => x.stage !== 'egg');
     if (!n) return;
     this.shot++;
+    this.stickers = [];
+    this.withMe = false; /* Lane E r9 */
+    this.selfieBtn.textContent = `🤳 ${PHOTO_SELFIE_TEXT.withMe}`;
     this.render(g, n);
+    // R0425: the album button hides when photo storage is unavailable.
+    void listPhotos().then((p) => (this.albumBtn.hidden = p === null));
     g.send({ kind: 'photoTaken', species: n.species });
     this.dialog.show();
   }
@@ -172,6 +271,9 @@ export class PhotoMode {
 
   private render(g: Game, n: Nubbin): void {
     const fun = photoComedy(g.world, n, this.shot);
+    this.lastIds = [n.id];
+    this.lastCaption = `${n.name}`;
+    if (this.withMe) this.lastCaption = PHOTO_SELFIE_TEXT.caption(n.name); /* Lane E r9 */
     this.retake.hidden = !fun.blink;
     this.save.textContent = fun.blink ? PHOTO_TEXT.keepAnyway : UI_TEXT.savePhoto;
     if (fun.blink) this.help.textContent = PHOTO_TEXT.blinkHelp;
@@ -197,7 +299,12 @@ export class PhotoMode {
     ctx.fillStyle = color(C.leaf);
     for (let x = 8; x < W - 8; x += 7) ctx.fillRect(x, 66 + ((x * 7) % 5), 2, 1);
     // In Full 3D the picture is the Nubbin as it stands in the 3D Grove, not the sprite.
-    const shot = g.scene3d?.portrait(n.id, (W - 12) * S, 72 * S) ?? null;
+    // Lane E r9, R0441: with the Keeper, the selfie once it holds the Nubbin.
+    const selfie3d =
+      this.withMe && g.world.keeper.carrying === n.id
+        ? (g.scene3d?.selfie((W - 12) * S, 72 * S) ?? null)
+        : null;
+    const shot = selfie3d ?? g.scene3d?.portrait(n.id, (W - 12) * S, 72 * S) ?? null;
     if (shot) {
       ctx.imageSmoothingEnabled = true;
       ctx.drawImage(shot, 6, 6, W - 12, 72);
@@ -209,7 +316,15 @@ export class PhotoMode {
       const rect =
         sheet.frames.get(frameKey(pose, 'front', fun.blink ? 7 : 0)) ??
         sheet.frames.values().next().value;
-      if (rect) {
+      if (rect && this.withMe)
+        this.drawPixelSelfie(
+          g,
+          ctx,
+          sheet.texture.image as HTMLCanvasElement,
+          rect,
+          W,
+        ); /* Lane E r9 */
+      else if (rect) {
         const image = sheet.texture.image as HTMLCanvasElement;
         const size = 64;
         ctx.drawImage(
@@ -252,6 +367,47 @@ export class PhotoMode {
       color(C.lilacGrey),
       1,
       'center',
+    );
+    this.drawStickers(ctx);
+  }
+
+  /* Lane E r9 */
+  /** R0441: the pixel selfie: the Keeper facing out, the Nubbin held at its chest. */
+  private drawPixelSelfie(
+    g: Game,
+    ctx: CanvasRenderingContext2D,
+    image: HTMLCanvasElement,
+    rect: { x: number; y: number; w: number; h: number },
+    W: number,
+  ): void {
+    const k = g.world.keeper;
+    const ks = g.view.sheets.keeper(g.world.trainer, k.alignment);
+    const kr =
+      ks.frames.get(frameKey('g-chest', 'front', 0)) ?? ks.frames.get(frameKey('idle', 'front', 0));
+    const kSize = 92;
+    if (kr)
+      ctx.drawImage(
+        ks.texture.image as HTMLCanvasElement,
+        kr.x,
+        kr.y,
+        kr.w,
+        kr.h,
+        W / 2 - kSize / 2,
+        78 - kSize + 16,
+        kSize,
+        kSize,
+      );
+    const size = 40;
+    ctx.drawImage(
+      image,
+      rect.x,
+      rect.y,
+      rect.w,
+      rect.h,
+      W / 2 - size / 2 + 4,
+      76 - size,
+      size,
+      size,
     );
   }
 
@@ -299,6 +455,24 @@ export class PhotoMode {
   private download(): void {
     const a = document.createElement('a');
     a.href = this.canvas.toDataURL('image/png');
+    // R0425: every saved photo goes into the album too, with a small thumbnail.
+    if (this.mode === 'nubbin') {
+      const t = document.createElement('canvas');
+      t.width = ALBUM.thumbPx;
+      t.height = Math.round((this.canvas.height / this.canvas.width) * ALBUM.thumbPx);
+      const tc = t.getContext('2d');
+      if (tc) {
+        tc.imageSmoothingEnabled = true;
+        tc.drawImage(this.canvas, 0, 0, t.width, t.height);
+        void addPhoto({
+          atWallMs: Date.now(),
+          nubbinIds: this.lastIds,
+          caption: this.lastCaption,
+          thumb: t.toDataURL('image/png'),
+          full: a.href,
+        });
+      }
+    }
     a.download = `${NAMES.game.toLowerCase()}-photo.png`;
     a.click();
   }

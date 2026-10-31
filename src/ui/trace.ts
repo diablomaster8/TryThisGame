@@ -14,7 +14,18 @@ import { button, dialogFocus, el } from './dom';
 import { HEBREW_STROKES } from './hebrew-strokes';
 import { KANA_STROKES } from './kana-strokes';
 import { loadLangFonts } from './lang-fonts';
-import { inkCovered, rightStart, strokeMet, type Pt } from './trace-check';
+import {
+  afterMiss,
+  inkCovered,
+  resample,
+  rightStart,
+  strokeMet,
+  traceRadius,
+  type Pt,
+} from './trace-check';
+import { EDU_TRACE } from '../config/tuning-kids';
+import { TRACE_KID_TEXT } from '../config/strings';
+import { speakLine } from './lesson';
 
 /** Stroke guides by glyph, kana and Hebrew alike. A glyph without guides is judged by ink. */
 const STROKES: Readonly<Record<string, Pt[][]>> = { ...KANA_STROKES, ...HEBREW_STROKES };
@@ -35,6 +46,11 @@ export class TraceGame {
   private drag: Pt[] | null = null;
   private ink: Pt[] = [];
   private done: (() => void) | null = null;
+  /** R0703: misses on the current stroke, the last rejected drag, and the ghost finger. */
+  private misses = 0;
+  private rejected: { pts: Pt[]; at: number } | null = null;
+  private demo: { at: number; stroke: number } | null = null;
+  private raf = 0;
 
   constructor(
     parent: HTMLElement,
@@ -93,7 +109,40 @@ export class TraceGame {
     void loadLangFonts()
       .then(() => document.fonts?.load(`200px ${FONT[target.lang]}`, target.glyphs.join('')))
       .catch(() => undefined)
-      .finally(() => this.startGlyph());
+      .finally(() => {
+        this.startGlyph();
+        // R0703: the ghost finger shows the first stroke, and the start dot is named.
+        if (STROKES[this.current()]) {
+          this.playDemo();
+          this.say(TRACE_KID_TEXT.start);
+        }
+      });
+  }
+
+  /** R0703: speak to a child who has read-aloud on. */
+  private say(text: string): void {
+    const e = this.game()?.world.edu;
+    if (e && (e.readAloud || e.readToMe)) speakLine(text);
+  }
+
+  /** R0703: run the ghost finger along the current stroke. */
+  private playDemo(): void {
+    this.demo = { at: performance.now(), stroke: this.stroke };
+    this.tick();
+  }
+
+  /** R0703: redraw while a miss fades or the ghost finger moves. */
+  private tick(): void {
+    window.cancelAnimationFrame(this.raf);
+    const now = performance.now();
+    const fading =
+      this.rejected && now - this.rejected.at < EDU_TRACE.missShowMs + EDU_TRACE.fadeMs;
+    const demoing = this.demo && now - this.demo.at < EDU_TRACE.demoMs;
+    if (!fading) this.rejected = null;
+    if (!demoing) this.demo = null;
+    this.draw();
+    if ((fading || demoing) && !this.root.hidden)
+      this.raf = window.requestAnimationFrame(() => this.tick());
   }
 
   close(): void {
@@ -102,6 +151,9 @@ export class TraceGame {
       this.focus.closed();
     }
     this.target = null;
+    window.cancelAnimationFrame(this.raf);
+    this.rejected = null;
+    this.demo = null;
   }
 
   /** The whole word above the board, in writing order, the current glyph marked. */
@@ -122,6 +174,7 @@ export class TraceGame {
 
   private startGlyph(): void {
     this.stroke = 0;
+    this.misses = 0;
     this.drags = [];
     this.ink = STROKES[this.current()] ? [] : this.measureInk();
     this.renderWord();
@@ -221,21 +274,51 @@ export class TraceGame {
     const strokes = STROKES[this.current()];
     if (strokes) {
       const s = strokes[this.stroke];
-      if (s && strokeMet(s, d, LANG.traceRadius, LANG.strokeCover)) {
-        this.drags.push(d);
-        this.stroke += 1;
-        if (this.stroke >= strokes.length) return this.nextGlyph();
-        this.help.textContent = t.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
-      } else {
-        this.help.textContent = LANG_TEXT.traceAgain;
+      if (s && strokeMet(s, d, this.radius(), LANG.strokeCover)) {
+        // R0703: a little buzz where the device has one.
+        if (typeof navigator.vibrate === 'function') navigator.vibrate(EDU_TRACE.vibrateMs);
+        return this.acceptStroke(d, strokes.length);
       }
+      // R0703: the miss stays in grey a moment; then the ghost finger, then a helping hand.
+      this.misses += 1;
+      this.rejected = { pts: d, at: performance.now() };
+      const next = afterMiss(this.misses, EDU_TRACE.demoAfterMisses, EDU_TRACE.completeAfterMisses);
+      this.help.textContent = LANG_TEXT.traceAgain;
+      if (next === 'complete' && s) {
+        this.say(TRACE_KID_TEXT.helped);
+        this.playDemo();
+        return this.acceptStroke(resample(s, 3), strokes.length);
+      }
+      if (next === 'demo') {
+        this.say(TRACE_KID_TEXT.watch);
+        this.playDemo();
+      }
+      this.tick();
+      return;
     } else {
       this.drags.push(d);
-      if (inkCovered(this.ink, this.drags, LANG.traceRadius / 2) >= LANG.inkCover)
+      if (inkCovered(this.ink, this.drags, this.radius() / 2) >= LANG.inkCover)
         return this.nextGlyph();
       this.help.textContent = LANG_TEXT.traceMore;
     }
     this.draw();
+  }
+
+  /** A stroke done (traced, or finished with the ghost finger): on to the next one. */
+  private acceptStroke(d: Pt[], count: number): void {
+    const t = this.target;
+    if (!t) return;
+    this.drags.push(d);
+    this.stroke += 1;
+    this.misses = 0;
+    if (this.stroke >= count) return this.nextGlyph();
+    this.help.textContent = t.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
+    this.draw();
+  }
+
+  /** R0703: tolerance by age (wider for small hands); the main game keeps its own. */
+  private radius(): number {
+    return traceRadius(this.game()?.world.edu, EDU_TRACE.radius, LANG.traceRadius);
   }
 
   private nextGlyph(): void {
@@ -247,6 +330,7 @@ export class TraceGame {
       return;
     }
     this.help.textContent = LANG_TEXT.traceDone;
+    this.say(TRACE_KID_TEXT.done);
     this.renderWord();
     this.game()?.send({ kind: 'langTraced', quest: this.quest });
     const done = this.done;
@@ -283,7 +367,8 @@ export class TraceGame {
         path(s);
         x.setLineDash([]);
         const p = s[0]!;
-        x.fillStyle = i === this.stroke ? '#d9822b' : 'rgba(217,130,43,0.5)';
+        // R0703: the stroke to do now starts at a green dot ("Start at the green dot").
+        x.fillStyle = i === this.stroke ? '#3fae4a' : 'rgba(217,130,43,0.5)';
         x.beginPath();
         x.arc(p.x, p.y, 4, 0, Math.PI * 2);
         x.fill();
@@ -307,6 +392,36 @@ export class TraceGame {
     x.lineWidth = 6;
     for (const d of this.drags) path(d);
     if (this.drag) path(this.drag);
+    // R0703: the last miss in grey, fading after a moment.
+    const now = performance.now();
+    if (this.rejected) {
+      const age = now - this.rejected.at - EDU_TRACE.missShowMs;
+      x.globalAlpha = age <= 0 ? 0.8 : Math.max(0, 0.8 * (1 - age / EDU_TRACE.fadeMs));
+      x.strokeStyle = '#8a8a8a';
+      path(this.rejected.pts);
+      x.globalAlpha = 1;
+    }
+    // R0703: the ghost finger along the stroke (the whole stroke lit under reduced motion).
+    const demoStroke = this.demo && guides?.[this.demo.stroke];
+    if (this.demo && demoStroke) {
+      const calm = document.documentElement.classList.contains('reduce-motion');
+      const along = resample(demoStroke, 2);
+      const f = Math.min(1, (now - this.demo.at) / EDU_TRACE.demoMs);
+      x.strokeStyle = 'rgba(63,174,74,0.55)';
+      x.lineWidth = 5;
+      path(calm ? along : along.slice(0, Math.max(2, Math.ceil(f * along.length))));
+      if (!calm) {
+        const p = along[Math.min(along.length - 1, Math.floor(f * (along.length - 1)))]!;
+        x.fillStyle = 'rgba(255,255,255,0.9)';
+        x.beginPath();
+        x.arc(p.x, p.y, 5, 0, Math.PI * 2);
+        x.fill();
+        x.font = '9px sans-serif';
+        x.textAlign = 'center';
+        x.textBaseline = 'middle';
+        x.fillText('👆', p.x + 2, p.y + 6);
+      }
+    }
     x.restore();
   }
 }

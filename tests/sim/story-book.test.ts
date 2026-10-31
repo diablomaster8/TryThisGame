@@ -10,6 +10,7 @@ import { deserialize, SAVE_VERSION, serialize, worldFingerprint } from '../../sr
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
 import { catchUp } from '../../src/sim/offline';
+import { awayStories } from '../../src/ui/away-stories';
 import { c, campaignWorld, playScenes, tick } from './campaign-driver';
 
 registerStorylines(STORYLINE_CONTENT);
@@ -191,6 +192,28 @@ describe('away from the Grove (R0632)', () => {
     // Whatever a line wanted to say waits in the queue for the Keeper.
     for (const l of [world.lines.hundred!, world.lines.beetle!])
       for (const id of l.queue) expect(c(world).queue).toContain(id);
+  });
+
+  it('lane C r8: in the Open flow with 2 lines and 5 quests, still quick, nothing offered', () => {
+    const { world, events } = hazelAt(4);
+    world.settings.questFlow = 'open';
+    world.settings.offlineAging.mode = 'indefinite';
+    applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
+    applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
+    for (const id of ['q01', 'q02', 'q03', 'q04', 'q05'])
+      applyCommand(world, { kind: 'questAccept', id }, events);
+    const entries = JSON.stringify(Object.keys(world.questBook!.entries).sort());
+    const t0 = performance.now();
+    const report = catchUp(world, 7 * 86_400_000, 7 * 86_400_000);
+    expect(performance.now() - t0).toBeLessThan(3000);
+    expect(report.simulatedMs).toBe(7 * 86_400_000);
+    expect(report.events.some((e) => e.kind === 'questOffered' || e.kind === 'areaEntered')).toBe(
+      false,
+    );
+    expect(JSON.stringify(Object.keys(world.questBook!.entries).sort())).toBe(entries);
+    const stories = awayStories(world);
+    expect(stories.some((l) => l.startsWith('The Hundred') || l.includes('chapter 1'))).toBe(true);
+    expect(stories.at(-1)).toMatch(/quests under way/);
   });
 });
 

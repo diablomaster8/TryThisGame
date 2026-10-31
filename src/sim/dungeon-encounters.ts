@@ -36,7 +36,7 @@ import { cellCentre, cellDist, cellOf, FLOOR, WALL, type Cell, type Floor } from
 import { newRoute, nextWaypoint, type NavRoute } from './dungeon-nav';
 import { actProgress } from './dungeon-acts';
 import { Rng } from './rng';
-import { rollDrops } from './gear';
+import { gearStat, rollDrops } from './gear';
 import { isCommonSpecies, SPECIES } from './species';
 import { levelOf } from './stats';
 import type { DungeonPack, DungeonRun, SimEvent, Vec2, World } from './types';
@@ -103,6 +103,8 @@ export interface EncounterSpec {
   board?: HollowArena;
   /** R0179: the tier's assist flag: gentle (auto-target, free retry), standard or tactics. */
   fight?: 'gentle' | 'standard' | 'tactics';
+  /** R0164: each party Nubbin's Brave (its own gear plus the Keeper's); absent when none. */
+  brave?: Record<string, number>;
 }
 
 /** The `source` the Hollow's bouts carry on the battle core, matched on `battleEnd`. */
@@ -298,12 +300,20 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
       ids: [...spec.party],
       source: HOLLOW_BATTLE_SOURCE,
       key: spec.packId,
-      // Champion mods are not fought yet (DUNG-15 with lane C). The rest of a bigger pack hangs
-      // back: the battle core gives an outnumbered fresh party no chance (3 on 2 lost 27 of 27).
+      // The rest of a bigger pack hangs back: the battle core gives an outnumbered fresh party
+      // no chance (3 on 2 lost 27 of 27).
       foes: spec.members
         .slice(0, Math.max(1, spec.party.length + E.boutExtraFoes))
-        // Hollow foes are wildlife: they can be befriended (lane C, FIGHT-21).
-        .map((m) => ({ species: m.species, level: Math.min(m.level, cap), wild: true })),
+        // Hollow foes are wildlife: they can be befriended (lane C, FIGHT-21). R0155: the core
+        // plays each foe's champion modifiers (`battle/hollow-mods.ts`).
+        .map((m) => ({
+          species: m.species,
+          level: Math.min(m.level, cap),
+          wild: true,
+          ...(m.mods.length ? { mods: [...m.mods] } : {}),
+        })),
+      // R0164: Brave gear adds to each Nubbin's hits.
+      ...(spec.brave ? { brave: { ...spec.brave } } : {}),
     };
     const bout = createBattle(world, context, spec.seed);
     if (bout) {
@@ -358,7 +368,19 @@ export function encounterSpec(
     ...(pack.kind === 'boss' ? { phases: bossPhases(run.act) } : {}),
     // R0179: the run's tier, as FIGHT's assist flag.
     fight: fightFlag(run.difficulty),
+    ...braveOf(world, run.party),
   };
+}
+
+/** Each party Nubbin's Brave (its own gear plus the Keeper's), or nothing when none has any. */
+function braveOf(world: World, party: string[]): { brave?: Record<string, number> } {
+  const keeper = gearStat(world, 'brave');
+  const brave: Record<string, number> = {};
+  for (const id of party) {
+    const b = keeper + gearStat(world, 'brave', id);
+    if (b > 0) brave[id] = b;
+  }
+  return Object.keys(brave).length ? { brave } : {};
 }
 
 /** Ask the handler; an answer now finishes the encounter, null leaves it waiting. */

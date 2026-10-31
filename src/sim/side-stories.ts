@@ -1,5 +1,5 @@
 import type { Quest } from '../content/types';
-import { audienceAllowed, funQuestBlocked } from './audience';
+import { audienceAllowed, funQuestBlocked, isFunQuestCode } from './audience';
 import { hatch } from './lifecycle';
 import { createEgg } from './nubbin';
 import { EARLY_RULES } from './side-rules-early';
@@ -21,6 +21,7 @@ import { FUN, STORY } from '../config/tuning';
 import { funQuests, funRule } from './fun-quests';
 import { isLangQuestCode, langQuestIds, langRule } from './lang';
 import { nextGrade } from './stats';
+import { questGate, questShelved, stepQuestOffers, tidyTracked } from './quest-offers';
 import { grantRewards } from './story-rewards';
 import { sceneById, sideStory } from './story-scenes';
 import {
@@ -393,7 +394,10 @@ function stepOne(
 ): void {
   let st = store[rule.id];
   if (!st) {
-    if (!rule.opens(world, c)) return;
+    // Lane C r8 (R0602): in the Open flow a story waits to be offered and accepted.
+    const gate = questGate(world, c, rule.id);
+    if (gate === 'wait') return;
+    if (gate === 'auto' && !rule.opens(world, c)) return;
     st = {
       status: 'open',
       step: 0,
@@ -413,6 +417,8 @@ function stepOne(
     events.push({ kind: 'sideStory', story: rule.id, status: 'closed' });
     return;
   }
+  // A shelved quest holds exactly where it is until it is taken up again (R0602).
+  if (questShelved(world, rule.id)) return;
   rule.adjust?.(world, c, st);
   const now = world.timeMs;
   const free = () => c.queue.length === 0;
@@ -636,6 +642,39 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
     if (quest && audienceAllowed(quest.audience, ctx)) stepOne(world, c, rule, quest, events);
   }
   stepFunQuests(world, c, events);
+  // Lane C r8 (R0602): the Open flow offers what may open, where the Keeper walks in.
+  if (world.settings.questFlow === 'open') {
+    tidyTracked(world, c);
+    const hold = spineBusy(world, c);
+    stepQuestOffers(world, c, offerCandidates(), (id) => mayOpen(world, c, id), events, hold);
+  }
+}
+
+/**
+ * R0631 (CAMP-39): Hazel's own beat is due, so no offer is made: her chapter opening is next, or
+ * her goal is met and the closing has not played yet.
+ */
+export function spineBusy(world: World, c: CampaignState): boolean {
+  if (openingDue(world, c)) return true;
+  if (c.storyline || c.goalMetMs === null) return false;
+  const def = CHAPTERS.find((ch) => ch.n === c.chapter);
+  return def !== undefined && !seen(c, def.closing);
+}
+
+/** The side stories in step order, then the capers: what the Open flow may offer. */
+function offerCandidates(): string[] {
+  return [...RULES.map((r) => r.id), ...funQuests().map((q) => q.id)];
+}
+
+/** Would story `id` open now in the Guided flow (its window, audience, region and chapter). */
+function mayOpen(world: World, c: CampaignState, id: string): boolean {
+  const quest = sideStory(id);
+  if (!quest) return false;
+  const ctx = { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
+  const side = RULE_BY_ID.get(id);
+  if (side) return audienceAllowed(quest.audience, ctx) && side.opens(world, c);
+  if (funQuestBlocked(c.chapter) || openingDue(world, c)) return false;
+  return funRuleFor(quest).opens(world, c);
 }
 
 /**
@@ -663,6 +702,16 @@ function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void
       const rule = funRuleFor(quest);
       if (rule.opens(world, c)) stepOne(world, c, rule, quest, events, c.fun);
     }
+  }
+  // Lane C r8 (R0602): in the Open flow capers start once accepted, never pushed.
+  if (world.settings.questFlow === 'open' && world.edu === null) {
+    for (const [id, e] of Object.entries(world.questBook?.entries ?? {})) {
+      const quest = sideStory(id);
+      if (e.state !== 'active' || c.fun[id] || !quest || !isFunQuestCode(quest.code) || blocked)
+        continue;
+      stepOne(world, c, funRuleFor(quest), quest, events, c.fun);
+    }
+    return;
   }
   if (blocked || open >= FUN.maxOpen || resting(world, c) || openingDue(world, c)) return;
   if (c.openedMs === null || world.timeMs < c.openedMs + FUN.offerAfterMs) return;

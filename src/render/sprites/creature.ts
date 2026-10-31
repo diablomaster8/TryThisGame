@@ -32,6 +32,7 @@ import {
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 import { drawExtras, type Extra } from './creature-extras';
+import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
 
 /**
  * A generic chibi creature drawer for the non-Chao families. Every species is a body
@@ -40,7 +41,7 @@ import { drawExtras, type Extra } from './creature-extras';
  * crest, wings and markings carry the likeness. Frames are 32×32 with feet on row 30.
  */
 export type BodyPlan =
-  'round' | 'biped' | 'tall' | 'shell' | 'serpent' | 'slug' | 'stalk' | KitPlan;
+  'round' | 'biped' | 'tall' | 'shell' | 'serpent' | 'slug' | 'stalk' | 'bird' | KitPlan;
 
 export type Ears =
   'none' | 'tallPointed' | 'round' | 'roundBig' | 'prongs' | 'horns' | 'fins' | 'catTips' | 'stubs';
@@ -117,6 +118,8 @@ export interface CreatureSpec {
   serpent?: SerpentOpts;
   /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
   quad?: QuadOpts;
+  /** The bird plan's wing edge and tail (`creature-bird.ts`, LOOK-39). */
+  bird?: BirdOpts;
   /** LOOK-45: moves by hopping (the in-training blobs): the walk clip squashes and lifts, no legs. */
   move?: 'hop';
 }
@@ -162,6 +165,8 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
     case 'quad':
     case 'fish':
       return kitAnchors(spec.plan, spec, pose, { angle, feetY, face, back, dir });
+    case 'bird':
+      return birdAnchors(spec, pose, { angle, feetY, face, back, dir });
     case 'round':
       headRx = Math.round(9 * s);
       headRy = Math.round(8.5 * s * pose.squash);
@@ -392,8 +397,13 @@ function drawTail(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, behind: boole
   const col = spec.colors;
   // Tails show behind the body from the front and in front from the back.
   if (behind === a.back) return;
-  const x = a.back ? a.bodyCx + 1 : a.face >= 1 ? a.bodyCx - a.bodyRx - 1 : a.bodyCx + a.bodyRx - 1;
-  const y = (a.plan === 'round' ? a.headCy + 2 : a.bodyCy) + 1;
+  let x = a.back ? a.bodyCx + 1 : a.face >= 1 ? a.bodyCx - a.bodyRx - 1 : a.bodyCx + a.bodyRx - 1;
+  let y = (a.plan === 'round' ? a.headCy + 2 : a.bodyCy) + 1;
+  // LOOK-10: a round baby's flame curls out past the big head, so it shows from the front.
+  if (spec.tail === 'flame' && a.plan === 'round' && a.face < 1 && !a.back) {
+    x = a.headCx + a.headRx - 2;
+    y = a.headCy + a.headRy - 1;
+  }
   const d: 1 | -1 = a.face >= 1 ? -1 : 1;
   switch (spec.tail) {
     case 'lightning':
@@ -451,7 +461,7 @@ function drawWings(
   pose: ChaoPose,
   behind: boolean,
 ): void {
-  if (spec.wings === 'none') return;
+  if (spec.wings === 'none' || spec.plan === 'bird') return;
   if (behind === a.back) return;
   const col = spec.colors;
   const raise = pose.wings === 1 ? 3 : 0;
@@ -663,6 +673,15 @@ function drawMarks(pc: PixelCanvas, a: Anchors, spec: CreatureSpec): void {
           pc.ellipse(a.headCx, a.headCy + a.headRy - 2, Math.max(2, a.headRx - 3), 2.5, col.belly);
         break;
       case 'stripes':
+        if (a.plan === 'quad') {
+          // LOOK-39: tiger stripes on a four-legged body are short slashes down the flank and
+          // back, not rings; from the front they stay off the head standing over the chest.
+          for (let x = a.bodyCx - a.bodyRx + 2; x < a.bodyCx + a.bodyRx - 1; x += 3) {
+            if (a.face < 1 && Math.abs(x - a.headCx) <= a.headRx) continue;
+            pc.line(x, bodyTop + 1, x + 1, bodyTop + 3, col.outline);
+          }
+          break;
+        }
         for (let y = bodyTop + 2; y < a.bodyCy + a.bodyRy - 1; y += 3) {
           pc.line(a.bodyCx - a.bodyRx + 1, y, a.bodyCx + a.bodyRx - 1, y, col.outline);
         }
@@ -707,6 +726,9 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
     case 'quad':
     case 'fish':
       drawKitBody(pc, a, spec, pose);
+      return;
+    case 'bird':
+      drawBirdBody(pc, a, spec, pose);
       return;
     case 'shell': {
       // Legs or tentacles under a domed shell, face below the rim.

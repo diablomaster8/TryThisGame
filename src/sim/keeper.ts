@@ -42,6 +42,10 @@ import { giveHeartFruit } from './breeding';
 import { noteCare, noteTouch } from './personality';
 import { addTrust, isWary, settleStray } from './trust';
 import { noteCampaign } from './campaign';
+import { hasTrait, noteTraitCare } from './traits';
+import { findHiding } from './peek';
+import { noticePet } from './jealousy';
+import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
@@ -1191,7 +1195,8 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     }
     case 'shakeTree': {
       const tree = world.trees.find((t) => t.id === intent.treeId);
-      if (tree) shakeTreeNow(world, tree, events);
+      // R0543 (lane A r9): a shy one hiding behind it is found instead.
+      if (tree && !findHiding(world, tree.id, events)) shakeTreeNow(world, tree, events);
       return;
     }
     case 'collect': {
@@ -1237,6 +1242,16 @@ export function interact(world: World, n: Nubbin, action: Interaction, events: S
       addHappiness(n, 4);
       addTrust(n, 1, events);
       react(n, 'happy', now, events);
+      // R0528 (lane A r9): tickles earn ticklish; a ticklish one rolls about giggling.
+      noteTraitCare(n, 'ticklish', events);
+      if (hasTrait(n, 'ticklish') && isFree(n)) {
+        addHappiness(n, TRAIT_TUNING.giggleHappiness);
+        n.behavior.state = 'perform';
+        n.behavior.sinceMs = now;
+        n.behavior.untilMs = now + TRAIT_TUNING.giggleMs;
+        n.behavior.target = null;
+        n.behavior.itemId = 'giggle';
+      }
       break;
     case 'hug':
       addAffection(n, 4);
@@ -1246,6 +1261,7 @@ export function interact(world: World, n: Nubbin, action: Interaction, events: S
       break;
     case 'groom':
       addHappiness(n, 3);
+      noteTraitCare(n, 'neat', events);
       addAffection(n, 2);
       addTrust(n, 1.5, events);
       react(n, 'happy', now, events);
@@ -1296,6 +1312,8 @@ export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
   n.lastPetMs = now;
   pet(n, world.keeper.pos, now, events);
+  // R0560 (lane A r9): the others nearby notice.
+  noticePet(world, n, events);
 }
 
 /** Put a carried Nubbin down at the Keeper's feet. */

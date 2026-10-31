@@ -131,7 +131,8 @@ export const BATTLE = {
   },
   /** The three AI levels (recs FIGHT-23) and the personality overlay. */
   ai: {
-    sprout: { breath: 0.2 },
+    /** Lane C r8 (R0274): a Sprout mostly picks a hit when it has one, so bouts end in 6–14. */
+    sprout: { breath: 0.2, hitShare: 0.8 },
     keeper: { funPick: 0.15, switchChance: 0.3, badMatchup: 1.5 },
     /**
      * Snacks under this HP share; swaps from a matchup this bad (off: it did not help in the

@@ -674,6 +674,7 @@ function campaignSceneDone(world: World, c: CampaignState, scene: string): void 
 export function applyCampaignCommand(world: World, cmd: Command, events: SimEvent[]): void {
   switch (cmd.kind) {
     case 'campaignStart':
+      if (cmd.flow) world.settings.questFlow = cmd.flow;
       startCampaign(world, events);
       return;
     case 'storylineStart':

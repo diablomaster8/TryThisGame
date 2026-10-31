@@ -15,9 +15,13 @@ import { loadStoryScripts } from './sim/story-scenes';
 import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
+/* Lane E r9, R0696 */
+import { showKidsPicker, type EduTag } from './ui/kids-launch';
+import { readKidsLock } from './platform/kids-lock';
 import { showUpdateNotice } from './ui/update-notice';
 import { showBootError } from './ui/boot-error';
 import { reloadOnceForUpdate } from './platform/boot-reload';
+import { watchForUpdate } from './ui/update-ready';
 import {
   hasWebGL2,
   isGraphicsError,
@@ -61,6 +65,7 @@ document.addEventListener('visibilitychange', () => {
 
 const params = new URLSearchParams(location.search);
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
+let kidsLock: number | null;
 // A browser may have cleared localStorage: put back any newer IndexedDB copy before a slot is read.
 void restoreFromMirror().then(route);
 function route(): void {
@@ -107,6 +112,21 @@ function route(): void {
     // Graphics changed in Settings: the reload comes straight back to the slot in play.
     setSaveSlot(resumeSlot);
     startGame(null);
+  } else if (!params.has('title') && (kidsLock = readKidsLock())) {
+    // Lane E r8, R0695: a grown-up locked this device to a Learning Grove; `?title` skips it.
+    setSaveSlot({ mode: 'edu', index: kidsLock });
+    startGame(null);
+  } else if (params.has('kids')) {
+    /* Lane E r9, R0696: the "Learning Grove" home-screen shortcut: the children's Groves only. */
+    loadStoryScripts().catch(() => undefined);
+    showKidsPicker(
+      hudRoot,
+      (slot) => {
+        setSaveSlot(slot);
+        startGame(null);
+      },
+      () => location.assign(location.pathname),
+    );
   } else {
     // Fetch the campaign and side-story chunks while the title is up.
     // A failure here is retried, and reported, when the game starts.
@@ -123,7 +143,11 @@ function route(): void {
             ? choice.trainer
             : null,
           choice.slot.mode === 'edu' && choice.fresh && choice.age
-            ? { age: choice.age, band: choice.band ?? 'sprout' }
+            ? {
+                age: choice.age,
+                band: choice.band ?? 'sprout',
+                ...(choice.tag ? { tag: choice.tag } : {}),
+              }
             : undefined,
           choice.fresh ? (choice.storyline ?? null) : null,
         );
@@ -137,6 +161,8 @@ function route(): void {
 interface NewEdu {
   age: EduAge;
   band: EduBand;
+  /** Lane E r9, R0696: the name, colour and animal from the title's step. */
+  tag?: EduTag;
 }
 
 /**
@@ -261,9 +287,17 @@ function boot(
       const other = storyline === 'dawn' ? 'dusk' : storyline === 'dusk' ? 'dawn' : null;
       const flags = other && storylineFinished('dawndusk', other) ? { 'dd-other-done': true } : {};
       game.send({ kind: 'storylineStart', id: storyline, flags });
-    } else game.send({ kind: 'campaignStart' });
+    } else {
+      // Lane C r8 (R0602): a new Hazel's Grove plays the Open quest flow; older saves keep Guided.
+      game.send({ kind: 'campaignStart', flow: 'open' });
+    }
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
+  /* Lane E r9, R0696 */
+  if (eduAge?.tag) {
+    if (eduAge.tag.name) game.send({ kind: 'eduSetName', name: eduAge.tag.name });
+    game.send({ kind: 'eduSetTag', icon: eduAge.tag.icon, colour: eduAge.tag.colour });
+  }
   // The time away is made up now, in slices the indicator can paint between; story scenes
   // and the away screen wait for it (review C, items 12 and 16).
   void game.catchUpOnLoad();
@@ -332,6 +366,11 @@ function boot(
     navigator.serviceWorker
       .register(`${import.meta.env.BASE_URL}sw.js`)
       .then(applyWaitingWorker, () => undefined);
+    // R0496 (TECH-55): offer a waiting update in a long-lived session, saving first.
+    void navigator.serviceWorker.ready.then((reg) => {
+      const hud = document.getElementById('hud');
+      if (hud) watchForUpdate(reg, hud, () => game);
+    });
     // The chunks this visit already loaded came before the worker existed, so it never saw
     // them; hand it the list, so a first visit is enough to play offline next time.
     void navigator.serviceWorker.ready.then((reg) => {

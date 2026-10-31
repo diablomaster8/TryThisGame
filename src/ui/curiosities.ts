@@ -8,6 +8,7 @@
  */
 import { CURIOSITY_TEXT } from '../config/strings-look';
 import type { Command, SimEvent, World } from '../sim/types';
+import { CuriosityTriggers } from './curiosity-triggers';
 
 const WORD = 'liftandpush';
 /** Turns this close together count as "in a row". */
@@ -21,6 +22,9 @@ export class CuriosityWatch {
   private lastYaw: number | null = null;
   private readonly shakes = new Map<string, number>();
   private eats: number[] = [];
+  // Lane E r9: the eight in-world triggers (`curiosity-triggers.ts`).
+  private readonly triggers = new CuriosityTriggers();
+  private lastWorld: World | null = null;
 
   constructor(
     private readonly send: (cmd: Command) => void,
@@ -31,6 +35,16 @@ export class CuriosityWatch {
       this.typed = (this.typed + e.key.toLowerCase()).slice(-WORD.length);
       if (this.typed === WORD) this.pending.add('liftAndPush');
     });
+  }
+
+  /** Lane E r9: every command the player sends, from `Game.send`. */
+  onCommand(cmd: Command): void {
+    this.triggers.onCommand(cmd, this.lastWorld, performance.now());
+  }
+
+  /** Lane E r9: a tap that opens a panel (`building:cottage`, …). */
+  onSelect(id: string | null): void {
+    this.triggers.onSelect(id);
   }
 
   /** Per sim batch: count shakes and meals, and toast what the sim just logged. */
@@ -60,6 +74,10 @@ export class CuriosityWatch {
       if (this.spins >= 8) this.pending.add('dizzyCam');
     }
     this.lastYaw = yawIndex;
+    this.lastWorld = world;
+    const angle = typeof screen !== 'undefined' ? (screen.orientation?.angle ?? 0) : 0;
+    this.triggers.tick(world, yawIndex, now, angle);
+    for (const id of this.triggers.take()) this.pending.add(id);
     for (const n of world.nubbins) {
       const name = n.name.trim().toLowerCase();
       if (name === 'moss') this.pending.add('mossName');
