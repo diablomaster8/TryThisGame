@@ -375,7 +375,9 @@ export class Actors {
     // The emote ball frames: the plain set and the Shadow's plum one, one sprite material
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
-    this.tapMarks = new TapMarks3D(this.group);
+    this.tapMarks = new TapMarks3D(this.group, () =>
+      this.emoteMats.get(frameKey('question', 'front', 0)),
+    );
     this.heldRing = new HeldRing3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
     this.fernCairn = new FernCairn3D(this.group);

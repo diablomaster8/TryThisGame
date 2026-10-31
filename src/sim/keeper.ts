@@ -345,6 +345,10 @@ function autoHop(world: World, dx: number, dz: number): void {
  * from a little further off.
  */
 const standIns = new WeakMap<Vec2, Vec2>();
+/** WORLD-41: the tap a stand-in target stands for, if `target` is one (read-only). */
+export function standInTap(target: Vec2): Vec2 | undefined {
+  return standIns.get(target);
+}
 /** When a stand-in walk last asked whether its real tap had come within reach (sim ms). */
 const tapRecheck = new WeakMap<World, number>();
 /** How often (ms) a stand-in walk looks again at its real tap. */

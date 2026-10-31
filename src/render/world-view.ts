@@ -29,6 +29,7 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { TAP_PRINTS } from '../config/tuning-r9d2';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -1274,7 +1275,7 @@ export class WorldView {
     // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
     if (shadowRect && this.tapPath.update(world, nowMs)) {
       const calm = this.particles.reduceMotion;
-      const mark = (m: TapMark, r: number, a: number) =>
+      const mark = (m: TapMark, r: number, a: number, rl = r) =>
         batch.draw({
           sheet: shadowSheet,
           rect: shadowRect,
@@ -1284,13 +1285,42 @@ export class WorldView {
           z: m.z,
           mode: 'flat',
           w: r * 2,
-          h: r * 2,
+          h: rl * 2,
           opacity: 0.45 * a,
         });
+      // WORLD-41: soft footprints every 0.8 u, as small long shadows.
       const da = this.tapPath.dotAlpha(nowMs, calm);
-      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
+      if (da > 0)
+        for (const d of this.tapPath.dots) {
+          // Flat sprites lie square to the axes: a print runs along whichever the walk follows.
+          const across = Math.abs(Math.sin(d.yaw)) > Math.abs(Math.cos(d.yaw));
+          const pw = (across ? TAP_PRINTS.l : TAP_PRINTS.w) / 2;
+          const pl = (across ? TAP_PRINTS.w : TAP_PRINTS.l) / 2;
+          mark(d, pw, Math.min(2.2, da * 2.2), pl);
+        }
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
+      // WORLD-41: the tap can't be reached; a "?" puff rises at the nearest point.
+      const pl = this.tapPath.puffLife(nowMs, calm);
+      const pu = this.tapPath.unreached;
+      if (pl !== null && pu) {
+        const emotes = this.sheets.emotes(false);
+        const q = emotes.frames.get(frameKey('question', 'front', 0));
+        const sz = TAP_PRINTS.puffSize * (calm ? 1 : Math.min(1, 0.4 + pl * 3) * (1 - pl * 0.3));
+        if (q)
+          batch.draw({
+            sheet: emotes,
+            rect: q,
+            flip: false,
+            x: pu.x,
+            y: pu.y - paintedGround(pu.x, pu.z) + TAP_PRINTS.puffY + TAP_PRINTS.puffRise * pl,
+            z: pu.z,
+            mode: 'billboard',
+            w: sz,
+            h: sz,
+            opacity: calm ? 1 : Math.min(1, (1 - pl) * 3),
+          });
+      }
     }
     const jclip =
       kpose?.clip || kHeld || krideRect ? null : this.keeperJumpClip(world, nowMs, off - floor);
