@@ -10,3 +10,12 @@ export const SHAKE_HINT = {
   /** Screen pixels the hand sits above that point. */
   raisePx: 8,
 } as const;
+
+/** TECH-28: where the spoken selection summary changes words. */
+export const A11Y_SUMMARY = {
+  /** Happiness at or above: happy; at or above 0: content; above `glumAbove`: a little sad. */
+  happyFrom: 40,
+  glumAbove: -40,
+  /** Energy below this reads as sleepy. */
+  sleepyBelow: 0.2,
+} as const;

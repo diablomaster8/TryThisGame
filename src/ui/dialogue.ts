@@ -51,6 +51,9 @@ export class Dialogue {
   /** R0342: the karaoke light over the text while it is read aloud. */
   private readonly wordLight: WordLight;
   private readonly choices: HTMLDivElement;
+  /** TECH-28: the whole line, once, for a screen reader (the typed text is not live). */
+  private readonly live: HTMLDivElement;
+  private liveKey = '';
   private readonly next: HTMLDivElement;
   private readonly endCard: HTMLDivElement;
   private readonly endParent: HTMLElement;
@@ -106,6 +109,12 @@ export class Dialogue {
     this.next = el('div', 'dialogue-next', '▼');
     this.choices = el('div', 'dialogue-choices');
     body.append(this.name, this.text, this.choices);
+    // TECH-28: a screen reader hears each line once, whole, not letter by letter.
+    this.live = el('div', 'sr-only');
+    this.live.setAttribute('role', 'log');
+    this.live.setAttribute('aria-live', 'polite');
+    this.choices.setAttribute('role', 'group');
+    body.append(this.live);
     // r1025 item 1: skip to the next real choice (or the scene's end), never past one.
     this.skipBtn = button(`${DIALOGUE_TEXT.skip} ⏭`, () => this.skip(), 'btn dialogue-skip');
     this.skipBtn.setAttribute('aria-label', DIALOGUE_TEXT.skipLabel);
@@ -377,6 +386,8 @@ export class Dialogue {
       );
     }
     this.choices.append(...made);
+    // TECH-28: the choices are a group named by the line that asks.
+    this.choices.setAttribute('aria-label', this.fullText);
     // R0677: a sprout sees numbered picture buttons and hears the choices read out.
     const g = this.game();
     if (g && textBandOf(g.world) === 'sprout')
@@ -555,6 +566,16 @@ export class Dialogue {
       },
     );
     this.lineExtras();
+    this.announce();
+  }
+
+  /** TECH-28: write the finished line to the live twin, once per line. */
+  private announce(): void {
+    const key = `${this.scene ?? ''}:${this.index}:${this.fullText}`;
+    if (key === this.liveKey) return;
+    this.liveKey = key;
+    const who = this.name.textContent?.trim();
+    this.live.textContent = who ? `${who}: ${this.fullText}` : this.fullText;
   }
 
   /**
