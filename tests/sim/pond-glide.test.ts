@@ -91,4 +91,19 @@ describe('gliding over the pond (MOVE-27)', () => {
     expect(ms).toBeLessThan(3000);
     expect(w.inventory.shells).toBe(shells);
   });
+
+  it('a friend nearby shows a heart when the Keeper is back', () => {
+    const w = onTop(false, true);
+    const n = w.nubbins[0]!;
+    n.stage = 'child';
+    n.pos = { x: w.keeper.pos.x - u.x * 2, z: w.keeper.pos.z - u.z * 2 };
+    const { events } = leap(w);
+    const at = events.findIndex((e) => e.kind === 'keeperPoofed');
+    expect(at).toBeGreaterThanOrEqual(0);
+    expect(
+      events
+        .slice(at)
+        .some((e) => e.kind === 'reaction' && e.nubbinId === n.id && e.reaction === 'love'),
+    ).toBe(true);
+  });
 });

@@ -646,6 +646,14 @@ function poofOverWater(world: World, under: number, events: SimEvent[]): boolean
   glided.delete(world);
   events.push({ kind: 'keeperPoofed', from, to: { x: back.x, z: back.z } });
   land(world, 0, events);
+  // The nearest friend close by is glad to see the Keeper back: a heart over it.
+  let near: Nubbin | null = null;
+  for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon' || !isFree(n)) continue;
+    const d = dist(n.pos, back);
+    if (d <= KEEPER_POOF.friendRange && (!near || d < dist(near.pos, back))) near = n;
+  }
+  if (near) react(near, 'love', world.timeMs, events);
   return true;
 }
 

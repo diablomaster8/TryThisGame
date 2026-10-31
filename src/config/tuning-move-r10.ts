@@ -37,6 +37,8 @@ export const KEEPER_POOF = {
   surface: 0.05,
   cloudMs: 400,
   puffs: 10,
+  /** The nearest hatched friend within this many units shows a heart when it is back. */
+  friendRange: 12,
 } as const;
 
 /**
