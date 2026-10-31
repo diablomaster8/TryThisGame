@@ -21,6 +21,9 @@ export interface GuidePath {
   cells: number[];
 }
 
+/** Whether the guide is on (R0208): see `guideOn` in dungeon-kid.ts, the one rule. */
+export { guideOn };
+
 const cache = new WeakMap<DungeonRun, { key: string; path: GuidePath | null }>();
 
 /** The guide's path, or null when it is off, there is no floor, or nowhere is left to go. */

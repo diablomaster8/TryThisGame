@@ -24,15 +24,20 @@ export function kidRun(world: World): boolean {
   return world.location === 'dungeon' && !!world.dungeon?.kid;
 }
 
+/** Whether the guide defaults to on: kid mode, or gentle bouts (R0208). */
+function guideDefault(world: World): boolean {
+  return hollowKid(world) || world.settings.bouts === 'gentle';
+}
+
 /** "Show me the way": the Keeper's choice, else on in kid mode and off otherwise. */
 export function guideOn(world: World): boolean {
-  return world.hollow.guide ?? hollowKid(world);
+  return world.hollow.guide ?? guideDefault(world);
 }
 
 /** The guide switched; off is remembered as `false` only where the default would be on. */
 export function setGuide(world: World, on: boolean): void {
   if (on) world.hollow.guide = true;
-  else if (hollowKid(world)) world.hollow.guide = false;
+  else if (guideDefault(world)) world.hollow.guide = false;
   else delete world.hollow.guide;
 }
 

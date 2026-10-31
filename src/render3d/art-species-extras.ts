@@ -432,6 +432,20 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       for (const x of [-0.1, 0, 0.1])
         H.push(cap(V(x * 0.5, top - 0.05, h.z), V(x * 1.6, top + 0.4, h.z), 0.03, c, 0.01));
       break;
+    case 'crown': {
+      // A named unique's crown (R0156): a band, five points, a gem at the front.
+      const y = top - 0.02;
+      const rx = h.r.x * 0.62;
+      const rz = h.r.z * 0.62;
+      H.push(ell(V(0, y, h.z), V(rx, 0.09, rz), c, 0.02));
+      for (let i = 0; i < 5; i++) {
+        const t = (i / 5) * Math.PI * 2;
+        const at = V(Math.sin(t) * rx * 0.92, y + 0.04, h.z + Math.cos(t) * rz * 0.92);
+        H.push(cone(at, V(at.x, y + 0.34, at.z), 0.09, 0.015, c, 0.01));
+      }
+      H.push(sphere(V(0, y + 0.02, h.z + rz * 0.98), 0.07, c2, 0.01));
+      break;
+    }
     case 'antennae':
       for (const s of sides) {
         const tip = V(s * 0.45, top + 0.7, h.z + 0.15);

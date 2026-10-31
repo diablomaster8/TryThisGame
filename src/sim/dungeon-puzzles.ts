@@ -396,7 +396,8 @@ export function partFriend(world: World, run: DungeonRun, part: PartShortcut): s
   return null;
 }
 
-function kidMode(world: World): boolean {
+/** Kid mode: the Learning Grove, gentle bouts or a kid run (also the guide's default, R0208). */
+export function kidMode(world: World): boolean {
   return !!world.edu || world.settings.bouts === 'gentle' || !!world.dungeon?.kid;
 }
 
