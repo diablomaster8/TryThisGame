@@ -13,8 +13,10 @@ const SHEETS: Record<'he' | 'ja', () => Promise<unknown>[]> = {
   ja: () => [
     import('@fontsource/noto-sans-jp/400.css'),
     import('@fontsource/noto-sans-jp/700.css'),
-    import('@fontsource/klee-one/japanese-400.css'),
-    import('@fontsource/klee-one/japanese-600.css'),
+    // R0490: the sliced sheets, so a lesson fetches only the ~50 kB slices its kana need
+    // (vite.config.ts `woff2Only` keeps just the Japanese slices).
+    import('@fontsource/klee-one/400.css'),
+    import('@fontsource/klee-one/600.css'),
   ],
 };
 const loading: Partial<Record<'he' | 'ja', Promise<unknown>>> = {};
