@@ -1,3 +1,4 @@
+import { setMotionPref } from './platform/motion';
 import { WalkFollow } from './render/camera-follow';
 import { easeShift, NO_SHIFT, type ViewShift } from './render/view-shift';
 import { VIEW_SHIFT } from './config/tuning';
@@ -653,6 +654,7 @@ export class Game {
    * in-game setting and not only the media query (review D, bug 42).
    */
   private markReduceMotion(): void {
+    setMotionPref(this.world.settings.reducedMotion);
     const reduce = this.reduceMotion;
     if (reduce === this.reduceClass || typeof document === 'undefined') return;
     this.reduceClass = reduce;

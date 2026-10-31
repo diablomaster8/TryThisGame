@@ -1,3 +1,4 @@
+import { reducedMotion } from '../platform/motion';
 import * as THREE from 'three';
 import { TOON } from './creatures';
 import type { RigContext, SpeciesSpec } from './species';
@@ -24,9 +25,6 @@ export interface GemFinish {
   /** The light gem colour for the jewel rim. */
   rim?: string;
 }
-
-const reduce =
-  typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion: reduce)') : null;
 
 /** The fragment block, added just before the colour is written. */
 function chunk(f: GemFinish): string {
@@ -134,7 +132,7 @@ export function applyGemFinish(
   mat.customProgramCacheKey = () => `${prevKey}|${key}`;
   return (t) => {
     // Reduced motion holds one moment: the band mid-body, the stars at full size.
-    uniforms.uGemTime.value = reduce?.matches ? GEM_LOOK.stillAt : t;
+    uniforms.uGemTime.value = reducedMotion() ? GEM_LOOK.stillAt : t;
   };
 }
 

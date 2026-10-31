@@ -194,6 +194,9 @@ import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/string
 import { ShakeMeter } from './shake-meter';
 import { ShakeHint } from './shake-hint';
 import { SelectionLive } from './a11y-live';
+import { PressInfo } from './press-info';
+import { setIconGlyph } from './pixel-icons';
+import { applyHudScheme } from './hud-scheme';
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
@@ -319,7 +322,8 @@ export function mountHud(
   // (it stays in the top bar on phones, where the bottom bar's labels do not reach it).
   {
     soundBtn.textContent = '';
-    const g = el('span', 'act-glyph', '🔊');
+    const g = el('span', 'act-glyph');
+    setIconGlyph(g, '🔊');
     g.setAttribute('aria-hidden', 'true');
     const l = el('span', 'top-label', TOPBAR_TEXT.sound);
     l.setAttribute('aria-hidden', 'true');
@@ -613,6 +617,7 @@ export function mountHud(
   const shakeHint = new ShakeHint(root);
   // TECH-28: the selected Nubbin said aloud, and Tab through the Nubbins on the canvas.
   const selectionLive = new SelectionLive(root, game, (id) => sheet.open(id));
+  new PressInfo(root, game); // R0472: the long-press info card
   edu.onShowMe(() => guide.show());
   // Lane E r8, R0685: the sticker book, from the results card's sticker (and Places).
   const stickerBook = new StickerBook(root, game);
@@ -1261,7 +1266,8 @@ export function mountHud(
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
         shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
-        selectionLive.update(g.world);
+        selectionLive.update(g.world, g, busy || eduPrompt.isOpen);
+        applyHudScheme(g.world);
         kidNotices.flush();
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
@@ -2127,7 +2133,7 @@ function labelActions(list: Array<[HTMLButtonElement, string, string]>): void {
     const g = document.createElement('span');
     g.className = 'act-glyph';
     g.setAttribute('aria-hidden', 'true');
-    g.textContent = glyph;
+    setIconGlyph(g, glyph); // R0502: pixel-art icon where there is one
     const l = document.createElement('span');
     l.className = 'act-label';
     l.setAttribute('aria-hidden', 'true');
@@ -2139,7 +2145,7 @@ function labelActions(list: Array<[HTMLButtonElement, string, string]>): void {
 
 function setActionGlyph(b: HTMLButtonElement, glyph: string): void {
   const g = b.querySelector('.act-glyph');
-  if (g && g.textContent !== glyph) g.textContent = glyph;
+  if (g) setIconGlyph(g, glyph);
 }
 
 function setActionLabel(b: HTMLButtonElement, label: string): void {

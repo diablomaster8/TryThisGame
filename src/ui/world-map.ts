@@ -305,6 +305,10 @@ export class WorldMapPanel {
         'btn btn-small wm-tab wm-fog',
       );
       b.setAttribute('aria-label', WORLD_TEXT.unknownRegion);
+      // TECH-28: a tablist holds only tabs; a fogged place is a tab that cannot open yet.
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', 'false');
+      b.setAttribute('aria-disabled', 'true');
       this.tabs.appendChild(b);
     }
     // R0091: the shown region's one-time collectibles.

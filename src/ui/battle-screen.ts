@@ -1,3 +1,4 @@
+import { reducedMotion } from '../platform/motion';
 import '../battle.css';
 import { HAT_LABELS, NAMES } from '../config/strings';
 import {
@@ -104,9 +105,7 @@ export function battleScreen(parent: HTMLElement, game: () => Game | null): Batt
   return shared;
 }
 
-const reduced = (): boolean =>
-  document.documentElement.classList.contains('reduce-motion') ||
-  !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const reduced = reducedMotion;
 
 export class BattleScreen {
   readonly root: HTMLDivElement;

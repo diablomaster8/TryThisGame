@@ -6,6 +6,7 @@
  * hides in dialogue with the other thumb buttons. It also turns the region events into toasts:
  * each region is announced once, by someone who would know, and never by a modal (R0640).
  */
+import { reducedMotion } from '../platform/motion';
 import { STORY_REGION_IDS, STORY_REGIONS, type StoryRegionId } from '../config/story-regions';
 import { STORY_REGION_TEXT } from '../config/strings';
 import { STORY_REGION_TUNING } from '../config/tuning';
@@ -52,9 +53,7 @@ export function goToRegion(
   region: string | null,
   fade: HTMLElement | null,
 ): void {
-  const reduce =
-    document.documentElement.classList.contains('reduce-motion') ||
-    (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const reduce = reducedMotion();
   if (reduce || !fade) {
     send({ kind: 'storyRegion', region });
     return;

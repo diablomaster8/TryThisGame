@@ -1,3 +1,4 @@
+import { crackStage } from './egg-crack-stage';
 import { openSky } from './cave-bands';
 import { floorMarks } from './floor-features-r8';
 import { ridePose } from './ride-pose';
@@ -2149,18 +2150,20 @@ export class WorldView {
 
     if (n.stage === 'egg') {
       const shaking = world.timeMs - n.lastShakeMs < EGG.shakeCooldownMs * 2;
-      let f = 'idle';
-      if (n.behavior.state === 'held' || n.behavior.state === 'carried') f = 'held';
+      // R0503: five crack stages with hatch progress, shown at rest and while held.
+      const stage = crackStage(n);
+      const rest = stage > 0 ? `crack${stage}` : 'idle';
+      let f = rest;
+      const inHand = n.behavior.state === 'held' || n.behavior.state === 'carried';
+      if (inHand) f = stage > 0 ? rest : 'held';
       else if (shaking) f = Math.floor(nowMs / 90) % 2 === 0 ? 'wobbleL' : 'wobbleR';
-      else if (n.hatchRemainingMs < 5000) f = 'crack2';
-      else if (n.hatchRemainingMs < 20000) f = 'crack1';
       else if (n.hatchRemainingMs < EGG.hatchMs * 0.5 && Math.floor(nowMs / 700) % 6 === 0) {
         f = 'wobbleL';
       }
       // R0351: its own wobble now and then, a hop near the end, and the foot on a third shake.
       const ant = eggAntics(n, world.timeMs, nowMs, x * 997, this.particles.reduceMotion);
       if (ant.foot) f = 'foot';
-      else if (f === 'idle' && ant.wobble) f = ant.wobble < 0 ? 'wobbleL' : 'wobbleR';
+      else if (f === rest && !inHand && ant.wobble) f = ant.wobble < 0 ? 'wobbleL' : 'wobbleR';
       eggHop = ant.hop;
       key = frameKey(f, 'front', 0);
     } else if (n.stage === 'cocoon') {

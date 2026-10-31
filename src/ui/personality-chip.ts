@@ -168,6 +168,7 @@ export class PersonalityChip {
     const row = el('div', 'forming-bars');
     for (const p of ['cheerful', 'shy', 'mischievous', 'lazy'] as const) {
       const bar = el('div', 'forming-bar');
+      bar.setAttribute('role', 'img'); // TECH-28: an aria-label needs a role to be read.
       bar.setAttribute('aria-label', `${PERSONALITY_LABELS[p]} ${Math.round(shares[p] * 100)}%`);
       bar.title = PERSONALITY_LABELS[p];
       const fill = el('div', 'forming-fill');

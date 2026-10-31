@@ -5,7 +5,14 @@ import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
 import type { Camera, Object3D } from 'three';
 import { isControlTarget, isGameKey } from './keys';
-import { isDrag, isLongPress, isTap } from './press-kind';
+import {
+  INSPECT_EVENT,
+  INSPECT_KINDS,
+  isDrag,
+  isLongPress,
+  isTap,
+  type InspectDetail,
+} from './press-kind';
 import { POINTER_INPUT } from '../config/tuning-r9d3';
 
 /** What a ground tap places while a panel is in placing mode. */
@@ -407,13 +414,24 @@ export class GameInput {
     this.maxMoved = 0;
     this.longLifted = false;
     const id = this.pressed?.kind === 'nubbin' ? this.pressed.id : null;
-    if (!id || e.pointerType === 'mouse') return;
+    const info = this.pressed && INSPECT_KINDS.has(this.pressed.kind) ? this.pressed : null;
+    if ((!id && !info) || e.pointerType === 'mouse') return;
     const pointerId = e.pointerId;
     const type = e.pointerType;
+    const at = { x: e.clientX, y: e.clientY };
     this.longTimer = window.setTimeout(() => {
       const held = performance.now() - this.downAt;
       if (this.pointerId !== pointerId || this.dragging || this.down.size > 1) return;
-      if (!isLongPress(type, this.maxMoved, held) || !this.host.canGrab(id)) return;
+      if (!isLongPress(type, this.maxMoved, held)) return;
+      if (info) {
+        // R0472: a long press on an item or a villager says what it is; the release is not a tap.
+        this.longLifted = true;
+        const detail: InspectDetail = { kind: info.kind, id: info.id, ...at };
+        this.surface.dispatchEvent(new CustomEvent(INSPECT_EVENT, { bubbles: true, detail }));
+        this.host.haptic?.('pet');
+        return;
+      }
+      if (!id || !this.host.canGrab(id)) return;
       if (this.host.carrying?.() === id) return;
       this.longLifted = true;
       this.host.send({ kind: 'pickUp', nubbinId: id });

@@ -1,3 +1,4 @@
+import { reducedMotion } from '../platform/motion';
 import { JOURNAL } from '../config/tuning-journal';
 
 /**
@@ -6,13 +7,6 @@ import { JOURNAL } from '../config/tuning-journal';
  *   reduced motion is on (system or in-game), when it simply closes past the threshold.
  * - R0662: arrow keys, Home and End move between the journal's tabs (roving tabindex).
  */
-
-function reducedMotion(): boolean {
-  return (
-    document.documentElement.classList.contains('reduce-motion') ||
-    !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  );
-}
 
 /** Swipe down on the modal's heading to close it. */
 export function phoneSheet(root: HTMLElement, close: () => void): void {

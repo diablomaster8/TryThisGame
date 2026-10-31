@@ -1,3 +1,4 @@
+import { systemReducedMotion } from '../platform/motion';
 import * as THREE from 'three';
 import type { Daylight } from '../render/daylight';
 import { GROVE3D } from '../config/tuning';
@@ -68,8 +69,6 @@ export class GroveWeather {
   private readonly leaves: FallingLeaves;
   private wants = { rain: false, snow: false, flies: false, leaves: false };
   private particles: 'full' | 'light' | 'off' = 'full';
-  private readonly reduceQuery =
-    typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion: reduce)') : null;
 
   constructor(
     private readonly scene: THREE.Scene,
@@ -144,7 +143,7 @@ export class GroveWeather {
   ): void {
     const s = world.settings;
     const still =
-      s.reducedMotion === 'on' || (s.reducedMotion === 'system' && !!this.reduceQuery?.matches);
+      s.reducedMotion === 'on' || (s.reducedMotion === 'system' && systemReducedMotion());
     const dens = this.particles === 'light' ? 0.4 : 1;
     const share = dens * Math.min(1, Math.max(0, world.weather.intensity));
     // Snow falls at about two fifths of the rain's rate in the pixel view.

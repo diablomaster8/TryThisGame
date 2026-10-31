@@ -20,7 +20,26 @@ export const EGG_PALETTES: Record<string, EggPalette> = {
   ),
 };
 
-export type EggFrame = 'idle' | 'wobbleL' | 'wobbleR' | 'crack1' | 'crack2' | 'held' | 'foot';
+export type EggFrame =
+  | 'idle'
+  | 'wobbleL'
+  | 'wobbleR'
+  | 'crack1'
+  | 'crack2'
+  | 'crack3'
+  | 'crack4'
+  | 'crack5'
+  | 'held'
+  | 'foot';
+
+/** R0503: the zigzag grows one segment a stage (offsets from the egg's centre). */
+const CRACK_SEGS: readonly (readonly [number, number, number, number])[] = [
+  [-2, -7, 0, -3],
+  [0, -3, 3, -5],
+  [3, -5, 4, -1],
+  [-2, -7, -5, -4],
+  [-5, -4, -6, 0],
+];
 
 /** Egg looks by family: the pocket line's eggs cream over green, the digital line's grey with plum spots. */
 const FAMILY_EGGS: Record<string, { shell: number; shade: number; cap: number; spot: number }> = {
@@ -42,15 +61,14 @@ export function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): Pi
   else drawShell(pc, cx, cy, tilt, pal, family);
   // A gem cracks in white fracture lines, so the crack shows even on onyx.
   const crack = jewel ? C.white : C.darkPlum;
-  if (frame === 'crack1' || frame === 'crack2') {
-    pc.line(cx - 2, cy - 7, cx, cy - 3, crack);
-    pc.line(cx, cy - 3, cx + 3, cy - 5, crack);
-    if (frame === 'crack2') {
-      pc.line(cx + 3, cy - 5, cx + 4, cy - 1, crack);
-      pc.line(cx - 2, cy - 7, cx - 5, cy - 4, crack);
-      pc.px(cx + 1, cy - 2, jewel ? C.white : C.ink);
-    }
+  const stage = frame.startsWith('crack') ? Number(frame.slice(5)) : 0;
+  for (let i = 0; i < stage; i++) {
+    const [x0, y0, x1, y1] = CRACK_SEGS[i]!;
+    pc.line(cx + x0, cy + y0, cx + x1, cy + y1, crack);
   }
+  // Stage 4 opens a hole; stage 5 chips a flake off the crown.
+  if (stage >= 4) pc.px(cx + 1, cy - 2, jewel ? C.white : C.ink);
+  if (stage >= 5) pc.px(cx - 1, cy - 8, jewel ? C.white : C.ink);
   // R0351: the foot gag: a tiny child's foot, yellow at the toe, out of the bottom.
   if (frame === 'foot') {
     pc.ellipse(cx + 2, cy + 10, 2, 1.2, C.skyLight);
@@ -144,8 +162,19 @@ function drawGem(pc: PixelCanvas, cx: number, cy: number, pal: EggPalette): void
 }
 
 export function buildEggSheet(colorName: string, family = 'chao'): SpriteSheet {
-  const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, 7);
-  const frames: EggFrame[] = ['idle', 'wobbleL', 'wobbleR', 'crack1', 'crack2', 'held', 'foot'];
+  const frames: EggFrame[] = [
+    'idle',
+    'wobbleL',
+    'wobbleR',
+    'crack1',
+    'crack2',
+    'crack3',
+    'crack4',
+    'crack5',
+    'held',
+    'foot',
+  ];
+  const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, frames.length);
   for (const f of frames) atlas.add(frameKey(f, 'front', 0), drawEgg(f, colorName, family));
   return atlas.build();
 }

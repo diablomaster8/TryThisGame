@@ -1,3 +1,4 @@
+import { reducedMotion } from '../platform/motion';
 import type * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
 import { V, type Prim } from '../samples/sculpted';
@@ -63,10 +64,7 @@ export function flameScale(t: number, still = false): number {
 
 const reduced = (): boolean => {
   try {
-    return (
-      typeof window !== 'undefined' &&
-      !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    );
+    return reducedMotion();
   } catch {
     return false;
   }
