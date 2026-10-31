@@ -39,3 +39,10 @@ export const TRASH_TEXT = {
   slotInUse: 'Slot in use',
   erasedAgo: (days: number) => (days < 1 ? 'erased today' : `erased ${days} d ago`),
 } as const;
+
+/** TECH-66: the phone share sheet for save files and Nubbin codes. */
+export const SHARE_TEXT = {
+  saveTitle: 'My Grove save',
+  codeButton: 'Share…',
+  codeTitle: 'A Nubbin from my Grove',
+} as const;
