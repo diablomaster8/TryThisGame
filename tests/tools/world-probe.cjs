@@ -47,6 +47,7 @@ const ALL_SPOTS = [
   ['cornerNE', 44, -44],
   ['cornerSW', -44, 44],
   ['cornerSE', 44, 44],
+  ['village', -21, 39],
 ];
 // PROBE_SPOTS=heart,cornerSE probes only those; PROBE_BREAKDOWN=1 adds each spot's draw calls
 // and triangles by category (creature, its hulls, shadow pass, scenery groups).
@@ -143,6 +144,12 @@ async function probe(TAG) {
   ))
     await page.evaluate((id) => window.grove.send({ kind: 'debugHatchNow', nubbinId: id }), id);
   if (SURVEY) await page.evaluate(() => window.grove.camera.setZoom(-1));
+  // PROBE_SEASON=spring|summer|autumn|winter forces the season first (R0118's dressing).
+  if (process.env.PROBE_SEASON)
+    await page.evaluate(
+      (season) => window.grove.send({ kind: 'debugSeason', season }),
+      process.env.PROBE_SEASON,
+    );
   const rows = [];
   for (const [name, x, z] of SPOTS) {
     await page.evaluate(([x, z]) => window.grove.send({ kind: 'teleport', pos: { x, z } }), [x, z]);

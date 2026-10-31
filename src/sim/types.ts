@@ -1148,6 +1148,8 @@ export interface World {
   hintsSeen?: Record<string, number>;
   /** R0111 (lane D r9): region secrets found, region → sim time (absent in older saves). */
   secrets?: Record<string, number>;
+  /** R0118 (lane D r9): the debug panel's forced season; absent in play. */
+  debugSeason?: Season;
   /** R0085: the Nubbin the Keeper is riding, absent when on foot (no save bump). */
   ride?: RideState;
   coop: CoopState;
@@ -1295,6 +1297,8 @@ export type Command =
   | { kind: 'holdEndOfLife'; hold: boolean }
   // Debug
   | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence' | 'egg'; amount: number }
+  // R0118 (lane D r9): force a season for checks (null goes back to the calendar)
+  | { kind: 'debugSeason'; season: Season | null }
   | { kind: 'debugFillNeeds'; nubbinId: string }
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }

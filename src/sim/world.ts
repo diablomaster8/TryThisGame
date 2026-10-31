@@ -600,6 +600,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
       return;
     }
+    // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.
+    case 'debugSeason':
+      if (cmd.season) {
+        world.debugSeason = cmd.season;
+        world.season = cmd.season;
+      } else delete world.debugSeason;
+      return;
     case 'debugGive':
       if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
       else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
@@ -1275,7 +1282,8 @@ export function stepWorld(
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
     if (wallMs !== undefined) {
-      world.season = seasonAt(wallMs, tzOf(world));
+      // R0118 (lane D r9): the debug panel can force a season for checks.
+      world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
       stepDaily(world, wallMs, rng, events);
     }
     stepLineQueue(world, dtMs, events);

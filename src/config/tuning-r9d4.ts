@@ -119,3 +119,17 @@ export const BIOME_BEDS: { crossfadeSec: number; beds: Record<Biome, BedSpec> } 
     },
   },
 };
+
+/**
+ * R0118 (WORLD-51): the Pixel Grove's season-only drift from the existing particle layer (one
+ * draw, the same pool): blossom off the fruit trees in spring, fireflies on summer nights,
+ * falling leaves in autumn. Only near the Keeper (`reach`), per second at full density;
+ * reduced motion and "off" density make none. Winter dresses through the existing snow
+ * crowns, frost and pond ice instead.
+ */
+export const SEASON_DRIFT = {
+  reach: 14,
+  spring: { kind: 'petal', rate: 2.2, life: 3200, size: 0.5 },
+  summer: { kind: 'firefly', rate: 1.6, life: 2600, size: 0.45 },
+  autumn: { kind: 'leaf', rate: 2.6, life: 3000, size: 0.55 },
+} as const;
