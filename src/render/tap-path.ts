@@ -58,6 +58,9 @@ export class TapPath {
     }
     if (!t) return this.flagAlpha(nowMs, false) > 0 || this.puffLife(nowMs, false) !== null;
     if (nowMs - this.at <= TAP_PATH.settleMs || !this.mark) this.place(world, t);
+    // A walk that stops short already says so with the "?" puff; the ✕ is for taps that get
+    // no walk at all (the ⤒ jump hint stays either way).
+    if (this.unreached && this.flag?.kind === 'cant') this.flag = null;
     return true;
   }
 
