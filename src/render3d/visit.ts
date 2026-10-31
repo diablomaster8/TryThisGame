@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { buildTree, pbr, repeatUv, type Tex } from '../samples/aaa-kit';
 import { trainerOf } from '../sim/trainers';
 import { CrownFade, treeOf } from './crowns';
+import { occluders } from './occluders';
+import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
 import { building, decorModel, disposeModel } from './garden';
 
 /**
@@ -38,15 +40,26 @@ export class VisitSet {
   /** Show the set for a neighbour, or hide it when `trainer` is null. */
   show(trainer: string | null, tex: Tex): void {
     if (!trainer) {
+      if (this.group.visible) occluders.clear('visit');
       this.group.visible = false;
       return;
     }
-    if (trainer !== this.trainer) {
+    const fresh = trainer !== this.trainer;
+    if (fresh) {
       this.trainer = trainer;
       this.dress(trainer, tex);
     }
+    // R0018: the house's fade box stands only while the set is up.
+    if (fresh || !this.group.visible) {
+      occluders.clear('visit');
+      const b = this.houseBox;
+      if (b) occluders.add('visit', b[0], b[1], b[2], b[3], b[4], b[5], b[6]);
+    }
     this.group.visible = true;
   }
+
+  /** The neighbour's house's fade box: centre x, z, half x, z, foot, top and roof line. */
+  private houseBox: [number, number, number, number, number, number, number] | null = null;
 
   private dress(trainer: string, tex: Tex): void {
     // The last neighbour's set goes for good: its trees, fence and house were made for it.
@@ -95,6 +108,22 @@ export class VisitSet {
     });
     this.group.add(house);
     this.dressed.push(house);
+    // R0018: the neighbour's house thins out when it hides the Keeper (a 6 u kit house,
+    // 0.7 of that deep and 0.45 of it to the eaves, turned 0.25 rad).
+    occluders.patch(house);
+    const c = Math.abs(Math.cos(house.rotation.y));
+    const sn = Math.abs(Math.sin(house.rotation.y));
+    const hx = 3 + OCCLUDE_R10.housePad + 0.35;
+    const hz = 2.1 + OCCLUDE_R10.housePad + 0.35;
+    this.houseBox = [
+      house.position.x,
+      house.position.z,
+      c * hx + sn * hz,
+      sn * hx + c * hz,
+      -0.2,
+      6 * 0.45 * 1.55 + 0.5,
+      6 * 0.45,
+    ];
   }
 }
 

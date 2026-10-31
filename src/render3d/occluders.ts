@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OCCLUDE } from '../config/tuning-occlude';
+import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
 
 /**
  * R0018: houses, the windmill, the shed and the stalls thin out when one stands between
@@ -8,7 +9,8 @@ import { OCCLUDE } from '../config/tuning-occlude';
  * fragment's world position against the boxes, so the buildings' shared, merged materials
  * need no per-house copy and fading never touches a program after the first compile. The
  * roof (above the roof line) keeps 25% and the walls 45%, over 150 ms, and back over
- * 300 ms. While the Keeper is behind one, a flat silhouette of them is drawn through it.
+ * 300 ms. While the Keeper is behind one, a silhouette of them is drawn through it: a flat
+ * fill inside a darker rim about a pixel wide.
  */
 interface Box {
   key: string;
@@ -39,6 +41,22 @@ export class Occluders {
     fog: false,
     toneMapped: false,
   });
+  /**
+   * The silhouette's rim: the same kind of material as the fill (so the same program, no
+   * new compile), drawn first from a slightly swollen twin of each part.
+   */
+  private readonly edgeMat = new THREE.MeshBasicMaterial({
+    color: OCCLUDE_R10.edgeColor,
+    transparent: true,
+    opacity: 1,
+    depthFunc: THREE.GreaterDepth,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -4,
+    polygonOffsetUnits: -4,
+    fog: false,
+    toneMapped: false,
+  });
   /** Rig groups that already carry silhouette meshes. */
   private readonly ghosted = new WeakSet<THREE.Object3D>();
 
@@ -48,6 +66,7 @@ export class Occluders {
       this.b.value.push(new THREE.Vector4());
     }
     this.ghostMat.visible = false;
+    this.edgeMat.visible = false;
   }
 
   /** Add a box (centre, half-extents, heights in world units); the roof starts above `roofY`. */
@@ -69,6 +88,11 @@ export class Occluders {
       roofY,
       t: 0,
     });
+  }
+
+  /** Whether any box of this owner is registered. */
+  has(key: string): boolean {
+    return this.boxes.some((b) => b.key === key);
   }
 
   /** Drop every box of one owner (the garden redraws its buildings). */
@@ -202,6 +226,7 @@ uniform vec2 uObxKeep;`,
    */
   ghost(on: boolean, rig: THREE.Object3D | null): void {
     this.ghostMat.visible = on && rig !== null;
+    this.edgeMat.visible = this.ghostMat.visible;
     if (!on || !rig || this.ghosted.has(rig)) return;
     this.ghosted.add(rig);
     const hosts: THREE.Mesh[] = [];
@@ -216,6 +241,23 @@ uniform vec2 uObxKeep;`,
         hosts.push(m);
     });
     for (const h of hosts) {
+      // The rim: the part swollen about its own centre by `edgeU` on every side.
+      const geo = h.geometry;
+      if (!geo.boundingSphere) geo.computeBoundingSphere();
+      const sph = geo.boundingSphere!;
+      if (sph.radius > 1e-4) {
+        const e = new THREE.Mesh(geo, this.edgeMat);
+        const k = 1 + OCCLUDE_R10.edgeU / sph.radius;
+        const c = sph.center;
+        e.matrix.makeScale(k, k, k).setPosition(c.x * (1 - k), c.y * (1 - k), c.z * (1 - k));
+        e.userData.obxGhost = true;
+        e.renderOrder = 998;
+        e.castShadow = e.receiveShadow = false;
+        e.raycast = () => {};
+        e.matrixAutoUpdate = false;
+        e.frustumCulled = h.frustumCulled;
+        h.add(e);
+      }
       const g = new THREE.Mesh(h.geometry, this.ghostMat);
       g.userData.obxGhost = true;
       g.renderOrder = 999;

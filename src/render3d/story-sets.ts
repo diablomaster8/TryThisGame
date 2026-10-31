@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import { C, color } from '../render/sprites/palette';
 import { pbr, repeatUv, type Tex } from '../samples/aaa-kit';
 import type { Location } from '../sim/types';
+import { CG_C } from '../config/tuning-c';
+import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
+import { occluders } from './occluders';
 import {
   buildBackdrop,
   buildCorvinHouse,
@@ -55,6 +58,8 @@ const PENS: ReadonlyArray<readonly [number, number, number, number]> = [
 ];
 
 export class StorySets {
+  /** Whether Corvin's house's fade box is registered (R0018). */
+  private corvinBox = false;
   private readonly floor: THREE.Mesh;
   private readonly grass: THREE.MeshStandardMaterial;
   private readonly earth: THREE.MeshStandardMaterial;
@@ -76,7 +81,10 @@ export class StorySets {
     this.buildCorvin();
     // Campaign graphics C8 and H5: the camp, the backdrop, the house and the gate.
     this.hollow.add(buildHollowCamp());
-    this.corvin.add(buildBackdrop(), buildCorvinHouse().group, buildGreyGate());
+    const house = buildCorvinHouse().group;
+    this.corvin.add(buildBackdrop(), house, buildGreyGate());
+    // R0018: Corvin's house thins out when it hides the Keeper, as the Grove's houses do.
+    occluders.patch(house);
     this.hollow.visible = this.corvin.visible = false;
   }
 
@@ -85,6 +93,26 @@ export class StorySets {
     const hollow = place === 'hollow';
     const corvin = place === 'corvin';
     this.hollow.visible = hollow;
+    // R0018: Corvin's house's fade box stands only while his garden is up.
+    if (corvin !== this.corvinBox) {
+      this.corvinBox = corvin;
+      occluders.clear('story');
+    }
+    if (corvin && !occluders.has('story')) {
+      const h = CG_C.corvin.house;
+      const pad = OCCLUDE_R10.housePad;
+      // The roof overhangs the walls by 0.45 a side and 0.35 front and back (story-places).
+      occluders.add(
+        'story',
+        h.x,
+        h.z,
+        h.w / 2 + 0.45 + pad,
+        h.d / 2 + 0.35 + pad,
+        -0.2,
+        h.h * 1.55 + 0.5,
+        h.h,
+      );
+    }
     this.corvin.visible = corvin;
     this.floor.visible = hollow || corvin;
     this.floor.material = corvin ? this.earth : this.grass;
