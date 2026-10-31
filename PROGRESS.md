@@ -38,6 +38,45 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 10 · Lane C CAMP + FIGHT (2026-10-30, branch r10/c)
+
+Commits 11b648cf (sim) and ed982a86 (UI and renderers). Save stays **v13**: every new field is optional. 25 items: 16 done, 9 partial.
+
+### What works
+- one save with Hazel plus lines; walking through the gate into the Fold dresses the Grove with the Fold set and the Hundred Days' goal; Back shows Hazel's Grove with every landmark, in Pixel and 3D.
+- regions open by Hazel's chapter (3/5/6/6/8), announced once; lines can't begin before their region opens.
+- a line's scenes wait for its region and the spine, side stories and other lines go on meanwhile; the objective chip says "Waiting for you in the Fold".
+- Logged In's server tint and Dawn & Dusk's Sun/Moon recolours apply only inside their regions and are restored on leaving.
+- rolling backups of every slot in IndexedDB. The first save of a slot is always kept, then one every 10 minutes of play and one at each chapter, 3 per slot. Settings → Saves lists each backup's age and stored size, with Restore, which swaps the world in place and keeps this device's Mature content choice.
+- chapter checkpoints (the first snapshot per chapter key) for Hazel's Grove, the lines beside it and the separate campaigns. Keys are recorded only after a successful write. Erasing a slot deletes its checkpoints and backups; a reset deletes only its checkpoints.
+- the `grove.index.v1` slot index. The title does one read, and a missing or broken index rebuilds itself.
+- slot names and tags on the title. The tag is shown as an icon plus a word plus a colour, never colour alone.
+- endings reached from now on carry a date on the endings shelf.
+- Story pace setting (Full/Brisk/Story only). Brisk shortens the story's pauses to a quarter. Story only adds Skip goal to the journal, makes the smallest world change (Sable's trust really reaches 45), records `campaign.skipped`, never skips choices, and shows a summary card.
+- "Do it" is gone. Steps show Play it · <game>, Go there (with Skip), Imagine it or Skip. Each skip shows the "What happened" card, and story scenes wait while it is open.
+- the journal's Go there for the chapter goal and for placed quest steps. The world beacon follows whatever goal the objective chip is showing. Running questlines now cycle on the chip with chapters and minutes left.
+- "The story so far" card after the away screen when the player has been gone 3 days or more, plus a per-line fold in Other roads.
+- battle HP base is 24; the 2,000-bout Champion run and the CI balance harness both pass (median 14 / 12–13).
+- reachability bot now also plays every questline to an ending in the one shared world.
+- a line's Nubbin that stayed in its place shows (both renderers, roster) only in that region.
+- a notice board with cards stands inside the Grove gate from chapter 3; each finished line leaves a Grove-change prop; the content checker prints the story Shells total against a cap.
+
+### What's stubbed (and assumptions)
+- the server and Sun/Moon entrances reuse the board and the green's shrine marks; no new workbench or switch prop is drawn. The Hundred Days has no `present()` (its onArea still moves location and weather as before).
+- the 40% spine-time bot measure (R0640); the map's per-area quest sheet (R0650).
+- "after chapter 8" read as chapter 8 itself (chapters 9 to 11 are quiet, so 9 would push the Beetle Road to 12). Sun and Moon open at 6 (the rec names no chapter).
+- no chapter-select or "Watch again" UI reads the checkpoints yet, and nothing restores a checkpoint. Chapters begun during offline catch-up get no checkpoint. Profiles (CAMP-29) don't exist, so the index is flat.
+- writer recap and step summary text (recaps are assembled from data, and steps fall back to "Done: <goal>"). Skip goal for questline goals. No summary card on Atlas steps. No recap when Aging while closed is off.
+- Grove-change props reuse existing shapes (signpost, lamp, shrine, lens); no bespoke sundial/terminal art; tapping the board prop doesn't open the board yet (the Journal does).
+- `CAMP10D.storyShellsMax = 1200` is not measured.
+
+### Known bugs
+- Beetle Road's `onChapter` may start a Hollow run when its goal is met outside the Hollow (pre-existing, not changed). Lines whose goals are met outside their region queue their next scene only on the Keeper's return, by design.
+- an older ending (reached before this round) shows no date. Closing the name dialog with its X or the backdrop leaves a hidden modal node until the title redraws.
+- after a debug chapter jump Sable can be missing, and then chapter 7's skip cannot meet the goal. Real play spawns her in chapter 3. Brisk reaches 31% of Full for chapter 2→3, not 25%, because the closing's hour wait is not scaled.
+- props within 18 units of the Keeper only, so they pop in when you walk up; a 3D model rebuild happens on pop-in.
+- Under full-suite load the timing tests (lifecycle, nav, world, species, gen1a art) time out; each passes alone.
+
 ## Round 9 · Lane C CAMP + FIGHT (2026-10-30, branch r9/c)
 
 - *Plan:* the CAMP/FIGHT partials, then the top new CAMP items, in four disjoint groups. 24 STATUS lines (10 done, 14 partial). Save stays **v13**; every new field is optional (`Nubbin.home`, offer `expiresMs`, `Combatant.mod`, `EncounterSpec.brave`).
