@@ -256,6 +256,8 @@ uniform vec2 uObxKeep;`,
         e.raycast = () => {};
         e.matrixAutoUpdate = false;
         e.frustumCulled = h.frustumCulled;
+        // A part the creature's stand-in replaces sits on a hidden layer; its twins follow.
+        e.layers.mask = h.layers.mask;
         h.add(e);
       }
       const g = new THREE.Mesh(h.geometry, this.ghostMat);
@@ -265,6 +267,7 @@ uniform vec2 uObxKeep;`,
       g.raycast = () => {};
       g.matrixAutoUpdate = false;
       g.frustumCulled = h.frustumCulled;
+      g.layers.mask = h.layers.mask;
       h.add(g);
     }
   }
