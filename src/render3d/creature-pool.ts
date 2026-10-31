@@ -151,6 +151,17 @@ export class CreaturePool {
   /** Rigs whose shaders are compiling; they join the spares when done. */
   private compiling = 0;
   /**
+   * R0456 (lane D r10): rigs compiling per look, and how many creatures asked for each look
+   * this frame. While the loading veil is up a look whose rig was still compiling was built
+   * again every frame: the Keeper's look came out with ten spare rigs (about 1 MB of CPU
+   * geometry each, plus GPU buffers and materials). Now a look builds only while its rigs in
+   * flight are fewer than the creatures waiting for it.
+   */
+  private readonly compilingKey = new Map<string, number>();
+  private readonly demand = new Map<string, number>();
+  /** R0456: looks whose surfaces stay cached at most (the scene sets it by device tier). */
+  lookCap: number = GROVE3D.poolLooks;
+  /**
    * Compiles a fresh rig's shaders before it is first drawn (the scene sets this to the
    * renderer's `compileAsync`). Without it, the first frame that shows a new look stalls
    * for half a second or more while the GPU driver links its programs.
@@ -181,6 +192,7 @@ export class CreaturePool {
   /** Call once a frame, before any `acquire`. */
   frame(): void {
     this.builtThisFrame = 0;
+    this.demand.clear();
   }
 
   /**
@@ -200,6 +212,10 @@ export class CreaturePool {
       return null;
     }
     if (!this.burst && (this.builtThisFrame > 0 || this.compiling > 0)) return null;
+    // R0456: enough rigs of this look are already compiling for the creatures asking.
+    const asking = (this.demand.get(look.key) ?? 0) + 1;
+    this.demand.set(look.key, asking);
+    if ((this.compilingKey.get(look.key) ?? 0) >= asking) return null;
     this.builtThisFrame++;
     const t0 = performance.now();
     // The Grove's creatures wear the toon look (`GROVE3D.toon`); the flag is read while the
@@ -279,8 +295,12 @@ export class CreaturePool {
     }
     // Park the rig until its programs are linked; the next acquire takes it as a spare.
     this.compiling++;
+    this.compilingKey.set(look.key, (this.compilingKey.get(look.key) ?? 0) + 1);
     const settle = () => {
       this.compiling--;
+      const n = (this.compilingKey.get(look.key) ?? 1) - 1;
+      if (n > 0) this.compilingKey.set(look.key, n);
+      else this.compilingKey.delete(look.key);
       this.release(look.key, rig);
     };
     this.compile(rig.group).then(settle, settle);
@@ -307,7 +327,7 @@ export class CreaturePool {
     const looks = [...this.ready.keys()]
       .filter((k) => !this.free.has(k))
       .map((k) => [k, 1] as const);
-    const over = this.ready.size - GROVE3D.poolLooks;
+    const over = this.ready.size - this.lookCap;
     if (over <= 0) return;
     for (const key of evictionOrder(looks, this.used, looks.length - over)) {
       for (const g of this.ready.get(key) ?? []) g.dispose();
@@ -354,6 +374,9 @@ export class CreaturePool {
     this.burst = false;
     this.farm.holdWrites = false;
     this.farm.saveSoon();
+    // R0456: the spares and looks the veil let pile up go down to the caps now, not at the
+    // next release.
+    this.evict();
   }
 
   /**
