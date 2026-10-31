@@ -222,12 +222,15 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
   });
 
   // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
-  // yet, as more instances of the same two meshes (no new draws; none of them rustle).
+  // yet. The ~160 hedge bushes are their own low-poly mesh (20 triangles each, no shadow,
+  // the bushes' material so no new program): one draw and ~3k triangles from every spot,
+  // where 80-triangle shadow-casting bush instances cost ~25k (farOrchard 436k → 461k).
+  const hedge: typeof bushes = [];
   borderBlockers().forEach((b, i) => {
     const y = groveHeight(b.x, b.z);
     if (b.kind === 'hedge') {
       const r = BORDER.bushSize * T.bushRadius * (0.9 + hash(i, 7) * 0.25);
-      bushes.push({
+      hedge.push({
         m: matrix(b.x, y + r * T.bushSquash * 0.55, b.z, hash(i, 5) * 6.28, r, r * T.bushSquash, r),
         c: tint(T.bushColours[i % T.bushColours.length]!, i + 500),
       });
@@ -262,8 +265,11 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
   const rockMat = pbr(tex.rock, { scale: 0.6 });
   bushMesh = instanced(blob, bushMat, bushes, 'wild-bushes');
   bushShakes.clear();
+  const hedgeMesh = instanced(new THREE.IcosahedronGeometry(1, 0), bushMat, hedge, 'border-hedge');
+  if (hedgeMesh) hedgeMesh.castShadow = false;
   for (const m of [
     bushMesh,
+    hedgeMesh,
     instanced(cyl, logMat, logs, 'wild-logs'),
     instanced(rockGeo, rockMat, rocks, 'wild-rocks'),
   ])
