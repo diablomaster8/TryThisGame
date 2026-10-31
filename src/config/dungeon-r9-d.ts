@@ -29,6 +29,13 @@ export const HOLLOW_R9D = {
     /** Feet at least this high (world units) can step onto a shelf: a jump does it. */
     climbHeight: 0.45,
   },
+  /** R0193: the Hollow's phone layout. */
+  phone: {
+    /** Widest screen (CSS px) that gets the one-thumb bar underground. */
+    maxWidth: 500,
+    /** How near (cells) a pack must be for ⚔ Engage. */
+    engageCells: 8,
+  },
   fly: {
     /** A party Nubbin at this Fly level or more lifts the Keeper onto one shelf a floor. */
     minLevel: 10,

@@ -1,20 +1,15 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { HOLLOW_R9D } from '../../src/config/dungeon-r9-d';
 import { HOLLOW } from '../../src/config/tuning';
-import {
-  cellCentre,
-  floorOf,
-  floorOfRun,
-  runFloor,
-  WALL,
-  type Floor,
-} from '../../src/sim/dungeon';
+import { cellCentre, floorOf, floorOfRun, runFloor, WALL, type Floor } from '../../src/sim/dungeon';
 import { actFloor } from '../../src/sim/dungeon-acts';
 import { encounterSpec, setEncounterHandler } from '../../src/sim/dungeon-encounters';
 import { keyCells, reachMask } from '../../src/sim/dungeon-gaps';
 import { guidePath } from '../../src/sim/dungeon-guide';
 import { guideOn, hollowKid } from '../../src/sim/dungeon-kid';
-import { pieceProblems, PIECES, STORY_PIECES } from '../../src/sim/dungeon-pieces';
+import { pieceProblems, PIECES, setDevPiece, STORY_PIECES } from '../../src/sim/dungeon-pieces';
+import { blankPiece, editedPiece, paintCell, pieceJson } from '../../src/sim/dungeon-pieces/editor';
+import { generateV3 } from '../../src/sim/dungeon-gen-v3';
 import { holdAtShelves, shelfAt } from '../../src/sim/dungeon-shelves';
 import { liveTraps } from '../../src/sim/dungeon-traps';
 import { createEdu } from '../../src/sim/edu';
@@ -118,7 +113,10 @@ describe('raised shelves (R0191)', () => {
   it('never put the stairs, the chest or the landmark behind a jump', () => {
     let shelves = 0;
     for (let seed = 1; seed <= 40; seed++) {
-      for (const f of [floorOf(seed, 2 + (seed % 7)), actFloor(seed, seed % 2, 2 + (seed % 2), 4)]) {
+      for (const f of [
+        floorOf(seed, 2 + (seed % 7)),
+        actFloor(seed, seed % 2, 2 + (seed % 2), 4),
+      ]) {
         if (!f.shelves?.length) continue;
         shelves += f.shelves.length;
         const walled: Floor = { ...f, cells: f.cells.slice() };
@@ -204,7 +202,10 @@ describe('the Beetle Road on authored floors (R0197)', () => {
       expect(run.genVersion).toBe(HOLLOW.genVersion);
       const f = runFloor(world)!;
       const want = Object.values(BEETLE_PIECES[depth]!)[0]!;
-      expect(f.layout!.pieces.map((p) => p.id), `chapter ${chapter}`).toContain(want);
+      expect(
+        f.layout!.pieces.map((p) => p.id),
+        `chapter ${chapter}`,
+      ).toContain(want);
       expect(f.packs).toEqual([]);
       // The authored exit holds the stairs down.
       if (BEETLE_PIECES[depth]!.exit) {
@@ -242,5 +243,34 @@ describe('the Cloister Gardens (R0144)', () => {
       expect(f.layout!.tileset).toBe('cloister');
       expect(f.layout!.pieces.every((p) => p.id.startsWith('cl-'))).toBe(true);
     }
+  });
+});
+
+describe('the piece editor (R0210)', () => {
+  afterEach(() => setDevPiece(null));
+
+  it('paints cells, re-reads sockets, exports JSON, and its piece reaches a floor', () => {
+    const blank = blankPiece(8, 8);
+    expect(pieceProblems(blank, HOLLOW.v3.slot - 2)).toEqual([]);
+    expect(blank.sockets.map((s) => s.dir).sort()).toEqual(['e', 'n', 's', 'w']);
+    // Painting a wall over a door closes that socket; painting it back reopens it.
+    let rows = paintCell(paintCell(blank.rows, 3, 0, '#'), 4, 0, '#');
+    expect(editedPiece(blank, rows).sockets.some((s) => s.dir === 'n')).toBe(false);
+    rows = paintCell(paintCell(rows, 3, 0, 'D'), 4, 0, 'D');
+    rows = paintCell(rows, 4, 4, 'X');
+    const p = editedPiece(blank, rows, 'dev-test-hub');
+    expect(pieceProblems(p, HOLLOW.v3.slot - 2)).toEqual([]);
+    const json = JSON.parse(pieceJson(p)) as { id: string; rows: string[]; sockets: unknown[] };
+    expect(json.id).toBe('dev-test-hub');
+    expect(json.rows).toEqual(p.rows);
+    expect(json.sockets).toHaveLength(4);
+    // Tried on new floors of its tileset, it is placed.
+    setDevPiece({ ...p, weight: 400 });
+    let seen = 0;
+    for (let seed = 900; seed < 905; seed++) {
+      const f = generateV3(seed, 1, { level: 'small', tileset: 'rootways', boss: false });
+      seen += f.layout!.pieces.filter((x) => x.id === 'dev-test-hub').length;
+    }
+    expect(seen).toBeGreaterThan(0);
   });
 });

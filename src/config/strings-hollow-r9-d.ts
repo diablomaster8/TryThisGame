@@ -9,8 +9,7 @@ export const HOLLOW_R9D_TEXT = {
   kidHelp: 'Small floors, no traps, gentle little packs, and the footprints on.',
   kidEdu: '🧸 Kid mode: always on in the Learning Grove',
 
-  // R0191: raised shelves and the Fly lift.
-  shelfFind: '⬆ A raised shelf: jump up for the find on top.',
+  // R0191: the Fly lift onto a raised shelf.
   flyLift: (who: string) => `🪽 ${who} flaps hard and lifts you up onto the shelf!`,
 
   // R0193: the Hollow's phone bar.

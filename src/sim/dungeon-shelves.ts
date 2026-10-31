@@ -146,7 +146,8 @@ export function holdAtShelves(world: World, fromX: number, fromZ: number, events
       return;
     }
   }
-  const off = (x: number, z: number) => shelfAt(f, cellOf(f, { x, z })) < 0 || shelfAt(f, cellOf(f, { x, z })) === from;
+  const off = (x: number, z: number) =>
+    shelfAt(f, cellOf(f, { x, z })) < 0 || shelfAt(f, cellOf(f, { x, z })) === from;
   if (off(k.pos.x, fromZ)) k.pos.z = fromZ;
   else if (off(fromX, k.pos.z)) k.pos.x = fromX;
   else {

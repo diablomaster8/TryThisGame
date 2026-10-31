@@ -679,7 +679,9 @@ export function floorOf(
   const key = `${seed}:${depth}:${version}${kid ? ':kid' : ''}`;
   let f = cache.get(key);
   if (!f) {
-    const opts = kid ? { ...v3OptionsFor(depth), level: HOLLOW_R9D.kid.level } : v3OptionsFor(depth);
+    const opts = kid
+      ? { ...v3OptionsFor(depth), level: HOLLOW_R9D.kid.level }
+      : v3OptionsFor(depth);
     f =
       version <= 1
         ? generateV1(seed, depth)
@@ -688,7 +690,12 @@ export function floorOf(
           : version === 3
             ? generateV3(seed, depth, opts)
             : raiseShelves(
-                fillRooms(platformFloor(generateV3(seed, depth, opts), seed, depth), seed, depth, null),
+                fillRooms(
+                  platformFloor(generateV3(seed, depth, opts), seed, depth),
+                  seed,
+                  depth,
+                  null,
+                ),
                 seed,
                 depth,
               );

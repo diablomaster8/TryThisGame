@@ -53,6 +53,8 @@ export class GearPanel {
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, GEAR_TEXT.title, '✕');
+    // R0193: a full-width bottom sheet on a phone (dungeon.css).
+    this.dialog.root.classList.add('hollow-sheet');
     this.dialog.root.classList.add('hollow-gear');
     this.list = el('div', 'hollow-gear-list');
     this.dialog.body.append(el('p', 'hollow-gear-help', GEAR_TEXT.help), this.list);

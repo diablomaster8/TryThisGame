@@ -232,3 +232,176 @@
   margin: 6px 0;
   font-size: 1rem;
 }
+
+/*
+ * R0193 (lane B r9): the Hollow on a phone (`html.hollow-phone`, set by ui/hollow-phone.ts
+ * underground on a narrow screen). A one-thumb bar of five replaces the grove tabs; More
+ * brings the tabs and the floor bar's own buttons back; the buttons that come and go ride
+ * just above the bar; the minimap is a round 96 px corner map under the top bar.
+ */
+.hollow-phone-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+.hollow-phone-bar[hidden] {
+  display: none;
+}
+.hollow-phone-row {
+  display: flex;
+  gap: 4px;
+  padding: 4px calc(var(--safe-right) + 4px) calc(var(--safe-bottom) + 4px)
+    calc(var(--safe-left) + 4px);
+  background: var(--px-bg);
+  border-top: 2px solid #7fe8ff;
+  pointer-events: auto;
+}
+.hollow-phone-btn {
+  flex: 1 1 0;
+  min-width: 44px;
+  min-height: 54px;
+  padding: 2px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.hollow-phone-btn.is-ready {
+  border-color: #ffd27a;
+  color: #ffd27a;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.reduce-motion) .hollow-phone-btn.is-ready {
+    animation: hollow-engage-pulse 1.2s ease-in-out infinite;
+  }
+}
+@keyframes hollow-engage-pulse {
+  50% {
+    box-shadow: 0 0 0 3px rgba(255, 210, 122, 0.45);
+  }
+}
+.hollow-phone-ctx {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 calc(var(--safe-right) + 8px) 0 calc(var(--safe-left) + 8px);
+  pointer-events: auto;
+}
+.hollow-phone-ctx .btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+html.hollow-phone {
+  --hud-bottom: calc(var(--safe-bottom) + 66px);
+}
+html.hollow-phone.hollow-ctx-on {
+  --hud-bottom: calc(var(--safe-bottom) + 118px);
+}
+html.hollow-phone.hollow-more {
+  --hud-bottom: calc(var(--safe-bottom) + 128px);
+}
+html.hollow-phone.hollow-more.hollow-ctx-on {
+  --hud-bottom: calc(var(--safe-bottom) + 180px);
+}
+html.hollow-phone.hollow-more .hollow-phone-ctx {
+  margin-bottom: 62px;
+}
+html.hollow-phone:not(.hollow-more) .actionbar {
+  display: none;
+}
+html.hollow-phone.hollow-more .actionbar {
+  bottom: calc(var(--safe-bottom) + 66px);
+  z-index: 4;
+}
+html.hollow-phone:not(.hollow-more) .hollow-bar > .btn {
+  display: none;
+}
+html.hollow-phone .hollow-bar {
+  max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 136px);
+}
+html.hollow-phone .hollow-map {
+  position: fixed;
+  top: calc(var(--topbar-bottom, calc(var(--safe-top) + 52px)) + 8px);
+  right: calc(var(--safe-right) + 10px);
+  width: 100px;
+  height: 100px;
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #0d0918;
+  z-index: 3;
+}
+html.hollow-phone .hollow-map:has(.hollow-map-canvas[hidden]),
+html.hollow-phone .hollow-map-legend {
+  display: none;
+}
+html.hollow-phone .hollow-map-canvas {
+  width: 96px !important;
+  height: 96px !important;
+  max-width: none;
+  object-fit: contain;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* R0193: the stash, wheelbarrow, gamble stall and gear panels as full-width bottom sheets. */
+@media (max-width: 500px) {
+  .modal.hollow-sheet {
+    align-items: flex-end;
+  }
+  .modal.hollow-sheet .modal-card {
+    width: 100%;
+    max-height: 78%;
+    border-radius: 14px 14px 0 0;
+    padding-bottom: calc(var(--safe-bottom) + 16px);
+  }
+}
+
+/* R0210 (lane B r9): the debug panel's piece editor (dev builds only). */
+.debug-pieces {
+  flex-wrap: wrap;
+}
+.debug-pieces-brush {
+  display: flex;
+  gap: 2px;
+}
+.debug-pieces-grid {
+  display: grid;
+  gap: 1px;
+  flex: 1 0 100%;
+}
+.debug-pieces-cell {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  font: 12px/1 monospace;
+  border: 0;
+  background: #3a3352;
+  color: #e8e0ff;
+}
+.debug-pieces-cell[data-ch='#'] {
+  background: #15111f;
+}
+.debug-pieces-cell[data-ch='~'] {
+  background: #2a5a8a;
+}
+.debug-pieces-cell[data-ch='D'] {
+  background: #7a5a2a;
+}
+.debug-pieces-cell[data-ch='^'] {
+  background: #55607a;
+}
+.debug-pieces-json {
+  flex: 1 0 100%;
+  font: 11px/1.2 monospace;
+}
+/* End trip rides with the contextual buttons on a phone, shown under More. */
+html.hollow-phone:not(.hollow-more) .hollow-phone-ctx .hollow-end {
+  display: none;
+}
