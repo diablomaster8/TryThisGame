@@ -14,14 +14,15 @@ import {
   BOOK3_ENDINGS,
   BOOK3_SPEAKERS,
 } from './campaign-book3';
+import { MICRO_SCENES, MICRO_FLAGS, MICRO_NOTES } from './campaign-micro'; /* Lane E r10, R0367 */
 
 export const CAMPAIGN_CHAPTERS: Chapter[] = [...BOOK1_CHAPTERS, ...BOOK2_CHAPTERS, ...BOOK3_CHAPTERS];
-export const CAMPAIGN_SCENES: Scene[] = [...BOOK1_SCENES, ...BOOK2_SCENES, ...BOOK3_SCENES];
+export const CAMPAIGN_SCENES: Scene[] = [...BOOK1_SCENES, ...BOOK2_SCENES, ...BOOK3_SCENES, ...MICRO_SCENES];
 export const CAMPAIGN_ENDINGS = BOOK3_ENDINGS;
 /** Extra speakers the campaign adds to SPEAKERS (Wisp). */
 export const CAMPAIGN_SPEAKERS = BOOK3_SPEAKERS;
-export const CAMPAIGN_FLAGS: string[] = [...new Set([...BOOK1_FLAGS, ...BOOK2_FLAGS, ...BOOK3_FLAGS])];
-export const CAMPAIGN_NOTES: Record<string, string> = { ...BOOK1_NOTES, ...BOOK2_NOTES, ...BOOK3_NOTES };
+export const CAMPAIGN_FLAGS: string[] = [...new Set([...BOOK1_FLAGS, ...BOOK2_FLAGS, ...BOOK3_FLAGS, ...MICRO_FLAGS])];
+export const CAMPAIGN_NOTES: Record<string, string> = { ...BOOK1_NOTES, ...BOOK2_NOTES, ...BOOK3_NOTES, ...MICRO_NOTES };
 /** The three books, for the journal and the script book. */
 export const BOOKS = [
   { n: 1, title: 'The Letter', chapters: [1, 2, 3, 4] },

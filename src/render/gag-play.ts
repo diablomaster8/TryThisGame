@@ -9,6 +9,7 @@
  */
 import { GAG_TIMING } from '../config/tuning';
 import { decidePersonality } from '../sim/personality';
+import { rollWalk, streamFloating } from '../sim/travel-gags';
 import type { Nubbin } from '../sim/types';
 import { gagLook, type GagId, type GagLook, type GagPersonality } from './gag-looks';
 
@@ -66,4 +67,16 @@ export function gagAt(
   const id = pool[hash(`${n.id}:${Math.floor(shifted / period)}`) % pool.length]!;
   const look = gagLook(id, child);
   return { id, look, frame: Math.floor(t / look.ms) % look.frames, p: t / GAG_TIMING.playMs };
+}
+
+/**
+ * R0293 (lane E r10): the travelling gags the sim plays (sim/travel-gags.ts), drawn on a
+ * walk: a lazy Nubbin's rolled walk tumbles, and one lying in the stream floats. Null on
+ * an ordinary walk. A child's is wobbly, like its in-place gags.
+ */
+export function travelGagAt(n: Nubbin, nowMs: number): GagFrame | null {
+  const id: GagId | null = streamFloating(n) ? 'streamFloat' : rollWalk(n) ? 'roll' : null;
+  if (!id) return null;
+  const look = gagLook(id, n.stage === 'child');
+  return { id, look, frame: Math.floor(nowMs / look.ms) % look.frames, p: 0 };
 }

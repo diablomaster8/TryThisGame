@@ -847,12 +847,20 @@ function drawKeeper(
   return out;
 }
 
-export function buildKeeperSheet(col: KeeperColors, look?: NpcLook, kid = false): SpriteSheet {
+export function buildKeeperSheet(
+  col: KeeperColors,
+  look?: NpcLook,
+  kid = false,
+  lace = false,
+): SpriteSheet {
   const atlas = new AtlasBuilder(KEEPER_SIZE, KEEPER_SIZE, 10);
   for (const clip of ['idle', 'walk'] as const) {
     for (const angle of DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {
-        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look, undefined, kid));
+        const pc = drawKeeper(angle, clip, f, col, look, undefined, kid);
+        atlas.add(frameKey(clip, angle, f), pc);
+        // R0366 (lane E r10): Byte's undone lace, a second set of his idle and walk frames.
+        if (lace) atlas.add(frameKey(`${clip}-lace`, angle, f), laceFrame(pc, f));
       }
     }
   }
@@ -874,6 +882,26 @@ export function buildKeeperSheet(col: KeeperColors, look?: NpcLook, kid = false)
       for (let f = 0; f < frames; f++)
         atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look, undefined, kid));
   return atlas.build();
+}
+
+/**
+ * R0366 (lane E r10): a copy of a Keeper frame with one shoelace undone: a short white
+ * strand trailing from the toe of the left-most shoe on the bottom row, its tip flicking
+ * with the frame. Drawn once into the atlas, never per frame.
+ */
+export function laceFrame(src: PixelCanvas, frame: number): PixelCanvas {
+  const pc = new PixelCanvas(src.logicalWidth, src.logicalHeight);
+  pc.blit(src, 0, 0);
+  for (let y = src.logicalHeight - 1; y >= 0; y--) {
+    let x0 = -1;
+    for (let x = 0; x < src.logicalWidth && x0 < 0; x++) if (src.get(x, y) >= 0) x0 = x;
+    if (x0 < 0) continue;
+    const tip = frame % 2 === 0 ? 0 : 1;
+    pc.thinLine(x0 + 0.5, y + 0.5, x0 - 2.5, y + 0.5 - tip, C.white);
+    pc.dot(x0 - 3, y + 0.5 - tip, C.white);
+    return pc;
+  }
+  return pc;
 }
 
 /**

@@ -14,6 +14,14 @@ import type { CreaturePool, Look } from './creature-pool';
 import { gaitTime } from './gait';
 import { placeStand } from './item-kit';
 import { poseRig } from './stage-pose3d';
+import { byteLaceUntied } from '../sim/byte-lace'; /* Lane E r10, R0366 */
+import {
+  STRAY_GAIT,
+  strayGait,
+  tipLift,
+  wobble,
+  type StrayGait,
+} from '../render/stray-gait'; /* Lane E r10, R0326 */
 
 /**
  * Everyone in the 3D scene who is not the Keeper or one of the Keeper's Nubbins: visiting
@@ -37,6 +45,10 @@ export interface Figure {
   hop?: boolean;
   /** A "?" over the head, as the pixel view draws it: an unfed wild visitor, a floor's wild one. */
   ask?: boolean;
+  /** R0366 (lane E r10): Byte's undone shoelace, a white strand on the grass by his foot. */
+  lace?: boolean;
+  /** R0326 (lane E r10): a stray's tiptoe up to the Keeper, or its loaded wobble away. */
+  gait?: StrayGait;
 }
 
 /**
@@ -218,6 +230,7 @@ export function crowdFor(
       z: at.z,
       facing: held ? (opts.faces?.get(npc.id) ?? Math.atan2(k.x - at.x, k.z - at.z)) : npc.facing,
       pose: (npc.target && !held) || opts.walking?.has(npc.id) ? 'walk' : 'idle',
+      ...(t === 'byte' && !held && byteLaceUntied(world) ? { lace: true } : {}),
     });
   }
   out.push(...STAGE_FIGURES.list);
@@ -250,6 +263,7 @@ export function crowdFor(
           facing: s.target ? Math.atan2(s.target.x - s.pos.x, s.target.z - s.pos.z) : 0,
           pose: s.target ? 'walk' : 'idle',
           sad: !s.target,
+          ...(s.target ? { gait: strayGait(s, world.keeper.pos, world.inventory.shells) } : {}),
         });
     // Monster packs (lane B, R0146): up to three of a pack's members in a huddle; a hop is
     // the beat of surprise when one notices the Keeper. Beaten packs have gone home.
@@ -316,6 +330,13 @@ interface Member {
   /** A stray's soft ring of light on the Hollow floor, so it reads in the dark (bug 12). */
   ring: THREE.Mesh | null;
 }
+
+/** R0366 (lane E r10): one lace strand shape, shared; only Byte ever wears it. */
+const LACE = {
+  geo: new THREE.PlaneGeometry(0.26, 0.03),
+  mat: new THREE.MeshBasicMaterial({ color: 0xffffff }),
+};
+const laces = new WeakMap<Member, THREE.Mesh>();
 
 /** One ring for every stray, shared for the page's life. */
 const STRAY_RING = {
@@ -398,10 +419,24 @@ export class Crowd {
           m.pose = pose;
           m.rig.setPose(pose);
         }
-        m.rig.group.position.set(m.pos.x, gy + hop, m.pos.z);
-        m.rig.ground = hop > 0 ? () => gy + hop : ground;
-        m.rig.face(f.facing);
-        m.rig.animate(gaitTime(m.rig, m.pos.x, m.pos.z, t + m.pos.x * 0.37, dt, f.pose === 'walk'));
+        // R0326 (lane E r10): a stray's tiptoe lifts it; a loaded one sways as it goes.
+        const ms = t * 1000;
+        const tip = f.gait === 'tiptoe' ? tipLift(ms, this.still) : 0;
+        const sway = f.gait === 'wobble' ? wobble(ms, this.still) * STRAY_GAIT.wobbleTurn : 0;
+        m.rig.group.position.set(m.pos.x, gy + hop + tip, m.pos.z);
+        m.rig.ground = hop + tip > 0 ? () => gy + hop + tip : ground;
+        m.rig.face(f.facing + sway);
+        m.rig.animate(
+          gaitTime(
+            m.rig,
+            m.pos.x,
+            m.pos.z,
+            t + m.pos.x * 0.37,
+            dt,
+            f.pose === 'walk',
+            f.gait === 'tiptoe' ? STRAY_GAIT.tipPace : 1,
+          ),
+        );
       } else if (m.stand) {
         placeStand(m.stand, m.pos.x, gy, m.pos.z, t);
       }
@@ -415,6 +450,28 @@ export class Crowd {
         m.ask = null;
       }
       m.ask?.position.set(m.pos.x, gy + m.look.height + 0.35 + Math.sin(t * 2.5) * 0.04, m.pos.z);
+      // R0366 (lane E r10): Byte's lace trails beside his right foot, flicking as he walks.
+      let lace = laces.get(m);
+      if (f.lace && !lace) {
+        lace = new THREE.Mesh(LACE.geo, LACE.mat);
+        laces.set(m, lace);
+        this.group.add(lace);
+      } else if (!f.lace && lace) {
+        lace.removeFromParent();
+        laces.delete(m);
+        lace = undefined;
+      }
+      if (lace) {
+        const fx = Math.sin(f.facing);
+        const fz = Math.cos(f.facing);
+        const flick = this.still || f.pose !== 'walk' ? 0 : Math.sin(t * 9) * 0.35;
+        lace.position.set(
+          m.pos.x + fz * 0.13 - fx * 0.08,
+          gy + 0.03,
+          m.pos.z - fx * 0.13 - fz * 0.08,
+        );
+        lace.rotation.set(-Math.PI / 2, 0, f.facing + 0.6 + flick);
+      }
       if (f.kind === 'stray' && !m.ring) {
         m.ring = new THREE.Mesh(STRAY_RING.geo, STRAY_RING.mat);
         m.ring.rotation.x = -Math.PI / 2;
@@ -471,6 +528,7 @@ export class Crowd {
     m.stand?.removeFromParent();
     m.ask?.removeFromParent();
     m.ring?.removeFromParent();
+    laces.get(m)?.removeFromParent();
     this.members.delete(id);
   }
 
