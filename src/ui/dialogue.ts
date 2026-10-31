@@ -34,7 +34,7 @@ import { CREATURE_SPEAKERS, creatureLook } from '../render/portraits';
 import { DIALOGUE_TEXT } from '../config/strings-dlg';
 import { TYPE_TIMING } from '../config/tuning-fun';
 import { pauseAfter, voiceOf } from './type-timing';
-import { playBlip, playSound } from '../platform/audio';
+import { holdMusicDuck, playBlip, playSound } from '../platform/audio';
 import { renderLineAct, sayItButton } from './line-act';
 import { refrainOf } from '../config/edu-refrains';
 import { AutoAdvance } from './auto-advance'; /* Lane E r9 */
@@ -132,6 +132,11 @@ export class Dialogue {
     // The box takes focus when a scene starts, so Space and Enter advance it rather than
     // pressing whatever sheet button had focus before (r1025 item 2).
     this.root.tabIndex = -1;
+    // R0464 (TECH-22): the music ducks while the box is open.
+    new MutationObserver(() => holdMusicDuck('dialogue', !this.root.hidden)).observe(this.root, {
+      attributes: true,
+      attributeFilter: ['hidden'],
+    });
     // Choices and lesson cards fill this row; Skip steps aside while they are up.
     new MutationObserver(() => this.syncSkip()).observe(this.choices, { childList: true });
     this.root.addEventListener('click', (e) => {

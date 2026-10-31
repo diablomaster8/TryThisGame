@@ -54,6 +54,28 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
+import { peekAct } from './peek';
+import { callAct } from './calling';
+import { nudgeArrive } from './jealousy';
+import { carryAct, carryArrive } from './carry-fruit';
+import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
+import {
+  hasTrait,
+  noteAteForTraits,
+  noteTraitCare,
+  performScale,
+  traitAct,
+  withTraitMult,
+} from './traits';
+import {
+  bellyAct,
+  burpEvent,
+  fussySkips,
+  noteMeal,
+  queueBurp,
+  snackFruit,
+  wasSnack,
+} from './belly';
 import {
   anticEvent,
   anticMs,
@@ -394,6 +416,8 @@ function nearestFruit(
     if (item.kind !== 'fruit' || item.y > 0.05 || item.id === skip) continue;
     const taste = n ? tasteOf(n, item.flavor) : null;
     if (taste === 'bleh' && !starving) continue;
+    // R0546 (lane A r9): a fussy one holds out for its favourite until it is hungry.
+    if (n && fussySkips(n, taste)) continue;
     const raw = dist(from, item.pos);
     if (raw > BEHAVIOR.foodSearchRadius * (taste === 'yum' ? reach : 1)) continue;
     const d = taste === 'yum' ? raw / reach : raw;
@@ -513,8 +537,19 @@ export function shroomHopY(world: World, n: Nubbin, t: number): number | null {
 
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Curfew: late at night they would rather sleep.
-  if (world.night && n.needs.energy < 0.9 && rng.chance(CURFEW.napChance)) {
+  if (
+    world.night &&
+    n.needs.energy < 0.9 &&
+    !hasTrait(n, 'nightOwl') &&
+    rng.chance(CURFEW.napChance)
+  ) {
     setState(n, 'nap', now, NEEDS.napMs * napScale(n));
+    return;
+  }
+  // R0559 (lane A r9): a slip on its way: it calls for attention (no rng drawn).
+  const call = callAct(n, world);
+  if (call) {
+    startAct(n, call, now);
     return;
   }
   // Partners keep near the Keeper.
@@ -562,9 +597,13 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   }
   // Personality only shifts the odds of idle choices; a child's leaning does, at half
   // strength, until it locks at evolution (R0523).
-  const m0 = n.personality
-    ? idleMultipliers(n.personality)
-    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
+  // R0528 (lane A r9): its traits lay their own multipliers over the personality's.
+  const m0 = withTraitMult(
+    n,
+    n.personality
+      ? idleMultipliers(n.personality)
+      : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength),
+  );
   // R0532: a grumpy one greets less.
   const m = n.moody ? { ...m0, greet: m0.greet * moodyGreet(n) } : m0;
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
@@ -639,7 +678,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   // A schooled Nubbin sometimes shows off what it learned.
-  if (bestLesson(n) && rng.chance(LESSONS.performChance * m.play)) {
+  if (bestLesson(n) && rng.chance(LESSONS.performChance * m.play * performScale(n, world))) {
     setState(n, 'perform', now, LESSONS.performMs);
     n.behavior.itemId = bestLesson(n);
     addHappiness(n, 1);
@@ -659,6 +698,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   const antic = idleAntic(n, world, now);
   if (antic) {
     startAntic(n, antic, now);
+    return;
+  }
+  // Lane A r9: a full belly's burp and nap (R0546), then a trait's own quirk (R0528).
+  const quirk = bellyAct(n) ?? traitAct(n, world, now) ?? carryAct(n, world, now);
+  if (quirk) {
+    startAct(n, quirk, now);
     return;
   }
   // Lane A r8: a moody look's own acts (R0532), then the time of day's (R0535).
@@ -746,9 +791,12 @@ function startAct(n: Nubbin, a: IdleAct, now: number): void {
 
 /** R0524: the live odds of the everyday idle choice for the debug panel (no rng drawn). */
 export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
-  const m = n.personality
-    ? idleMultipliers(n.personality)
-    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
+  const m = withTraitMult(
+    n,
+    n.personality
+      ? idleMultipliers(n.personality)
+      : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength),
+  );
   const now = world.timeMs;
   const keen = favouredToy(world, n, now);
   const toy = keen?.toy ?? null;
@@ -778,6 +826,16 @@ export function updateBehavior(
   stepBehavior(n, world, dtMs, rng, events, now, b);
   if (b.sinceMs !== since && b.state === 'perform' && isAntic(b.itemId))
     events.push(anticEvent(n, b.itemId));
+  // R0546 (lane A r9): the burp after a full belly, for the sound and the puff.
+  if (b.sinceMs !== since && b.state === 'perform' && b.itemId === 'burp')
+    events.push(burpEvent(n));
+  // R0528: rain games played out in it count toward brave.
+  if (
+    b.sinceMs !== since &&
+    b.state === 'perform' &&
+    (b.itemId === 'stomp' || b.itemId === 'raindrop')
+  )
+    noteTraitCare(n, 'brave', events);
 }
 
 function stepBehavior(
@@ -831,6 +889,25 @@ function stepBehavior(
       b.itemId = fruit;
     } else if (b.state !== 'cry' && n.needs.hunger < NEEDS.starvingThreshold) {
       setState(n, 'cry', now, BEHAVIOR.cryMs);
+    }
+  }
+  // R0543 (lane A r9): a shy one slips behind a tree as the Keeper comes near.
+  if (b.state === 'wander' || b.state === 'sit') {
+    const hide = peekAct(n, world, now);
+    if (hide) startAct(n, hide, now);
+    // R0545: a mischievous one dashes for the fruit another is walking to.
+    else {
+      const dash = snatchAct(n, world, now, dtMs);
+      if (dash) startAct(n, dash, now);
+    }
+  }
+  // R0546 (lane A r9): a glutton (a lazy one less often) snacks on fruit in reach.
+  // Only from a wander or a sit, so nothing it was set on doing is cut short.
+  if ((b.state === 'wander' || b.state === 'sit') && !isHungry(n)) {
+    const snack = snackFruit(n, world, now, dtMs);
+    if (snack) {
+      setState(n, 'findFood', now, Infinity);
+      b.itemId = snack;
     }
   }
 
@@ -942,6 +1019,7 @@ function stepBehavior(
         // Each toy leaves something different behind.
         const kind = toy.toy ?? 'ball';
         addHappiness(n, BEHAVIOR.playHappiness * (kind === 'radio' ? 1.5 : 1));
+        if (kind === 'radio') noteTraitCare(n, 'musical', events);
         if (kind === 'mirror') n.needs.affection = Math.min(100, n.needs.affection + 2);
         if (kind === 'tv') n.needs.energy = Math.min(1, n.needs.energy + 0.15);
         if (kind === 'blocks') n.typeLean.power += 1;
@@ -1005,13 +1083,34 @@ function stepBehavior(
       // A sled run or a bath has a spot: walk there first, and the act's timer starts on
       // arrival (MOVE-29; the spot used to be set and never walked to).
       if (b.target) {
-        if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs)) {
+        const arrived = walkToward(
+          world,
+          n,
+          b.target,
+          BEHAVIOR.walkSpeed * snatchSpeed(b.itemId),
+          dtMs,
+        );
+        // Lane A r9: a fruit carried off (R0545 snatch, R0542 share and hoard) is dealt with on
+        // arrival, or where the walk stalls, so a carried fruit is never lost.
+        const stalled = !arrived && walkStalled(n, b.target, now);
+        if (
+          (arrived || stalled) &&
+          (snatchArrive(n, world, now, events, {
+            react: (who, r) => react(who, r, now, events),
+            eat: (flavor) => eat(n, now, events, flavor),
+          }) ||
+            carryArrive(n, world, now, events, (who, r) => react(who, r, now, events)))
+        )
+          break;
+        if (arrived) {
+          // R0560: a jealous nudge shoves the petted one aside.
+          nudgeArrive(n, world, (who, r) => react(who, r, now, events));
           b.untilMs = now + (b.untilMs - b.sinceMs);
           b.target = null;
           // R0542: a comforter pats, a prankster boos; the mark shows it (a free one only).
           const hit = arriveAct(n, world, events);
           if (hit && isFree(hit.mark)) react(hit.mark, hit.reaction, now, events);
-        } else if (walkStalled(n, b.target, now)) {
+        } else if (stalled) {
           b.target = null;
         }
         break;
@@ -1048,6 +1147,11 @@ function stepBehavior(
 
 export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor): void {
   noteAteForAntics(n, now);
+  // Lane A r9: a neat one grooms after (R0528); a snack counts toward glutton; a third
+  // fruit in five minutes fills the belly (R0546).
+  noteAteForTraits(n, now);
+  if (wasSnack(n.needs.hunger)) noteTraitCare(n, 'glutton', events);
+  if (noteMeal(n, now)) queueBurp(n);
   applyFruit(n);
   applyFlavor(n, flavor);
   addPoints(n.stats.stamina, NEEDS.fruitStaminaPoints);

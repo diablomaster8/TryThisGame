@@ -12,6 +12,7 @@ import {
 } from '../config/edu';
 import type { EduBand } from '../content/types';
 import type { EduItem, EduState, SimEvent, World } from './types';
+import { localDayKey, tzOf } from './local-time';
 
 /**
  * Educational mode state: the age band, which games are switched on (the recommended
@@ -117,11 +118,9 @@ export function gamesForBand(band: EduBand): readonly EduGameId[] {
   return band === 'reader' ? EDU_READER_GAMES : EDU_GAMES;
 }
 
-/** Local YYYY-MM-DD for a wall-clock time. */
-export function dayKey(wallMs: number): string {
-  const d = new Date(wallMs);
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+/** Local YYYY-MM-DD for a wall-clock time in the Keeper's time zone (TECH-45). */
+export function dayKey(wallMs: number, tzMin = 0): string {
+  return localDayKey(wallMs, tzMin);
 }
 
 /**
@@ -132,7 +131,7 @@ export function stepEdu(world: World, dtMs: number, wallMs?: number, skip = fals
   const e = world.edu;
   if (!e || skip) return;
   if (wallMs !== undefined) {
-    const key = dayKey(wallMs);
+    const key = dayKey(wallMs, tzOf(world));
     if (e.todayKey !== key) {
       e.todayKey = key;
       e.todayMs = 0;

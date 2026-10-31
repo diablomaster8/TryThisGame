@@ -5,6 +5,7 @@ import { dailySeed } from '../sim/dungeon';
 import { clockText } from '../sim/dungeon-log';
 import type { World } from '../sim/types';
 import { el } from './dom';
+import { tzOf } from '../sim/local-time';
 
 /**
  * The Journal's "The Hollow" page (R0165, lane B round 6): each act's boss with ✓ or ○, the
@@ -47,7 +48,7 @@ export function renderHollowPage(world: World, body: HTMLElement): void {
     el(
       'p',
       'help',
-      t && t.day === dailySeed(world.lastWallMs).day && t.deepest > 0
+      t && t.day === dailySeed(world.lastWallMs, tzOf(world)).day && t.deepest > 0
         ? HOLLOW_R6_TEXT.today(t.deepest, clockText(t.bestMs), t.finds)
         : HOLLOW_R6_TEXT.todayNone,
     ),

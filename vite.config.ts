@@ -8,6 +8,10 @@ import { defineConfig } from 'vitest/config';
 // Locally it is unset, so the app is served from "/".
 const base = process.env.BASE_PATH ?? '/';
 
+// TECH-45: tests run in UTC unless a TZ is given (CI also runs the sim suite in Asia/Tokyo);
+// the sim itself reads no zone, so any TZ must pass.
+process.env.TZ ??= 'UTC';
+
 /**
  * Stamps the service worker's cache name with this build's id: a hash of every emitted
  * file name, which already carry content hashes. A new deploy then installs a new worker,

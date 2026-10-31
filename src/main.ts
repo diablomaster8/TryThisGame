@@ -21,6 +21,7 @@ import { readKidsLock } from './platform/kids-lock';
 import { showUpdateNotice } from './ui/update-notice';
 import { showBootError } from './ui/boot-error';
 import { reloadOnceForUpdate } from './platform/boot-reload';
+import { watchForUpdate } from './ui/update-ready';
 import {
   hasWebGL2,
   isGraphicsError,
@@ -365,6 +366,11 @@ function boot(
     navigator.serviceWorker
       .register(`${import.meta.env.BASE_URL}sw.js`)
       .then(applyWaitingWorker, () => undefined);
+    // R0496 (TECH-55): offer a waiting update in a long-lived session, saving first.
+    void navigator.serviceWorker.ready.then((reg) => {
+      const hud = document.getElementById('hud');
+      if (hud) watchForUpdate(reg, hud, () => game);
+    });
     // The chunks this visit already loaded came before the worker existed, so it never saw
     // them; hand it the list, so a first visit is enough to play offline next time.
     void navigator.serviceWorker.ready.then((reg) => {

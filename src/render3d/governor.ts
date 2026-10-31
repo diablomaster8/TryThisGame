@@ -21,6 +21,14 @@ import { GROVE3D, PERF_BUDGET } from '../config/tuning';
  * that brings the slow frames straight back stays on while the place lasts.
  * Pure apart from the numbers it is fed, so the tests drive it with made-up frame times.
  */
+/** TECH-52: a governor's level, as kept between sessions (`platform/gov-memory.ts`). */
+export interface GovernorLevel {
+  ratio: number;
+  cpu: number;
+  /** Shed steps above ground (the cave list always starts clean). */
+  shed: number;
+}
+
 export class FrameGovernor {
   private avgMs = 0;
   private samples = 0;
@@ -38,6 +46,10 @@ export class FrameGovernor {
   private shedFloor = 0;
   private sinceShedRestore = Infinity;
   private shedSlowFor = 0;
+  /** TECH-52: which place's shed list is set, and the frame times its steps judge against. */
+  private shedKey = 'cave';
+  private shedTarget: { readonly slowMs: number; readonly fastMs: number } =
+    GROVE3D.cave.light.governor;
   private shedFastFor = 0;
   /** The last step down, to judge once the average has settled at the new scale. */
   private trial: { fromRatio: number; fromMs: number } | null = null;
@@ -56,8 +68,8 @@ export class FrameGovernor {
   private geoUnder = 0;
   /** The render scale it wants now. */
   ratio: number;
-  /** The most it will ever ask for: the device's ratio, capped. */
-  readonly maxRatio: number;
+  /** The most it will ever ask for: the device's ratio, capped (and by the tier, `capRatio`). */
+  maxRatio: number;
 
   constructor(deviceRatio: number) {
     const g = GROVE3D.governor;
@@ -86,8 +98,9 @@ export class FrameGovernor {
     this.fastFor = this.avgMs < g.fastMs ? this.fastFor + 1 : 0;
     this.sinceRestore++;
     this.sinceShedRestore++;
-    // The shed steps judge against the place's own target (`GROVE3D.cave.light.governor`).
-    const shed = GROVE3D.cave.light.governor;
+    // The shed steps judge against the place's own target (`GROVE3D.cave.light.governor`
+    // underground, the governor's own above it, TECH-52).
+    const shed = this.shedTarget;
     this.shedSlowFor = this.avgMs > shed.slowMs ? this.shedSlowFor + 1 : 0;
     this.shedFastFor = this.avgMs < shed.fastMs ? this.shedFastFor + 1 : 0;
     if (this.shedSlowFor >= g.downFrames && this.shedLevel < this.shedSteps) {
@@ -138,10 +151,17 @@ export class FrameGovernor {
    * How many shed steps come ahead of the render scale here (0 above ground). A change
    * starts the new place with nothing shed.
    */
-  setShedSteps(n: number): void {
-    if (n === this.shedSteps) return;
+  setShedSteps(
+    n: number,
+    key = 'cave',
+    target: { readonly slowMs: number; readonly fastMs: number } = GROVE3D.cave.light.governor,
+    start = 0,
+  ): void {
+    if (n === this.shedSteps && key === this.shedKey) return;
     this.shedSteps = n;
-    this.shedLevel = 0;
+    this.shedKey = key;
+    this.shedTarget = target;
+    this.shedLevel = Math.max(0, Math.min(n, start));
     this.shedFloor = 0;
     this.sinceShedRestore = Infinity;
     this.settle();
@@ -174,6 +194,37 @@ export class FrameGovernor {
       return --this.geoLevel;
     }
     return null;
+  }
+
+  /**
+   * TECH-52: the device tier's ceiling on the render scale. Lowers the scale now if it is above;
+   * returns the new ratio when it changed, else null.
+   */
+  capRatio(cap: number): number | null {
+    const g = GROVE3D.governor;
+    this.maxRatio = Math.max(g.minRatio, Math.min(this.maxRatio, cap));
+    return this.ratio > this.maxRatio ? this.set(this.maxRatio) : null;
+  }
+
+  /** TECH-52: what to keep for the next boot on this device. */
+  get settled(): GovernorLevel {
+    return {
+      ratio: this.ratio,
+      cpu: this.cpuLevel,
+      shed: this.shedKey === 'cave' ? 0 : this.shedLevel,
+    };
+  }
+
+  /**
+   * TECH-52: start where the last session on this device settled (clamped to this device's
+   * range). The governor still climbs back up once frames come easily.
+   */
+  restore(level: GovernorLevel): void {
+    const g = GROVE3D.governor;
+    if (Number.isFinite(level.ratio))
+      this.set(Math.max(g.minRatio, Math.min(this.maxRatio, level.ratio)));
+    if (Number.isFinite(level.cpu))
+      this.cpuLevel = Math.max(0, Math.min(g.cpuLevels, Math.round(level.cpu)));
   }
 
   /** Let the average settle at the new setting before judging it again. */

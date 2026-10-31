@@ -34,6 +34,14 @@ export class Clock {
     return steps;
   }
 
+  /**
+   * TECH-54: steps `advance` handed out that the frame had no time to run go back in the
+   * accumulator, so they run on a later frame through this same path and no sim time is lost.
+   */
+  giveBack(steps: number): void {
+    if (steps > 0) this.accumulatorMs += steps * this.stepMs;
+  }
+
   /** Fraction of the way to the next step, for render interpolation. */
   get alpha(): number {
     return Math.min(1, this.accumulatorMs / this.stepMs);

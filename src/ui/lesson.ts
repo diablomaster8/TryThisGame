@@ -8,7 +8,13 @@ import { EDU_STORY_TEXT } from '../config/strings';
 import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
 import { lineParts } from './line-parts';
 import type { Lesson, LessonOption } from '../content/types';
-import { isAudioUnlocked, isSoundEnabled, playSound, type SoundName } from '../platform/audio';
+import {
+  holdMusicDuck,
+  isAudioUnlocked,
+  isSoundEnabled,
+  playSound,
+  type SoundName,
+} from '../platform/audio';
 import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
@@ -212,7 +218,11 @@ export function speakLine(text: string, opts: SpeakOptions = {}): void {
         };
         if (c.shout) opts.onWord(c.text, base);
       }
+      // R0464 (TECH-22): the music ducks under the spoken words.
+      u.onstart = () => holdMusicDuck('speech', true);
+      u.onerror = () => holdMusicDuck('speech', false);
       u.onend = () => {
+        holdMusicDuck('speech', false);
         if (token !== speakToken) return;
         if (c.sound) playSound(c.sound);
         window.setTimeout(() => next(i + 1), c.sound ? 260 : 0);
@@ -235,6 +245,7 @@ export interface SpeakOptions {
 export function stopSpeaking(): void {
   try {
     speakToken++;
+    holdMusicDuck('speech', false);
     window.speechSynthesis?.cancel();
   } catch {
     // Nothing to stop.

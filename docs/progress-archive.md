@@ -3,6 +3,73 @@
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
 
+## Round 8 · Lane A SOUL (2026-10-30, branch r8/a)
+
+Plan: SOUL items from R0521 on, picking the ones that could be done properly in both
+renderers, then round-7 partials. Text in `config/strings-soul-r8.ts`, numbers in
+`config/tuning-soul-r8.ts` (one re-export line in `tuning.ts`). New idle acts live in
+`sim/soul-idle.ts` and `sim/antics.ts` and run before the weighted pick in `chooseIdle`;
+their looks go through `PetBeats` (`render/soul-looks.ts`), so Pixel and Full 3D share one
+table. No save bump: every new field is optional. Edge: `node r8a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`, all pass in the four, no console errors.
+
+**Works**
+- HOT-1 (Maor, top priority): clicking a Nubbin now centres it in the part of the screen the
+  stats sheet leaves clear, in Pixel and Full 3D, desktop and phone. Cause: the sheet kept the
+  camera on the Keeper and pushed it a fixed 17% right or 22% up. Now the camera aims at the
+  Nubbin and `render/view-shift.ts` shifts the projection to the clear strip measured from the
+  sheet; it glides (capped ease step) and cuts under reduced motion. `tools/hot1.cjs` proves it.
+- R0536 favourite and disliked fruit rolled from `n.seed` (`sim/likes.ts`, cached); yum and
+  bleh beats, ±happiness only, a disliked fruit is left until starving, a favourite is worth
+  a 1.5× walk; the sheet shows ♥/✗ as "?" until seen, a first-taste toast. Plain is never
+  disliked, so hand-feeding never gets a face.
+- R0537 favourite toy ×3, boredom, ten-minute novelty (`sim/toy-soul.ts`); 120 min with two
+  toys gives play 17–23% for every personality, the favourite 86–93% of it.
+- R0532 Grumpy harrumphs with its back to the Keeper (puff emote), greets ×0.6, turns down
+  30% of high fives; Sleepy yawns, nods off standing, naps ×1.6; 30 min above +40 clears it
+  with a toast; a sheet chip says what softens it.
+- R0535 `world.phase` from the curfew's wall clock (same hours as `daylight.ts`, a test
+  checks every quarter hour); dawn stretch, dusk fireflies (≥10% of choices at 19:30, none
+  at noon), night stargazing.
+- R0534 rain by personality: stomps and raindrop-catching near the Keeper, shelter by the
+  tree nearest the Keeper, never more than half at once; sheltering huddles (sit, shiver)
+  instead of the sleep pose.
+- R0542 Sun adults comfort crying or sad Nubbins (19/20 seeds within 60 s), Moon ones say boo
+  from behind; children with a strong hint at half, ×1.5 in their own Grove.
+- R0544 trips, sneezes by flowers (×2 in spring), hiccups after two fruits in a minute, a
+  child's tail chase; hashed per second, so seeded days are unchanged; ≥15 antics of ≥3 kinds
+  in 30 min with six Nubbins. R0552 synth sounds for them and the soul moments.
+- R0551 pet and landing beats by personality (bounce, blush, wiggle, melt; wheee, teary,
+  tongue, flop). R0549 emote balls 1.5× at the far zoom or with Big mood bubbles (default on
+  in the Learning Grove), a reaction pops 2× for 300 ms; 27 CSS px on a 375×812 phone.
+- R0575 none of the new acts start during catch-up. R0593 Settings → Liveliness (calm,
+  normal, lively; sprouts default lively) scales antics, phase quirks and pranks.
+- R0563 a diary of the last five things and a "Recently" box on the sheet. R0579 roster
+  personality chips (a child's leaning faded) and a filter row with 44 px chips.
+- R0539 (r7 partial) a buddy away is missed (`n.missing`) and gets a reunion hug and a
+  toast when it comes back.
+
+**Stubbed / not done**
+- R0542: no fruit sharing, tidying or hoarding yet. R0544: no clumsy/sneezy trait multipliers
+  (traits, R0528, not started), no fall-asleep-standing. R0552: no snore loop or chat voices.
+- R0551: picked-up variants are not done (the held moods from LOOK-50 still apply).
+- R0549: the selected Nubbin is not drawn bigger (the renderers do not know the selection).
+- R0535: the renderer still computes its own phase (from the same hours; a test pins them).
+- Not started: R0525, R0528, R0529, R0533, R0538, R0540, R0541, R0543, R0545–R0548, R0550,
+  R0554–R0562, R0564–R0574, R0576, R0577, R0580–R0592; FUN R0345, R0356, R0361, R0364,
+  R0366, R0367; round-7 partials R0344, R0346, R0527 (cottage hiding), R0553.
+
+**Known bugs / notes**
+- Full 3D on a 375×812 phone (headless Edge) stalls about 0.7 s on the first stats-sheet open;
+  the camera glide now rides it out, but the stall itself is a perf follow-up (lane D).
+- Assumption: R0537's boredom fades 9 a minute, not the recommended 0.2 (which pins every
+  toy at the floor after a minute of play and drops play to 6–11%).
+- Tests moved on purpose: `features.test.ts` rain now accepts the rain games;
+  `clip-for.test.ts` shelter is a sit. Timing tests flake under the four-lane load and pass
+  alone; budgets untouched (the 8-Nubbin hour and full life measured equal to ce12521b).
+- Full 3D in headless Edge was often still on "Shaping the Grove" when shots were taken, so
+  the 3D looks were checked by the sim and the pose tests, not by eye.
+
 ## Round 7 · Lane E LOOK + KIDS (2026-10-30, branch r7/e)
 
 Plan: the three KIDS live bugs, then the cheap unstarted LOOK items, then KIDS from R0674 in

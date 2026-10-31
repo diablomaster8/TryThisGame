@@ -266,6 +266,19 @@ export interface Nubbin {
   /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
   missing?: string[];
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
+  // Lane A r9 (SOUL), optional with defaults, no save bump:
+  /** R0528: the trait earned by care before evolution (the first comes from the seed). */
+  earnedTrait?: import('../config/tuning-soul-r9').TraitId;
+  /** R0528: counts toward the earned trait; cleared once one is earned. */
+  traitCare?: Partial<
+    Record<keyof typeof import('../config/tuning-soul-r9').TRAIT_TUNING.earn, number>
+  >;
+  /** R0546: a full belly (waddle, then a burp and a nap) until this sim time. */
+  fullUntilMs?: number;
+  /** R0546: when it ate its recent fruits, for the full belly (last few only). */
+  recentMeals?: number[];
+  /** R0543: no hide and seek again before this sim time. */
+  peekAfterMs?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -274,6 +287,11 @@ export interface Nubbin {
   battle?: NubbinBattle;
   /** Lane C: the tactical grid's Jump and Move (MOVE-61); reserved, empty by default. */
   combat?: NubbinCombat;
+  /**
+   * Lane C r9 (R0594): where a questline's Nubbin lives after its line ended and the Keeper let
+   * it stay (`fold`, `server`...). Unset: the Grove. Optional; no save bump.
+   */
+  home?: string;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -445,6 +463,12 @@ export interface QuestEntry {
   offeredMs: number;
   acceptedMs: number | null;
   declines: number;
+  /** Lane C r9 (R0652): when a windowed offer ends (sim ms), if it has a window. */
+  expiresMs?: number;
+  /** Lane C r9 (R0652): a lapse story whose window passed unanswered; it is let go. */
+  expired?: boolean;
+  /** Lane C r9 (R0655): shelved because Mature content was lowered below its rating. */
+  audienceHeld?: boolean;
 }
 
 /** Lane C round 8 (R0602): the Open flow's book of offers, beside `world.campaign`. */
@@ -461,6 +485,8 @@ export interface QuestBook {
   here: string | null;
   /** R0670: telemetry-free play counts, kept in the save for pacing by hand. */
   stats?: { offered: number; accepted: number; declined: number; shelved: number };
+  /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
+  areaOfferMs?: Record<string, number>;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -1011,6 +1037,11 @@ export interface VigilState {
 
 export interface World {
   seed: number;
+  /**
+   * TECH-45: the Keeper's time zone, minutes east of UTC, sent by the UI on load
+   * (`setTimeZone`); the sim's days, hours and seasons read it (`sim/local-time.ts`). Unset: UTC.
+   */
+  tzOffsetMin?: number;
   rngState: number;
   /** Sim time in ms since the world was created. */
   timeMs: number;
@@ -1276,6 +1307,8 @@ export type Command =
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
+  /** TECH-45: the device's time zone, minutes east of UTC. */
+  | { kind: 'setTimeZone'; offsetMin: number }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   /** The UI holds waiting end-of-life checks while the away screen is open. */
@@ -1313,6 +1346,8 @@ export type Command =
   | { kind: 'questTrack'; id: string; on: boolean }
   // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
   | { kind: 'debugQuestOffer'; id: string }
+  // Lane C r9 (R0594): at a line's end, bring one of its Nubbins home or let it stay.
+  | { kind: 'lineCastHome'; line: string; nubbinId: string; home: boolean }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1615,6 +1650,16 @@ export type SimEvent =
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
+  /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
+  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
+  | { kind: 'peekFound'; nubbinId: string }
+  | { kind: 'burp'; nubbinId: string }
+  /** R0545: a mischievous one snatched another's fruit. */
+  | { kind: 'snatched'; nubbinId: string; victimId: string }
+  /** R0560: another noticed a pet and wanted one too. */
+  | { kind: 'jealous'; nubbinId: string; of: string }
+  /** R0542: a Sun Nubbin brought a hungry one a fruit. */
+  | { kind: 'sharedFruit'; nubbinId: string; markId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
@@ -1629,6 +1674,11 @@ export type SimEvent =
   | { kind: 'areaEntered'; area: string }
   | { kind: 'questOffered'; quest: string; area: string }
   | { kind: 'questAtCap'; quest: string; active: string[] }
+  // Lane C r9: a windowed offer passed (R0652); a line's rewards (R0639); its cast's choice (R0594).
+  | { kind: 'questExpired'; quest: string; lapsed: boolean }
+  | { kind: 'lineReward'; line: string; shells: number; keepsake: string; grove: string }
+  | { kind: 'lineCastChoice'; line: string; cast: string[] }
+  | { kind: 'lineCastChose'; line: string; nubbinId: string; home: boolean; ok: boolean }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }

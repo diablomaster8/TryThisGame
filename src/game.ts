@@ -62,6 +62,12 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
 }
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { PixelGovernor } from './render/pixel-gov';
+import { FAST_TIME } from './config/tuning-r8d-perf';
+import { dedupeEvents } from './ui/event-dedupe';
+import { PIXEL_WIND } from './render/wind-px';
+import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
+import { tierForRes } from './config/tuning-world';
 
 /* Lane E r9 */
 /** FUN-43: listeners told of every command sent (the curiosity triggers read them). */
@@ -116,6 +122,15 @@ export class Game {
   private readonly pending: Command[] = [];
   /** HOT-2: frame times and the breakdown of long frames, for the debug panel and probes. */
   readonly spikes = new FrameSpikes();
+  /** TECH-09: this device's performance tier and what decided it (shown in the debug panel). */
+  readonly tier: TierReading;
+  /** TECH-53: the Pixel renderer's frame governor (null in Full 3D). */
+  private pixelGov: PixelGovernor | null = null;
+  /**
+   * TECH-54: whether the last frame's sim steps ran out of their time budget and left some for
+   * later frames (the debug panel shows "×1000 (behind)").
+   */
+  simBehind = false;
   private rafId = 0;
   private running = false;
   /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
@@ -370,9 +385,9 @@ export class Game {
     this.view.setDaylight(d, reduce);
     this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
-      place === 'dungeon' ? 'clear' : wk,
+      place === 'dungeon' || this.pixelGov?.sheds('weather') ? 'clear' : wk,
       this.world.weather.intensity,
-      s.particles,
+      this.pixelGov ? this.pixelGov.particles(s.particles) : s.particles,
       reduce,
     );
     // Rain greys the grade a little; snow brightens and cools it.
@@ -505,6 +520,8 @@ export class Game {
     });
     // Loaded first so the Grove scene can paint the saved ground from its first frame.
     this.world = this.load();
+    // TECH-45: the sim reads days and hours in this time zone, sent before any catch-up.
+    this.sendTimeZone();
     this.scene3d = graphics === '3d' ? scene3d : null;
     if (this.scene3d) {
       this.lowRes = null;
@@ -514,6 +531,8 @@ export class Game {
     } else {
       this.lowRes = new LowResPipeline(canvas);
       this.lowRes.enablePost();
+      this.pixelGov = new PixelGovernor();
+      this.applyPixelGov();
       this.pipeline = this.lowRes;
       this.grove = new GroveScene(this.world.tiles, this.view);
       this.picker = new Picker(canvas);
@@ -586,6 +605,19 @@ export class Game {
       // The sculpt grid is picked once per save by a quick benchmark, then kept.
       this.world.settings.sculptRes ??= this.scene3d.pickSculptRes();
       this.scene3d.setSculptRes(this.world.settings.sculptRes);
+    }
+    // TECH-09: the tier, from the GPU, memory and the sculpt benchmark (3D only); TECH-52 starts
+    // Full 3D at its settings.
+    {
+      const res = this.world.settings.sculptRes;
+      this.tier = readDeviceTier(
+        this.pipeline.renderer.getContext(),
+        this.scene3d && res !== null ? tierForRes(res) : undefined,
+        readQualityOverride(),
+      );
+    }
+    if (this.scene3d) {
+      this.scene3d.applyTier(this.tier.tier);
       // Start reading the cache and marching now, while the rest of the page loads.
       this.scene3d.prewarm(this.world);
     }
@@ -779,6 +811,8 @@ export class Game {
   async resume(): Promise<void> {
     // A catch-up already running starts the loop itself when it finishes, if visible.
     if (this.catchingUp) return;
+    // TECH-45: the device may have changed time zone while hidden (a flight, a DST change).
+    this.sendTimeZone();
     const now = Date.now();
     await this.runCatchUp(now - this.world.lastWallMs, now);
     // Hidden again while catching up: the next visibility change resumes from here.
@@ -834,13 +868,23 @@ export class Game {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
       const playCounts = this.clock.timeScale === 1 && !document.hidden;
-      for (let i = 0; i < steps; i++)
+      // TECH-54: above ×10 the steps stop once they have had their share of the frame; the
+      // rest go back to the clock and run as the same fine live steps on later frames.
+      const fast = this.clock.timeScale > FAST_TIME.fromScale;
+      const t0 = fast ? performance.now() : 0;
+      let ran = 0;
+      while (ran < steps) {
         events.push(...stepWorld(this.world, SIM.stepMs, wall, false, playCounts));
+        ran++;
+        if (fast && ran >= FAST_TIME.minSteps && performance.now() - t0 > FAST_TIME.budgetMs) break;
+      }
+      this.clock.giveBack(steps - ran);
+      this.simBehind = ran < steps;
       // Far behind (very high time scale, slow device): live play keeps the live rules, so
       // the backlog runs as fine steps on later frames and only what is past
       // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.
       this.clock.capBacklog(SIM.maxLiveBacklogMs);
-      this.spikes.noteSteps(steps);
+      this.spikes.noteSteps(ran);
     }
     // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
     // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
@@ -866,7 +910,10 @@ export class Game {
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);
       else this.view.onEvents(events, nowMs);
-      this.hooks.onEvents(events);
+      // TECH-54: at high speed the HUD hears each kind of thing once per subject per frame.
+      this.hooks.onEvents(
+        this.clock.timeScale > FAST_TIME.fromScale ? dedupeEvents(events) : events,
+      );
       for (const e of events) {
         // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
         const shake = this.world.settings.screenShake && !this.reduceMotion;
@@ -1028,6 +1075,7 @@ export class Game {
         this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);
         this.spikes.lap('draw');
+        if (this.pixelGov?.sample(dt, nowMs)) this.applyPixelGov();
       }
     }
 
@@ -1036,6 +1084,30 @@ export class Game {
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
     this.spikes.lap('save');
+  }
+
+  /**
+   * TECH-45: tell the sim the device's time zone. Applied at once, not queued: the catch-up
+   * that follows a load or a return already counts days in it.
+   */
+  private sendTimeZone(): void {
+    applyCommand(
+      this.world,
+      { kind: 'setTimeZone', offsetMin: -new Date().getTimezoneOffset() },
+      [],
+    );
+  }
+
+  /** TECH-53: put the Pixel governor's shed level into the view: sway, daylight, frame height. */
+  private applyPixelGov(): void {
+    const gov = this.pixelGov;
+    if (!gov || !this.lowRes) return;
+    PIXEL_WIND.shed = gov.sheds('wind');
+    this.lastDaylightMs = -Infinity;
+    const before = this.lowRes.currentSize;
+    const size = this.lowRes.setTargetHeight(gov.targetHeight);
+    if (size.width !== before.width || size.height !== before.height)
+      this.camera.setFrame(size.width, size.height);
   }
 
   /** R0091: when the last twinkle was, and the next one over each collectible in reach. */

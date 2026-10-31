@@ -11,6 +11,7 @@
  */
 import { ANTICS, LIVELINESS } from '../config/tuning';
 import { hashSeed } from './rng';
+import { anticScale } from './traits';
 import type { Nubbin, SimEvent, World } from './types';
 
 export type AnticKind = 'trip' | 'sneeze' | 'hiccup' | 'chaseTail';
@@ -74,9 +75,12 @@ function nearFlowers(n: Nubbin, world: World): boolean {
 export function walkAntic(n: Nubbin, world: World, now: number, dtMs: number): AnticKind | null {
   if (!live || n.stage === 'egg' || !secondTick(now, dtMs)) return null;
   const lively = liveliness(world);
-  if (roll(n, 'trip', now) < ANTICS.tripPerSecond * lively) return 'trip';
+  if (roll(n, 'trip', now) < ANTICS.tripPerSecond * lively * anticScale(n, 'trip')) return 'trip';
   const spring = world.season === 'spring' ? 2 : 1;
-  if (nearFlowers(n, world) && roll(n, 'sneeze', now) < ANTICS.sneezePerSecond * spring * lively)
+  if (
+    nearFlowers(n, world) &&
+    roll(n, 'sneeze', now) < ANTICS.sneezePerSecond * spring * lively * anticScale(n, 'sneeze')
+  )
     return 'sneeze';
   return null;
 }

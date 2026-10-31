@@ -28,6 +28,9 @@ import { ROSTER_FILTER_TEXT } from '../config/strings-soul-r8';
 import { leaningPersonality } from '../sim/personality';
 import { personalityIcon } from './personality-chip';
 import { mayWear } from '../sim/remembrance'; /* Lane E r9 */
+import { playChirp } from '../platform/audio';
+import { chirpVoice } from '../platform/chirp-voice';
+import { speciesOf } from '../sim/species';
 
 const PERSONALITIES: readonly Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
 
@@ -304,6 +307,10 @@ export class RosterMenu {
         64,
       );
     }
+    // R0462 (TECH-65): tap the portrait to hear the Nubbin's own chirp.
+    c.addEventListener('click', () =>
+      playChirp(speciesOf(n.species).family, true, chirpVoice(n.id, n.personality)),
+    );
     return c;
   }
 

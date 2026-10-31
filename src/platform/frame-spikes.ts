@@ -9,6 +9,19 @@
 
 export type FrameSection = 'input' | 'sim' | 'events' | 'camera' | 'update' | 'draw' | 'save';
 
+/**
+ * TECH-31: work that happens inside a section or between frames, counted where it happens
+ * (sprite-sheet bakes in `render/sprites/sheets.ts`, the HUD refresh in `ui/hud.ts`) and
+ * charged to the frame the log is on. Plain numbers, reset each frame: no garbage.
+ */
+export const FRAME_WORK = { frame: 0, bakes: 0, bakeMs: 0, hudMs: 0 };
+
+export interface FrameWork {
+  readonly bakes: number;
+  readonly bakeMs: number;
+  readonly hudMs: number;
+}
+
 export interface FrameSpike {
   /** Wall time from this frame's start to the next one's, in ms. */
   readonly deltaMs: number;
@@ -21,6 +34,8 @@ export interface FrameSpike {
   readonly atMs: number;
   /** Sim steps run in the frame. */
   readonly steps: number;
+  /** TECH-31: sheet bakes and HUD refresh time charged to the frame. */
+  readonly work: FrameWork;
 }
 
 export interface FrameSummary {
@@ -73,9 +88,14 @@ export class FrameSpikes {
           sections: { ...this.prevSections },
           atMs: this.lastStart,
           steps: this.prevSteps,
+          work: { bakes: FRAME_WORK.bakes, bakeMs: FRAME_WORK.bakeMs, hudMs: FRAME_WORK.hudMs },
         });
       }
     }
+    FRAME_WORK.frame++;
+    FRAME_WORK.bakes = 0;
+    FRAME_WORK.bakeMs = 0;
+    FRAME_WORK.hudMs = 0;
     this.start = now;
     this.mark = now;
     this.steps = 0;
@@ -122,9 +142,20 @@ export class FrameSpikes {
     this.spikes.length = 0;
   }
 
-  summary(): FrameSummary {
-    const n = this.count;
-    const xs = Array.from(this.deltas.subarray(0, n)).sort((a, b) => a - b);
+  /**
+   * Percentiles over the kept frames, or (TECH-31) only the latest ones adding up to
+   * `windowMs` of wall time, so the panel shows the last ten seconds, not the last minute.
+   */
+  summary(windowMs = Infinity): FrameSummary {
+    const all: number[] = [];
+    let sum = 0;
+    for (let i = 0; i < this.count && sum < windowMs; i++) {
+      const d = this.deltas[(this.head - 1 - i + RING) % RING]!;
+      all.push(d);
+      sum += d;
+    }
+    const n = all.length;
+    const xs = all.sort((a, b) => a - b);
     const at = (q: number) => (n ? xs[Math.min(n - 1, Math.floor(q * n))]! : 0);
     let long = 0;
     for (const x of xs) if (x > this.longMs) long++;

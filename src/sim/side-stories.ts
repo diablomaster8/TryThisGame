@@ -645,8 +645,20 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
   // Lane C r8 (R0602): the Open flow offers what may open, where the Keeper walks in.
   if (world.settings.questFlow === 'open') {
     tidyTracked(world, c);
-    stepQuestOffers(world, c, offerCandidates(), (id) => mayOpen(world, c, id), events);
+    const hold = spineBusy(world, c);
+    stepQuestOffers(world, c, offerCandidates(), (id) => mayOpen(world, c, id), events, hold);
   }
+}
+
+/**
+ * R0631 (CAMP-39): Hazel's own beat is due, so no offer is made: her chapter opening is next, or
+ * her goal is met and the closing has not played yet.
+ */
+export function spineBusy(world: World, c: CampaignState): boolean {
+  if (openingDue(world, c)) return true;
+  if (c.storyline || c.goalMetMs === null) return false;
+  const def = CHAPTERS.find((ch) => ch.n === c.chapter);
+  return def !== undefined && !seen(c, def.closing);
 }
 
 /** The side stories in step order, then the capers: what the Open flow may offer. */

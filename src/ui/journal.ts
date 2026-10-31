@@ -28,6 +28,10 @@ import { PLACES_TEXT } from '../config/strings-world';
 import { renderPlaces } from './landmark-card';
 import { renderLines } from './journal-lines';
 import { renderBoard } from './journal-board';
+import { renderEndingShelf, renderErrands, renderQuestsPage } from './journal-quests';
+import { JOURNAL_TEXT } from '../config/strings-journal';
+import { LINE_REWARD_TEXT } from '../config/strings-camp9';
+import { phoneSheet, tabKeys } from './journal-sheet';
 import { storyBoutJournal } from './battle-scenes';
 
 /**
@@ -65,7 +69,9 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'paths' | 'endings' | 'hollow' | 'places' = 'chapter';
+  private page: 'chapter' | 'quests' | 'paths' | 'endings' | 'hollow' | 'places' = 'chapter';
+  /** R0660: on a phone the tabs sit at the foot of the sheet, in thumb reach. */
+  private readonly phone = window.matchMedia?.('(orientation: portrait) and (max-width: 600px)');
 
   private readonly micro: MicroScreen;
 
@@ -78,6 +84,11 @@ export class Journal {
     this.micro = new MicroScreen(parent);
     this.body = el('div');
     this.dialog.body.appendChild(this.body);
+    // R0662: the pages are a tablist over this panel; R0660: a swipe down on the title closes.
+    this.body.id = 'journal-panel';
+    this.body.setAttribute('role', 'tabpanel');
+    this.dialog.root.classList.add('journal-modal');
+    phoneSheet(this.dialog.root, () => this.close());
     this.trace = new TraceGame(parent, game);
   }
 
@@ -134,13 +145,23 @@ export class Journal {
   private refresh(): void {
     const g = this.game();
     const c = g?.world.campaign;
+    // R0662: a tab chosen from the keyboard keeps the focus on the redrawn tab.
+    const onTab = document.activeElement?.getAttribute('role') === 'tab';
     this.body.innerHTML = '';
     if (!g || !c) return;
+    if (onTab)
+      queueMicrotask(() =>
+        this.body.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus(),
+      );
     const view = journalView(g.world, c, goalMet(g.world, c));
     if (!view) return;
-    const tabs = el('div', 'race-tiers');
+    const tabs = el('div', 'race-tiers journal-tabs');
+    tabs.setAttribute('role', 'tablist');
+    tabs.setAttribute('aria-label', JOURNAL_TEXT.tabsLabel);
     for (const [id, label] of [
       ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
+      // R0665: every quest this save knows, with search and chips.
+      ['quests', JOURNAL_TEXT.questsTab],
       ['paths', STORY_TEXT.paths],
       ['endings', STORY_U4_TEXT.endingsTab],
       // Lane B round 6: the Hollow's progress page (R0165).
@@ -157,14 +178,27 @@ export class Journal {
         'btn btn-small',
       );
       if (this.page === id) b.classList.add('active');
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', String(this.page === id));
+      b.setAttribute('aria-controls', this.body.id);
+      b.tabIndex = this.page === id ? 0 : -1;
       tabs.appendChild(b);
     }
+    tabKeys(tabs);
     this.body.appendChild(tabs);
     if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
+    else if (this.page === 'quests') renderQuestsPage(g, this.body);
     else if (this.page === 'paths') this.renderPaths(view);
-    else if (this.page === 'endings') this.renderEndings(view);
-    else if (this.page === 'hollow') renderHollowPage(g.world, this.body);
+    else if (this.page === 'endings') {
+      this.renderEndings(view);
+      renderEndingShelf(g, this.body, view);
+    } else if (this.page === 'hollow') renderHollowPage(g.world, this.body);
     else this.renderChapter(g, view);
+    // R0660: on a phone the tabs move to a sticky footer just above Close.
+    if (this.phone?.matches) {
+      tabs.classList.add('journal-tabs-foot');
+      this.body.appendChild(tabs);
+    }
   }
 
   /** The side stories the runner drives, then the open fun quests: each one's current step. */
@@ -271,6 +305,9 @@ export class Journal {
     this.body.appendChild(el('p', 'help', STORY_TEXT.memoriesHelp));
     for (const id of [...kept].reverse()) {
       const found = rewardById(id);
+      // Lane C r9 (R0639): a finished line's keepsake and Grove change, by their own words.
+      const lineWords = LINE_REWARD_TEXT.keepsake[id] ?? LINE_REWARD_TEXT.grove[id];
+      if (!found && lineWords) this.body.appendChild(el('p', undefined, lineWords));
       if (!found) continue;
       const quest = sideStory(found.quest);
       this.body.appendChild(
@@ -307,6 +344,8 @@ export class Journal {
     if (!c.storyline) storyBoutJournal(g, this.body, () => this.close());
     // Lane C r8 (R0607): the Open quest flow's notice board for this region.
     renderBoard(g, this.body, () => this.refresh());
+    // Lane C r9 (R0656): the Requests board's one-time errands, folded under the board.
+    if (!c.storyline) renderErrands(g, this.body, () => this.refresh());
     renderLines(
       g,
       this.body,

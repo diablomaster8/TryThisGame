@@ -3,7 +3,8 @@ import type { World } from '../sim/types';
 
 /**
  * TECH-27: the Text size setting scales the root font size, which every rem-sized panel
- * follows. Unset: 1.15 in the Learning Grove's read-aloud band, else 1.
+ * follows. Unset: 1.15 in the Learning Grove's read-aloud band or with the system asking for
+ * more contrast, else 1.
  */
 export const TEXT_SCALES: Readonly<Record<string, number>> = {
   small: 0.9,
@@ -18,7 +19,21 @@ export function textSizeKey(scale: number): string {
 }
 
 export function textScaleOf(world: World): number {
-  return world.settings.textScale ?? (textBandOf(world) === 'sprout' ? 1.15 : 1);
+  return world.settings.textScale ?? (textBandOf(world) === 'sprout' || moreContrast() ? 1.15 : 1);
+}
+
+/** R0519 (TECH-78): a player who asks the system for more contrast starts on Large text. */
+let contrastQuery: MediaQueryList | null | undefined;
+function moreContrast(): boolean {
+  if (contrastQuery === undefined) {
+    try {
+      contrastQuery =
+        typeof matchMedia === 'function' ? matchMedia('(prefers-contrast: more)') : null;
+    } catch {
+      contrastQuery = null;
+    }
+  }
+  return contrastQuery?.matches ?? false;
 }
 
 let shown = 0;

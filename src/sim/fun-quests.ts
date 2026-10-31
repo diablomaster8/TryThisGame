@@ -9,6 +9,7 @@ import { levelOf } from './stats';
 import { isAfternoon, isMorning, isNight, type StoryRule } from './side-rule-kit';
 import { GROVE_SIDE_STORIES } from './story-scenes';
 import type { CampaignState, World } from './types';
+import { localParts, tzOf } from './local-time';
 
 /**
  * The fun quests Q1 to Q95 (Python, Bean, Sunny, Avatar, Alice, Holmes and Hodja), driven by the same step
@@ -135,7 +136,8 @@ function timeHolds(world: World, time: WhenRule['time']): boolean {
 function dayHolds(world: World, day: WhenRule['day']): boolean {
   if (day === null) return true;
   if (day === 'festival') return world.festivalSeen === world.season;
-  const weekday = new Date(world.lastWallMs).getDay();
+  // TECH-45: the weekday in the Keeper's time zone, not the device's.
+  const weekday = localParts(world.lastWallMs, tzOf(world)).weekday;
   const weekend = weekday === 0 || weekday === 6;
   if (day === 'weekend') return weekend;
   if (day === 'weekday') return !weekend;

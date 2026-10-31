@@ -25,13 +25,40 @@ export type SoulLookKind =
   | 'trip'
   | 'sneeze'
   | 'hiccup'
-  | 'chaseTail';
+  | 'chaseTail'
+  // Lane A r9: trait quirks (R0528), the full belly and its burp (R0546), the peek (R0543).
+  | 'groomSelf'
+  | 'hum'
+  | 'inspect'
+  | 'giggleFit'
+  | 'burp'
+  | 'full'
+  | 'peek'
+  | 'smugRun'
+  | 'tug'
+  | 'callFruit'
+  | 'rubEyes';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
   const b = n.behavior;
   if (b.state === 'shelter') return b.target ? null : 'huddle';
   const id = b.itemId;
+  // Lane A r9.
+  if (b.state === 'sit' && id === 'groomSelf') return 'groomSelf';
+  if (b.state === 'wander' && (id === 'hum' || id === 'inspect')) return id;
+  if (b.state === 'perform' && id === 'giggle') return 'giggleFit';
+  if (b.state === 'perform' && id === 'burp') return 'burp';
+  if (b.state === 'perform' && id === 'peekTree' && !b.target) return 'peek';
+  // R0545, R0542: a fruit held up over its head (snatched, shared or off to the stash).
+  if (
+    b.state === 'perform' &&
+    (id?.startsWith('snatchRun:') || id?.startsWith('shareRun:') || id?.startsWith('hoardRun:'))
+  )
+    return 'smugRun';
+  // R0560: asking to be picked up too, arms up beside the Keeper.
+  if (b.state === 'perform' && id === 'askUp' && !b.target) return 'tug';
+  if (b.state === 'sit' && (id === 'tug' || id === 'callFruit' || id === 'rubEyes')) return id;
   if (b.state === 'sit' && (id === 'harrumph' || id === 'yawn' || id === 'stretch')) return id;
   if (b.state === 'sit' && id === 'stargaze') return 'stargaze';
   if (b.state === 'nap' && id === 'nodOff') return 'nodOff';
@@ -42,6 +69,12 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
     (id === 'trip' || id === 'sneeze' || id === 'hiccup' || id === 'chaseTail')
   )
     return id;
+  // R0546: the full belly shows on whatever it does next on its feet (a waddle when walking).
+  if (
+    (n.fullUntilMs ?? 0) > b.sinceMs &&
+    (b.state === 'wander' || b.state === 'sit' || b.state === 'greet' || b.state === 'findFood')
+  )
+    return 'full';
   return null;
 }
 
@@ -54,7 +87,15 @@ export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   trip: 1600,
   sneeze: 1200,
   hiccup: 500,
+  groomSelf: 700,
+  hum: 700,
+  giggleFit: 450,
+  burp: 5000,
+  smugRun: 500,
 };
+
+/** The waddle's sway. */
+const n0Walk = (ms: number): number => 0.035 * Math.sin((ms / 1000) * Math.PI * 2 * 1.6);
 
 /**
  * The body for a look `ms` into it (render time since the look began) and `t` (0..1) of the
@@ -182,6 +223,90 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.sh = 1 + hop * 0.05;
       break;
     }
+    case 'groomSelf':
+      // Tidying up: a quick side-to-side rub, eyes shut, a sparkle or two.
+      out.clip = 'happy';
+      out.frame = 0;
+      out.pose3d = 'happy';
+      out.dx = 0.03 * wave(2.5) * m;
+      out.sw = 1 + 0.03 * Math.abs(wave(2.5)) * m;
+      break;
+    case 'hum':
+    case 'inspect':
+      // A walk: the renderers keep it; hum adds notes, inspect a little lean forward.
+      if (kind === 'inspect') out.sh = 0.97;
+      break;
+    case 'giggleFit':
+      // Rolled over on its back, kicking: laid low and wide, rocking, notes popping up.
+      out.clip = 'happy';
+      out.pose3d = 'happy';
+      out.sh = 0.8;
+      out.sw = 1.15;
+      out.dy = -0.03;
+      out.dx = 0.05 * wave(3) * m;
+      break;
+    case 'burp':
+      // Puffed out, then the burp: a surprised face and a little hop.
+      out.clip = t < 0.5 ? 'idle' : 'surprised';
+      out.frame = 0;
+      out.pose3d = t < 0.5 ? 'idle' : 'surprised';
+      out.sw = 1.16 - 0.06 * Math.max(0, t - 0.5) * 2;
+      out.dy = t > 0.5 ? 0.05 * Math.sin(((t - 0.5) / 0.5) * Math.PI) * m : 0;
+      break;
+    case 'full':
+      // A round belly, and a side-to-side waddle when it walks.
+      out.sw = 1.13;
+      out.sh = 0.96;
+      out.dx = n0Walk(ms) * m;
+      break;
+    case 'peek': {
+      // R0543: tucked small and still behind the trunk for the first third, then leaning out
+      // round it and back, slowly (the lean is the look, so it stays under reduced motion).
+      if (t < 0.35) {
+        out.clip = 'sit';
+        out.frame = 0;
+        out.pose3d = 'sit';
+        out.sw = 0.9;
+        out.sh = 0.88;
+        break;
+      }
+      const lean = Math.max(0, Math.sin((ms / 2600) * Math.PI * 2));
+      out.clip = 'idle';
+      out.frame = 0;
+      out.pose3d = 'idle';
+      out.dx = 0.12 * lean;
+      out.sh = 0.95;
+      break;
+    }
+    case 'smugRun':
+      // R0545: off at a trot with the fruit held up over its head, very pleased.
+      out.clip = 'happy';
+      out.pose3d = 'happy';
+      out.sh = 1.06;
+      out.dy = 0.03 * Math.abs(wave(3)) * m;
+      break;
+    case 'tug':
+      // R0559: sat at the Keeper's feet, one hand up and tugging.
+      out.clip = 'happy';
+      out.frame = 0;
+      out.pose3d = 'happy';
+      out.sh = 1.04 + 0.04 * Math.max(0, wave(1.6)) * m;
+      break;
+    case 'callFruit':
+      // Looking up into the tree, hopefully, with a little bounce.
+      out.clip = 'surprised';
+      out.frame = 0;
+      out.pose3d = 'surprised';
+      out.dy = 0.03 * Math.max(0, wave(1.2)) * m;
+      break;
+    case 'rubEyes':
+      // Sat, rubbing its eyes: a slow side-to-side droop.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sh = 0.95;
+      out.dx = 0.02 * wave(1.4) * m;
+      break;
     case 'chaseTail':
       // Round and round after its own tail: a small circle, happy.
       out.clip = 'walk';

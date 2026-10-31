@@ -7,7 +7,7 @@ import type { SimEvent, World } from '../../src/sim/types';
 
 // R0352 (FUN-63) and R0355 (FUN-66): the idle Keeper's antics and rule three's sit.
 // A live wall clock at local noon, so no bedtime gets in the way.
-const NOON = new Date(2027, 4, 12, 12, 0, 0).getTime();
+const NOON = Date.UTC(2027, 4, 12, 12, 0, 0);
 function hatched(): World {
   const w = createWorld(7, 0);
   for (const n of w.nubbins) {
