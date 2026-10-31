@@ -10,7 +10,9 @@ import {
   setSaveSlot,
   storylineFinished,
   takeResumeSlot,
+  writeSave,
 } from './platform/storage';
+import { serialize } from './sim/save';
 import { loadStoryScripts } from './sim/story-scenes';
 import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
@@ -104,6 +106,9 @@ function route(): void {
       age: Math.max(3, Math.min(6, age)) as EduAge,
       band: age >= 7 ? 'reader' : 'sprout',
     });
+  } else if (params.has('scenario') && (import.meta.env.DEV || params.has('debug'))) {
+    // TECH-46: `?debug&scenario=<name>` opens a dev scenario in Free Grove slot 3 (erased).
+    void loadScenario(params.get('scenario') ?? '');
   } else if (params.has('free')) {
     // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
     setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
@@ -163,6 +168,19 @@ interface NewEdu {
   band: EduBand;
   /** Lane E r9, R0696: the name, colour and animal from the title's step. */
   tag?: EduTag;
+}
+
+/** TECH-46: build a dev scenario, store it as Free Grove slot 3 and start on it. */
+async function loadScenario(name: string): Promise<void> {
+  const { buildScenario } = await import('./dev/scenarios');
+  const seed = Number(params.get('seed')) || 1;
+  const world = buildScenario(name, seed, Date.now());
+  if (world) {
+    setSaveSlot({ mode: 'free', index: 3 });
+    clearSlot({ mode: 'free', index: 3 });
+    writeSave(serialize(world, Date.now()));
+  } else console.warn(`Unknown scenario "${name}"`);
+  startGame(null);
 }
 
 /**
