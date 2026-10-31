@@ -5,7 +5,8 @@
  * nav route) and never changes it.
  */
 import { TAP_PATH } from '../config/tuning-move';
-import { keeperFooting } from '../sim/keeper';
+import { TAP_FLAG } from '../config/tuning-move-r10';
+import { keeperFooting, tapVerdict, type TapVerdict } from '../sim/keeper';
 import { keeperRoute } from '../sim/nav';
 import type { Vec2, World } from '../sim/types';
 
@@ -20,17 +21,30 @@ export class TapPath {
   private at = -Infinity;
   dots: TapMark[] = [];
   mark: TapMark | null = null;
+  /** R0035: a ✕ (refused) or ⤒ (needs a jump) where the player tapped, for a little while. */
+  flag: (TapMark & { kind: TapVerdict['kind'] }) | null = null;
+  private verdict: TapVerdict | undefined;
+  private flagAt = -Infinity;
 
   /** Follow the sim's tap target; returns false when nothing is to be drawn. */
   update(world: World, nowMs: number): boolean {
+    const v = world.location === 'grove' ? tapVerdict(world) : undefined;
+    if (v !== this.verdict) {
+      this.verdict = v;
+      this.flagAt = nowMs;
+      this.flag = v ? { ...v.at, y: keeperFooting(world, v.at.x, v.at.z).y, kind: v.kind } : null;
+    }
     const t = world.location === 'grove' ? world.keeper.moveTarget : null;
     if (t !== this.target) {
+      // A fresh tap somewhere else clears an old flag (the walk to a shut-in tap's nearest
+      // point starts in the same step as its flag, so that one stays).
+      if (t && nowMs !== this.flagAt) this.flag = null;
       this.target = t;
       this.at = nowMs;
       this.dots = [];
       this.mark = null;
     }
-    if (!t) return false;
+    if (!t) return this.flagAlpha(nowMs, false) > 0;
     if (nowMs - this.at <= TAP_PATH.settleMs || !this.mark) this.place(world, t);
     return true;
   }
@@ -46,6 +60,13 @@ export class TapPath {
     const age = nowMs - this.at;
     if (reduced) return age < TAP_PATH.reducedMs ? 1 : 0;
     return age < TAP_PATH.markMs ? Math.min(1, (TAP_PATH.markMs - age) / 300) : 0;
+  }
+
+  /** R0035: how strongly to draw the ✕ / ⤒ flag (0 gone). */
+  flagAlpha(nowMs: number, reduced: boolean): number {
+    if (!this.flag) return 0;
+    const left = (reduced ? TAP_FLAG.reducedMs : TAP_FLAG.showMs) - (nowMs - this.flagAt);
+    return Math.max(0, Math.min(1, left / TAP_FLAG.fadeMs));
   }
 
   private place(world: World, target: Vec2): void {

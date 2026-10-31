@@ -350,6 +350,22 @@ const tapRecheck = new WeakMap<World, number>();
 /** How often (ms) a stand-in walk looks again at its real tap. */
 const RECHECK_MS = 1000;
 
+/**
+ * R0035 (lane A r10): the last refused or shut-in tap, for the tap marker's ✕ / ⤒ variants.
+ * Transient (never saved); a new object each time, so a renderer can tell a fresh one.
+ */
+export interface TapVerdict {
+  /** Where the player tapped. */
+  at: Vec2;
+  /** 'cant': nowhere near it is reachable; 'jump': a jump from here would get up there. */
+  kind: 'cant' | 'jump';
+}
+const tapVerdicts = new WeakMap<World, TapVerdict>();
+/** The latest unreachable-tap verdict (read only, for the tap markers). */
+export function tapVerdict(world: World): TapVerdict | undefined {
+  return tapVerdicts.get(world);
+}
+
 /** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
 const autoPressed = new WeakSet<World>();
 
@@ -981,8 +997,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         } else if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
           // MOVE-35: a plain tap with nowhere reachable near it says so.
-          else if (!stuck)
+          else if (!stuck) {
             events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
+            const at = standIns.get(target) ?? target;
+            tapVerdicts.set(world, { at: { x: at.x, z: at.z }, kind: 'cant' });
+          }
           k.intent = null;
           k.moveTarget = null;
         } else {
@@ -990,9 +1009,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
             // MOVE-35: the tap is shut in; walk to the nearest reachable point and say so,
             // with a hint when a jump would get there.
             k.moveTarget = leg.end;
-            standIns.set(leg.end, standIns.get(target) ?? target);
+            const at = standIns.get(target) ?? target;
+            standIns.set(leg.end, at);
             const jump = !autoHopOn(world) && hopReaches(world, k.pos, target);
             events.push({ kind: 'moveUnreachable', nearest: { ...leg.end }, jump });
+            tapVerdicts.set(world, { at: { x: at.x, z: at.z }, kind: jump ? 'jump' : 'cant' });
           }
           const to = leg.next;
           const td = Math.max(dist(k.pos, to), 1e-6);

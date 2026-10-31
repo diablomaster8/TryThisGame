@@ -1303,8 +1303,11 @@ export class WorldView {
       if (fl && fa > 0) {
         this.tapFlagSheet ??= buildTapFlagSheet();
         const up = fl.kind === 'jump';
-        const frect = this.tapFlagSheet.frames.get(frameKey(up ? 'tapJump' : 'tapCant', 'front', 0));
-        const bob = up && !calm ? Math.sin((nowMs / TAP_FLAG.bobMs) * Math.PI * 2) * TAP_FLAG.bob : 0;
+        const frect = this.tapFlagSheet.frames.get(
+          frameKey(up ? 'tapJump' : 'tapCant', 'front', 0),
+        );
+        const bob =
+          up && !calm ? Math.sin((nowMs / TAP_FLAG.bobMs) * Math.PI * 2) * TAP_FLAG.bob : 0;
         if (frect)
           batch.draw({
             sheet: this.tapFlagSheet,
