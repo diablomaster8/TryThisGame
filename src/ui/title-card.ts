@@ -530,6 +530,7 @@ export function disposeLook(): void {
   particles.seedStart = -1;
   particles.lastMs = 0;
   lastCardKey = '';
+  cardShown.clear();
   if (watchdog !== null && !layers) {
     window.clearInterval(watchdog);
     watchdog = null;
@@ -554,6 +555,12 @@ export interface CampaignMoment {
 }
 
 let lastCardKey = '';
+/**
+ * Lane C r10 agent A (R0605): the chapter each campaign last showed its card for, so walking in
+ * and out of a questline's region (which switches the campaign the dressings answer for) never
+ * shows a chapter's card twice.
+ */
+const cardShown = new Map<string, number>();
 
 /**
  * Called every frame by whichever renderer is drawing: lays the campaign's look, season,
@@ -619,8 +626,10 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
   driveLook({ look: shown, ground, weather, seed: fx.seed, reduce });
   // A chapter's title card, once, as it opens.
   const key = `${f.campaign}:${f.chapter}`;
-  if (key !== lastCardKey && f.chapter >= 1 && f.chapter <= final && title) {
+  const again = cardShown.get(f.campaign) === f.chapter;
+  if (key !== lastCardKey && !again && f.chapter >= 1 && f.chapter <= final && title) {
     lastCardKey = key;
+    cardShown.set(f.campaign, f.chapter);
     showTitleCard({
       campaign: f.half ? f.half : f.campaign,
       chapter: f.chapter,

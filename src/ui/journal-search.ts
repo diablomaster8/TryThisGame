@@ -68,6 +68,8 @@ export interface ShelfRoad {
   title: string;
   endings: Record<string, { title: string; how: string }>;
   reached: ReadonlySet<string>;
+  /** Lane C r10 agent B (R0642): wall-clock ms each reached ending was reached, if known. */
+  at?: Readonly<Record<string, number>>;
 }
 
 export interface ShelfEntry {
@@ -75,7 +77,13 @@ export interface ShelfEntry {
   title: string;
   got: number;
   of: number;
-  items: Array<{ id: string; title: string | null; reached: boolean; hint: string | null }>;
+  items: Array<{
+    id: string;
+    title: string | null;
+    reached: boolean;
+    hint: string | null;
+    at: number | null;
+  }>;
 }
 
 /**
@@ -98,6 +106,7 @@ export function endingShelf(roads: readonly ShelfRoad[]): ShelfEntry[] {
           title: reached ? r.endings[id]!.title : null,
           reached,
           hint: !reached && got > 0 ? r.endings[id]!.how : null,
+          at: reached ? (r.at?.[id] ?? null) : null,
         };
       }),
     };

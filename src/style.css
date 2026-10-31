@@ -4516,3 +4516,137 @@ html.story-resting canvas {
   border: 2px solid rgba(255, 255, 255, 0.18);
   border-radius: 6px;
 }
+
+/* Lane C r10 agent A (R0605): a questline region's Go-to chip and the short fade. */
+.region-chip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--hud-bottom, 0px) + 120px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: calc(100vw - 32px);
+  pointer-events: auto;
+  z-index: 6;
+}
+.region-chip .btn {
+  min-height: 44px;
+  padding: 0 16px;
+}
+.region-chip[hidden],
+.dialogue-open .region-chip {
+  display: none;
+}
+.region-fade {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--region-fade-ms, 260ms) ease;
+  z-index: 40;
+}
+.region-fade.on {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .region-fade {
+    transition: none;
+  }
+}
+
+/* Lane C r10 agent B (R0649, R0659): slot tags on the title, the name dialog, backups. */
+.title-slot-tagged {
+  border-left: 5px solid var(--slot-tag, transparent);
+  padding-left: 4px;
+  border-radius: 4px;
+}
+.slot-tag-leaf {
+  --slot-tag: #5aa04a;
+}
+.slot-tag-star {
+  --slot-tag: #e8c13a;
+}
+.slot-tag-shell {
+  --slot-tag: #e89a8a;
+}
+.slot-tag-moon {
+  --slot-tag: #7a6ad0;
+}
+.slot-tag-sun {
+  --slot-tag: #f08a2a;
+}
+.slot-tag-heart {
+  --slot-tag: #d8508a;
+}
+.slot-label-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 10px;
+}
+.slot-tag-choice {
+  border-bottom: 4px solid var(--slot-tag, transparent);
+}
+.slot-tag-choice[aria-checked='true'] {
+  outline: 3px solid currentColor;
+  outline-offset: 1px;
+  font-weight: 700;
+}
+.slot-label-dialog .rename-input {
+  width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+.save-backup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+/* Lane C r10 agent A (R0650): the map's questline-region tabs and pages (wrap, never scroll). */
+.wm-story-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+.wm-story-tabs .btn,
+.wm-story-page .btn {
+  min-height: 44px;
+}
+.wm-story-tabs .wm-locked {
+  opacity: 0.75;
+}
+.wm-story-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.wm-story-areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Lane C r10 agent C: the journal's step controls, the summary card and the recap. */
+.journal-recap > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.skip-card-changes {
+  margin: 0.25rem 0 0;
+  padding-left: 1.2rem;
+}
+.recap-card .modal-body p,
+.skip-card .modal-body p {
+  margin: 0.25rem 0;
+}

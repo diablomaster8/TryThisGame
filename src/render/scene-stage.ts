@@ -17,6 +17,9 @@ import {
 } from '../config/story';
 import { sceneFor, type PlayScene } from '../sim/story-scenes';
 import { storylineOf } from '../sim/storyline';
+import { regionLine, storyRegionHere } from '../sim/story-regions';
+import { STORY_REGIONS } from '../config/story-regions';
+import { STAGE_SET_HIDES } from '../config/stage-sets';
 import { walkOnRoute } from '../sim/scene-cast';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
 import { walkLength, fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
@@ -49,8 +52,9 @@ export function resolveStage(
   const scene = sceneFor(world, id, 'main');
   if (!scene) return null;
   const stage: SceneStage = { ...E_STAGES[id], ...SCENE_STAGES[id], ...scene.stage };
-  // M13: Dawn & Dusk's hour follows its half, for any scene that names none.
-  const line = world.campaign?.storyline;
+  // M13: Dawn & Dusk's hour follows its half, for any scene that names none (in its region
+  // too, beside Hazel's Grove: lane C r10 agent A).
+  const line = (regionLine(world) ?? world.campaign)?.storyline;
   if (stage.hour === undefined && (line === 'dawn' || line === 'dusk'))
     stage.hour = line === 'dawn' ? DAWN_HOUR : DUSK_HOUR;
   return { id, scene, stage };
@@ -135,7 +139,9 @@ export interface StageFlags {
 
 /** Answer the dressings' questions from the world and the current stage. Never writes. */
 export function stageFlags(world: World, stage: SceneStage | null): StageFlags {
-  const c = world.campaign;
+  // Lane C r10 agent A (R0605): inside a questline's region the dressings answer for that line
+  // (its set, its chapter), and back in the Grove for Hazel's again.
+  const c = regionLine(world) ?? world.campaign;
   const line = storylineOf(c);
   const side = c?.flags.side;
   const half =
@@ -161,7 +167,7 @@ export function stageFlags(world: World, stage: SceneStage | null): StageFlags {
     location: world.location,
     grove: world.grove,
     place: stage?.place ?? null,
-    sceneId: c?.queue[0] ?? null,
+    sceneId: world.campaign?.queue[0] ?? null,
     grave: stage?.grave === true,
     tale: stage?.tale === true,
     moon: stage?.moon ?? null,
@@ -207,6 +213,14 @@ export interface StageReverse {
 export class SceneStager {
   private sceneId: string | null = null;
   private location: Location | null = null;
+  /** R0605: the questline region whose set dresses the Grove now (with a line running), or null. */
+  region: string | null = null;
+
+  /** R0605: the Grove buildings the region's set hides while the Keeper is in it. */
+  regionHides(): readonly string[] {
+    const r = this.region as keyof typeof STORY_REGIONS | null;
+    return r && r in STORY_REGIONS ? STAGE_SET_HIDES[STORY_REGIONS[r].set] : [];
+  }
   private readonly speakers = new Set<string>();
   /** The resolved stage of the current scene ({} while none, or none authored). */
   stage: SceneStage = {};
@@ -403,12 +417,15 @@ export class SceneStager {
     const r = resolveStage(world);
     const id = r?.id ?? null;
     // A move to another place restages the same scene (its marks and hour belong to a place).
-    if (id === this.sceneId && world.location === this.location) {
+    // R0605: so does walking into or out of a questline's region (its set dresses the Grove).
+    const region = regionLine(world) ? storyRegionHere(world) : null;
+    if (id === this.sceneId && world.location === this.location && region === this.region) {
       this.stepWalks(nowMs);
       return false;
     }
     this.sceneId = id;
     this.location = world.location;
+    this.region = region;
     this.holds.clear();
     this.faces.clear();
     this.baseFaces.clear();

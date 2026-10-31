@@ -1537,7 +1537,11 @@ export class Grove3dScene {
       // Campaign graphics 2: sets build late, so look again; a set hides the Grove-only
       // buildings and an exclusive stage hides the world (`setDaylight`) and every building.
       this.buildings3d.discover();
-      this.buildings3d.stageHidden = new Set(stageHides(this.staging.stage));
+      // R0605 (lane C r10 agent A): and a questline region's set, while the Keeper is in it.
+      this.buildings3d.stageHidden = new Set([
+        ...stageHides(this.staging.stage),
+        ...this.staging.regionHides(),
+      ]);
       this.buildings3d.stageHidesAll = this.staging.exclusive;
       this.fitCache = null;
       this.fitKept = [];

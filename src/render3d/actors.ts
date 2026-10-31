@@ -76,6 +76,7 @@ import { sitWithBeat, towardKeeper } from '../render/sit-with';
 import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
+import { nubbinsHere } from '../sim/nubbin-home';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -820,7 +821,8 @@ export class Actors {
   private shownNubbins(world: World): World['nubbins'] {
     if (this.location.startsWith('visit:')) return [];
     const run = this.location === 'dungeon' ? world.dungeon : null;
-    return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : world.nubbins;
+    // Lane C r10 agent D (R0594): a line's Nubbin that stayed in its place is drawn only there.
+    return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : nubbinsHere(world);
   }
 
   private drop(id: string): void {

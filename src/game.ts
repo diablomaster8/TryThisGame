@@ -68,6 +68,9 @@ import { dedupeEvents } from './ui/event-dedupe';
 import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
+import { slotId } from './platform/storage';
+import { takeBackup, writeCheckpoint } from './platform/save-backups';
+import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
@@ -236,7 +239,8 @@ export class Game {
     if (st.update(this.world, nowMs)) {
       this.lastDaylightMs = -Infinity;
       // Campaign graphics 2: a set hides the Grove-only buildings, an exclusive stage all.
-      PIXEL_BUILDINGS.stageHidden = new Set(stageHides(st.stage));
+      // R0605 (lane C r10 agent A): a questline region's set hides them while the Keeper is in it.
+      PIXEL_BUILDINGS.stageHidden = new Set([...stageHides(st.stage), ...st.regionHides()]);
       PIXEL_BUILDINGS.stageHidesAll = st.exclusive;
     }
     st.noteLine(this.storyLine, nowMs, this.storySpeaker);
@@ -745,6 +749,24 @@ export class Game {
     }
   }
 
+  /**
+   * Lane C r10 agent B (R0619, CAMP-27): the first snapshot of each chapter goes to
+   * IndexedDB, with a backup beside it; the sim records the key once the write succeeded.
+   * Without IndexedDB nothing is kept and the game runs on.
+   */
+  private keepCheckpoints(events: SimEvent[]): void {
+    if (this.holdSaves || this.crashed) return;
+    const keys = chapterKeysOf(events, this.world).filter((k) => !hasCheckpoint(this.world, k));
+    if (keys.length === 0) return;
+    const slot = slotId(currentSlot());
+    const json = serialize(this.world, Date.now());
+    void takeBackup(slot, json, Date.now(), true);
+    for (const key of keys)
+      void writeCheckpoint(slot, key, json).then((id) => {
+        if (id) this.send({ kind: 'checkpointKept', key, id });
+      });
+  }
+
   save(): boolean {
     if (this.holdSaves || this.catchingUp || this.crashed) {
       this.lastSaveMs = performance.now();
@@ -909,6 +931,7 @@ export class Game {
       this.hooks.onEvents(
         this.clock.timeScale > FAST_TIME.fromScale ? dedupeEvents(events) : events,
       );
+      this.keepCheckpoints(events);
       for (const e of events) {
         // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
         const shake = this.world.settings.screenShake && !this.reduceMotion;

@@ -6,11 +6,11 @@ import type { Game } from '../game';
 import { Beacon } from '../render/beacon';
 import { buildEduFence } from '../render/edu-fence';
 import { terraceY } from '../render/scene-stage';
-import { objectivePoi } from '../sim/beacon';
+import { goalTarget } from '../sim/goal-target';
 import { travelMode } from '../sim/travel';
 import type { Vec2 } from '../sim/types';
 import { edgeArrow } from './hud-world-math';
-import { objectiveOf } from './objective';
+import { CHIP_SHOWN, objectiveOf } from './objective';
 import { playIris } from './travel-iris';
 
 /**
@@ -74,7 +74,10 @@ export function mountBeacon(root: HTMLElement, game: () => Game | null, openMap:
     const g = game();
     const chip = root.querySelector<HTMLElement>('.objective-chip');
     const o = g && chip && !chip.hidden ? objectiveOf(g) : null;
-    const at = g && o ? objectivePoi(g.world, o.key) : null;
+    // Lane C r10 agent C (R0661): follow the goal the chip shows (its cycle arrow picks a
+    // pinned quest or a line), through the same resolver as the chip's Go there.
+    const key = g && chip && !chip.hidden ? (CHIP_SHOWN.key ?? o?.key ?? null) : null;
+    const at = g && key ? goalTarget(g.world, key) : null;
     OBJECTIVE_TARGET.pos = at;
     const scene = g ? (g.scene3d?.scene ?? g.grove?.scene ?? null) : null;
     const kids = !!g?.world.edu && g.world.location === 'grove';

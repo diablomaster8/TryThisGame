@@ -37,6 +37,7 @@ import { askGrownUp } from './grown-up-gate';
 import { KID_SHEET_TEXT } from '../config/strings-kids';
 import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
+import { mountStoryPaceSetting } from './story-pace-setting';
 import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
 import { mountSaveInfo } from './save-info-panel';
@@ -94,6 +95,8 @@ export class SettingsMenu {
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
   private syncMinimap: (g: Game) => void = () => undefined;
+  /** Lane C r10 agent C (R0614): refreshes the Story pace row. */
+  private syncPace: (g: Game) => void = () => undefined;
   private syncWorld: (g: Game) => void = () => undefined;
   /** TECH-52: the Quality row (`quality-setting.ts`). */
   private syncQuality: (g: Game) => void = () => undefined;
@@ -400,6 +403,8 @@ export class SettingsMenu {
     this.questFlow = select(OFFER_TEXT.flowLabel, OFFER_TEXT.flowOptions);
     this.questFlow.title = OFFER_TEXT.flowHelp;
     body.appendChild(el('div', 'help', OFFER_TEXT.flowHelp));
+    // Lane C r10 agent C (R0614): Story pace, a self-contained row (ui/story-pace-setting.ts).
+    this.syncPace = mountStoryPaceSetting(body, this.game);
     // R0670: telemetry-free play counts; they travel in an exported save.
     this.playLine = el('div', 'help');
     body.appendChild(this.playLine);
@@ -467,7 +472,12 @@ export class SettingsMenu {
     saves.append(this.unreadableBtn);
     body.appendChild(saves);
     // R0659 (CAMP-67): last saved, size, and the copies kept.
-    this.syncSaveInfo = mountSaveInfo(body);
+    // Lane C r10 agent B: with the rolling backups, Restore and the checkpoint count.
+    this.syncSaveInfo = mountSaveInfo(body, {
+      game: this.game,
+      toast: this.toast,
+      onRestored: () => this.close(),
+    });
     const warn = el('p', 'help', UI_TEXT.mayClearStorage);
     warn.hidden = true;
     body.appendChild(warn);
@@ -566,6 +576,7 @@ export class SettingsMenu {
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
     this.syncMinimap(g);
+    this.syncPace(g);
     this.syncWorld(g);
     this.syncQuality(g);
     this.joystick.checked = g.world.settings.joystick;

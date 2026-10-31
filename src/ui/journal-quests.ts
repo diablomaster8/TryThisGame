@@ -2,6 +2,7 @@ import { SPECIES_LABELS, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { requestLine } from '../config/strings-fun-r6';
 import { OFFER_TEXT } from '../config/strings-camp';
 import { JOURNAL_TEXT } from '../config/strings-journal';
+import { ENDING_DATE_TEXT } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { isFunQuestCode } from '../sim/audience';
@@ -204,6 +205,14 @@ export function renderQuestsPage(g: Game, body: HTMLElement): void {
   body.appendChild(box);
 }
 
+/** Lane C r10 agent B (R0642): an ending's reach time, as a shelf road's `at`. */
+function atOf(
+  ending: string | null | undefined,
+  wallMs: number | undefined,
+): { at?: Record<string, number> } {
+  return ending && wallMs !== undefined ? { at: { [ending]: wallMs } } : {};
+}
+
 /** R0642: the shelf of every road's endings, under the current story's gallery. */
 export function renderEndingShelf(g: Game, body: HTMLElement, view: JournalView): void {
   if (view.storyline !== null || !sharesStory(g.world)) return;
@@ -213,6 +222,7 @@ export function renderEndingShelf(g: Game, body: HTMLElement, view: JournalView)
       title: STORY_TEXT.title,
       endings: view.endings,
       reached: new Set(view.ending ? [view.ending] : []),
+      ...atOf(view.ending, g.world.campaign?.endedWallMs),
     },
   ];
   for (const s of storylines()) {
@@ -222,6 +232,7 @@ export function renderEndingShelf(g: Game, body: HTMLElement, view: JournalView)
       title: s.title,
       endings: s.endings,
       reached: new Set(end ? [end] : []),
+      ...atOf(end, g.world.lines[s.id]?.endedWallMs),
     });
   }
   const box = el('section', 'journal-shelf');
@@ -241,6 +252,15 @@ export function renderEndingShelf(g: Game, body: HTMLElement, view: JournalView)
           `${it.reached ? JOURNAL_TEXT.reachedMark : JOURNAL_TEXT.unknown} ${it.title ?? ''}`.trim(),
         );
         if (it.hint) li.appendChild(el('span', 'help', ` · ${it.hint}`));
+        // Lane C r10 agent B (R0642): the day it was reached.
+        if (it.at !== null)
+          li.appendChild(
+            el(
+              'span',
+              'help',
+              ` · ${ENDING_DATE_TEXT.reached(new Date(it.at).toLocaleDateString())}`,
+            ),
+          );
         ul.appendChild(li);
       }
       box.appendChild(ul);

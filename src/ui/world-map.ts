@@ -7,6 +7,9 @@
  * A tab strip lists the regions found so far. The map only reads the world and sends commands.
  */
 import '../world.css';
+import type { StoryRegionId } from '../config/story-regions';
+import { regionLine, storyRegionHere } from '../sim/story-regions';
+import { hasStoryRegions, storyRegionPage, storyRegionTabs } from './map-regions';
 import { REGIONS, type RegionId } from '../config/regions';
 import { markAt } from '../config/stage-marks';
 import { STAGE_SET_HIDES, type StageSet } from '../config/stage-sets';
@@ -149,6 +152,9 @@ export class WorldMapPanel {
   private readonly layerLine: HTMLParagraphElement;
   private readonly layersOn = new Set<MapLayer>(['quests', 'travel']);
   private tab: RegionId = 'grove';
+  /** Lane C r10 agent A (R0650): the questline region page shown, or null for `tab`. */
+  private storyTab: StoryRegionId | null = null;
+  private storyTabs: HTMLElement | null = null;
   private zoom = 1;
   private panX = 0;
   private panY = 0;
@@ -206,6 +212,9 @@ export class WorldMapPanel {
   open(): void {
     // The Grove is the only region drawn so far, so the map always opens on it.
     this.tab = 'grove';
+    // R0650: inside a questline's region the map opens on that region's page.
+    const gw = this.game()?.world;
+    this.storyTab = gw && hasStoryRegions(gw) ? storyRegionHere(gw) : null;
     this.zoom = 1;
     this.sheet.hidden = true;
     this.dialog.show();
@@ -235,9 +244,23 @@ export class WorldMapPanel {
     const g = this.game();
     if (!g) return;
     this.drawTabs(g.world);
-    const grove = this.tab === 'grove';
+    this.drawStoryTabs(g.world);
+    const grove = this.tab === 'grove' && this.storyTab === null;
     this.view.hidden = !grove;
     this.elsewhere.hidden = grove;
+    if (this.storyTab) {
+      this.elsewhere.innerHTML = '';
+      this.elsewhere.appendChild(
+        storyRegionPage(
+          g,
+          this.storyTab,
+          this.toast,
+          () => this.close(),
+          document.querySelector('.region-fade'),
+        ),
+      );
+      return;
+    }
     if (!grove) {
       this.drawElsewhere(g);
       return;
@@ -256,6 +279,7 @@ export class WorldMapPanel {
         WORLD_TEXT.regions[id],
         () => {
           this.tab = id;
+          this.storyTab = null;
           this.sheet.hidden = true;
           this.refresh();
         },
@@ -287,6 +311,24 @@ export class WorldMapPanel {
     const old = this.tabs.nextElementSibling;
     if (old?.classList.contains('wm-keepsakes')) old.remove();
     this.tabs.after(el('p', 'wm-keepsakes', keepsakeLine(w, this.tab)));
+  }
+
+  /** Lane C r10 agent A (R0650): the questline regions' tabs, under the map's own. */
+  private drawStoryTabs(w: World): void {
+    this.storyTabs?.remove();
+    this.storyTabs = null;
+    if (!hasStoryRegions(w)) return;
+    this.storyTabs = storyRegionTabs(
+      w,
+      this.storyTab,
+      (r) => {
+        this.storyTab = r;
+        this.sheet.hidden = true;
+        this.refresh();
+      },
+      this.toast,
+    );
+    this.tabs.after(this.storyTabs);
   }
 
   private drawElsewhere(g: Game): void {
@@ -343,7 +385,8 @@ export class WorldMapPanel {
     const names = UI_TEXT.landmarkNames as Record<string, string>;
     // K33: while a separate campaign runs, the Grove's own spots its set takes away go, and the
     // set's places are added.
-    const story = w.campaign?.storyline ?? null;
+    // Lane C r10 agent A (R0605): beside Hazel's Grove, the set of the region the Keeper is in.
+    const story = w.campaign?.storyline ?? regionLine(w)?.storyline ?? null;
     const set = (story ? (CG4_U4.map.setOf as Record<string, StageSet>)[story] : undefined) ?? null;
     const hidden: readonly string[] = set ? STAGE_SET_HIDES[set] : [];
     this.campaign.hidden = !set;

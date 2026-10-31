@@ -15,6 +15,7 @@ import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import { bandOf, childHint } from '../sim/alignment';
 import { rosterNubbins, storyNubbin } from '../sim/roster';
+import { nubbinsHere } from '../sim/nubbin-home';
 import { levelOf } from '../sim/stats';
 import { STAT_KEYS, type Nubbin, type Personality } from '../sim/types';
 import { button, el, modal } from './dom';
@@ -77,7 +78,8 @@ export class RosterMenu {
     if (!g) return;
     this.list.innerHTML = '';
     // Moss is not listed while he keeps to the hill (sim/roster.ts).
-    const mine = rosterNubbins(g.world);
+    // Lane C r10 agent D (R0594): a line's Nubbin living in its own place is listed only there.
+    const mine = nubbinsHere(g.world, rosterNubbins(g.world));
     const count = el('div', 'help', UI_TEXT.rosterCount(mine.length));
     this.list.appendChild(count);
     // R0579: a filter row by personality, shown once two or more are in the Grove.

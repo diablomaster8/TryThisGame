@@ -4,6 +4,7 @@ import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import { stageFlags } from './scene-stage';
+import { camp10dDressItems } from './dress-camp10d';
 
 /**
  * Which of package d's props and items stand now, and where (campaign graphics H11, M1,
@@ -223,5 +224,7 @@ export function dressItems(world: World, stage: SceneStage, darkness: number): D
         yaw: Math.PI * 0.85,
       });
   }
+  // Lane C r10 agent D (R0607, R0639): the notice board and the lines' Grove changes.
+  out.push(...camp10dDressItems(world, stage));
   return out;
 }

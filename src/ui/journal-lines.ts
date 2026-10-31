@@ -1,5 +1,4 @@
 import { CAMP_TEXT, STORYLINE_TEXT } from '../config/strings';
-import { STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { activeLines, lineRefusal, quietSpine, sharesStory } from '../sim/story-book';
 import { confirmModal } from './confirm';
@@ -9,6 +8,14 @@ import { button, el } from './dom';
 import { JOURNAL_TEXT } from '../config/strings-journal';
 import { JOURNAL } from '../config/tuning-journal';
 import { lineMinutesLeft } from './journal-search';
+import { storyActButton } from './journal-step';
+import { lineRecap } from './recap';
+import { RECAP_TEXT } from '../config/strings';
+
+/** Lane C r10 agent C: where a summary card mounts, outside the journal's redrawn body. */
+function cardHost(body: HTMLElement): HTMLElement {
+  return body.closest<HTMLElement>('.modal')?.parentElement ?? document.body;
+}
 
 /**
  * Lane C round 7 (R0596, R0643): the journal's "Other roads", the questlines that run beside
@@ -61,18 +68,23 @@ export function renderLines(
         );
         card.appendChild(el('p', undefined, `${view.goalText}${view.met ? ' ✓' : ''}`));
         card.appendChild(el('p', 'help', view.hint));
+        // Lane C r10 agent C (R0620): the road's story so far, folded away.
+        const past = lineRecap(line);
+        if (past.length > 0) {
+          const fold = el('details', 'journal-recap');
+          fold.appendChild(el('summary', undefined, RECAP_TEXT.show));
+          for (const r of past) fold.appendChild(el('p', 'help', r));
+          card.appendChild(fold);
+        }
         const row = el('div', 'journal-actions');
         if (view.act && !line.flags[`act:${view.act}`] && !view.met) {
           const label = view.act;
+          // Lane C r10 agent C (R0636, R0617): Imagine it, with the summary card.
           row.appendChild(
-            button(
-              STORY_TEXT.doStep,
-              () => {
-                g.send({ kind: 'storyAct', label, line: s.id });
-                later();
-              },
-              'btn btn-small btn-primary',
-            ),
+            storyActButton(cardHost(body), s.title, view.goalText, () => {
+              g.send({ kind: 'storyAct', label, line: s.id });
+              later();
+            }),
           );
         }
         for (const a of view.actions) {

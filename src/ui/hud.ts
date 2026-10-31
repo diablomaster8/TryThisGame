@@ -57,6 +57,8 @@ import { hollowCueFor } from './hollow-sounds';
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
+import { RecapCard, recapDue } from './recap';
+import { skipCardOpen } from './skip-card';
 import { askResume, setBattleDialogue } from './battle-scenes';
 import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
@@ -80,6 +82,8 @@ import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
+import { RegionChip } from './region-chip';
+import { sceneWaitsForRegion } from '../sim/story-regions';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { AmbientBubbles, BarkBubble } from './bark-bubble';
@@ -387,6 +391,8 @@ export function mountHud(
     (cmd) => game()?.send(cmd),
     () => game()?.camera ?? null,
   );
+  // Lane C r10 agent A (R0605): a questline region's Go-to chip at its entrance.
+  const regionChip = new RegionChip(root, (cmd) => game()?.send(cmd));
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !e.repeat && !isTypingTarget(e.target)) setRunning(true);
   });
@@ -544,6 +550,8 @@ export function mountHud(
   setBattleDialogue(dialogue);
   let resumeAsked = false;
   const journal = new Journal(root, game);
+  // Lane C r10 agent C (R0620): "The story so far", after the away screen of a long break.
+  const recap = new RecapCard(root, () => journal.open());
   const partyBout = new PartyBoutPanel(root, game, toast);
   journal.openers.partyBout = () => {
     const g = game();
@@ -906,6 +914,8 @@ export function mountHud(
     () =>
       stack.anyOpen() ||
       away.isOpen ||
+      recap.isOpen() ||
+      skipCardOpen() ||
       celebration.isOpen ||
       memorialCard.isOpen() ||
       journal.isTracing() ||
@@ -1043,6 +1053,7 @@ export function mountHud(
         jumpPolled = true;
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
         g.framePollers.push(() => lookout.update(g.world, performance.now()));
+        g.framePollers.push(() => regionChip.update(g.world));
         g.framePollers.push(() => hopLesson.update(g.world));
         g.framePollers.push(() => hopCourse.update(g.world));
         g.framePollers.push(() => barkBubble.update(g, performance.now()));
@@ -1257,7 +1268,11 @@ export function mountHud(
       // Grove (review 2026-10-24, item 4). A storyline's own floor scenes still play there.
       // Nor under the loading veil: the first lines would play unseen while 3D builds.
       const veiled = !!document.querySelector('.load-veil');
-      const held = veiled || (!!c && !c.storyline && g.world.location === 'dungeon');
+      // R0597 (lane C r10 agent A): nor a line's scene outside its region.
+      const held =
+        veiled ||
+        (!!c && !c.storyline && g.world.location === 'dungeon') ||
+        (!!c?.queue[0] && sceneWaitsForRegion(g.world, c.queue[0]));
       const next = held ? undefined : c?.queue[0];
       // cg5: the Hollow's floor bar and minimap stay off between a floor scene's lines too
       // (the chapter card, the beat before the next scene), not only while a line is up.
@@ -1338,6 +1353,7 @@ export function mountHud(
       }
       backupNudge.onEvents(events);
       offerCard.onEvents(events);
+      regionChip.onEvents(events, toast);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
@@ -1928,8 +1944,16 @@ export function mountHud(
     onAway(report: AwayReport, closed: () => void) {
       const g = game();
       // Shown at once, so no story scene can start under it; the scene waits for it to close.
-      if (g) away.show(report, g.world, closed);
-      else setTimeout(() => (game() ? away.show(report, game()!.world, closed) : closed()), 0);
+      // Lane C r10 agent C (R0620): after a long break, the recap follows it, never before.
+      const done = recapDue(report.elapsedMs)
+        ? () => {
+            closed();
+            const now = game();
+            if (now?.world.campaign) recap.show(now);
+          }
+        : closed;
+      if (g) away.show(report, g.world, done);
+      else setTimeout(() => (game() ? away.show(report, game()!.world, done) : done()), 0);
     },
     onSelect(id) {
       const g = game();

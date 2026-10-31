@@ -49,7 +49,8 @@ import { SURVIVE_TEXT } from '../config/strings-battle-r6';
 import { parseSurvive, startWorldBout, surviveContext } from '../sim/battle/world-bout';
 import { MicroScreen } from '../minigames/micro/micro-screen';
 import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
-import { DO_IT_BY, DOSSIER_TEXT, doItLabel } from '../config/strings-fun-r6';
+import { DO_IT_BY, DOSSIER_TEXT } from '../config/strings-fun-r6';
+import { playLabel } from './journal-step';
 import { hashSeed } from '../sim/rng';
 
 /** A fresh read-only snapshot of the side saves and every Grove save on this device. */
@@ -288,7 +289,8 @@ export class StoryShelf {
         this.body.appendChild(el('p', 'help micro-aside', by.aside));
         this.body.appendChild(
           button(
-            doItLabel(kind),
+            // Lane C r10 agent C (R0636): Play it, or Imagine it when no game stands in.
+            playLabel(kind, skip, step?.check ?? ''),
             () => {
               const act = (): void => {
                 this.update(line, (pr, ctx) => lineAct(line, pr, ctx));

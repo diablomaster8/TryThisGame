@@ -71,6 +71,7 @@ import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
 import { springBouncedAt } from '../sim/decorate';
 import { shroomHopY } from '../sim/behavior';
+import { nubbinsHere } from '../sim/nubbin-home';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
@@ -1129,8 +1130,9 @@ export class WorldView {
     // Nubbins.
     const seen = this.seenNubbins;
     seen.clear();
+    // Lane C r10 agent D (R0594): a line's Nubbin that stayed in its place is drawn only there.
     const shown = home
-      ? world.nubbins
+      ? nubbinsHere(world)
       : run
         ? world.nubbins.filter((x) => run.party.includes(x.id))
         : [];

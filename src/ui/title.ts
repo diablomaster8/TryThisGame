@@ -12,9 +12,9 @@ import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
 import {
   clearSlot,
-  hasSave,
   readGraphicsPref,
-  readSlotSummary,
+  readSlotIndex,
+  slotId,
   storageAvailable,
   writeGraphicsPref,
   isStorylineMode,
@@ -36,6 +36,8 @@ import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
 import { AGE_PICK_TEXT } from '../config/strings-kids';
 import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
+import { SLOT_LABEL_TEXT } from '../config/strings';
+import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -162,6 +164,8 @@ export function showTitle(
   const mainMenu = () => {
     menu.innerHTML = '';
     const now = Date.now();
+    // Lane C r10 agent B (R0622): one read of the slot index in place of parsing every save.
+    const slotIndex = readSlotIndex();
     for (const mode of MODES) {
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
@@ -172,17 +176,24 @@ export function showTitle(
       for (let index = 1; index <= SLOTS_PER_MODE; index++) {
         const slot: SaveSlot = { mode, index };
         const row = el('div', 'title-slot');
-        const filled = hasSave(slot);
-        const summary = filled ? readSlotSummary(slot) : null;
+        const entry = slotIndex.slots[slotId(slot)];
+        const filled = entry !== undefined;
+        const summary = entry?.summary ?? null;
         if (filled) {
           const main = button(
             '',
             () => finish({ slot, fresh: false, trainer: null }),
             'btn btn-primary title-slot-main',
           );
-          const said = summary ? describe(mode, summary, now) : '';
+          // R0649: the slot's name and tag (icon and word) lead what the row says.
+          const said = [
+            slotTagText(summary?.label?.tag),
+            summary ? describe(mode, summary, now) : '',
+          ]
+            .filter((t) => t.length > 0)
+            .join(' · ');
           main.append(
-            el('strong', undefined, `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.continue}`),
+            el('strong', undefined, `${slotName(index, summary)} · ${SLOT_TEXT.continue}`),
             el('small', undefined, said),
           );
           main.setAttribute('aria-label', SLOT_TEXT.continueLabel(modeName, index, said));
@@ -224,7 +235,18 @@ export function showTitle(
             'aria-label',
             `${SLOT_TEXT.erase} ${modeName}, ${SLOT_TEXT.slot(index)}`,
           );
-          row.append(main, fresh, erase);
+          const name = button(
+            '✎',
+            () => openSlotLabel(document.body, slot, summary, mainMenu),
+            'btn btn-small btn-icon title-slot-name',
+          );
+          name.title = SLOT_LABEL_TEXT.rename;
+          name.setAttribute(
+            'aria-label',
+            SLOT_LABEL_TEXT.renameLabel(`${modeName}, ${SLOT_TEXT.slot(index)}`),
+          );
+          tagRow(row, summary);
+          row.append(main, name, fresh, erase);
         } else {
           const main = button('', () => startNew(slot), 'btn title-slot-main');
           main.append(

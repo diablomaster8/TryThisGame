@@ -39,6 +39,12 @@ import { goalTarget } from '../sim/goal-target';
 import { restOver, restWait } from '../sim/rest';
 import { travelMode } from '../sim/travel';
 import { playIris } from './travel-iris';
+import { CHIP_LINE_TEXT } from '../config/strings';
+import { JOURNAL } from '../config/tuning-journal';
+import { activeLines } from '../sim/story-book';
+import { regionFirst, regionWaitHint } from './region-chip';
+import { storylineById } from '../sim/story-scenes';
+import { lineMinutesLeft } from './journal-search';
 
 /**
  * Lane C round 8 (R0609): the Open flow's pinned quests, each at its current step, for the chip
@@ -65,6 +71,41 @@ export function trackedObjectives(world: World): Objective[] {
   }
   return out;
 }
+
+/**
+ * Lane C r10 agent C (R0635): the questlines running beside Hazel's Grove, each at its chapter,
+ * with its chapters left in rough minutes, for the chip to cycle with the tracked quests.
+ */
+export function lineObjectives(world: World): Objective[] {
+  const out: Objective[] = [];
+  for (const line of activeLines(world)) {
+    const id = line.storyline;
+    const view = id ? journalView(world, line, false) : null;
+    if (!id || !view || view.n > view.final) continue;
+    const title = storylineById(id)?.title ?? id;
+    out.push({
+      key: `line:${id}:${view.n}`,
+      goal: CHIP_LINE_TEXT.goal(title, view.goalText),
+      // Lane C r10 agent A (R0597): outside its region the line waits for the Keeper there.
+      hint:
+        regionWaitHint(world, line) ??
+        CHIP_LINE_TEXT.hint(
+          view.n,
+          view.final,
+          lineMinutesLeft(view.n, view.final, JOURNAL.minutesPerChapter),
+          view.hint,
+        ),
+      story: true,
+    });
+  }
+  return out;
+}
+
+/**
+ * Lane C r10 agent C (R0661): the key of the goal the chip shows now (after the cycle arrow),
+ * so the world beacon follows the chip rather than always the spine's goal. Null when hidden.
+ */
+export const CHIP_SHOWN: { key: string | null } = { key: null };
 
 export interface Objective {
   /** Changes when the goal does; a campaign key change is announced. */
@@ -298,7 +339,8 @@ export class ObjectiveChip {
       if (!hide || this.lastStoryKey === null) this.lastStoryKey = o.key;
     }
     // R0609: the tracked quests after the spine's goal; a new step is announced once, if pinned.
-    const tracked = g ? trackedObjectives(g.world) : [];
+    // Lane C r10 agent C (R0635): the running questlines too, before the pinned quests.
+    const tracked = g ? [...lineObjectives(g.world), ...trackedObjectives(g.world)] : [];
     for (const t of tracked) {
       if (hide || this.trackedKeys.has(t.key)) continue;
       // Never on load: only a step reached (or a quest pinned) while playing is news.
@@ -306,12 +348,14 @@ export class ObjectiveChip {
       this.trackedKeys.add(t.key);
     }
     if (g && !hide) this.trackSeeded = true;
-    const all = [...(o ? [o] : []), ...tracked];
+    // Lane C r10 agent A (R0605): inside a questline's region, its goal is the one shown.
+    const all = g ? regionFirst(g.world, [...(o ? [o] : []), ...tracked]) : [];
     this.pick = all.length > 0 ? this.pick % all.length : 0;
     const shown = all[this.pick] ?? null;
     this.cycle.hidden = hide || all.length < 2;
     this.count.textContent = all.length > 1 ? TRACK_TEXT.of(this.pick + 1, all.length) : '';
     this.current = shown;
+    CHIP_SHOWN.key = hide ? null : (shown?.key ?? null);
     this.root.hidden = hide || !shown;
     this.go.hidden = hide || !shown || !g || goalTarget(g.world, shown.key) === null;
     if (!shown) return;

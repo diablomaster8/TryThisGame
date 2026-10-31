@@ -33,6 +33,7 @@ import { JOURNAL_TEXT } from '../config/strings-journal';
 import { LINE_REWARD_TEXT } from '../config/strings-camp9';
 import { phoneSheet, tabKeys } from './journal-sheet';
 import { storyBoutJournal } from './battle-scenes';
+import { spineControls, stepControls, storyActButton } from './journal-step';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -76,7 +77,7 @@ export class Journal {
   private readonly micro: MicroScreen;
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, STORY_TEXT.journal, 'Close');
@@ -269,6 +270,25 @@ export class Journal {
             'btn btn-small',
           ),
         );
+      } else if (sideActable(g.world, c, id) && !waiting) {
+        // Lane C r10 agent C (R0636, R0617): Go there, Play it, Imagine it or Skip, with a card.
+        const row = el('div', 'journal-actions');
+        row.append(
+          ...stepControls({
+            g,
+            parent: this.parent,
+            id,
+            title,
+            stepIndex: st.step,
+            step,
+            close: () => this.dialog.hide(),
+            playMicro: (kind, act) => {
+              const seed = Math.abs(hashSeed(`${id}:${step.id}`));
+              this.micro.open(kind, step.goal, seed, g.reduceMotion, act);
+            },
+          }),
+        );
+        this.body.appendChild(row);
       } else if (sideActable(g.world, c, id)) {
         // R0369 (FUN-80): the button names the step's verb.
         const verbKind = waiting ? null : microFor(step.check);
@@ -337,6 +357,13 @@ export class Journal {
       this.body.appendChild(el('p', undefined, edu?.goalText ?? view.goalText));
       this.body.appendChild(el('div', 'btn-name', STORY_TEXT.hint));
       this.body.appendChild(el('p', 'help', edu?.hint ?? view.hint));
+      // Lane C r10 agent C (R0661, R0614): Go there and, at Story only pace, Skip goal.
+      const spine = spineControls(g, this.parent, () => this.close());
+      if (spine.length > 0) {
+        const row = el('div', 'journal-actions');
+        row.append(...spine);
+        this.body.appendChild(row);
+      }
       this.renderStoryActions(g, view);
     }
     if (!c.storyline) this.renderSideStories(g);
@@ -418,15 +445,12 @@ export class Journal {
     const row = el('div', 'journal-actions');
     if (view.act && !c.flags[`act:${view.act}`] && !view.met) {
       const label = view.act;
+      // Lane C r10 agent C (R0636, R0617): Imagine it, with the summary card.
       row.appendChild(
-        button(
-          STORY_TEXT.doStep,
-          () => {
-            g.send({ kind: 'storyAct', label });
-            this.refresh();
-          },
-          'btn btn-small btn-primary',
-        ),
+        storyActButton(this.parent, STORY_TEXT.chapter(view.n, view.title), view.goalText, () => {
+          g.send({ kind: 'storyAct', label });
+          this.refresh();
+        }),
       );
     }
     for (const a of view.actions) {
