@@ -38,6 +38,39 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 10 · Lane E LOOK + KIDS + FUN (2026-10-31, branch r10/e)
+
+26 items (21 done, 5 partial), lines in `recs-2026-10-27/STATUS.md`. Ten more items the round was
+handed turned out already done in earlier rounds (their newer STATUS lines say so). No save version
+bump; new fields are optional: `settings.access`, `edu.readerAge/tutorialSaid/lossHolds/daily/attention`.
+
+**Works**
+- LOOK: crying (Pixel cry clip; 3D cry pose with tears in the shared Bursts cloud), Sun/Moon tinted
+  heart/swirl/!, the Run-touch crown, eight seeded garden idle acts (`render/idle-acts.ts`), the
+  Greymon lean (3D) and MetalGreymon's metal arm.
+- FUN: 15 Keeper micro-scenes (`content/campaign-micro.ts`, `sim/campaign-micro.ts`), Byte's lace
+  (`sim/byte-lace.ts`, frames in both modes, Moss visits), Lazy roll/float and the ball splash
+  (`sim/travel-gags.ts`), the splat and the Keeper hop, stray tiptoe, cross-world badges (18+ only).
+- KIDS: portraits on edu tiles, reader ages 7–10, sprout HUD (4 pictures + 🔊, hold-to-open
+  grown-ups tab, spoken one-time tutorial), access settings (readable font, high contrast, Largest
+  text, simple touch), loss heads-up for ch10–11 and S10/S19/S27, grown-up area as four tabs with a
+  7-day chart, standards in plain words, attention figures and a tips deck, real "do" beats for
+  lesson checks, 52 pixel icons for the game emoji, the postcard around Ori's and Hana's faces,
+  sprout scenes never open on a blank box, and `npm run smoke:kids -- <url>`.
+
+**Stubbed / left**
+- Pixel Greymon lean, the missile, front stripes in 3D; the fed stray's shy-delighted beat; a
+  bundled OFL dyslexia font (needs a dependency OK); tab-length and one-page print checks; a tip
+  card after the break; number clips for counts are still the placeholder chime.
+- Nothing here was looked at by a person: idle acts, cry arm angles, pixel icons and portraits want
+  an eye pass.
+
+**Known bugs**
+- In a new sprout save, the chapter-opening scene takes over from a game after about 3 taps, so
+  `smoke:kids` fails its "game reaches results" step. Main does the same; not from this round.
+- Under heavy machine load the timing tests (lifecycle, world 8-Nubbin, battle-balance budgets)
+  fail; side by side with main they run the same (8-Nubbin 3.52 s both).
+
 ## Round 10 · Lane C CAMP + FIGHT (2026-10-30, branch r10/c)
 
 Commits 11b648cf (sim) and ed982a86 (UI and renderers). Save stays **v13**: every new field is optional. 25 items: 16 done, 9 partial.
