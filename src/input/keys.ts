@@ -29,3 +29,17 @@ export function isControlTarget(target: EventTarget | null): boolean {
 export function isGameKey(e: KeyboardEvent): boolean {
   return !isTypingTarget(e.target) && !e.metaKey && !e.ctrlKey && !e.altKey;
 }
+
+/**
+ * TECH-72: the care keys on the focused canvas once Tab has picked a Nubbin. Arrows (and WASD)
+ * still walk the Keeper, and a held Nubbin walks with them.
+ */
+export type CareKey = 'pet' | 'feed' | 'lift';
+
+export function careKey(e: KeyboardEvent): CareKey | null {
+  if (!isGameKey(e) || e.repeat) return null;
+  if (e.key === 'p' || e.key === 'P') return 'pet';
+  if (e.key === 'f' || e.key === 'F') return 'feed';
+  if (e.key === ' ') return 'lift';
+  return null;
+}

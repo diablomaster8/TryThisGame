@@ -5139,3 +5139,28 @@ html.story-resting canvas {
   cursor: default;
   text-align: left;
 }
+
+/* TECH-72 (R0514): the keyboard pick's ring at the Nubbin's feet (both renderers, no draws). */
+.kb-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 13;
+  width: 60px;
+  height: 24px;
+  margin: -12px 0 0 -30px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px #1b1f3a,
+    inset 0 0 0 2px #1b1f3a;
+  pointer-events: none;
+}
+.kb-ring[hidden] {
+  display: none;
+}
+@media (forced-colors: active) {
+  .kb-ring {
+    border-color: Highlight;
+  }
+}

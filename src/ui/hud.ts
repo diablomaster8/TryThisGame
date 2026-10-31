@@ -1261,7 +1261,7 @@ export function mountHud(
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
         shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
-        selectionLive.update(g.world);
+        selectionLive.update(g.world, g, busy || eduPrompt.isOpen);
         kidNotices.flush();
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
