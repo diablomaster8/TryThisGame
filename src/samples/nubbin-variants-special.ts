@@ -60,7 +60,8 @@ const ETERNAL_SUN = variant(SUN_ADULT, 'Nubbin (Eternal Sun)', {
   ball: { shape: 'halo', y: 3.65, color: '#ffe680', glow: '#d0a020' },
   wings: { shape: 'feather', size: 2.2 },
   scale: 0.9,
-  surface: GLASS,
+  // R0404 (LOOK-37): the angel-white glowing rim.
+  surface: { ...GLASS, rimGlow: 0.3 },
   patch: (spec) => dress(spec, { chunky: 1.2 }),
   notes: 'Eternal Sun: pure white with a green cast, a swept two-cone crown, a halo.',
 });
@@ -125,7 +126,8 @@ const ETERNAL_MOON = variant(MOON_ADULT, 'Nubbin (Eternal Moon)', {
     },
   ],
   headScale: 1.15,
-  eyes: { x: 0.42, y: 2.0, r: 0.24, tall: 1.4, lidColor: WHITE, brow: false },
+  // R0404 (LOOK-37): the line-up eyes, their red-orange lit from within (glow 0.6).
+  eyes: { x: 0.42, y: 2.0, r: 0.24, tall: 1.4, lidColor: WHITE, brow: false, glow: 0.6 },
   mouth: { shape: 'o', width: 0.07, y: 1.66, z: 1.0, line: '#6a1a2a' },
   surface: { ...GLASS, glowStrength: 1.4 },
   patch: (spec) => {

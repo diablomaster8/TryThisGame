@@ -14,9 +14,11 @@ import { serviceHere } from '../sim/dungeon-towns';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { GEAR_TEXT, HOLLOW_R6_TEXT } from '../config/strings';
-import { LOOT, RARITIES } from '../config/dungeon-loot';
 import { basketPrice, basketSlots } from '../sim/dungeon-gamble';
-import { gearGlyph, gearName } from './dungeon-gear';
+import { ITEMS_R8_TEXT } from '../config/strings-hollow-r8-items';
+import { wheelbarrowOpen } from '../sim/dungeon-wheelbarrow';
+import { WheelbarrowPanel } from './dungeon-barrow';
+import { StashPanel } from './dungeon-stash';
 
 /**
  * An act camp's services (R0152): the panel that opens from the Hollow bar's service button
@@ -28,6 +30,9 @@ export class TownPanel {
   private readonly heading: HTMLHeadingElement;
   private readonly content: HTMLDivElement;
   private service: Service | null = null;
+  /** Lane B round 8: the stash's own panel (R0174) and the wheelbarrow (R0177). */
+  private readonly stash: StashPanel;
+  private readonly barrow: WheelbarrowPanel;
 
   constructor(
     parent: HTMLElement,
@@ -37,14 +42,18 @@ export class TownPanel {
     this.heading = this.dialog.root.querySelector('h2')!;
     this.content = el('div', 'town-panel');
     this.dialog.body.appendChild(this.content);
+    this.stash = new StashPanel(parent, game);
+    this.barrow = new WheelbarrowPanel(parent, game);
   }
 
   isOpen(): boolean {
-    return this.dialog.isOpen();
+    return this.dialog.isOpen() || this.stash.isOpen() || this.barrow.isOpen();
   }
 
   close(): void {
     this.dialog.hide();
+    this.stash.close();
+    this.barrow.close();
   }
 
   /** Who keeps a service, by name; '' for the stash. */
@@ -134,22 +143,12 @@ export class TownPanel {
       }
       for (const b of bar.querySelectorAll('button')) b.className = 'btn btn-small';
       this.content.appendChild(bar);
-      // R0174: the gear stash, shared by every camp; overflow from the satchel lands here.
+      // R0174: the gear stash, shared by every camp and the cottage; its own panel has the tabs.
       const stash = world.gear?.stash ?? [];
       this.content.appendChild(el('h3', undefined, HOLLOW_R6_TEXT.stashTitle(stash.length)));
-      // Rarest first (by shape), then by slot.
-      const order = RARITIES.map((r) => r.id as string).reverse();
-      const sorted = [...stash].sort(
-        (a, b) => order.indexOf(a.rarity) - order.indexOf(b.rarity) || a.slot.localeCompare(b.slot),
+      this.content.appendChild(
+        button(ITEMS_R8_TEXT.stashButton, () => this.stash.open(), 'btn btn-small btn-primary'),
       );
-      for (const item of sorted)
-        row(
-          `${gearGlyph(item)} ${gearName(item)}`,
-          GEAR_TEXT.rarity[item.rarity] ?? '',
-          HOLLOW_R6_TEXT.stashTake,
-          () => this.send({ kind: 'stashTake', itemId: item.id }),
-          (world.gear?.items.length ?? 0) < LOOT.carry,
-        );
     } else if (s.kind === 'vendor') {
       const price = HOLLOW_ZONES.vendor.fruitPrice;
       row(
@@ -191,6 +190,16 @@ export class TownPanel {
           this.send({ kind: 'townQuest' }),
         );
       }
+    } else if (s.kind === 'craft') {
+      // R0177: the crafting table is the Gardener's Wheelbarrow.
+      this.content.append(
+        el(
+          'p',
+          'help',
+          wheelbarrowOpen(world) ? ITEMS_R8_TEXT.barrowHelp : ITEMS_R8_TEXT.barrowLocked,
+        ),
+        button(ITEMS_R8_TEXT.barrowButton, () => this.barrow.open(), 'btn btn-small btn-primary'),
+      );
     } else {
       this.content.appendChild(el('p', 'shop-note', HOLLOW_ZONE_TEXT.soon));
     }

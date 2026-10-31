@@ -49,6 +49,9 @@ export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
 
 export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 
+/** R0167: a Hollow party role. */
+export type HollowRole = 'fetch' | 'fight' | 'light' | 'scout' | 'swim';
+
 export type PartSlot = 'ears' | 'tail' | 'arms' | 'back';
 
 /**
@@ -198,6 +201,9 @@ export interface Nubbin {
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: NubbinParts;
   hat: string | null;
+  /* Lane E r9 */
+  /** R0424: names of departed bonded friends this Nubbin remembers (the remembrance hat). */
+  remembers?: string[];
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
   /** Lane E r7, R0437: the Keeper took the Dojo belt off in the Wardrobe (absent: worn). */
@@ -284,6 +290,11 @@ export interface Nubbin {
   battle?: NubbinBattle;
   /** Lane C: the tactical grid's Jump and Move (MOVE-61); reserved, empty by default. */
   combat?: NubbinCombat;
+  /**
+   * Lane C r9 (R0594): where a questline's Nubbin lives after its line ended and the Keeper let
+   * it stay (`fold`, `server`...). Unset: the Grove. Optional; no save bump.
+   */
+  home?: string;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -455,6 +466,12 @@ export interface QuestEntry {
   offeredMs: number;
   acceptedMs: number | null;
   declines: number;
+  /** Lane C r9 (R0652): when a windowed offer ends (sim ms), if it has a window. */
+  expiresMs?: number;
+  /** Lane C r9 (R0652): a lapse story whose window passed unanswered; it is let go. */
+  expired?: boolean;
+  /** Lane C r9 (R0655): shelved because Mature content was lowered below its rating. */
+  audienceHeld?: boolean;
 }
 
 /** Lane C round 8 (R0602): the Open flow's book of offers, beside `world.campaign`. */
@@ -471,6 +488,8 @@ export interface QuestBook {
   here: string | null;
   /** R0670: telemetry-free play counts, kept in the save for pacing by hand. */
   stats?: { offered: number; accepted: number; declined: number; shelved: number };
+  /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
+  areaOfferMs?: Record<string, number>;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -589,6 +608,10 @@ export interface EduState {
   eggShelf?: { day: string; bought: number[] };
   /** Lane E r8, R0695: a grown-up's daily minutes, quiet hours and boot lock (sim/edu-limits.ts). */
   limits?: EduLimits;
+  /* Lane E r9 */
+  /** R0696 (KIDS-28): the child's animal icon and colour tag on the title (EDU_TAG). */
+  icon?: string;
+  tagColour?: string;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -614,6 +637,10 @@ export interface EduState {
   readAloud: boolean;
   /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
   readToMe?: boolean;
+  /** Lane E r9, R0730: Little Sprouts' story turns its own pages after the voice (grown-up switch, default off). */
+  autoAdvance?: boolean;
+  /** Lane E r9, R0737: the grown-up's "skip to Grove morning" for language visits (world time it was pressed). */
+  langSkipAt?: number;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -855,6 +882,16 @@ export interface DungeonRun {
   picnics?: string[];
   picnicMs?: number;
   tentNoted?: true;
+  // Lane B round 8 (party and run UI).
+  /** R0167: packs a Scout has already called out with a "!". */
+  scouted?: string[];
+  /** R0187: the Keeper's cells on each level this run (key `seed:depth`), for the ghost line. */
+  trail?: Record<string, number[]>;
+  // Lane B round 8 (floors).
+  /** R0182, R0202, R0160: seal ids flipped from their start (found, solved, boss door shut). */
+  seals?: string[];
+  /** R0202: puzzle progress by seal id (block cells, or torches lit). */
+  puzzles?: Record<string, number[]>;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -1215,7 +1252,17 @@ export interface World {
     >;
     /** R0187: the speed-run toggle, and the best time and splits per act and tier ("0:cosy"). */
     speedRun?: boolean;
-    records?: Record<string, { bestMs: number; splits: number[] }>;
+    records?: Record<
+      string,
+      { bestMs: number; splits: number[]; trails?: Record<string, number[]> }
+    >;
+    // Lane B round 8 (optional, no save bump).
+    /** R0167: roles the Keeper picked by hand, by Nubbin id (absent: picked from stats). */
+    roles?: Record<string, HollowRole>;
+    /** R0207: acts whose "Story so far" scroll has been shown. */
+    scrolls?: number[];
+    /** R0208: the "Show me the way" guide (off by default). */
+    guide?: boolean;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1330,6 +1377,8 @@ export type Command =
   | { kind: 'questTrack'; id: string; on: boolean }
   // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
   | { kind: 'debugQuestOffer'; id: string }
+  // Lane C r9 (R0594): at a line's end, bring one of its Nubbins home or let it stay.
+  | { kind: 'lineCastHome'; line: string; nubbinId: string; home: boolean }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1419,6 +1468,9 @@ export type Command =
   | { kind: 'eduSetRounds'; rounds: number }
   /** R0343: the Grove Readers' opt-in read-aloud. */
   | { kind: 'eduSetReadToMe'; on: boolean }
+  /* Lane E r9: the read-aloud auto-advance switch, and skip to the next language visit. */
+  | { kind: 'eduSetAutoAdvance'; on: boolean }
+  | { kind: 'langSkipWait' }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
@@ -1426,6 +1478,8 @@ export type Command =
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
+  /* Lane E r9, R0696 */
+  | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
   | {
       kind: 'eduResult';
       game: EduGameId;
@@ -1474,8 +1528,16 @@ export type Command =
   | { kind: 'packSneak'; packId: string }
   | { kind: 'gambleBasket'; slot: string }
   | { kind: 'stashTake'; itemId: string }
+  // Lane B round 8, items: stash tabs (R0174), sockets (R0173), the wheelbarrow (R0177).
+  | { kind: 'stashPut'; itemId: string }
+  | { kind: 'stashMove'; itemId: string; tab: number }
+  | { kind: 'socketCharm'; itemId: string; charm: string }
+  | { kind: 'unsocketCharms'; itemId: string }
+  | { kind: 'wheelbarrowMix'; slots: BarrowSlot[] }
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowSpeedRun'; on: boolean }
+  | { kind: 'setHollowRole'; id: string; role: HollowRole | null }
+  | { kind: 'hollowGuide'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1504,6 +1566,9 @@ export interface RideState {
 export type SimEvent =
   // Lane E (R0332): a curiosity found for the first time (sim/curiosities.ts).
   | { kind: 'curiosityFound'; id: string }
+  /* Lane E r9 */
+  // R0424: a bonded friend of a departed Nubbin may now wear the remembrance flower.
+  | { kind: 'remembrance'; nubbinId: string; friend: string }
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
@@ -1650,6 +1715,11 @@ export type SimEvent =
   | { kind: 'areaEntered'; area: string }
   | { kind: 'questOffered'; quest: string; area: string }
   | { kind: 'questAtCap'; quest: string; active: string[] }
+  // Lane C r9: a windowed offer passed (R0652); a line's rewards (R0639); its cast's choice (R0594).
+  | { kind: 'questExpired'; quest: string; lapsed: boolean }
+  | { kind: 'lineReward'; line: string; shells: number; keepsake: string; grove: string }
+  | { kind: 'lineCastChoice'; line: string; cast: string[] }
+  | { kind: 'lineCastChose'; line: string; nubbinId: string; home: boolean; ok: boolean }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
@@ -1791,6 +1861,17 @@ export type SimEvent =
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
+  // Lane B round 8 (floors).
+  | { kind: 'hollowSecret'; id: string; how: 'wiggle' | 'bump' | 'sight' }
+  | {
+      kind: 'hollowPuzzle';
+      what: 'solved' | 'shortcut' | 'plate' | 'torch' | 'push' | 'reset';
+      puzzle: 'plates' | 'torches' | 'blocks';
+      nubbinId?: string;
+    }
+  | { kind: 'hollowBossDoor'; sealed: boolean }
+  | { kind: 'scoutSpotted'; packId: string; nubbinId: string }
+  | { kind: 'storyScroll'; act: number }
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
@@ -1810,6 +1891,8 @@ export type SimEvent =
   | { kind: 'strayAsk'; id: string }
   | { kind: 'strayCalmed'; ok: boolean; shells: number }
   | { kind: 'gearFound'; item: GearItem }
+  /** Lane B round 8, items: a charm, a key, a chain, a mix or the fort (`ui/dungeon-items.ts` words it). */
+  | { kind: 'hollowItems'; what: 'charm' | 'key' | 'chain' | 'mix' | 'noMix' | 'fort'; id: string }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
@@ -1854,6 +1937,13 @@ export interface AwayReport {
   tally?: AwayTally;
 }
 
+/** R0177: one wheelbarrow slot: a satchel piece, a pouch charm, an essence or a key. */
+export type BarrowSlot =
+  | { kind: 'item'; id: string }
+  | { kind: 'charm'; key: string }
+  | { kind: 'essence'; type: NubbinType }
+  | { kind: 'key'; id: string };
+
 /** A piece of Hollow gear (R0163, R0164); bases, rarities and affixes in `config/dungeon-loot.ts`. */
 export interface GearItem {
   id: string;
@@ -1862,6 +1952,16 @@ export interface GearItem {
   rarity: string;
   level: number;
   affixes: Array<{ id: string; value: number }>;
+  // Lane B round 8 (optional, no save bump).
+  /** R0173: sockets (0-3), the charms in them in order (`type:grade`), and a chain made. */
+  sockets?: number;
+  socketed?: string[];
+  chain?: string;
+  /** R0172: a set piece's id, or a unique's id (`config/dungeon-items-r8.ts`). */
+  setPiece?: string;
+  unique?: string;
+  /** R0174: the stash tab it sits in (0 when unset). */
+  tab?: number;
 }
 
 /** What the Keeper carries and who wears what (lane B round 5). */
@@ -1875,6 +1975,18 @@ export interface GearState {
   next: number;
   /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
   stash?: GearItem[];
+  // Lane B round 8 (optional, no save bump).
+  /** R0173: loose charms by `type:grade` (grade 1 chipped, 2 bright, 3 perfect). */
+  charms?: Record<string, number>;
+  /** R0183: keys carried, and kills since each key last dropped (the pity counter). */
+  keys?: Record<string, number>;
+  keyPity?: Record<string, number>;
+  /** R0183: the Pillow Fort, opened by the three keys in the wheelbarrow. */
+  pillowFort?: 'open';
+  /** R0177: wheelbarrow recipes found, for the recipe book. */
+  recipes?: string[];
+  /** R0172: set pieces and uniques found at least once, by id, with where (the log). */
+  found?: Record<string, string>;
 }
 
 /** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */

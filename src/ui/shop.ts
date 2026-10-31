@@ -6,6 +6,8 @@ import { rosterCap } from '../sim/roster';
 import { priceOf, rosterCount, shopHat } from '../sim/shop';
 import type { ShopItem } from '../sim/types';
 import { button, el, modal } from './dom';
+import { HOLLOW } from '../config/tuning';
+import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
 import { eduEggShelf } from '../sim/edu-eggs';
 import { EDU_EGG_TEXT } from '../config/strings-kids';
 import { PLAIN_EGG_PALETTES } from '../render/sprites/egg-palette';
@@ -16,6 +18,8 @@ export class ShopMenu {
   private readonly dialog;
   private readonly balance: HTMLDivElement;
   private readonly rows = new Map<ShopItem, { button: HTMLButtonElement; note: HTMLSpanElement }>();
+  /** R0150: the Homing Acorn bundle, sold here as well as at the cave mouth. */
+  private readonly acorn: { button: HTMLButtonElement; note: HTMLSpanElement };
 
   constructor(
     parent: HTMLElement,
@@ -41,6 +45,24 @@ export class ShopMenu {
       this.rows.set(item, { button: b, note });
       if (item === 'egg') list.appendChild(this.eduShelf);
     }
+    {
+      const { bundle, price } = HOLLOW.acorns;
+      const row = el('div', 'shop-row');
+      const text = el('div');
+      text.append(
+        el('strong', undefined, HOLLOW_R8_TEXT.acornShopName),
+        el('small', undefined, HOLLOW_R8_TEXT.acornShopHelp(bundle)),
+      );
+      const note = el('span', 'shop-note');
+      const b = button(
+        `${price} ${NAMES.currency}`,
+        () => this.game()?.send({ kind: 'buyAcorns' }),
+        'btn btn-small',
+      );
+      row.append(text, note, b);
+      list.appendChild(row);
+      this.acorn = { button: b, note };
+    }
     this.dialog.body.appendChild(list);
   }
 
@@ -62,6 +84,8 @@ export class ShopMenu {
     if (!g || !this.isOpen()) return;
     const inv = g.world.inventory;
     this.balance.textContent = `🐚 ${inv.shells} ${NAMES.currency}`;
+    this.acorn.button.disabled = inv.shells < HOLLOW.acorns.price;
+    this.acorn.note.textContent = HOLLOW_R8_TEXT.acornShopNote(g.world.hollow.acorns);
     this.refreshShelf(g, this.rows.get('egg')?.button.parentElement ?? null);
     for (const [item, row] of this.rows) {
       row.button.disabled = inv.shells < priceOf(item);

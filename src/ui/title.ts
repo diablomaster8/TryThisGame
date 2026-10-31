@@ -3,6 +3,7 @@ import { confirmModal } from './confirm';
 import { TRASH_TEXT } from '../config/strings-r9d3';
 import { SLOT_TRASH } from '../config/tuning-r9d3';
 import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../platform/slot-trash';
+import { titleGate } from './title-gate'; /* Lane E r9 */
 import { CAMP_TEXT } from '../config/strings';
 import {
   KEEPER_LOOK_BLURBS,
@@ -39,6 +40,8 @@ import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
 import { AGE_PICK_TEXT } from '../config/strings-kids';
 import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
+/* Lane E r9, R0696 / R0720 */
+import { eduTagLabel, tagCss, tagStep, type EduTag } from './kids-launch';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -52,6 +55,8 @@ export interface TitleChoice {
   age?: EduAge;
   /** The story's band for a new Learning Grove (Grove Readers picks age 6 for the games). */
   band?: EduBand;
+  /** Lane E r9, R0696: the new Learning Grove's name, colour and animal. */
+  tag?: EduTag;
 }
 
 const MODES: SaveMode[] = ['campaign', 'hundred', 'logged', 'beetle', 'dawndusk', 'free', 'edu'];
@@ -67,6 +72,8 @@ const MODE_STORYLINE: Record<string, string> = {
 function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
   const parts: string[] = [];
   const story = mode === 'campaign' || isStorylineMode(mode);
+  /* Lane E r9, R0696: a Learning Grove slot names its child first. */
+  if (mode === 'edu' && (s.eduName || s.eduIcon)) parts.push(eduTagLabel(s, 0));
   if (story && s.trainer) parts.push(KEEPER_LOOK_NAMES[s.trainer] ?? s.trainer);
   if (mode === 'dawndusk' && s.storyline)
     parts.push(STORYLINE_TEXT.sides[s.storyline] ?? s.storyline);
@@ -117,6 +124,7 @@ export function showTitle(
   const sub = el('div', 'title-sub', STORY_TEXT.title);
   const tag = el('div', 'title-tag', STORY_TEXT.tagline);
   card.append(sub, tag);
+  card.appendChild(titleGate()); /* Lane E r9, R0356: the living gate */
   // R0720: the Learning Grove's age screen carries its own subtitle, not the campaign's.
   const subtitle = (edu: boolean) => {
     sub.textContent = edu ? EDU_TEXT.learningGrove : STORY_TEXT.title;
@@ -165,7 +173,12 @@ export function showTitle(
   const mainMenu = () => {
     menu.innerHTML = '';
     const now = Date.now();
-    for (const mode of MODES) {
+    /* Lane E r9, R0696: the Learning Grove moves to the top once a child has a Grove. */
+    const kidsFirst = Array.from({ length: SLOTS_PER_MODE }, (_, i) =>
+      hasSave({ mode: 'edu', index: i + 1 }),
+    ).some(Boolean);
+    const order = kidsFirst ? ['edu' as SaveMode, ...MODES.filter((m) => m !== 'edu')] : MODES;
+    for (const mode of order) {
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
       section.appendChild(el('div', 'title-mode-name', modeName));
@@ -254,6 +267,12 @@ export function showTitle(
             'aria-label',
             `${SLOT_TEXT.erase} ${modeName}, ${SLOT_TEXT.slot(index)}`,
           );
+          /* Lane E r9, R0696: the child's colour tag down the slot's edge. */
+          const tagColour = mode === 'edu' ? tagCss(summary?.eduColour) : null;
+          if (tagColour) {
+            row.classList.add('title-slot-tagged');
+            row.style.setProperty('--tag', tagColour);
+          }
           row.append(main, fresh, more, erase);
         } else {
           const main = button('', () => startNew(slot), 'btn title-slot-main');
@@ -309,13 +328,20 @@ export function showTitle(
   const ageMenu = (slot: SaveSlot) => {
     menu.innerHTML = '';
     subtitle(true);
+    // Lane E r9, R0720 / R0696: the age pick leads to the name, colour and animal step.
+    const named = (c: TitleChoice) =>
+      tagStep(
+        menu,
+        (tag) => finish({ ...c, tag }),
+        backButton(() => ageMenu(slot)),
+      );
     menu.appendChild(el('div', 'help', EDU_TEXT.chooseAge));
     // R0720: four sprout tiles in a row, then one wide reader tile, so nothing wraps at 375 px.
     const row = el('div', 'title-ages');
     for (const age of EDU_AGES) {
       const b = button(
         '',
-        () => finish({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
+        () => named({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
         'btn title-age',
       );
       b.append(el('span', 'title-age-n', String(age)), el('span', 'title-age-badge', '🌱'));
@@ -325,7 +351,7 @@ export function showTitle(
     // Grove Readers (7–10): the story in the reader band; the six games stay at their top age.
     const reader = button(
       '',
-      () => finish({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
+      () => named({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
       'btn title-age title-age-reader',
     );
     reader.append(

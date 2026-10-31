@@ -76,6 +76,7 @@ import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
+import { chooseCastHome } from './line-rewards';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -110,6 +111,7 @@ import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from '.
 import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
 import { setHollowParty } from './dungeon-party';
+import { setHollowRole } from './dungeon-roles';
 import {
   dungeonGo,
   encounterDone,
@@ -127,6 +129,8 @@ import { gambleBasket } from './dungeon-gamble';
 import { takeFromStash } from './dungeon-sack';
 import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
+import { stepGearNeeds } from './dungeon-gear-effects';
+import { itemsCommand } from './dungeon-items';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -150,6 +154,8 @@ import {
   clampRounds,
 } from './edu';
 import { eduSetLimits, eduUnlockLimits } from './edu-limits';
+/* Lane E r9 */
+import { eduSetTag } from './edu-session';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -163,6 +169,7 @@ import {
   type World,
 } from './types';
 import { findCuriosity } from './curiosities';
+import { mayWear } from './remembrance'; /* Lane E r9 */
 import { hatchInArms } from './hatch-arms';
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
@@ -566,6 +573,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
+      if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
       n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
       noteNubbin(world, n, events);
@@ -875,6 +883,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'stashTake':
       takeFromStash(world, cmd.itemId);
       return;
+    // Lane B round 8, items: stash tabs (R0174), sockets (R0173), the wheelbarrow (R0177).
+    case 'stashPut':
+    case 'stashMove':
+    case 'socketCharm':
+    case 'unsocketCharms':
+    case 'wheelbarrowMix':
+      itemsCommand(world, cmd, events);
+      return;
     // Lane B round 7: difficulty tiers (R0179).
     case 'hollowTier':
       setHollowTier(world, cmd.tier, events);
@@ -883,6 +899,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // R0187: the speed-run toggle; off drops nothing.
       if (cmd.on) world.hollow.speedRun = true;
       else delete world.hollow.speedRun;
+      return;
+    // Lane B round 8: party roles (R0167) and the Hollow guide (R0208).
+    case 'setHollowRole':
+      setHollowRole(world, cmd.id, cmd.role);
+      return;
+    case 'hollowGuide':
+      if (cmd.on) world.hollow.guide = true;
+      else delete world.hollow.guide;
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
@@ -1012,6 +1036,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetReadToMe':
       if (world.edu) world.edu.readToMe = cmd.on;
       return;
+    /* Lane E r9 */
+    case 'eduSetAutoAdvance':
+      if (world.edu) {
+        if (cmd.on) world.edu.autoAdvance = true;
+        else delete world.edu.autoAdvance;
+      }
+      return;
+    case 'langSkipWait':
+      if (world.edu) world.edu.langSkipAt = world.timeMs;
+      return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
       return;
@@ -1036,6 +1070,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetName':
       eduSetName(world, cmd.name);
+      return;
+    /* Lane E r9, R0696 */
+    case 'eduSetTag':
+      eduSetTag(world, cmd.icon, cmd.colour);
       return;
     case 'eduResult':
       eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
@@ -1178,6 +1216,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'debugQuestOffer':
       debugOffer(world, cmd.id, events);
       return;
+    // Lane C r9 (R0594): an ended line's Nubbin comes home or stays where the line lives.
+    case 'lineCastHome':
+      chooseCastHome(world, cmd.line, cmd.nubbinId, cmd.home, events);
+      return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
       // R0313: except Fern's stone, a running gag of its own.
@@ -1246,6 +1288,8 @@ export function stepWorld(
         continue;
       }
       decayNeeds(n, dtMs);
+      // R0164: Snug and Naps from worn gear.
+      stepGearNeeds(world, n, dtMs);
       advanceStage(n, dtMs, events, world, offline);
       // Party members underground are moved by the Hollow step instead.
       // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.

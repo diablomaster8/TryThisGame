@@ -41,6 +41,7 @@ import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
 import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
+import { mountSaveInfo } from './save-info-panel';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
@@ -467,6 +468,8 @@ export class SettingsMenu {
     this.unreadableBtn.hidden = true;
     saves.append(this.unreadableBtn);
     body.appendChild(saves);
+    // R0659 (CAMP-67): last saved, size, and the copies kept.
+    this.syncSaveInfo = mountSaveInfo(body);
     const warn = el('p', 'help', UI_TEXT.mayClearStorage);
     warn.hidden = true;
     body.appendChild(warn);
@@ -482,6 +485,7 @@ export class SettingsMenu {
   }
 
   private readonly storageLine: HTMLParagraphElement;
+  private syncSaveInfo: () => void = () => undefined;
 
   private refreshStorageLine(): void {
     const kb = Math.round(groveBytes() / 1024);
@@ -513,6 +517,7 @@ export class SettingsMenu {
     const g = this.game();
     if (!g) return;
     this.refreshStorageLine();
+    this.syncSaveInfo();
     const s = g.world.settings.offlineAging;
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);

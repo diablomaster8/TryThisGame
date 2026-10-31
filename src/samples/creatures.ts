@@ -173,6 +173,13 @@ export interface SurfaceOpts {
   glowStrength?: number;
   /** Flat two-band toon shading for this surface; the stage's `&toon` flag when left out. */
   toon?: boolean;
+  /**
+   * R0418 (LOOK-48): a coloured rim in the toon rim's band at this strength, lit by the fill
+   * (the Moon band's purple, so a dark adult keeps its edge at dusk). A uniform, not a variant.
+   */
+  bandRim?: { color: string; strength: number };
+  /** R0404 (LOOK-37): a white rim that glows in its own light (the Eternal Sun's), 0 to 1. */
+  rimGlow?: number;
 }
 
 // ---------------------------------------------------------------- the toon mode
@@ -218,7 +225,13 @@ export function toonShader(
   rim = 0,
   sky = 0,
 ): void {
-  if (rim > 0 && shader.uniforms) shader.uniforms.uNightRim = NIGHT_RIM;
+  if (rim > 0 && shader.uniforms) {
+    shader.uniforms.uNightRim = NIGHT_RIM;
+    // Lane E r9: per-material rim colour and glow; every rimmed material declares them (zero
+    // unless its surface sets them), so all creatures still share one program.
+    shader.uniforms.uBandRim ??= { value: new THREE.Color(0, 0, 0) };
+    shader.uniforms.uRimGlow ??= { value: 0 };
+  }
   const physical = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
     'vec3 irradiance = dotNL * directLight.color;',
     `vec3 irradiance = ( dotNL <= 0.0 ? ${TOON_BAND.deep.toFixed(3)} : dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
@@ -236,12 +249,16 @@ export function toonShader(
         #endif
         reflectedLight.indirectDiffuse += diffuseColor.rgb * band * fill * ${rim.toFixed(3)};
         reflectedLight.indirectDiffuse += mix( diffuseColor.rgb, vec3( 0.62, 0.72, 1.0 ), 0.65 ) * band * uNightRim;
+        reflectedLight.indirectDiffuse += uBandRim * band * fill;
+        reflectedLight.indirectDiffuse += vec3( 1.0, 0.98, 0.92 ) * smoothstep( 0.45, 0.2, facing ) * uRimGlow;
       }`
       : '';
   shader.fragmentShader = shader.fragmentShader
     .replace(
       '#include <common>',
-      rim > 0 ? '#include <common>\nuniform float uNightRim;' : '#include <common>',
+      rim > 0
+        ? '#include <common>\nuniform float uNightRim;\nuniform vec3 uBandRim;\nuniform float uRimGlow;'
+        : '#include <common>',
     )
     .replace('#include <lights_physical_pars_fragment>', physical)
     // No image-based reflections: the sky map carries the sun disc, and even a twentieth of
@@ -370,6 +387,12 @@ export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
     shader.uniforms.uAmount = { value: toon ? 0 : (o.amount ?? 0.6) };
     shader.uniforms.uBump = { value: toon ? 0 : (o.bump ?? 0.6) };
     shader.uniforms.uGlowStrength = { value: o.glowStrength ?? 0 };
+    /* Lane E r9 */ shader.uniforms.uBandRim = {
+      value: o.bandRim
+        ? new THREE.Color(o.bandRim.color).multiplyScalar(o.bandRim.strength)
+        : new THREE.Color(0, 0, 0),
+    };
+    shader.uniforms.uRimGlow = { value: o.rimGlow ?? 0 };
     if (toon) toonShader(shader, rim, sky);
     shader.vertexShader = shader.vertexShader
       .replace(
@@ -713,6 +736,8 @@ export function eye(
   side = 1,
   /** `slit`: a narrow upright pupil (the snakes, Charmander's line; LOOK-40). */
   pupil: 'round' | 'slit' = 'round',
+  /** R0398 (LOOK-30): a shiny's five-point star in place of the big round catchlight. */
+  star = false,
 ): EyeRig {
   const flatIris = style !== 'anime';
   const noSclera = style === 'chao' || style === 'dot';
@@ -747,7 +772,14 @@ export function eye(
   white.castShadow = false;
   // A disc of concentric rings bent onto the dome, so the iris and its catchlight hug
   // the eyeball instead of cutting through it.
-  const domeDisc = (radius: number, sy: number, ox: number, oy: number, lift: number) => {
+  const domeDisc = (
+    radius: number,
+    sy: number,
+    ox: number,
+    oy: number,
+    lift: number,
+    points = 0,
+  ) => {
     const rings = 12;
     const segs = 48;
     const pos: number[] = [];
@@ -765,7 +797,11 @@ export function eye(
       const rr = (radius * j) / rings;
       for (let i = 0; i < segs; i++) {
         const a = (i / segs) * Math.PI * 2;
-        push(Math.cos(a) * rr, Math.sin(a) * rr);
+        // A star: the radius dips between `points` tips (one tip straight up).
+        const k = points
+          ? 0.42 + 0.58 * Math.pow(Math.abs(Math.cos(((a - Math.PI / 2) * points) / 2)), 3)
+          : 1;
+        push(Math.cos(a) * rr * k, Math.sin(a) * rr * k);
       }
     }
     for (let i = 0; i < segs; i++) idx.push(0, 1 + i, 1 + ((i + 1) % segs));
@@ -818,10 +854,31 @@ export function eye(
   });
   const gloss = new THREE.Mesh(
     twoGlints
-      ? domeDisc(r * 0.32, 1, side * r * 0.35, r * 0.38 * tall, r * 0.02)
+      ? domeDisc(
+          r * (star ? 0.42 : 0.32),
+          1,
+          side * r * 0.35,
+          r * 0.38 * tall,
+          r * 0.02,
+          star ? 5 : 0,
+        )
       : style === 'dot'
-        ? domeDisc(r * 0.24, 1, side * r * 0.28, r * 0.3 * tall, r * 0.02)
-        : domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
+        ? domeDisc(
+            r * (star ? 0.32 : 0.24),
+            1,
+            side * r * 0.28,
+            r * 0.3 * tall,
+            r * 0.02,
+            star ? 5 : 0,
+          )
+        : domeDisc(
+            r * (star ? 0.24 : 0.17),
+            star ? 1 : 0.8,
+            -r * 0.34,
+            r * 0.4,
+            r * 0.02,
+            star ? 5 : 0,
+          ),
     glossMat,
   );
   gloss.castShadow = false;

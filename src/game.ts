@@ -71,6 +71,10 @@ import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
 
+/* Lane E r9 */
+/** FUN-43: listeners told of every command sent (the curiosity triggers read them). */
+export const commandTaps = new Set<(cmd: Command) => void>();
+
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
   /**
@@ -785,6 +789,7 @@ export class Game {
 
   send(cmd: Command): void {
     this.pending.push(cmd);
+    for (const tap of commandTaps) tap(cmd); /* Lane E r9 */
   }
 
   setTimeScale(scale: number): void {
@@ -1061,6 +1066,10 @@ export class Game {
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon')
           this.grove.updateDungeonLights(kp, this.camera.currentYaw);
+        // Lane B r8: sealed rock (secrets, the boss door) stands or sinks without a rebuild.
+        this.grove.updateDungeonSeals(
+          this.world.location === 'dungeon' ? this.world.dungeon : null,
+        );
         // Fog of war (R0153): the Hollow floor's materials read this each frame.
         this.grove.dungeonFog.update(
           this.world.location === 'dungeon' ? this.world.dungeon : null,

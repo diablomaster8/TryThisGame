@@ -219,6 +219,21 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       }
       break;
     }
+    case 'angelWings':
+      // LOOK-41: the second and third pairs of Angemon's six, feathered lobes on the back.
+      for (const s of sides) {
+        T.push(
+          ell(V(s * (b.r.x + 0.45), b.y + b.r.y * 1.1, backZ - 0.05), V(0.38, 0.75, 0.06), c, 0.04),
+          ell(V(s * (b.r.x + 0.3), b.y + b.r.y * 1.55, backZ - 0.1), V(0.08, 0.35, 0.05), c2, 0.02),
+          ell(
+            V(s * (b.r.x + 0.35), b.y - b.r.y * 0.35, backZ - 0.05),
+            V(0.32, 0.42, 0.06),
+            c,
+            0.04,
+          ),
+        );
+      }
+      break;
     case 'batWings2':
       for (const s of sides)
         T.push(
@@ -452,6 +467,29 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       break;
     case 'heart':
       // Painted as a mark instead, over the belly (art-species.ts `marks`).
+      break;
+    case 'tubes':
+      // LOOK-41: Andromon's red tubes, loops down each side of the chest.
+      for (const s of sides)
+        T.push(
+          cap(
+            V(s * b.r.x * 0.7, b.y + b.r.y * 0.55, b.r.z * 0.6),
+            V(s * b.r.x * 0.95, b.y, b.r.z * 0.55),
+            0.07,
+            c,
+            0.02,
+          ),
+          cap(
+            V(s * b.r.x * 0.95, b.y, b.r.z * 0.55),
+            V(s * b.r.x * 0.65, b.y - b.r.y * 0.55, b.r.z * 0.6),
+            0.07,
+            c,
+            0.02,
+          ),
+        );
+      break;
+    case 'drool':
+      H.push(ell(V(0.08, h.y - h.r.y * 0.62, front - 0.02), V(0.05, 0.12, 0.05), c, 0.02));
       break;
     case 'belt':
       T.push(ell(V(0, b.y - b.r.y * 0.45, 0), V(b.r.x * 1.03, 0.1, b.r.z * 1.03), c, 0.02));

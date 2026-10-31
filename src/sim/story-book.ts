@@ -9,6 +9,8 @@ import {
   storyHome,
   storySceneDone,
 } from './storyline';
+import { lineEndedRewards } from './line-rewards';
+import { orderSceneQueue } from './scene-queue';
 import { lineCast } from './storyline-rules';
 import { sceneOwner, sideResting } from './story-state';
 import { sceneById, storylineById } from './story-scenes';
@@ -133,6 +135,7 @@ export function noteLineEvents(world: World, events: SimEvent[]): void {
     noteCampaignEvents(world, line, events);
     flush(world, line);
   }
+  rewardEndedLines(world, events);
 }
 
 /** Per step, after the spine: fold the step's events into every running line. */
@@ -142,6 +145,15 @@ export function stepStoryBook(world: World, _dtMs: number, events: SimEvent[]): 
     noteCampaignEvents(world, line, events);
     flush(world, line);
   }
+  rewardEndedLines(world, events);
+  // R0597, R0631: the queue behind its head plays spine first, then lines, side stories, capers.
+  orderSceneQueue(world);
+}
+
+/** R0639: a line that ended in these events leaves its rewards, and asks after its cast. */
+function rewardEndedLines(world: World, events: SimEvent[]): void {
+  const ended = events.flatMap((e) => (e.kind === 'lineEnded' ? [e.line] : []));
+  for (const line of ended) lineEndedRewards(world, line, events);
 }
 
 /**

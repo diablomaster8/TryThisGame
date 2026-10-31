@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { playChime, playKindle } from '../platform/audio';
 import { cellAt, cellCentre, FLOOR, WALL, WATER, type Floor } from '../sim/dungeon';
+import { lootHeld } from '../sim/dungeon-secrets';
 import type { Tex } from '../samples/aaa-kit';
 import {
   CELL,
@@ -650,7 +651,10 @@ export class HollowDress implements HollowModule {
     const L = GROVE3D.cave.dress.loot;
     this.lootAt.forEach((l, i) => {
       // Taken, or still under the fog of war (R0153): a find shows once its cell is seen.
-      const gone = !!run && (run.taken.includes(l.id) || (!!f && !lootShown(run, f, l.cell)));
+      // Or kept back by a shut secret or an unsolved puzzle (lane B r8, `sealDisplay`).
+      const gone =
+        !!run &&
+        (run.taken.includes(l.id) || lootHeld(run, f, l.id) || (!!f && !lootShown(run, f, l.cell)));
       const bob = still ? 0 : Math.sin(t * 2 + l.seed) * L.bob;
       // The pick follows the bob (the tap sphere is this same vector).
       l.p.y = l.y0 + bob;

@@ -35,6 +35,7 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
+import { GearPop3D } from './hollow-gear-pop';
 import { crackWarmObject } from './egg-crack';
 import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
@@ -48,6 +49,7 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { SignatureFx } from './signature-fx';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
@@ -308,6 +310,8 @@ export class Grove3dScene {
   /** The story Hollow and Corvin's garden, dressed as in the pixel view. */
   private readonly story: StorySets;
   private readonly bursts: Bursts;
+  /** Lane B r8 (R0163): a found piece's rarity shape pops over the Keeper. */
+  private readonly gearPop: GearPop3D;
   private readonly garden: Garden;
   private readonly hollow: Hollow;
   private readonly halo: Halo;
@@ -538,6 +542,8 @@ export class Grove3dScene {
       only: () => (this.staging.exclusive || LOOK_STATE.tale ? this.staging.castIds : null),
     };
     this.bursts = new Bursts(this.scene);
+    this.gearPop = new GearPop3D(this.scene);
+    /* Lane E r9 */ this.actors.sigFx = new SignatureFx(this.bursts);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
     useBuildingKit(this.tex);
     this.garden = new Garden(this.world3d);
@@ -865,6 +871,7 @@ export class Grove3dScene {
     };
     for (const e of events) {
       if (e.kind === 'travelled') this.travelCut = true;
+      if (e.kind === 'gearFound') this.gearPop.push(e.item.rarity, now);
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
@@ -1044,6 +1051,47 @@ export class Grove3dScene {
     const ctx = out.getContext('2d');
     if (ctx) {
       // The middle of the frame at the picture's shape.
+      const k = Math.min(src.width / w, src.height / h);
+      const sw = w * k;
+      const sh = h * k;
+      ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    }
+    cam.position.copy(pos);
+    cam.quaternion.copy(quat);
+    this.composer.render();
+    return ctx ? out : null;
+  }
+
+  /* Lane E r9 */
+  /**
+   * R0441: the "With me" selfie, the Keeper from in front with the Nubbin in its arms (the
+   * carry pose), framed from the chest up, in the same one-frame way as `portrait`.
+   */
+  selfie(w: number, h: number): HTMLCanvasElement | null {
+    const spot = this.actors.keeperSpot();
+    if (!spot || !this.compiled) return null;
+    const cam = this.camera;
+    const pos = cam.position.clone();
+    const quat = cam.quaternion.clone();
+    const look = spot.feet.clone().lerp(spot.head, 0.62);
+    const tall = Math.max(0.8, spot.head.y - spot.feet.y);
+    const side = pos.clone().sub(look).setY(0);
+    if (side.lengthSq() < 1e-6) side.set(0, 0, 1);
+    side.normalize();
+    const dir = spot.front ? spot.front.clone().multiplyScalar(3).add(side).normalize() : side;
+    const dist = tall * 2.4 + 1.2;
+    cam.position
+      .copy(look)
+      .addScaledVector(dir, dist)
+      .setY(look.y + dist * 0.2);
+    cam.lookAt(look);
+    this.composer.render();
+    const src = this.renderer.domElement;
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (ctx) {
       const k = Math.min(src.width / w, src.height / h);
       const sw = w * k;
       const sh = h * k;
@@ -1700,6 +1748,12 @@ export class Grove3dScene {
       this.visit.crowns.update(this.camera.position, this.keeperMarks, dt);
     this.halo.update(this.time.value);
     this.bursts.update(nowMs, dt, ground);
+    this.gearPop.update(
+      nowMs,
+      this.actors.keeperPosition(),
+      this.actors.keeperFeetY(),
+      this.reduceMotion,
+    );
 
     // Grass parting under the creatures nearest the camera.
     this.nearPushers.begin(this.camPos.x, this.camPos.z);
@@ -2043,6 +2097,7 @@ export class Grove3dScene {
     this.creatureLod.impostors?.dispose();
     this.actors.dispose();
     this.bursts.dispose();
+    this.gearPop.dispose();
     this.sky.dispose();
     this.composer.dispose();
     this.renderer.dispose();

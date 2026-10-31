@@ -1,4 +1,5 @@
 import { openSky } from './cave-bands';
+import { floorMarks } from './floor-features-r8';
 import { ridePose } from './ride-pose';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
@@ -85,6 +86,7 @@ import { cocoonShake, revealTurn } from './evolve-reveal';
 import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
+import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 
 interface Snapshot {
   pos: Vec2;
@@ -177,6 +179,8 @@ export class WorldView {
   private readonly seenItems = new Set<string>();
   private readonly seenNubbins = new Set<string>();
   private readonly liveStrays = new Set<string>();
+  /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
+  private readonly hollowPacks = new PixelHollowPacks();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -460,6 +464,8 @@ export class WorldView {
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
       this.burstFor(e);
+      if (e.kind === 'gearFound')
+        this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
         // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
@@ -1586,9 +1592,33 @@ export class WorldView {
         });
       }
     }
+    // Lane B r8 (floors): secret glints, plates, torches, blocks and the hint (R0182, R0202).
+    for (const m of floorMarks(run, f, nowMs, this.particles.reduceMotion)) {
+      const rect = frame(m.key);
+      if (!rect) continue;
+      const size =
+        m.mode === 'flat'
+          ? { w: cell * m.size, h: cell * m.size }
+          : m.size
+            ? { w: (rect.w / NATIVE_PPU) * m.size, h: (rect.h / NATIVE_PPU) * m.size }
+            : {};
+      batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: m.x,
+        y: m.y,
+        z: m.z,
+        mode: m.mode,
+        ...size,
+        tint: m.tint,
+      });
+    }
     // Loot bobs gently until someone walks over it.
     for (const l of f.loot) {
       if (run.taken.includes(l.id)) continue;
+      const lf = lootFog(run, f, world.keeper.pos, l.cell);
+      if (lf === 0) continue;
       const rect = frame(`loot-${l.kind}`);
       if (!rect) continue;
       const p = cellCentre(f, l.cell);
@@ -1603,7 +1633,7 @@ export class WorldView {
           y: bob,
           z: p.z,
           mode: 'billboard',
-          tint: this.lightAt(p.x, p.z),
+          tint: this.lightAt(p.x, p.z) * lf,
         },
         { id: l.id, kind: 'loot' },
       );
@@ -1614,6 +1644,7 @@ export class WorldView {
     liveIds.clear();
     run.strays.forEach((s, i) => {
       liveIds.add(s.id);
+      if (actorFog(run, f, world.keeper.pos, s.pos) === 0) return;
       let prev = this.strayPrev.get(s.id);
       if (!prev) {
         prev = { x: s.pos.x, z: s.pos.z };
@@ -1650,6 +1681,7 @@ export class WorldView {
     // The wild creature keeps to its nook until the Keeper creeps up on it.
     for (const w of run.wild) {
       if (w.scanned) continue;
+      if (actorFog(run, f, world.keeper.pos, w.pos) === 0) continue;
       const wsheet = this.sheets.species(w.species);
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
@@ -1683,7 +1715,19 @@ export class WorldView {
         });
       }
     }
-    void world;
+    // Lane B r8: monster packs with their plates, and gear pickup pops (hollow-packs-pixel.ts).
+    const pctx = {
+      batch,
+      sheets: this.sheets,
+      nowMs,
+      yaw,
+      alpha,
+      reduceMotion: this.particles.reduceMotion,
+      shadow,
+      lightAt: (x: number, z: number) => this.lightAt(x, z),
+    };
+    this.hollowPacks.draw(f, run, world.keeper.pos, world.timeMs, pctx);
+    this.hollowPacks.drawPops(world.keeper.pos, pctx);
   }
 
   /** Grey Nubbins that live in the other places; render-only dressing. */
@@ -2376,6 +2420,7 @@ export class WorldView {
 
   dispose(): void {
     this.batchLazy?.dispose();
+    this.hollowPacks.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }

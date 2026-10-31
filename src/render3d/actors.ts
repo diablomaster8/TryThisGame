@@ -56,6 +56,7 @@ import { rarityOf } from '../render/rarity';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
+import type { SignatureFx } from './signature-fx';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
 import { FernCairn3D } from './fern-cairn-3d';
@@ -510,6 +511,8 @@ export class Actors {
 
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
+  sigFx: SignatureFx | null = null;
   /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
   emoteBig = false;
 
@@ -799,6 +802,22 @@ export class Actors {
     if (!head) return null;
     const d = head.getWorldDirection(new THREE.Vector3()).setY(0);
     return d.lengthSq() > 1e-6 ? d.normalize() : null;
+  }
+
+  /* Lane E r9 */
+  /** R0441: the Keeper's feet, head and facing, for the photo mode's "With me" selfie. */
+  keeperSpot(): { feet: THREE.Vector3; head: THREE.Vector3; front: THREE.Vector3 | null } | null {
+    const o = this.keeper?.rig?.group ?? this.keeper?.stand;
+    if (!o) return null;
+    const feet = new THREE.Vector3(
+      o.position.x,
+      this.ground(o.position.x, o.position.z),
+      o.position.z,
+    );
+    const head = this.keeper?.rig?.bones.head;
+    const top = head ? head.getWorldPosition(new THREE.Vector3()) : feet.clone().setY(feet.y + 1.4);
+    const d = head ? head.getWorldDirection(new THREE.Vector3()).setY(0) : null;
+    return { feet, head: top, front: d && d.lengthSq() > 1e-6 ? d.normalize() : null };
   }
 
   /** Where an item is drawn, or null once it is gone. */
@@ -1140,6 +1159,8 @@ export class Actors {
         // LOOK-37: an Eternal floats a hand's breadth off the ground with a slow bob.
         if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
         if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
+        /* Lane E r9 */ if (sigOn && sig!.burst)
+          this.sigFx?.play(n.id, sig!, this.nubbinSpot(n.id), nowMs, this.calm);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt =
           pose === 'pet'

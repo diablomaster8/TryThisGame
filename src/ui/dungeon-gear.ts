@@ -1,11 +1,18 @@
-import { AFFIXES, BASES, KEEPER_SLOTS, RARITIES } from '../config/dungeon-loot';
+import { AFFIXES, BASES, KEEPER_SLOTS, RARITIES, type GearStat } from '../config/dungeon-loot';
 import { GEAR_TEXT } from '../config/strings-dungeon';
 import type { Game } from '../game';
 import type { GearItem, World } from '../sim/types';
 import { button, el, modal } from './dom';
+import { ITEMS_R8_TEXT as R8 } from '../config/strings-hollow-r8-items';
+import { itemExtraStat } from '../sim/dungeon-charms';
+import { charmLabel } from './dungeon-items';
 
 /** A piece's name: its prefix, its base and its suffix ("Bouncy Boots of the Owl"). */
 export function gearName(item: GearItem): string {
+  // Lane B round 8: named pieces (R0172) and Charm Chains (R0173) carry their own names.
+  if (item.unique) return R8.uniqueName[item.unique] ?? item.unique;
+  if (item.setPiece) return R8.pieceName[item.setPiece] ?? item.setPiece;
+  if (item.chain) return R8.chain[item.chain] ?? item.chain;
   const pre = item.affixes.map((a) => GEAR_TEXT.prefix[a.id]).find(Boolean);
   const suf = item.affixes.map((a) => GEAR_TEXT.suffix[a.id]).find(Boolean);
   return [pre, GEAR_TEXT.base[item.base] ?? item.base, suf].filter(Boolean).join(' ');
@@ -24,6 +31,11 @@ function statLine(item: GearItem): string {
   for (const a of item.affixes) {
     const d = AFFIXES.find((x) => x.id === a.id);
     if (d) parts.push(`${GEAR_TEXT.stat[d.stat]} +${a.value}`);
+  }
+  // Charms, chains and uniques (lane B round 8).
+  for (const stat of Object.keys(GEAR_TEXT.stat) as GearStat[]) {
+    const v = itemExtraStat(item, stat);
+    if (v) parts.push(`${GEAR_TEXT.stat[stat]} +${v}`);
   }
   return parts.map((p) => p.replace(/(\.\d\d)\d+/, '$1')).join(' · ');
 }
@@ -69,10 +81,10 @@ export class GearPanel {
     if (!w) return;
     const items = w.gear?.items ?? [];
     if (!items.length) {
-      this.list.replaceChildren(el('p', '', GEAR_TEXT.empty));
+      this.list.replaceChildren(el('p', '', GEAR_TEXT.empty), ...this.pouch(w));
       return;
     }
-    this.list.replaceChildren(...items.map((it) => this.row(w, it)));
+    this.list.replaceChildren(...this.pouch(w), ...items.map((it) => this.row(w, it)));
   }
 
   private row(w: World, it: GearItem): HTMLElement {
@@ -117,7 +129,68 @@ export class GearPanel {
       }
     }
     row.append(name, info, buttons);
+    const sockets = this.sockets(w, it);
+    if (sockets) row.append(sockets);
     return row;
+  }
+
+  /** R0173, R0183: the charm pouch and the keys, above the pieces. */
+  private pouch(w: World): HTMLElement[] {
+    const charms = Object.entries(w.gear?.charms ?? {}).filter(([, n]) => n > 0);
+    const out: HTMLElement[] = [el('h3', undefined, R8.pouchTitle)];
+    out.push(
+      el(
+        'p',
+        'help',
+        charms.length
+          ? charms.map(([k, n]) => `${charmLabel(k)} ×${n}`).join(' · ')
+          : R8.pouchEmpty,
+      ),
+    );
+    const keys = Object.entries(w.gear?.keys ?? {}).filter(([, n]) => n > 0);
+    if (keys.length)
+      out.push(
+        el(
+          'p',
+          'help',
+          `${R8.keysTitle}: ${keys.map(([k, n]) => `${R8.keyIcon[k] ?? ''} ${R8.keyName[k] ?? k} ×${n}`).join(' · ')}`,
+        ),
+      );
+    return out;
+  }
+
+  /** R0173: a socketed piece's sockets as pips, a button per pouch charm, and "take out". */
+  private sockets(w: World, it: GearItem): HTMLElement | null {
+    const total = it.sockets ?? 0;
+    if (!total) return null;
+    const used = it.socketed ?? [];
+    const box = el('div', 'hollow-gear-sockets');
+    const pips = '◆'.repeat(used.length) + '◇'.repeat(total - used.length);
+    box.append(
+      el('div', 'hollow-gear-stats', `${R8.sockets(used.length, total)} ${pips}`),
+      ...used.map((k) => el('div', 'hollow-gear-stats', `· ${charmLabel(k)}`)),
+    );
+    const buttons = el('div', 'hollow-gear-buttons');
+    if (used.length < total)
+      for (const [k, n] of Object.entries(w.gear?.charms ?? {}))
+        if (n > 0)
+          buttons.append(
+            button(
+              R8.socketIn(charmLabel(k)),
+              () => this.send({ kind: 'socketCharm', itemId: it.id, charm: k }),
+              'btn btn-small',
+            ),
+          );
+    if (used.length)
+      buttons.append(
+        button(
+          R8.socketOut,
+          () => this.send({ kind: 'unsocketCharms', itemId: it.id }),
+          'btn btn-small',
+        ),
+      );
+    box.append(buttons);
+    return box;
   }
 }
 

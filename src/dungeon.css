@@ -189,3 +189,46 @@
 .hollow-gear-buttons .btn {
   min-height: 44px;
 }
+/* Lane B round 8: the party card's role button (R0167), the boss scroll (R0207), the share card (R0185). */
+.hollow-party-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hollow-party-slot .hollow-party-card {
+  width: 100%;
+}
+.hollow-party-role {
+  min-height: 44px;
+  width: 100%;
+}
+.hollow-scroll p {
+  font-style: italic;
+  margin: 0 0 8px;
+}
+.hollow-share-text {
+  user-select: text;
+  white-space: pre-wrap;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+/* Lane B round 8, items: the Grove cottage's stash chest button (R0174), sockets (R0173). */
+.hollow-cottage-chest {
+  position: fixed;
+  left: 50%;
+  bottom: calc(150px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 30;
+}
+.hollow-gear-sockets {
+  margin-top: 4px;
+  padding-left: 8px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.3);
+}
+.hollow-gear input[type='search'] {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 6px 0;
+  font-size: 1rem;
+}

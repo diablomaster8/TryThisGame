@@ -86,10 +86,21 @@ export function damageWith(
     stabOf(by, move) *
     (crit ? K.crit : 1) *
     roll *
-    mult;
+    mult *
+    modMult(by, to);
   let dmg = Math.max(1, Math.round(raw));
   if (!crit) dmg = Math.min(dmg, Math.max(1, Math.floor(to.maxHp * K.capShare)));
   return { dmg, eff };
+}
+
+/**
+ * A Hollow bout's extra factor (R0155, R0164; set up in `hollow-mods.ts`): the hitter's power
+ * and grumpy cloud, and the target's damage taken. Exactly 1 for every other bout.
+ */
+export function modMult(by: Combatant, to: Combatant): number {
+  if (!by.mod && !to.mod) return 1;
+  const cloud = by.mod?.cloud && by.mod.cloud.turns > 0 ? by.mod.cloud.mult : 1;
+  return (by.mod?.hit ?? 1) * cloud * (to.mod?.taken ?? 1);
 }
 
 /**

@@ -1,6 +1,7 @@
 import type { CreaturePalette, CreatureSpec } from './creature';
 import { C } from './palette';
 import { ex } from './creature-extras';
+import { insect } from './insect-kit';
 
 /**
  * Art recipes for the digital line's Versions 2 to 5 (sim/species-digi2.ts), read by both
@@ -73,14 +74,9 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     legs: 'none',
     quad: { legLen: 0.5, snout: 0.2 },
   }),
-  thunderbug: spec(pal(C.water, C.deepWater, C.shallows, C.sunYellow, C.lilacGrey, C.ember), {
-    plan: 'tall',
-    size: 1.2,
+  // Kabuterimon (LOOK-41): the insect recipe: four arms, a big horn, four see-through wings.
+  thunderbug: insect(pal(C.water, C.deepWater, C.shallows, C.sunYellow, C.skyLight, C.ember), {
     crest: 'horn',
-    wings: 'small',
-    arms: 'claws',
-    legs: 'long',
-    eyes: 'angry',
     marks: ['chest'],
   }),
   frostwolf: spec(pal(C.pale, C.lilacGrey, C.white, C.water, C.white, C.ink, C.deepWater), {
@@ -93,6 +89,7 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     eyes: 'angry',
     marks: ['stripes'],
   }),
+  // Angemon (LOOK-41): six white wings, the silver helmet mask, a blue waist cloth, the staff.
   haloknight: spec(pal(C.white, C.pale, C.white, C.lilacGrey, C.lilacGrey), {
     plan: 'tall',
     size: 1.2,
@@ -102,6 +99,8 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     legs: 'long',
     eyes: 'angry',
     marks: ['eyeMask'],
+    addons: [ex('angelWings', C.white, C.pale), ex('belt', C.water)],
+    gen1b: ['staff'],
   }),
   // Yukidarumon: a snowman in a yellow bucket hat with a red band, in blue mitts (LOOK-41).
   snowlump: spec(pal(C.white, C.pale, C.white, C.water, C.deepWater, C.ink, C.deepWater), {
@@ -240,13 +239,16 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     marks: ['belly'],
     extras: ['drill'],
   }),
+  // Sukamon (LOOK-41): the slug with eyes on stalks and an open, drooling mouth.
   muckblob: spec(pal(C.sprout, C.leaf, C.cream, C.bark, C.wood), {
     plan: 'slug',
     size: 1.05,
     crest: 'dome',
-    eyes: 'dot',
+    eyes: 'stalk',
+    addons: [ex('gape', C.berry, C.rose), ex('drool', C.skyLight)],
   }),
-  gearknight: spec(pal(C.lilacGrey, C.dusk, C.pale, C.ember, C.sunYellow, C.ember), {
+  // Andromon (LOOK-41): a chrome android with red tubes looping over the chest.
+  gearknight: spec(pal(C.pale, C.lilacGrey, C.white, C.ember, C.sunYellow, C.ember), {
     plan: 'tall',
     size: 1.25,
     crest: 'helmet',
@@ -254,6 +256,7 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     legs: 'long',
     eyes: 'angry',
     marks: ['chest'],
+    addons: [ex('tubes', C.ember)],
   }),
   whirlbot: spec(pal(C.lilacGrey, C.dusk, C.pale, C.ember, C.sunYellow), {
     plan: 'round',
@@ -264,6 +267,7 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     marks: ['star'],
     extras: ['propeller'],
   }),
+  // Etemon (LOOK-41): the shades, a pale monkey muzzle, the microphone.
   groovape: spec(pal(C.bark, C.darkBark, C.sand, C.sunYellow, C.ember), {
     size: 1.2,
     ears: 'round',
@@ -272,6 +276,8 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     eyes: 'dot',
     marks: ['belly'],
     extras: ['shades'],
+    addons: [ex('snout', C.sand)],
+    gen1b: ['mic'],
   }),
 
   // ---- Ver.4 ----
@@ -333,13 +339,8 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     eyes: 'angry',
     extras: ['beak'],
   }),
-  snapjaw: spec(pal(C.ember, C.berry, C.cream, C.lilacGrey, C.pale), {
-    plan: 'tall',
-    size: 1.2,
-    wings: 'small',
-    arms: 'claws',
-    legs: 'long',
-    eyes: 'angry',
+  // Kuwagamon (LOOK-41): the insect recipe in red, the stag pincers on its head.
+  snapjaw: insect(pal(C.ember, C.berry, C.cream, C.lilacGrey, C.pale), {
     extras: ['pincers'],
   }),
   frostfur: spec(pal(C.white, C.pale, C.white, C.water, C.lilacGrey), {
@@ -442,10 +443,10 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     marks: ['belly'],
     extras: ['tusks'],
   }),
-  buzzwing: spec(pal(C.sunYellow, C.orange, C.cream, C.ink, C.ink, C.ember), {
+  // Flymon (LOOK-41): the insect recipe as a striped wasp.
+  buzzwing: insect(pal(C.sunYellow, C.orange, C.cream, C.ink, C.skyLight, C.ember), {
     size: 1.15,
     crest: 'antenna',
-    wings: 'small',
     eyes: 'big',
     marks: ['stripes'],
   }),

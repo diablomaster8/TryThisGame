@@ -107,6 +107,8 @@ const entry = (
 export const SHINY_FINISH = {
   surface: { roughness: 0.3, clearcoat: 1, sheen: 1, sheenColor: '#ffffff' },
   ball: { glow: '#e0c060' },
+  // R0398 (LOOK-30): star catchlights.
+  eyes: { star: true },
   // A small pale star on the brow, the one hint mark a shiny wears.
   hints: [{ kind: 'sphere' as const, a: V(0, 2.42, 0.6), r: 0.11, color: '#ffffff', soft: 0.02 }],
 };

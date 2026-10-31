@@ -406,7 +406,8 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     plan: 'slug',
     size: 1.1,
     eyes: 'stalk',
-    marks: ['eyeMask'],
+    // Numemon (LOOK-41): the open, drooling mouth under the eye stalks.
+    addons: [ex('gape', C.berry, C.rose), ex('drool', C.skyLight)],
   }),
   skyserpent: spec(pal(C.water, C.deepWater, C.shallows, C.white, C.ember), {
     plan: 'serpent',

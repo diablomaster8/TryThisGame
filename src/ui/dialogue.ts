@@ -37,6 +37,7 @@ import { pauseAfter, voiceOf } from './type-timing';
 import { holdMusicDuck, playBlip, playSound } from '../platform/audio';
 import { renderLineAct, sayItButton } from './line-act';
 import { refrainOf } from '../config/edu-refrains';
+import { AutoAdvance } from './auto-advance'; /* Lane E r9 */
 import '../fun.css';
 
 /**
@@ -91,6 +92,8 @@ export class Dialogue {
   private held = false;
   /** R0304: the line whose act was last put up, so a re-render never shows it twice. */
   private actShown = '';
+  /** Lane E r9, R0730: the read-aloud story's own page turns, and its ▶️/⏸️ toggle. */
+  private readonly auto: AutoAdvance;
 
   constructor(
     parent: HTMLElement,
@@ -119,7 +122,21 @@ export class Dialogue {
     this.skipBtn = button(`${DIALOGUE_TEXT.skip} ⏭`, () => this.skip(), 'btn dialogue-skip');
     this.skipBtn.setAttribute('aria-label', DIALOGUE_TEXT.skipLabel);
     this.skipBtn.title = DIALOGUE_TEXT.skipLabel;
-    box.append(this.portrait, body, this.next, this.skipBtn);
+    /* Lane E r9, R0730 */
+    this.auto = new AutoAdvance(
+      game,
+      () => ({
+        open: !this.root.hidden,
+        blocked: this.waiting() || this.held,
+        choicesUp: this.choices.childElementCount > 0,
+      }),
+      () => {
+        // A line still typing is finished first, then the page turns.
+        if (this.shown < this.fullText.length) this.advance();
+        this.advance();
+      },
+    );
+    box.append(this.portrait, body, this.next, this.skipBtn, this.auto.btn);
     this.root.appendChild(box);
     // The box takes focus when a scene starts, so Space and Enter advance it rather than
     // pressing whatever sheet button had focus before (r1025 item 2).
@@ -132,7 +149,7 @@ export class Dialogue {
     // Choices and lesson cards fill this row; Skip steps aside while they are up.
     new MutationObserver(() => this.syncSkip()).observe(this.choices, { childList: true });
     this.root.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('.dialogue-skip')) return;
+      if ((e.target as HTMLElement).closest('.dialogue-skip, .dialogue-auto')) return;
       if (this.waiting()) return;
       if (this.held) {
         this.hooks.skip?.();
@@ -396,6 +413,7 @@ export class Dialogue {
 
   private finish(choice: string | null): void {
     const g = this.game();
+    this.auto.stop(); /* Lane E r9 */
     const scene = this.scene;
     this.root.hidden = true;
     this.scene = null;
@@ -483,10 +501,12 @@ export class Dialogue {
     this.wordLight.reset();
     const band = textBandOf(g.world);
     const e = g.world.edu;
+    const autoNext = this.auto.line(); /* Lane E r9, R0730 */
     if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
       speakLine(this.fullText, {
         speaker: chorus ? 'narrator' : who,
         onWord: (w) => this.wordLight.light(w),
+        onDone: autoNext,
       });
     // R0303: a line's sound cue plays however the text appears.
     if (line.sfx) playSound(line.sfx);

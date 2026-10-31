@@ -77,7 +77,13 @@ describe('Hollow encounters on the battle core', () => {
     );
     expect(b.context.foes).toEqual(
       // Wildlife, so lane C's befriending can take them home.
-      members.map((m) => ({ species: m.species, level: Math.min(m.level, cap), wild: true })),
+      // R0155: champion modifiers ride along for the battle core to play.
+      members.map((m) => ({
+        species: m.species,
+        level: Math.min(m.level, cap),
+        wild: true,
+        ...(m.mods.length ? { mods: m.mods } : {}),
+      })),
     );
     expect(b.sides[1].map((c) => c.species)).toEqual(members.map((m) => m.species));
     // Asked again every step, the handler never starts a second bout.

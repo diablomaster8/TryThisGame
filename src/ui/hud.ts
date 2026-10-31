@@ -3,6 +3,7 @@ import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
 import { regionOf } from '../sim/regions';
 import { hintToast, secretToasts } from './world-hints-ui';
+import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
@@ -32,6 +33,7 @@ import {
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
 import { BORDER_TEXT } from '../config/strings-r9d2';
 import { gearGlyph, gearName } from './dungeon-gear';
+import { itemsToast } from './dungeon-items';
 import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
@@ -128,6 +130,7 @@ import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { StickerBook } from './sticker-book';
 import { EduPlaces } from './edu-places';
+import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { LimitCard, syncKidsLock } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
@@ -194,6 +197,8 @@ import { festivalGagDue } from '../sim/festival-gags';
 import { FESTIVAL_GAGS } from '../content/festival-gags';
 import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
+import { commandTaps } from '../game'; /* Lane E r9 */
+import { REMEMBRANCE_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { evolveFlash } from '../render/evolve-reveal';
 import { setEmoteFocus } from '../render/emote-size';
 import { SoulAmbient } from './soul-ambient';
@@ -490,6 +495,7 @@ export function mountHud(
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
+  commandTaps.add((c) => curiosities.onCommand(c)); /* Lane E r9 */
   // R0552 (lane A r9): the Grove's snores and chirps.
   const soulAmbient = new SoulAmbient();
 
@@ -616,6 +622,8 @@ export function mountHud(
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // Lane B r8: the boss scroll (R0207) waits for the boss celebration to close.
+  dungeon.scrollBusy = () => celebration.isOpen;
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
   const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);
@@ -1176,6 +1184,12 @@ export function mountHud(
       const sprout = isEdu && g.world.edu?.band === 'sprout';
       if (document.body.classList.contains('edu-sprout') !== sprout)
         document.body.classList.toggle('edu-sprout', sprout);
+      /* Lane E r9, R0679: the sprout's four picture buttons say what they open. */
+      setActionLabel(journalBtn, sprout ? SPROUT_HUD_TEXT.story : UI_FX_TEXT.actionLabels.journal);
+      setActionGlyph(rosterBtn, sprout ? '🐣' : '📋');
+      setActionLabel(rosterBtn, sprout ? SPROUT_HUD_TEXT.nubbins : UI_FX_TEXT.actionLabels.roster);
+      setActionGlyph(moreBtn, sprout ? '🗺' : '⋯');
+      setActionLabel(moreBtn, sprout ? SPROUT_HUD_TEXT.places : UI_FX_TEXT.actionLabels.more);
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
@@ -1348,6 +1362,12 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      /* Lane E r9, R0424: a friend of a departed Nubbin keeps its flower. */
+      for (const e of events)
+        if (e.kind === 'remembrance') {
+          const who = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (who) toast(REMEMBRANCE_TEXT.given(who.name, e.friend));
+        }
       noteEventKinds(events);
       // TECH-15: a buzz for the moments that have one.
       for (const e of events) {
@@ -1356,6 +1376,13 @@ export function mountHud(
           buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
       }
       backupNudge.onEvents(events);
+      // Lane B r8: the Scout's "!" and the boss scroll (ui/hollow-scroll.ts).
+      dungeon.onEvents(events, g.world, toast);
+      // Lane B r8 (floors): secrets, puzzles, part shortcuts, the boss door (ui/hollow-floors-r8.ts).
+      for (const e of events) {
+        const t = floorsToast(g.world, e);
+        if (t) toast(t);
+      }
       offerCard.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
@@ -1717,6 +1744,9 @@ export function mountHud(
           }
         } else if (e.kind === 'gearFound') {
           toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
+        } else if (e.kind === 'hollowItems') {
+          // Lane B round 8: charms, keys, chains, wheelbarrow mixes and the Pillow Fort.
+          toast(itemsToast(e));
         } else if (e.kind === 'haulBanked') {
           // Lane B round 6: the haul card (R0175), boss card (R0160), losses and sleepy packs.
           if (e.items > 0) {
@@ -1963,6 +1993,7 @@ export function mountHud(
     },
     onSelect(id) {
       const g = game();
+      curiosities.onSelect(id); /* Lane E r9 */
       if (id?.startsWith('memorial:') && g) {
         const m = g.world.memorials.find((x) => x.id === id.slice('memorial:'.length));
         if (m) memorialCard.show(m);

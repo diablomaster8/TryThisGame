@@ -88,6 +88,9 @@ export function langQuestOpens(world: World, c: CampaignState, quest: Quest): bo
   if (prev === null) return true;
   const st = c.fun[prev];
   if (st?.status !== 'done') return false;
+  // Lane E r9, R0737: the grown-up's "skip to Grove morning", pressed after this one ended.
+  const skip = world.edu.langSkipAt;
+  if (skip !== undefined && skip >= st.sinceMs) return true;
   return world.timeMs >= st.sinceMs + LANG.nextQuestAfterMs && isMorning(world.timeMs);
 }
 

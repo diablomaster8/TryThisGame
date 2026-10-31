@@ -47,6 +47,7 @@ import {
 } from './nubbin-critter-parts';
 import { sheetLabels, sheetTurns, silhouette } from './contact-sheet-3d';
 import { NUBBIN_SPEC } from './species-data';
+import { IDLE_ROW, setUpIdleRow, stepIdleRow } from '../render3d/idle-row-3d';
 import {
   KEEPER_MOON_SPEC,
   KEEPER_POSES,
@@ -506,7 +507,11 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
           partsTinted(partsParam),
         )
       : spec;
-  const sheet = sheetEntries?.map((e) => withParts(e.v.spec)) ?? null;
+  // `&creature=idles`: the battle idles' 3D gallery row (FIGHT-78, `render3d/idle-row-3d.ts`).
+  const idleRowOn = creatureParam === 'idles';
+  const sheet =
+    sheetEntries?.map((e) => withParts(e.v.spec)) ??
+    (idleRowOn ? IDLE_ROW.map(() => withParts(NUBBIN_SPEC)) : null);
   const oneVariant = creatureParam?.startsWith('variant:')
     ? variantById(creatureParam.slice('variant:'.length))
     : null;
@@ -539,13 +544,15 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       // Back rows sit half a column across, so they show between the figures in front.
       const row = Math.floor(i / cols);
       const across = ((i % cols) - (cols - 1) / 2 + (row % 2) * 0.5) * 2.45;
-      // The camera looks along +z, so x runs right to left on screen: an art sheet mirrors it.
-      const x = artSheetOn ? -across : across;
+      // The camera looks along +z, so x runs right to left on screen: a sheet read in order
+      // (art, the battle idles) mirrors it.
+      const x = artSheetOn || idleRowOn ? -across : across;
       const z = row * 3.2;
       c.group.userData.baseY = groundHeight(x, z);
       place(c.group, x, z, Math.PI - 0.5 + turn + (sheetEntries?.[i]?.t ?? 0));
       cast.push(c);
     });
+    if (idleRowOn) setUpIdleRow(cast);
   }
   if (keeperStage) {
     // Side by side across the camera's view, each turned a little toward the lens, the
@@ -846,9 +853,10 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     } else if (lineup) {
       for (const c of cast) {
         attend(c, poseNow === 'pet');
-        c.setPose(poseNow);
+        c.setPose(idleRowOn ? 'idle' : poseNow);
         c.animate(t);
       }
+      if (idleRowOn) stepIdleRow(cast, performance.now());
       const back = (camera.aspect < 1.5 ? 1.3 : 1) * sheetBack;
       // A sheet with more rows is seen from higher up, aimed at its middle row.
       const rise = (sheetRows - 1) * 3.6;
