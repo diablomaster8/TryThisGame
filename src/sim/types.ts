@@ -438,6 +438,8 @@ export interface Settings {
   graphics: GraphicsMode;
   /** The corner minimap: off, on, or auto; an older save has none, which reads as auto. */
   minimap?: 'off' | 'on' | 'auto';
+  /** R0519: HUD colours; unset or 'dark' keeps the dark HUD, 'system' follows a light scheme. */
+  hudColours?: 'dark' | 'system';
   /** R0073: zoom out to the survey step while running; unset: on for a phone. */
   surveyWhenRunning?: boolean;
   /** R0106: tuck the bottom bar away while walking; unset: on for a phone. */

@@ -5165,19 +5165,20 @@ html.story-resting canvas {
   }
 }
 
-/* TECH-78 (R0519): a light HUD when the system asks for a light scheme. Only the always-on
+/* TECH-78 (R0519): with HUD colours set to "Follow system" (ui/hud-scheme.ts; the default
+   stays dark), a light HUD when the system asks for a light scheme. Only the always-on
    chrome over the Grove turns light (top bar, phone action bar, camera and Run buttons, chips,
    hints and toasts); panels, the sheet and the dialogue keep their dark cards, so text set
    for them stays readable. Forced colours and "more contrast" still win (blocks above). */
 @media (prefers-color-scheme: light) and (not (forced-colors: active)) and (not (prefers-contrast: more)) {
-  .topbar,
-  .actionbar,
-  .camera-buttons,
-  .run-btn,
-  .fps,
-  .carry,
-  .hint,
-  .toasts {
+  :root.hud-follow-scheme .topbar,
+  :root.hud-follow-scheme .actionbar,
+  :root.hud-follow-scheme .camera-buttons,
+  :root.hud-follow-scheme .run-btn,
+  :root.hud-follow-scheme .fps,
+  :root.hud-follow-scheme .carry,
+  :root.hud-follow-scheme .hint,
+  :root.hud-follow-scheme .toasts {
     --hud-fg: #2a2140;
     --hud-bg: rgba(255, 248, 230, 0.9);
     --hud-border: rgba(42, 33, 64, 0.45);
@@ -5187,19 +5188,19 @@ html.story-resting canvas {
     --px-dark: rgba(90, 70, 40, 0.3);
     color: var(--hud-fg);
   }
-  .topbar .btn,
-  .actionbar .btn,
-  .camera-buttons button,
-  .run-btn,
-  .toasts > * {
+  :root.hud-follow-scheme .topbar .btn,
+  :root.hud-follow-scheme .actionbar .btn,
+  :root.hud-follow-scheme .camera-buttons button,
+  :root.hud-follow-scheme .run-btn,
+  :root.hud-follow-scheme .toasts > * {
     color: var(--hud-fg);
     text-shadow: none;
   }
-  .topbar .chip,
-  .fps,
-  .carry,
-  .hint,
-  .toasts > * {
+  :root.hud-follow-scheme .topbar .chip,
+  :root.hud-follow-scheme .fps,
+  :root.hud-follow-scheme .carry,
+  :root.hud-follow-scheme .hint,
+  :root.hud-follow-scheme .toasts > * {
     background: var(--hud-bg);
   }
 }

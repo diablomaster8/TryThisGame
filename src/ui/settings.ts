@@ -1,3 +1,4 @@
+import { mountHudSchemeSetting } from './hud-scheme';
 import { shareOrDownload } from '../platform/share';
 import { SHARE_TEXT } from '../config/strings-r9d3';
 import { noteBackupExported } from '../platform/backup-offer';
@@ -102,6 +103,7 @@ export class SettingsMenu {
   private syncWorld: (g: Game) => void = () => undefined;
   /** TECH-52: the Quality row (`quality-setting.ts`). */
   private syncQuality: (g: Game) => void = () => undefined;
+  private syncHudScheme: (g: Game) => void = () => undefined;
   private readonly joystick: HTMLInputElement;
   private readonly jukebox: HTMLSelectElement;
   private readonly ambience: HTMLInputElement;
@@ -417,6 +419,7 @@ export class SettingsMenu {
     this.syncMinimap = mountMinimapSetting(body, this.game);
     this.syncWorld = mountWorldSettings(body, this.game);
     this.syncQuality = mountQualitySetting(body, this.game);
+    this.syncHudScheme = mountHudSchemeSetting(body, this.game); // R0519
     // Jukebox and ambience.
     const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
     for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
@@ -581,6 +584,7 @@ export class SettingsMenu {
     this.syncPace(g);
     this.syncWorld(g);
     this.syncQuality(g);
+    this.syncHudScheme(g);
     this.joystick.checked = g.world.settings.joystick;
     this.jukebox.value = g.world.settings.jukebox ?? '';
     this.ambience.checked = g.world.settings.ambience;

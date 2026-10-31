@@ -9,3 +9,9 @@ export const INSPECT_CARD = {
   dropPx: 28,
   showMs: 2600,
 } as const;
+
+/** R0503: the egg's five crack stages: hatch progress in six bins, the last always in the final 5 s. */
+export const EGG_CRACK = {
+  bins: 6,
+  lastStageMs: 5000,
+} as const;

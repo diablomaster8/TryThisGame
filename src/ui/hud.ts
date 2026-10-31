@@ -195,6 +195,7 @@ import { ShakeMeter } from './shake-meter';
 import { ShakeHint } from './shake-hint';
 import { SelectionLive } from './a11y-live';
 import { PressInfo } from './press-info';
+import { applyHudScheme } from './hud-scheme';
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
@@ -1264,6 +1265,7 @@ export function mountHud(
         guide.update(busy || eduPrompt.isOpen);
         shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
         selectionLive.update(g.world, g, busy || eduPrompt.isOpen);
+        applyHudScheme(g.world);
         kidNotices.flush();
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());

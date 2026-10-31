@@ -28,3 +28,10 @@ export const INSPECT_TEXT = {
   tapNpc: 'Tap to talk.',
   visitor: 'A visitor',
 } as const;
+
+/** R0519 (TECH-78): the HUD colours setting. */
+export const HUD_SCHEME_TEXT = {
+  label: 'HUD colours',
+  levels: { dark: 'Dark', system: 'Follow system (light or dark)' },
+  help: 'Follow system turns the top bar and buttons light when your device uses a light theme.',
+} as const;
