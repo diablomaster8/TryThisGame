@@ -72,6 +72,8 @@ import { Celebration } from './celebration';
 import type { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
+import { grownUpCorner } from './kids-corner'; /* Lane E r10 */
+import { SproutTutorial } from './sprout-tutorial'; /* Lane E r10 */
 import { Guide } from './guide';
 import { titleCardUp } from './title-card';
 import { kidToaster } from './kid-notice';
@@ -207,6 +209,7 @@ import { REMEMBRANCE_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { evolveFlash } from '../render/evolve-reveal';
 import { setEmoteFocus } from '../render/emote-size';
 import { SoulAmbient } from './soul-ambient';
+import { LossNotice } from './loss-notice';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -249,6 +252,11 @@ export function mountHud(
     () => {
       const g = game();
       if (!g) return;
+      /* Lane E r10, R0679: a sprout's ⚙ is folded in here; the sheet has the big slider. */
+      if (g.world.edu?.band === 'sprout') {
+        kidSheet.open();
+        return;
+      }
       const on = !g.world.settings.sound;
       g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
       setSoundEnabled(on);
@@ -283,7 +291,19 @@ export function mountHud(
   const racesBtn = button('🏁', () => races.open(), 'btn btn-icon');
   racesBtn.setAttribute('aria-label', UI_TEXT.races);
   racesBtn.title = UI_TEXT.races;
-  const journalBtn = button('📖', () => journal.open(), 'btn btn-icon');
+  const journalBtn = button(
+    '📖',
+    () => {
+      /* Lane E r10, R0679: a sprout's 📖 Story plays the next scene or says what is next. */
+      const g = game();
+      if (g?.world.edu?.band === 'sprout' && g.world.campaign) {
+        if (g.world.campaign.queue.length === 0) edu.showNext();
+        return;
+      }
+      journal.open();
+    },
+    'btn btn-icon',
+  );
   journalBtn.setAttribute('aria-label', STORY_TEXT.journal);
   journalBtn.title = STORY_TEXT.journal;
   journalBtn.hidden = true;
@@ -341,6 +361,7 @@ export function mountHud(
   root.appendChild(runBtn);
   // R0679: what a sprout does not need (style.css hides these under `body.edu-sprout`).
   for (const b of [runBtn, keeperBtn, shopBtn, groveBtn]) b.classList.add('sprout-hide');
+  settingsBtn.classList.add('sprout-hide'); /* Lane E r10, R0679: 🔊 opens the sound sheet */
   // MOVE-42: on a phone the Run toggle turns itself off after a few seconds standing still,
   // so it is never left on by accident. Shift on a keyboard is held, so it needs none.
   if (window.matchMedia?.('(pointer: coarse)').matches) {
@@ -500,6 +521,8 @@ export function mountHud(
   const fastSafe = dedupeToaster(makeToaster(toasts), () => game()?.clock.timeScale ?? 1);
   const kidNotices = kidToaster(bandToaster(fastSafe, game), game, () => kidBusy());
   const toast = kidNotices.toast;
+  // Lane E r10 (R0694): the heads-up before a Learning Grove loss chapter.
+  const lossNotice = new LossNotice(root, game, toast);
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
   commandTaps.add((c) => curiosities.onCommand(c)); /* Lane E r9 */
@@ -619,6 +642,13 @@ export function mountHud(
   edu.onOpenBook((fresh) => stickerBook.open(fresh));
   const grownUps = new GrownUpPanel(root, game, toast);
   settings.setGrownUpArea(() => grownUps.open());
+  grownUpCorner(root, () => grownUps.open()); /* Lane E r10, R0679 */
+  const sproutTutorial = new SproutTutorial({
+    story: journalBtn,
+    play: expeditionBtn,
+    nubbins: rosterBtn,
+    places: moreBtn,
+  });
   const breakScreen = new BreakScreen(
     root,
     game,
@@ -1260,9 +1290,11 @@ export function mountHud(
           g.catchingUp;
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
+        sproutTutorial.update(g, busy || eduPrompt.isOpen || guide.isShowing()); /* Lane E r10 */
         shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
         selectionLive.update(g.world);
         kidNotices.flush();
+        lossNotice.update(g, busy);
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
         offerCard.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
@@ -1475,6 +1507,9 @@ export function mountHud(
         } else if (e.kind === 'bonked') {
           // R0300/R0299: a fruit on the head, or a walk into a tree.
           playSound('bonk');
+        } else if (e.kind === 'ballSplash') {
+          // R0293 (lane E r10): the ball into the pond.
+          playSound('splash');
         } else if (e.kind === 'hopCourse') {
           hopCourse.onEvent(e, toast);
         } else if (e.kind === 'springBounced' && !e.nubbinId) {
@@ -1824,6 +1859,7 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'strayAsk') {
           toast(RUMBLE_TEXT.strayAsk);
+          playSound('sneak'); /* R0326 (lane E r10) */
         } else if (e.kind === 'strayCalmed') {
           toast(e.ok ? RUMBLE_TEXT.calmed(e.shells) : RUMBLE_TEXT.calmFailed);
         } else if (e.kind === 'bossGuard') {

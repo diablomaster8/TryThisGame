@@ -182,7 +182,7 @@ export function shapeRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
   };
 }
 
-const COUNT_ICONS = ['🍎', '⭐', '🐚', '🌼', '🍄', '🥚'];
+export const COUNT_ICONS = ['🍎', '⭐', '🐚', '🌼', '🍄', '🥚'];
 
 export function countingRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
   const max = EDU_COUNT_MAX[age];

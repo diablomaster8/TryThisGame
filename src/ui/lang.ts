@@ -5,6 +5,7 @@
  * met so far plays its clip on a tap. The grown-up area gets the full list with how often
  * each word was heard and used. UI only: it sends commands and reads `world.edu`.
  */
+import { GROWN_UP_TEXT } from '../config/strings-access-r10'; /* Lane E r10 */
 import { LANG_TEXT } from '../config/strings';
 import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
@@ -16,6 +17,10 @@ import { button, el, modal } from './dom';
 import { appendScriptText } from './lang-dom';
 /* Lane E r9 */
 import { langSkipRow, langWaitCard, langWaitLine, sayLangWait } from './lang-wait';
+import { friendCard, greetAll, stampsFor } from './postcard-faces'; /* Lane E r10, R0705 */
+import { speakLine } from './lesson';
+import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
+import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 
 /** Words the child's band shows: sprouts skip the reader-only words. */
 function bandWords(g: Game, course: LanguageCourse): VocabItem[] {
@@ -85,46 +90,46 @@ export class LangPanel {
     const body = this.dialog.body;
     body.textContent = '';
     body.appendChild(el('p', 'lang-postcard', LANG_TEXT.postcardBody));
-    for (const course of langCourses()) body.appendChild(this.courseCard(g, course));
+    // Lane E r10, R0705: the friends side by side, as faces.
+    const friends = el('div', 'postcard-friends');
+    for (const course of langCourses()) friends.appendChild(this.courseCard(g, course));
+    body.appendChild(friends);
     this.dialog.show();
+    // R0705: the postcard is read aloud, then each friend says hello from their clip.
+    const greet = () => greetAll(langCourses(), KIDS_R10_TUNING.greetGapMs);
+    if (g.world.edu.readAloud) speakLine(KIDS_R10_TEXT.postcard.say, { onDone: greet });
+    else greet();
     /* Lane E r9, R0737: a sprout hears when Ori or Hana comes back. */
-    sayLangWait(
-      g,
-      langCourses()
-        .map((c) =>
-          langWaitLine(g, c.id as LangCourseId, c.quests, LANG_TEXT.friends[c.id] ?? c.title),
-        )
-        .filter((l): l is string => l !== null),
-    );
+    const waits = langCourses()
+      .map((c) =>
+        langWaitLine(g, c.id as LangCourseId, c.quests, LANG_TEXT.friends[c.id] ?? c.title),
+      )
+      .filter((l): l is string => l !== null);
+    if (waits.length)
+      window.setTimeout(() => sayLangWait(g, waits), KIDS_R10_TUNING.greetGapMs * 3);
   }
 
+  /** Lane E r10, R0705: a friend's face card, with the wait card between visits. */
   private courseCard(g: Game, course: LanguageCourse): HTMLElement {
     const id = course.id as LangCourseId;
-    const started = g.world.edu?.courses[id] ?? false;
     const friend = LANG_TEXT.friends[id] ?? course.title;
-    const card = el('div', 'lang-course');
-    card.appendChild(el('strong', undefined, `${course.title} (${LANG_TEXT.languages[id]})`));
-    card.appendChild(
-      el(
-        'small',
-        undefined,
-        LANG_TEXT.progress(questsDone(g, course), course.quests.length, learnedCount(g, course)),
-      ),
+    const fun = g.world.campaign?.fun ?? {};
+    const card = friendCard(g, course, {
+      name: friend,
+      language: LANG_TEXT.languages[id] ?? course.title,
+      started: g.world.edu?.courses[id] ?? false,
+      stamps: stampsFor(course.quests, (q) => fun[q.toLowerCase()]?.status === 'done'),
+      onMeet: () => this.start(g, id),
+      onWords: () => this.words(g, course),
+    });
+    card.title = LANG_TEXT.progress(
+      questsDone(g, course),
+      course.quests.length,
+      learnedCount(g, course),
     );
     /* Lane E r9, R0737: between visits, the next one as a picture of the time. */
     const wait = langWaitCard(g, id, course.quests, friend);
     if (wait) card.appendChild(wait);
-    const row = el('div', 'lang-actions');
-    row.appendChild(
-      button(
-        // Lane E r9, R0678: every postcard button carries a picture too.
-        `🤝 ${started ? LANG_TEXT.carryOn(friend) : LANG_TEXT.meet(friend)}`,
-        () => this.start(g, id),
-        'btn btn-primary',
-      ),
-    );
-    row.appendChild(button(`📝 ${LANG_TEXT.words}`, () => this.words(g, course), 'btn'));
-    card.appendChild(row);
     return card;
   }
 
@@ -178,12 +183,22 @@ export function langProgress(body: HTMLElement, g: Game): void {
       langWaitLine(g, course.id as LangCourseId, course.quests, '') !== null,
     );
     if (skip) body.appendChild(skip);
-    const list = el('div', 'shop-list');
-    for (const w of bandWords(g, course)) {
-      const s = e.words[w.id];
-      const counts = s ? LANG_TEXT.heardUsed(s.heard, s.used) : LANG_TEXT.notMet;
-      list.appendChild(wordRow(g, w, counts));
+    // Lane E r10 (R0718): the word list folds by topic, so the report stays short.
+    const byTopic = new Map<string, VocabItem[]>();
+    for (const w of bandWords(g, course))
+      byTopic.set(w.topic, [...(byTopic.get(w.topic) ?? []), w]);
+    for (const [topic, words] of byTopic) {
+      const fold = el('details', 'lang-topic');
+      const met = words.filter((w) => e.words[w.id]).length;
+      fold.appendChild(el('summary', undefined, GROWN_UP_TEXT.topicFold(topic, met, words.length)));
+      const list = el('div', 'shop-list');
+      for (const w of words) {
+        const s = e.words[w.id];
+        const counts = s ? LANG_TEXT.heardUsed(s.heard, s.used) : LANG_TEXT.notMet;
+        list.appendChild(wordRow(g, w, counts));
+      }
+      fold.appendChild(list);
+      body.appendChild(fold);
     }
-    body.appendChild(list);
   }
 }

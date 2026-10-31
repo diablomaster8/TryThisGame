@@ -15,6 +15,7 @@ import {
 } from '../platform/storage';
 import { button, el } from './dom';
 import { speakLine } from './lesson';
+import { showFirstNubbin } from './kids-portrait'; /* Lane E r10 */
 
 /** What the name-and-icon step chose; empty fields were skipped. */
 export interface EduTag {
@@ -130,7 +131,9 @@ export function showKidsPicker(
     b.style.setProperty('--tile', `${EDU_TAG.tilePx}px`);
     const css = tagCss(s?.eduColour);
     if (css) b.style.setProperty('--tag', css);
-    b.append(el('span', 'kids-pick-icon', s?.eduIcon ?? '🌱'), el('strong', undefined, name));
+    const icon = el('span', 'kids-pick-icon', s?.eduIcon ?? '🌱');
+    b.append(icon, el('strong', undefined, name));
+    showFirstNubbin(slot, icon); /* Lane E r10, R0696 */
     b.setAttribute('aria-label', KIDS_PICK_TEXT.open(name));
     row.appendChild(b);
     any = true;

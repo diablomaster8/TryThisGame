@@ -1,0 +1,474 @@
+/*
+ * Lane E r10 (kids UI): the Learning Grove's round-10 styles, imported by the modules that use
+ * them so style.css stays untouched.
+ */
+
+/* R0696: a Learning Grove slot on the title leads with the child's first Nubbin. */
+.title-slot-main.title-slot-has-pic {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+}
+.title-slot-has-pic > .title-slot-icon,
+.title-slot-has-pic > .kids-r10-pic {
+  grid-row: 1 / span 2;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+.kids-r10-pic {
+  position: relative;
+  display: inline-block;
+}
+.kids-r10-portrait {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+.kids-r10-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+/* The `?kids` picker's 160 px tiles: the picture is most of the tile. */
+.kids-pick-icon-pic {
+  width: 96px;
+  height: 96px;
+}
+.kids-pick-icon-pic .kids-r10-badge {
+  font-size: 1.8rem;
+}
+
+/*
+ * R0679: the sprout HUD's grown-ups corner, a quiet tab on the left edge that opens only
+ * when held (kids-corner.ts). Hidden outside the sprout band.
+ */
+.kids-corner {
+  display: none;
+}
+body.edu-sprout .kids-corner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: env(safe-area-inset-left, 0px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 48px;
+  min-width: 48px;
+  min-height: 64px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: none;
+  border-radius: 0 14px 14px 0;
+  background: rgba(30, 40, 50, 0.45);
+  color: #fff;
+  font-size: 1.3rem;
+  opacity: 0.7;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  overflow: hidden;
+}
+/* The hold fills the tab from the bottom, so a grown-up sees it working. */
+body.edu-sprout .kids-corner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 214, 102, 0.6);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  pointer-events: none;
+}
+body.edu-sprout .kids-corner-holding::before {
+  transform: scaleY(1);
+  transition: transform var(--hold, 900ms) linear;
+}
+body.edu-sprout .kids-corner-said::after {
+  content: attr(data-hint);
+  position: absolute;
+  left: 100%;
+  margin-left: 6px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(30, 40, 50, 0.85);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+body.edu-sprout .kids-corner-said {
+  overflow: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.edu-sprout .kids-corner-holding::before {
+    transition: none;
+    transform: scaleY(0.5);
+  }
+}
+
+/* R0679: the sprout tutorial lights the button it is naming. */
+body.edu-sprout .sprout-tut-lit {
+  outline: 4px solid #ffd666;
+  outline-offset: 2px;
+  animation: sprout-tut-pulse 0.9s ease-in-out infinite alternate;
+}
+@keyframes sprout-tut-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.edu-sprout .sprout-tut-lit {
+    animation: none;
+  }
+}
+
+/*
+ * R0700: the do beats (ui/do-beats.ts). Big targets (64 px and up), colour always with its
+ * name, and no motion beyond a short shake when reduced motion is off.
+ */
+.do-beat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.do-beat-ask,
+.do-beat-cheer {
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+}
+.do-beat-cheer {
+  font-weight: 700;
+}
+.do-beat-tokens,
+.do-beat-tray,
+.do-beat-baskets,
+.do-beat-strip,
+.do-beat-fence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 100%;
+}
+.do-token {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 50%;
+  border: 4px solid rgba(0, 0, 0, 0.25);
+  background: color-mix(in srgb, var(--tok, #c58a4a) 45%, #fff);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.do-token.do-on {
+  background: var(--tok, #c58a4a);
+  color: #fff;
+  border-color: #ffd666;
+  box-shadow: 0 0 0 4px rgba(255, 214, 102, 0.5);
+  opacity: 1;
+}
+.do-token-star {
+  border-radius: 8px;
+  clip-path: polygon(
+    50% 0,
+    62% 36%,
+    100% 38%,
+    70% 60%,
+    80% 100%,
+    50% 78%,
+    20% 100%,
+    30% 60%,
+    0 38%,
+    38% 36%
+  );
+}
+.do-beat-tally {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  min-height: 1.6em;
+}
+.do-item {
+  min-width: 72px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  font-size: 2rem;
+}
+.do-item.do-held {
+  outline: 4px solid #ffd666;
+  outline-offset: 2px;
+}
+.do-item.do-on,
+.do-item:disabled {
+  opacity: 1;
+}
+.do-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: #fff;
+  color: #222;
+}
+.do-chip::before {
+  content: '';
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  background: var(--chip, transparent);
+}
+.do-chip-word::before {
+  display: none;
+}
+.do-basket {
+  min-width: 120px;
+  min-height: 110px;
+  padding: 8px;
+  border: 4px dashed rgba(255, 255, 255, 0.6);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.do-basket-name {
+  font-size: 2rem;
+  line-height: 1;
+}
+.do-basket-in {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+.do-basket-in .do-item {
+  min-width: 44px;
+  min-height: 44px;
+  transform: scale(0.85);
+}
+.do-plank {
+  width: 64px;
+  min-height: 150px;
+  border-radius: 12px 12px 4px 4px;
+  background: #c9b28b;
+  border: 4px solid #6b4f2e;
+}
+.do-plank.do-on {
+  background: var(--paint, #e8c840);
+  opacity: 1;
+}
+.do-beat-canvas {
+  width: min(320px, 100%);
+  aspect-ratio: 32 / 22;
+  border-radius: 12px;
+  border: 4px solid #6b4f2e;
+  touch-action: none;
+  background: #fbf6e9;
+}
+.do-beat-show,
+.do-beat-done {
+  min-height: 64px;
+  font-size: 1.2rem;
+}
+.do-beat-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+/* The ring turns; the words inside stay still. */
+.do-beat-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffd666;
+  animation: do-ring var(--say, 5s) linear;
+}
+.do-beat-ring.do-on::before {
+  border-color: #ffd666;
+}
+@keyframes do-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.do-shake {
+  animation: do-shake 0.35s ease-in-out;
+}
+@keyframes do-shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .do-beat-ring::before,
+  .do-shake {
+    animation: none;
+  }
+}
+
+/* R0715: the games' pixel pictures (ui/edu-icons.ts), scaled with nearest-neighbour. */
+.edu-px {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  image-rendering: pixelated;
+  vertical-align: middle;
+}
+.edu-px-wrap {
+  display: inline-flex;
+}
+canvas.edu-icon {
+  width: 3rem;
+  height: 3rem;
+}
+.edu-opt.large canvas.edu-icon {
+  width: 5rem;
+  height: 5rem;
+}
+.edu-px-inline {
+  width: 1.4em;
+  height: 1.4em;
+  margin: 0 0.1em;
+}
+
+/* R0705: Nova's postcard around Ori's and Hana's faces (ui/postcard-faces.ts). */
+.postcard-friends {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+.postcard-friend {
+  flex: 1 1 150px;
+  max-width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.postcard-meet {
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px;
+}
+.postcard-pic {
+  position: relative;
+  display: inline-block;
+}
+.postcard-face {
+  width: 112px;
+  height: 112px;
+  image-rendering: pixelated;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+.postcard-wave {
+  position: absolute;
+  right: -10px;
+  top: 4px;
+  font-size: 1.8rem;
+  transform-origin: 70% 90%;
+  animation: postcard-wave 1.2s ease-in-out 2;
+}
+.postcard-waving .postcard-wave {
+  /* A second name, so the hello button restarts the wave. */
+  animation: postcard-wave-again 1.2s ease-in-out 2;
+}
+@keyframes postcard-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-20deg);
+  }
+  75% {
+    transform: rotate(18deg);
+  }
+}
+@keyframes postcard-wave-again {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-20deg);
+  }
+  75% {
+    transform: rotate(18deg);
+  }
+}
+.postcard-stamps {
+  display: flex;
+  gap: 4px;
+}
+.postcard-stamp {
+  width: 26px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #6b4f2e;
+}
+.postcard-stamp.done {
+  border-style: solid;
+  background: #ffd666;
+}
+.postcard-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.postcard-hello,
+.postcard-words {
+  flex: 1;
+  min-height: 72px;
+  font-size: 1.1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .postcard-wave,
+  .postcard-waving .postcard-wave {
+    animation: none;
+  }
+}

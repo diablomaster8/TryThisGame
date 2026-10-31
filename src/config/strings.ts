@@ -1543,3 +1543,4 @@ export * from './strings-r8d';
 export * from './strings-r8d-perf';
 export * from './strings-move-r10';
 export * from './strings-soul-r10b';
+export * from './strings-kids-r10'; /* Lane E r10 kids UI */

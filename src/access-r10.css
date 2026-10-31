@@ -1,0 +1,220 @@
+/*
+ * Lane E round 10 (R0709 KIDS-41, R0710 KIDS-42): reading and touch access, switched by
+ * classes on <html> (ui/access-r10.ts). No network fonts: the readable face is a system
+ * stack (Atkinson Hyperlegible or Lexend when the device has them, else Verdana-like faces),
+ * with wider letter and word spacing and taller lines.
+ */
+:root {
+  --a11y-font: 'Atkinson Hyperlegible', 'Lexend', Verdana, Tahoma, 'Trebuchet MS', sans-serif;
+}
+
+html.a11y-readable body,
+html.a11y-readable button,
+html.a11y-readable input,
+html.a11y-readable select,
+html.a11y-readable textarea,
+html.a11y-readable .dialogue-text,
+html.a11y-readable .dialogue-name,
+html.a11y-readable .modal-card,
+html.a11y-readable .sheet {
+  font-family: var(--a11y-font);
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+html.a11y-readable .dialogue-text,
+html.a11y-readable p,
+html.a11y-readable .help,
+html.a11y-readable small {
+  line-height: 1.6;
+}
+/* The course fonts stay: Hebrew and Japanese need their own faces. */
+html.a11y-readable .lang-he,
+html.a11y-readable .lang-ja {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+/* High contrast: solid black panels, white text and edges, and a thick focus ring. */
+html.a11y-contrast {
+  --hud-fg: #fff;
+  --hud-bg: #000;
+  --hud-border: #fff;
+  --px-bg: #000;
+  --px-edge: #fff;
+  --px-light: rgba(255, 255, 255, 0);
+  --px-dark: rgba(0, 0, 0, 0);
+}
+html.a11y-contrast .dialogue-box,
+html.a11y-contrast .modal-card,
+html.a11y-contrast .sheet,
+html.a11y-contrast .btn,
+html.a11y-contrast .chip,
+html.a11y-contrast .toast,
+html.a11y-contrast select,
+html.a11y-contrast input {
+  background: #000;
+  color: #fff;
+  border-color: #fff;
+}
+html.a11y-contrast .help,
+html.a11y-contrast small,
+html.a11y-contrast .dialogue-choices .btn {
+  color: #fff;
+  opacity: 1;
+}
+html.a11y-contrast .dialogue.waiting .dialogue-box {
+  opacity: 1;
+}
+html.a11y-contrast :focus-visible {
+  outline: 3px solid #ffeb3b;
+  outline-offset: 2px;
+}
+
+/* Simple touch: every control a little bigger, for unsteady fingers. */
+html.a11y-simple-touch {
+  --tap-min: 56px;
+}
+html.a11y-simple-touch .btn {
+  min-height: max(var(--tap-min), 56px);
+}
+
+/* R0740 (KIDS-72): the Grown-up tips deck. */
+.tips-deck {
+  margin: 8px 0;
+}
+.tips-deck ul {
+  margin: 6px 0;
+  padding-left: 1.2em;
+}
+.tips-deck li {
+  margin: 4px 0;
+}
+.tips-deck-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tips-deck-nav .btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* R0694 (KIDS-26): the heads-up before a loss chapter. */
+.loss-notice {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--hud-bottom, 0px) + 96px);
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  box-sizing: border-box;
+  padding: 14px 16px;
+  background: var(--px-bg, rgba(20, 15, 38, 0.92));
+  border: 2px solid var(--px-edge, #3a3550);
+  color: var(--hud-fg, #fff1c9);
+  z-index: 40;
+}
+.loss-notice h3 {
+  margin: 0 0 6px;
+}
+.loss-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.loss-notice-actions .btn {
+  min-height: 44px;
+}
+
+/* R0718 (KIDS-50): the grown-up area's tabs. */
+.grown-up-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--px-bg, rgba(20, 15, 38, 0.92));
+  padding: 4px 0;
+}
+.grown-up-tab {
+  flex: 1 1 0;
+  min-height: 44px;
+  min-width: 64px;
+}
+.grown-up-tab.is-on {
+  outline: 2px solid var(--hud-fg, #fff1c9);
+  font-weight: 700;
+}
+.grown-up-panel h3 {
+  margin-top: 14px;
+}
+.lang-topic summary,
+.loss-guide summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.edu-standard-code {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.edu-standards .shop-row span {
+  display: block;
+}
+
+/* R0718: this week's minutes as bars, each with its number. */
+.edu-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  align-items: end;
+  margin: 6px 0 10px;
+}
+.edu-week-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.edu-week-track {
+  height: 72px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--hud-border, rgba(255, 241, 201, 0.35));
+}
+.edu-week-bar {
+  width: 100%;
+  min-height: 2px;
+  background: var(--hud-fg, #fff1c9);
+}
+
+/* R0718: "Print or save as PDF" prints the Progress tab alone, on white. */
+@media print {
+  html.grown-up-printing body * {
+    visibility: hidden !important;
+  }
+  html.grown-up-printing .grown-up-panel[data-tab='progress'],
+  html.grown-up-printing .grown-up-panel[data-tab='progress'] * {
+    visibility: visible !important;
+    color: #000 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+  html.grown-up-printing .grown-up-panel[data-tab='progress'] {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+  }
+  html.grown-up-printing .grown-up-print,
+  html.grown-up-printing .tips-deck-nav {
+    display: none !important;
+  }
+  html.grown-up-printing .lang-topic {
+    break-inside: avoid;
+  }
+}

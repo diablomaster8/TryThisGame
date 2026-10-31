@@ -19,6 +19,8 @@ import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
 import { sproutChoices } from './sprout-choices';
+import { renderBeat } from './do-beats'; /* Lane E r10, R0700 */
+import { doBeatFor } from './do-plan';
 import { bestVoice, pauseAfterLine, shoutChunks, voiceFor } from './read-aloud';
 import { READ_ALOUD } from '../config/tuning-fun-r7';
 
@@ -297,39 +299,16 @@ export function renderOptions(
 }
 
 /**
- * A do beat's card. `edu:count:<thing>:<n>` counts taps up to n; every other check is one
- * big "We did it!" button. The real Grove actions behind the check strings come later.
+ * A do beat's card. Lane E r10, R0700 (KIDS-32): the check string picks one of six small
+ * interactions (count, sort or order, paint, draw, find, say; `do-plan.ts`, `do-beats.ts`);
+ * only the physical beats (clap, breathe, wave…) keep the one "We did it!" button.
  */
-export function renderDo(box: HTMLElement, lesson: Lesson, onDone: () => void): void {
+export function renderDo(
+  box: HTMLElement,
+  lesson: Lesson,
+  onDone: () => void,
+  opts: { speak?: boolean } = {},
+): void {
   box.innerHTML = '';
-  const parts = (lesson.check ?? '').split(':');
-  const target = parts[1] === 'count' ? Number(parts[3]) : NaN;
-  if (Number.isInteger(target) && target > 0 && target <= 20) {
-    let n = 0;
-    const b = button(
-      EDU_STORY_TEXT.countTap(0, target),
-      () => {
-        if (n >= target) return;
-        n += 1;
-        b.textContent = EDU_STORY_TEXT.countTap(n, target);
-        if (n === target) {
-          b.disabled = true;
-          box.appendChild(done());
-        }
-      },
-      'btn btn-choice edu-option edu-count',
-    );
-    box.appendChild(b);
-  } else box.appendChild(done());
-
-  function done(): HTMLButtonElement {
-    return button(
-      EDU_STORY_TEXT.weDidIt,
-      () => {
-        box.innerHTML = '';
-        onDone();
-      },
-      'btn btn-primary edu-option',
-    );
-  }
+  renderBeat(box, doBeatFor(lesson.check ?? ''), { speak: !!opts.speak }, onDone);
 }

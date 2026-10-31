@@ -38,6 +38,7 @@ import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
 import { paintGrade } from './ui/look-paint';
 import { applyTextScale } from './ui/text-scale';
+import { applyAccess } from './ui/access-r10';
 import { currentGrade } from './ui/title-card';
 import { phoneDefault } from './ui/world-settings';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
@@ -1054,6 +1055,8 @@ export class Game {
     this.camera.reduceMotion = reduce;
     this.markReduceMotion();
     applyTextScale(this.world);
+    // Lane E r10 (R0709, R0710): readable font, high contrast and Simple touch.
+    applyAccess(this.world);
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     // R0073: "Zoom out when running" pulls the view out to the survey step on a long run.
     {

@@ -469,6 +469,31 @@ export interface Settings {
    * shortens them (`PACE.brisk`), `story` also lets goals be skipped. Optional; no save bump.
    */
   storyPace?: StoryPace;
+  /**
+   * Lane E r10 (R0709 KIDS-41, R0710 KIDS-42): reading and touch access (sim/access.ts).
+   * Optional; no save bump. Unset fields read as default font, normal contrast, and simple
+   * touch on in the sprout band only.
+   */
+  access?: AccessSettings;
+}
+
+/** Lane E r10 (R0745): one game's attention counters (sim/edu-report.ts). */
+export interface EduAttention {
+  opens: number;
+  completes: number;
+  quits: number;
+  /** Total ms of the finished and left sittings. */
+  ms: number;
+}
+
+/** Lane E r10 (R0694): a loss chapter's hold (EduState.lossHolds). */
+export type LossHold = 'together' | 'play' | 'released';
+
+/** Lane E r10: the reading and touch access options (KIDS-41, KIDS-42). */
+export interface AccessSettings {
+  font?: 'default' | 'readable';
+  contrast?: 'normal' | 'high';
+  simpleTouch?: boolean;
 }
 
 /** Lane C r10 agent C (R0614): the Story pace setting (sim/story-pace.ts). */
@@ -641,6 +666,16 @@ export interface EduState {
   /** R0696 (KIDS-28): the child's animal icon and colour tag on the title (EDU_TAG). */
   icon?: string;
   tagColour?: string;
+  /**
+   * Lane E r10 (R0694 KIDS-26): the grown-up's choice for each loss chapter, by chapter number:
+   * wait for a grown-up (`together`), `play`, or `released` once a grown-up let it start.
+   * Absent: `together` for ages 3 and 4, else `play` (sim/loss-notice.ts).
+   */
+  lossHolds?: Record<string, LossHold>;
+  /** Lane E r10 (R0718): whole minutes played per local day, the last 14 (sim/edu-report.ts). */
+  daily?: Record<string, number>;
+  /** Lane E r10 (R0745): per game, opens, finishes, mid-round quits and time (local only). */
+  attention?: Partial<Record<EduGameId, EduAttention>>;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -670,6 +705,10 @@ export interface EduState {
   autoAdvance?: boolean;
   /** Lane E r9, R0737: the grown-up's "skip to Grove morning" for language visits (world time it was pressed). */
   langSkipAt?: number;
+  /** Lane E r10, R0735: a reader's age, 7 to 10, from the grown-up area (absent: "7–10"). */
+  readerAge?: 7 | 8 | 9 | 10;
+  /** Lane E r10, R0679: the sprout HUD's spoken one-time tutorial has been said. */
+  tutorialSaid?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -1359,6 +1398,12 @@ export type Command =
   | { kind: 'tacticsAct'; action: TacticsAction }
   | { kind: 'tacticsForfeit' }
   | { kind: 'tacticsClose' }
+  /** Lane E r10 (R0710 KIDS-42): Simple touch, a tap shakes an egg or pets (sim/access.ts). */
+  | { kind: 'tapCare'; nubbinId: string }
+  /** Lane E r10 (R0694 KIDS-26): a grown-up's choice for a loss chapter (sim/loss-notice.ts). */
+  | { kind: 'eduLossHold'; chapter: number | string; hold: LossHold }
+  /** Lane E r10 (R0745): a game opened, finished or left mid-round, with its time. */
+  | { kind: 'eduActivity'; game: EduGameId; what: 'open' | 'complete' | 'quit'; ms?: number }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -1539,6 +1584,10 @@ export type Command =
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
+  /** Lane E r10, R0735: a reader's age, 7 to 10. */
+  | { kind: 'eduSetReaderAge'; age: 7 | 8 | 9 | 10 }
+  /** Lane E r10, R0679: the sprout tutorial was said (once per Grove). */
+  | { kind: 'eduTutorialSaid' }
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
@@ -1710,7 +1759,15 @@ export type SimEvent =
   // MOVE-57: a spring mushroom bounced the Keeper (or a Nubbin, `nubbinId`) off its cap.
   | { kind: 'springBounced'; id: string; nubbinId?: string }
   // R0300/R0299 (FUN-11/10): something landed on a Nubbin's head, or it walked into a thing.
-  | { kind: 'bonked'; nubbinId: string; by: 'fruit' | 'obstacle' }
+  | {
+      kind: 'bonked';
+      nubbinId: string;
+      by: 'fruit' | 'obstacle';
+      /** R0299 (lane E r10): it was a throw that met the obstacle (the renderers splat it). */
+      thrown?: true;
+    }
+  /** R0293 (lane E r10): a mischievous Nubbin batted the ball into the pond. */
+  | { kind: 'ballSplash'; nubbinId: string }
   // MOVE-63: the hop course: a run starts, a flag is touched (1-based count so far), a run
   // ends (its time, the ghost as x, y, z triples every 100 ms, and whether the hat came now).
   | { kind: 'hopCourse'; stage: 'start' | 'gaveUp' }

@@ -11,6 +11,8 @@ export const TEXT_SCALES: Readonly<Record<string, number>> = {
   normal: 1,
   large: 1.15,
   larger: 1.3,
+  /** Lane E r10 (R0709): the largest step for readers who need it. */
+  largest: 1.5,
 };
 
 /** The menu key for a scale. */

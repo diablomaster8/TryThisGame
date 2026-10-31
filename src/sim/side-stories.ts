@@ -40,6 +40,7 @@ import {
 } from './story-state';
 import type { CampaignState, Command, SideStoryState, SimEvent, World } from './types';
 import { newId, withRng } from './world';
+import { lossHeld } from './loss-notice';
 
 /**
  * The side-story runner. It drives every Grove side story: when each opens, when each
@@ -426,6 +427,8 @@ function stepOne(
   for (let guard = 0; guard < 6; guard++) {
     const step = quest.steps[st.step];
     if (st.stage === 'wait' && step) {
+      // Lane E r10 (R0694): a Learning Grove story with a departure waits for its grown-up.
+      if (st.step === 0 && lossHeld(world, rule.id)) return;
       // A step's scene is something new: it waits out the breather after another story's
       // scene (review 2026-10-24, item 4); this story's own next beat does not.
       // Scenes queued before the step for it (another story's letter) count as its own.

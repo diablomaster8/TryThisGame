@@ -13,6 +13,7 @@ import {
 import type { EduBand } from '../content/types';
 import type { EduItem, EduState, SimEvent, World } from './types';
 import { localDayKey, tzOf } from './local-time';
+import { noteDaily } from './edu-report';
 
 /**
  * Educational mode state: the age band, which games are switched on (the recommended
@@ -63,6 +64,17 @@ export function eduSetAge(world: World, age: EduAge, resetGames: boolean): void 
   if (!world.edu) return;
   world.edu.age = age;
   if (resetGames) world.edu.games = recommendedGames(age);
+}
+
+/**
+ * Lane E r10, R0735 (KIDS-67): a reader's age, 7 to 10. Only a reader save keeps one; the
+ * games stay at their top rung (the band is what changes them), so this is the child's age as
+ * the grown-up gave it, shown on the slot and in the grown-up area.
+ */
+export function eduSetReaderAge(world: World, age: number): void {
+  if (!world.edu || world.edu.band !== 'reader') return;
+  if (age !== 7 && age !== 8 && age !== 9 && age !== 10) return;
+  world.edu.readerAge = age;
 }
 
 export function eduSetGame(world: World, game: EduGameId, on: boolean): void {
@@ -140,6 +152,8 @@ export function stepEdu(world: World, dtMs: number, wallMs?: number, skip = fals
   }
   e.playedMs += dtMs;
   e.todayMs += dtMs;
+  // Lane E r10 (R0718): the week's minutes for the grown-up chart.
+  noteDaily(e);
 }
 
 /** True while the break is locking play. */

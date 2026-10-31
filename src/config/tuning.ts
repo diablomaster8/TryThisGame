@@ -2023,3 +2023,4 @@ export * from './tuning-move-r10';
 export * from './tuning-soul-r10b';
 export * from './tuning-soul-r10';
 export * from './tuning-move-r10b';
+export * from './tuning-kids-r10'; /* Lane E r10 kids UI */
