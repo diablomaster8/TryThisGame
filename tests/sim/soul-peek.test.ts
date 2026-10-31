@@ -107,3 +107,57 @@ describe('R0543 shy peek', () => {
     expect(findHiding(w, w.trees[1]!.id, [])).toBe(false);
   });
 });
+
+// Lane A r10 (R0543's leftover): a stranger walking up sets it off too.
+describe('R0543 shy peek at a stranger', () => {
+  it('hides from a visiting Keeper on at least half of the approaches, away from them', () => {
+    let approaches = 0;
+    let hides = 0;
+    for (const seed of [1, 2, 3, 4]) {
+      const { w, n } = setup(seed);
+      const tree = w.trees[0]!.pos;
+      const npc = {
+        id: 'stranger',
+        trainer: 'corvin',
+        pos: { x: tree.x + 30, z: tree.z + 30 },
+        facing: 0,
+        target: null,
+        waitMs: 1e9,
+        home: { x: tree.x + 30, z: tree.z + 30 },
+      } as unknown as World['npcs'][number];
+      w.npcs = [npc];
+      w.keeper.pos = { x: tree.x - 40, z: tree.z - 40 };
+      for (let i = 0; i < 6; i++) {
+        n.pos = { x: tree.x + 2.5, z: tree.z + 1 };
+        n.behavior.state = 'sit';
+        n.behavior.untilMs = w.timeMs + 60_000;
+        npc.pos = { x: tree.x + 30, z: tree.z + 30 };
+        for (let t = 0; t < 500; t++) {
+          hold(n);
+          stepWorld(w, 100);
+        }
+        n.behavior.state = 'sit';
+        n.behavior.untilMs = w.timeMs + 60_000;
+        npc.pos = { x: n.pos.x + 3, z: n.pos.z + 1.5 };
+        npc.target = null;
+        approaches++;
+        let hid = false;
+        for (let t = 0; t < 10; t++) {
+          hold(n);
+          stepWorld(w, 100);
+          if (n.behavior.itemId === 'peekTree') {
+            hid = true;
+            // The hiding spot is on the far side of the tree from the stranger.
+            const tgt = n.behavior.target;
+            if (tgt)
+              expect(Math.hypot(tgt.x - npc.pos.x, tgt.z - npc.pos.z)).toBeGreaterThan(
+                Math.hypot(tree.x - npc.pos.x, tree.z - npc.pos.z),
+              );
+          }
+        }
+        if (hid) hides++;
+      }
+    }
+    expect(hides / approaches, `${hides}/${approaches}`).toBeGreaterThanOrEqual(0.5);
+  });
+});
