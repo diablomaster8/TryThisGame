@@ -26,6 +26,7 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
+import { BORDER_TEXT } from '../config/strings-r9d2';
 import { gearGlyph, gearName } from './dungeon-gear';
 import {
   HOLLOW_ZONE_TEXT,
@@ -1437,6 +1438,9 @@ export function mountHud(
           );
         } else if (e.kind === 'lookedAround' && !e.found) {
           toast(LOOKOUT_TEXT.nothing);
+        } else if (e.kind === 'borderPushed') {
+          // WORLD-67: the Grove's edge says why it ends here, once per stretch a visit.
+          toast(e.edge === 'notYet' ? BORDER_TEXT.notYet : BORDER_TEXT.hedge);
         } else if (e.kind === 'moveUnreachable') {
           // MOVE-35: a gentle bonk every time, the words at most once a while.
           playSound('bonk');

@@ -29,6 +29,8 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
+import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -727,6 +729,33 @@ export class WorldView {
         if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
         else batch.draw(sprite, s.pick);
       }
+      // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
+      // yet, just outside the clamp; only the stretch near the Keeper is drawn.
+      const kp = world.keeper.pos;
+      const bushes = (['bush-1', 'bush-2', 'bush-3'] as const).map((k) =>
+        scenery.frames.get(frameKey(k, 'front', 0)),
+      );
+      const logRect = scenery.frames.get(frameKey('log', 'front', 0));
+      borderBlockers().forEach((b, i) => {
+        if (Math.abs(b.x - kp.x) > BORDER.pxDraw || Math.abs(b.z - kp.z) > BORDER.pxDraw) return;
+        const log = b.kind === 'log';
+        if (log && borderEdge(b.x, b.z, world).kind === 'exit') return;
+        const rect = log ? logRect : bushes[i % bushes.length];
+        if (!rect) return;
+        const size = log ? BORDER.logLen : BORDER.bushSize;
+        batch.draw({
+          sheet: scenery,
+          rect,
+          flip: i % 2 === 1,
+          x: b.x,
+          y: 0,
+          z: b.z,
+          mode: 'billboard',
+          w: size,
+          h: (size * rect.h) / rect.w,
+          tint: this.lightAt(b.x, b.z),
+        });
+      });
       // The village square fills in as prosperity grows.
       const unlocks = townUnlocks(world);
       const stall = scenery.frames.get(frameKey('stall', 'front', 0));
@@ -1274,7 +1303,7 @@ export class WorldView {
     // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
     if (shadowRect && this.tapPath.update(world, nowMs)) {
       const calm = this.particles.reduceMotion;
-      const mark = (m: TapMark, r: number, a: number) =>
+      const mark = (m: TapMark, r: number, a: number, rl = r) =>
         batch.draw({
           sheet: shadowSheet,
           rect: shadowRect,
@@ -1284,13 +1313,42 @@ export class WorldView {
           z: m.z,
           mode: 'flat',
           w: r * 2,
-          h: r * 2,
+          h: rl * 2,
           opacity: 0.45 * a,
         });
+      // WORLD-41: soft footprints every 0.8 u, as small long shadows.
       const da = this.tapPath.dotAlpha(nowMs, calm);
-      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
+      if (da > 0)
+        for (const d of this.tapPath.dots) {
+          // Flat sprites lie square to the axes: a print runs along whichever the walk follows.
+          const across = Math.abs(Math.sin(d.yaw)) > Math.abs(Math.cos(d.yaw));
+          const pw = (across ? TAP_PRINTS.l : TAP_PRINTS.w) / 2;
+          const pl = (across ? TAP_PRINTS.w : TAP_PRINTS.l) / 2;
+          mark(d, pw, Math.min(2.2, da * 2.2), pl);
+        }
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
+      // WORLD-41: the tap can't be reached; a "?" puff rises at the nearest point.
+      const pl = this.tapPath.puffLife(nowMs, calm);
+      const pu = this.tapPath.unreached;
+      if (pl !== null && pu) {
+        const emotes = this.sheets.emotes(false);
+        const q = emotes.frames.get(frameKey('question', 'front', 0));
+        const sz = TAP_PRINTS.puffSize * (calm ? 1 : Math.min(1, 0.4 + pl * 3) * (1 - pl * 0.3));
+        if (q)
+          batch.draw({
+            sheet: emotes,
+            rect: q,
+            flip: false,
+            x: pu.x,
+            y: pu.y - paintedGround(pu.x, pu.z) + TAP_PRINTS.puffY + TAP_PRINTS.puffRise * pl,
+            z: pu.z,
+            mode: 'billboard',
+            w: sz,
+            h: sz,
+            opacity: calm ? 1 : Math.min(1, (1 - pl) * 3),
+          });
+      }
     }
     const jclip =
       kpose?.clip || kHeld || krideRect ? null : this.keeperJumpClip(world, nowMs, off - floor);

@@ -1590,6 +1590,8 @@ export type SimEvent =
   | { kind: 'keeperSkid' }
   /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */
   | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
+  /** WORLD-67: the Keeper walked into the Grove's edge here (once per stretch a visit). */
+  | { kind: 'borderPushed'; edge: 'natural' | 'notYet'; stretch: string }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string; foot?: true }
