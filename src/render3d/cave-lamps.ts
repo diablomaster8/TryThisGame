@@ -47,6 +47,8 @@ export class CaveLamps {
   /** Set by the scene each frame from the game's reduced-motion setting. */
   reduceMotion = false;
   readonly torchColor = new THREE.Color(GROVE3D.cave.bands[0].torch);
+  /** The Keeper's own lamp; an act's look tints it (R0190). */
+  readonly keeperColor = new THREE.Color(GROVE3D.cave.light.keeper.color);
 
   constructor(parent: THREE.Object3D) {
     for (let i = 0; i < LAMPS; i++) {
@@ -92,7 +94,7 @@ export class CaveLamps {
     if (!on) return;
     const cfg = GROVE3D.cave.light;
     const own = this.lights[0]!;
-    own.color.set(cfg.keeper.color);
+    own.color.copy(this.keeperColor);
     own.position.set(keeper.x, cfg.keeper.height, keeper.z);
     own.intensity = cfg.keeper.intensity;
     own.distance = cfg.keeper.distance;

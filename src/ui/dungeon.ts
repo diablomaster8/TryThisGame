@@ -30,7 +30,7 @@ import type { SimEvent } from '../sim/types';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
 import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { HollowScroll, ShareCard } from './hollow-scroll';
-import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
+import { guideOn, guidePath, lookAheadCell } from '../sim/dungeon-guide';
 import { cellCentre, runFloor } from '../sim/dungeon';
 import { screenBearing } from './hud-world-math';
 import { tzOf } from '../sim/local-time';
@@ -370,11 +370,12 @@ export class DungeonMenu {
     );
     speed.setAttribute('aria-pressed', String(!!world.hollow.speedRun));
     this.acts.append(speed);
-    // R0208: "Show me the way", for anyone, off until switched on.
+    // R0208: "Show me the way", for anyone; off until switched on, on by default in kid mode.
+    const guideIsOn = guideOn(world);
     const guide = button(
-      world.hollow.guide ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
+      guideIsOn ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
       () => {
-        this.game()?.send({ kind: 'hollowGuide', on: !world.hollow.guide });
+        this.game()?.send({ kind: 'hollowGuide', on: !guideIsOn });
         setTimeout(() => {
           const g = this.game();
           if (g && this.dialog.isOpen()) this.listActs(g.world);
@@ -382,7 +383,7 @@ export class DungeonMenu {
       },
       'btn btn-small hollow-tier',
     );
-    guide.setAttribute('aria-pressed', String(!!world.hollow.guide));
+    guide.setAttribute('aria-pressed', String(guideIsOn));
     guide.title = HOLLOW_R8_TEXT.guideHelp;
     this.acts.append(guide);
     ACTS.forEach((act, i) => {

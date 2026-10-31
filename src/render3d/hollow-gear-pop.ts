@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { RARITIES } from '../config/dungeon-loot';
 import { GEAR_POP, gearPopFrame } from '../render/hollow-packs-pixel';
+import { drawRarityShape } from '../render/paint/rarity-shape';
 
 /**
  * The gear pickup pop in Full 3D (R0163, lane B r8): Hollow drops go straight to the satchel,
@@ -77,11 +78,8 @@ export class GearPop3D {
     g.beginPath();
     g.arc(px / 2, px / 2, px / 2, 0, Math.PI * 2);
     g.fill();
-    g.fillStyle = r.colour;
-    g.font = `700 ${px - 20}px system-ui, sans-serif`;
-    g.textAlign = 'center';
-    g.textBaseline = 'middle';
-    g.fillText(r.glyph, px / 2, px / 2 + 2);
+    // A path, not a font glyph: the same silhouette on every device (lane B r9).
+    drawRarityShape(g, r.id, px / 2, px / 2, px / 2 - 10, r.colour);
     t = new THREE.CanvasTexture(c);
     t.colorSpace = THREE.SRGBColorSpace;
     this.tex.set(r.id, t);

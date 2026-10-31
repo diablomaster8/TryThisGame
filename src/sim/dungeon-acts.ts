@@ -38,6 +38,8 @@ export function actFloor(
       tileset: def.tileset,
       boss: level === def.levels.length - 1,
     });
+    // Whose act the floor belongs to, as camps and side caves already say (R0190: the look).
+    f.act = act;
     if (version >= 4) {
       const band = {
         act,

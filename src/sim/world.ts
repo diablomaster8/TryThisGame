@@ -921,8 +921,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       setHollowRole(world, cmd.id, cmd.role);
       return;
     case 'hollowGuide':
-      if (cmd.on) world.hollow.guide = true;
-      else delete world.hollow.guide;
+      // An explicit choice either way (off by default; on by default in kid mode, R0208).
+      world.hollow.guide = cmd.on;
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

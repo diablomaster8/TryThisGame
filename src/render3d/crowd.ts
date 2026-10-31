@@ -3,6 +3,7 @@ import { npcLookOf, storyId } from '../config/npc-looks';
 import { GROVE3D, HOLLOW, HOLLOW_R7, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
+import { uniqueArtId, uniqueScale } from '../render/sprites/unique-art';
 import type { Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
 import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/neighbourhood';
@@ -88,6 +89,18 @@ const artLook = (species: string): Look => ({
   key: speciesArt(species) ? `art:${species}` : 'nubbin',
   height: GROVE3D.nubbinHeight * (speciesArt(species)?.size ?? 1),
 });
+
+/** A unique's leader, made once per unique. */
+const UNIQUE_LOOK_CACHE = new Map<string, Look>();
+function uniqueLook(id: string): Look {
+  let look = UNIQUE_LOOK_CACHE.get(id);
+  if (!look) {
+    const art = artLook(uniqueArtId(id));
+    look = { key: art.key, height: art.height * uniqueScale(id) };
+    UNIQUE_LOOK_CACHE.set(id, look);
+  }
+  return look;
+}
 
 /** A neighbour's Nubbin: the adult form for its band and type, or its own line's recipe. */
 function neighbourLook(nb: NeighbourNubbin): Look {
@@ -268,7 +281,8 @@ export function crowdFor(
         out.push({
           id: `:`,
           kind: 'ambient',
-          look: artLook(m.species),
+          // A named unique's leader wears its own look, a size up (R0156, `unique-art.ts`).
+          look: i === 0 && spec.unique ? uniqueLook(spec.unique) : artLook(m.species),
           x: p.pos.x + Math.sin(a) * r,
           z: p.pos.z + Math.cos(a) * r,
           facing,

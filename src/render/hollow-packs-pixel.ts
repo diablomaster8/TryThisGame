@@ -11,6 +11,9 @@ import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import { sheetFromImage, type SpriteSheet } from './sprites/atlas';
 import type { SheetCache } from './sprites/sheets';
+import { uniqueArtId, uniqueScale } from './sprites/unique-art';
+import { drawRarityShape } from './paint/rarity-shape';
+import { NATIVE_PPU } from './sprite-batch';
 
 /**
  * The Hollow's monster packs in the Pixel renderer (lane B r8: R0146, R0153, R0155, R0156,
@@ -132,7 +135,7 @@ function plateSheet(text: string, colour: string): SpriteSheet | null {
   return sheetFromImage(c, { plate: [0, 0, w, h] }, w, h);
 }
 
-const GLYPH_CELL = 18;
+const GLYPH_CELL = 22;
 
 /** Every rarity's shape on a dark disc, one frame per rarity id. */
 function glyphSheet(): SpriteSheet | null {
@@ -149,11 +152,8 @@ function glyphSheet(): SpriteSheet | null {
     g.beginPath();
     g.arc(x + GLYPH_CELL / 2, GLYPH_CELL / 2, GLYPH_CELL / 2, 0, Math.PI * 2);
     g.fill();
-    g.fillStyle = r.colour;
-    g.font = `700 ${GLYPH_CELL - 6}px system-ui, sans-serif`;
-    g.textAlign = 'center';
-    g.textBaseline = 'middle';
-    g.fillText(r.glyph, x + GLYPH_CELL / 2, GLYPH_CELL / 2 + 1);
+    // Drawn as a path, not a font glyph, so the shape reads on every device (lane B r9).
+    drawRarityShape(g, r.id, x + GLYPH_CELL / 2, GLYPH_CELL / 2, GLYPH_CELL / 2 - 2.5, r.colour);
     map[r.id] = [x, 0, GLYPH_CELL, GLYPH_CELL];
   });
   return sheetFromImage(c, map, GLYPH_CELL, GLYPH_CELL);
@@ -216,14 +216,18 @@ export class PixelHollowPacks {
         const x = px + Math.sin(a) * r;
         const z = pz + Math.cos(a) * r;
         // Act V's Greylings (R0157) are Nubbin-shaped grey echoes; the rest wear their species.
-        const sheet = spec.grey ? sheets.ambientShadow() : sheets.species(m.species);
+        // A named unique's leader wears its own look (R0156, `unique-art.ts`).
+        const sheet = spec.grey
+          ? sheets.ambientShadow()
+          : sheets.species(i === 0 && spec.unique ? uniqueArtId(spec.unique) : m.species);
         const view = viewAngle(facing, yaw);
         const t = nowMs + i * 137 + p.pos.x * 31;
         const rect =
           sheet.frames.get(frameKey(clip, view.angle, frameAt(CLIPS[clip], t))) ??
           sheet.frames.get(frameKey('idle', view.angle, frameAt(CLIPS.idle, t)));
         if (!rect) return;
-        ctx.shadow(x, 0, z, 0.4);
+        const grow = i === 0 ? uniqueScale(spec.unique) : 1;
+        ctx.shadow(x, 0, z, 0.4 * grow);
         batch.draw({
           sheet,
           rect,
@@ -231,6 +235,8 @@ export class PixelHollowPacks {
           x,
           y: hop,
           z,
+          w: (rect.w / NATIVE_PPU) * grow,
+          h: (rect.h / NATIVE_PPU) * grow,
           mode: 'billboard',
           tint: spec.grey ? tint * 0.85 : tint,
         });
@@ -244,7 +250,10 @@ export class PixelHollowPacks {
           rect: q,
           flip: false,
           x: px,
-          y: 1.15 + hop + (ctx.reduceMotion ? 0 : Math.sin(nowMs / 400) * 0.05),
+          y:
+            1.15 * uniqueScale(spec.unique) +
+            hop +
+            (ctx.reduceMotion ? 0 : Math.sin(nowMs / 400) * 0.05),
           z: pz,
           mode: 'billboard',
           tint,
@@ -257,7 +266,7 @@ export class PixelHollowPacks {
           rect: prect,
           flip: false,
           x: px,
-          y: q ? 1.75 + hop : 1.45 + hop,
+          y: (q ? 1.75 : 1.45) * uniqueScale(spec.unique) + hop,
           z: pz,
           mode: 'billboard',
           tint: 1,

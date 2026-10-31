@@ -97,6 +97,7 @@ import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
+import { PixelHollowR9a } from './hollow-r9a';
 
 interface Snapshot {
   pos: Vec2;
@@ -191,6 +192,8 @@ export class WorldView {
   private readonly liveStrays = new Set<string>();
   /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
   private readonly hollowPacks = new PixelHollowPacks();
+  /** Lane B r9 (a): light ring, guide prints, acorn portal (R0190, R0208, R0150). */
+  private readonly hollowR9a = new PixelHollowR9a();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -494,6 +497,7 @@ export class WorldView {
       this.burstFor(e);
       if (e.kind === 'gearFound')
         this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
+      if (e.kind === 'portalReturned') this.hollowR9a.portalReturned(nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
         // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
@@ -1168,6 +1172,17 @@ export class WorldView {
     }
 
     if (cave && run) this.drawCave(cave, run, world, nowMs, yaw, alpha, shadow);
+    // Lane B r9 (a): the light ring, guide prints and acorn portal (render/hollow-r9a.ts).
+    {
+      const r9 = {
+        batch,
+        sheets: this.sheets,
+        nowMs,
+        reduceMotion: this.particles.reduceMotion,
+      };
+      if (cave && run) this.hollowR9a.drawCave(cave, run, world, r9);
+      else if (home) this.hollowR9a.drawGrove(world, r9);
+    }
 
     // Items.
     const seenItems = this.seenItems;
@@ -2596,6 +2611,7 @@ export class WorldView {
   dispose(): void {
     this.batchLazy?.dispose();
     this.hollowPacks.dispose();
+    this.hollowR9a.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }
