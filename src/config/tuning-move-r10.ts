@@ -38,3 +38,15 @@ export const KEEPER_POOF = {
   cloudMs: 400,
   puffs: 10,
 } as const;
+
+/**
+ * R0026 item 4: the hidden keepsake on the rock shelf behind the waterfall (on hill 1's second
+ * tier). The shelf sits inside the falls' solid face, so it is found from the tier beside
+ * it: feet within `reach` of the shelf and `rise` over the tier there find it, once. A plain
+ * jump tops out at 0.95, so it takes the double jump.
+ */
+export const FALLS_SHELF = {
+  keepsake: 'falls-pebble',
+  reach: 1.4,
+  rise: 1.2,
+} as const;

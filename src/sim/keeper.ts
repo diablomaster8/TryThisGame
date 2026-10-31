@@ -1,6 +1,7 @@
 import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
 import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from './terrain';
-import { KEEPER_POOF } from '../config/tuning-move-r10';
+import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
+import { CG_C } from '../config/tuning-c';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { springBounce, springShroomAt } from './decorate';
@@ -1225,6 +1226,37 @@ function jumpPlay(world: World, events: SimEvent[]): void {
     addHappiness(n, P.leapHappiness);
     react(n, 'love', world.timeMs, events);
   }
+  if (world.location === 'grove') fallsShelf(world, events);
+}
+
+/**
+ * R0026 item 4 (lane A r10): the rock shelf behind the waterfall, where the 3D Grove draws it
+ * (`render3d/hill-dress.ts` `buildLedge`): on hill 1's second tier, behind the falls' sheet.
+ */
+export function fallsShelfSpot(): Vec2 {
+  const wf = GROVE.waterfall;
+  const first = GROVE.river.inflow[0]!;
+  const dx = first.x - wf.x;
+  const dz = first.z - wf.z;
+  const len = Math.hypot(dx, dz);
+  const t = CG_C.ledge.along;
+  return {
+    x: wf.x + dx * t - (dx / len) * CG_C.ledge.behind,
+    z: wf.z + dz * t - (dz / len) * CG_C.ledge.behind,
+  };
+}
+
+/** R0026: a double jump up behind the falls finds the shelf's hidden keepsake, once. */
+function fallsShelf(world: World, events: SimEvent[]): void {
+  const id = FALLS_SHELF.keepsake;
+  const kept = world.inventory.keepsakes;
+  if (kept.includes(id)) return;
+  const k = world.keeper;
+  const at = fallsShelfSpot();
+  if (dist(k.pos, at) > FALLS_SHELF.reach) return;
+  if (k.y - keeperFooting(world, at.x, at.z).y < FALLS_SHELF.rise) return;
+  kept.push(id);
+  events.push({ kind: 'fallsKeepsake', id });
 }
 
 /** Shake a fruit tree: the next fruit comes sooner, now and then wood, and Power drops fruit. */

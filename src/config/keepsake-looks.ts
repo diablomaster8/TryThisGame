@@ -67,6 +67,8 @@ export const KEEPSAKE_LOOKS: Readonly<Record<string, KeepsakeLook>> = {
   's31-rock': L('rock', '#a8aab0', '#6c6e76'),
   's31-sign': L('sign', '#d8b888', '#7a5a38'),
   's7-lantern-timer': L('lantern', '#bfe0ff', '#5a6a7a'),
+  // R0026 (lane A r10): found behind the waterfall, not given by a story.
+  'falls-pebble': L('rock', '#7fa8c8', '#3e5f7a'),
 };
 
 /** The look of keepsake `id`, or null when it is not an object. */
