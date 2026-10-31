@@ -24,7 +24,7 @@ import {
   terrainMaterial,
   tuftCard,
   type GrassField,
-  type Mood,
+  type LightMood,
   type Tex,
 } from './aaa-kit';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
@@ -74,8 +74,8 @@ import {
  * Three moods: noon, golden hour (long shadows, fireflies, lit windows) and after
  * rain (overcast, wet clearcoat ground, drizzle, lit windows).
  */
-export type { Mood } from './aaa-kit';
-export const MOODS: Mood[] = ['noon', 'golden', 'rain'];
+export type { LightMood } from './aaa-kit';
+export const MOODS: LightMood[] = ['noon', 'golden', 'rain'];
 
 // ---------------------------------------------------------------- the valley
 
@@ -158,7 +158,7 @@ const SAMPLE_GRASS: GrassField = {
   count: 12000,
 };
 
-function buildProps(scene: THREE.Scene, tex: Tex, mood: Mood): void {
+function buildProps(scene: THREE.Scene, tex: Tex, mood: LightMood): void {
   // The cobbled mound, its vertices roughened a little.
   const mound = new THREE.CylinderGeometry(5.2, 7.8, 1.6, 8, 3);
   repeatUv(mound, 5, 1.2);
@@ -271,7 +271,7 @@ function buildProps(scene: THREE.Scene, tex: Tex, mood: Mood): void {
   }
 }
 
-function buildWater(scene: THREE.Scene, mood: Mood): THREE.Mesh {
+function buildWater(scene: THREE.Scene, mood: LightMood): THREE.Mesh {
   // A pond in the dip to the right of the mound.
   const n = surface('cobble', 128, 1.2).normal;
   const mat = new THREE.MeshPhysicalMaterial({
@@ -365,7 +365,7 @@ function mountReference(canvas: HTMLCanvasElement): (() => void) | null {
   };
 }
 
-export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => void {
+export function mountAaaSample(canvas: HTMLCanvasElement, mood: LightMood): () => void {
   // The reference overlay goes in first so a split view sizes the canvas before the
   // renderer measures it.
   const unmountReference = mountReference(canvas);

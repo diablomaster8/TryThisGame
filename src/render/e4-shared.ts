@@ -7,6 +7,7 @@ import type { Daylight } from './daylight';
 import { pondIceWanted } from './dress-w';
 import { lanternLights, type LampState } from './dress-e';
 import type { StageFlags } from './scene-stage';
+import type { Season } from '../sim/types';
 
 /**
  * Package e4's rules, shared by the pixel and the Full 3D dressing so both draw the same
@@ -61,7 +62,7 @@ export function wantsBoot(stage: SceneStage, flags: StageFlags): boolean {
   );
 }
 
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+export type { Season };
 
 /**
  * K27, K43: Hazel's season at home: the staged one, else the chapter's own (the same call

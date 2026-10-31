@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { paintJob, type Kind, type PaintedBytes } from './surface-paint';
 import { placeGrass, type GrassField, type GrassPlacement } from './grass-place';
 
-export type Mood = 'noon' | 'golden' | 'rain';
+export type LightMood = 'noon' | 'golden' | 'rain';
 
 /**
  * The pieces of the AAA sample (`aaa-styles.ts`) that the Full 3D Grove builds with:
@@ -478,7 +478,7 @@ export function buildTree(
   return made;
 }
 
-export function buildParticles(scene: THREE.Scene, mood: Mood): THREE.Points | null {
+export function buildParticles(scene: THREE.Scene, mood: LightMood): THREE.Points | null {
   if (mood === 'noon') return null;
   const count = mood === 'rain' ? 2500 : 220;
   const pos = new Float32Array(count * 3);

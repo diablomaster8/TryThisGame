@@ -10,7 +10,7 @@ import { questAreaKey } from '../sim/quest-offers';
 import { sideStory, storylines } from '../sim/story-scenes';
 import { sharesStory } from '../sim/story-book';
 import type { JournalView } from '../sim/storyline';
-import type { Quest } from '../sim/types';
+import type { DailyQuest } from '../sim/types';
 import { button, el } from './dom';
 import {
   endingShelf,
@@ -32,7 +32,7 @@ import { endingKey, getShots } from './u4-store';
  * - The endings shelf (R0642): every ending of Hazel's Grove and each line beside it.
  */
 
-function errandLabel(q: Quest): string {
+function errandLabel(q: DailyQuest): string {
   const make = (UI_TEXT.questText as Record<string, (n: number, p: string) => string>)[q.template];
   const param = q.param ? (SPECIES_LABELS[q.param] ?? q.param) : '';
   return make ? make(q.target, param) : q.template;

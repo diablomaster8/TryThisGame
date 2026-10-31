@@ -3,7 +3,7 @@ import { createEgg, EGG_COLORS } from './nubbin';
 import { hasRoom } from './roster';
 import type { Rng } from './rng';
 import { TRAINERS } from './trainers';
-import type { Quest, SimEvent, World } from './types';
+import type { DailyQuest, SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 
 /**
@@ -50,7 +50,7 @@ function unasked(world: World): Template[] {
 /** Top the board up to its open count from the kinds not yet asked. */
 export function refreshQuests(world: World, rng: Rng, events: SimEvent[]): void {
   const pool = unasked(world);
-  const quests: Quest[] = [];
+  const quests: DailyQuest[] = [];
   const names = world.nubbins.map((n) => n.name);
   for (let i = openCount(world); i < QUESTS.open && pool.length > 0; i++) {
     const t = pool.splice(rng.int(0, pool.length - 1), 1)[0]!;

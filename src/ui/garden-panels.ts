@@ -12,7 +12,7 @@ import { visitingTrainer } from '../sim/neighbourhood';
 import { keeperPerks } from '../sim/perks';
 import { rosterCap } from '../sim/roster';
 import { TRAINERS } from '../sim/trainers';
-import type { Quest } from '../sim/types';
+import type { DailyQuest } from '../sim/types';
 import { button, el, modal } from './dom';
 import { ACHIEVEMENT_TEXT, BADGE_FILTER_TEXT } from '../config/strings-badges';
 import '../fun.css';
@@ -21,7 +21,7 @@ import '../fun.css';
  * The smaller garden panels: the request board, the Keeper profile, the neighbourhood
  * and the map. Each is a modal that rebuilds its body on open and on refresh.
  */
-function questLabel(q: Quest): string {
+function questLabel(q: DailyQuest): string {
   const make = (UI_TEXT.questText as Record<string, (n: number, p: string) => string>)[q.template];
   const param = q.param ? (SPECIES_LABELS[q.param] ?? q.param) : '';
   return make ? make(q.target, param) : q.template;

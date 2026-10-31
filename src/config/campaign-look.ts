@@ -1,4 +1,5 @@
 import type { SceneStage } from './story';
+import type { Season } from '../sim/types';
 import { CG2_Y } from './tuning-y';
 import { CG4_B4 } from './tuning-b4';
 import { GROVE, LANTERN_POSTS, STORY } from './tuning';
@@ -11,7 +12,7 @@ import { GROVE, LANTERN_POSTS, STORY } from './tuning';
  */
 
 export type Motif = 'honey' | 'straw' | 'grid' | 'torch' | 'dawn' | 'dusk';
-export type Season = NonNullable<SceneStage['season']>;
+export type { Season } from '../sim/types';
 export type StagedWeather = NonNullable<SceneStage['weather']>;
 
 export interface LookDef {
