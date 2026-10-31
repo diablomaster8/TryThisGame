@@ -4348,6 +4348,8 @@ body.edu-sprout .sheet-actions .btn[data-guide='feed']::before {
 }
 body.edu-sprout .sheet-actions .btn[data-guide='shake']::before {
   content: '🌳 ';
+}
+
 /* Lane C r9 (agent J): the journal's tabs, Quests page, Errands and endings shelf, its phone
    sheet (R0660), and the offer card's giver portrait (R0606). */
 .journal-tabs {
