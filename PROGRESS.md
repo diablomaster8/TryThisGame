@@ -38,6 +38,42 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 10 · Lane D WORLD + TECH (2026-10-31, branch r10/d)
+
+28 items: 14 done, 14 partial (helper branches r10/d1–d4, merged). Probe ×4 on head: 0/40 over,
+3D farOrchard 136/138/138/139 calls.
+
+**Works**
+- Perf: probe back to 0 over. The see-through Keeper's ghost and rim twins of parts the LOD stand-in
+  replaces are now hidden too (falls 455k→≤354k, westHill 467k→≤334k tris; tests/render/proxy-ghost).
+  Pixel at ×10 makes ~60% less garbage (pooled sprite-batch slots, scratch draw objects) and per-frame
+  forced layouts are gone (cached viewRect, sheet focus, minimap). The 3D pool no longer builds spare
+  Keeper rigs under the loading veil (phone heap 264→238 MB); cached looks capped per tier.
+- Accessibility/input: platform/motion.ts `reducedMotion()` (lint bans direct queries); keyboard care
+  path (Tab, P, F, Space); touch long-press info card; five egg crack stages; pixel-art bar icons that
+  scale with Text size; HUD colours setting (Dark / Follow system); 0 controls under 44 px in a panel
+  sweep; axe 0 serious/critical.
+- Code health: local `import/first` rule, typed no-floating-promises on src minus content, render
+  must not write `world.`; duplicate-type-name test (shrink-only list); platform/input/sw tests; fixture
+  saves v1/v13 with a schema check; vitest `unit`/`stories` projects (`npm run test:unit`);
+  `?debug&scenario=<name>` dev scenarios (src/dev/scenarios.ts, debug-panel row).
+- Boot/offline: Klee One in unicode-range slices (≤60 kB); "Keep for offline play" packs in Settings ›
+  Saves (offline-manifest.json, sw answers Range from cached clips); manifest id/icons/screenshots/
+  Continue shortcut, one-time install offer; inline boot splash; storage low-space warning; graphics
+  mode read from the device only.
+
+**Stubbed / left**
+- Eager bundle 961 kB gz (check:bundle red, already red on 7f13fd22); lazy HUD panels need a hud.ts
+  refactor. Phone 3D heap ~240 MB vs 180 cap (creature geometry held twice).
+- Graphics switch needs a reload (4.2 s / 13.7 s); real-bytes load bar; scenario set lacks campaign,
+  Hollow, race, Learning Grove; DeepReadonly<World>; coverage tool not installed; NVDA listen.
+
+**Bugs / notes**
+- Lane C: a Nubbin without `lessons` loads then crashes a later step (it.fails in save-fixtures test).
+- `quadCorners()` returns shared vectors: copy them to keep them.
+- At 375 px a world speech bubble draws over the More modal; carry chip overlaps the objective chip.
+- Typed lint makes `npm run lint` ~1 min (longer under load).
+
 ## Round 10 · Lane C CAMP + FIGHT (2026-10-30, branch r10/c)
 
 Commits 11b648cf (sim) and ed982a86 (UI and renderers). Save stays **v13**: every new field is optional. 25 items: 16 done, 9 partial.
