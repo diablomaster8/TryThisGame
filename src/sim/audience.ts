@@ -7,8 +7,10 @@
  */
 import { OFFLINE } from '../config/tuning';
 import type { MatureContent, Settings } from './types';
+import type { Audience } from '../content/types';
 
-export type Audience = 'all' | 'main' | 'teen' | 'adult';
+// TECH-39: one Audience, declared with the story types and shared here.
+export type { Audience } from '../content/types';
 
 export interface AudienceContext {
   matureContent: MatureContent;

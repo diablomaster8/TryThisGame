@@ -11,6 +11,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "test:unit": "vitest run --project unit",
     "probe:world": "node tests/tools/world-probe.cjs",
     "check:bundle": "node tests/tools/bundle-budget.cjs",
     "test:watch": "vitest",

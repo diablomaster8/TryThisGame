@@ -10,6 +10,9 @@ import type { CircuitState } from './battle/circuit';
 import type { BattleOnceState, BoutSpoils } from './battle/rewards';
 import type { NubbinCombat } from './battle/tactics/grid';
 import type { TacticsAction, TacticsResult, TacticsState } from './battle/tactics/types';
+import type { EduAge, EduGameId, EduPlaceId } from '../config/edu';
+import type { EduBand } from '../content/types';
+import type { LineAct } from '../config/story';
 
 /** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
 export interface BattlePrefs {
@@ -20,9 +23,6 @@ export interface BattlePrefs {
   /** The battle playback speed. */
   speed?: 1 | 2;
 }
-import type { EduAge, EduGameId, EduPlaceId } from '../config/edu';
-import type { EduBand } from '../content/types';
-import type { LineAct } from '../config/story';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
 
 export interface Vec2 {
@@ -578,7 +578,7 @@ export interface Plant {
   ripe: boolean;
 }
 
-export interface Quest {
+export interface DailyQuest {
   id: string;
   template: string;
   /** Who asked: a trainer id or a Nubbin name. */
@@ -1226,7 +1226,7 @@ export interface World {
   funCounts?: Record<string, number>;
   /** Keeper title shown on the profile. */
   title: string | null;
-  quests: Quest[];
+  quests: DailyQuest[];
   /** Unused since the board stopped refreshing by date; kept so older saves load as they are. */
   questDay: string;
   /** Extra garden plots bought: each adds roster room. */

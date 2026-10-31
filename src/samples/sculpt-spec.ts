@@ -8,15 +8,15 @@ import { resolveRule, ruleRef, ruleSource, type RuleRef } from './sculpt-rules';
  * a worker, stored, and hashed, and `sculptData` turns it back into the same geometry
  * `sculpt` makes from the live spec. Shades run in order; `color` and `fur` are optional.
  */
-export type Vec3 = [number, number, number];
+export type MutVec3 = [number, number, number];
 
 export interface PrimData {
   kind: Prim['kind'];
-  a: Vec3;
-  b?: Vec3;
+  a: MutVec3;
+  b?: MutVec3;
   r: number;
   r2?: number;
-  radii?: Vec3;
+  radii?: MutVec3;
   color: string;
   blend?: number;
   glow?: number;
@@ -26,8 +26,8 @@ export interface PrimData {
 export interface SculptData {
   prims: PrimData[];
   blend: number;
-  min: Vec3;
-  max: Vec3;
+  min: MutVec3;
+  max: MutVec3;
   res: number;
   ao?: number;
   /** Colour by position and nearest primitive; null falls back to the primitive's colour. */
@@ -43,8 +43,8 @@ export interface SculptData {
 export const SCULPT_VERSION = 4;
 
 // `+ 0` turns -0 into 0: JSON drops the sign, and a parsed spec must hash like the live one.
-const vec = (v: THREE.Vector3): Vec3 => [v.x + 0, v.y + 0, v.z + 0];
-const v3 = (a: Vec3): THREE.Vector3 => new THREE.Vector3(a[0], a[1], a[2]);
+const vec = (v: THREE.Vector3): MutVec3 => [v.x + 0, v.y + 0, v.z + 0];
+const v3 = (a: MutVec3): THREE.Vector3 => new THREE.Vector3(a[0], a[1], a[2]);
 
 export function primData(q: Prim): PrimData {
   return {

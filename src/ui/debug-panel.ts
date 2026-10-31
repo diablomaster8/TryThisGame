@@ -17,6 +17,8 @@ import { DEBUG_OVERLAY } from '../render/debug-colliders';
 import { TACTICS_TEXT } from '../config/strings-tactics';
 import { COMIC_SOUNDS, playSound } from '../platform/audio';
 import { battleDebugControls } from './battle-debug';
+import { buildScenario, SCENARIOS } from '../dev/scenarios';
+import { SCENARIO_TEXT } from '../config/strings-r10d3';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -291,6 +293,30 @@ export class DebugPanel {
     );
     this.inspector = new StageInspector(this.root, game);
     story.appendChild(button('Stage inspector', () => this.inspector.toggle(), 'btn btn-small'));
+
+    // TECH-46: replace the world with a named dev scenario (src/dev/scenarios.ts).
+    const scen = el('div', 'debug-row');
+    const scenPick = el('select');
+    scenPick.setAttribute('aria-label', SCENARIO_TEXT.label);
+    for (const name of SCENARIOS) scenPick.appendChild(new Option(name, name));
+    scen.append(
+      el('span', undefined, SCENARIO_TEXT.label),
+      scenPick,
+      button(
+        SCENARIO_TEXT.load,
+        () => {
+          const g = this.game();
+          if (!g) return;
+          const ask = { title: SCENARIO_TEXT.confirmTitle, body: SCENARIO_TEXT.confirmBody };
+          void confirmModal({ ...ask, confirm: SCENARIO_TEXT.confirmYes }).then((ok) => {
+            const world = ok ? buildScenario(scenPick.value, g.world.seed, Date.now()) : null;
+            if (world) g.replaceWorld(world);
+          });
+        },
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(scen);
 
     this.root.appendChild(
       button(

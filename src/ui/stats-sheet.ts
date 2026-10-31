@@ -41,14 +41,14 @@ import {
   type NubbinType,
   type World,
 } from '../sim/types';
-
-const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 import type { Game } from '../game';
 import { RideButton } from './ride-button';
 import { BattleCard } from './battle-card';
 import { jobOfNubbin } from '../sim/battle/tactics/jobs';
 import { JOB_LAYER_TEXT, JOB_TEXT } from '../config/strings-tactics';
 import { button, el, meter } from './dom';
+
+const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 
 /**
  * The stats sheet: opens when a Nubbin is tapped. Shows needs as meters with icon and
