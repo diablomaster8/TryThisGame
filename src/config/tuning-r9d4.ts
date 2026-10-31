@@ -2,7 +2,7 @@
  * Lane D round 9: world teaching hints (R0127), the Grove's secret (R0111), the biome sound
  * beds (R0139) and the seasons' Grove dressing (R0118). Imported directly where used.
  */
-import type { RegionId } from './regions';
+import type { Biome, RegionId } from './regions';
 
 /** R0127 (WORLD-61): the mechanics a hint teaches. */
 export type HintId = 'shake' | 'wade' | 'swim' | 'hop' | 'glide' | 'ride' | 'cave' | 'clue';
@@ -55,3 +55,67 @@ export const SECRETS = {
     Record<RegionId, { x: number; z: number; reward: { decor: 'statue'; shells: number } }>
   >,
 } as const;
+
+/**
+ * R0139 (WORLD-73): one looping sound bed per biome, synthesised (no files): filtered noise
+ * that breathes on a slow wobble, and for some a quiet tone (the Sun lands' chimes, the Moon
+ * lands' crickets, the caves' drip). Silent until the first tap unlocks sound; it rides the
+ * ambience bus, so the Ambience setting and the sound volume and mute govern it. Moving to
+ * another biome cross-fades over `crossfadeSec`. Only the Grove (meadow) and the Hollow
+ * (cave) are reachable today; the rest are ready for their regions.
+ */
+export interface BedSpec {
+  noise: { type: BiquadFilterType; hz: number; q: number; gain: number };
+  /** The noise gain's wobble. */
+  lfo: { hz: number; depth: number };
+  tone?: { hz: number; wave: OscillatorType; gain: number; pulseHz: number; pulseDepth: number };
+}
+
+export const BIOME_BEDS: { crossfadeSec: number; beds: Record<Biome, BedSpec> } = {
+  crossfadeSec: 1.5,
+  beds: {
+    // The Grove: a soft wind through the leaves.
+    meadow: {
+      noise: { type: 'lowpass', hz: 520, q: 0.5, gain: 0.018 },
+      lfo: { hz: 0.09, depth: 0.01 },
+    },
+    // Surf: a deep swell that rolls in and out.
+    beach: {
+      noise: { type: 'lowpass', hz: 420, q: 0.7, gain: 0.05 },
+      lfo: { hz: 0.11, depth: 0.04 },
+    },
+    // The wood: hushed canopy (the birds come from the day ambience).
+    forest: {
+      noise: { type: 'bandpass', hz: 900, q: 0.5, gain: 0.014 },
+      lfo: { hz: 0.07, depth: 0.008 },
+    },
+    // The ridge and peaks: a thin high wind.
+    alpine: {
+      noise: { type: 'bandpass', hz: 1400, q: 1.3, gain: 0.03 },
+      lfo: { hz: 0.05, depth: 0.02 },
+    },
+    // Caves: a low hum and a slow drip.
+    cave: {
+      noise: { type: 'bandpass', hz: 280, q: 0.8, gain: 0.02 },
+      lfo: { hz: 0.04, depth: 0.006 },
+      tone: { hz: 1750, wave: 'sine', gain: 0.004, pulseHz: 0.6, pulseDepth: 0.004 },
+    },
+    // Ruins: a still, low air.
+    ruin: {
+      noise: { type: 'lowpass', hz: 260, q: 0.6, gain: 0.02 },
+      lfo: { hz: 0.035, depth: 0.01 },
+    },
+    // The Sun lands: soft chimes over a warm breeze.
+    sun: {
+      noise: { type: 'lowpass', hz: 700, q: 0.5, gain: 0.01 },
+      lfo: { hz: 0.08, depth: 0.006 },
+      tone: { hz: 1318.5, wave: 'sine', gain: 0.004, pulseHz: 0.45, pulseDepth: 0.004 },
+    },
+    // The Moon lands: crickets over a cool night air.
+    moon: {
+      noise: { type: 'lowpass', hz: 380, q: 0.5, gain: 0.01 },
+      lfo: { hz: 0.06, depth: 0.005 },
+      tone: { hz: 4600, wave: 'triangle', gain: 0.004, pulseHz: 27, pulseDepth: 0.004 },
+    },
+  },
+};

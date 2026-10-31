@@ -1,4 +1,7 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { setBiomeBed } from '../platform/biome-beds';
+import { REGIONS } from '../config/regions';
+import { regionOf } from '../sim/regions';
 import { hintToast, secretToasts } from './world-hints-ui';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
@@ -1134,6 +1137,12 @@ export function mountHud(
                 weather: inSide ? 'clear' : g.world.weather.kind,
                 stream: nearStream,
               },
+        );
+        // R0139 (lane D r9): the biome's sound bed, quiet whenever the ambience is.
+        setBiomeBed(
+          dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
+            ? null
+            : REGIONS[regionOf(g.world.location)].biome,
         );
       }
       if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
