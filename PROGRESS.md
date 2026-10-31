@@ -63,6 +63,10 @@ field, `world.tzOffsetMin`); no `src/content` change.
   (`PROBE_URL='http://localhost:5186/?debug'`, the `?debug` matters or `&sculptRes` is lost):
   0/38 over twice, 3D farOrchard 146 and 162 calls. Edge smoke `recs-2026-10-27/tools/r7-d-check.cjs`
   and `r8-d-check.cjs`: 0 console errors in Pixel and 3D at 1280×800 and 375×812.
+- *After merging main 126b61f6:* gate clean (content checks problems 0); four phone probes:
+  2 over (farOrchard 181 calls, falls 453k tris), 0, 0, 1 over (farOrchard 181). farOrchard
+  swings 153–181 against the 180 cap with how many wandering Nubbins are in view (r5-d-perf:
+  1 in view ≈ 96 calls, 2 ≈ 109); the next lever is creature cost at that spot.
 
 ## Round 9 · Lane A SOUL (2026-10-30, branch r9/a)
 
