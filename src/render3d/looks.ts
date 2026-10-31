@@ -31,7 +31,7 @@ import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
 import { color, shadeOf } from '../render/sprites/palette';
 import { keeperOutfit } from '../render/keeper-look';
-import { EXTRA_LOOKS } from '../sim/npcs';
+import { EXTRA_LOOKS } from '../sim/extra-looks';
 import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
 import { withNpcAccessories } from './npc-accessories';

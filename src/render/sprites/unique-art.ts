@@ -1,5 +1,5 @@
 import { UNIQUE_LOOKS } from '../../config/dungeon-r9-a';
-import { uniqueSpecies } from '../../sim/dungeon-uniques';
+import { uniqueSpecies } from '../../sim/unique-species';
 import type { CreatureSpec } from './creature';
 import type { ExtraKind } from './creature-extras';
 import { C } from './palette';

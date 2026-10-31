@@ -6,61 +6,9 @@ import { routineArrived, routineTarget } from './npc-routines';
 import { stepChatter } from './npc-chatter';
 import { clampToWorld } from './behavior';
 import type { Rng } from './rng';
-import type { TrainerLook } from './trainers';
 import type { Npc, SimEvent, Vec2, World } from './types';
 
-/** Looks for story Keepers who are not playable trainers (palette indices, see trainers.ts). */
-export const EXTRA_LOOKS: Record<string, TrainerLook> = {
-  corvin: {
-    skin: 15,
-    hat: 0,
-    hatBand: 4,
-    shirt: 4,
-    shirtShade: 1,
-    pants: 0,
-    boots: 0,
-    hair: 1,
-    outline: 0,
-    hatStyle: 'band',
-  },
-  hazel: {
-    skin: 15,
-    hat: 31,
-    hatBand: 25,
-    shirt: 28,
-    shirtShade: 27,
-    pants: 13,
-    boots: 12,
-    hair: 5,
-    outline: 1,
-    hatStyle: 'sun',
-  },
-  // The language teachers: their own faces on the dialogue portrait, not a stand-in Keeper's.
-  ori: {
-    skin: 14,
-    hat: 29,
-    hatBand: 17,
-    shirt: 29,
-    shirtShade: 17,
-    pants: 16,
-    boots: 12,
-    hair: 12,
-    outline: 0,
-    hatStyle: 'none',
-  },
-  hana: {
-    skin: 15,
-    hat: 31,
-    hatBand: 24,
-    shirt: 24,
-    shirtShade: 23,
-    pants: 2,
-    boots: 1,
-    hair: 0,
-    outline: 0,
-    hatStyle: 'band',
-  },
-};
+export { EXTRA_LOOKS } from './extra-looks';
 
 /** Where visiting Keepers like to stand. */
 const HOMES: Record<string, Vec2> = {

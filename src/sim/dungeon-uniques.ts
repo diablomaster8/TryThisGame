@@ -10,22 +10,18 @@
  */
 import { UNIQUES, type UniqueDef } from '../config/dungeon-foes';
 import { HOLLOW } from '../config/tuning';
-import { cellDist, FLOOR, hashString, WALL, type Cell, type Floor } from './dungeon';
+import { cellDist, FLOOR, WALL, type Cell, type Floor } from './dungeon';
 import type { EncounterPack, PackMember } from './dungeon-encounters';
 import { foeLevel, type FoeBand } from './dungeon-density';
-import { isCommonSpecies, SPECIES } from './species';
 import type { DungeonRun, SimEvent, World } from './types';
+import { uniqueSpecies } from './unique-species';
 
 /** The uniques that live on act `act`'s level `level` (1-based). */
 export function uniquesFor(act: number, level: number): UniqueDef[] {
   return UNIQUES.filter((u) => u.act === act && u.level === level);
 }
 
-/** The unique's look: a foe species picked from its id, the same in every seed. */
-export function uniqueSpecies(id: string): string {
-  const foes = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby' && isCommonSpecies(s));
-  return foes[hashString(id) % foes.length]!.id;
-}
+export { uniqueSpecies };
 
 /** Cells reachable from the stairs up (wading and jumping allowed, as the floor intends). */
 function walkable(f: Floor): Uint8Array {

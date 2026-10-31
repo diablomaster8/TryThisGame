@@ -1,4 +1,5 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
+import { hashString } from './hash-string';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { tzOf } from './local-time';
@@ -330,14 +331,7 @@ export function vnoise(x: number, y: number, salt: number): number {
   return (a + (b - a) * sx) * (1 - sy) + (c + (d - c) * sx) * sy;
 }
 
-export function hashString(s: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
+export { hashString };
 
 export function cellIndex(f: Floor, x: number, y: number): number {
   return y * f.cols + x;

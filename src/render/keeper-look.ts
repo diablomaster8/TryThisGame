@@ -1,6 +1,6 @@
 import type { KeeperAlignment } from '../sim/types';
 import { TRAINERS, type TrainerLook } from '../sim/trainers';
-import { EXTRA_LOOKS } from '../sim/npcs';
+import { EXTRA_LOOKS } from '../sim/extra-looks';
 import { C } from './sprites/palette';
 import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS } from '../config/npc-looks';
 import { generatedLook } from './portraits';
