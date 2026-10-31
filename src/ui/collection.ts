@@ -32,6 +32,8 @@ import type { RegionId } from '../config/regions';
 import { WORLD_TEXT } from '../config/strings-world';
 import { tally } from '../sim/collectibles';
 import { button, el, modal } from './dom';
+import { newestWith } from '../platform/photo-album';
+import { ALBUM_TEXT } from '../config/strings-look';
 import '../look.css';
 
 const bandLabel = (b: string | undefined): string =>
@@ -398,6 +400,16 @@ export class MemorialCard {
       );
     }
     this.body.appendChild(el('p', 'help', '🌸'));
+    // R0425 (LOOK-57): the newest album photo with this Nubbin, when one was saved.
+    const nubbinId = m.id.startsWith('memorial-') ? m.id.slice('memorial-'.length) : '';
+    if (nubbinId)
+      void newestWith(nubbinId).then((p) => {
+        if (!p || !this.dialog.isOpen()) return;
+        const img = el('img', 'memorial-photo');
+        img.src = p.thumb;
+        img.alt = ALBUM_TEXT.memorial;
+        this.body.insertBefore(img, this.body.children[1] ?? null);
+      });
     this.body.appendChild(button(UI_TEXT.close, () => this.dialog.hide(), 'btn btn-primary'));
     this.dialog.show();
   }

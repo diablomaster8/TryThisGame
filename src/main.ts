@@ -15,6 +15,7 @@ import { loadStoryScripts } from './sim/story-scenes';
 import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
+import { readKidsLock } from './platform/kids-lock';
 import { showUpdateNotice } from './ui/update-notice';
 import { showBootError } from './ui/boot-error';
 import { reloadOnceForUpdate } from './platform/boot-reload';
@@ -61,6 +62,7 @@ document.addEventListener('visibilitychange', () => {
 
 const params = new URLSearchParams(location.search);
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
+let kidsLock: number | null;
 // A browser may have cleared localStorage: put back any newer IndexedDB copy before a slot is read.
 void restoreFromMirror().then(route);
 function route(): void {
@@ -106,6 +108,10 @@ function route(): void {
   } else if ((resumeSlot = takeResumeSlot())) {
     // Graphics changed in Settings: the reload comes straight back to the slot in play.
     setSaveSlot(resumeSlot);
+    startGame(null);
+  } else if (!params.has('title') && (kidsLock = readKidsLock())) {
+    // Lane E r8, R0695: a grown-up locked this device to a Learning Grove; `?title` skips it.
+    setSaveSlot({ mode: 'edu', index: kidsLock });
     startGame(null);
   } else {
     // Fetch the campaign and side-story chunks while the title is up.

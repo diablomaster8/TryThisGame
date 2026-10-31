@@ -119,6 +119,9 @@ import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
+import { StickerBook } from './sticker-book';
+import { EduPlaces } from './edu-places';
+import { LimitCard, syncKidsLock } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
@@ -170,6 +173,8 @@ import { FESTIVAL_GAGS } from '../content/festival-gags';
 import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
 import { evolveFlash } from '../render/evolve-reveal';
+import { setEmoteFocus } from '../render/emote-size';
+import { SoulAmbient } from './soul-ambient';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -187,7 +192,12 @@ export function mountHud(
   const logo = button(NAMES.game, () => onLogoTap(), 'btn btn-logo');
   const shells = el('span', 'chip', '');
   const fruit = el('span', 'chip', '');
-  const moreBtn = button('⋯', () => more.show(), 'btn btn-icon');
+  // Lane E r8, R0680: a Learning Grove's ⋯ opens the Places picture menu instead.
+  const moreBtn = button(
+    '⋯',
+    () => (game()?.world.edu ? eduPlaces.open() : more.show()),
+    'btn btn-icon',
+  );
   moreBtn.setAttribute('aria-label', UI_TEXT.more);
   moreBtn.title = UI_TEXT.more;
   // In the Learning Grove, Settings (reset, import, aging) is for grown-ups: a sum first.
@@ -445,6 +455,8 @@ export function mountHud(
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
+  // R0552 (lane A r9): the Grove's snores and chirps.
+  const soulAmbient = new SoulAmbient();
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -548,6 +560,9 @@ export function mountHud(
   // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
   const guide = new Guide(root, game, () => sheet.selectedId);
   edu.onShowMe(() => guide.show());
+  // Lane E r8, R0685: the sticker book, from the results card's sticker (and Places).
+  const stickerBook = new StickerBook(root, game);
+  edu.onOpenBook((fresh) => stickerBook.open(fresh));
   const grownUps = new GrownUpPanel(root, game, toast);
   settings.setGrownUpArea(() => grownUps.open());
   const breakScreen = new BreakScreen(
@@ -556,6 +571,8 @@ export function mountHud(
     () => askGrownUp(root, toast),
     () => grownUps.open(),
   );
+  // Lane E r8, R0695: the sleeping-Grove card a grown-up's limits put up.
+  const limitCard = new LimitCard(root, game, () => askGrownUp(root, toast));
   // R0724: the moon that fills in the last two minutes before a break.
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
@@ -668,6 +685,22 @@ export function mountHud(
     ),
   );
   more.body.appendChild(moreList);
+  // Lane E r8, R0680: the Learning Grove's Places, each a big picture tile.
+  const eduPlaces = new EduPlaces(
+    root,
+    game,
+    {
+      book: () => stickerBook.open(),
+      collection: () => book.open(),
+      decorate: () => decorate.open(),
+      photo: () => photo.open(),
+      playFight: () => karate.open(),
+      kindergarten: () => kindergarten.open(),
+      map: () => map.open(),
+      beetle: () => startTank(),
+    },
+    () => grownUps.open(),
+  );
   // Placing chip while decorating.
   const placingChip = el('div', 'placing-chip');
   placingChip.hidden = true;
@@ -753,7 +786,12 @@ export function mountHud(
     };
   }
 
-  kidBusy = () => edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
+  kidBusy = () =>
+    edu.isOpen() ||
+    dialogue.isOpen ||
+    breakScreen.isOpen() ||
+    limitCard.isOpen() ||
+    journal.isTracing();
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
   // deliberately layered and stay outside the stack. Running minigames have no `close`, so
   // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
@@ -1051,6 +1089,9 @@ export function mountHud(
         if (!eduBreakActive(g.world, now) && eduBreakShouldStart(g.world, midActivity))
           g.send({ kind: 'eduStartBreak' });
         breakWarn.update(g);
+        // Lane E r8, R0695.
+        limitCard.update(now);
+        syncKidsLock(g);
         if (eduBreakActive(g.world, now)) {
           breakScreen.show();
           breakScreen.update(now);
@@ -1098,6 +1139,11 @@ export function mountHud(
       g.cameraLift = 0;
       g.cameraSide = 0;
       g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
+      // R0552 (lane A r9): snores and chat chirps near the Keeper.
+      const amb = soulAmbient.tick(g.world, performance.now());
+      if (amb) playSound(amb);
+      // R0549 (lane A r9): its mood bubble is drawn big while the sheet is open.
+      setEmoteFocus(g.sheetFocus?.id ?? null);
       hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;

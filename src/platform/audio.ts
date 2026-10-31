@@ -58,7 +58,12 @@ export type SoundName =
   | 'woodblock'
   | 'swish'
   | 'patter'
-  | 'yawn';
+  | 'yawn'
+  // Lane A r9 (R0546): a glutton's full-belly burp.
+  | 'burp'
+  // Lane A r9 (R0552): a napping Nubbin's snore and two buddies' chat chirp.
+  | 'snore'
+  | 'chirp';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -73,6 +78,7 @@ export const COMIC_SOUNDS: readonly SoundName[] = [
   'gulp',
   'raspberry',
   'giggle',
+  'burp',
 ];
 // R0301: comic sounds never pile up: at most one per 100 ms.
 let lastComicAt = -Infinity;
@@ -955,6 +961,20 @@ export function playSound(name: SoundName): void {
         break;
       case 'raspberry':
         for (let i = 0; i < 6; i++) tone(110 + (i % 2) * 18, i * 45, 50, 'sawtooth', 0.025);
+        break;
+      case 'snore':
+        // A slow, soft in-breath and a low buzz out.
+        tone(220, 0, 500, 'sine', 0.02, 260);
+        tone(90, 520, 600, 'sawtooth', 0.015, 70);
+        break;
+      case 'chirp':
+        tone(1300, 0, 60, 'sine', 0.03, 1600);
+        tone(1100, 110, 70, 'sine', 0.03, 1500);
+        break;
+      case 'burp':
+        // A low, round, falling rasp.
+        tone(150, 0, 260, 'sawtooth', 0.04, 80);
+        tone(95, 40, 220, 'sine', 0.05, 60);
         break;
       case 'giggle':
         for (let i = 0; i < 3; i++) tone(900 + i * 160, i * 90, 70, 'sine', 0.04, 1200 + i * 160);

@@ -147,6 +147,7 @@ import {
   stepEdu,
   clampRounds,
 } from './edu';
+import { eduSetLimits, eduUnlockLimits } from './edu-limits';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -523,7 +524,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     }
     case 'buy':
-      withRng(world, (rng) => buy(world, cmd.item, rng, events));
+      withRng(world, (rng) => buy(world, cmd.item, rng, events, cmd.pick));
       return;
     case 'raceResult': {
       // The UI reports the result, so the sim checks it: a known course, a tier that is open,
@@ -1021,7 +1022,18 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       eduSetName(world, cmd.name);
       return;
     case 'eduResult':
-      eduResult(world, cmd.game, cmd.stars, events);
+      eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
+      return;
+    case 'eduSetLimits':
+      // Lane E r8, R0695.
+      eduSetLimits(world, cmd.limits);
+      return;
+    case 'eduUnlockLimits':
+      eduUnlockLimits(world, world.lastWallMs);
+      return;
+    case 'eduSetPlace':
+      // Lane E r8, R0680.
+      if (world.edu) (world.edu.places ??= {})[cmd.place] = cmd.on;
       return;
     case 'eduResetSession':
       eduResetSession(world);

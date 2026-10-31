@@ -2012,3 +2012,4 @@ export * from './tuning-camp';
 export * from './tuning-soul-r8';
 export * from './tuning-camp9';
 export * from './tuning-camp9r';
+export * from './tuning-soul-r9';

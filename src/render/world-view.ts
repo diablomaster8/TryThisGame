@@ -52,7 +52,9 @@ import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
-import { bigBubbles, emoteScale } from './emote-size';
+import { noticeFace } from './notice';
+import { soulEmote } from './soul-emotes';
+import { bigBubbles, emoteFocused, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
@@ -74,7 +76,7 @@ import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
 import { HELD_RING } from '../config/tuning-tech';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
-import { heldMood, type HeldMood } from './held-mood';
+import { heldMood, heldStyle, type HeldMood } from './held-mood';
 import { gagAt } from './gag-play';
 import { cocoonShake, revealTurn } from './evolve-reveal';
 import { rarityOf } from './rarity';
@@ -1985,7 +1987,9 @@ export class WorldView {
         (n.stage === 'adult' && v.pop?.kind === 'pop'
           ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
           : 0);
-      const view = viewAngle((hf ?? npose?.face ?? n.facing) + turn, yaw);
+      // R0533 (lane A r9): a resting Nubbin turns to look at the Keeper close by.
+      const look = held ? null : noticeFace(n, world.keeper.pos);
+      const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -2083,11 +2087,14 @@ export class WorldView {
       // LOOK-50: held, it hugs, dangles or flails by affection, with a heart or a swirl.
       if (clip === 'held') {
         const mood = heldMood(n, world.keeper.alignment);
+        // R0551 (lane A r9): a hug by personality: kicking legs, stiff, or limp as a noodle.
+        const style = heldStyle(n, mood);
         const hz = mood === 'flail' ? HELD_REACT.flailHz : HELD_REACT.dangleHz;
-        const hf = mood === 'hug' ? 0 : Math.floor((nowMs * hz * 2) / 1000) % 2;
-        const hk = frameKey(HELD_CLIPS[mood], view.angle, hf);
+        const swings = (mood !== 'hug' || style === 'kick') && !this.particles.reduceMotion;
+        const hf = swings ? Math.floor((nowMs * hz * 2) / 1000) % 2 : 0;
+        const hk = frameKey(HELD_CLIPS[style === 'noodle' ? 'dangle' : mood], view.angle, hf);
         if (sheet.frames.has(hk)) key = hk;
-        if (mood === 'hug') emote = 'heart';
+        if (mood === 'hug' && style !== 'stiff') emote = 'heart';
         else if (mood === 'flail') emote = 'spiral';
       }
       // K40: the partner's ball follows the line's mood.
@@ -2096,6 +2103,7 @@ export class WorldView {
 
     // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
     this.petBeats.calm = this.particles.reduceMotion;
+    this.petBeats.keeper = world.keeper.pos;
     const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
     if (beat?.clip) {
       const angle = key.split(':')[1] ?? 'front';
@@ -2274,7 +2282,7 @@ export class WorldView {
         );
         // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
         const es = emoteScale(
-          this.emoteBig,
+          this.emoteBig || emoteFocused(n.id),
           v.bubble ? nowMs - (v.bubble.untilMs - UI.bubbleMs) : null,
           this.particles.reduceMotion,
         );
@@ -2393,6 +2401,9 @@ const HELD_CLIPS: Record<HeldMood, string> = {
 export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
+  // Lane A r9: the new acts' own balls (render/soul-emotes.ts).
+  const own = soulEmote(n);
+  if (own) return own;
   // TECH-01: a new hatchling asks for its first fruit.
   if (wantsFirstFruit(n)) return 'fruit';
   // R0532 (lane A r8): a harrumph huffs.

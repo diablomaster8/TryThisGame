@@ -25,3 +25,28 @@ export const EDU_VOICE = {
   /** R0725: each break stretch lasts this long. */
   stretchMs: 5000,
 } as const;
+
+/** R0695 (KIDS-27): the grown-up's limits. */
+export const EDU_LIMITS = {
+  /** Allowed minutes a day a grown-up can pick. */
+  dailyRange: [10, 180] as const,
+  /** A grown-up's unlock lasts this long. */
+  unlockMinutes: 30,
+} as const;
+
+/** R0703 (KIDS-35): the tracing game's forgiveness. */
+export const EDU_TRACE = {
+  /** How far from a stroke still counts, on the 0–100 board, by who is tracing. */
+  radius: { young: 20, older: 16, reader: 14 },
+  /** A rejected stroke stays drawn in grey this long, then fades over `fadeMs`. */
+  missShowMs: 800,
+  fadeMs: 300,
+  /** The ghost finger shows the stroke on open and after this many misses on one stroke. */
+  demoAfterMisses: 2,
+  /** After this many misses the stroke completes itself with the demo (no fail state). */
+  completeAfterMisses: 4,
+  /** How long the ghost finger takes along a stroke. */
+  demoMs: 1200,
+  /** A short buzz on an accepted stroke, where the device has one. */
+  vibrateMs: 15,
+} as const;

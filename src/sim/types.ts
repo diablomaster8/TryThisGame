@@ -20,7 +20,7 @@ export interface BattlePrefs {
   /** The battle playback speed. */
   speed?: 1 | 2;
 }
-import type { EduAge, EduGameId } from '../config/edu';
+import type { EduAge, EduGameId, EduPlaceId } from '../config/edu';
 import type { EduBand } from '../content/types';
 import type { LineAct } from '../config/story';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -263,6 +263,19 @@ export interface Nubbin {
   /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
   missing?: string[];
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
+  // Lane A r9 (SOUL), optional with defaults, no save bump:
+  /** R0528: the trait earned by care before evolution (the first comes from the seed). */
+  earnedTrait?: import('../config/tuning-soul-r9').TraitId;
+  /** R0528: counts toward the earned trait; cleared once one is earned. */
+  traitCare?: Partial<
+    Record<keyof typeof import('../config/tuning-soul-r9').TRAIT_TUNING.earn, number>
+  >;
+  /** R0546: a full belly (waddle, then a burp and a nap) until this sim time. */
+  fullUntilMs?: number;
+  /** R0546: when it ate its recent fruits, for the full belly (last few only). */
+  recentMeals?: number[];
+  /** R0543: no hide and seek again before this sim time. */
+  peekAfterMs?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -579,6 +592,16 @@ export interface EduState {
   alwaysReborn?: boolean;
   /** Lane E r7, R0746: rounds per game a grown-up picked (absent: by age, `eduRounds`). */
   roundsPerGame?: number;
+  /** Lane E r8, R0682: each game's rung on its skills ladder (absent: start by age). */
+  skills?: Partial<Record<EduGameId, EduSkill>>;
+  /** Lane E r8, R0683: per-item mastery, by ids like `letter:G` or `count:7`. */
+  items?: Record<string, EduItem>;
+  /** Lane E r8, R0680: places a grown-up opened or closed (absent: `PLACES_EDU` default). */
+  places?: Partial<Record<EduPlaceId, boolean>>;
+  /** Lane E r8, R0692: which of today's three shelf eggs were bought (sim/edu-eggs.ts). */
+  eggShelf?: { day: string; bought: number[] };
+  /** Lane E r8, R0695: a grown-up's daily minutes, quiet hours and boot lock (sim/edu-limits.ts). */
+  limits?: EduLimits;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -608,6 +631,32 @@ export interface EduState {
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
   courses: Record<LangCourseId, boolean>;
+}
+
+/** Lane E r8, R0682: a game's rung, first-try streak, and this sitting's shown answers. */
+export interface EduSkill {
+  level: number;
+  streak: number;
+  misses: number;
+  /** The rung already moved this sitting (never more than once). */
+  moved: boolean;
+}
+
+/** Lane E r8, R0695: a Learning Grove's limits; null = no limit. Hours are local, 0–23. */
+export interface EduLimits {
+  dailyMinutes: number | null;
+  quietFrom: number | null;
+  quietTo: number | null;
+  lockToSlot: boolean;
+  /** Wall-clock ms a grown-up's unlock lasts until. */
+  unlockUntilMs?: number;
+}
+
+/** Lane E r8, R0683: how often an item was asked, how often right first time, and when. */
+export interface EduItem {
+  seen: number;
+  firstTry: number;
+  lastMs: number;
 }
 
 export type LangCourseId = 'hebrew' | 'japanese';
@@ -1227,7 +1276,8 @@ export type Command =
   | { kind: 'giveCritter'; nubbinId: string; species: string }
   | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }
   | { kind: 'addRewards'; rewards: Rewards }
-  | { kind: 'buy'; item: ShopItem }
+  /** `pick`: Lane E r8, R0692, which egg on a Learning Grove's shelf. */
+  | { kind: 'buy'; item: ShopItem; pick?: number }
   | {
       kind: 'raceResult';
       nubbinId: string;
@@ -1376,8 +1426,21 @@ export type Command =
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
-  | { kind: 'eduResult'; game: EduGameId; stars: number }
+  | {
+      kind: 'eduResult';
+      game: EduGameId;
+      stars: number;
+      /** Lane E r8, R0683: the round's target, like `letter:G`. */
+      item?: string | undefined;
+      /** Lane E r8, R0682: the first round of a sitting. */
+      first?: boolean;
+    }
   | { kind: 'eduResetSession' }
+  /** Lane E r8, R0680: a grown-up opens or closes a place in the Places menu. */
+  | { kind: 'eduSetPlace'; place: EduPlaceId; on: boolean }
+  /** Lane E r8, R0695. */
+  | { kind: 'eduSetLimits'; limits: Partial<Omit<EduLimits, 'unlockUntilMs'>> }
+  | { kind: 'eduUnlockLimits' }
   | { kind: 'eduStartBreak' }
   | { kind: 'eduEndBreak' }
   // The Digimon-inspired ten
@@ -1561,6 +1624,16 @@ export type SimEvent =
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
+  /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
+  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
+  | { kind: 'peekFound'; nubbinId: string }
+  | { kind: 'burp'; nubbinId: string }
+  /** R0545: a mischievous one snatched another's fruit. */
+  | { kind: 'snatched'; nubbinId: string; victimId: string }
+  /** R0560: another noticed a pet and wanted one too. */
+  | { kind: 'jealous'; nubbinId: string; of: string }
+  /** R0542: a Sun Nubbin brought a hungry one a fruit. */
+  | { kind: 'sharedFruit'; nubbinId: string; markId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

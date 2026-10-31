@@ -3880,6 +3880,94 @@ body.edu-sprout .modal-head .btn-close {
 .backup-chip .btn {
   min-height: 44px;
 }
+
+/* Lane E r8: R0683 grown-up mastery tiles (green known, amber learning, grey not met; a mark too). */
+.edu-mastery { margin: 6px 0 10px; }
+.edu-mastery-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.edu-mastery-tile {
+  min-width: 30px; height: 30px; padding: 0 6px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; text-transform: capitalize;
+  background: #d9d6df; color: #4a4552; border: 2px solid transparent;
+}
+.edu-mastery-tile.is-known { background: #bfe8b8; color: #1d4d1a; border-color: #3fae4a; }
+.edu-mastery-tile.is-known::after { content: ' ✓'; }
+.edu-mastery-tile.is-learning { background: #ffe1a8; color: #6a4300; border-color: #f2a43a; border-style: dashed; }
+
+/* Lane E r8: R0685 the sticker book ("My Book") and the results card's arriving sticker. */
+.sticker-book .modal-card { width: min(620px, calc(100% - 16px)); }
+.sticker-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sticker-turn { min-width: 64px; min-height: 64px; font-size: 28px; }
+.sticker-title { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sticker-title-icon { font-size: 32px; line-height: 1; }
+.sticker-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 12px 0;
+  touch-action: pan-y;
+}
+@media (max-width: 480px) { .sticker-grid { grid-template-columns: repeat(3, 1fr); } }
+.sticker, .sticker-slot {
+  aspect-ratio: 1; min-height: 72px; display: flex; align-items: center; justify-content: center;
+  padding: 6px; border-radius: 50%;
+}
+.sticker {
+  background: var(--sticker-bg, #fff); border: 4px solid #fff;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); cursor: pointer;
+}
+.sticker-square { border-radius: 14px; }
+.sticker-heart { border-radius: 50% 50% 18% 50%; }
+.sticker-star { border-radius: 30% 70% 30% 70% / 70% 30% 70% 30%; }
+.sticker-slot { border: 3px dashed rgba(255, 255, 255, 0.35); }
+.sticker-art { width: 80%; height: 80%; image-rendering: pixelated; }
+.sticker-fresh { animation: sticker-glow 1.2s ease-in-out 3; }
+@keyframes sticker-glow { 50% { transform: scale(1.12); box-shadow: 0 0 18px #ffe066; } }
+.sticker-dots { display: flex; justify-content: center; gap: 8px; }
+.sticker-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); }
+.sticker-dot.on { background: #ffe066; }
+.sticker-arrive {
+  display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 96px;
+  background: transparent; border: none;
+}
+.sticker-arrive .sticker { width: 72px; height: 72px; }
+.sticker-book-icon { font-size: 56px; }
+.sticker-fly { animation: sticker-fly 1.4s ease-in 0.8s both; }
+@keyframes sticker-fly {
+  0% { transform: scale(1.3) rotate(-10deg); }
+  60% { transform: translateX(60px) scale(0.6) rotate(8deg); opacity: 1; }
+  100% { transform: translateX(80px) scale(0.3); opacity: 0; }
+}
+.reduce-motion .sticker-fly, .reduce-motion .sticker-fresh { animation: none; }
+
+/* Lane E r8: R0680 the Learning Grove's Places picture menu. */
+.edu-places-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.edu-places-grid .edu-place.btn {
+  min-height: 120px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 6px; font-size: 18px; font-weight: 700;
+}
+.edu-place-icon { font-size: 52px; line-height: 1; }
+.edu-places-grownups { margin-top: 14px; opacity: 0.8; }
+
+/* Lane E r8: R0692 the Learning Grove's egg shelf. */
+.edu-egg-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 10px; }
+.edu-egg { min-height: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.edu-egg-art { width: 48px; height: 56px; image-rendering: pixelated; }
+
+/* Lane E r8: R0695 the limits card sits over games and menus. */
+.edu-limit { z-index: 40; }
+
+/* Lane E r8: R0714 counting cues in five-frames, each counted thing staying lit once counted. */
+.edu-icons.edu-frame { display: grid; grid-template-columns: repeat(5, auto); justify-content: center; }
+.edu-icons > span.edu-counted-keep { filter: drop-shadow(0 0 4px #ffd85a); }
+
+/* Lane E r8: R0425 photo album, R0441 photo stickers. */
+.photo-stickers { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 6px 0; }
+.photo-sticker { min-width: 44px; min-height: 44px; font-size: 18px; }
+.album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.album-thumb { position: relative; padding: 2px; min-height: 44px; }
+.album-thumb img { width: 100%; display: block; image-rendering: pixelated; }
+.album-kept { position: absolute; top: 2px; right: 4px; }
+.album-big { width: 100%; image-rendering: pixelated; }
+.memorial-photo { display: block; width: 128px; margin: 6px auto; image-rendering: pixelated; border: 3px solid #f4ecd8; }
+
 /* Lane C r8 (R0606): the Open quest flow's offer card, a bottom sheet, and its folded chip. */
 .offer-card {
   pointer-events: auto;
@@ -4179,4 +4267,13 @@ html.story-resting canvas {
   html.story-resting canvas {
     transition: none;
   }
+}
+/* Lane A r9 (SOUL): trait chips on the stats sheet (R0528), each an icon, a word and a blurb. */
+.soul-chip.trait {
+  flex: 1 1 45%;
+  flex-wrap: wrap;
+  min-width: 140px;
+  padding: 2px 6px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
 }

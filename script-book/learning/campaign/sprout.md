@@ -11,7 +11,7 @@
 
 _The gate is stuck. Lift and push! Lift and push!_  
 _Creak! It opens. This is Gran’s Grove. But Gran is not here._  
-_On the signpost is a letter. Your name is on the front!_  
+_On the signpost is a letter. {child's} name is on the front!_  
 
 > **Lesson** (literacy, RF.K.2, do): the first sound of your own name  
 > _(Say the name on the letter. It’s your name!)_  

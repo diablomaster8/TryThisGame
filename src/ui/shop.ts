@@ -6,6 +6,10 @@ import { rosterCap } from '../sim/roster';
 import { priceOf, rosterCount, shopHat } from '../sim/shop';
 import type { ShopItem } from '../sim/types';
 import { button, el, modal } from './dom';
+import { eduEggShelf } from '../sim/edu-eggs';
+import { EDU_EGG_TEXT } from '../config/strings-kids';
+import { PLAIN_EGG_PALETTES } from '../render/sprites/egg-palette';
+import { color } from '../render/sprites/palette';
 
 /** The shop: fruit, eggs (with a chance of a rare colour), hats and toys, paid in Shells. */
 export class ShopMenu {
@@ -35,6 +39,7 @@ export class ShopMenu {
       row.append(text, note, b);
       list.appendChild(row);
       this.rows.set(item, { button: b, note });
+      if (item === 'egg') list.appendChild(this.eduShelf);
     }
     this.dialog.body.appendChild(list);
   }
@@ -57,6 +62,7 @@ export class ShopMenu {
     if (!g || !this.isOpen()) return;
     const inv = g.world.inventory;
     this.balance.textContent = `🐚 ${inv.shells} ${NAMES.currency}`;
+    this.refreshShelf(g, this.rows.get('egg')?.button.parentElement ?? null);
     for (const [item, row] of this.rows) {
       row.button.disabled = inv.shells < priceOf(item);
       switch (item) {
@@ -79,6 +85,27 @@ export class ShopMenu {
     }
   }
 
+  /** Lane E r8, R0692: a Learning Grove's egg shelf, three eggs on show. */
+  private readonly eduShelf = el('div', 'edu-egg-shelf');
+
+  private refreshShelf(g: Game, eggRow: HTMLElement | null): void {
+    const edu = !!g.world.edu;
+    this.eduShelf.hidden = !edu;
+    if (eggRow) eggRow.hidden = edu;
+    if (!edu) return;
+    this.eduShelf.innerHTML = '';
+    const { colours, bought } = eduEggShelf(g.world);
+    const price = priceOf('egg');
+    colours.forEach((c, i) => {
+      const gone = bought.includes(i);
+      const b = button('', () => g.send({ kind: 'buy', item: 'egg', pick: i }), 'btn edu-egg');
+      b.disabled = gone || g.world.inventory.shells < price;
+      b.setAttribute('aria-label', EDU_EGG_TEXT.egg(c, gone));
+      b.append(eggArt(c), el('span', undefined, gone ? EDU_EGG_TEXT.gone : `${price} 🐚`));
+      this.eduShelf.appendChild(b);
+    });
+  }
+
   private buy(item: ShopItem): void {
     this.game()?.send({ kind: 'buy', item });
   }
@@ -91,4 +118,25 @@ export class ShopMenu {
     else this.toast(UI_TEXT.notEnoughShells);
     this.refresh();
   }
+}
+
+/** R0692: a shelf egg, a small pixel oval in its colour with a cap and two spots. */
+function eggArt(c: string): HTMLCanvasElement {
+  const cv = el('canvas', 'edu-egg-art');
+  cv.width = 12;
+  cv.height = 14;
+  const ctx = cv.getContext('2d');
+  const p = PLAIN_EGG_PALETTES[c] ?? PLAIN_EGG_PALETTES.plain!;
+  if (ctx) {
+    const rows = [4, 6, 8, 8, 10, 10, 10, 10, 10, 10, 8, 8, 6, 4];
+    rows.forEach((w, y) => {
+      const x = (12 - w) / 2;
+      ctx.fillStyle = color(y < 4 ? p.cap : y > 10 ? p.shade : p.shell);
+      ctx.fillRect(x, y, w, 1);
+    });
+    ctx.fillStyle = color(p.spot);
+    ctx.fillRect(4, 6, 1, 1);
+    ctx.fillRect(7, 8, 1, 1);
+  }
+  return cv;
 }
