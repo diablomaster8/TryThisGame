@@ -114,3 +114,26 @@ export const QUIRKS = {
   /** Lazy: lies down for a doze, eyes shut. */
   dozeMs: [8_000, 14_000] as const,
 } as const;
+
+/** R0541 (SOUL-23): how long a Nubbin remembers how it was treated, and what it does. */
+export const CARE_MEMORY = {
+  /** At most this many memories, newest last; each fades after `fadeMs`. */
+  keep: 8,
+  fadeMs: 10 * 60_000,
+  /** The Keeper coming this close is "walking up". */
+  approachRadius: 3.5,
+  /** A throw or a drop this recent: a flinch (a quick crouch); a shy one backs off a step. */
+  flinchWithinMs: 3 * 60_000,
+  flinchMs: 600,
+  backOff: 1,
+  /** This many pets or hugs this recently: it runs up and asks for more, arms up. */
+  askPets: 3,
+  askWithinMs: 5 * 60_000,
+  askMs: 3_000,
+  /** Fed by hand this recently, and the Keeper has fruit: it trails after the Keeper. */
+  followWithinMs: 5 * 60_000,
+  followRadius: 8,
+  followChance: 0.6,
+  followMs: 3_000,
+  followGap: 1.4,
+} as const;

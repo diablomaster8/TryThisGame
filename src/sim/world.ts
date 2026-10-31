@@ -66,6 +66,7 @@ import { travel } from './regions';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepLittleGrove } from './little-grove';
+import { rememberCare } from './care-memory';
 import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
@@ -461,6 +462,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
       if (speed >= THROW.minSpeed) {
         noteCare(n, 'throws');
+        // R0541 (lane A r10): it remembers the throw (a flinch when the Keeper next walks up);
+        // not a Learning Grove toss and catch, which it lands laughing.
+        if (!world.edu) rememberCare(n, 'throw', now);
         // R0527: in the Learning Grove a throw is a toss and catch: no trust is lost.
         if (!world.edu) addTrust(n, TRUST.throw, events);
         noteCampaign(world, 'throw', n.id);
@@ -470,6 +474,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         putDown(n, now, events, 'happy');
       } else {
         if (n.stage !== 'egg') applyDrop(n, THROW.dropScale);
+        rememberCare(n, 'drop', now);
         addTrust(n, TRUST.drop * THROW.dropScale, events, !!world.edu);
         putDown(n, now, events);
       }

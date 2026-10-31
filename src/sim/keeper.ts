@@ -45,6 +45,7 @@ import { addTrust, isWary, settleStray } from './trust';
 import { noteCampaign } from './campaign';
 import { hasTrait, noteTraitCare } from './traits';
 import { findHiding } from './peek';
+import { rememberCare } from './care-memory';
 import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
@@ -1315,6 +1316,8 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       if (n.stray) settleStray(n);
       nudgeAlignment(n, world.keeper.alignment);
       noteCare(n, 'feeds');
+      // R0541 (lane A r10): fed by hand, it remembers (and trails a Keeper with fruit).
+      rememberCare(n, 'feed', now);
       return;
     }
     case 'shakeTree': {
@@ -1361,6 +1364,8 @@ export function interact(world: World, n: Nubbin, action: Interaction, events: S
   }
   // R0530: every kind of care shapes a child's personality, not only pets.
   noteTouch(n, action, now);
+  // R0541 (lane A r10): a hug is remembered as a hug, the other kind touches as pets.
+  rememberCare(n, action === 'hug' ? 'hug' : 'pet', now);
   switch (action) {
     case 'tickle':
       addHappiness(n, 4);
@@ -1434,6 +1439,8 @@ export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   if (n.stray) settleStray(n);
   nudgeAlignment(n, world.keeper.alignment);
   if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
+  // R0541 (lane A r10): it remembers the pet for a while.
+  if (now - n.lastPetMs >= NEEDS.petCooldownMs) rememberCare(n, 'pet', now);
   n.lastPetMs = now;
   pet(n, world.keeper.pos, now, events);
   // R0560 (lane A r9): the others nearby notice.

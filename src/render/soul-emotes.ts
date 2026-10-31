@@ -31,6 +31,8 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'cottageHide') return 'question';
       // R0553 (lane A r10): the cheerful twirl, the mischievous sneak's grin.
       if (id === 'twirl') return 'star';
+      // R0541 (lane A r10): a flinch's sweat drop.
+      if (id === 'flinch') return 'drop';
       if (id === 'sneak') return n.behavior.target ? 'none' : 'smirk';
       return null;
     case 'wander':
@@ -38,6 +40,8 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'inspect') return 'bulb';
       if (id === 'callKeeper') return 'question';
       if (id === 'callFruit') return 'exclaim';
+      // R0541 (lane A r10): trailing after the Keeper's fruit bag.
+      if (id === 'followFruit') return 'fruit';
       return null;
     case 'sit':
       if (id === 'tug') return 'question';

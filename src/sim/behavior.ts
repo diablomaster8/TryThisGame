@@ -62,6 +62,7 @@ import { nudgeArrive } from './jealousy';
 import { carryAct, carryArrive } from './carry-fruit';
 import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
 import { cottageHideAct } from './cottage-hide';
+import { approachAct, followFruitAct } from './care-memory';
 import { quirkAct } from './quirks';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
@@ -734,8 +735,9 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     startAct(n, own, now);
     return;
   }
-  // R0538 (lane A r10): now and then it goes to sit by a kindred spirit.
-  const kin = kindredAct(n, world, now);
+  // R0541 (lane A r10): fed by hand lately, it trails after a Keeper with fruit; or (R0538)
+  // now and then it goes to sit by a kindred spirit.
+  const kin = followFruitAct(n, world, now) ?? kindredAct(n, world, now);
   if (kin) {
     startAct(n, kin, now);
     return;
@@ -926,7 +928,9 @@ function stepBehavior(
   }
   // R0543 (lane A r9): a shy one slips behind a tree as the Keeper comes near.
   if (b.state === 'wander' || b.state === 'sit') {
-    const hide = peekAct(n, world, now);
+    // R0541 (lane A r10): first, what it remembers of the Keeper (a flinch, an ask for more).
+    const mem = approachAct(n, world, now);
+    const hide = mem ?? peekAct(n, world, now);
     if (hide) startAct(n, hide, now);
     // R0545: a mischievous one dashes for the fruit another is walking to.
     else {
