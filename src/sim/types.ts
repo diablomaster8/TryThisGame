@@ -1144,6 +1144,10 @@ export interface World {
   landmarks: Record<string, number>;
   /** R0091: one-time collectibles picked up, id → sim time (absent in older saves). */
   collected?: Record<string, number>;
+  /** R0127 (lane D r9): world hints already shown, hint id → sim time (absent in older saves). */
+  hintsSeen?: Record<string, number>;
+  /** R0111 (lane D r9): region secrets found, region → sim time (absent in older saves). */
+  secrets?: Record<string, number>;
   /** R0085: the Nubbin the Keeper is riding, absent when on foot (no save bump). */
   ride?: RideState;
   coop: CoopState;
@@ -1674,6 +1678,9 @@ export type SimEvent =
   | { kind: 'travelRefused'; exit: string; reason: string }
   /** R0091: a one-time collectible was picked up, and a region's set of a kind finished. */
   | { kind: 'keepsakeFound'; id: string; what: 'petal' | 'postcard' | 'key' }
+  // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
+  | { kind: 'worldHint'; id: string }
+  | { kind: 'secretFound'; region: string }
   | { kind: 'collectionSetDone'; region: string; what: 'petal' | 'postcard' | 'key' }
   /** R0074: a fast-travel trip arrived (the renderer plays the iris). */
   | { kind: 'travelled'; from: Vec2; to: Vec2 }

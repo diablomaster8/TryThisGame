@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { hintToast, secretToasts } from './world-hints-ui';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
@@ -1900,6 +1901,14 @@ export function mountHud(
           // R0091: one-time collectibles and their sets.
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
+        } else if (e.kind === 'worldHint') {
+          // R0127 (lane D r9): a mechanic taught once, in the world.
+          const t = hintToast(e.id, game()?.world);
+          if (t) toast(t);
+        } else if (e.kind === 'secretFound') {
+          // R0111 (lane D r9): the region's secret, found with its Old Key.
+          for (const line of secretToasts(e.region)) toast(line);
+          playSound('win');
         } else if (e.kind === 'landmarkFound') {
           landmarkCard(e.id, events);
           playSound('pickup');

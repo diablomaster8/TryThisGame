@@ -6,6 +6,7 @@ import { REGIONS, regionHour } from './config/regions';
 import { regionOf } from './sim/regions';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
+import { secretGlint } from './sim/world-hints';
 import { CAMERA, KEEPER, LANDMARK_HOLD, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
@@ -1111,9 +1112,12 @@ export class Game {
     if (nowMs - this.glintMs < COLLECT.sparkleEveryMs) return;
     this.glintMs = nowMs;
     const k = this.world.keeper.pos;
-    const near = openHere(this.world).filter(
+    const near: Array<{ x: number; z: number }> = openHere(this.world).filter(
       (c) => Math.hypot(c.x - k.x, c.z - k.z) <= COLLECT.sparkleRadius,
     );
+    // R0111 (lane D r9): the Grove's secret nook twinkles while its Old Key is held.
+    const nook = secretGlint(this.world);
+    if (nook) near.push(nook);
     if (!near.length) return;
     if (this.scene3d) this.scene3d.glint(near, nowMs);
     else this.view.particles.glint(near);
