@@ -1,4 +1,5 @@
 {
+  "id": "./",
   "name": "Grove",
   "short_name": "Grove",
   "description": "A cozy virtual-pet garden. Hatch, raise and race your Nubbins.",
@@ -8,16 +9,41 @@
   "orientation": "any",
   "background_color": "#0d0a1a",
   "theme_color": "#0d0a1a",
+  "categories": ["games", "kids"],
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     {
-      "src": "icons/icon-512.png",
+      "src": "icons/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/grove-portrait.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "A Nubbin in the Grove on a phone"
+    },
+    {
+      "src": "screenshots/grove-landscape.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "The Grove on a desktop"
     }
   ],
   "shortcuts": [
+    {
+      "name": "Continue",
+      "short_name": "Continue",
+      "description": "Back to the Grove you played last.",
+      "url": "./?continue",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
     {
       "name": "Learning Grove",
       "short_name": "Learning Grove",
