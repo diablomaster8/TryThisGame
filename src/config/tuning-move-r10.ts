@@ -15,3 +15,11 @@ export const TAP_FLAG = {
   bob: 0.08,
   bobMs: 700,
 } as const;
+
+/**
+ * R0041: the Pixel Keeper swaps to its lean frame walking up a slope at least this steep
+ * (rise over run along its facing, probed `KEEPER_SLOPE.probe` ahead, as the 3D lean is).
+ */
+export const PIXEL_LEAN = {
+  minSlope: 0.12,
+} as const;

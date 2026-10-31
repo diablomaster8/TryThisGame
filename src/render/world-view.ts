@@ -67,7 +67,9 @@ import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet, decorFrame } from './sprites/props';
 import { buildTapFlagSheet } from './sprites/tap-flags';
-import { TAP_FLAG } from '../config/tuning-move-r10';
+import { PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
+import { KEEPER_SLOPE } from '../config/tuning-move';
+import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
@@ -314,6 +316,22 @@ export class WorldView {
    * touching down, crouch just after take-off while still near the floor, then rise, apex
    * and fall by the vertical speed.
    */
+  /** R0041 (lane A r10): walking up a Grove hill, the Pixel Keeper leans into it. */
+  private keeperClimbing(
+    world: World,
+    x: number,
+    z: number,
+    sheet: SpriteSheet,
+    angle: string,
+  ): boolean {
+    if (world.location !== 'grove' || !sheet.frames.has(frameKey(KEEPER_LEAN_CLIP, angle, 0)))
+      return false;
+    const r = KEEPER_SLOPE.probe;
+    const f = world.keeper.facing;
+    const rise = hillHeight(x + Math.sin(f) * r, z + Math.cos(f) * r) - hillHeight(x, z);
+    return rise / r >= PIXEL_LEAN.minSlope;
+  }
+
   private keeperJumpClip(world: World, nowMs: number, gap: number): KeeperJumpClip | null {
     const k = world.keeper;
     if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
@@ -1256,7 +1274,9 @@ export class WorldView {
           : kidleKey && ksheet.frames.has(kidleKey)
             ? kidleKey
             : frameKey(
-                kclip,
+                kclip === 'walk' && this.keeperClimbing(world, kx, kz, ksheet, kview.angle)
+                  ? KEEPER_LEAN_CLIP
+                  : kclip,
                 kview.angle,
                 frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
               ),
