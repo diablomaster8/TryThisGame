@@ -65,7 +65,9 @@ import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { wantsFirstFruit } from '../sim/first-feed';
-import { buildShadowSheet } from './sprites/props';
+import { buildShadowSheet, decorFrame } from './sprites/props';
+import { buildTapFlagSheet } from './sprites/tap-flags';
+import { TAP_FLAG } from '../config/tuning-move-r10';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
@@ -190,6 +192,8 @@ export class WorldView {
   /** How long the land frame holds: longer after a big fall (MOVE-25's plop). */
   private keeperLandMs: number = JUMP.landSquashMs;
   private shadowSheet: SpriteSheet | null = null;
+  /** R0035 (lane A r10): the tap marker's ✕ / ⤒ glyphs. */
+  private tapFlagSheet: SpriteSheet | null = null;
   private readonly tmp = new Vector3();
 
   get root() {
@@ -865,14 +869,16 @@ export class WorldView {
         );
         continue;
       }
-      const rect = props.frames.get(frameKey(d.kind, 'front', 0));
+      // R0007: a turned fence, bench or bed shows its three-quarter or end-on frame.
+      const turned = decorFrame(d.kind, d.yaw, yaw);
+      const rect = props.frames.get(turned.key);
       if (!rect) continue;
       const flat = d.kind === 'pathTile';
       batch.draw(
         {
           sheet: props,
           rect,
-          flip: false,
+          flip: turned.flip,
           x: d.pos.x,
           y: flat ? 0.02 : 0,
           z: d.pos.z,
@@ -1291,6 +1297,28 @@ export class WorldView {
       if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
+      // R0035: a grey ✕ flat where a refused tap landed, or a bobbing ⤒ over a ledge.
+      const fl = this.tapPath.flag;
+      const fa = this.tapPath.flagAlpha(nowMs, calm);
+      if (fl && fa > 0) {
+        this.tapFlagSheet ??= buildTapFlagSheet();
+        const up = fl.kind === 'jump';
+        const frect = this.tapFlagSheet.frames.get(frameKey(up ? 'tapJump' : 'tapCant', 'front', 0));
+        const bob = up && !calm ? Math.sin((nowMs / TAP_FLAG.bobMs) * Math.PI * 2) * TAP_FLAG.bob : 0;
+        if (frect)
+          batch.draw({
+            sheet: this.tapFlagSheet,
+            rect: frect,
+            flip: false,
+            x: fl.x,
+            y: fl.y - paintedGround(fl.x, fl.z) + (up ? TAP_FLAG.lift + bob : 0.02),
+            z: fl.z,
+            mode: up ? 'billboard' : 'flat',
+            w: TAP_FLAG.size,
+            h: TAP_FLAG.size,
+            opacity: fa,
+          });
+      }
     }
     const jclip =
       kpose?.clip || kHeld || krideRect ? null : this.keeperJumpClip(world, nowMs, off - floor);
