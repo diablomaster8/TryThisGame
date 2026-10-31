@@ -62,6 +62,7 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
 }
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { buzz } from './platform/haptics';
 import { PixelGovernor } from './render/pixel-gov';
 import { FAST_TIME } from './config/tuning-r8d-perf';
 import { dedupeEvents } from './ui/event-dedupe';
@@ -564,6 +565,9 @@ export class Game {
       canGrab: (id) => this.canGrab(id),
       send: (cmd) => this.send(cmd),
       onSelect: (id) => this.hooks.onSelect(id),
+      // TECH-30: a tap on the carried Nubbin puts it down; a long press lift buzzes.
+      carrying: () => this.world.keeper.carrying,
+      haptic: (name) => void buzz(name, this.world.settings, this.reduceMotion),
       // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
       pad: {
         coop: () => this.world.coop.active,

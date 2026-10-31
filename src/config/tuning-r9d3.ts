@@ -25,3 +25,11 @@ export const SLOT_TRASH = {
   holdMs: 1500,
   keepMs: 7 * 24 * 60 * 60 * 1000,
 } as const;
+
+/** TECH-30: per-pointer press thresholds and the long press. */
+export const POINTER_INPUT = {
+  /** Movement (px) that turns a press into a drag, by pointer type; others use INPUT's. */
+  dragPx: { mouse: 6, touch: 14, pen: 8 } as Readonly<Record<string, number>>,
+  /** A touch or pen press held this long without moving lifts the Nubbin under it. */
+  longPressMs: 450,
+} as const;
