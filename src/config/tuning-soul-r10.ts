@@ -53,3 +53,23 @@ export const RIVALS = {
 
 /** R0541 (SOUL-23): what the Keeper did that a Nubbin remembers for a while. */
 export type CareKind = 'pet' | 'hug' | 'feed' | 'throw' | 'drop' | 'ignore';
+
+/** R0542 (SOUL-24), the r10 half: a Sun Nubbin tidies a stray toy back to the toy corner. */
+export const TIDY = {
+  /** The toy corner, by the cottage's door (pushed clear of any solid when used). */
+  spot: { x: -3.5, z: 17.5 },
+  /** A toy this far from the corner counts as stray; one within `nearSpot` is tidied. */
+  strayFrom: 6,
+  nearSpot: 1.5,
+  /** Only toys within this of the Nubbin. */
+  fetchRadius: 8,
+  /** Per idle choice, at full strength (a hinting child half, its own Grove ×1.5). */
+  chance: 0.15,
+  /** Each leg (to the toy, then pushing it home) may take this long before it gives up. */
+  legMs: 12_000,
+  /** The push is slower than a walk, and the toy rolls this far in front of it. */
+  pushSpeed: 0.7,
+  ahead: 0.45,
+  /** Pleased with itself after: happiness. */
+  happiness: 2,
+} as const;

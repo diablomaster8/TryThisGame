@@ -25,6 +25,8 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       // R0538 (lane A r10): rivals huff at each other; making up is a hug.
       if (id === 'rivalPuff') return 'puff';
       if (id === 'makeUpHug') return 'heart';
+      // R0542 (lane A r10): tidying a toy home, and the pleased look after.
+      if (id.startsWith('tidy')) return 'star';
       return null;
     case 'wander':
       if (id === 'hum') return 'note';
