@@ -28,12 +28,17 @@ import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
 import type { SimEvent } from '../sim/types';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
+import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { HollowScroll, ShareCard } from './hollow-scroll';
 import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
 import { cellCentre, runFloor } from '../sim/dungeon';
 import { screenBearing } from './hud-world-math';
 import { tzOf } from '../sim/local-time';
+import { dailyChainLine, questChipText, roundNineCToast } from './hollow-r9-c';
+import { guideOn, hollowKid } from '../sim/dungeon-kid';
+import { HollowPhoneBar } from './hollow-phone';
+import { HOLLOW_R9D_TEXT as R9D } from '../config/strings-hollow-r9-d';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -46,6 +51,9 @@ export class DungeonMenu {
   private readonly bar: HTMLDivElement;
   private readonly barText: HTMLSpanElement;
   private readonly map: HollowMap;
+  /** R0193: the phone's one-thumb bar, and End trip (under its More on a phone). */
+  private readonly phone: HollowPhoneBar;
+  private readonly endBtn: HTMLButtonElement;
   /** Shrine buffs (R0159). */
   private readonly buffs = new BuffRing();
   private readonly acts: HTMLDivElement;
@@ -128,12 +136,8 @@ export class DungeonMenu {
     this.bar = el('div', 'hollow-bar');
     this.bar.hidden = true;
     this.barText = el('span');
-    this.bar.append(
-      this.barText,
-      this.buffs.root,
-      this.buffs.announcer,
-      button(HOLLOW_R6_TEXT.endTrip, () => this.endTrip(), 'btn btn-small'),
-    );
+    this.endBtn = button(HOLLOW_R6_TEXT.endTrip, () => this.endTrip(), 'btn btn-small hollow-end');
+    this.bar.append(this.barText, this.buffs.root, this.buffs.announcer, this.endBtn);
     // Underground: the stone the Keeper stands on, and the Homing Acorn (R0148, R0150).
     this.stoneBtn = button(
       HOLLOW_TEXT.waypointButton,
@@ -216,6 +220,27 @@ export class DungeonMenu {
     this.map = new HollowMap(this.bar);
     this.bar.insertBefore(this.map.toggle, this.map.panel);
     parent.appendChild(this.bar);
+    // R0193: underground on a phone, a one-thumb bar of five replaces the grove tabs.
+    this.phone = new HollowPhoneBar(parent, game, {
+      map: () => this.map.phoneTap(),
+      acorn: () => this.game()?.send({ kind: 'useAcorn' }),
+      acornState: (world) => ({
+        label: this.acornBtn.textContent ?? '',
+        disabled: !canUseAcorn(world),
+        hidden: !!world.dungeon?.story,
+      }),
+      sack: () => this.gear.open(),
+      contextual: [
+        this.endBtn,
+        this.stoneBtn,
+        this.serviceBtn,
+        this.mouthBtn,
+        this.portalBtn,
+        this.calmBtn,
+        this.snackBtn,
+        this.sneakBtn,
+      ],
+    });
   }
 
   open(): void {
@@ -232,6 +257,9 @@ export class DungeonMenu {
       day === dailySeed(g.world.lastWallMs, tzOf(g.world)).day && t!.deepest > 0
         ? HOLLOW_R6_TEXT.today(t!.deepest, clockText(t!.bestMs), t!.finds)
         : HOLLOW_R6_TEXT.todayNone,
+      // R0185 (round 9): today's five-level act chain.
+      el('br'),
+      dailyChainLine(g.world),
     );
     this.party.render(g.world, partyIds(g.world));
     this.listActs(g.world);
@@ -255,8 +283,11 @@ export class DungeonMenu {
       if (e.kind === 'scoutSpotted') {
         const who = world.nubbins.find((n) => n.id === e.nubbinId)?.name ?? '';
         toast(HOLLOW_R8_TEXT.scoutSpotted(who));
-      } else if (e.kind === 'storyScroll')
+      } else if (e.kind === 'hollowFlyLift') toast(R9D.flyLift(e.name));
+      else if (e.kind === 'storyScroll')
         this.scrollWaiting = { act: e.act, since: performance.now() };
+      // Lane B round 9 (helper c): moods, act quests and friends.
+      else roundNineCToast(e, world, toast);
     }
   }
 
@@ -291,6 +322,8 @@ export class DungeonMenu {
     }
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
+    // R0193: the one-thumb bar on a phone.
+    this.phone.refresh(world, !this.bar.hidden);
     this.buffs.refresh(run);
     this.town.refresh(world);
     this.cottage.refresh(world);
@@ -320,7 +353,11 @@ export class DungeonMenu {
           ? HOLLOW_ZONE_TEXT.field(actName)
           : run.zone === 'side'
             ? HOLLOW_ZONE_TEXT.side(actName, (run.side ?? 0) + 1)
-            : DUNGEON_TEXT.floor(run.depth);
+            : run.zone === 'moo'
+              ? SECRETS_R9B_TEXT.placeMoo
+              : run.zone === 'fort'
+                ? SECRETS_R9B_TEXT.placeFort
+                : DUNGEON_TEXT.floor(run.depth);
     this.barText.textContent = `${place} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
     // R0187: the speed run's clock, on the sim clock (it stops when the game does).
     if (world.hollow.speedRun && run.act !== undefined)
@@ -328,6 +365,8 @@ export class DungeonMenu {
     // R0175: what rides in the sack until the next waypoint, camp, acorn or home.
     const sack = sackCount(run);
     if (sack > 0) this.barText.textContent += ` · ${HOLLOW_R6_TEXT.sack(sack)}`;
+    // R0166 (round 9): the act quest on this level.
+    this.barText.textContent += questChipText(world);
     // R0208: the guide's arrow toward the stairs or the unexplored, turned with the camera.
     const hint = guideHint(world, this.game()?.camera.currentYaw ?? 0);
     if (hint) this.barText.textContent += ` · ${hint}`;
@@ -370,11 +409,12 @@ export class DungeonMenu {
     );
     speed.setAttribute('aria-pressed', String(!!world.hollow.speedRun));
     this.acts.append(speed);
-    // R0208: "Show me the way", for anyone, off until switched on.
+    // R0208: "Show me the way", for anyone; off until switched on, on by default in kid mode.
+    const guideIsOn = guideOn(world);
     const guide = button(
-      world.hollow.guide ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
+      guideIsOn ? HOLLOW_R8_TEXT.guideOn : HOLLOW_R8_TEXT.guideOff,
       () => {
-        this.game()?.send({ kind: 'hollowGuide', on: !world.hollow.guide });
+        this.game()?.send({ kind: 'hollowGuide', on: !guideIsOn });
         setTimeout(() => {
           const g = this.game();
           if (g && this.dialog.isOpen()) this.listActs(g.world);
@@ -382,9 +422,25 @@ export class DungeonMenu {
       },
       'btn btn-small hollow-tier',
     );
-    guide.setAttribute('aria-pressed', String(!!world.hollow.guide));
+    guide.setAttribute('aria-pressed', String(guideIsOn));
     guide.title = HOLLOW_R8_TEXT.guideHelp;
     this.acts.append(guide);
+    // R0188: kid mode; a Learning Grove keeps it on.
+    const kid = button(
+      world.edu ? R9D.kidEdu : hollowKid(world) ? R9D.kidOn : R9D.kidOff,
+      () => {
+        this.game()?.send({ kind: 'hollowKid', on: !hollowKid(world) });
+        setTimeout(() => {
+          const g = this.game();
+          if (g && this.dialog.isOpen()) this.listActs(g.world);
+        }, 250);
+      },
+      'btn btn-small hollow-tier',
+    );
+    kid.disabled = !!world.edu;
+    kid.setAttribute('aria-pressed', String(hollowKid(world)));
+    kid.title = R9D.kidHelp;
+    this.acts.append(kid, el('small', 'help', R9D.kidHelp));
     ACTS.forEach((act, i) => {
       const text = ACT_TEXT[act.id]!;
       const open = actOpen(world, i);

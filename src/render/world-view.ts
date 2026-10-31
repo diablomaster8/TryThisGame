@@ -12,6 +12,7 @@ import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import { friendOf, friendWalking } from '../sim/dungeon-friends';
 import { rumbleOpen } from '../sim/dungeon-rumble';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
@@ -102,6 +103,7 @@ import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
+import { PixelHollowR9a } from './hollow-r9a';
 
 interface Snapshot {
   pos: Vec2;
@@ -196,6 +198,8 @@ export class WorldView {
   private readonly liveStrays = new Set<string>();
   /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
   private readonly hollowPacks = new PixelHollowPacks();
+  /** Lane B r9 (a): light ring, guide prints, acorn portal (R0190, R0208, R0150). */
+  private readonly hollowR9a = new PixelHollowR9a();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -499,6 +503,7 @@ export class WorldView {
       this.burstFor(e);
       if (e.kind === 'gearFound')
         this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
+      if (e.kind === 'portalReturned') this.hollowR9a.portalReturned(nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
         // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
@@ -1178,6 +1183,17 @@ export class WorldView {
     }
 
     if (cave && run) this.drawCave(cave, run, world, nowMs, yaw, alpha, shadow);
+    // Lane B r9 (a): the light ring, guide prints and acorn portal (render/hollow-r9a.ts).
+    {
+      const r9 = {
+        batch,
+        sheets: this.sheets,
+        nowMs,
+        reduceMotion: this.particles.reduceMotion,
+      };
+      if (cave && run) this.hollowR9a.drawCave(cave, run, world, r9);
+      else if (home) this.hollowR9a.drawGrove(world, r9);
+    }
 
     // Items.
     const seenItems = this.seenItems;
@@ -1500,6 +1516,27 @@ export class WorldView {
           tint: this.dim,
         });
       }
+    }
+    // R0181 (lane B round 9): a friend hired at a camp walks with the party underground.
+    const friend = runFloor(world) ? friendOf(world) : null;
+    if (friend) {
+      const fsheet = this.sheets.keeper(friend.trainer, 'sun');
+      const fwalk = friendWalking(world, friend);
+      const fclip: ClipName = fwalk ? 'walk' : 'idle';
+      const fview = viewAngle(friend.facing, yaw);
+      const frect = fsheet.frames.get(frameKey(fclip, fview.angle, frameAt(CLIPS[fclip], nowMs)));
+      shadow(friend.pos.x, 0, friend.pos.z, 0.45, 0);
+      if (frect)
+        batch.draw({
+          sheet: fsheet,
+          rect: frect,
+          flip: fview.flip,
+          x: friend.pos.x,
+          y: 0,
+          z: friend.pos.z,
+          mode: 'billboard',
+          tint: this.dim,
+        });
     }
     // MOVE-46: the step's surface; a deck or a bench top leaves no dust, grass a tuft.
     this.footfall.step(world, kx, kz);
@@ -2671,6 +2708,7 @@ export class WorldView {
   dispose(): void {
     this.batchLazy?.dispose();
     this.hollowPacks.dispose();
+    this.hollowR9a.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }

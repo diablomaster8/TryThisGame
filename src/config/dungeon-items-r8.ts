@@ -144,7 +144,9 @@ export type RecipeId =
   | 'add-socket'
   | 'essence-critter'
   | 'set-swap'
-  | 'pillow-fort';
+  | 'pillow-fort'
+  // Lane B r9 (R0189): Gran's Teaspoon + a milk bell.
+  | 'moo-meadow';
 
 /** The recipe book's order. */
 export const RECIPES: readonly RecipeId[] = [
@@ -155,6 +157,7 @@ export const RECIPES: readonly RecipeId[] = [
   'essence-critter',
   'set-swap',
   'pillow-fort',
+  'moo-meadow',
 ];
 
 // ------------------------------------------------------------------- R0183: the key set

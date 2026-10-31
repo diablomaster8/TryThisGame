@@ -57,7 +57,7 @@ export function goToLevel(
   delete run.zone;
   delete run.side;
   run.depth = depth;
-  run.genVersion = run.story ? 2 : HOLLOW.genVersion;
+  run.genVersion = run.story && run.genVersion <= 2 ? 2 : HOLLOW.genVersion;
   const f = floorOfRun(run);
   populate(run, f);
   restoreLevel(run);
@@ -166,6 +166,8 @@ export function canUseAcorn(world: World): boolean {
     return false;
   // A camp is already the safe place an acorn would take you to (R0152).
   if (run.zone === 'town') return false;
+  // Lane B r9: a secret level's stairs up already lead to the camp; no portal back into one.
+  if (run.zone === 'moo' || run.zone === 'fort') return false;
   return !run.acornUsed || world.hollow.acorns > 0;
 }
 

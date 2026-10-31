@@ -1,5 +1,6 @@
 import { waypointCell, waypointHere } from '../sim/dungeon-levels';
 import { foundSecrets } from '../sim/dungeon-secrets';
+import { actQuestMarks } from '../sim/dungeon-quests';
 import '../dungeon.css';
 import { HOLLOW_AUTOMAP_TEXT as A, HOLLOW_MAP_TEXT as T } from '../config/strings';
 import { DUNGEON, GROVE3D, HOLLOW } from '../config/tuning';
@@ -21,6 +22,8 @@ import { screenBearing } from './hud-world-math';
 import { footprints, guidePath } from '../sim/dungeon-guide';
 import { ghostTrail } from '../sim/dungeon-speed';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
+import { guideOn } from '../sim/dungeon-kid';
+import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 
 /**
  * The Hollow's maps (item 40, R0154), drawn from the sim's explored mask so they work in
@@ -151,6 +154,8 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
     if (seen(s.cell)) out.push(at('shrine', s.cell, run.shrinesUsed?.includes(s.id) ?? false));
   // Lane B r8: found secret rooms (R0182), at their mouth.
   for (const s of foundSecrets(run, f)) out.push(at('secret', s.door[0]!));
+  // R0166 (round 9): each act quest's goal on this level, seen or not, as a "!".
+  for (const c of actQuestMarks(world, run, f)) out.push(at('quest', c));
   // Strays once seen (R0162), where they are now.
   for (const s of run.strays) if (s.seen) out.push({ kind: 'stray', ...cellPoint(f, s.pos) });
   for (const id of run.party) {
@@ -440,6 +445,12 @@ export class HollowMap {
     // Collapsed by default on a phone-sized screen, where the cave matters more.
     const C = HOLLOW.automap;
     this.mode = window.innerWidth >= C.phoneW && window.innerHeight >= C.phoneH ? 'corner' : 'off';
+    // R0193 (lane B r9): a narrow phone gets the small round corner map instead (CSS), and a
+    // tap on it opens the full map.
+    if (window.innerWidth <= HOLLOW_R9D.phone.maxWidth) this.mode = 'corner';
+    this.canvas.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('hollow-phone')) this.phoneTap();
+    });
     this.labelToggle();
     window.addEventListener('keydown', (e) => {
       if (!this.underground) return;
@@ -452,6 +463,11 @@ export class HollowMap {
         if (!e.repeat) this.set(this.mode === 'overlay' ? this.beforeOverlay : 'overlay');
       }
     });
+  }
+
+  /** R0193: the phone bar's 🗺 and a tap on the round map: the full map, or back. */
+  phoneTap(): void {
+    this.set(this.mode === 'overlay' ? 'corner' : 'overlay');
   }
 
   /** The phone's way: off → corner → overlay → off. */
@@ -532,7 +548,7 @@ export class HollowMap {
     const h = window.innerHeight;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const k = cellPoint(f, world.keeper.pos);
-    const assists = `${!!world.hollow.guide}:${!!world.hollow.speedRun}`;
+    const assists = `${guideOn(world)}:${!!world.hollow.speedRun}`;
     const key = `${run.seed}:${run.depth}:${run.explored}:${marks
       .map((m) => `${m.x.toFixed(2)},${m.y.toFixed(2)}`)
       .join(';')}:${yaw.toFixed(3)}:${w}x${h}@${dpr}:${run.chestOpen}:${assists}`;
@@ -569,7 +585,7 @@ export class HollowMap {
       .filter((m) => m.kind === 'party')
       .map((m) => `${Math.floor(m.x)},${Math.floor(m.y)}`)
       .join(';');
-    const assists = `${!!world.hollow.guide}:${!!world.hollow.speedRun}`;
+    const assists = `${guideOn(world)}:${!!world.hollow.speedRun}`;
     const level = `${run.seed}:${run.depth}:${run.explored}`;
     const keyR8 = `${level}:${kc.x},${kc.y}:${run.chestOpen}:${party}:${assists}`;
     if (keyR8 === this.key) return;

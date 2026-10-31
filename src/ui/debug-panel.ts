@@ -14,6 +14,7 @@ import { button, el } from './dom';
 import { StageInspector } from './stage-inspector';
 import { MOVE_TEXT } from '../config/strings-move';
 import { DEBUG_OVERLAY } from '../render/debug-colliders';
+import { pieceEditor } from './debug-pieces';
 import { TACTICS_TEXT } from '../config/strings-tactics';
 import { COMIC_SOUNDS, playSound } from '../platform/audio';
 import { battleDebugControls } from './battle-debug';
@@ -276,6 +277,8 @@ export class DebugPanel {
     this.root.appendChild(overlays);
 
     this.root.appendChild(worldControls(game));
+    // R0210 (lane B r9): the Hollow piece editor.
+    this.root.appendChild(pieceEditor());
 
     // R0301: the comic sound palette, one button each, for an ear test.
     const comic = el('div', 'debug-row');

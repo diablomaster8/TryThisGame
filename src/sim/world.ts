@@ -115,6 +115,7 @@ import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
 import { setHollowParty } from './dungeon-party';
 import { setHollowRole } from './dungeon-roles';
+import { setGuide, setHollowKid } from './dungeon-kid';
 import {
   dungeonGo,
   encounterDone,
@@ -133,6 +134,8 @@ import { takeFromStash } from './dungeon-sack';
 import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
 import { stepGearNeeds } from './dungeon-gear-effects';
+import { dismissFriend, hireFriend } from './dungeon-friends';
+import { takeActQuest } from './dungeon-quests';
 import { itemsCommand } from './dungeon-items';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -922,6 +925,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'socketCharm':
     case 'unsocketCharms':
     case 'wheelbarrowMix':
+    case 'enterHollowSecret':
       itemsCommand(world, cmd, events);
       return;
     // Lane B round 7: difficulty tiers (R0179).
@@ -938,8 +942,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       setHollowRole(world, cmd.id, cmd.role);
       return;
     case 'hollowGuide':
-      if (cmd.on) world.hollow.guide = true;
-      else delete world.hollow.guide;
+      setGuide(world, cmd.on);
+      return;
+    case 'hollowKid':
+      setHollowKid(world, cmd.on);
+      return;
+    // Lane B round 9 (helper c): act quests (R0166) and friends for hire (R0181).
+    case 'hollowR9':
+      if (cmd.what === 'quest') takeActQuest(world, cmd.id, events);
+      else if (cmd.what === 'hire') hireFriend(world, cmd.id, events);
+      else dismissFriend(world, events);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

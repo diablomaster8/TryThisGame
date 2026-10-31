@@ -7,6 +7,7 @@ import { DIGI2_LABELS } from './strings-digi2';
 
 import { GEN1A_LABELS } from './strings-gen1a';
 import { MORE_CRITTER_LABELS } from './strings-look';
+import { HOLLOW_R9C_QUEST_TEXT } from './strings-hollow-r9-c';
 
 export const NAMES = {
   game: 'Grove',
@@ -724,6 +725,8 @@ export const UI_TEXT = {
     expedition: (n: number) => `Come back from ${plural(n, 'Expedition')}`,
     gather: (n: number) => `Gather ${n} materials`,
     hollow: (n: number) => `Go down ${plural(n, 'floor')} in the Hollow`,
+    // Lane B round 9 (R0165): the Hollow's one-time asks.
+    ...HOLLOW_R9C_QUEST_TEXT,
   },
   questFrom: (who: string) => `from ${who}`,
   claim: 'Claim',
@@ -1544,3 +1547,4 @@ export * from './strings-r8d-perf';
 export * from './strings-move-r10';
 export * from './strings-soul-r10b';
 export * from './strings-kids-r10'; /* Lane E r10 kids UI */
+export * from './strings-hollow-r9-c';

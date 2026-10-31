@@ -4,13 +4,22 @@
  */
 import { socketCharm, unsocketCharms } from './dungeon-charms';
 import { stashMove, stashPut } from './dungeon-stash';
+import { enterSecret } from './dungeon-secret-levels';
 import { mixWheelbarrow } from './dungeon-wheelbarrow';
 import { withRng } from './world';
 import type { Command, SimEvent, World } from './types';
 
 type ItemsCommand = Extract<
   Command,
-  { kind: 'stashPut' | 'stashMove' | 'socketCharm' | 'unsocketCharms' | 'wheelbarrowMix' }
+  {
+    kind:
+      | 'stashPut'
+      | 'stashMove'
+      | 'socketCharm'
+      | 'unsocketCharms'
+      | 'wheelbarrowMix'
+      | 'enterHollowSecret';
+  }
 >;
 
 export function itemsCommand(world: World, cmd: ItemsCommand, events: SimEvent[]): void {
@@ -29,6 +38,10 @@ export function itemsCommand(world: World, cmd: ItemsCommand, events: SimEvent[]
       return;
     case 'wheelbarrowMix':
       withRng(world, (rng) => mixWheelbarrow(world, cmd.slots, rng, events));
+      return;
+    // Lane B r9: through a secret level's portal (R0189, R0183).
+    case 'enterHollowSecret':
+      enterSecret(world, cmd.where, events);
       return;
   }
 }

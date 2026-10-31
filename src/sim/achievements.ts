@@ -1,4 +1,5 @@
 import { ACHIEVEMENTS, BYTE_WATCHES } from '../config/tuning';
+import { secretTitles } from './dungeon-secret-levels';
 import { ACHIEVEMENT_TEXT } from '../config/strings-badges';
 import { byteWatches } from './byte-watches';
 import { allKeys } from './collection';
@@ -162,5 +163,10 @@ export function stepAchievements(world: World, events: SimEvent[], dtMs?: number
 }
 
 export function titlesEarned(world: World): string[] {
-  return ACHIEVEMENT_LIST.filter((a) => world.achievements[a.id] !== undefined).map((a) => a.title);
+  return (
+    ACHIEVEMENT_LIST.filter((a) => world.achievements[a.id] !== undefined)
+      .map((a) => a.title)
+      // Lane B r9 (R0183): the Pillow Champion.
+      .concat(secretTitles(world))
+  );
 }

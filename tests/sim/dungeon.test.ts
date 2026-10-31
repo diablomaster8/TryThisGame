@@ -11,6 +11,7 @@ import {
   floorSize,
   lootOnFloor,
   resolveDungeon,
+  runFloor,
   WALL,
 } from '../../src/sim/dungeon';
 import { shellPay } from '../../src/sim/dungeon-economy';
@@ -187,7 +188,8 @@ describe('a run', () => {
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'enterDungeon', daily: true }, events);
     const run = world.dungeon!;
-    const f1 = floorOf(run.seed, 1);
+    // R0185 (round 9): today's Hollow is an act-styled chain, so read the run's own floor.
+    const f1 = runFloor(world)!;
     // Chest: tap it from afar, walk there, it opens on arrival; a second tap does nothing.
     const shellsBefore = world.inventory.shells;
     applyCommand(world, { kind: 'dungeonGo', to: 'chest' }, events);
@@ -206,7 +208,7 @@ describe('a run', () => {
     expect(down.length).toBe(1);
     expect(run.depth).toBe(2);
     expect(world.hollow.dailyDepth).toBe(2);
-    const f2 = floorOf(run.seed, 2);
+    const f2 = runFloor(world)!;
     expect(cellOf(f2, world.keeper.pos)).toEqual(f2.stairsUp);
     expect(run.chestOpen).toBe(false);
     // Today's request counts the floor.

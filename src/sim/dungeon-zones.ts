@@ -25,6 +25,8 @@ import {
 } from './dungeon';
 import { rememberLevel, restoreLevel, waypointCell } from './dungeon-levels';
 import { fieldFloor, sideFloor } from './dungeon-outdoor';
+import { fortFloor, mooFloor } from './dungeon-secret-floors';
+import { secretStairs } from './dungeon-secret-levels';
 import { townFloor } from './dungeon-towns';
 import type { Rng } from './rng';
 import type { DungeonRun, DungeonZone, SimEvent, World } from './types';
@@ -34,6 +36,9 @@ export function zoneFloor(run: DungeonRun): Floor | null {
   if (!run.zone || run.act === undefined) return null;
   if (run.zone === 'town') return townFloor(run.act);
   if (run.zone === 'field') return fieldFloor(run.seed, run.act);
+  // Lane B r9: the secret levels (R0189, R0183).
+  if (run.zone === 'moo') return mooFloor(run.seed, run.act);
+  if (run.zone === 'fort') return fortFloor(run.seed, run.act);
   return sideFloor(run.seed, run.act, run.side ?? 0);
 }
 
@@ -112,6 +117,10 @@ export function zoneStairs(
   if (run.zone === 'town') {
     if (dir === 'up') return false;
     goToZone(world, run, 'field', 'up', events);
+    return true;
+  }
+  if (run.zone === 'moo' || run.zone === 'fort') {
+    secretStairs(world, run, dir, events);
     return true;
   }
   if (run.zone === 'field') {

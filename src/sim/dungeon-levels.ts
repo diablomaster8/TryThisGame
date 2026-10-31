@@ -113,7 +113,8 @@ export function waypointHere(
 ): string | null {
   if (run.act === undefined || run.story) return null;
   // Camps and fields have a stone; side caves do not.
-  if (run.zone) return run.zone === 'side' ? null : levelIdOf(run);
+  // Lane B r9: nor do the secret levels (one visit at a time, through the camp's portal).
+  if (run.zone) return run.zone === 'town' || run.zone === 'field' ? levelIdOf(run) : null;
   const level = run.depth - actStartDepth(run.act) + 1;
   return hasWaypoint(run.act, level) ? levelIdOf(run) : null;
 }

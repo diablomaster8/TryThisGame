@@ -20,7 +20,7 @@ import { KEEPER_POOF } from '../config/tuning-move-r10';
 import { WATER_LEVEL } from '../sim/terrain';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
-import { bandFor } from '../render/cave-bands';
+import { actLookOf, bandFor, bandForFloor } from '../render/cave-bands';
 import { daylightAt, type Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
 import { bigBubbles } from '../render/emote-size';
@@ -38,6 +38,7 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
 import { GearPop3D } from './hollow-gear-pop';
+import { HollowR9a3D } from './hollow-r9a-3d';
 import { crackWarmObject } from './egg-crack';
 import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
@@ -315,6 +316,8 @@ export class Grove3dScene {
   private readonly bursts: Bursts;
   /** Lane B r8 (R0163): a found piece's rarity shape pops over the Keeper. */
   private readonly gearPop: GearPop3D;
+  /** Lane B r9 (a): light ring, guide prints, acorn portal (R0190, R0208, R0150). */
+  private readonly r9a: HollowR9a3D;
   private readonly garden: Garden;
   private readonly hollow: Hollow;
   private readonly halo: Halo;
@@ -546,6 +549,7 @@ export class Grove3dScene {
     };
     this.bursts = new Bursts(this.scene);
     this.gearPop = new GearPop3D(this.scene);
+    this.r9a = new HollowR9a3D(this.scene);
     /* Lane E r9 */ this.actors.sigFx = new SignatureFx(this.bursts);
     /* Lane E r10 */ this.actors.cryFx = new CryTears(this.bursts);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
@@ -710,7 +714,14 @@ export class Grove3dScene {
     this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
     // Underground there is no sky: a mid-tone vault, a cool fill, the torches.
     this.sky.sky.visible = !cave;
-    const band = bandFor(place === 'dungeon' ? (this.lastWorld?.dungeon?.depth ?? 1) : 1);
+    // R0190: an act's caves wear its look over the depth band, and tint the Keeper's lamp.
+    const band =
+      place === 'dungeon'
+        ? bandForFloor(this.floor, this.lastWorld?.dungeon?.depth ?? 1)
+        : bandFor(1);
+    this.hollow.lamps.keeperColor.set(
+      (place === 'dungeon' && actLookOf(this.floor)?.lamp) || GROVE3D.cave.light.keeper.color,
+    );
     if (cave) {
       // The cave light rig (Hollow recommendations items 2, 3, 8 and 21): the floor's depth
       // band colours a cool-over-warm fill, a coloured key and a mid-tone fog the distance
@@ -887,6 +898,7 @@ export class Grove3dScene {
         continue;
       }
       if (e.kind === 'gearFound') this.gearPop.push(e.item.rarity, now);
+      if (e.kind === 'portalReturned') this.r9a.portalReturned(now);
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
@@ -1775,6 +1787,7 @@ export class Grove3dScene {
       this.actors.keeperFeetY(),
       this.reduceMotion,
     );
+    this.r9a.update(world, nowMs, this.actors.keeperPosition(), this.reduceMotion, standHeight);
 
     // Grass parting under the creatures nearest the camera.
     this.nearPushers.begin(this.camPos.x, this.camPos.z);
@@ -2119,6 +2132,7 @@ export class Grove3dScene {
     this.actors.dispose();
     this.bursts.dispose();
     this.gearPop.dispose();
+    this.r9a.dispose();
     this.sky.dispose();
     this.composer.dispose();
     this.renderer.dispose();

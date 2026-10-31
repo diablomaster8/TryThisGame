@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { packPlate } from '../render/hollow-packs-pixel';
+import { uniqueScale } from '../render/sprites/unique-art';
 import { elevationAt, type Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
 import { disposeObjects, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
@@ -12,7 +13,7 @@ import { disposeObjects, type HollowCtx, type HollowFrame, type HollowModule } f
  */
 export class HollowPlates implements HollowModule {
   private readonly objs: THREE.Object3D[] = [];
-  private plates: Array<{ id: string; sprite: THREE.Sprite }> = [];
+  private plates: Array<{ id: string; sprite: THREE.Sprite; lift: number }> = [];
   private floor: Floor | null = null;
 
   build(f: Floor, ctx: HollowCtx): void {
@@ -26,7 +27,8 @@ export class HollowPlates implements HollowModule {
       sprite.visible = false;
       ctx.group.add(sprite);
       this.objs.push(sprite);
-      this.plates.push({ id: p.id, sprite });
+      // A unique's leader stands a size up (R0156), so its plate rides higher.
+      this.plates.push({ id: p.id, sprite, lift: LIFT * uniqueScale(p.unique) });
     }
   }
 
@@ -44,7 +46,7 @@ export class HollowPlates implements HollowModule {
   update(_t: number, keeper: { x: number; z: number }, fr: HollowFrame): void {
     const f = this.floor;
     const run = fr.run;
-    for (const { id, sprite } of this.plates) {
+    for (const { id, sprite, lift } of this.plates) {
       const live = run?.packs?.find((p) => p.id === id);
       const show =
         fr.on &&
@@ -54,7 +56,7 @@ export class HollowPlates implements HollowModule {
         live.state !== 'beaten' &&
         actorShown(run, f, keeper, live.pos);
       sprite.visible = show;
-      if (show) sprite.position.set(live!.pos.x, elevationAt(f!, live!.pos) + LIFT, live!.pos.z);
+      if (show) sprite.position.set(live!.pos.x, elevationAt(f!, live!.pos) + lift, live!.pos.z);
     }
   }
 }

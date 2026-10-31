@@ -11,6 +11,8 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { bravePower } from './dungeon-gear-effects';
+import { GEAR_EFFECTS } from '../config/dungeon-items-r8';
+import { friendBrave, friendPower } from './dungeon-friends';
 import { packKeyWin } from './dungeon-keys';
 import { arenaFor, type HollowArena } from './dungeon-arena';
 import { fightFlag, noteFinalBoss } from './dungeon-tiers';
@@ -18,6 +20,7 @@ import { noteActTime } from './dungeon-speed';
 import { noteStoryScroll } from './dungeon-log';
 import { shellPay } from './dungeon-economy';
 import { uniqueBeaten } from './dungeon-uniques';
+import { secretPackWon } from './dungeon-secret-levels';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { bossAnteroom } from './dungeon-secrets';
 import { noteFight } from './dungeon-log';
@@ -243,8 +246,13 @@ function partyPower(world: World, run: DungeonRun): number {
       levelOf(s.fly.points);
     power += E.memberBase + sum / 5;
   }
-  // The Keeper counts for one small Nubbin.
-  return power + E.memberBase + bravePower(world, run.party);
+  // The Keeper counts for one small Nubbin; R0181 (round 9): a hired friend for another.
+  return (
+    power +
+    E.memberBase * (1 + friendPower(world)) +
+    bravePower(world, run.party) +
+    friendBrave(world) * GEAR_EFFECTS.bravePower
+  );
 }
 
 /** The stub until FIGHT lands: the party's weight against the pack's, then a seeded roll. */
@@ -367,14 +375,15 @@ export function encounterSpec(
     tier: pack.tier,
     ...(pack.kind === 'boss' ? { phases: bossPhases(run.act) } : {}),
     // R0179: the run's tier, as FIGHT's assist flag.
-    fight: fightFlag(run.difficulty),
+    fight: run.kid ? 'gentle' : fightFlag(run.difficulty),
     ...braveOf(world, run.party),
   };
 }
 
 /** Each party Nubbin's Brave (its own gear plus the Keeper's), or nothing when none has any. */
 function braveOf(world: World, party: string[]): { brave?: Record<string, number> } {
-  const keeper = gearStat(world, 'brave');
+  // R0181 (round 9): a hired friend cheers every party Nubbin on.
+  const keeper = gearStat(world, 'brave') + friendBrave(world);
   const brave: Record<string, number> = {};
   for (const id of party) {
     const b = keeper + gearStat(world, 'brave', id);
@@ -474,6 +483,8 @@ export function finishEncounter(
     // R0163: the pack's drop table, seeded by the run, the level and the pack.
     const drops = Rng.fromSeed(`${run.seed}:${run.depth}:${run.act ?? -1}:${packId}:drops`);
     rollDrops(world, drops, spec.reward, spec.members[0]?.level ?? run.depth, events);
+    // Lane B r9: the secret levels' prizes and the meadow's keepsakes (R0189, R0183).
+    secretPackWon(world, run, spec, drops, events);
     if (spec.unique) uniqueBeaten(world, run, spec, events);
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;

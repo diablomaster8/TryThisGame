@@ -905,7 +905,10 @@ export interface DungeonRun {
   };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
-  /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
+  /**
+   * A storyline's fixed floor. R0197: new ones are authored story floors; a run saved on
+   * generator version 2 stays on version 2 all the way down.
+   */
   story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
@@ -920,6 +923,8 @@ export interface DungeonRun {
   zone?: DungeonZone;
   /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
   side?: number;
+  /** Lane B r9: secret levels already visited on this run (each opens once a run). */
+  secretsVisited?: HollowSecret[];
   /**
    * Rumble rooms (R0257, R0282): level ids whose room is won, and the one the Keeper must
    * step out of before it starts again (after a loss, or a start nobody could fight).
@@ -960,10 +965,43 @@ export interface DungeonRun {
   seals?: string[];
   /** R0202: puzzle progress by seal id (block cells, or torches lit). */
   puzzles?: Record<string, number[]>;
+  // Lane B round 9.
+  /** R0188: a kid run: small floors, no traps, gentle packs. */
+  kid?: true;
+  /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
+  flyLiftDepth?: number;
+  // Lane B round 9 (helper c).
+  /** R0185: today's shared act chain uses this act's look (absent: the old endless daily). */
+  dailyAct?: number;
+  /** R0167: this level's personality moments (who borrowed, napped, hid), reset each level. */
+  moods?: HollowMoods;
+  /** R0181: the camp friend who came along for this trip. */
+  friend?: HollowFriend;
+}
+
+/** R0167: one level's personality moments underground (lane B round 9). */
+export interface HollowMoods {
+  level: string;
+  borrowed?: true;
+  napped?: true;
+  hid?: string[];
+  stillMs?: number;
+  last?: Vec2;
+  nap?: { id: string; atMs: number };
+  healed?: true;
+}
+
+/** R0181: a Keeper-friend hired at a camp for one trip (lane B round 9). */
+export interface HollowFriend {
+  trainer: string;
+  pos: Vec2;
+  facing: number;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
-export type DungeonZone = 'town' | 'field' | 'side';
+export type DungeonZone = 'town' | 'field' | 'side' | 'moo' | 'fort';
+/** Lane B r9 (R0189, R0183): the two secret levels a wheelbarrow mix opens. */
+export type HollowSecret = 'moo' | 'fort';
 
 /** A Hollow level as the Keeper left it (R0151). */
 export interface LevelState {
@@ -1354,8 +1392,15 @@ export interface World {
     roles?: Record<string, HollowRole>;
     /** R0207: acts whose "Story so far" scroll has been shown. */
     scrolls?: number[];
-    /** R0208: the "Show me the way" guide (off by default). */
+    /** R0208: the "Show me the way" guide (off by default; on by default in kid mode). */
     guide?: boolean;
+    // Lane B round 9 (helper c, optional, no save bump).
+    /** R0165: secret rooms found for good, by `levelId:sealId`. */
+    secrets?: string[];
+    /** R0166: act quests taken on ('active') and finished ('done'), by `ACT_QUESTS` id. */
+    actQuests?: Record<string, 'active' | 'done'>;
+    /** Lane B r9 (R0188): kid mode for new Hollow runs (always on in a Learning Grove). */
+    kid?: boolean;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1647,10 +1692,16 @@ export type Command =
   | { kind: 'socketCharm'; itemId: string; charm: string }
   | { kind: 'unsocketCharms'; itemId: string }
   | { kind: 'wheelbarrowMix'; slots: BarrowSlot[] }
+  /** Lane B r9: through an opened secret's portal, from the camp (R0189, R0183). */
+  | { kind: 'enterHollowSecret'; where: HollowSecret }
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowSpeedRun'; on: boolean }
   | { kind: 'setHollowRole'; id: string; role: HollowRole | null }
   | { kind: 'hollowGuide'; on: boolean }
+  // Lane B round 9 (helper c): take an act quest (R0166), hire or send home a friend (R0181).
+  | { kind: 'hollowR9'; what: 'quest' | 'hire' | 'dismiss'; id: string }
+  // Lane B r9 (R0188): kid mode at the cave mouth.
+  | { kind: 'hollowKid'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1752,6 +1803,8 @@ export type SimEvent =
   | { kind: 'bushRustle'; id: string; x: number; z: number; leaves: boolean; found: boolean }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
+  // Lane B r9 (R0191): a flying party Nubbin lifted the Keeper onto a raised shelf.
+  | { kind: 'hollowFlyLift'; name: string }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.
@@ -2011,6 +2064,24 @@ export type SimEvent =
     }
   | { kind: 'hollowBossDoor'; sealed: boolean }
   | { kind: 'scoutSpotted'; packId: string; nubbinId: string }
+  /** Lane B round 9 (helper c): personality moments (R0167), act quests (R0166), friends
+   * (R0181). `id` is a Nubbin, quest or trainer id; `n` a Shell count where one is paid. */
+  | {
+      kind: 'hollowR9';
+      what:
+        | 'hop'
+        | 'hide'
+        | 'borrow'
+        | 'nap'
+        | 'napRest'
+        | 'questTaken'
+        | 'questDone'
+        | 'hired'
+        | 'friendLeft'
+        | 'friendHeal';
+      id: string;
+      n?: number;
+    }
   | { kind: 'storyScroll'; act: number }
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
@@ -2032,7 +2103,11 @@ export type SimEvent =
   | { kind: 'strayCalmed'; ok: boolean; shells: number }
   | { kind: 'gearFound'; item: GearItem }
   /** Lane B round 8, items: a charm, a key, a chain, a mix or the fort (`ui/dungeon-items.ts` words it). */
-  | { kind: 'hollowItems'; what: 'charm' | 'key' | 'chain' | 'mix' | 'noMix' | 'fort'; id: string }
+  | {
+      kind: 'hollowItems';
+      what: 'charm' | 'key' | 'chain' | 'mix' | 'noMix' | 'fort' | 'moo' | 'herd' | 'secret';
+      id: string;
+    }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
@@ -2123,6 +2198,8 @@ export interface GearState {
   keyPity?: Record<string, number>;
   /** R0183: the Pillow Fort, opened by the three keys in the wheelbarrow. */
   pillowFort?: 'open';
+  /** Lane B r9 (R0189): the Moo Meadow's portal, opened by Gran's Teaspoon and a milk bell. */
+  mooMeadow?: 'open';
   /** R0177: wheelbarrow recipes found, for the recipe book. */
   recipes?: string[];
   /** R0172: set pieces and uniques found at least once, by id, with where (the log). */

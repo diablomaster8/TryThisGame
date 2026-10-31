@@ -56,6 +56,7 @@ export type ExtraKind =
   | 'plume'
   | 'hairs'
   | 'antennae'
+  | 'crown'
   | 'mane'
   // body
   | 'swirl'
@@ -585,6 +586,18 @@ function drawOne(
         pc.thinLine(a.headCx + dx * 0.5, top + 1, a.headCx + dx, top - 3, c);
       }
       break;
+    case 'crown': {
+      // A named unique's crown (R0156): a band with three points, a gem on the middle one.
+      const w = Math.max(3, Math.round(a.headRx * 0.6));
+      const y = Math.max(5, top + 1);
+      pc.rect(a.headCx - w, y - 1, w * 2 + 1, 2, c);
+      for (const d of [-1, 0, 1]) {
+        const x = a.headCx + d * w;
+        pc.tri(x - 1.5, y - 1, x + 1.5, y - 1, x, y - (d === 0 ? 5 : 4), c);
+      }
+      pc.px(a.headCx, y - 2, c2);
+      break;
+    }
     case 'antennae':
       for (const d of v === 'side' ? [1] : [-1, 1]) {
         const x = a.headCx + d * 2;
