@@ -27,8 +27,7 @@ const berryCache = new WeakMap<Floor, Cell[]>();
 export const berryId = (i: number): string => `kid-berry-${i}`;
 
 /** The shortest walk from the stairs up to the way on (cell indices), or [] when there is none. */
-function wayDown(f: Floor): number[] {
-  const open = navMask(f, false);
+function wayDown(f: Floor, open: Uint8Array = navMask(f, false)): number[] {
   const goal = f.stairsDown ?? f.chest;
   const n = f.cols * f.rows;
   const from = new Int32Array(n).fill(-1);
@@ -70,7 +69,11 @@ function wayDown(f: Floor): number[] {
 export function kidBerryCells(f: Floor): Cell[] {
   const hit = berryCache.get(f);
   if (hit) return hit;
-  const path = wayDown(f);
+  // A landmark's cells are closed to the planner and can plug a small kid floor's only way
+  // down; then the path wades, or steps past the landmark (berries still land on open cells).
+  let path = wayDown(f);
+  if (!path.length) path = wayDown(f, navMask(f, true));
+  if (!path.length) path = wayDown(f, Uint8Array.from(f.cells, (v) => (v === FLOOR ? 1 : 0)));
   const open = navMask(f, false);
   const out: Cell[] = [];
   const used = new Set<number>(path.length ? [path[0]!, path[path.length - 1]!] : []);
@@ -94,9 +97,16 @@ export function kidBerryCells(f: Floor): Cell[] {
         pick = j;
         break;
       }
-    if (used.has(pick)) continue;
+    if (used.has(pick) || !open[pick]) continue;
     used.add(pick);
     out.push({ x: pick % f.cols, y: Math.floor(pick / f.cols) });
+  }
+  // Still short (a nudge found nothing open): top up from the path itself, so the count reaches five.
+  for (let k = 1; k < path.length - 1 && out.length < B.count; k++) {
+    const at = path[k]!;
+    if (used.has(at) || !open[at]) continue;
+    used.add(at);
+    out.push({ x: at % f.cols, y: Math.floor(at / f.cols) });
   }
   berryCache.set(f, out);
   return out;

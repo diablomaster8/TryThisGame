@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { HOLLOW_KID, HOLLOW_KID_LESSON } from '../../src/content/edu-hollow-kid';
 import { R10B3 } from '../../src/config/tuning-r10b3';
-import { SIM } from '../../src/config/tuning';
+import { HOLLOW, SIM } from '../../src/config/tuning';
 import { actStartDepth } from '../../src/config/dungeon-acts';
 import { battleAct } from '../../src/sim/battle/core';
 import { chooseAction, bestAllyAction } from '../../src/sim/battle/ai';
 import { cellCentre, cellOf, runFloor, type Cell, type Floor } from '../../src/sim/dungeon';
 import { navMask } from '../../src/sim/dungeon-nav';
-import { actBossDepth } from '../../src/sim/dungeon-acts';
+import { actBossDepth, actFloor } from '../../src/sim/dungeon-acts';
 import { setEncounterHandler } from '../../src/sim/dungeon-encounters';
 import { berriesPicked, kidBerryCells } from '../../src/sim/dungeon-kid-play';
 import { createEdu } from '../../src/sim/edu';
@@ -123,6 +123,16 @@ describe('kid mode text (R0188)', () => {
 });
 
 describe('the counting berries (R0188)', () => {
+  it('lays all five on every kid floor, even where the landmark plugs the way down', () => {
+    // Lane B r10 merge: 38 of 900 kid floors had none (the planner's landmark cells cut the path).
+    for (let seed = 1; seed <= 20; seed++)
+      for (let act = 0; act < 5; act++)
+        for (let k = 0; k < 3; k++) {
+          const f = actFloor(seed, act, actStartDepth(act) + k, HOLLOW.genVersion, 'cosy', true);
+          expect(kidBerryCells(f), `seed ${seed} act ${act} level ${k}`).toHaveLength(5);
+        }
+  }, 60_000);
+
   it('lays five along the way down, picked one by one, and plays the lesson at five', () => {
     const w = kidWorld();
     applyCommand(w, { kind: 'enterAct', act: 0 }, []);
