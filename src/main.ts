@@ -41,6 +41,7 @@ import { nextTip } from './ui/tips';
 import { HOLLOW_TEXT } from './config/strings';
 import { mountHud } from './ui/hud';
 import { mountSpriteGallery } from './ui/sprite-gallery';
+import { installHiddenGuard } from './platform/dom-guards';
 
 function mustGet<T extends Element>(selector: string): T {
   const el = document.querySelector<T>(selector);
@@ -49,6 +50,7 @@ function mustGet<T extends Element>(selector: string): T {
 }
 
 // Anything nothing else caught is logged (within a budget) and gets a passing notice.
+installHiddenGuard();
 watchErrors(showErrorNotice);
 listenForInstall(); // R0463 (TECH-21)
 

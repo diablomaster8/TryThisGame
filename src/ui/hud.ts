@@ -1133,6 +1133,9 @@ export function mountHud(
         // R0329: the weather gags over the Nubbins.
         const nubbinGags = new NubbinGags(root);
         g.framePollers.push(() => nubbinGags.update(g));
+        // PERF: the panel stack now hears only real `hidden` changes; the dialogue's waiting class
+        // still follows its wait every frame, as it did when the pollers rewrote `hidden`.
+        g.framePollers.push(() => dialogue.sync());
         // TECH-16: the shake meter while a held egg is dragged and shaken.
         const shakeMeter = new ShakeMeter(root);
         g.framePollers.push(() => {
