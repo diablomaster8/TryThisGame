@@ -343,3 +343,16 @@ export const HOP_COURSE = {
   ghostMax: 2400,
   hat: 'hop-hat',
 } as const;
+
+/**
+ * HOT-3c: press and hold on open ground and the Keeper walks toward the finger (or mouse).
+ * A press becomes a hold once it has lasted `startMs` (the tap window, `INPUT.tapMaxMs`, is
+ * over by then) or slid past the drag threshold. While held the goal is re-sent when the
+ * point under the finger has moved `minStepU` units, or every `resendMs` regardless, so a
+ * still finger keeps the Keeper walking as the camera follows it. Letting go stops it.
+ */
+export const HOLD_WALK = {
+  startMs: 350,
+  resendMs: 100,
+  minStepU: 0.25,
+} as const;
