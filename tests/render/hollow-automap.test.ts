@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from '../sim/timing-budget';
 import { HOLLOW_AUTOMAP_TEXT } from '../../src/config/strings';
 import { FLOOR, WALL, type Floor } from '../../src/sim/dungeon';
 import {
@@ -104,7 +105,7 @@ describe('the overlay redraw', () => {
       times.push(performance.now() - t0);
     }
     times.sort((a, b) => a - b);
-    expect(times[Math.floor(times.length / 2)]).toBeLessThan(2);
+    expect(times[Math.floor(times.length / 2)]).toBeLessThan(budgetMs(2));
     expect(g.calls).toBeGreaterThan(0);
   });
 

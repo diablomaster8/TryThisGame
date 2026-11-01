@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import { BATTLE } from '../../src/config/tuning-battle';
 import { SCANS } from '../../src/config/tuning';
 import {
@@ -349,7 +350,8 @@ describe('AI levels (recs FIGHT-23)', () => {
     const t0 = performance.now();
     const n = 200;
     for (let i = 0; i < n; i++) chooseAction(s, s.sides[1][0]!.id, 'champion', rng);
-    expect((performance.now() - t0) / n).toBeLessThan(2);
+    // HOT-CI: a wall-clock budget, checked in CI's perf job only (`budgetMs`).
+    expect((performance.now() - t0) / n).toBeLessThan(budgetMs(2));
   });
 });
 

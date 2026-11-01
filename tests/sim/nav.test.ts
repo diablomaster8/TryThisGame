@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import { GROVE, KEEPER, SIM } from '../../src/config/tuning';
 import { placeDecor } from '../../src/sim/decorate';
 import { clearGroveRoute, groveLeg } from '../../src/sim/nav';
@@ -110,7 +111,7 @@ describe('Grove pathfinding (MOVE-06)', () => {
     times.sort((x, y) => x - y);
     // About 2 ms at p95 alone on a desktop (MOVE-06); the bound leaves room for a loaded
     // CI runner sharing the CPU with the rest of the suite.
-    expect(times[Math.floor(times.length / 2)]!).toBeLessThan(1.5);
-    expect(times[Math.floor(times.length * 0.95)]!).toBeLessThan(10);
+    expect(times[Math.floor(times.length / 2)]!).toBeLessThan(budgetMs(1.5));
+    expect(times[Math.floor(times.length * 0.95)]!).toBeLessThan(budgetMs(10));
   });
 });

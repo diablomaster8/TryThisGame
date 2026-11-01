@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import { HOLLOW, type HollowLevel } from '../../src/config/tuning';
 import { floorOf, WALL } from '../../src/sim/dungeon';
 import { generateV3, v3OptionsFor } from '../../src/sim/dungeon-gen-v3';
@@ -86,7 +87,7 @@ describe('version-3 floors', () => {
       times.push(best);
     }
     times.sort((a, b) => a - b);
-    expect(times[10]!, 'median best-of-three ms').toBeLessThan(25);
+    expect(times[10]!, 'median best-of-three ms').toBeLessThan(budgetMs(25));
   });
 
   it('makes boss floors with the boss room as the way on', () => {

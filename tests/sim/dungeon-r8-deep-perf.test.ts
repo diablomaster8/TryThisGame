@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import { generateV3, v3OptionsFor } from '../../src/sim/dungeon-gen-v3';
 import { platformFloor } from '../../src/sim/dungeon-gaps';
 import { fillRooms } from '../../src/sim/dungeon-rooms';
@@ -29,6 +30,6 @@ describe('Deep Hollow generation time (R0205)', () => {
     }
     const each = total / seeds;
     console.info(`floor 99: ${each.toFixed(1)} ms a floor`);
-    expect(each).toBeLessThan(100);
+    expect(each).toBeLessThan(budgetMs(100));
   }, 60_000);
 });

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import { BATTLE_ATB } from '../../src/config/tuning-battle-atb';
 import {
   battleAct,
@@ -168,7 +169,7 @@ describe('ATB Command bouts (recs FIGHT-40)', () => {
     let steps = 0;
     for (; steps < 600 && !s.result; steps++) stepAtb(s, 100);
     // Each 100 ms sim step must leave nearly all of a 16.7 ms frame free.
-    expect((performance.now() - t0) / steps).toBeLessThan(2);
+    expect((performance.now() - t0) / steps).toBeLessThan(budgetMs(2));
   });
 });
 

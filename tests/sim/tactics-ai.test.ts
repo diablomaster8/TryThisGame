@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import type { AiLevel, BattleContext } from '../../src/sim/battle/types';
 import '../../src/sim/battle/tactics/ai';
 import { createTactics } from '../../src/sim/battle/tactics/engine';
@@ -81,7 +82,7 @@ describe('tactical AI (R0252)', () => {
       turns += s.turns;
       expect(s.result).not.toBeNull();
     }
-    expect(ms / turns).toBeLessThan(8);
+    expect(ms / turns).toBeLessThan(budgetMs(8));
   }, 60_000);
 
   it('Champion beats Sprout at least 80% of the time', () => {

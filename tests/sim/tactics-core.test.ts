@@ -1,6 +1,7 @@
 import { BATTLE } from '../../src/config/tuning-battle';
 import type { BattleContext } from '../../src/sim/battle/types';
 import { describe, expect, it } from 'vitest';
+import { budgetMs } from './timing-budget';
 import { floorOf } from '../../src/sim/dungeon';
 import { Rng } from '../../src/sim/rng';
 import { damageWith, moveDamage } from '../../src/sim/battle/damage';
@@ -78,7 +79,7 @@ describe('tactics maps (R0243)', () => {
       expect(deployConnected(m, 1)).toBe(true);
       expect(Math.max(...m.height)).toBeLessThanOrEqual(4);
     }
-    expect(total / 500).toBeLessThan(5);
+    expect(total / 500).toBeLessThan(budgetMs(5));
   }, 60_000);
 });
 
