@@ -14,6 +14,7 @@
  */
 import { ACTS, actStartDepth } from '../config/dungeon-acts';
 import { SERVICE_GLYPH, TOWN_CAST, TOWN_MAP, type ServiceKind } from '../config/dungeon-zones';
+import { HUB_MAPS } from '../config/dungeon-hubs-r10b2';
 import { DUNGEON, HOLLOW, HOLLOW_ZONES } from '../config/tuning';
 import {
   cellCentre,
@@ -34,8 +35,10 @@ const cache = new Map<number, Floor>();
 export function townFloor(act: number): Floor {
   const hit = cache.get(act);
   if (hit) return hit;
-  const rows = TOWN_MAP.length;
-  const cols = TOWN_MAP[0]!.length;
+  // Lane B r10: each act has its own authored map (`HUB_MAPS`).
+  const map = HUB_MAPS[ACTS[act]!.id] ?? TOWN_MAP;
+  const rows = map.length;
+  const cols = map[0]!.length;
   const cells = new Uint8Array(cols * rows);
   const at: Record<string, Cell> = {};
   const services: Service[] = [];
@@ -43,7 +46,7 @@ export function townFloor(act: number): Floor {
   const cast = TOWN_CAST[ACTS[act]!.id];
   for (let y = 0; y < rows; y++)
     for (let x = 0; x < cols; x++) {
-      const ch = TOWN_MAP[y]![x]!;
+      const ch = map[y]![x]!;
       cells[y * cols + x] = ch === '#' ? WALL : ch === '~' ? WATER : FLOOR;
       const kind = SERVICE_GLYPH[ch];
       if (kind) services.push({ kind, cell: { x, y }, keeper: kind === 'stash' ? '' : cast[kind] });
