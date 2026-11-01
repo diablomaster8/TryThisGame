@@ -5,6 +5,7 @@ import { DIGI2_ART } from './species-art-digi2';
 import { GEN1B_ART } from './species-art-gen1b';
 import { SPECIES_ART_GEN1A } from './species-art-gen1a';
 import { UNIQUE_ART_PREFIX, uniqueArt } from './unique-art';
+import { FOE_ART_PREFIX, foeArt } from './foe-family-art';
 
 /**
  * Art specs for every non-Chao species, keyed by species id (sim/species.ts). Each is
@@ -469,5 +470,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
 export function speciesArt(id: string): CreatureSpec | undefined {
   // A named unique's own look (R0156): its species recoloured, grown and crowned.
   if (id.startsWith(UNIQUE_ART_PREFIX)) return uniqueArt(id, (s) => SPECIES_ART[s]) ?? undefined;
+  // R0157 (lane B r10): a Hollow foe family's own look, or its Act V Greyling.
+  if (id.startsWith(FOE_ART_PREFIX)) return foeArt(id);
   return SPECIES_ART[id];
 }

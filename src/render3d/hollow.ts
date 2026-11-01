@@ -20,6 +20,7 @@ import { HollowFog } from './hollow-fog';
 import { HollowLight, lightBaker } from './hollow-light';
 import { HollowPop } from './hollow-pop';
 import { HollowWaypoint } from './hollow-waypoint';
+import { HollowKid3D } from './hollow-kid-3d';
 import { HollowRock } from './hollow-rock';
 import { HollowSectors } from './hollow-sectors';
 
@@ -59,6 +60,8 @@ export class Hollow {
   private readonly atmos = new HollowAtmos();
   private readonly pop = new HollowPop();
   private readonly waypoint = new HollowWaypoint();
+  /** Lane B r10 (R0188): kid mode's counting berries. */
+  private readonly kid = new HollowKid3D();
   /** Chasm pits (R0031). */
   private readonly chasm = new HollowChasm();
   /** Dropped stray Shells (R0162). */
@@ -121,6 +124,7 @@ export class Hollow {
       this.atmos,
       this.pop,
       this.waypoint,
+      this.kid,
       this.trail,
       this.plates,
       this.shrines,

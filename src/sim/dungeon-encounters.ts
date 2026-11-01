@@ -28,6 +28,7 @@ import { lostTo, sneaking, startsAsleep, stepSleepy } from './dungeon-sleepy';
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
 import { actFamilies, FOE_FAMILIES, type ChampionModId } from '../config/dungeon-foes';
+import { stepKidTag } from './dungeon-kid-play';
 import {
   combatantOf,
   createBattle,
@@ -593,6 +594,11 @@ export function stepPacks(
     if (pack.state === 'beaten') continue;
     const spec = f.packs.find((p) => p.id === pack.id);
     if (!spec) continue;
+    // R0188 (lane B r10): a kid run's boss plays tag instead of fighting.
+    if (run.kid && spec.kind === 'boss') {
+      if (stepKidTag(world, f, pack, spec, dtMs, rng, events)) return;
+      continue;
+    }
     const home = cellCentre(f, spec.cell);
     const toKeeper = Math.hypot(k.pos.x - pack.pos.x, k.pos.z - pack.pos.z);
     // R0203, R0180: a sleepy pack snores until woken; a sneaked-past pack looks away.

@@ -89,6 +89,7 @@ import { noteDailyDepth, noteLevelDone, notePickup, noteTripEnd } from './dungeo
 // Lane B r9 (helper d): kid mode, raised shelves, authored story floors.
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { gentleFloor, hollowKid } from './dungeon-kid';
+import { stepKidBerries } from './dungeon-kid-play';
 import { raiseShelves, type Shelf } from './dungeon-shelves';
 import { storyFloor } from './dungeon-story-floors';
 
@@ -1430,6 +1431,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   stepSecrets(world, run, f, dtMs, events);
   stepPuzzles(world, run, f, dtMs, events);
   stepPicnic(world, run, f, dtMs, events);
+  stepKidBerries(world, run, f, events); // R0188 (lane B r10): kid mode's counting berries.
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
     // R0198: a nursery nook's baby waits for the Keeper to stand still and quiet a moment.

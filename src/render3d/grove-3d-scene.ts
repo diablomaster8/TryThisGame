@@ -36,6 +36,7 @@ import { Actors } from './actors';
 import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
 import { Bursts } from './bursts';
+import { poofBursts, POOF3D } from './foe-poof-3d';
 import { GearPop3D } from './hollow-gear-pop';
 import { HollowR9a3D } from './hollow-r9a-3d';
 import { crackWarmObject } from './egg-crack';
@@ -891,6 +892,8 @@ export class Grove3dScene {
     };
     for (const e of events) {
       if (e.kind === 'travelled') this.travelCut = true;
+      // R0157 (lane B r10): a beaten pack poofs and runs home (`foe-poof-3d.ts`).
+      if (e.kind === 'packBeaten') POOF3D.heardBeaten(e.packId, e, now);
       // R0025 (lane A r10): a splash-down puffs: a cloud over the water, sparkles ashore.
       if (e.kind === 'keeperPoofed') {
         if (this.reduceMotion) continue;
@@ -1786,6 +1789,7 @@ export class Grove3dScene {
     if (this.location.startsWith('visit:'))
       this.visit.crowns.update(this.camera.position, this.keeperMarks, dt);
     this.halo.update(this.time.value);
+    poofBursts(this.bursts, nowMs); /* Lane B r10, R0157 */
     this.bursts.update(nowMs, dt, ground);
     this.gearPop.update(
       nowMs,

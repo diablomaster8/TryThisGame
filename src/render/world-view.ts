@@ -103,6 +103,8 @@ import { emoteMotion, familySign, moodShape } from './emote-mood';
 import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
+import { drawKidBerries } from './hollow-kid-pixel';
+import { PixelHollowPoofs } from './hollow-poof-pixel';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 import { PixelHollowR9a } from './hollow-r9a';
 
@@ -199,6 +201,8 @@ export class WorldView {
   private readonly liveStrays = new Set<string>();
   /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
   private readonly hollowPacks = new PixelHollowPacks();
+  /** Lane B r10 (R0157): the foe families' poof-and-run-home beat. */
+  private readonly hollowPoofs = new PixelHollowPoofs();
   /** Lane B r9 (a): light ring, guide prints, acorn portal (R0190, R0208, R0150). */
   private readonly hollowR9a = new PixelHollowR9a();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
@@ -504,6 +508,7 @@ export class WorldView {
       this.burstFor(e);
       if (e.kind === 'gearFound')
         this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
+      if (e.kind === 'packBeaten') this.hollowPoofs.poofs.heardBeaten(e.packId, e, nowMs);
       if (e.kind === 'portalReturned') this.hollowR9a.portalReturned(nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
@@ -1864,6 +1869,8 @@ export class WorldView {
     };
     this.hollowPacks.draw(f, run, world.keeper.pos, world.timeMs, pctx);
     this.hollowPacks.drawPops(world.keeper.pos, pctx);
+    this.hollowPoofs.draw(f, run.act, pctx);
+    drawKidBerries(f, run, world.keeper.pos, pctx); // R0188: kid mode's counting berries.
   }
 
   /** Grey Nubbins that live in the other places; render-only dressing. */
