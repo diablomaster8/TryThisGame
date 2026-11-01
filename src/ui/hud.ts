@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { R10B4_TEXT } from '../config/strings-r10b4';
 import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
@@ -1747,6 +1748,8 @@ export function mountHud(
           toast(HOLLOW_TEXT.packBeaten(e.shells));
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
+          // Lane B r10 (R0155): a Snack Thief took a fruit.
+          if (e.snack) toast(R10B4_TEXT.snackThief);
         } else if (e.kind === 'speedSplit') {
           // Lane B round 7: speed runs (R0187).
           const d =
@@ -1794,7 +1797,7 @@ export function mountHud(
           if (k) toast(SHRINE_TEXT.faded(k.name));
         } else if (e.kind === 'trapSprung') {
           // Lane B round 3: traps (R0161).
-          toast(TRAP_TEXT.sprung[e.trap] ?? '');
+          toast(e.wire ? R10B4_TEXT.bellWire : (TRAP_TEXT.sprung[e.trap] ?? ''));
         } else if (e.kind === 'trapSpotted') {
           toast(TRAP_TEXT.spotted);
         } else if (e.kind === 'hollowFell') {

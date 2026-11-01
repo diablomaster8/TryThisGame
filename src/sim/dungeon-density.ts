@@ -111,6 +111,9 @@ export function densityPacks(f: Floor, seed: number, depth: number, band: FoeBan
             familyMod(family),
           )
         : packMods;
+    // R0179 (lane B r10): Wild champions and elites are Immune to Tickles too (no dice rolled).
+    if (wild && kind !== 'normal')
+      for (const m of [packMods, leaderMods]) if (!m.includes('tickleProof')) m.push('tickleProof');
     const level = foeLevel(band) + (kind === 'normal' ? 0 : 2);
     const members: PackMember[] = [];
     for (let m = 0; m < size; m++)

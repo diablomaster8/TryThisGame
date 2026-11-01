@@ -99,6 +99,22 @@ export function floorWorldSize(f: Floor): { w: number; h: number } {
   return { w: f.cols * CELL, h: f.rows * CELL };
 }
 
+/** R0179 (lane B r10): each Bell Wire's cells (first bell to last) and the way it runs. */
+function wireCells(f: Floor): Map<number, 'x' | 'y'> {
+  const out = new Map<number, 'x' | 'y'>();
+  const byWire = new Map<number, { x: number; y: number }[]>();
+  for (const t of f.traps ?? [])
+    if (t.wire !== undefined) byWire.set(t.wire, [...(byWire.get(t.wire) ?? []), t.cell]);
+  for (const cells of byWire.values()) {
+    const a = cells[0]!;
+    const b = cells[cells.length - 1]!;
+    const axis = a.y === b.y ? 'x' : 'y';
+    for (let x = Math.min(a.x, b.x); x <= Math.max(a.x, b.x); x++)
+      for (let y = Math.min(a.y, b.y); y <= Math.max(a.y, b.y); y++) out.set(y * f.cols + x, axis);
+  }
+  return out;
+}
+
 export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
   const band = bandForFloor(f, depth);
   // Open-sky floors (camps, fields) are up to twice a big level's area and plain grass:
@@ -202,6 +218,8 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
     return m;
   };
   const trapCells = new Set((f.traps ?? []).map((t) => t.cell.y * f.cols + t.cell.x));
+  // R0179 (lane B r10): a Wild Bell Wire runs along the passage between its bells.
+  const wires = wireCells(f);
   const floorMask = new Uint8Array(width * height);
   for (let py = 0; py < height; py++) {
     for (let px = 0; px < width; px++) {
@@ -249,6 +267,11 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
             if (fx > 0.12 && fx < 0.88 && fy > 0.12 && fy < 0.88) c = mix(c, hex('#d8d0c0'), 0.45);
             else if (fx >= 0.88 || fy >= 0.88) c = shade(c, 0.6);
             else c = mix(c, white, 0.25);
+          }
+          const wire = wires.get(Math.floor(cy) * f.cols + Math.floor(cx));
+          if (wire !== undefined) {
+            const off = wire === 'x' ? cy - Math.floor(cy) : cx - Math.floor(cx);
+            if (Math.abs(off - 0.5) < 0.05) c = mix(c, hex('#e0b04a'), 0.85);
           }
         }
         r.set(px, py, c);

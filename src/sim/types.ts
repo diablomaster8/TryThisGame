@@ -2036,14 +2036,14 @@ export type SimEvent =
   | { kind: 'shrineUsed'; shrine: string }
   | { kind: 'shrineFaded'; shrine: string }
   /** R0161: a trap sprung under the Keeper, and one a scouting Nubbin spotted. */
-  | { kind: 'trapSprung'; trap: string }
+  | { kind: 'trapSprung'; trap: string; wire?: true }
   | { kind: 'trapSpotted'; trap: string }
   /** R0031: the Keeper stood in a Hollow chasm or deep water and popped back to dry ground. */
   | { kind: 'hollowFell'; water: boolean; from: Vec2; to: Vec2 }
   | { kind: 'packNoticed'; packId: string }
   | { kind: 'encounterStarted'; packId: string }
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
-  | { kind: 'partyGiggles'; packId: string }
+  | { kind: 'partyGiggles'; packId: string; snack?: number }
   // Lane B round 7: Gran's Picnic (R0204).
   | { kind: 'picnicRest' }
   | { kind: 'picnicTent' }

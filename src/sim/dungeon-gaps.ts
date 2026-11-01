@@ -15,6 +15,7 @@ import { cellDist, CHASM, FLOOR, WALL, WATER, type Cell, type Floor } from './du
 import { densityPacks, endlessBand, type FoeBand } from './dungeon-density';
 import { placeShrines } from './dungeon-shrines';
 import { placeTraps } from './dungeon-traps';
+import { wireBells } from './dungeon-bell-wire';
 import { waypointCell } from './dungeon-levels';
 import { propCells } from './dungeon-props';
 import { Rng } from './rng';
@@ -252,6 +253,7 @@ export function platformFloor(
   if (depth < G.fromDepth) {
     placeShrines(f, seed, depth);
     placeTraps(f, seed, depth, band.act);
+    if (band.difficulty === 'wild') wireBells(f, seed, depth);
     densityPacks(f, seed, depth, band);
     return f;
   }
@@ -365,6 +367,7 @@ export function platformFloor(
   // ground (R0158).
   placeShrines(f, seed, depth);
   placeTraps(f, seed, depth, band.act);
+  if (band.difficulty === 'wild') wireBells(f, seed, depth);
   densityPacks(f, seed, depth, band);
   return f;
 }

@@ -20,8 +20,10 @@ import { plate } from './hollow-plates';
  */
 export class HollowTraps implements HollowModule {
   private readonly objs: THREE.Object3D[] = [];
+  private wires: THREE.Mesh[] = [];
   private items: Array<{ id: string; tile: THREE.Mesh; icon: THREE.Sprite; base: number }> = [];
   private readonly tileMat = mat('#b9b0a0', { roughness: 0.85 });
+  private readonly wireMat = mat('#e0b04a', { roughness: 0.5 });
 
   build(f: Floor, ctx: HollowCtx): void {
     const geo = new THREE.BoxGeometry(CELL * 0.8, 0.1, CELL * 0.8);
@@ -39,6 +41,22 @@ export class HollowTraps implements HollowModule {
       this.objs.push(tile, icon);
       this.items.push({ id: t.id, tile, icon, base });
     }
+    // R0179 (lane B r10): a Wild Bell Wire, a thin brass line from its first bell to its last.
+    const ends = new Map<number, Floor['stairsUp'][]>();
+    for (const t of f.traps ?? [])
+      if (t.wire !== undefined) ends.set(t.wire, [...(ends.get(t.wire) ?? []), t.cell]);
+    for (const cells of ends.values()) {
+      const a = cellCentre(f, cells[0]!);
+      const b = cellCentre(f, cells[cells.length - 1]!);
+      const len = Math.hypot(b.x - a.x, b.z - a.z);
+      const wire = new THREE.Mesh(new THREE.BoxGeometry(len, 0.04, 0.04), this.wireMat);
+      wire.name = 'hollow-bell-wire';
+      wire.position.set((a.x + b.x) / 2, cellTop(f, cells[0]!) + RAISE + 0.12, (a.z + b.z) / 2);
+      wire.rotation.y = -Math.atan2(b.z - a.z, b.x - a.x);
+      ctx.group.add(wire);
+      this.objs.push(wire);
+      this.wires.push(wire);
+    }
   }
 
   dispose(): void {
@@ -48,11 +66,13 @@ export class HollowTraps implements HollowModule {
     }
     disposeObjects(this.objs);
     this.items = [];
+    this.wires = [];
   }
 
   update(_t: number, _keeper: { x: number; z: number }, fr: HollowFrame): void {
     const run = fr.run;
     const off = !fr.on || !run || !!run.noTraps;
+    for (const w of this.wires) w.visible = !off;
     for (const it of this.items) {
       it.tile.visible = !off;
       it.icon.visible = !off && !!run!.trapsSpotted?.includes(it.id);

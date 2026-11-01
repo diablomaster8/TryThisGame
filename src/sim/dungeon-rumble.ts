@@ -13,6 +13,9 @@
  * rumble rooms with no migration, and nothing runs per step unless the level has one.
  */
 import { HOLLOW } from '../config/tuning';
+import type { ChampionModId } from '../config/dungeon-foes';
+import { R10B4 } from '../config/tuning-r10b4';
+import { dressFoeMods } from './battle/hollow-mods';
 import { startRumble } from './battle/tactics/slice';
 import type { TacticsState } from './battle/tactics/types';
 import { CRITTER_SPECIES } from './critters';
@@ -167,6 +170,22 @@ function applyPrefix(s: TacticsState, prefix: RumblePrefix): void {
 }
 
 /**
+ * Lane B r10 (R0155): the champion pack's modifiers on the tactics board too: the prefix's
+ * matching one (Sticky Paws are Sticky) and, on Brisk or Wild, Sparkly.
+ */
+function rumbleMods(s: TacticsState, prefix: RumblePrefix, run: DungeonRun): void {
+  const tier = run.difficulty === 'brisk' || run.difficulty === 'wild';
+  const mods: ChampionModId[] = [
+    ...(R10B4.mods.rumble[prefix] as readonly ChampionModId[]),
+    ...(tier ? R10B4.mods.rumbleTier : []),
+  ];
+  if (!mods.length) return;
+  const foes = s.units.filter((u) => u.c.side === 1).map((u) => u.c);
+  const allies = s.units.filter((u) => u.c.side !== 1).map((u) => u.c);
+  for (const f of foes) dressFoeMods(f, mods, [], allies);
+}
+
+/**
  * Live steps on a level with a rumble room: walking in starts the bout, stepping out re-arms a
  * room that was lost. Callers skip it while any fight is on.
  */
@@ -192,6 +211,7 @@ export function stepRumble(world: World, run: DungeonRun, f: Floor, events: SimE
   });
   if (!ok || !world.tactics) return;
   applyPrefix(world.tactics, rr.prefix);
+  rumbleMods(world.tactics, rr.prefix, run);
   world.keeper.moveTarget = null;
   world.keeper.intent = null;
   events.push({ kind: 'rumbleRoom', phase: 'start', prefix: rr.prefix, loot: null });
