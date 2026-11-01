@@ -6,6 +6,7 @@ import {
 } from '../config/grove-layout';
 import type { Collider } from '../config/grove-layout';
 import { JUMP } from '../config/tuning-sim';
+import { TOWN } from '../config/tuning';
 import { levelOf } from './stats';
 import { storyPropMask } from './story-props';
 import { groveHeight } from './terrain';
@@ -124,14 +125,22 @@ let cached: Table = FIXED;
 
 function table(world: World | null): Table {
   if (!world) return FIXED;
-  const u = townUnlocks(world);
   const props = storyPropMask(world);
-  // A number, not a string: this runs for every walker on every step.
+  // A number, not a string: this runs for every walker on every step. PERF: the unlocks are
+  // read straight off the prosperity (as `townUnlocks` does) so the cached path allocates nothing.
+  const p = world.town.prosperity;
+  const t = TOWN.unlocks;
   const key =
-    (props * 32 + +u.stall + 2 * +u.attendant + 4 * +u.festival + 8 * +u.gym + 16 * +u.fortune) *
+    (props * 32 +
+      +(p >= t.stall) +
+      2 * +(p >= t.attendant) +
+      4 * +(p >= t.festival) +
+      8 * +(p >= t.gym) +
+      16 * +(p >= t.fortune)) *
       100000 +
     world.placed.length;
   if (world.placed === cachedPlaced && key === cachedKey) return cached;
+  const u = townUnlocks(world);
   const list: Collider[] = GROVE_COLLIDERS.filter((c) => !c.when || u[c.when]);
   for (const d of world.placed) {
     const c = decorCollider(d.id, d.kind, d.pos.x, d.pos.z, d.yaw ?? 0);

@@ -75,7 +75,6 @@ export function stepPairPlay(world: World, events: SimEvent[]): void {
         continue;
       }
       if (j < i) continue;
-      const d = Math.hypot(a.pos.x - b.pos.x, a.pos.z - b.pos.z);
       // Tug: both after the same fruit, both nearly there.
       if (
         a.behavior.state === 'findFood' &&
@@ -96,11 +95,12 @@ export function stepPairPlay(world: World, events: SimEvent[]): void {
           continue;
         }
       }
-      // Bump: two walkers meet.
+      // Bump: two walkers meet. (PERF: the distance is taken only for two walkers; every test
+      // here is pure, so the order does not change the outcome.)
       if (
-        d < PAIR_PLAY.bumpReach &&
         a.behavior.state === 'wander' &&
         b.behavior.state === 'wander' &&
+        Math.hypot(a.pos.x - b.pos.x, a.pos.z - b.pos.z) < PAIR_PLAY.bumpReach &&
         ready(a) &&
         ready(b) &&
         roll(a, b, Math.floor(now / 1000), PAIR_PLAY.bumpPerMille)

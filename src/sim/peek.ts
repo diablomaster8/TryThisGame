@@ -24,6 +24,14 @@ const NONE: ReadonlySet<string> = new Set();
 const dist = (a: { x: number; z: number }, b: { x: number; z: number }): number =>
   Math.hypot(a.x - b.x, a.z - b.z);
 
+/** Whether the Keeper (or, in live play, a visitor) is inside `PEEK.keeperRadius` of `n`. */
+function watcherNear(n: Nubbin, world: World): boolean {
+  if (dist(n.pos, world.keeper.pos) < PEEK.keeperRadius) return true;
+  if (soulLive())
+    for (const v of world.npcs) if (dist(n.pos, v.pos) < PEEK.keeperRadius) return true;
+  return false;
+}
+
 function shyness(n: Nubbin): number {
   if (n.personality) return n.personality === 'shy' ? 1 : 0;
   return n.stage === 'child' && leaningPersonality(n) === 'shy' ? 0.5 : 0;
@@ -34,6 +42,8 @@ function shyness(n: Nubbin): number {
  * side of the nearest tree within reach). Called for a wandering or sitting Nubbin.
  */
 export function peekAct(n: Nubbin, world: World, now: number): IdleAct | null {
+  // PERF: nobody in reach and nobody was: the common case, answered without building lists.
+  if ((wasNear.get(n) ?? NONE) === NONE && !watcherNear(n, world)) return null;
   // Lane A r10: a stranger, a visiting Keeper walking up, sets it off as the Keeper does
   // (in live play only: visitors still potter about while catching up on time away).
   const watchers = [{ id: 'keeper', pos: world.keeper.pos }];
