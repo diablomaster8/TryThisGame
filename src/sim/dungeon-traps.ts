@@ -11,6 +11,8 @@
  *   slide on until something stops you.
  */
 import { HOLLOW } from '../config/tuning';
+import { R10B4 } from '../config/tuning-r10b4';
+import { wireOf } from './dungeon-bell-wire';
 import { cellAt, cellCentre, cellDist, cellOf, FLOOR, type Cell, type Floor } from './dungeon';
 import { propBlocked } from './dungeon-props';
 import { shrineSpeed } from './dungeon-shrines';
@@ -24,6 +26,8 @@ export interface Trap {
   id: string;
   cell: Cell;
   kind: TrapKind;
+  /** Lane B r10 (R0179): a Wild Bell Wire chain's number; every bell on it rings together. */
+  wire?: number;
 }
 
 const T = HOLLOW.traps;
@@ -129,22 +133,36 @@ function spring(world: World, run: DungeonRun, f: Floor, trap: Trap, events: Sim
     k.moveTarget = null;
     k.intent = null;
   } else if (trap.kind === 'bell') {
-    // The nearest pack still about comes to have a look.
-    let best: { d: number; id: string } | null = null;
-    for (const p of run.packs ?? []) {
-      if (p.state === 'beaten' || p.state === 'chase') continue;
-      const d = Math.hypot(p.pos.x - k.pos.x, p.pos.z - k.pos.z);
-      if (!best || d < best.d) best = { d, id: p.id };
-    }
-    const pack = best && run.packs?.find((p) => p.id === best.id);
-    if (pack && best!.d <= T.bellReach) {
-      pack.state = 'chase';
-      pack.noticedMs = world.timeMs;
-      pack.target = { x: k.pos.x, z: k.pos.z };
-      events.push({ kind: 'packNoticed', packId: pack.id });
+    // The nearest pack still about comes to have a look. On a Wild Bell Wire (R0179, lane B
+    // r10) every bell on the wire rings, and each calls its own nearest pack.
+    const bells = wireOf(f, trap);
+    for (const bell of bells) {
+      if (bell !== trap) {
+        if (!trapArmed(run, bell.id)) continue;
+        run.trapsSprung!.push({ id: bell.id, kind: 'bell', leftMs: T.rearmMs, slowMs: 0 });
+      }
+      const at = bell === trap ? k.pos : cellCentre(f, bell.cell);
+      const reach = bell === trap ? T.bellReach : R10B4.bellWire.reach;
+      let best: { d: number; id: string } | null = null;
+      for (const p of run.packs ?? []) {
+        if (p.state === 'beaten' || p.state === 'chase') continue;
+        const d = Math.hypot(p.pos.x - at.x, p.pos.z - at.z);
+        if (!best || d < best.d) best = { d, id: p.id };
+      }
+      const pack = best && run.packs?.find((p) => p.id === best.id);
+      if (pack && best!.d <= reach) {
+        pack.state = 'chase';
+        pack.noticedMs = world.timeMs;
+        pack.target = { x: k.pos.x, z: k.pos.z };
+        events.push({ kind: 'packNoticed', packId: pack.id });
+      }
     }
   }
-  events.push({ kind: 'trapSprung', trap: trap.kind });
+  events.push({
+    kind: 'trapSprung',
+    trap: trap.kind,
+    ...(trap.wire !== undefined ? { wire: true as const } : {}),
+  });
 }
 
 /** One step: re-arm sprung traps, scout ahead, and spring any armed trap underfoot. */

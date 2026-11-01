@@ -90,6 +90,11 @@ export interface Combatant {
     chain?: number;
     sticky?: true;
     cloud?: { mult: number; turns: number };
+    /** Lane B r10 (R0155, R0179): Copycat's echo, Hiding (and hidden now), the type it shrugs off. */
+    copy?: number;
+    hides?: true;
+    hidden?: true;
+    proof?: string;
   };
 }
 

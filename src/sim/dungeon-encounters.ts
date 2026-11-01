@@ -11,6 +11,7 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { bravePower } from './dungeon-gear-effects';
+import { R10B4 } from '../config/tuning-r10b4';
 import { GEAR_EFFECTS } from '../config/dungeon-items-r8';
 import { friendBrave, friendPower } from './dungeon-friends';
 import { packKeyWin } from './dungeon-keys';
@@ -302,7 +303,9 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
       const n = world.nubbins.find((x) => x.id === id);
       return n ? [combatantOf(n, world)] : [];
     });
-    const cap = rivalLevel(party, tier) + E.boutLevelOver;
+    // R0179 (lane B r10): Brisk and Wild packs may stand a few levels over the party's rival.
+    const cap = rivalLevel(party, tier) + E.boutLevelOver + tierLift(world);
+    const difficulty = spec.fight ? R10B4.tiers.boutDifficulty[spec.fight] : undefined;
     const context: BattleContext = {
       kind: 'encounter',
       tier,
@@ -323,6 +326,8 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
         })),
       // R0164: Brave gear adds to each Nubbin's hits.
       ...(spec.brave ? { brave: { ...spec.brave } } : {}),
+      // R0179 (lane B r10): the tier's FIGHT flag: gentle assists on Cosy, Champion play on Wild.
+      ...(difficulty ? { difficulty } : {}),
     };
     const bout = createBattle(world, context, spec.seed);
     if (bout) {
@@ -335,6 +340,11 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
   }
   return autoResolve(world, spec, rng, events);
 };
+
+/** R0179 (lane B r10): the run's tier lifts the bout's level cap a little. */
+function tierLift(world: World): number {
+  return R10B4.tiers.boutLift[world.dungeon?.difficulty ?? 'cosy'];
+}
 
 let handler: EncounterHandler = battleHandler;
 
@@ -520,7 +530,12 @@ export function finishEncounter(
       if (n) n.pos = { x: at.x + 0.8 * (i ? -1 : 1), z: at.z + 0.6 };
     });
     run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
-    events.push({ kind: 'partyGiggles', packId });
+    // R0155 (lane B r10): a Snack Thief in the pack runs off with a fruit, if there is one.
+    const snack = spec.members.some((m) => m.mods.includes('snackThief'))
+      ? Math.min(world.inventory.fruit, R10B4.mods.snack)
+      : 0;
+    world.inventory.fruit -= snack;
+    events.push({ kind: 'partyGiggles', packId, ...(snack ? { snack } : {}) });
   } else {
     run.graceUntilMs = world.timeMs + E.fleeGraceMs;
     events.push({ kind: 'packFled', packId });

@@ -5,6 +5,8 @@ import { CG_C } from '../config/tuning-c';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { holdAtShelves } from './dungeon-shelves';
 import { keeperWaypoint } from './dungeon-nav';
+import { hopWaypoint } from './dungeon-hops';
+import { R10B4 } from '../config/tuning-r10b4';
 import { springBounce, springShroomAt } from './decorate';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
 import {
@@ -1053,13 +1055,17 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         // Underground the Keeper follows an A* path round the rock (dungeon-nav.ts). No
         // waypoint means it already stands as near as it can get: a plain tap ends there,
         // a care walk is left to give up through careWalkStalled.
-        const wp = keeperWaypoint(world, dungeonFloor, target);
+        // R0191 (lane B r10): with Auto-hop on, the route may jump a pit or climb onto a shelf.
+        const hop = hopWaypoint(world, dungeonFloor, target);
+        if (hop?.press) autoPress(world);
+        const wp = hop ? hop.wp : keeperWaypoint(world, dungeonFloor, target);
         if (!wp) {
           if (!k.intent) k.moveTarget = null;
         } else {
           const wd = dist(k.pos, wp);
-          const speed =
-            KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier);
+          const speed = hop?.air
+            ? R10B4.hops.airSpeed
+            : KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier);
           if (wd > 1e-6) {
             const dx = (wp.x - k.pos.x) / wd;
             const dz = (wp.z - k.pos.z) / wd;

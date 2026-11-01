@@ -1,4 +1,5 @@
 import { BATTLE } from '../../config/tuning-battle';
+import { R10B4 } from '../../config/tuning-r10b4';
 import type { Rng } from '../rng';
 import { moodMult } from './status';
 import { alignMult, typeMult } from './types-chart';
@@ -87,7 +88,7 @@ export function damageWith(
     (crit ? K.crit : 1) *
     roll *
     mult *
-    modMult(by, to);
+    modMult(by, to, move.type);
   let dmg = Math.max(1, Math.round(raw));
   if (!crit) dmg = Math.min(dmg, Math.max(1, Math.floor(to.maxHp * K.capShare)));
   return { dmg, eff };
@@ -97,10 +98,15 @@ export function damageWith(
  * A Hollow bout's extra factor (R0155, R0164; set up in `hollow-mods.ts`): the hitter's power
  * and grumpy cloud, and the target's damage taken. Exactly 1 for every other bout.
  */
-export function modMult(by: Combatant, to: Combatant): number {
+export function modMult(by: Combatant, to: Combatant, moveType?: string): number {
   if (!by.mod && !to.mod) return 1;
   const cloud = by.mod?.cloud && by.mod.cloud.turns > 0 ? by.mod.cloud.mult : 1;
-  return (by.mod?.hit ?? 1) * cloud * (to.mod?.taken ?? 1);
+  // Lane B r10: a Hiding foe that just puffed away, and Immune to Tickles (its own type).
+  const m = to.mod;
+  const guard =
+    (m?.hidden ? R10B4.mods.hiddenTaken : 1) *
+    (m?.proof && m.proof === moveType ? R10B4.mods.tickleTaken : 1);
+  return (by.mod?.hit ?? 1) * cloud * (to.mod?.taken ?? 1) * guard;
 }
 
 /**

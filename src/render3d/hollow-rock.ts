@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellAt, cellCentre, CHASM, isWalkable, WALL, type Floor } from '../sim/dungeon';
 import { plugUp, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
+import { onShelf, shelfRise } from '../sim/dungeon-shelves';
 import type { DungeonRun } from '../sim/types';
 import { surface, type Surface, type Tex } from '../samples/aaa-kit';
 import { caveShed } from './cave-shed';
@@ -418,13 +419,30 @@ function groundHeight(f: Floor, x: number, z: number): number {
     const cx = x0 + dx;
     const cy = y0 + dy;
     const e =
-      cx < 0 || cy < 0 || cx >= f.cols || cy >= f.rows ? 0 : (f.elevation[cy * f.cols + cx] ?? 0);
+      cx < 0 || cy < 0 || cx >= f.cols || cy >= f.rows
+        ? 0
+        : (f.elevation[cy * f.cols + cx] ?? 0) - (onShelf(f, cx, cy) ? shelfRise() : 0);
     all += e * 0.25;
     if (!isWalkable(f, cx, cy) || w <= 0) continue;
     sum += e * w;
     weight += w;
   }
-  return weight > 0 ? sum / weight : all;
+  // R0191 (lane B r10): a raised shelf is a sharp step, not a slope: the ground blends low
+  // round it and the shelf's rise is added on its own cells (its rim included), so the edge
+  // climbs in one vertex step (a third of a cell) instead of two thirds.
+  return (weight > 0 ? sum / weight : all) + shelfLift(f, x, z);
+}
+
+/** The shelf rise at a world point: points on a shelf cell's rim count as on it. */
+function shelfLift(f: Floor, x: number, z: number): number {
+  if (!f.shelves?.length) return 0;
+  const gx = x / CELL + f.cols / 2;
+  const gz = z / CELL + f.rows / 2;
+  const e = 1e-4;
+  for (const ox of [-e, e])
+    for (const oz of [-e, e])
+      if (onShelf(f, Math.floor(gx + ox), Math.floor(gz + oz))) return shelfRise();
+  return 0;
 }
 
 /** One block of rock: where it stands, its foot, its resting height. */

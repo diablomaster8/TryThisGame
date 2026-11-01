@@ -15,6 +15,7 @@ import { cellDist, CHASM, FLOOR, WALL, WATER, type Cell, type Floor } from './du
 import { densityPacks, endlessBand, type FoeBand } from './dungeon-density';
 import { placeShrines } from './dungeon-shrines';
 import { placeTraps } from './dungeon-traps';
+import { wireBells } from './dungeon-bell-wire';
 import { waypointCell } from './dungeon-levels';
 import { propCells } from './dungeon-props';
 import { Rng } from './rng';
@@ -100,6 +101,12 @@ export function keyCells(f: Floor): Cell[] {
     if (c) out.push(c);
   }
   return out.filter((c) => f.cells[c.y * f.cols + c.x] === FLOOR);
+}
+
+/** R0191 (lane B r10): whether `keys` (by default all key cells) are reachable on foot. */
+export function keysOnFoot(f: Floor, keys: Cell[] = keyCells(f)): boolean {
+  const walk = reachMask(f, f.stairsUp, false);
+  return keys.every((c) => walk[c.y * f.cols + c.x] === 1);
 }
 
 /** Whether the floor's rule holds: key cells on foot when shallow, with jumps when deep. */
@@ -234,6 +241,7 @@ export function platformFloor(
   seed: number,
   depth: number,
   band: FoeBand = endlessBand(depth),
+  jumpFree = false,
 ): Floor {
   const rng = new Rng((seed ^ 0x5eed_9a95 ^ (depth * 0x9e37)) >>> 0);
   const deep = depth >= G.nookFromDepth;
@@ -248,10 +256,18 @@ export function platformFloor(
       if (!stones || i % 2 === 1 || i === cr.cells.length - 1) f.cells[c.y * f.cols + c.x] = FLOOR;
     });
   }
-  ford(f, deep, f.fords);
+  // R0191 (lane B r10): on a Cosy act floor the way down never needs a jump, so stepping
+  // stones that would stand in it are laid as one solid row.
+  if (jumpFree && !keysOnFoot(f)) {
+    for (const cr of f.crossings)
+      if (cr.kind === 'stones') for (const c of cr.cells) f.cells[c.y * f.cols + c.x] = FLOOR;
+  }
+  // R0191 (lane B r10): a jump-free floor fords until everything dry is reached on foot.
+  ford(f, deep && !jumpFree, f.fords);
   if (depth < G.fromDepth) {
     placeShrines(f, seed, depth);
     placeTraps(f, seed, depth, band.act);
+    if (band.difficulty === 'wild') wireBells(f, seed, depth);
     densityPacks(f, seed, depth, band);
     return f;
   }
@@ -332,12 +348,14 @@ export function platformFloor(
   const want = rng.int(cutLo, cutHi);
   let cuts = 0;
   const baseWalk = reachMask(f, f.stairsUp, false);
+  const keysWalk = keys.filter((c) => baseWalk[c.y * f.cols + c.x]);
   for (const cut of all) {
     if (cuts >= want) break;
     if (used.has(cut) || near(cut)) continue;
     apply(cut, CHASM);
     let ok: boolean;
-    if (deep) ok = covered(reachMask(f, f.stairsUp, true));
+    if (deep)
+      ok = covered(reachMask(f, f.stairsUp, true)) && (!jumpFree || keysOnFoot(f, keysWalk));
     else {
       const walk = reachMask(f, f.stairsUp, false);
       ok = true;
@@ -365,6 +383,7 @@ export function platformFloor(
   // ground (R0158).
   placeShrines(f, seed, depth);
   placeTraps(f, seed, depth, band.act);
+  if (band.difficulty === 'wild') wireBells(f, seed, depth);
   densityPacks(f, seed, depth, band);
   return f;
 }

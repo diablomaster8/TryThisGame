@@ -972,6 +972,8 @@ export interface DungeonRun {
   kid?: true;
   /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
   flyLiftDepth?: number;
+  /** Lane B r10 (R0191): the depth where a flying party Nubbin already carried the Keeper over a pit. */
+  flyCarryDepth?: number;
   // Lane B round 9 (helper c).
   /** R0185: today's shared act chain uses this act's look (absent: the old endless daily). */
   dailyAct?: number;
@@ -1810,6 +1812,7 @@ export type SimEvent =
   | { kind: 'keeperJumped'; air: boolean }
   // Lane B r9 (R0191): a flying party Nubbin lifted the Keeper onto a raised shelf.
   | { kind: 'hollowFlyLift'; name: string }
+  | { kind: 'hollowFlyCarry'; name: string }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.
@@ -2039,7 +2042,7 @@ export type SimEvent =
   | { kind: 'shrineUsed'; shrine: string }
   | { kind: 'shrineFaded'; shrine: string }
   /** R0161: a trap sprung under the Keeper, and one a scouting Nubbin spotted. */
-  | { kind: 'trapSprung'; trap: string }
+  | { kind: 'trapSprung'; trap: string; wire?: true }
   | { kind: 'trapSpotted'; trap: string }
   /** R0031: the Keeper stood in a Hollow chasm or deep water and popped back to dry ground. */
   | { kind: 'hollowFell'; water: boolean; from: Vec2; to: Vec2 }
@@ -2048,7 +2051,7 @@ export type SimEvent =
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
   /** Lane B r10 (R0188): kid mode's counting berries (n picked) and the boss's game of tag. */
   | { kind: 'hollowKid'; what: 'berry' | 'tagStart' | 'tag'; n: number }
-  | { kind: 'partyGiggles'; packId: string }
+  | { kind: 'partyGiggles'; packId: string; snack?: number }
   // Lane B round 7: Gran's Picnic (R0204).
   | { kind: 'picnicRest' }
   | { kind: 'picnicTent' }

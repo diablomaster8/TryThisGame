@@ -11,7 +11,8 @@
 import { DUNGEON } from '../config/tuning';
 import { DUNGEON_NAV } from '../config/tuning-sim';
 import { astar, cellLine, stringPull } from './astar';
-import { FLOOR, WATER, type Floor } from './dungeon';
+import { FLOOR, WATER, cellOf, type Floor } from './dungeon';
+import { shelfAt } from './dungeon-shelves';
 import { propCells, propOnLine } from './dungeon-props';
 import { keeperPerks } from './perks';
 import type { Nubbin, Vec2, World } from './types';
@@ -30,7 +31,8 @@ const masks = new WeakMap<Floor, Masks>();
 const pathCache = new WeakMap<Floor, Map<string, Plan>>();
 
 /** The walkable mask of a floor: dry ground only, or water too. */
-export function navMask(f: Floor, wet: boolean): Uint8Array {
+export function navMask(f: Floor, wet: boolean, ledges = false): Uint8Array {
+  if (ledges && f.shelves?.length) return ledgeMasks(f, wet).nav;
   let m = masks.get(f);
   if (!m) {
     const dry = new Uint8Array(f.cells.length);
@@ -53,20 +55,50 @@ export function navMask(f: Floor, wet: boolean): Uint8Array {
   return wet ? m.wet : m.dry;
 }
 
+// R0191 (lane B r10): the Keeper's masks with every raised shelf closed.
+const ledgeCache = new WeakMap<
+  Floor,
+  { dry?: { nav: Uint8Array; sight: Uint8Array }; wet?: { nav: Uint8Array; sight: Uint8Array } }
+>();
+function ledgeMasks(f: Floor, wet: boolean): { nav: Uint8Array; sight: Uint8Array } {
+  let c = ledgeCache.get(f);
+  if (!c) ledgeCache.set(f, (c = {}));
+  const k = wet ? 'wet' : 'dry';
+  let m = c[k];
+  if (!m) {
+    const nav = navMask(f, wet).slice();
+    const sight = sightMask(f, wet).slice();
+    for (const s of f.shelves ?? [])
+      for (const q of s.cells) nav[q.y * f.cols + q.x] = sight[q.y * f.cols + q.x] = 0;
+    c[k] = m = { nav, sight };
+  }
+  return m;
+}
+
 /**
  * The rock-only mask, for straight-line checks: a walker standing in a cell the landmark's
  * padding closed must still see its way out, or it re-plans toward its own cell every step
  * and the collider holds it there.
  */
-function sightMask(f: Floor, wet: boolean): Uint8Array {
+function sightMask(f: Floor, wet: boolean, ledges = false): Uint8Array {
+  if (ledges && f.shelves?.length) return ledgeMasks(f, wet).sight;
   navMask(f, wet);
   const m = masks.get(f)!;
   return wet ? m.sightWet : m.sightDry;
 }
 
 /** A straight walk from a to b that rock and the landmark both leave clear. */
-function sightLine(f: Floor, wet: boolean, a: Vec2, b: Vec2, clearance: number): boolean {
-  return clearLine(f, sightMask(f, wet), a, b, clearance) && !propOnLine(f, a, b, clearance);
+function sightLine(
+  f: Floor,
+  wet: boolean,
+  a: Vec2,
+  b: Vec2,
+  clearance: number,
+  ledges = false,
+): boolean {
+  return (
+    clearLine(f, sightMask(f, wet, ledges), a, b, clearance) && !propOnLine(f, a, b, clearance)
+  );
 }
 
 function open(f: Floor, mask: Uint8Array, x: number, y: number): boolean {
@@ -152,12 +184,19 @@ function nearestReachable(f: Floor, mask: Uint8Array, start: number, goal: numbe
   return best;
 }
 
-function plan(f: Floor, wet: boolean, start: number, goal: number, clearance: number): Plan {
-  const key = `${wet ? 1 : 0}:${start}:${goal}:${clearance}`;
+function plan(
+  f: Floor,
+  wet: boolean,
+  start: number,
+  goal: number,
+  clearance: number,
+  ledges = false,
+): Plan {
+  const key = `${wet ? 1 : 0}${ledges ? 'L' : ''}:${start}:${goal}:${clearance}`;
   let cache = pathCache.get(f);
   const hit = cache?.get(key);
   if (hit) return hit;
-  const mask = navMask(f, wet);
+  const mask = navMask(f, wet, ledges);
   // The whole floor is the bound here: a Hollow floor is small enough to search outright.
   const opts = { maxExpansions: f.cols * f.rows };
   const sx = start % f.cols;
@@ -196,6 +235,8 @@ function cellIndexOf(f: Floor, p: Vec2): number {
 export interface NavRoute {
   floor: Floor | null;
   wet: boolean;
+  /** R0191 (lane B r10): planned with raised shelves closed (the Keeper, below one). */
+  ledges?: boolean;
   goal: number;
   points: Vec2[];
   reaches: boolean;
@@ -206,11 +247,20 @@ export function newRoute(): NavRoute {
   return { floor: null, wet: false, goal: -1, points: [], reaches: true, i: 0 };
 }
 
-function replan(route: NavRoute, f: Floor, pos: Vec2, target: Vec2, wet: boolean, cl: number) {
+function replan(
+  route: NavRoute,
+  f: Floor,
+  pos: Vec2,
+  target: Vec2,
+  wet: boolean,
+  cl: number,
+  ledges = false,
+) {
   const goal = cellIndexOf(f, target);
-  const p = plan(f, wet, cellIndexOf(f, pos), goal, cl);
+  const p = plan(f, wet, cellIndexOf(f, pos), goal, cl, ledges);
   route.floor = f;
   route.wet = wet;
+  route.ledges = ledges;
   route.goal = goal;
   route.reaches = p.reaches;
   // The exact target replaces its cell's centre when the path gets there.
@@ -231,28 +281,35 @@ export function nextWaypoint(
   target: Vec2,
   wet: boolean,
   clearance: number,
+  ledges = false,
 ): Vec2 | null {
-  const mask = navMask(f, wet);
+  const mask = navMask(f, wet, ledges);
   const goal = cellIndexOf(f, target);
-  if (mask[goal] === 1 && sightLine(f, wet, pos, target, clearance)) {
+  if (mask[goal] === 1 && sightLine(f, wet, pos, target, clearance, ledges)) {
     route.goal = -1;
     return target;
   }
-  if (route.floor !== f || route.wet !== wet || route.goal !== goal || !route.points.length) {
-    replan(route, f, pos, target, wet, clearance);
+  if (
+    route.floor !== f ||
+    route.wet !== wet ||
+    !!route.ledges !== ledges ||
+    route.goal !== goal ||
+    !route.points.length
+  ) {
+    replan(route, f, pos, target, wet, clearance, ledges);
   }
   const pts = route.points;
   // Skip ahead past waypoints already reached or already in a straight line's view.
   while (
     route.i < pts.length - 1 &&
     (Math.hypot(pts[route.i]!.x - pos.x, pts[route.i]!.z - pos.z) < DUNGEON_NAV.waypointReach ||
-      sightLine(f, wet, pos, pts[route.i + 1]!, clearance))
+      sightLine(f, wet, pos, pts[route.i + 1]!, clearance, ledges))
   ) {
     route.i++;
   }
   // Pushed off the route (a shove, a slide along a wall): plan again from here.
-  if (!sightLine(f, wet, pos, pts[route.i]!, 0)) {
-    replan(route, f, pos, target, wet, clearance);
+  if (!sightLine(f, wet, pos, pts[route.i]!, 0, ledges)) {
+    replan(route, f, pos, target, wet, clearance, ledges);
   }
   const wp = route.points[route.i]!;
   const last = route.i === route.points.length - 1;
@@ -272,7 +329,17 @@ export function keeperWaypoint(world: World, f: Floor, target: Vec2): Vec2 | nul
     keeperRoutes.set(world, route);
   }
   const wade = keeperPerks(world).wade;
-  return nextWaypoint(route, f, world.keeper.pos, target, wade, DUNGEON_NAV.keeperClearance);
+  // R0191 (lane B r10): from below, raised shelves are closed (a jump gets up, `dungeon-hops.ts`).
+  const ledges = !!f.shelves?.length && shelfAt(f, cellOf(f, world.keeper.pos)) < 0;
+  return nextWaypoint(
+    route,
+    f,
+    world.keeper.pos,
+    target,
+    wade,
+    DUNGEON_NAV.keeperClearance,
+    ledges,
+  );
 }
 
 /** A party Nubbin's next waypoint toward the Keeper or loot; Nubbins swim, so water is open. */

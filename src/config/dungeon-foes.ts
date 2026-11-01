@@ -17,7 +17,9 @@ export type ChampionModId =
   | 'copycat'
   | 'snackThief'
   | 'hiding'
-  | 'bossy';
+  | 'bossy'
+  // R0179 (lane B r10): Wild only, never in the rolled table below.
+  | 'tickleProof';
 
 export interface ChampionModDef {
   id: ChampionModId;
@@ -43,6 +45,8 @@ export interface ChampionModDef {
     stealFruitOnLoss?: number;
     hops?: boolean;
     aura?: { power: number };
+    /** Immune to Tickles (R0179): moves of its own type do half. */
+    proof?: true;
   };
 }
 
@@ -113,8 +117,22 @@ export const CHAMPION_MODS: readonly ChampionModDef[] = [
   },
 ];
 
+/**
+ * Wild's own modifier (R0179): kept out of `CHAMPION_MODS` so the rolled table, and every
+ * floor seeded from it, stays as it was.
+ */
+export const WILD_MODS: readonly ChampionModDef[] = [
+  {
+    id: 'tickleProof',
+    name: 'Immune to Tickles',
+    icon: '⊘',
+    tell: 'shrugs off moves of its own type',
+    effect: { proof: true },
+  },
+];
+
 export function championMod(id: ChampionModId): ChampionModDef {
-  return CHAMPION_MODS.find((m) => m.id === id)!;
+  return (CHAMPION_MODS.find((m) => m.id === id) ?? WILD_MODS.find((m) => m.id === id))!;
 }
 
 /** The name plate's shape by pack kind: a champion ◆, an elite ◈, a unique or boss ★. */

@@ -91,6 +91,7 @@ import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { gentleFloor, hollowKid } from './dungeon-kid';
 import { stepKidBerries } from './dungeon-kid-play';
 import { raiseShelves, type Shelf } from './dungeon-shelves';
+import type { Hop } from './dungeon-hops';
 import { storyFloor } from './dungeon-story-floors';
 
 /**
@@ -262,6 +263,8 @@ export interface Floor {
   seals?: Seal[];
   /** Lane B r9 (R0191): raised shelves, a jump up (dungeon-shelves.ts). */
   shelves?: Shelf[];
+  /** Lane B r10 (R0191): hop spots, pits of two or three cells to jump (dungeon-hops.ts). */
+  hops?: Hop[];
 }
 
 /** A camp service (R0152): who keeps it is a trainer id, `local`, or '' for the stash. */

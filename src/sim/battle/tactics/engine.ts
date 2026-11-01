@@ -11,6 +11,7 @@ import { BATTLE } from '../../../config/tuning-battle';
 import { TACTICS } from '../../../config/tuning-tactics';
 import { Rng } from '../../rng';
 import { damageWith, hurt, standing } from '../damage';
+import { afterModHit } from '../hollow-mods';
 import { moveById as turnMove } from '../moves';
 import { chargedById, chargedFor, shapedTiles } from './charged';
 import { KEEPER_MOVES, KEEPER_UNIT, keeperMoveById } from './keeper-unit';
@@ -697,6 +698,8 @@ function resolve(
         crit,
       });
       hurt(sink(s), rng, v.c, v.ward ? Math.min(dmg, v.c.hp - 1) : dmg);
+      // Lane B r10 (R0155): a Hollow foe's on-hit modifiers (Sparkly, Sticky, Copycat, Hiding).
+      afterModHit(sink(s), rng, u.c, v.c, dmg);
       s.hits.push({ to: v.c.id, side: u.c.side, tick: s.tick });
       if (s.hits.length > 12) s.hits.shift();
       if (def.kind === 'bonk' && v.c.hp > 0 && v.c.major?.id === 'drowsy') cure(sink(s), v.c);
