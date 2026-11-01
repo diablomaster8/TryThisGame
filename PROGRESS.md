@@ -38,6 +38,28 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## PERF review (2026-11-01, branch perf/review)
+
+Speed only; nothing the player sees or does changed. Review and before/after table:
+`recs-2026-10-27/PERF-REVIEW-2026-11-01.md`; harnesses `recs-2026-10-27/tools/perf-frame.cjs`
+(phone, 4x CPU, 8 Nubbins; `MUT=1` DOM writes, `LEAK=1` scene switches), `perf-boot.cjs`,
+`perf-bootprof.cjs`, `perf-shots.cjs` + `perf-diff.cjs`.
+
+- *Works:* `platform/dom-guards.ts` skips same-value `hidden` writes (about 400 HUD sites wrote
+  it every frame; with the `#hud:has()` rules each restyled the HUD); `platform/viewport.ts`
+  caches the window size and the 3D scene keeps the canvas height by ResizeObserver (no forced
+  layout per frame); `Game` and the HUD are a lazy chunk (eager 1024 -> 570 kB gz, ceiling back
+  to 1000; the moved stylesheets are imported from `main.ts` so the built CSS is byte-identical);
+  `frameKey` memoised; `Raster.set`/`toRgba` plain stores; sim fast paths in `peek.ts`,
+  `pair-play.ts`, `obstacles.ts` (fingerprints unchanged). Phone at 4x: Pixel 20.8 -> 51.8 fps,
+  Full 3D 11.3 -> 21 fps.
+- *Stubbed / left:* 3D `animate` allocations (~120 kB/frame), static-matrix freezing, painted
+  sheet cache for startup (slot pick to first frame ~10 s at 4x CPU, mostly painting).
+- *Bugs / notes:* the panel stack now hears only real `hidden` changes, so the dialogue's
+  `waiting` class is synced from a frame poller (`hud.ts`). `kids-r10.css` is imported by
+  `main.ts`, not by `kids-portrait.ts`/`do-beats.ts` (a shared eager chunk would load it before
+  `style.css`).
+
 ## Round 10 · Lane D WORLD + TECH (2026-10-31, branch r10/d)
 
 28 items: 14 done, 14 partial (helper branches r10/d1–d4, merged). Probe ×4 on head: 0/40 over,
