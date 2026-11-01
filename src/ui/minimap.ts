@@ -7,6 +7,7 @@
  * `html.dialogue-open`) and never in the Learning Grove's sprout band.
  */
 import { WORLD_TEXT } from '../config/strings-world';
+import { viewportSize } from '../platform/viewport';
 import { GROVE, LANDMARKS, MINIMAP } from '../config/tuning';
 import type { Game } from '../game';
 import { paintGroveMap } from '../render/map-paint';
@@ -251,7 +252,7 @@ export function mountMinimap(
     const show = minimapVisible(
       minimapModeOf(w.settings.minimap),
       w.location === 'grove',
-      window.innerHeight,
+      viewportSize().h,
       MINIMAP.autoMinHeightPx,
       textBandOf(w) === 'sprout',
     );

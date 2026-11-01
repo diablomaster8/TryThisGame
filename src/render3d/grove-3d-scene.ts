@@ -1,4 +1,5 @@
 import { openSky } from '../render/cave-bands';
+import { viewportSize } from '../platform/viewport';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -406,7 +407,7 @@ export class Grove3dScene {
 
   /** WORLD-03: the draw budget this device is held to (phone-sized viewports get the small one). */
   get perfBudget(): { calls: number; tris: number } {
-    return Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx
+    return Math.min(viewportSize().w, viewportSize().h) < WORLD_LOD.phoneMaxPx
       ? PERF_BUDGET.phone
       : PERF_BUDGET.desktop;
   }
@@ -480,7 +481,19 @@ export class Grove3dScene {
   /** The player's reduced-motion choice as the game resolves it; the minigames read it. */
   reduceMotion = false;
 
+  /**
+   * PERF: the canvas's CSS height for the creature LOD, kept by a ResizeObserver (its callback
+   * runs with layout clean) instead of a `clientHeight` read that forced layout every frame.
+   */
+  private canvasCssH = 0;
+  private readonly canvasSizer =
+    typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(() => (this.canvasCssH = this.canvas.clientHeight));
+
   constructor(readonly canvas: HTMLCanvasElement) {
+    this.canvasCssH = canvas.clientHeight;
+    this.canvasSizer?.observe(canvas);
     this.renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: false,
@@ -1842,7 +1855,7 @@ export class Grove3dScene {
         this.actors.group.children.filter((c) => !(c as THREE.Mesh).isMesh),
         this.camera,
         this.governor.geoLevel,
-        this.canvas.clientHeight,
+        this.canvasSizer ? this.canvasCssH : this.canvas.clientHeight,
       );
     }
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
@@ -2136,6 +2149,7 @@ export class Grove3dScene {
   }
 
   dispose(): void {
+    this.canvasSizer?.disconnect();
     this.dressings.dispose();
     document.removeEventListener('visibilitychange', this.onHidden);
     this.creatureLod.impostors?.dispose();

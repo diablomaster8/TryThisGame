@@ -3,6 +3,7 @@ import { TRAVEL_TEXT, WORLD_SETTINGS_TEXT } from '../config/strings-world';
 import type { Game } from '../game';
 import type { Settings } from '../sim/types';
 import { travelMode, type TravelMode } from '../sim/travel';
+import { viewportSize } from '../platform/viewport';
 
 /**
  * Lane D's two phone-room settings, mounted under the minimap in Settings: "Zoom out when
@@ -10,7 +11,8 @@ import { travelMode, type TravelMode } from '../sim/travel';
  * fields of the saved settings; unset reads as on for a phone and off elsewhere.
  */
 export function isPhoneScreen(): boolean {
-  return Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx;
+  const { w, h } = viewportSize();
+  return Math.min(w, h) < WORLD_LOD.phoneMaxPx;
 }
 
 /** Whether an optional phone setting is on: the saved choice, or on for a phone when unset. */

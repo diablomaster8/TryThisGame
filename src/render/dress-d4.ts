@@ -1,4 +1,5 @@
 import type { SceneStage } from '../config/story';
+import { viewportSize } from '../platform/viewport';
 import { CG4_D4 } from '../config/tuning-d4';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
@@ -55,7 +56,7 @@ class MoonOverlay {
 
   /** One moon pixel is about one game pixel (the target is about 540 px tall). */
   private size(c: HTMLCanvasElement): void {
-    const k = Math.max(1, Math.round(innerHeight / 270));
+    const k = Math.max(1, Math.round(viewportSize().h / 270));
     c.style.width = `${c.width * k}px`;
     c.style.height = `${c.height * k}px`;
   }
