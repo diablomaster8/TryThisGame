@@ -26,8 +26,19 @@ export const CLIPS: Record<ClipName, Clip> = {
 
 export const CLIP_NAMES = Object.keys(CLIPS) as ClipName[];
 
+/**
+ * PERF: the keys are looked up for every sprite every frame (about 37 kB of strings a frame
+ * on a phone); the set of clips, angles and frames is small and fixed, so each key is built
+ * once and reused.
+ */
+const FRAME_KEYS = new Map<string, Map<string, string[]>>();
+
 export function frameKey(clip: string, angle: string, index: number): string {
-  return `${clip}:${angle}:${index}`;
+  let byAngle = FRAME_KEYS.get(clip);
+  if (!byAngle) FRAME_KEYS.set(clip, (byAngle = new Map()));
+  let row = byAngle.get(angle);
+  if (!row) byAngle.set(angle, (row = []));
+  return (row[index] ??= `${clip}:${angle}:${index}`);
 }
 
 /** Which frame of `clip` shows at `elapsedMs` since the clip started. */
