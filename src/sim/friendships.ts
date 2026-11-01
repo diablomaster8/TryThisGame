@@ -3,7 +3,8 @@ import { FRIENDS_AWAY } from '../config/tuning-fun-r7';
 import { stepPairPlay } from './pair-play';
 import { addHappiness } from './needs';
 import { isFree } from './nubbin';
-import { areRivals, compat, flushRivalEvents, stepRivals } from './rivals';
+import { leaningPersonality } from './personality';
+import { areRivals, fitOf, flushRivalEvents, stepRivals } from './rivals';
 import type { Nubbin, SimEvent, World } from './types';
 
 /**
@@ -36,20 +37,25 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
   stepPairPlay(world, events);
   const minutes = dtMs / 60_000;
   const live = world.nubbins.filter((n) => n.stage !== 'egg' && n.stage !== 'cocoon');
+  // HOT-CI: each one's personality (or leaning) once a step, not once per pair.
+  const pers = live.map((n) => n.personality ?? leaningPersonality(n));
   for (let i = 0; i < live.length; i++) {
     for (let j = i + 1; j < live.length; j++) {
       const a = live[i]!;
       const b = live[j]!;
       const near = Math.hypot(a.pos.x - b.pos.x, a.pos.z - b.pos.z) <= FRIENDS.reach;
-      // R0538 (lane A r10): rivalry's friction, puffs and making up (live play only).
-      stepRivals(world, a, b, near, minutes, events);
+      const fit = near ? fitOf(pers[i] ?? null, pers[j] ?? null) : 1;
+      // R0538 (lane A r10): rivalry's friction, puffs and making up (live play only). A pair
+      // apart with no grudge or making-up on either side has nothing to step (HOT-CI).
+      if (near || a.rivals || b.rivals || a.makeUp || b.makeUp)
+        stepRivals(world, a, b, near, minutes, events, fit);
       if (!near) continue;
       a.friends ??= {};
       b.friends ??= {};
       const before = a.friends[b.id] ?? 0;
       // R0538: how fast they warm to each other depends on how their personalities fit.
       // Rivals near each other work toward making up instead (sim/rivals.ts).
-      const gain = areRivals(a, b) ? 0 : FRIENDS.perMinute * compat(a, b) * minutes;
+      const gain = areRivals(a, b) ? 0 : FRIENDS.perMinute * fit * minutes;
       const after = Math.min(100, before + gain);
       a.friends[b.id] = after;
       b.friends[a.id] = after;
@@ -60,9 +66,11 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
   }
   // Friends who moved on are forgotten slowly (R0539): a friend away on a trip, a stray or
   // a minigame fades a little each minute; a buddy who departed is remembered by name.
+  // HOT-CI: who is here, looked up once a step rather than scanned for every friend.
+  const here = new Set(world.nubbins.map((x) => x.id));
   for (const n of live) {
     for (const id of Object.keys(n.friends ?? {})) {
-      if (world.nubbins.some((x) => x.id === id)) continue;
+      if (here.has(id)) continue;
       const score = n.friends[id]!;
       const flower = world.memorials.find((m) => m.id === `memorial-${id}`);
       // Lane A r8 (R0539): a buddy away (not departed) is missed, for the hug when it is back.
@@ -82,7 +90,7 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
   // R0538 (lane A r10): a grudge against one no longer in the Grove is let go.
   for (const n of live) {
     if (!n.rivals) continue;
-    const gone = Object.keys(n.rivals).filter((id) => !world.nubbins.some((x) => x.id === id));
+    const gone = Object.keys(n.rivals).filter((id) => !here.has(id));
     if (!gone.length) continue;
     const r = { ...n.rivals };
     for (const id of gone) delete r[id];

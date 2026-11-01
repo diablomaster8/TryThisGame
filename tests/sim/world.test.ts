@@ -1,3 +1,4 @@
+import { budgetMs } from './timing-budget';
 import { describe, expect, it } from 'vitest';
 import { BEHAVIOR, EGG, GROVE, SIM, UI } from '../../src/config/tuning';
 import {
@@ -195,7 +196,7 @@ describe('world', () => {
     }
     const start = performance.now();
     run(w, 36_000);
-    expect(performance.now() - start).toBeLessThan(3000);
+    expect(performance.now() - start).toBeLessThan(budgetMs());
     expect(w.nubbins.every((n) => n.stage === 'child' || n.stage === 'cocoon')).toBe(true);
   });
 });

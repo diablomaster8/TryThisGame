@@ -166,3 +166,20 @@ export const CAMERA_FOLLOW = {
   landDip: 0.06,
   landDipMs: 220,
 } as const;
+
+/**
+ * HOT-CI: the wall-clock budgets of the sim's timing tests (a full life, an hour of eight
+ * Nubbins, a week's catch-up). `ms` holds on a dev machine. On CI (`CI` is set on GitHub
+ * Actions) the shared runners measured 2.1-2.8x slower and the suite's parallel workers
+ * swamp any wall-clock number, so a blocking 3 s check there failed on noise and stopped every
+ * deploy. There the main suite skips the wall-clock asserts, and a separate `perf` job runs
+ * the timing files alone (`PERF=1`, one file at a time) against `ms` times `ciScale`; it
+ * reports without blocking the deploy. Vitest's per-test timeout is `testTimeoutMs`, times
+ * `ciTimeoutScale` on CI.
+ */
+export const TIMING_BUDGET = {
+  ms: 3000,
+  ciScale: 2,
+  testTimeoutMs: 5000,
+  ciTimeoutScale: 3,
+} as const;

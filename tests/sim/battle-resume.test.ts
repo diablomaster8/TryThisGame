@@ -1,3 +1,4 @@
+import { budgetMs } from './timing-budget';
 import { describe, expect, it } from 'vitest';
 import { bestAllyAction } from '../../src/sim/battle';
 import { openBout } from '../../src/sim/battle/resume';
@@ -74,7 +75,7 @@ describe('save and resume mid-battle (recs FIGHT-64)', () => {
     const before = JSON.stringify(w.battle);
     const t0 = performance.now();
     catchUp(w, 7 * 86_400_000, 7 * 86_400_000);
-    expect(performance.now() - t0).toBeLessThan(3000);
+    expect(performance.now() - t0).toBeLessThan(budgetMs());
     expect(JSON.stringify(w.battle)).toBe(before);
   });
 });

@@ -18,15 +18,18 @@ import { isFree } from './nubbin';
 import { leaningPersonality } from './personality';
 import { roll } from './traits';
 import type { IdleAct } from './soul-idle';
-import type { Nubbin, SimEvent, World } from './types';
+import type { Nubbin, Personality, SimEvent, World } from './types';
 
 const dist = (a: { x: number; z: number }, b: { x: number; z: number }): number =>
   Math.hypot(a.x - b.x, a.z - b.z);
 
 /** How well two Nubbins' personalities fit (a child by its leaning; none yet is 1). */
 export function compat(a: Nubbin, b: Nubbin): number {
-  const pa = a.personality ?? leaningPersonality(a);
-  const pb = b.personality ?? leaningPersonality(b);
+  return fitOf(a.personality ?? leaningPersonality(a), b.personality ?? leaningPersonality(b));
+}
+
+/** The fit of two personalities (or leanings) already looked up; none yet is 1. */
+export function fitOf(pa: Personality | null, pb: Personality | null): number {
   return pa && pb ? FRIEND_COMPAT[pa][pb] : 1;
 }
 
@@ -154,10 +157,10 @@ export function stepRivals(
   near: boolean,
   minutes: number,
   events: SimEvent[],
+  fit = compat(a, b),
 ): void {
   if (!soulLive()) return;
   const now = world.timeMs;
-  const fit = compat(a, b);
   // The rub of a poor fit simmers up to a rivalry and no further; making up can cool it.
   if (near && fit < RIVALS.frictionBelow && !areRivals(a, b)) {
     const rub = FRIENDS.perMinute * (1 - fit) * RIVALS.friction * minutes;

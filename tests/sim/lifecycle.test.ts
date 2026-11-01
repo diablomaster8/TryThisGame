@@ -1,3 +1,4 @@
+import { budgetMs } from './timing-budget';
 import { lifespanMs } from '../../src/sim/slips';
 import { describe, expect, it } from 'vitest';
 import { EGG, LIFECYCLE, REBIRTH, SIM } from '../../src/config/tuning';
@@ -132,7 +133,7 @@ describe('a full life at ×1000', () => {
       keepLoved(n);
       runMs(w, chunk);
     }
-    expect(performance.now() - start).toBeLessThan(3000);
+    expect(performance.now() - start).toBeLessThan(budgetMs());
     expect(n.rebirths).toBe(1);
   });
 });

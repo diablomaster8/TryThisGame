@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { TOOL_FILES, UNIT_FILES } from './tests/test-projects';
+import { TIMING_BUDGET } from './src/config/tuning-sim';
 
 // BASE_PATH is set by the GitHub Pages workflow to "/<repo-name>/".
 // Locally it is unset, so the app is served from "/".
@@ -203,6 +204,8 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
+    // HOT-CI: CI runners are slower and noisier; long sim tests get the scaled timeout there.
+    testTimeout: TIMING_BUDGET.testTimeoutMs * (process.env.CI ? TIMING_BUDGET.ciTimeoutScale : 1),
     // TECH-42: two projects. `unit` skips the story scripts (see tests/test-projects.ts);
     // `stories` registers them up front, as the app's boot does. The sample generators in
     // TOOL_FILES only run with TOOLS=1, so a plain run reports no skipped files.

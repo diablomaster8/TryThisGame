@@ -10,6 +10,7 @@ import { keeperFooting, keeperJump, keeperLastSafe, updateKeeper } from '../../s
 import { TERRACES } from '../../src/sim/terrain';
 import { createWorld } from '../../src/sim/world';
 import type { SimEvent, World } from '../../src/sim/types';
+import { budgetMs } from './timing-budget';
 
 const SUB = 1000 / 60;
 const pond = GROVE.pond;
@@ -88,7 +89,7 @@ describe('gliding over the pond (MOVE-27)', () => {
       pond.r + 0.5 - 0.05,
     );
     // Back on its feet the moment it touches the water: nothing lost, no wait.
-    expect(ms).toBeLessThan(3000);
+    expect(ms).toBeLessThan(budgetMs());
     expect(w.inventory.shells).toBe(shells);
   });
 

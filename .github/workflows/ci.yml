@@ -53,6 +53,22 @@ jobs:
         env:
           TZ: Asia/Tokyo
 
+  # HOT-CI: the sim's wall-clock budgets, alone and one file at a time, at the CI scale
+  # (TIMING_BUDGET in src/config/tuning-sim.ts). The main suite skips those asserts on CI,
+  # where parallel workers swamp them; this job reports a real slowdown without blocking.
+  perf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --no-file-parallelism tests/sim/world.test.ts tests/sim/lifecycle.test.ts tests/sim/offline.test.ts tests/sim/battle-balance.test.ts tests/sim/battle-resume.test.ts tests/sim/pond-glide.test.ts tests/sim/story-book.test.ts
+        env:
+          PERF: 1
+
   build-bundle:
     runs-on: ubuntu-latest
     steps:

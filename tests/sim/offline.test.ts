@@ -1,3 +1,4 @@
+import { budgetMs } from './timing-budget';
 import { describe, expect, it } from 'vitest';
 import { EGG, LIFECYCLE, SIM } from '../../src/config/tuning';
 import { allowedSpan, catchUp } from '../../src/sim/offline';
@@ -68,7 +69,7 @@ describe('catchUp', () => {
     w.settings.offlineAging.mode = 'indefinite';
     const start = performance.now();
     catchUp(w, 7 * DAY, 0);
-    expect(performance.now() - start).toBeLessThan(3000);
+    expect(performance.now() - start).toBeLessThan(budgetMs());
     for (const n of w.nubbins) {
       expect(n.needs.hunger).toBeGreaterThan(0);
       expect(n.stage).toBe('adult');

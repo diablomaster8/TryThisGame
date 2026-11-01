@@ -1,3 +1,4 @@
+import { budgetMs } from './timing-budget';
 import { describe, expect, it } from 'vitest';
 import { BATTLE } from '../../src/config/tuning-battle';
 import { battleAct, createBattle, MOVES, type BattleContext } from '../../src/sim/battle';
@@ -107,6 +108,6 @@ describe('balance harness (recs FIGHT-81)', () => {
   });
 
   it('finishes inside the 3 s budget', () => {
-    expect(performance.now() - started).toBeLessThan(3000);
+    expect(performance.now() - started).toBeLessThan(budgetMs());
   });
 });

@@ -12,6 +12,7 @@ import { applyCommand } from '../../src/sim/world';
 import { catchUp } from '../../src/sim/offline';
 import { awayStories } from '../../src/ui/away-stories';
 import { c, campaignWorld, playScenes, tick } from './campaign-driver';
+import { budgetMs } from './timing-budget';
 
 registerStorylines(STORYLINE_CONTENT);
 
@@ -212,7 +213,7 @@ describe('away from the Grove (R0632)', () => {
     const chapters = [world.lines.hundred!.chapter, world.lines.beetle!.chapter];
     const t0 = performance.now();
     catchUp(world, 7 * 86_400_000, 7 * 86_400_000);
-    expect(performance.now() - t0).toBeLessThan(3000);
+    expect(performance.now() - t0).toBeLessThan(budgetMs());
     expect([world.lines.hundred!.chapter, world.lines.beetle!.chapter]).toEqual(chapters);
     // Whatever a line wanted to say waits for the Keeper in its own queue, and reaches the
     // spine's once the Keeper is in its region (R0597, R0605).
@@ -235,7 +236,7 @@ describe('away from the Grove (R0632)', () => {
     const entries = JSON.stringify(Object.keys(world.questBook!.entries).sort());
     const t0 = performance.now();
     const report = catchUp(world, 7 * 86_400_000, 7 * 86_400_000);
-    expect(performance.now() - t0).toBeLessThan(3000);
+    expect(performance.now() - t0).toBeLessThan(budgetMs());
     expect(report.simulatedMs).toBe(7 * 86_400_000);
     expect(report.events.some((e) => e.kind === 'questOffered' || e.kind === 'areaEntered')).toBe(
       false,
