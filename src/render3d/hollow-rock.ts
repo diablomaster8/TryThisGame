@@ -6,6 +6,8 @@ import type { DungeonRun } from '../sim/types';
 import { surface, type Surface, type Tex } from '../samples/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
+import { tileLookOf } from '../render/paint/dungeon-tiles';
+import type { TileLook } from '../config/tuning-r10b1';
 import {
   CELL,
   WALL_H,
@@ -508,8 +510,10 @@ export class HollowRock implements HollowModule {
   }
 
   /** The painted texture a band's rock wears: sandstone is the shared one, the rest are painted once. */
-  private surfaceFor(name: RockTex): Surface {
-    if (name === 'sandstone') return this.tex.rock;
+  private surfaceFor(name: RockTex | TileLook['rock'] | TileLook['ground']): Surface {
+    if (name === 'sandstone' || name === 'rock') return this.tex.rock;
+    // R0144: the Grove's own painted textures, shared rather than painted again.
+    if (name === 'cobble' || name === 'plaster' || name === 'dirt') return this.tex[name];
     let s = this.surfaces.get(name);
     if (!s) {
       s = surface(name, 256, 5);
@@ -527,10 +531,17 @@ export class HollowRock implements HollowModule {
   build(f: Floor, ctx: HollowCtx): void {
     this.ctx = ctx;
     const bi = Math.max(0, GROVE3D.cave.bands.indexOf(ctx.band));
-    const look = R.looks[Math.min(bi, R.looks.length - 1)]!;
+    // R0144 (lane B r10): an act's caves wear its tileset's rock and ground textures and
+    // strata; the endless Hollow keeps the depth band's. Same programs, only maps change.
+    const tiles = tileLookOf(f);
+    const band = R.looks[Math.min(bi, R.looks.length - 1)]!;
+    const look = tiles ? { tex: tiles.rock, ...tiles.strata } : band;
     const surf = this.surfaceFor(look.tex);
     this.rock.map = surf.map;
     this.rock.normalMap = surf.normal;
+    const ground = this.surfaceFor(tiles?.ground ?? 'dirt');
+    this.earth.map = ground.map;
+    this.earth.normalMap = ground.normal;
     const mix = (hex: string, k: number): THREE.Color => {
       const c = new THREE.Color(hex);
       c.multiplyScalar(1 / Math.max(c.r, c.g, c.b, 0.001));

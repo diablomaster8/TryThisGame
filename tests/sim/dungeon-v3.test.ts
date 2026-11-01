@@ -3,6 +3,7 @@ import { HOLLOW, type HollowLevel } from '../../src/config/tuning';
 import { floorOf, WALL } from '../../src/sim/dungeon';
 import { generateV3, v3OptionsFor } from '../../src/sim/dungeon-gen-v3';
 import { PIECES, pieceProblems } from '../../src/sim/dungeon-pieces';
+import { HOLLOW_TOUR } from '../../src/config/tuning-r10b1';
 import { measure } from './dungeon-measure';
 
 // Generator version 3 (R0143, R0144): floors assembled from authored pieces, sized to the
@@ -10,15 +11,10 @@ import { measure } from './dungeon-measure';
 
 const SEEDS = 100;
 /**
- * Full-clear walking tour per level, world units. Standard floors carry the review's
- * 750–1,100 u target; small floors open an act and big ones close it, so their bands sit
- * below and above it (assumption, PROGRESS.md lane B).
+ * Full-clear walking tour per level, world units: the tunable bands (lane B r10, R0143).
+ * Standard is the review's 750–1,100 u; small and big scale it by their walkable area.
  */
-const TOUR: Record<HollowLevel, [number, number]> = {
-  small: [500, 950],
-  standard: [750, 1100],
-  big: [1000, 1750],
-};
+const TOUR: Record<HollowLevel, readonly [number, number]> = HOLLOW_TOUR.bands;
 const WALKABLE: Record<HollowLevel, [number, number]> = {
   small: [1800, 2400],
   standard: [2600, 3400],
@@ -72,10 +68,7 @@ describe('version-3 floors', () => {
         if (layout.pieces.filter((p) => p.role === 'treasure').length < 2) fail('treasure');
       }
       for (const [why, n] of Object.entries(miss))
-        expect(n, `${level}: ${why} missed on ${n} of ${SEEDS} seeds`).toBeLessThanOrEqual(
-          // Known gap (R0143 partial): the standard tour is in band on ~85% of seeds.
-          level === 'standard' && why === 'tour' ? 20 : 5,
-        );
+        expect(n, `${level}: ${why} missed on ${n} of ${SEEDS} seeds`).toBeLessThanOrEqual(5);
     });
   }
 

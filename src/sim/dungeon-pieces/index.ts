@@ -2,15 +2,21 @@ import type { Piece } from './piece';
 import { ROOTWAYS } from './rootways';
 import { CLOISTER } from './cloister';
 import { STORY_BEETLE } from './story-beetle';
+import { SANDGLASS } from './sandglass';
+import { FROSTBELL } from './frostbell';
+import { GLOOM } from './gloom';
 
 /**
- * Every tileset's pieces, by tileset id (R0144). The Rootways (Act I) and the Cloister
- * Gardens (Act II, lane B r9) are drawn; the other acts fall back to the Rootways until
- * theirs are authored (R0145).
+ * Every tileset's pieces, by tileset id (R0144): the Rootways (Act I), the Cloister
+ * Gardens (Act II, lane B r9), the Sandglass Ruins, the Frostbell Caves and the Gloom
+ * (Acts III–V, lane B r10). An unknown tileset falls back to the Rootways.
  */
 export const PIECES: Readonly<Record<string, readonly Piece[]>> = {
   rootways: ROOTWAYS,
   cloister: CLOISTER,
+  sandglass: SANDGLASS,
+  frostbell: FROSTBELL,
+  gloom: GLOOM,
 };
 
 /** Authored story pieces (R0197), named by story floors, never drawn from a tileset pool. */

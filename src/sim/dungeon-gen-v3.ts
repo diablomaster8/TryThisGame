@@ -39,6 +39,8 @@ import {
 import { Rng } from './rng';
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { NUBBIN_TYPES, type DungeonLootKind } from './types';
+import { HOLLOW_TOUR } from '../config/tuning-r10b1';
+import { tourOf } from './dungeon-tour';
 
 const V = HOLLOW.v3;
 const SIDES: readonly Side[] = ['n', 'e', 's', 'w'];
@@ -67,6 +69,12 @@ export interface V3Options {
    * falls back to the tileset's.
    */
   authored?: { entry?: string; exit?: string; hub?: string };
+  /**
+   * R0143 (lane B r10): false keeps the first roll whatever its tour. The endless Deep
+   * Hollow and story floors keep the floors they always had; act levels, side caves and
+   * the daily are held to the tour bands.
+   */
+  banded?: boolean;
 }
 
 /** The nearest FLOOR cell to `c` by rings (itself when dry). */
@@ -87,7 +95,7 @@ function dryNear(f: Floor, c: Cell): Cell {
 export function v3OptionsFor(depth: number): V3Options {
   const d = V.deepLevels;
   const level: HollowLevel = depth <= d.small ? 'small' : depth <= d.standard ? 'standard' : 'big';
-  return { level, tileset: 'rootways', boss: false };
+  return { level, tileset: 'rootways', boss: false, banded: false };
 }
 
 /**
@@ -234,10 +242,38 @@ interface Placed {
   role: SlotRole;
 }
 
+/**
+ * R0143 (lane B r10): a floor whose full-clear tour misses its level's band
+ * (`HOLLOW_TOUR`) is rolled again with a nudged generator seed, keeping the closest; a
+ * floor in band on its first roll is the floor it always was.
+ */
 export function generateV3(seed: number, depth: number, opts: V3Options): Floor {
+  const band = opts.level === 'kid' || opts.banded === false ? null : HOLLOW_TOUR.bands[opts.level];
+  let best: Floor | null = null;
+  let bestMiss = Infinity;
+  for (let k = 0; k <= HOLLOW_TOUR.retries; k++) {
+    const f = generateV3Roll(seed, depth, opts, k);
+    if (!band) return f;
+    const t = tourOf(f);
+    // R0144: a floor short of junctions or treasure dead-ends always counts as a worse miss.
+    const L = f.layout!;
+    const shape =
+      (L.junctions < 3 ? 1 : 0) +
+      (L.pieces.filter((p) => p.role === 'treasure').length < 2 ? 1 : 0);
+    const miss = Math.max(0, band[0] - t, t - band[1]) + shape * 1e6;
+    if (miss === 0) return f;
+    if (miss < bestMiss) [best, bestMiss] = [f, miss];
+  }
+  return best!;
+}
+
+function generateV3Roll(seed: number, depth: number, opts: V3Options, roll: number): Floor {
   const level = opts.level === 'kid' ? HOLLOW_R9D.kid.dims : V.levels[opts.level];
   const levelIndex = Object.keys(V.levels).indexOf(opts.level);
-  const rng = Rng.fromSeed((seed * 31 + depth * 7919 + levelIndex * 104729 + 0x3c6ef372) >>> 0);
+  const rng = Rng.fromSeed(
+    (seed * 31 + depth * 7919 + levelIndex * 104729 + 0x3c6ef372 + roll * HOLLOW_TOUR.rollSalt) >>>
+      0,
+  );
   const { cols, rows } = level;
   const S = DUNGEON.special;
   let special: SpecialFloor = 'none';

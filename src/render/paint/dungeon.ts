@@ -6,6 +6,7 @@ import { frameKey } from '../sprites/animations';
 import type { SpriteSheet } from '../sprites/atlas';
 import { RasterAtlas } from './atlas';
 import { townFrames } from './dungeon-town';
+import { floorTile, tileLookOf, wallTile } from './dungeon-tiles';
 import { fbm, ridged, vnoise, warped } from './noise';
 import { hash, hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
 
@@ -201,6 +202,8 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
     }
     return m;
   };
+  // R0144 (lane B r10): the act's own ground and wall pattern.
+  const tiles = tileLookOf(f);
   const trapCells = new Set((f.traps ?? []).map((t) => t.cell.y * f.cols + t.cell.x));
   const floorMask = new Uint8Array(width * height);
   for (let py = 0; py < height; py++) {
@@ -240,6 +243,7 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
           ].some(([ox, oy]) => cellAt(f, Math.floor(cx) + ox!, Math.floor(cy) + oy!) === WATER);
           const damp = fbm(px / 36, py / 36, 2, 9);
           if (nearWater || (damp > 0.64 && dWall < 1.1)) c = mix(c, moss, 0.45 + grain * 0.3);
+          if (tiles) c = floorTile(tiles, c, px, py, cx, cy);
           if (hash(px >> 1, py >> 1, 11) < 0.01) c = mix(c, hex('#b8b0c0'), 0.8);
           c = shade(c, terrace(cx, cy));
           // A trap (R0161): a slightly raised pale tile, lit top-left, shadowed bottom-right.
@@ -491,6 +495,11 @@ export function paintCaveWallTexture(depth: number, f?: Floor | null): CanvasTex
       r.set(x, y, c);
     }
   }
+  // R0144 (lane B r10): the act's own face pattern over the strata.
+  const tiles = tileLookOf(f);
+  if (tiles)
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++) r.set(x, y, wallTile(tiles, r.get(x, y), x, y, W));
   const tex = r.toTexture(true);
   tex.wrapS = RepeatWrapping;
   tex.wrapT = RepeatWrapping;
