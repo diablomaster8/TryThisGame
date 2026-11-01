@@ -161,7 +161,8 @@ export const CAMERA_FOLLOW = {
   groundRate: 3,
   airSlack: 1.2,
   lookAhead: 0.6,
-  lookAheadRate: 2,
+  /** HOT-3b: fast enough that a start, a turn or a stop never leaves the Keeper off centre. */
+  lookAheadRate: 20,
   landDip: 0.06,
   landDipMs: 220,
 } as const;

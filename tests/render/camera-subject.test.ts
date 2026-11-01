@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { cameraSubject, sheetShift, type Spot } from '../../src/render/camera-subject';
+import { walkLead } from '../../src/render/camera';
 import { clearShift } from '../../src/render/view-shift';
+import { CAMERA, KEEPER } from '../../src/config/tuning';
+import { CAMERA_FOLLOW } from '../../src/config/tuning-sim';
 
 // HOT-3: the camera follows the Keeper, the talker while a dialogue line is up, then the Keeper.
 describe('HOT-3 camera subject', () => {
@@ -20,6 +23,36 @@ describe('HOT-3 camera subject', () => {
 
   it('falls back to the Keeper when the speaker is not in the scene', () => {
     expect(cameraSubject(keeper, 'corvin', spotOf)).toEqual({ at: keeper, talker: false });
+  });
+});
+
+// HOT-3b: a tap target is never the camera subject. The Keeper walks to the tap at full speed
+// and the camera follows the same way on a phone as on a desktop: it never runs ahead to the
+// tap point, so the Keeper never walks across a view parked on blank map.
+describe('HOT-3b tap-to-move', () => {
+  it.each([1, 2])('keeps the camera on the Keeper, not the tap point, at %sx pace', (pace) => {
+    const tap = { x: 9, z: -6 };
+    const keeper = { x: 0, z: 0 };
+    const cam = { ...keeper };
+    const len = Math.hypot(tap.x, tap.z);
+    const dir = { x: tap.x / len, z: tap.z / len };
+    const dt = 1 / 60;
+    let worst = 0;
+    while (Math.hypot(tap.x - keeper.x, tap.z - keeper.z) > 0.05) {
+      const left = Math.hypot(tap.x - keeper.x, tap.z - keeper.z);
+      const step = Math.min(KEEPER.speed * pace * dt, left);
+      keeper.x += dir.x * step;
+      keeper.z += dir.z * step;
+      // No dialogue: the subject is the Keeper, whatever spot a lookup would give.
+      const { at } = cameraSubject(keeper, null, () => tap);
+      const lead = walkLead(CAMERA_FOLLOW.lookAhead, pace, false);
+      const aim = { x: at.x + dir.x * lead, z: at.z + dir.z * lead };
+      const t = 1 - Math.exp(-CAMERA.followRate * dt);
+      cam.x += (aim.x - cam.x) * t;
+      cam.z += (aim.z - cam.z) * t;
+      worst = Math.max(worst, Math.hypot(cam.x - keeper.x, cam.z - keeper.z));
+    }
+    expect(worst).toBeLessThan(0.3);
   });
 });
 
