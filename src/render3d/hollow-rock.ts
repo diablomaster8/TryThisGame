@@ -6,6 +6,8 @@ import type { DungeonRun } from '../sim/types';
 import { surface, type Surface, type Tex } from '../samples/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
+import { FIELD_R10 } from '../config/tuning-r10b2';
+import { SectorIndex } from '../render/field-sectors';
 import {
   CELL,
   WALL_H,
@@ -479,6 +481,11 @@ export class HollowRock implements HollowModule {
   private plugSnap = false;
   private lastT = 0;
   private jobs: BakeJob[] = [];
+  /** Lane B r10 (R0147): a field draws only the 3×3 sectors round the Keeper. */
+  private sectors: { sec: SectorIndex; geo: THREE.BufferGeometry }[] = [];
+  private sectorKey = -1;
+  private readonly sectorRange = { start: 0, count: 0 };
+  private sectorFloor: Floor | null = null;
   private jobAt = 0;
   private vertAt = 0;
   private readonly base = new THREE.Color();
@@ -550,6 +557,9 @@ export class HollowRock implements HollowModule {
     const solid = new CellField(f, (x, y) => (cellAt(f, x, y) === WALL ? 1 : 0), 1);
     const vistaCells = this.vistaCells(f);
 
+    this.sectors = [];
+    this.sectorKey = -1;
+    this.sectorFloor = f;
     jobs.push(this.buildFloor(f, ctx, wet, solid, vistaCells));
     jobs.push(this.buildWalls(f, ctx, wet, open, vistaCells));
     this.jobs = jobs;
@@ -607,6 +617,7 @@ export class HollowRock implements HollowModule {
     const pos = new Buf();
     const wetB = new Buf();
     const index: number[] = [];
+    const sec = streamed(f);
     const vtx = (i: number, j: number): number => {
       const k = j * W + i;
       let v = vid[k]!;
@@ -625,7 +636,7 @@ export class HollowRock implements HollowModule {
       const b = vtx(i + n, j);
       const c = vtx(i, j + n);
       const d = vtx(i + n, j + n);
-      index.push(a, c, b, b, c, d);
+      (sec ? sec.at(Math.floor(i / S), Math.floor(j / S)) : index).push(a, c, b, b, c, d);
     };
     for (let cy = 0; cy < f.rows; cy++)
       for (let cx = 0; cx < f.cols; cx++) {
@@ -645,7 +656,8 @@ export class HollowRock implements HollowModule {
     const col = new Float32Array(n * 3);
     const nrmGeo = new THREE.BufferGeometry();
     nrmGeo.setAttribute('position', new THREE.BufferAttribute(p, 3));
-    nrmGeo.setIndex(index);
+    const tris = sec ? sec.finish() : index;
+    nrmGeo.setIndex(tris);
     nrmGeo.computeVertexNormals();
     const nrm = nrmGeo.attributes.normal as THREE.BufferAttribute;
     const uv = new Float32Array(n * 2);
@@ -690,7 +702,8 @@ export class HollowRock implements HollowModule {
     g.setAttribute('color', colAttr);
     g.setAttribute('aTorch', torchAttr);
     g.setAttribute('aWet', new THREE.BufferAttribute(wetB.floats, 1));
-    g.setIndex(index);
+    g.setIndex(tris);
+    if (sec) this.sectors.push({ sec, geo: g });
     nrmGeo.dispose();
     const floor = new THREE.Mesh(g, this.earth);
     floor.receiveShadow = true;
@@ -779,6 +792,7 @@ export class HollowRock implements HollowModule {
     const wetB = new Buf();
     const col = new Buf();
     const index: number[] = [];
+    const sec = streamed(f);
     const foot = new THREE.Color('#5a5266');
     const lipC = new THREE.Color('#b0a8be');
     const c = new THREE.Color();
@@ -820,7 +834,7 @@ export class HollowRock implements HollowModule {
       for (let j = 0; j < 2; j++)
         for (let k = 0; k < 2; k++) {
           const a = t0 + j * 3 + k;
-          index.push(a, a + 3, a + 1, a + 1, a + 3, a + 4);
+          (sec ? sec.at(w.cx, w.cy) : index).push(a, a + 3, a + 1, a + 1, a + 3, a + 4);
         }
       // The sides: finely cut toward open ground, a plain strip toward another block.
       for (const [dx, dy] of [
@@ -852,8 +866,8 @@ export class HollowRock implements HollowModule {
             const b = a + 1;
             const cc = a + nu + 1;
             const d = cc + 1;
-            if (flip) index.push(a, cc, b, b, cc, d);
-            else index.push(a, b, cc, b, d, cc);
+            if (flip) (sec ? sec.at(w.cx, w.cy) : index).push(a, cc, b, b, cc, d);
+            else (sec ? sec.at(w.cx, w.cy) : index).push(a, b, cc, b, d, cc);
           }
       }
     });
@@ -873,7 +887,8 @@ export class HollowRock implements HollowModule {
     g.setAttribute('aWall', new THREE.BufferAttribute(wallB.floats, 3));
     g.setAttribute('aLean', new THREE.BufferAttribute(leanB.floats, 2));
     g.setAttribute('aWet', new THREE.BufferAttribute(wetB.floats, 1));
-    g.setIndex(index);
+    g.setIndex(sec ? sec.finish() : index);
+    if (sec) this.sectors.push({ sec, geo: g });
     g.computeBoundingSphere();
     if (g.boundingSphere) g.boundingSphere.radius += R.lean + 1;
 
@@ -900,6 +915,8 @@ export class HollowRock implements HollowModule {
 
   dispose(): void {
     disposeObjects(this.objs);
+    this.sectors = [];
+    this.sectorFloor = null;
     this.wallTex?.dispose();
     this.wallTex = null;
     this.u.wallH.value = placeholderH();
@@ -916,7 +933,23 @@ export class HollowRock implements HollowModule {
     const dt = Math.min(0.1, Math.max(0, t - this.lastT));
     this.lastT = t;
     this.bake();
+    this.stream(keeper);
     if (fr.camera) this.cutaway(fr.camera, [keeper, ...fr.party], dt, fr.run);
+  }
+
+  /** Show only the sectors round the Keeper's (R0147): a draw-range change on a sector crossing. */
+  private stream(keeper: { x: number; z: number }): void {
+    const f = this.sectorFloor;
+    if (!f || this.sectors.length === 0) return;
+    const cx = Math.floor(keeper.x / CELL + f.cols / 2);
+    const cy = Math.floor(keeper.z / CELL + f.rows / 2);
+    const key = this.sectors[0]!.sec.key(cx, cy);
+    if (key === this.sectorKey) return;
+    this.sectorKey = key;
+    for (const s of this.sectors) {
+      s.sec.range(cx, cy, this.sectorRange);
+      s.geo.setDrawRange(this.sectorRange.start, this.sectorRange.count);
+    }
   }
 
   /**
@@ -1025,4 +1058,9 @@ export class HollowRock implements HollowModule {
     });
     if (moved) this.wallTex.needsUpdate = true;
   }
+}
+
+/** A field is streamed by sector (R0147); dungeon floors and camps draw whole. */
+function streamed(f: Floor): SectorIndex | null {
+  return f.zone === 'field' && FIELD_R10.stream ? new SectorIndex(f.cols, f.rows, FIELD_R10.sector) : null;
 }

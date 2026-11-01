@@ -32,6 +32,7 @@ import { OUTDOOR_TILES, type OutdoorBiome } from './dungeon-pieces/outdoor-tiles
 import { PLACED_KINDS, type Shrine } from './dungeon-shrines';
 import { Rng } from './rng';
 import { isCommonSpecies, SPECIES } from './species';
+import { FIELD_R10 } from '../config/tuning-r10b2';
 
 const cache = new Map<string, Floor>();
 
@@ -162,14 +163,25 @@ export function fieldFloor(seed: number, act: number, shape?: FieldShape): Floor
   for (let y = 0; y < rows; y++)
     for (let x = 0; x < cols; x++)
       if (x < 2 || y < 2 || x >= cols - 2 || y >= rows - 2) cells[y * cols + x] = WALL;
+  // Hedgerows (lane B r10, R0147): an act field's tile columns are fenced apart, open only
+  // where the road crosses, so the walk to the act gate winds (2–3 min, `FIELD_R10`).
+  const hedged = !shape && FIELD_R10.hedges;
+  if (hedged)
+    for (let tx = 1; tx < tw; tx++)
+      for (let k = 0; k < FIELD_R10.hedgeThick; k++)
+        for (let y = 0; y < rows; y++) cells[y * cols + tx * tile - 1 + k] = WALL;
 
   // The ends of the road, one bend per tile column, and the cave mouths: each in its own
   // tile, with a rock face behind it. Faces go in first so no face ever cuts the road.
   const up: Cell = { x: 3, y: rows / 2 + rng.int(-14, 14) };
   const down: Cell = { x: cols - 5, y: rows / 2 + rng.int(-14, 14) };
   const bends: Cell[] = [up];
-  for (let tx = 1; tx < tw - 1; tx++)
-    bends.push({ x: tx * tile + rng.int(4, 10), y: rng.int(1, th - 2) * tile + rng.int(4, 10) });
+  for (let tx = 1; tx < tw - 1; tx++) {
+    // Hedged fields swing the road between the upper and lower rows of tiles.
+    const band = tx % 2 ? FIELD_R10.upperRows : FIELD_R10.lowerRows;
+    const ty = hedged ? rng.int(band[0], band[1]) : rng.int(1, th - 2);
+    bends.push({ x: tx * tile + rng.int(4, 10), y: ty * tile + rng.int(4, 10) });
+  }
   bends.push(down);
   const mouths: Cell[] = [];
   const spurs: Array<[Cell, Cell]> = [];
