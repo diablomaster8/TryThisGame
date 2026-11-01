@@ -4,9 +4,10 @@
  * R0722 (KIDS-54): a headless smoke test of the Learning Grove in a phone viewport. It opens
  * the title, picks Learning Grove slot 1, taps the age-4 tile and "Start my Grove", answers
  * the entry prompt with Play, plays one game to its results card with real taps on the option
- * centres (checking nothing covers them), taps through a few story lines if one is open, and
- * opens the grown-up area past the sum gate. It fails on any page error, console error or
- * failed request, and on a missed step. Speech is stubbed and counted.
+ * centres (checking nothing covers them and no story scene opens), opens the story from its
+ * 📖 tile and taps it through back into play, and opens the grown-up area past the sum gate.
+ * It fails on any page error, console error or failed request, and on a missed step. Speech
+ * is stubbed and counted.
  *
  * Not part of `npm test` (it needs a browser and a running server):
  *   npm run dev -- --port 5173          (in another terminal)
@@ -167,7 +168,7 @@ function step(name, ok, note = '') {
     if (!picker) {
       await w(() =>
         [...document.querySelectorAll('button')]
-          .find((b) => b.textContent.includes('🎓') && b.offsetParent)
+          .find((b) => b.getAttribute('aria-label') === 'Play & learn' && b.offsetParent)
           ?.click(),
       );
       await page.waitForTimeout(800);
@@ -177,7 +178,13 @@ function step(name, ok, note = '') {
 
     // 3. One game, played with real taps to the results card.
     if (picker) {
-      const pick = page.locator('.edu-pick:visible').first();
+      // The picker's first row is the story (📖 Story, Nova's postcard, peekaboo); the games
+      // are the last grid. Tapping the first tile started Hazel's Grove instead of a game.
+      const pick = page
+        .locator('.edu-picker .edu-grid:visible')
+        .last()
+        .locator('.edu-pick')
+        .first();
       await tapCentre(pick);
       await page.waitForTimeout(2500);
       let taps = 0;
@@ -187,7 +194,10 @@ function step(name, ok, note = '') {
         if (await next.count()) {
           await tapCentre(next);
         } else {
-          const opt = page.locator('.edu-option:visible:not([disabled]):not(.right)').first();
+          // Only the game card's options: story beats reuse the class (line-act, do-beats).
+          const opt = page
+            .locator('.edu-card .edu-option:visible:not([disabled]):not(.right)')
+            .first();
           if (!(await opt.count())) {
             await page.waitForTimeout(500);
             continue;
@@ -202,6 +212,11 @@ function step(name, ok, note = '') {
       const results = await visible('.edu-results');
       step('a game reaches its results card', results, `${taps} option taps`);
       step('nothing covers the options', covered === 0, `${covered} covered taps`);
+      // Playing a game never starts the story: only the 📖 tile or the entry prompt does.
+      step(
+        'no story scene opens during a game',
+        !(await visible('.dialogue-box')) && (await w(() => !window.grove?.world?.campaign)),
+      );
       await shot('3-results');
       await w(() => [...document.querySelectorAll('.edu-results-btn')].pop()?.click());
       await page.waitForTimeout(500);
@@ -209,16 +224,44 @@ function step(name, ok, note = '') {
     const said = await w(() => window.__said.length);
     step('speech was used', said > 0, `${said} lines said`);
 
-    // 4. A story line or two, if a scene is open now.
-    if (await visible('.dialogue-box')) {
-      for (let i = 0; i < 10 && (await visible('.dialogue-box')); i++) {
-        const choice = page.locator('.dialogue-choices .btn:visible').first();
-        if (await choice.count()) await choice.tap();
-        else await page.locator('.dialogue-box').first().tap();
+    // 4. The story on purpose: the 📖 tile opens chapter 1, its lines advance, and the scene
+    // closes back into play.
+    await shot('3a-before-story');
+    if (!(await visible('.edu-pick'))) {
+      await w(() =>
+        [...document.querySelectorAll('button')]
+          .find((b) => b.getAttribute('aria-label') === 'Play & learn' && b.offsetParent)
+          ?.click(),
+      );
+      await page.waitForTimeout(800);
+    }
+    const storyTile = page.locator('.edu-pick:visible').filter({ hasText: '📖' }).first();
+    if (await storyTile.count()) {
+      await tapCentre(storyTile);
+      await page.waitForTimeout(1500);
+      const opened = await visible('.dialogue-box');
+      step('the 📖 tile opens the story', opened);
+      let lines = 0;
+      for (let i = 0; i < 80 && (await visible('.dialogue-box')); i++) {
+        const choice = page
+          .locator('.dialogue-choices .btn:visible, .line-act-btn:visible:not([disabled])')
+          .first();
+        // Real touches, as the game loop: an animating choice never settles for locator.tap.
+        if (await choice.count()) await tapCentre(choice);
+        else {
+          // Near the ▼ corner: the box's centre can hold the "Say it!" echo button.
+          const box = page.locator('.dialogue-box').first();
+          const b = await box.boundingBox();
+          if (b) await page.touchscreen.tap(b.x + b.width - 30, b.y + b.height - 20);
+        }
+        lines++;
         await page.waitForTimeout(400);
       }
-      step('story lines advance', true);
-    }
+      await page.waitForTimeout(1000);
+      const back = !(await visible('.dialogue-box'));
+      step('the story closes back into play', opened && back, `${lines} taps`);
+      await shot('3b-after-story');
+    } else step('the 📖 tile opens the story', false, 'no Story tile in the picker');
 
     // 5. The grown-up area past the gate (More → Grown-ups, a times-table sum).
     await w(() => {

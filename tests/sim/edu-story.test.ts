@@ -12,7 +12,7 @@ import {
   sceneFor,
 } from '../../src/sim/story-scenes';
 import type { World } from '../../src/sim/types';
-import { applyCommand } from '../../src/sim/world';
+import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 import { c, campaignWorld, runCampaign } from './campaign-driver';
 
 /**
@@ -168,5 +168,18 @@ describe('Learning Grove story (CV2)', () => {
       true,
       {},
     ]);
+  });
+
+  it('a fresh Learning Grove waits for the story tile: games and time never start it', () => {
+    // The kids smoke once tapped the 📖 tile thinking it was a game; the story is opt-in.
+    const world = createWorld(1, 0);
+    const events = [] as Parameters<typeof applyCommand>[2];
+    applyCommand(world, { kind: 'eduStart', age: 4 }, events);
+    for (let r = 0; r < 3; r++)
+      applyCommand(world, { kind: 'eduResult', game: 'colours', stars: 3 }, events);
+    for (let i = 0; i < 10 * 60 * 10; i++) stepWorld(world, 100);
+    expect(world.campaign).toBeNull();
+    applyCommand(world, { kind: 'campaignStart' }, events);
+    expect(world.campaign?.queue.length).toBeGreaterThan(0);
   });
 });
