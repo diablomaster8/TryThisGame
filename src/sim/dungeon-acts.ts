@@ -51,7 +51,8 @@ export function actFloor(
         boss: level === def.levels.length - 1,
         difficulty,
       };
-      platformFloor(f, seed, depth, band);
+      // R0191 (lane B r10): Cosy keeps the way down jump-free.
+      platformFloor(f, seed, depth, band, difficulty === 'cosy');
       // The act's named uniques (R0156).
       placeUniques(f, act, level + 1, band);
       // R0201, R0198: no bare rooms; the act's own wild ones.

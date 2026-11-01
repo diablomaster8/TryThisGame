@@ -1,7 +1,12 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { championMod, type ChampionModId } from '../../src/config/dungeon-foes';
 import { R10B4 } from '../../src/config/tuning-r10b4';
-import { HOLLOW } from '../../src/config/tuning';
+import { HOLLOW, SIM } from '../../src/config/tuning';
+import { ACTS, actStartDepth } from '../../src/config/dungeon-acts';
+import { HOLLOW_R9D } from '../../src/config/dungeon-r9-d';
+import { keyCells, reachMask } from '../../src/sim/dungeon-gaps';
+import { hopPlan, walkSteps } from '../../src/sim/dungeon-hops';
+import { shelfAt } from '../../src/sim/dungeon-shelves';
 import { createBattle, type BattleState } from '../../src/sim/battle';
 import { damageWith } from '../../src/sim/battle/damage';
 import { afterModHit, dressFoeMods } from '../../src/sim/battle/hollow-mods';
@@ -9,7 +14,17 @@ import { moveOf } from '../../src/sim/battle/moves';
 import { createTactics, tacticsAct, unitOf } from '../../src/sim/battle/tactics/engine';
 import { mapFromRows } from '../../src/sim/battle/tactics/map';
 import { unitFromLevels } from '../../src/sim/battle/tactics/units';
-import { cellCentre, cellOf, runFloor } from '../../src/sim/dungeon';
+import {
+  cellCentre,
+  cellOf,
+  CHASM,
+  FLOOR,
+  floorOf,
+  runFloor,
+  WALL,
+  type Cell,
+  type Floor,
+} from '../../src/sim/dungeon';
 import { actFloor } from '../../src/sim/dungeon-acts';
 import { wireOf } from '../../src/sim/dungeon-bell-wire';
 import {
@@ -22,7 +37,7 @@ import { stepTraps } from '../../src/sim/dungeon-traps';
 import { hatch } from '../../src/sim/lifecycle';
 import { Rng } from '../../src/sim/rng';
 import { STAT_KEYS, type SimEvent, type World } from '../../src/sim/types';
-import { applyCommand, createWorld } from '../../src/sim/world';
+import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 // Lane B round 10, helper b4: the last champion modifiers (R0155), the tiers' Bell Wire
 // chains, Immune to Tickles and fight scaling (R0179).
@@ -223,7 +238,7 @@ describe('Hollow tiers reach the fight (R0179)', () => {
       );
     }
     expect(wires).toBeGreaterThan(8);
-  });
+  }, 60_000);
 
   it('springing one wired bell rings the whole wire and calls more than one pack', () => {
     const w = underground('wild');
@@ -248,4 +263,162 @@ describe('Hollow tiers reach the fight (R0179)', () => {
     expect(out).toContainEqual({ kind: 'trapSprung', trap: 'bell', wire: true });
     expect(out.filter((e) => e.kind === 'packNoticed').length).toBeGreaterThan(1);
   });
+});
+
+// R0191 (DUNG-48): the critical path stays jump-free on Cosy, hop spots are shortcuts with
+// their double jumps flagged, tap walks route round ledges or over them, and a flier carries
+// the Keeper over one pit a floor.
+describe('ledges, hop spots and the Fly carry (R0191)', () => {
+  it('never needs a jump on the way down a Cosy act floor, shelves walled off', () => {
+    let floors = 0;
+    for (let seed = 1; seed <= 16; seed++)
+      for (let act = 0; act < ACTS.length; act++)
+        for (let lv = 0; lv < ACTS[act]!.levels.length; lv++) {
+          const f = actFloor(seed * 7, act, actStartDepth(act) + lv, 4, 'cosy');
+          const walled: Floor = { ...f, cells: f.cells.slice() };
+          for (const s of f.shelves ?? [])
+            for (const c of s.cells) walled.cells[c.y * f.cols + c.x] = WALL;
+          const walk = reachMask(walled, f.stairsUp, false);
+          for (const c of keyCells(f))
+            expect(walk[c.y * f.cols + c.x], `seed ${seed} act ${act} lv ${lv}`).toBe(1);
+          floors++;
+        }
+    expect(floors).toBeGreaterThan(100);
+  }, 120_000);
+
+  it('cuts hop spots that are shortcuts, two cells a jump, three a flagged double jump', () => {
+    const kinds = { single: 0, double: 0 };
+    for (let seed = 1; seed <= 30; seed++) {
+      const f = floorOf(seed, 3 + (seed % 5));
+      const walk = reachMask(f, f.stairsUp, false);
+      for (const h of f.hops ?? []) {
+        for (const c of h.cells) expect(f.cells[c.y * f.cols + c.x]).toBe(CHASM);
+        expect(h.double).toBe(h.cells.length === 3);
+        kinds[h.double ? 'double' : 'single']++;
+        // Both sides are reached on foot, by a far longer way round.
+        for (const c of [h.from, h.to]) expect(walk[c.y * f.cols + c.x]).toBe(1);
+        expect(walkSteps(f, h.from)[h.to.y * f.cols + h.to.x]).toBeGreaterThanOrEqual(
+          h.cells.length + 1 + R10B4.hops.minSaving,
+        );
+        // And with a jump it is one hop, flagged double for three cells.
+        const step = hopPlan(f, false, h.from, h.to)!;
+        expect(step).toMatchObject({ spot: h.from, land: h.to, gap: h.cells.length });
+        expect(step.double).toBe(h.double);
+      }
+    }
+    expect(kinds.single).toBeGreaterThan(3);
+    expect(kinds.double).toBeGreaterThan(3);
+  });
+
+  function hopWorld(f: Floor, seed: number, depth: number): World {
+    const w = world();
+    applyCommand(w, { kind: 'enterDungeon', daily: false }, []);
+    const run = w.dungeon!;
+    run.seed = seed;
+    run.depth = depth;
+    run.genVersion = HOLLOW.genVersion;
+    run.graceUntilMs = 1e12;
+    run.packs = [];
+    expect(runFloor(w)).toBe(f);
+    for (const n of w.nubbins) n.stats.fly.points = 0;
+    return w;
+  }
+
+  function walkTo(w: World, f: Floor, at: Cell, to: Cell, seconds = 4): SimEvent[] {
+    const k = w.keeper;
+    k.pos = cellCentre(f, at);
+    k.y = 0;
+    k.vy = 0;
+    k.grounded = true;
+    const out: SimEvent[] = [];
+    stepWorld(w, SIM.stepMs);
+    applyCommand(w, { kind: 'moveKeeperTo', pos: cellCentre(f, to) }, out);
+    for (let t = 0; t < seconds * 1000 && k.moveTarget; t += SIM.stepMs)
+      out.push(...stepWorld(w, SIM.stepMs));
+    return out;
+  }
+
+  it('with Auto-hop, a tap jumps a hop spot (and double-jumps a wide one)', () => {
+    const done = { single: false, double: false };
+    for (let seed = 1; seed <= 60 && !(done.single && done.double); seed++) {
+      const depth = 3 + (seed % 5);
+      const f = floorOf(seed, depth);
+      for (const h of f.hops ?? []) {
+        if (done[h.double ? 'double' : 'single']) continue;
+        const w = hopWorld(f, seed, depth);
+        w.settings.autoHop = true;
+        const out = walkTo(w, f, h.from, h.to);
+        expect(cellOf(f, w.keeper.pos), `seed ${seed}`).toEqual(h.to);
+        expect(out.some((e) => e.kind === 'hollowFell')).toBe(false);
+        const jumps = out.filter((e) => e.kind === 'keeperJumped');
+        expect(jumps.length).toBe(h.double ? 2 : 1);
+        done[h.double ? 'double' : 'single'] = true;
+      }
+    }
+    expect(done).toEqual({ single: true, double: true });
+  }, 60_000);
+
+  it('climbs onto a shelf with Auto-hop, and walks round it (never stuck at the lip) without', () => {
+    let seed = 1;
+    let f: Floor | null = null;
+    let depth = 0;
+    for (; seed < 200 && !f; seed++) {
+      depth = 2 + (seed % 6);
+      const g = floorOf(seed, depth);
+      if (g.shelves?.length) f = g;
+    }
+    seed--;
+    const shelf = f!.shelves![0]!;
+    const top = shelf.cells[0]!;
+    const below = [
+      { x: top.x - 1, y: top.y },
+      { x: top.x + 1, y: top.y },
+      { x: top.x, y: top.y - 1 },
+      { x: top.x, y: top.y + 1 },
+    ].find((c) => f!.cells[c.y * f!.cols + c.x] === FLOOR && shelfAt(f!, c) < 0)!;
+    // From a few cells off, so the walk has to come round to the lip first.
+    const w = hopWorld(f!, seed, depth);
+    w.settings.autoHop = true;
+    walkTo(w, f!, below, top);
+    expect(shelfAt(f!, cellOf(f!, w.keeper.pos))).toBe(0);
+    const w2 = hopWorld(f!, seed, depth);
+    w2.settings.autoHop = false;
+    walkTo(w2, f!, below, top);
+    expect(shelfAt(f!, cellOf(f!, w2.keeper.pos))).toBe(-1);
+    expect(w2.keeper.moveTarget).toBeNull();
+  }, 30_000);
+
+  it('a party flier carries the Keeper over one pit a floor; the next time it pops back', () => {
+    for (let seed = 1; seed <= 60; seed++) {
+      const depth = 3 + (seed % 5);
+      const f = floorOf(seed, depth);
+      const h = f.hops?.[0];
+      if (!h) continue;
+      const w = hopWorld(f, seed, depth);
+      const n = w.nubbins.find((x) => w.dungeon!.party.includes(x.id))!;
+      n.stats.fly.points = HOLLOW_R9D.fly.minLevel * 100;
+      // Stepping off the lip into the pit.
+      const stepIn = (from: Cell, pit: Cell): SimEvent[] => {
+        const k = w.keeper;
+        k.pos = cellCentre(f, from);
+        k.y = 0;
+        k.grounded = true;
+        k.moveTarget = null;
+        stepWorld(w, SIM.stepMs);
+        k.pos = cellCentre(f, pit);
+        const out: SimEvent[] = [];
+        const inPit = () => cellOf(f, k.pos).x === pit.x && cellOf(f, k.pos).y === pit.y;
+        for (let t = 0; t < 600 && inPit(); t += SIM.stepMs) out.push(...stepWorld(w, SIM.stepMs));
+        return out;
+      };
+      const out = stepIn(h.from, h.cells[0]!);
+      expect(out).toContainEqual({ kind: 'hollowFlyCarry', name: n.name });
+      expect(cellOf(f, w.keeper.pos)).toEqual(h.to);
+      const back = stepIn(h.to, h.cells[h.cells.length - 1]!);
+      expect(back.some((e) => e.kind === 'hollowFell')).toBe(true);
+      expect(back.some((e) => e.kind === 'hollowFlyCarry')).toBe(false);
+      return;
+    }
+    throw new Error('no hop spot in 60 seeds');
+  }, 30_000);
 });

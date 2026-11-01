@@ -14,6 +14,7 @@ import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { DUNGEON } from '../config/tuning';
 import { cellDist, cellOf, FLOOR, WALL, runFloor, type Cell, type Floor } from './dungeon';
 import { busyCells, reachMask } from './dungeon-gaps';
+import { cutHops } from './dungeon-hops';
 import { Rng } from './rng';
 import { levelOf } from './stats';
 import { NUBBIN_TYPES, type Nubbin, type SimEvent, type World } from './types';
@@ -59,6 +60,11 @@ function countOf(m: Uint8Array): number {
  * and returns the floor.
  */
 export function raiseShelves(f: Floor, seed: number, depth: number): Floor {
+  // Lane B r10: then the hop spots, shortcuts over a pit (dungeon-hops.ts).
+  return cutHops(liftShelves(f, seed, depth), seed, depth);
+}
+
+function liftShelves(f: Floor, seed: number, depth: number): Floor {
   if (f.version < 4 || depth < S.fromDepth || f.zone) return f;
   const rng = Rng.fromSeed((seed * 131 + depth * 977 + 0x5e1f) >>> 0);
   const want = rng.int(S.count[0], S.count[1]);
@@ -154,4 +160,15 @@ export function holdAtShelves(world: World, fromX: number, fromZ: number, events
     k.pos.x = fromX;
     k.pos.z = fromZ;
   }
+}
+
+/** Lane B r10 (R0191): how far a shelf stands over its own cells' ground (world units). */
+export function shelfRise(): number {
+  return S.riseSteps * DUNGEON.elev.step;
+}
+
+/** Lane B r10: whether cell (x, y) is on a shelf; no allocation, for the renderers' per-vertex use. */
+export function onShelf(f: Floor, x: number, y: number): boolean {
+  if (!f.shelves?.length || x < 0 || y < 0 || x >= f.cols || y >= f.rows) return false;
+  return shelfMask(f)[y * f.cols + x]! >= 0;
 }

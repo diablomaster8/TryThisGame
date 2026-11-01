@@ -972,6 +972,8 @@ export interface DungeonRun {
   kid?: true;
   /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
   flyLiftDepth?: number;
+  /** Lane B r10 (R0191): the depth where a flying party Nubbin already carried the Keeper over a pit. */
+  flyCarryDepth?: number;
   // Lane B round 9 (helper c).
   /** R0185: today's shared act chain uses this act's look (absent: the old endless daily). */
   dailyAct?: number;
@@ -1807,6 +1809,7 @@ export type SimEvent =
   | { kind: 'keeperJumped'; air: boolean }
   // Lane B r9 (R0191): a flying party Nubbin lifted the Keeper onto a raised shelf.
   | { kind: 'hollowFlyLift'; name: string }
+  | { kind: 'hollowFlyCarry'; name: string }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.

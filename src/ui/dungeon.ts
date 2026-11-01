@@ -1,4 +1,5 @@
 import { ACTS } from '../config/dungeon-acts';
+import { R10B4_TEXT } from '../config/strings-r10b4';
 import { ACT_TEXT, DUNGEON_TEXT, HOLLOW_TEXT, UI_TEXT } from '../config/strings';
 import { actOpen } from '../sim/dungeon-acts';
 import type { Game } from '../game';
@@ -284,6 +285,8 @@ export class DungeonMenu {
         const who = world.nubbins.find((n) => n.id === e.nubbinId)?.name ?? '';
         toast(HOLLOW_R8_TEXT.scoutSpotted(who));
       } else if (e.kind === 'hollowFlyLift') toast(R9D.flyLift(e.name));
+      // Lane B r10 (R0191): a flier carried the Keeper over a pit.
+      else if (e.kind === 'hollowFlyCarry') toast(R10B4_TEXT.flyCarry(e.name));
       else if (e.kind === 'storyScroll')
         this.scrollWaiting = { act: e.act, since: performance.now() };
       // Lane B round 9 (helper c): moods, act quests and friends.

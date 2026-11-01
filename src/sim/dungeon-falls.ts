@@ -8,6 +8,8 @@
 import { HOLLOW } from '../config/tuning';
 import { cellAt, cellCentre, cellOf, CHASM, FLOOR, WATER, type Cell, type Floor } from './dungeon';
 import { keeperPerks } from './perks';
+import { flier } from './dungeon-shelves';
+import { R10B4 } from '../config/tuning-r10b4';
 import type { DungeonRun, SimEvent, World } from './types';
 
 const lastSafe = new WeakMap<DungeonRun, Cell>();
@@ -44,6 +46,7 @@ export function stepFall(world: World, run: DungeonRun, f: Floor, events: SimEve
   }
   if (!k.grounded || k.y > HOLLOW.gaps.standHeight) return;
   const saved = lastSafe.get(run);
+  if (hazard === 'chasm' && flyCarry(world, run, f, c, saved, events)) return;
   const back = saved && cellAt(f, saved.x, saved.y) === FLOOR ? saved : nearestDry(f, c);
   const to = cellCentre(f, back);
   const from = { x: k.pos.x, z: k.pos.z };
@@ -53,6 +56,42 @@ export function stepFall(world: World, run: DungeonRun, f: Floor, events: SimEve
   k.moveTarget = null;
   k.intent = null;
   events.push({ kind: 'hollowFell', water: hazard === 'water', from, to });
+}
+
+/**
+ * R0191 (lane B r10): once a floor, a party Nubbin strong at Fly catches a Keeper stepping
+ * into a pit and carries it on over, to the first dry cell beyond (up to `carryCells`).
+ */
+function flyCarry(
+  world: World,
+  run: DungeonRun,
+  f: Floor,
+  c: Cell,
+  saved: Cell | undefined,
+  events: SimEvent[],
+): boolean {
+  if (run.flyCarryDepth === run.depth || !saved) return false;
+  const n = flier(world, run.party);
+  if (!n) return false;
+  const vx = c.x - saved.x;
+  const vy = c.y - saved.y;
+  const [dx, dy] = Math.abs(vx) >= Math.abs(vy) ? [Math.sign(vx), 0] : [0, Math.sign(vy)];
+  if (!dx && !dy) return false;
+  for (let k = 1; k <= R10B4.fly.carryCells; k++) {
+    const v = cellAt(f, c.x + dx * k, c.y + dy * k);
+    if (v === FLOOR) {
+      const to = cellCentre(f, { x: c.x + dx * k, y: c.y + dy * k });
+      const k2 = world.keeper;
+      k2.pos.x = to.x;
+      k2.pos.z = to.z;
+      k2.vy = 0;
+      run.flyCarryDepth = run.depth;
+      events.push({ kind: 'hollowFlyCarry', name: n.name });
+      return true;
+    }
+    if (v !== CHASM) return false;
+  }
+  return false;
 }
 
 // Which part of the floor a swimmer can walk to, by cell: chasms are the only breaks.
