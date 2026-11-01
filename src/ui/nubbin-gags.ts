@@ -47,11 +47,27 @@ export function gagFor(
     // In time: every swimmer splashes on the same beat.
     return timeMs % WEATHER_GAGS.paddleMs < 500 ? 'paddle' : null;
   }
-  // One performer at a time: the free Nubbin whose id hashes lowest for this cycle.
+  // PERF: clear skies outside the puddle window show no gag whoever performs, so the pick (a
+  // hash per Nubbin, for every Nubbin, every frame) is skipped.
+  if (
+    weather !== 'rain' &&
+    weather !== 'snow' &&
+    (clearSinceRainMs === null || timeMs - clearSinceRainMs >= WEATHER_GAGS.puddleWindowMs)
+  )
+    return null;
+  // One performer at a time: the free Nubbin whose id hashes lowest for this cycle (the first
+  // such in roster order on a tie, as the stable sort this replaces chose).
   const cycle = Math.floor(timeMs / WEATHER_GAGS.cycleMs);
-  const pick = all
-    .filter(free)
-    .sort((a, b) => (hashSeed(`${a.id}:${cycle}`) >>> 0) - (hashSeed(`${b.id}:${cycle}`) >>> 0))[0];
+  let pick: (typeof all)[number] | undefined;
+  let best = Infinity;
+  for (const x of all) {
+    if (!free(x)) continue;
+    const h = hashSeed(`${x.id}:${cycle}`) >>> 0;
+    if (h < best) {
+      best = h;
+      pick = x;
+    }
+  }
   if (!pick || pick.id !== n.id) return null;
   const t = timeMs % WEATHER_GAGS.cycleMs;
   if (weather === 'rain')
