@@ -2,7 +2,8 @@ import type { ActId } from './dungeon-acts';
 
 /**
  * Act camps (R0152, DUNG-12): the authored hub map and who keeps each service, per act.
- * Every act uses the same 40×30 camp for now; each has its own cast and lines
+ * Act I's 40×30 camp map (each act now has its own, `HUB_MAPS` in `dungeon-hubs-r10b2.ts`,
+ * with this one the fallback); each act has its own cast and lines
  * (`HOLLOW_TOWN_LINES`, strings-dungeon.ts). The sim reads the map in `sim/dungeon-towns.ts`.
  *
  * Legend: `#` hedge or rock, `.` ground, `~` water, `T` a lantern (on the wall above),

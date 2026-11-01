@@ -1,6 +1,7 @@
 import { ACTS } from '../config/dungeon-acts';
 import { ACT_LOOKS, type ActLook } from '../config/dungeon-r9-a';
 import { GROVE3D, HOLLOW_ZONES } from '../config/tuning';
+import { HUB_BANDS } from '../config/dungeon-hubs-r10b2';
 
 /**
  * The Hollow's colour script by depth (recommendations item 8), shared by both renderers:
@@ -40,12 +41,26 @@ export function actLookOf(f: ActFloorish | null | undefined): ActLook | null {
   return (def && ACT_LOOKS[def.tileset]) ?? null;
 }
 
+/** Each act's open-sky band for its camp and fields (lane B r10, R0152), made once. */
+const openBands = new Map<number, CaveBand>();
+function openBandOf(act: number | undefined): CaveBand {
+  const base = HOLLOW_ZONES.openBand as unknown as CaveBand;
+  const over = act === undefined ? undefined : HUB_BANDS[ACTS[act]?.id ?? 'rootways'];
+  if (!over) return base;
+  let band = openBands.get(act!);
+  if (!band) {
+    band = { ...base, ...over } as CaveBand;
+    openBands.set(act!, band);
+  }
+  return band;
+}
+
 /** Merged bands, one per act look and depth band, so a floor's band object stays the same. */
 const merged = new Map<string, CaveBand>();
 
 /** A floor's band: the open-sky band above ground, the act's look in its caves, else depth. */
 export function bandForFloor(f: ActFloorish | null | undefined, depth: number): CaveBand {
-  if (openSky(f)) return HOLLOW_ZONES.openBand as unknown as CaveBand;
+  if (openSky(f)) return openBandOf(f!.act);
   const base = bandFor(depth);
   const look = actLookOf(f);
   if (!look) return base;

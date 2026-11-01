@@ -41,6 +41,7 @@ import {
 import { buildSet, type GlowSpot, type GlyphSpot } from './hollow-dress-set';
 import { paintedWater, type PaintedWater } from './water';
 import { fogged } from './hollow-fog';
+import { sectorGroups } from './hollow-sectors';
 import { lootShown } from '../sim/dungeon-sight';
 import type { DungeonRun } from '../sim/types';
 
@@ -420,6 +421,11 @@ export class HollowDress implements HollowModule {
       im.receiveShadow = true;
       this.put(im, false);
     }
+    // On a field, the big scatters are one mesh per sector column (R0147, `hollow-sectors.ts`).
+    const tag = (im: THREE.Object3D, col: number): void => {
+      if (col >= 0) im.userData.sectorCol = col;
+    };
+
     if (stalag.length) {
       const im = new THREE.InstancedMesh(STALAG(), this.stone, stalag.length);
       im.castShadow = true;
@@ -427,24 +433,26 @@ export class HollowDress implements HollowModule {
       this.put(im, false);
       this.shrinkable(im, stalag);
     }
-    if (roots.length) {
-      const im = new THREE.InstancedMesh(STRAND(), this.kitInst, roots.length);
-      roots.forEach((_, i) => {
+    for (const [col, part] of sectorGroups(f, roots, (r) => r[0].x)) {
+      const im = new THREE.InstancedMesh(STRAND(), this.kitInst, part.length);
+      tag(im, col);
+      part.forEach((_, i) => {
         const t = 0.9 + cellHash(i, 3, 5) * 0.2;
         im.setColorAt(i, this.c.setRGB(t, t * 0.97, t * 0.94));
       });
       im.frustumCulled = false;
       this.put(im, false);
-      this.shrinkable(im, roots);
+      this.shrinkable(im, part);
     }
-    if (decals.length) {
+    for (const [col, part] of sectorGroups(f, decals, ([m]) => m.elements[12]!)) {
       const geo = FLAT().clone();
       geo.setAttribute(
         'iTile',
-        new THREE.InstancedBufferAttribute(new Float32Array(decals.map(([, t]) => t)), 1),
+        new THREE.InstancedBufferAttribute(new Float32Array(part.map(([, t]) => t)), 1),
       );
-      const im = new THREE.InstancedMesh(geo, this.decalMat, decals.length);
-      decals.forEach(([m], i) => im.setMatrixAt(i, m));
+      const im = new THREE.InstancedMesh(geo, this.decalMat, part.length);
+      tag(im, col);
+      part.forEach(([m], i) => im.setMatrixAt(i, m));
       im.receiveShadow = true;
       im.renderOrder = 1;
       this.put(im);

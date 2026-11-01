@@ -21,6 +21,7 @@ import { HollowLight, lightBaker } from './hollow-light';
 import { HollowPop } from './hollow-pop';
 import { HollowWaypoint } from './hollow-waypoint';
 import { HollowRock } from './hollow-rock';
+import { HollowSectors } from './hollow-sectors';
 
 /**
  * A Hollow Below floor in 3D, built from the sim's `Floor` (`sim/dungeon.ts`): rock walls
@@ -73,6 +74,8 @@ export class Hollow {
   private readonly rumble = new HollowRumble();
   /** Act camps and fields: stalls, keepers and cave mouths (R0152, R0147). */
   private readonly town = new HollowTown();
+  /** Lane B r10: a field shows only the scatter round the Keeper (R0147). */
+  private readonly sectors = new HollowSectors();
   /** Fog of war (R0153); first, so the others read this frame's fog. */
   private readonly fog = new HollowFog();
   /** In build order: fog, rock, dress, light, air (`update` runs them in this order too). */
@@ -125,6 +128,8 @@ export class Hollow {
       this.seals,
       this.rumble,
       this.town,
+      // Last: it reads what the others built (R0147).
+      this.sectors,
     ];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);
