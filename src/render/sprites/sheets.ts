@@ -217,18 +217,19 @@ export class SheetCache {
       this.get(last.key, () => last.sheet);
       return last.sheet;
     }
-    const sheet = this.nubbinSheet(n);
+    const sheet = this.nubbinSheet(n, key);
     this.lastFor.set(n.id, { key, sheet });
     return sheet;
   }
 
-  private nubbinSheet(n: Nubbin): SpriteSheet {
+  /** `known`: the key `forNubbin` already built this frame (PERF: built once, not twice). */
+  private nubbinSheet(n: Nubbin, known?: string): SpriteSheet {
     // LOOK-71: a species with a hand-drawn sheet uses it once hatched (sprite-source.ts).
     if (n.stage !== 'egg' && n.stage !== 'cocoon') {
       const hand = handSheetFor(n.species);
       if (hand) return hand;
     }
-    const key = SheetCache.nubbinKey(n);
+    const key = known ?? SheetCache.nubbinKey(n);
     if (key.endsWith('~weathered')) {
       return this.get(key, () => weatherSheet(this.forNubbin({ ...n, id: `${n.id}~plain` })));
     }
