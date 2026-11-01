@@ -110,6 +110,53 @@ bump; new fields are optional: `settings.access`, `edu.readerAge/tutorialSaid/lo
 - Under heavy machine load the timing tests (lifecycle, world 8-Nubbin, battle-balance budgets)
   fail; side by side with main they run the same (8-Nubbin 3.52 s both).
 
+## Round 10 · Lane B DUNG (2026-10-31, branch r10/b)
+
+Four helper branches merged: r10/b1 f80e531d (piece sets, tour bands, five-act walk), r10/b2 200245e7..2cd72150
+(act camps, field hedges and 3D sector streaming), r10/b3 71f8afc7..a9059303 (foe family looks and poof beat, kid
+mode), r10/b4 19b9fa81..0941208e (foe mods, Wild bells, ledges and hops); merges 6b97506f, f491152d, 734f7f88, then
+9a2932ba (kid berries fix found in the merged smoke). Save stays **v13**: new fields are optional
+(`DungeonPack.tags`, `tagRestMs`, `DungeonRun.flyCarryDepth`); no save.ts edits. 10 items: 8 done, 2 partial.
+
+### What works
+- Acts III–V have their own 27-piece sets (Sandglass, Frostbell, Gloom), and every act paints its own tile pattern in
+  both renderers. Act floors, side caves and daily floors hit their tour band (tunable `HOLLOW_TOUR`) on 95%+ of seeds;
+  an off-band floor is re-rolled up to 4 times.
+- A test walks all five acts: camp → field → side cave → act dungeon → boss → next act's camp.
+- Each act has its own authored 40×30 camp (hill-foot camp, cloister archive, dune ruins, Frostbell ferry jetty with
+  Marina, grey Gloom hollow), with every service within 15 s of the waypoint and its own sky colours.
+- Act fields are hedged so the walk takes 2–3 min; Full 3D draws only the 3×3 sectors round the Keeper (no rebuilds).
+- The 16 foe families have their own looks at 5 angles (Greylings colour-drained), and beaten packs poof and run home
+  (reduced motion: a fade under a sparkle).
+- Kid mode reads shrines, finds, berries and tags aloud, lays five counting berries per level (K.CC.B.5 lesson), and
+  turns the act boss into a game of tag. A scripted four-year-old finishes Act I levels in 3–5 min.
+- Copycat, Hiding, Snack Thief and Immune to Tickles play in fights; Sparkly/Sticky also hit in tactics mode. Wild floors
+  have Bell Wire chains. The battle core reads `EncounterSpec.fight` (Wild = Champion AI, level cap +3 Brisk / +6 Wild).
+- Cosy act floors never need a jump on the way down; hop spots cross 2-cell (jump) and 3-cell (double jump, flagged)
+  pits; Auto-hop tap routing climbs shelves and jumps pits; a flier carries the Keeper over one pit a floor; 3D shelf
+  edges are sharp.
+- Probe on the merged head: 0 spots over budget, 3D farOrchard 147 mean / 171 max calls.
+
+### What's stubbed (and assumptions)
+- Tile looks are procedural patterns over the act colours; 3D reuses existing painted textures per act.
+- The portal lands on the waypoint stone (no separate pad); the Frostbell lake is cold-coloured water, not ice.
+- The battle screen still shows stand-in species for family foes; uniques keep their R0156 looks.
+- Hiding is a half-damage puff, not a tile hop; hop routing needs Auto-hop on; the Fly carry triggers on stepping into a
+  pit, not from route planning.
+- Assumption: kid mode outside the Learning Grove reads captions aloud whenever sound is on. No real child playtest.
+- Deep Hollow and story floors are not tour-banded (kept stable for saved runs and robustness tests).
+
+### Known bugs
+- Floors relayout (act floors re-rolled to their tour band, hop spots on every v4 floor, Cosy fords), so a mid-floor
+  save may shift the Keeper.
+- The planner closes the landmark's cells, which can cut the planned way down on some floors although the Keeper can
+  walk past its circle. Kid berries now fall back to a route that wades or steps past it (test over 300 kid floors).
+- A raised shelf beside water can cut a dry region off from the stairs side (seen on one re-rolled Rootways floor).
+- Field root strands are ~750k triangles, most of a field's load; fewer or lighter strands would help phones most.
+- Pixel field build hitch ~1.4 s. Camp craft/gamble lines for the first three acts still say "Not yet" (old copy).
+- Full `npm test` under load (~50 node/Edge processes): every timing failure passes alone except world "8 Nubbins for
+  an hour" (3.1 s vs 3 s), which fails the same way on base 39375246.
+
 ## Round 9 · Lane B DUNG (2026-10-31, branch r9/b)
 
 Four helper branches merged: r9/b-a 2200f587..dcb6fcb6 (looks), r9/b-b 7ac516fb (secret levels), r9/b-c
