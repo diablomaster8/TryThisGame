@@ -192,14 +192,11 @@ describe('device tier (WORLD-14)', () => {
   });
 });
 
-describe('walking lead (WORLD-18)', () => {
-  it('leads by a share of a portrait view, keeps the base elsewhere, none while carrying', () => {
-    const portrait = { visibleWidth: 11.75, visibleHeight: 25 };
-    const lead = walkLead(portrait, 0.6, false);
-    expect(lead).toBeCloseTo(0.32 * 11.75);
-    expect(lead).toBeLessThanOrEqual(11.75 / 2 - 2);
-    expect(walkLead({ visibleWidth: 30, visibleHeight: 17 }, 0.6, false)).toBe(0.6);
-    expect(walkLead(portrait, 0.6, true)).toBe(0);
+describe('walking lead (HOT-3b)', () => {
+  it('keeps the shared base on every screen at a walk, scaled by pace, none while carrying', () => {
+    expect(walkLead(0.6, 1, false)).toBe(0.6);
+    expect(walkLead(0.6, 2, false)).toBeCloseTo(1.2);
+    expect(walkLead(0.6, 1, true)).toBe(0);
   });
 });
 

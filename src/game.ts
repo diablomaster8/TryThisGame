@@ -484,9 +484,10 @@ export class Game {
     this.lastKp = { x: kp.x, z: kp.z };
     const speed = Math.hypot(vx, vz);
     // A teleport is not a walk; nor is anything during a scene.
-    const norm = staged || speed > KEEPER.speed * 4 ? 0 : Math.min(1, speed / KEEPER.speed);
-    const lead = walkLead(this.camera, F.lookAhead, k.carrying !== null);
-    const want = speed > 1e-6 ? (lead * norm) / speed : 0;
+    const pace = staged || speed > KEEPER.speed * 4 ? 0 : speed / KEEPER.speed;
+    // HOT-3b: the lead grows with the pace, so the Keeper stays centred at any speed.
+    const lead = walkLead(F.lookAhead, pace, k.carrying !== null);
+    const want = speed > 1e-6 ? lead / speed : 0;
     const e = reduce0(this.reduceMotion, dt, F.lookAheadRate);
     this.ahead.x += (vx * want - this.ahead.x) * e;
     this.ahead.z += (vz * want - this.ahead.z) * e;

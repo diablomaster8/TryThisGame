@@ -2,7 +2,7 @@ import { systemReducedMotion } from '../platform/motion';
 import { MathUtils, OrthographicCamera, Vector3 } from 'three';
 import { applyViewShift, NO_SHIFT, type ViewShift } from './view-shift';
 import { CAMERA, RENDER } from '../config/tuning';
-import { CAMERA_LEAD, WORLD_SURVEY } from '../config/tuning-world';
+import { WORLD_SURVEY } from '../config/tuning-world';
 import { SPRITE_TOKENS } from './sprite-batch';
 
 // ---------- pure helpers (unit tested) ----------
@@ -26,23 +26,15 @@ export function shortestAngleDelta(from: number, to: number): number {
 
 /** Visible world height for an orthographic camera at a given pixels-per-unit zoom. */
 /**
- * WORLD-18: how far ahead of a walking Keeper the camera aims, in world units. A portrait
- * phone shows under 12 units across, so the shared look-ahead (`base`, MOVE-23) leaves under
- * two seconds of what is coming; there the lead is a share of the view's width, kept a margin
- * inside its edge. Landscape and desktop views keep `base`; carrying a Nubbin, nothing leads.
+ * How far ahead of a walking Keeper the camera aims, in world units: the shared look-ahead
+ * (`base`, MOVE-23) on every screen, nothing while carrying a Nubbin. HOT-3b (Maor,
+ * 2026-10-31): WORLD-18 led a portrait phone by a third of the view, so after a tap the view
+ * ran to the tap point ahead of the Keeper; a phone now follows exactly as a desktop does.
+ * `pace` is the Keeper's speed over the walking speed: `base` cancels the follow's lag at a
+ * walk, so a faster Keeper (downhill, running) gets as much more and stays centred too.
  */
-export function walkLead(
-  view: { readonly visibleWidth: number; readonly visibleHeight: number },
-  base: number,
-  carrying: boolean,
-): number {
-  if (carrying) return 0;
-  if (view.visibleWidth >= view.visibleHeight) return base;
-  const lead = Math.min(
-    CAMERA_LEAD.share * view.visibleWidth,
-    view.visibleWidth / 2 - CAMERA_LEAD.edge,
-  );
-  return Math.max(base, lead);
+export function walkLead(base: number, pace: number, carrying: boolean): number {
+  return carrying ? 0 : base * Math.max(0, pace);
 }
 
 export function computeViewHeight(
