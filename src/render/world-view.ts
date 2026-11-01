@@ -103,6 +103,7 @@ import { emoteMotion, familySign, moodShape } from './emote-mood';
 import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
+import { drawKidBerries } from './hollow-kid-pixel';
 import { PixelHollowPoofs } from './hollow-poof-pixel';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 import { PixelHollowR9a } from './hollow-r9a';
@@ -1869,6 +1870,7 @@ export class WorldView {
     this.hollowPacks.draw(f, run, world.keeper.pos, world.timeMs, pctx);
     this.hollowPacks.drawPops(world.keeper.pos, pctx);
     this.hollowPoofs.draw(f, run.act, pctx);
+    drawKidBerries(f, run, world.keeper.pos, pctx); // R0188: kid mode's counting berries.
   }
 
   /** Grey Nubbins that live in the other places; render-only dressing. */

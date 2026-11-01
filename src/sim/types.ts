@@ -1044,6 +1044,9 @@ export interface DungeonPack {
   tiptoed?: true;
   /** R0200: when it last gave up a chase (a "?" on the way home); absent before. */
   gaveUpMs?: number;
+  /** Lane B r10 (R0188): a kid run's boss playing tag: tags so far, and its giggle until. */
+  tags?: number;
+  tagRestMs?: number;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -2043,6 +2046,8 @@ export type SimEvent =
   | { kind: 'packNoticed'; packId: string }
   | { kind: 'encounterStarted'; packId: string }
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
+  /** Lane B r10 (R0188): kid mode's counting berries (n picked) and the boss's game of tag. */
+  | { kind: 'hollowKid'; what: 'berry' | 'tagStart' | 'tag'; n: number }
   | { kind: 'partyGiggles'; packId: string }
   // Lane B round 7: Gran's Picnic (R0204).
   | { kind: 'picnicRest' }

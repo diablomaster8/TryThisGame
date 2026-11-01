@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { hollowKidVoice } from './hollow-kid-voice';
 import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
@@ -1453,6 +1454,7 @@ export function mountHud(
         const t = floorsToast(g.world, e);
         if (t) toast(t);
       }
+      hollowKidVoice(g.world, events, toast); /* Lane B r10 (R0188): kid mode's read-aloud. */
       offerCard.onEvents(events);
       regionChip.onEvents(events, toast);
       for (const e of events) {
