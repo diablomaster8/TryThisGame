@@ -582,6 +582,8 @@ export class Game {
       // TECH-30: a tap on the carried Nubbin puts it down; a long press lift buzzes.
       carrying: () => this.world.keeper.carrying,
       haptic: (name) => void buzz(name, this.world.settings, this.reduceMotion),
+      // HOT-3c: letting go of a hold-walk stops the Keeper where it stands.
+      keeperPos: () => this.world.keeper.pos,
       // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
       pad: {
         coop: () => this.world.coop.active,

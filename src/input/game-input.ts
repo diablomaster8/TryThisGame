@@ -15,6 +15,7 @@ import {
   type InspectDetail,
 } from './press-kind';
 import { POINTER_INPUT } from '../config/tuning-r9d3';
+import { HoldWalk, isGroundHold } from './hold-walk';
 
 /** What a ground tap places while a panel is in placing mode. */
 export type Placing =
@@ -85,6 +86,8 @@ export interface InputHost {
   onSelect(id: string | null): void;
   /** TECH-30: the Nubbin the Keeper carries, so a tap on it puts it down gently. */
   carrying?(): string | null;
+  /** HOT-3c: where the Keeper stands, so letting go of a hold-walk stops it there. */
+  keeperPos?(): Vec2;
   /** TECH-30: a short buzz when a long press lifts a Nubbin. */
   haptic?(name: 'pet'): void;
   /**
@@ -151,6 +154,11 @@ export class GameInput {
   private longTimer = 0;
   private maxMoved = 0;
   private longLifted = false;
+  /** HOT-3c: the press began on open ground; where the finger is now; the hold it became. */
+  private groundDown = false;
+  private lastClient = { x: 0, y: 0 };
+  private pressType = '';
+  private readonly hold = new HoldWalk();
   private samples: Sample[] = [];
   /** TECH-16: the shake gesture, from clientX. */
   readonly shake = new ShakeDetector();
@@ -187,6 +195,7 @@ export class GameInput {
   /** Forget every pointer: a held Nubbin is put down gently and taps start fresh. */
   private resetPointers(): void {
     this.cancelDrag();
+    this.stopHold();
     this.down.clear();
     this.pointerId = null;
     this.pressed = null;
@@ -221,6 +230,7 @@ export class GameInput {
     if (this.keys.has('d') || this.keys.has('arrowright')) right += 1;
     if (this.keys.has('a') || this.keys.has('arrowleft')) right -= 1;
     // MOVE-49: with co-op off, the first gamepad drives Keeper 1.
+    this.pollHold(performance.now());
     const pad = this.soloPad();
     if (pad) {
       const ax = pad.axes[0] ?? 0;
@@ -244,6 +254,33 @@ export class GameInput {
       this.host.send({ kind: 'keeperInput', input: { x, z } });
     }
     this.pollSecondKeeper(yaw);
+  }
+
+  /**
+   * HOT-3c: once a press on open ground outlasts the tap window or slides, the Keeper walks
+   * toward the point under the finger, re-aimed as it moves and on a beat, so a still finger
+   * keeps it walking while the camera follows. Called each frame and on every move.
+   */
+  private pollHold(now: number): void {
+    if (this.pointerId === null || !this.groundDown || this.dragging || this.down.size > 1) return;
+    const held = now - this.downAt;
+    if (!this.hold.active && !isGroundHold(this.pressType, true, this.maxMoved, held)) return;
+    const { x, y } = this.lastClient;
+    const at = this.host.picker.groundPoint(x, y, this.host.camera.camera);
+    const goal = this.hold.active
+      ? this.hold.follow(at, now)
+      : at
+        ? this.hold.start(at, now)
+        : null;
+    if (goal) this.host.send({ kind: 'moveKeeperTo', pos: goal });
+  }
+
+  /** HOT-3c: the finger lifted from a hold-walk: the Keeper stops where it is. */
+  private stopHold(): boolean {
+    if (!this.hold.end()) return false;
+    const at = this.host.keeperPos?.();
+    if (at) this.host.send({ kind: 'moveKeeperTo', pos: { x: at.x, z: at.z } });
+    return true;
   }
 
   /** The second Keeper: IJKL and U/O on the keyboard, or the first gamepad. */
@@ -390,6 +427,7 @@ export class GameInput {
     this.down.add(e.pointerId);
     if (this.down.size > 1) {
       this.cancelDrag();
+      this.stopHold();
       return;
     }
     if (!e.isPrimary) return;
@@ -404,6 +442,13 @@ export class GameInput {
     this.downClient = { x: e.clientX, z: e.clientY };
     const hit = this.pickNear(e.clientX, e.clientY);
     this.pressed = hit && hit.kind !== 'ground' ? { kind: hit.kind, id: hit.id } : null;
+    // HOT-3c: only open ground can become a hold-walk; never while placing or under Simple
+    // touch (where a held press is still a tap, R0710).
+    this.stopHold();
+    this.groundDown =
+      hit?.kind === 'ground' && !!hit.ground && !this.host.placing?.() && !simpleTouchOn();
+    this.lastClient = { x: e.clientX, y: e.clientY };
+    this.pressType = e.pointerType;
     this.samples = [];
     this.shake.reset(e.clientX);
     this.armLongPress(e);
@@ -486,6 +531,8 @@ export class GameInput {
     const dx = e.clientX - this.downClient.x;
     const dy = e.clientY - this.downClient.z;
     this.maxMoved = Math.max(this.maxMoved, Math.hypot(dx, dy));
+    this.lastClient = { x: e.clientX, y: e.clientY };
+    this.pollHold(performance.now());
     if (!this.dragging) {
       if (!this.pressed || this.pressed.kind !== 'nubbin' || this.longLifted) return;
       // R0710: Simple touch never drags (so never throws).
@@ -517,6 +564,11 @@ export class GameInput {
       this.dragging = null;
       this.pressed = null;
       this.surface.style.cursor = '';
+      return;
+    }
+    // HOT-3c: the end of a hold-walk stops the Keeper; it is not also a tap.
+    if (this.stopHold()) {
+      this.pressed = null;
       return;
     }
     window.clearTimeout(this.longTimer);
