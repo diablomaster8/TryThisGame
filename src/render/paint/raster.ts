@@ -52,11 +52,17 @@ export class Raster {
     if (x < 0 || y < 0 || x >= this.w || y >= this.h) return;
     if (this.tracking && a >= 0.5) this.mask[y * this.w + x] = 1;
     const i = (y * this.w + x) * 3;
-    if (a >= 1) this.data.set(c, i);
-    else {
-      this.data[i] = (this.data[i] ?? 0) * (1 - a) + c[0] * a;
-      this.data[i + 1] = (this.data[i + 1] ?? 0) * (1 - a) + c[1] * a;
-      this.data[i + 2] = (this.data[i + 2] ?? 0) * (1 - a) + c[2] * a;
+    const d = this.data;
+    // PERF: three stores, not `data.set(c, i)`, which takes the slow generic path for a plain
+    // array; the float32 values written are the same.
+    if (a >= 1) {
+      d[i] = c[0];
+      d[i + 1] = c[1];
+      d[i + 2] = c[2];
+    } else {
+      d[i] = d[i]! * (1 - a) + c[0] * a;
+      d[i + 1] = d[i + 1]! * (1 - a) + c[1] * a;
+      d[i + 2] = d[i + 2]! * (1 - a) + c[2] * a;
     }
   }
 
@@ -132,14 +138,18 @@ export class Raster {
     const width = this.w * scale;
     const height = this.h * scale;
     const rgba = new Uint8Array(width * height * 4);
+    const d = this.data;
+    const mask = this.mask;
+    // PERF: the source row is found once per output row; the per-pixel sums are unchanged.
     for (let y = 0; y < height; y++) {
+      const row = ((y / scale) | 0) * this.w;
       for (let x = 0; x < width; x++) {
-        const i = ((y / scale) | 0) * this.w + ((x / scale) | 0);
+        const i = row + ((x / scale) | 0);
         const o = (y * width + x) * 4;
-        rgba[o] = Math.round(Math.min(1, this.data[i * 3] ?? 0) * 255);
-        rgba[o + 1] = Math.round(Math.min(1, this.data[i * 3 + 1] ?? 0) * 255);
-        rgba[o + 2] = Math.round(Math.min(1, this.data[i * 3 + 2] ?? 0) * 255);
-        rgba[o + 3] = opaque || this.mask[i] === 1 ? 255 : 0;
+        rgba[o] = Math.round(Math.min(1, d[i * 3]!) * 255);
+        rgba[o + 1] = Math.round(Math.min(1, d[i * 3 + 1]!) * 255);
+        rgba[o + 2] = Math.round(Math.min(1, d[i * 3 + 2]!) * 255);
+        rgba[o + 3] = opaque || mask[i] === 1 ? 255 : 0;
       }
     }
     return { width, height, rgba };
