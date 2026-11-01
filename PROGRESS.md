@@ -51,10 +51,13 @@ Speed only; nothing the player sees or does changed. Review and before/after tab
   layout per frame); `Game` and the HUD are a lazy chunk (eager 1024 -> 570 kB gz, ceiling back
   to 1000; the moved stylesheets are imported from `main.ts` so the built CSS is byte-identical);
   `frameKey` memoised; `Raster.set`/`toRgba` plain stores; sim fast paths in `peek.ts`,
-  `pair-play.ts`, `obstacles.ts` (fingerprints unchanged). Phone at 4x: Pixel 20.8 -> 51.8 fps,
-  Full 3D 11.3 -> 21 fps.
-- *Stubbed / left:* 3D `animate` allocations (~120 kB/frame), static-matrix freezing, painted
-  sheet cache for startup (slot pick to first frame ~10 s at 4x CPU, mostly painting).
+  `pair-play.ts`, `obstacles.ts` (fingerprints unchanged); `gagFor` returns early under clear
+  skies; the Nubbin sheet key is built once a frame. Eight absolute-ms test asserts (the Champion
+  decision among them) go through `budgetMs` and run in CI's perf job. Phone at 4x, merged tree:
+  Pixel 20.8 -> 54.5 fps, Full 3D 11.3 -> 28.8 fps.
+- *Stubbed / left:* 3D `animate` allocations (~120 kB/frame; scratch objects did not help, likely
+  boxed closure doubles), static-matrix freezing (upper bound 2.8 -> 1.7 ms/frame, needs an audit
+  of what moves), painted sheet cache for startup (slot pick to first frame ~10 s at 4x CPU).
 - *Bugs / notes:* the panel stack now hears only real `hidden` changes, so the dialogue's
   `waiting` class is synced from a frame poller (`hud.ts`). `kids-r10.css` is imported by
   `main.ts`, not by `kids-portrait.ts`/`do-beats.ts` (a shared eager chunk would load it before
