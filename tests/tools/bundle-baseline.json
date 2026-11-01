@@ -1,19 +1,21 @@
 {
-  "eagerKb": 1024,
-  "eagerCeilingKb": 1075,
+  "eagerKb": 570,
+  "eagerCeilingKb": 1000,
   "chunkCeilingKb": 1536,
   "chunks": {
     "edu-reader-worlds": 1290,
     "atlas-catalogue": 913,
     "edu-reader": 662,
     "edu-sprout-worlds": 625,
-    "index": 585,
     "side-story-content": 425,
     "edu-sprout": 331,
-    "regions": 289,
+    "save": 289,
     "multiverse-catalogue": 252,
+    "hud": 209,
     "grove-3d-scene": 165,
     "arcade-catalogue": 137,
-    "edu-lang": 126
+    "index": 132,
+    "edu-lang": 126,
+    "governor": 102
   }
 }

@@ -1,4 +1,17 @@
-import { Game } from './game';
+// PERF: the HUD and the stylesheets its panels import stay in the entry's CSS, in their old order,
+// now that `Game` and the HUD load as their own chunk (loadBoot below).
+import './kids-r10.css';
+import './access-r10.css';
+import './fun.css';
+import './battle.css';
+import './battle-r5.css';
+import './world-hud.css';
+import './move-joy.css';
+import './move.css';
+import './look.css';
+import './world.css';
+import './dungeon.css';
+import type { Game } from './game';
 import type { EduAge } from './config/edu';
 import { isAudioUnlocked, resumeAudio, suspendAudio, unlockAudio } from './platform/audio';
 import type { EduBand } from './content/types';
@@ -39,7 +52,6 @@ import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
 import { nextTip } from './ui/tips';
 import { HOLLOW_TEXT } from './config/strings';
-import { mountHud } from './ui/hud';
 import { mountSpriteGallery } from './ui/sprite-gallery';
 import { installHiddenGuard } from './platform/dom-guards';
 
@@ -57,6 +69,21 @@ listenForInstall(); // R0463 (TECH-21)
 const app = mustGet<HTMLDivElement>('#app');
 const canvas = mustGet<HTMLCanvasElement>('#game');
 const hudRoot = mustGet<HTMLDivElement>('#hud');
+
+/**
+ * PERF: `Game` and the HUD (with the renderers and every panel) are their own chunk, about
+ * 450 kB gzip off the first download: the title needs neither. It is fetched while the title is
+ * up and awaited in `startGame`, which already waits for the story chunks. A failed fetch is
+ * forgotten so "Try again" fetches afresh.
+ */
+type BootMods = [typeof import('./game'), typeof import('./ui/hud')];
+let bootMods: Promise<BootMods> | undefined;
+function loadBoot(): Promise<BootMods> {
+  return (bootMods ??= Promise.all([import('./game'), import('./ui/hud')]).catch((err) => {
+    bootMods = undefined;
+    throw err;
+  }));
+}
 
 // Sound starts muted and unlocks on a tap, click or key, the title screen's included.
 // The listeners stay: each gesture resumes a context an interruption suspended (iOS
@@ -144,6 +171,7 @@ function route(): void {
   } else if (params.has('kids')) {
     /* Lane E r9, R0696: the "Learning Grove" home-screen shortcut: the children's Groves only. */
     loadStoryScripts().catch(() => undefined);
+    loadBoot().catch(() => undefined);
     showKidsPicker(
       hudRoot,
       (slot) => {
@@ -156,6 +184,7 @@ function route(): void {
     // Fetch the campaign and side-story chunks while the title is up.
     // A failure here is retried, and reported, when the game starts.
     loadStoryScripts().catch(() => undefined);
+    loadBoot().catch(() => undefined);
     // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
     const focus = params.has('edu') ? ('edu' as const) : undefined;
     showTitle(
@@ -234,7 +263,8 @@ function startGame(
   // first scene plays. A Free Grove with no story boots without them (story-chunks.ts).
   // The loaders forget a failed fetch, so "Try again" fetches afresh.
   const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null);
-  sideStories.then(
+  const ready = Promise.all([sideStories, loadBoot()]);
+  ready.then(
     () => loading.step(mode === '3d' ? 0.15 : 0.8),
     () => undefined,
   );
@@ -245,10 +275,10 @@ function startGame(
         loading.step(0.1);
         // The saved creatures start sculpting in workers while the scene builds.
         m.prewarmCreatures();
-        await sideStories;
-        return m;
+        const [, mods] = await ready;
+        return [m, mods] as const;
       })
-      .then((m) => {
+      .then(([m, mods]) => {
         let scene: Grove3dScene;
         try {
           scene = new m.Grove3dScene(canvas);
@@ -257,11 +287,11 @@ function startGame(
           showGlFailure('failed', '3d', err);
           return;
         }
-        bootOrReport(newCampaignTrainer, eduAge, scene, storyline, loading);
+        bootOrReport(mods, newCampaignTrainer, eduAge, scene, storyline, loading);
       }, failed);
   } else {
-    sideStories.then(
-      () => bootOrReport(newCampaignTrainer, eduAge, null, storyline, loading),
+    ready.then(
+      ([, mods]) => bootOrReport(mods, newCampaignTrainer, eduAge, null, storyline, loading),
       failed,
     );
   }
@@ -280,6 +310,7 @@ function isChunkLoadError(err: unknown): boolean {
 
 /** Boot, or show a card with a way back if it cannot start (never a blank screen). */
 function bootOrReport(
+  mods: BootMods,
   newCampaignTrainer: string | null,
   eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,
@@ -287,7 +318,7 @@ function bootOrReport(
   loading: LoadingBar,
 ): void {
   try {
-    boot(newCampaignTrainer, eduAge, scene3d, storyline, loading);
+    boot(mods, newCampaignTrainer, eduAge, scene3d, storyline, loading);
   } catch (err) {
     loading.remove();
     // Only a renderer failure gets the graphics card and its "Switch to Pixel"; a bug
@@ -301,6 +332,7 @@ function bootOrReport(
 }
 
 function boot(
+  [{ Game }, { mountHud }]: BootMods,
   newCampaignTrainer: string | null,
   eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,

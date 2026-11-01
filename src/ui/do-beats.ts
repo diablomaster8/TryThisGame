@@ -6,7 +6,7 @@
  * done the thing. Sorting works by drag or by tap-then-tap (the motor alternative); counting
  * in Hebrew or Japanese plays each number's native-speaker clip (`playWord`), never TTS.
  */
-import '../kids-r10.css';
+// Its stylesheet (kids-r10.css) is imported by main.ts, which keeps it in the entry's CSS.
 import { EDU_STORY_TEXT } from '../config/strings';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';

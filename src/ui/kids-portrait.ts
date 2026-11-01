@@ -4,7 +4,7 @@
  * its face. The save is read and drawn when the browser is idle; until then (and if the save
  * has no Nubbin yet, or can't be read) the tile keeps its animal icon.
  */
-import '../kids-r10.css';
+// Its stylesheet (kids-r10.css) is imported by main.ts, which keeps it in the entry's CSS.
 import { frameKey } from '../render/sprites/animations';
 import { SheetCache } from '../render/sprites/sheets';
 import { deserialize } from '../sim/save';
