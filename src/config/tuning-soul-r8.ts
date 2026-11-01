@@ -150,4 +150,6 @@ export const DIARY = { keep: 5, show: 3 } as const;
 
 /** HOT-1: the sheet focus glide takes at most this much time per frame, so a stalled frame
  *  (the first sheet open on a slow phone) cannot turn the glide into a jump. */
-export const VIEW_SHIFT = { maxEaseDtMs: 50 } as const;
+/** HOT-3: the sheet's shift applies only when the sheet comes within this share of the view of
+ *  its centre (where the Keeper stands); a sheet that leaves the Keeper clear moves nothing. */
+export const VIEW_SHIFT = { maxEaseDtMs: 50, clearMargin: 0.1 } as const;
