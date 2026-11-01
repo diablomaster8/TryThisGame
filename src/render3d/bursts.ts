@@ -30,6 +30,8 @@ interface Particle {
   life: number;
   kind: BurstKind;
   phase: number;
+  /** Lane B r10 (R0157): one colour for the whole burst (a foe's act sparkles). */
+  tint?: string;
 }
 
 const COLORS: Record<BurstKind, string[]> = {
@@ -121,6 +123,7 @@ export class Bursts {
     count: number,
     o: { spread: number; speed: number; rise: number; lifeMs: number },
     nowMs: number,
+    tint?: string,
   ): void {
     const calm = this.calm;
     const n = calm ? Math.min(count, CALM.count) : count;
@@ -136,6 +139,7 @@ export class Bursts {
         life: Math.min(calm ? CALM.lifeMs : Infinity, o.lifeMs) * (0.7 + this.rand() * 0.3),
         kind,
         phase: this.rand() * 6.28,
+        ...(tint ? { tint } : {}),
       });
     }
   }
@@ -175,7 +179,7 @@ export class Bursts {
       }
       const look = LOOK[q.kind];
       const palette = COLORS[q.kind];
-      this.c.set(palette[Math.floor(q.phase * 10) % palette.length]!);
+      this.c.set(q.tint ?? palette[Math.floor(q.phase * 10) % palette.length]!);
       // Fade over the last fifth of a life (dust also thins as it spreads); sparkles twinkle.
       let fade = Math.min(1, (q.life - age) / (q.life * 0.2));
       if (q.kind === 'sparkle' && !this.calm)

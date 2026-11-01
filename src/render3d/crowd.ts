@@ -4,6 +4,8 @@ import { GROVE3D, HOLLOW, HOLLOW_R7, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import { uniqueArtId, uniqueScale } from '../render/sprites/unique-art';
+import { foeArtId } from '../render/sprites/foe-family-art'; /* Lane B r10, R0157 */
+import { poofFigures, type PoofFigure } from './foe-poof-3d'; /* Lane B r10, R0157 */
 import type { Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
 import { friendWalking } from '../sim/dungeon-friends';
@@ -51,6 +53,8 @@ export interface Figure {
   lace?: boolean;
   /** R0326 (lane E r10): a stray's tiptoe up to the Keeper, or its loaded wobble away. */
   gait?: StrayGait;
+  /** R0157 (lane B r10): a poofing foe's squash, or its tiny runner, on the look's own size. */
+  scale?: { x: number; y: number };
 }
 
 /**
@@ -310,7 +314,8 @@ export function crowdFor(
           id: `${p.id}:${i}`,
           kind: 'ambient',
           // A named unique's leader wears its own look, a size up (R0156, `unique-art.ts`).
-          look: i === 0 && spec.unique ? uniqueLook(spec.unique) : artLook(m.species),
+          look:
+            i === 0 && spec.unique ? uniqueLook(spec.unique) : artLook(foeArtId(spec, m.species)),
           x: p.pos.x + Math.sin(a) * r,
           z: p.pos.z + Math.cos(a) * r,
           facing,
@@ -341,6 +346,18 @@ export function crowdFor(
         });
   }
   if (location === 'hollow' || location === 'corvin') out.push(...ambient(location));
+  // R0157 (lane B r10): beaten packs poof and run home (`foe-poof-3d.ts`).
+  for (const p of poofFigures(world, floor, nowMs, POOF_FIGS))
+    out.push({
+      id: p.id,
+      kind: 'ambient',
+      look: p.unique ? uniqueLook(p.unique) : artLook(p.art),
+      x: p.x,
+      z: p.z,
+      facing: p.facing,
+      pose: p.pose,
+      scale: { x: p.sx, y: p.sy },
+    });
   const visiting = visitingTrainer(world);
   if (visiting && location.startsWith('visit:')) out.push(...neighbours(visiting, nowMs));
   return out;
@@ -358,6 +375,10 @@ interface Member {
   /** A stray's soft ring of light on the Hollow floor, so it reads in the dark (bug 12). */
   ring: THREE.Mesh | null;
 }
+
+/** R0157 (lane B r10): a rig's own scale while a poof squashes or shrinks it. */
+const baseScale = new WeakMap<Rigged, number>();
+const POOF_FIGS: PoofFigure[] = [];
 
 /** R0366 (lane E r10): one lace strand shape, shared; only Byte ever wears it. */
 const LACE = {
@@ -452,6 +473,13 @@ export class Crowd {
         const tip = f.gait === 'tiptoe' ? tipLift(ms, this.still) : 0;
         const sway = f.gait === 'wobble' ? wobble(ms, this.still) * STRAY_GAIT.wobbleTurn : 0;
         m.rig.group.position.set(m.pos.x, gy + hop + tip, m.pos.z);
+        // R0157 (lane B r10): a squash or a shrink on the sculpt's own scale, put back on drop.
+        if (f.scale || baseScale.has(m.rig)) {
+          const b = baseScale.get(m.rig) ?? m.rig.group.scale.y;
+          baseScale.set(m.rig, b);
+          const s = f.scale ?? { x: 1, y: 1 };
+          m.rig.group.scale.set(b * s.x, b * s.y, b * s.x);
+        }
         m.rig.ground = hop + tip > 0 ? () => gy + hop + tip : ground;
         m.rig.face(f.facing + sway);
         m.rig.animate(
@@ -552,7 +580,12 @@ export class Crowd {
   private drop(id: string): void {
     const m = this.members.get(id);
     if (!m) return;
-    if (m.rig) this.pool.release(m.key, m.rig);
+    if (m.rig) {
+      const b = baseScale.get(m.rig);
+      if (b !== undefined) m.rig.group.scale.setScalar(b);
+      baseScale.delete(m.rig);
+      this.pool.release(m.key, m.rig);
+    }
     m.stand?.removeFromParent();
     m.ask?.removeFromParent();
     m.ring?.removeFromParent();

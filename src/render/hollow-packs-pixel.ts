@@ -12,6 +12,7 @@ import { viewAngle } from './sprites/angles';
 import { sheetFromImage, type SpriteSheet } from './sprites/atlas';
 import type { SheetCache } from './sprites/sheets';
 import { uniqueArtId, uniqueScale } from './sprites/unique-art';
+import { foeArtId } from './sprites/foe-family-art';
 import { drawRarityShape } from './paint/rarity-shape';
 import { NATIVE_PPU } from './sprite-batch';
 
@@ -215,11 +216,11 @@ export class PixelHollowPacks {
         const r = i === 0 ? 0 : 0.55;
         const x = px + Math.sin(a) * r;
         const z = pz + Math.cos(a) * r;
-        // Act V's Greylings (R0157) are Nubbin-shaped grey echoes; the rest wear their species.
-        // A named unique's leader wears its own look (R0156, `unique-art.ts`).
-        const sheet = spec.grey
-          ? sheets.ambientShadow()
-          : sheets.species(i === 0 && spec.unique ? uniqueArtId(spec.unique) : m.species);
+        // Each family wears its own look, Act V's Greylings that look colour-drained (R0157,
+        // `foe-family-art.ts`). A named unique's leader wears its own look (R0156).
+        const sheet = sheets.species(
+          i === 0 && spec.unique ? uniqueArtId(spec.unique) : foeArtId(spec, m.species),
+        );
         const view = viewAngle(facing, yaw);
         const t = nowMs + i * 137 + p.pos.x * 31;
         const rect =
