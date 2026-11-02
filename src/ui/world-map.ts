@@ -22,6 +22,8 @@ import type { Game } from '../game';
 import { MAP_PPU, paintGroveMap, toMapPx } from '../render/map-paint';
 import { landmarkList } from '../sim/landmarks';
 import { regionOf, regionsFound, travelBlock } from '../sim/regions';
+import { OVERVIEW_TEXT } from '../config/strings-r11d6';
+import { worldOverview } from './world-overview';
 import { travelMode } from '../sim/travel';
 import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
@@ -155,6 +157,8 @@ export class WorldMapPanel {
   /** Lane C r10 agent A (R0650): the questline region page shown, or null for `tab`. */
   private storyTab: StoryRegionId | null = null;
   private storyTabs: HTMLElement | null = null;
+  /** R0130: the World overview is showing, not a region's page. */
+  private overview = false;
   private zoom = 1;
   private panX = 0;
   private panY = 0;
@@ -212,6 +216,7 @@ export class WorldMapPanel {
   open(): void {
     // The Grove is the only region drawn so far, so the map always opens on it.
     this.tab = 'grove';
+    this.overview = false;
     // R0650: inside a questline's region the map opens on that region's page.
     const gw = this.game()?.world;
     this.storyTab = gw && hasStoryRegions(gw) ? storyRegionHere(gw) : null;
@@ -245,6 +250,23 @@ export class WorldMapPanel {
     if (!g) return;
     this.drawTabs(g.world);
     this.drawStoryTabs(g.world);
+    if (this.overview) {
+      this.view.hidden = true;
+      this.elsewhere.hidden = false;
+      this.elsewhere.replaceChildren(
+        worldOverview(
+          g.world,
+          (id) => {
+            this.tab = id;
+            this.storyTab = null;
+            this.overview = false;
+            this.refresh();
+          },
+          () => this.toast(WORLD_TEXT.unknownRegion),
+        ),
+      );
+      return;
+    }
     const grove = this.tab === 'grove' && this.storyTab === null;
     this.view.hidden = !grove;
     this.elsewhere.hidden = grove;
@@ -274,19 +296,32 @@ export class WorldMapPanel {
   private drawTabs(w: World): void {
     this.tabs.innerHTML = '';
     const found = regionsFound(w);
+    const all = button(
+      `🗺️ ${OVERVIEW_TEXT.tab}`,
+      () => {
+        this.overview = true;
+        this.sheet.hidden = true;
+        this.refresh();
+      },
+      `btn btn-small wm-tab${this.overview ? ' btn-primary' : ''}`,
+    );
+    all.setAttribute('role', 'tab');
+    all.setAttribute('aria-selected', String(this.overview));
+    this.tabs.appendChild(all);
     for (const id of found) {
       const b = button(
         WORLD_TEXT.regions[id],
         () => {
+          this.overview = false;
           this.tab = id;
           this.storyTab = null;
           this.sheet.hidden = true;
           this.refresh();
         },
-        `btn btn-small wm-tab${id === this.tab ? ' btn-primary' : ''}`,
+        `btn btn-small wm-tab${id === this.tab && !this.overview ? ' btn-primary' : ''}`,
       );
       b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', String(id === this.tab));
+      b.setAttribute('aria-selected', String(id === this.tab && !this.overview));
       // R0122: a completion ring on each found region's tab.
       const pct = Math.round(mapOverlay(w, id).completion * 100);
       const ring = el('span', 'wm-ring');
