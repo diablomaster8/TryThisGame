@@ -1,4 +1,5 @@
 import { BATTLE } from '../config/tuning-battle';
+import { orderSystems, runSystems, type SimSystem, type StepCtx, type SystemRuns } from './systems';
 import { debugSet } from './debug-set';
 import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
@@ -1311,9 +1312,170 @@ export function heldNubbin(world: World): Nubbin | undefined {
 
 // ---------- stepping ----------
 
+const LIVE_ONLY: SystemRuns = { live: true, offline: false, coarse: false };
+const ALWAYS: SystemRuns = { live: true, offline: true, coarse: true };
+
+/** The Nubbins' own step: eggs incubate, needs decay, ages advance, behaviour runs. */
+function stepNubbins({ world, dtMs, offline, events }: StepCtx, rng: Rng): void {
+  // Iterate a copy: a departure removes its Nubbin from the list.
+  for (const n of [...world.nubbins]) {
+    if (n.stage === 'egg') {
+      // Eggs incubate on the ground, held and carried alike.
+      n.hatchRemainingMs -= dtMs * hatchSpeed(world);
+      // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
+      // hug; a thrown egg waits to land.
+      if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
+      if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
+        hatch(n, events, world.timeMs);
+        // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
+        keepEggshell(n, world);
+      }
+      if (n.behavior.state === 'thrown') {
+        updateBehavior(n, world, dtMs, rng, events);
+        // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
+        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
+        else resolve(n.pos, world, 0.25, 'nubbin');
+      }
+      continue;
+    }
+    decayNeeds(n, dtMs);
+    // R0164: Snug and Naps from worn gear.
+    stepGearNeeds(world, n, dtMs);
+    advanceStage(n, dtMs, events, world, offline);
+    // Party members underground are moved by the Hollow step instead.
+    // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
+    if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
+      updateBehavior(n, world, dtMs, rng, events);
+      // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
+      if (n.behavior.state === 'thrown') collideThrown(world, n, events);
+      resolveNubbin(n, world);
+    }
+  }
+}
+
+/** The Keeper's own step: intent, ride, tow, dodge. Live play only (catch-up never acts). */
+function stepKeeperSystem({ world, dtMs, events }: StepCtx): void {
+  // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
+  const fx = world.keeper.pos.x;
+  const fz = world.keeper.pos.z;
+  updateKeeper(world, dtMs, events);
+  const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
+  stepRide(world, dtMs, moved, events);
+  stepSwimTow(world);
+  stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
+}
+
+const rngSys = (
+  id: string,
+  order: number,
+  runs: SystemRuns,
+  step: (ctx: StepCtx, rng: Rng) => void,
+): SimSystem => ({ id, order, runs, rng: true, step });
+const plainSys = (
+  id: string,
+  order: number,
+  runs: SystemRuns,
+  step: (ctx: StepCtx) => void,
+): SimSystem => ({ id, order, runs, rng: false, step });
+
+/**
+ * Every step system, in the order the step has always run them. The numbers leave room to
+ * slot a new one in: pick a gap, and mind that rng systems (inside `withRng`) come first.
+ */
+export const SYSTEMS: readonly SimSystem[] = orderSystems([
+  rngSys('trees', 10, ALWAYS, ({ world, dtMs, events }, rng) =>
+    updateTrees(world, dtMs, rng, events),
+  ),
+  rngSys('items', 20, ALWAYS, ({ world, dtMs }) => updateItems(world, dtMs)),
+  rngSys('nubbins', 30, ALWAYS, stepNubbins),
+  rngSys('keeper', 40, LIVE_ONLY, stepKeeperSystem),
+  // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
+  rngSys('prop-reach', 50, LIVE_ONLY, ({ world }) => stepPropReach(world)),
+  // MOVE-58: the one-time hop lesson.
+  rngSys('hop-lesson', 60, LIVE_ONLY, ({ world, events }) => stepHopLesson(world, events)),
+  // MOVE-63: the hop course's flags and timer.
+  rngSys('hop-course', 70, LIVE_ONLY, ({ world, events }) => stepHopCourse(world, events)),
+  // R0352: the idle Keeper's antics and rule three's sit, in real live play only (a wall
+  // clock at x1 with the tab showing), so scripted runs and catch-up never see them.
+  rngSys('keeper-idle', 80, LIVE_ONLY, ({ world, dtMs, events, countPlay, wallMs }) => {
+    if (countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
+  }),
+  rngSys('trust', 90, ALWAYS, ({ world, dtMs, events }) => stepTrust(world, dtMs, events)),
+  // R0527 (lane A r10): in the Learning Grove a Nubbin hides in the cottage, never runs.
+  rngSys('cottage-hide', 100, ALWAYS, ({ world, offline, events }) =>
+    stepCottageHide(world, offline, events),
+  ),
+  rngSys('npcs', 110, ALWAYS, ({ world, dtMs, events }, rng) => stepNpcs(world, dtMs, rng, events)),
+  rngSys('bodies', 120, ALWAYS, ({ world, dtMs }) => separateBodies(world, dtMs)),
+  rngSys('weather', 130, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepWeather(world, dtMs, rng, events),
+  ),
+  rngSys('breeding', 140, ALWAYS, ({ world, events }, rng) => stepBreeding(world, rng, events)),
+  rngSys('season-daily', 150, ALWAYS, ({ world, wallMs, events }, rng) => {
+    if (wallMs === undefined) return;
+    // R0118 (lane D r9): the debug panel can force a season for checks.
+    world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
+    stepDaily(world, wallMs, rng, events);
+  }),
+  rngSys('line-queue', 160, ALWAYS, ({ world, dtMs, events }) =>
+    stepLineQueue(world, dtMs, events),
+  ),
+  rngSys('campaign', 170, ALWAYS, ({ world, dtMs, events }) => stepCampaign(world, dtMs, events)),
+  rngSys('story-book', 180, ALWAYS, ({ world, dtMs, events }) =>
+    stepStoryBook(world, dtMs, events),
+  ),
+  rngSys('plants', 190, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepPlants(world, dtMs, rng, events),
+  ),
+  rngSys('habitats', 200, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepHabitats(world, dtMs, rng, events),
+  ),
+  rngSys('keeper2', 210, ALWAYS, ({ world, dtMs, events }) => stepKeeper2(world, dtMs, events)),
+  rngSys('edu', 220, ALWAYS, ({ world, dtMs, wallMs, offline, countPlay }) =>
+    stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay),
+  ),
+  rngSys('slips', 230, ALWAYS, ({ world, dtMs, events }) => stepSlips(world, dtMs, events)),
+  rngSys('moody', 240, ALWAYS, ({ world, dtMs, events }) => stepMoody(world, dtMs, events)),
+  rngSys('partners', 250, ALWAYS, ({ world, dtMs, events }) => stepPartners(world, dtMs, events)),
+  rngSys('curfew', 260, ALWAYS, ({ world, dtMs, wallMs, events }) =>
+    stepCurfew(world, dtMs, wallMs, events),
+  ),
+  rngSys('quests', 270, ALWAYS, ({ world, wallMs, events }, rng) =>
+    stepQuests(world, wallMs, rng, events),
+  ),
+  rngSys('dungeon', 280, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepDungeon(world, dtMs, rng, events),
+  ),
+  plainSys('collection', 500, ALWAYS, ({ world, events }) => stepCollection(world, events)),
+  plainSys('friendships', 510, ALWAYS, ({ world, dtMs, events }) =>
+    stepFriendships(world, dtMs, events),
+  ),
+  plainSys('diary', 520, ALWAYS, ({ world, offline, events }) => stepDiary(world, events, offline)),
+  plainSys('landmarks', 530, ALWAYS, ({ world, events }) => stepLandmarks(world, events)),
+  plainSys('collectibles', 540, ALWAYS, ({ world, events }) => stepCollectibles(world, events)),
+  // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
+  plainSys('world-hints', 550, ALWAYS, ({ world, events }) => stepWorldHints(world, events)),
+  plainSys('little-grove', 560, ALWAYS, ({ world }) => stepLittleGrove(world)),
+  plainSys('seasons', 570, ALWAYS, ({ world, events }) => stepSeasons(world, events)),
+  plainSys('achievements', 580, ALWAYS, ({ world, dtMs, events }) =>
+    stepAchievements(world, events, dtMs),
+  ),
+  plainSys('town', 590, ALWAYS, ({ world, events }) => stepTown(world, events)),
+  plainSys('scans', 600, ALWAYS, ({ world, dtMs, events }) => stepScans(world, dtMs, events)),
+  plainSys('skill-points', 610, ALWAYS, ({ world, events }) => stepSkillPoints(world, events)),
+  plainSys('teams', 620, ALWAYS, ({ world, events }) => stepTeams(world, events)),
+  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
+  plainSys('battle-moves', 630, LIVE_ONLY, ({ world, dtMs, events }) =>
+    stepBattleMoves(world, dtMs, events),
+  ),
+  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
+  plainSys('battle-needs', 640, ALWAYS, ({ world }) => holdBattleNeeds(world)),
+]);
+
 /**
  * One fixed step with full fidelity. Returns the events that happened. `offline` is set by
  * catch-up for the leftover under a minute, so end-of-life checks follow the away rules.
+ * The work is the ordered system list above (TECH-34).
  */
 export function stepWorld(
   world: World,
@@ -1328,108 +1490,7 @@ export function stepWorld(
   // R0544 (lane A r8): no antics while catching up on time away.
   setAnticsLive(!offline);
 
-  withRng(world, (rng) => {
-    updateTrees(world, dtMs, rng, events);
-    updateItems(world, dtMs);
-    // Iterate a copy: a departure removes its Nubbin from the list.
-    for (const n of [...world.nubbins]) {
-      if (n.stage === 'egg') {
-        // Eggs incubate on the ground, held and carried alike.
-        n.hatchRemainingMs -= dtMs * hatchSpeed(world);
-        // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
-        // hug; a thrown egg waits to land.
-        if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
-        if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
-          hatch(n, events, world.timeMs);
-          // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
-          keepEggshell(n, world);
-        }
-        if (n.behavior.state === 'thrown') {
-          updateBehavior(n, world, dtMs, rng, events);
-          // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
-          if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-          else resolve(n.pos, world, 0.25, 'nubbin');
-        }
-        continue;
-      }
-      decayNeeds(n, dtMs);
-      // R0164: Snug and Naps from worn gear.
-      stepGearNeeds(world, n, dtMs);
-      advanceStage(n, dtMs, events, world, offline);
-      // Party members underground are moved by the Hollow step instead.
-      // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
-      if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
-        updateBehavior(n, world, dtMs, rng, events);
-        // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
-        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-        resolveNubbin(n, world);
-      }
-    }
-    // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
-    // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
-    if (!offline) {
-      // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
-      const fx = world.keeper.pos.x;
-      const fz = world.keeper.pos.z;
-      updateKeeper(world, dtMs, events);
-      const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
-      stepRide(world, dtMs, moved, events);
-      stepSwimTow(world);
-      stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
-    }
-    // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
-    if (!offline) stepPropReach(world);
-    // MOVE-58: the one-time hop lesson.
-    if (!offline) stepHopLesson(world, events);
-    // MOVE-63: the hop course's flags and timer.
-    if (!offline) stepHopCourse(world, events);
-    // R0352: the idle Keeper's antics and rule three's sit, in real live play only (a wall
-    // clock at ×1 with the tab showing), so scripted runs and catch-up never see them.
-    if (!offline && countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
-    stepTrust(world, dtMs, events);
-    // R0527 (lane A r10): in the Learning Grove a Nubbin hides in the cottage, never runs.
-    stepCottageHide(world, offline, events);
-    stepNpcs(world, dtMs, rng, events);
-    separateBodies(world, dtMs);
-    stepWeather(world, dtMs, rng, events);
-    stepBreeding(world, rng, events);
-    if (wallMs !== undefined) {
-      // R0118 (lane D r9): the debug panel can force a season for checks.
-      world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
-      stepDaily(world, wallMs, rng, events);
-    }
-    stepLineQueue(world, dtMs, events);
-    stepCampaign(world, dtMs, events);
-    stepStoryBook(world, dtMs, events);
-    stepPlants(world, dtMs, rng, events);
-    stepHabitats(world, dtMs, rng, events);
-    stepKeeper2(world, dtMs, events);
-    stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
-    stepSlips(world, dtMs, events);
-    stepMoody(world, dtMs, events);
-    stepPartners(world, dtMs, events);
-    stepCurfew(world, dtMs, wallMs, events);
-    stepQuests(world, wallMs, rng, events);
-    stepDungeon(world, dtMs, rng, events);
-  });
-  stepCollection(world, events);
-  stepFriendships(world, dtMs, events);
-  stepDiary(world, events, offline);
-  stepLandmarks(world, events);
-  stepCollectibles(world, events);
-  // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
-  stepWorldHints(world, events);
-  stepLittleGrove(world);
-  stepSeasons(world, events);
-  stepAchievements(world, events, dtMs);
-  stepTown(world, events);
-  stepScans(world, dtMs, events);
-  stepSkillPoints(world, events);
-  stepTeams(world, events);
-  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
-  if (!offline) stepBattleMoves(world, dtMs, events);
-  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
-  holdBattleNeeds(world);
+  runSystems(SYSTEMS, { world, dtMs, wallMs, offline, countPlay, events }, withRng);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
