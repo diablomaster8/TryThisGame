@@ -1,6 +1,6 @@
 import { V } from '../samples/sculpted';
 import type { SpeciesSpec } from '../samples/species';
-import { cloneSpec } from '../samples/nubbin-variants';
+import { variant } from '../samples/nubbin-variants';
 import { cone } from '../samples/nubbin-lineup-kit';
 import { RADIANT3D } from '../config/tuning';
 
@@ -17,6 +17,8 @@ const GOLD = '#ffd040';
 const GOLD_DEEP = '#d0a020';
 const RED = '#e0405a';
 const BERRY = '#9e2b3f';
+const MOON_WING = '#7a2040';
+const SUN_WING = '#fff0a8';
 
 /** A painted dot on the skin (body space). */
 const dot = (x: number, y: number, z: number, r: number, color: string) => ({
@@ -28,7 +30,14 @@ const dot = (x: number, y: number, z: number, r: number, color: string) => ({
 });
 
 export function withRadiant(base: SpeciesSpec, band: string): SpeciesSpec {
-  const spec = cloneSpec(base);
+  // The band's colour on the tips, pads and (Moon) wings, through the palette roles, so it
+  // reads at a glance from any side as in Pixel (`radiantColors`).
+  const spec = variant(base, `${base.name} (Chaos-tier)`, {
+    colors:
+      band === 'moon'
+        ? { tip: RED, pad: BERRY, wing: MOON_WING }
+        : { tip: GOLD, pad: GOLD_DEEP, ...(band === 'sun' ? { wing: SUN_WING } : {}) },
+  });
   if (spec.wings)
     spec.wings.size = Math.max(spec.wings.size * RADIANT3D.wingGrow, RADIANT3D.wingMin);
   spec.surface = { ...spec.surface, rimGlow: RADIANT3D.rimGlow };

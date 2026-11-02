@@ -310,6 +310,10 @@ export function specForKey(key: string): SpeciesSpec {
       (m) => m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny',
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
+    // Lane F r11 (EVO): the Chaos-tier stage over a second form, while the spec still knows
+    // its palette roles (critter parts and birthmarks clone it without them).
+    const radiant = mod('radiant:');
+    if (radiant) spec = withRadiant(spec, radiant);
     const parts = mod('parts:');
     if (parts)
       spec = withCritterParts(
@@ -321,9 +325,6 @@ export function specForKey(key: string): SpeciesSpec {
     // LOOK-53: the birthmark, painted on before the Shadow's grey so it greys with the rest.
     const mark = mod('mark:');
     if (mark) spec = withBirthmark(spec, mark);
-    // Lane F r11 (EVO): the Chaos-tier stage over a second form.
-    const radiant = mod('radiant:');
-    if (radiant) spec = withRadiant(spec, radiant);
     if (mods.includes('shadow')) spec = ashen(spec);
     if (mods.includes('weathered')) spec = weathered(spec);
     cache.set(key, spec);
