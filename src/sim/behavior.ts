@@ -42,6 +42,7 @@ import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
 import type { Walker } from './obstacles';
 import { levelOf } from './stats';
 import { TERRACES } from './terrain';
+import { hillOutingPlan, hillOutingStep, hillStepOk } from './nubbin-hill';
 import { LESSONS } from '../config/tuning';
 import { idleMultipliers, leaningPersonality } from './personality';
 import { idleOdds, idleWeights } from './idle-choice';
@@ -351,8 +352,15 @@ function walkToward(
     }
   }
   const step = Math.min(d, speed * (dtMs / 1000));
+  const fx = n.pos.x;
+  const fz = n.pos.z;
   n.pos.x += way.x * step;
   n.pos.z += way.z * step;
+  // R0086: on a hill a Nubbin may drop down a cliff but never walks up one.
+  if (!hillStepOk(n, fx, fz)) {
+    n.pos.x = fx;
+    n.pos.z = fz;
+  }
   n.facing = Math.atan2(way.x, way.z);
   return dist(n.pos, target) <= reach;
 }
@@ -658,6 +666,14 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       n.behavior.target = { x: other.pos.x + 0.8, z: other.pos.z };
       return;
     }
+  }
+  // R0086 (WORLD-20): now and then up a hill by its ramp, to sit on the top a while.
+  const hill = hillOutingPlan(n, world, now);
+  if (hill) {
+    setState(n, 'perform', now, hill.ms);
+    n.behavior.itemId = hill.itemId;
+    n.behavior.target = hill.target;
+    return;
   }
   // Snow: a slide down the hill.
   if (world.weather.kind === 'snow' && rng.chance(SLED.chance)) {
@@ -1191,6 +1207,11 @@ function stepBehavior(
         } else if (stalled) {
           b.target = null;
         }
+        break;
+      }
+      // R0086: the climb itself, once the walk to the hill's foot is over.
+      if (b.itemId?.startsWith('hill:')) {
+        if (!hillOutingStep(n, dtMs, now)) chooseIdle(n, world, rng, now);
         break;
       }
       if (now >= b.untilMs) chooseIdle(n, world, rng, now);

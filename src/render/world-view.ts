@@ -2198,10 +2198,11 @@ export class WorldView {
       !held && !fly && n.stage !== 'egg' && n.stage !== 'cocoon' && clipFor(n) === 'idle'
         ? signatureAt(n.id, n.species, nowMs, this.particles.reduceMotion)
         : null;
-    // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
+    // On a hill (a mark, or an outing up its ramp, R0086), stand on the terrace.
+    const hillY = this.location === 'grove' ? terraceY(x, z) : 0;
     const y = Math.max(
       lerp(v.prev.y, n.y, alpha) +
-        (held && this.location === 'grove' ? terraceY(x, z) : 0) +
+        hillY +
         (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
         (fly?.y ?? 0) +
         (sig?.dy ?? 0),
@@ -2445,7 +2446,7 @@ export class WorldView {
         lifeMs: 600,
       });
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
-    shadow(x, Math.max(0, y), z, 0.55);
+    shadow(x, Math.max(0, y - hillY), z, 0.55, hillY);
     if (rect) {
       // Squash and stretch at draw time: a landing flattens, a hatch or evolution pops.
       let sw = 1;
