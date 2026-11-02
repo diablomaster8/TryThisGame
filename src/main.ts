@@ -373,9 +373,15 @@ function boot(
   // and the away screen wait for it (review C, items 12 and 16).
   void game.catchUpOnLoad();
   hud.bind(game);
-  if (import.meta.env.DEV) {
+  if (import.meta.env.DEV || params.has('e2e')) {
     // Console access during development: `grove.world`, `grove.send({...})`.
-    (window as unknown as { grove: Game }).grove = game;
+    (window as unknown as { grove: Game & { test?: unknown } }).grove = game;
+  }
+  if (params.has('e2e')) {
+    // TECH-11: the browser specs' hooks (`grove.test`), only on a `?e2e` load.
+    void import('./dev/e2e-api').then((m) => {
+      (window as unknown as { grove: { test?: unknown } }).grove.test = m.installE2eApi(game);
+    });
   }
   mountCameraButtons(hudRoot, game.camera);
 
