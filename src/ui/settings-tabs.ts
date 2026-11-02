@@ -43,7 +43,7 @@ export function buildSettingsTabs(root: HTMLElement): SettingsTabs {
   list.addEventListener('keydown', (e) => {
     const i = tabs.findIndex((t) => t.tab === document.activeElement);
     if (i < 0) return;
-    let next = i;
+    let next: number;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % tabs.length;
     else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp')
       next = (i - 1 + tabs.length) % tabs.length;
