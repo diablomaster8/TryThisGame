@@ -43,7 +43,8 @@ describe('headless play harness', () => {
     const json = serialize(a.world, 1_000);
     const loaded = validateWorld(deserialize(json).world);
     // A visitor walking about is sent home on load (save.ts), so compare without visitors.
-    const bare = (w: typeof a.world) => hash(worldFingerprint({ ...w, npcs: [] } as typeof a.world));
+    const bare = (w: typeof a.world) =>
+      hash(worldFingerprint({ ...w, npcs: [] } as typeof a.world));
     expect(bare(loaded)).toBe(bare(a.world));
     // Loading is a fixed point: a second save and load changes nothing.
     const again = validateWorld(deserialize(serialize(loaded, 1_000)).world);

@@ -44,7 +44,10 @@ async function boot(browser, proj, opts = {}) {
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text().slice(0, 240)));
   page.on('pageerror', (e) => errors.push('PAGEERR ' + String(e).slice(0, 240)));
   const s = opts.slot ?? ++slot;
-  await page.goto(`${BASE}/?e2e&free&slot=${s}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
+  await page.goto(`${BASE}/?e2e&free&slot=${s}`, {
+    waitUntil: 'domcontentloaded',
+    timeout: 120000,
+  });
   await page.waitForFunction(() => window.grove && window.grove.test, null, { timeout: 120000 });
   return { ctx, page, errors };
 }
@@ -58,10 +61,19 @@ const SPECS = {
       for (const n of g.world.nubbins) g.send({ kind: 'debugHatchNow', nubbinId: n.id });
       g.send({ kind: 'debugGive', what: 'fruit', amount: 1 });
     });
-    await page.waitForFunction(() => window.grove.world.nubbins.some((n) => n.stage === 'child'), null, { timeout: 20000 });
-    const id = await page.evaluate(() => window.grove.world.nubbins.find((n) => n.stage === 'child').id);
+    await page.waitForFunction(
+      () => window.grove.world.nubbins.some((n) => n.stage === 'child'),
+      null,
+      { timeout: 20000 },
+    );
+    const id = await page.evaluate(
+      () => window.grove.world.nubbins.find((n) => n.stage === 'child').id,
+    );
     // The Keeper holds one intent at a time: pet first, then feed.
-    const saw = (kind) => page.waitForFunction((k) => window.grove.test.events().some((e) => e.kind === k), kind, { timeout: 30000 });
+    const saw = (kind) =>
+      page.waitForFunction((k) => window.grove.test.events().some((e) => e.kind === k), kind, {
+        timeout: 30000,
+      });
     await page.evaluate((id) => window.grove.send({ kind: 'pet', nubbinId: id }), id);
     await saw('petted');
     await page.evaluate((id) => window.grove.send({ kind: 'feed', nubbinId: id }), id);
@@ -103,12 +115,17 @@ const SPECS = {
       for (const el of document.querySelectorAll('button, [role=button], select, input, a[href]')) {
         const r = el.getBoundingClientRect();
         const cs = getComputedStyle(el);
-        if (r.width === 0 || r.height === 0 || cs.visibility === 'hidden' || cs.display === 'none') continue;
-        if (r.width < 44 || r.height < 44) bad.push(`${el.tagName}.${String(el.className).slice(0, 30)} ${Math.round(r.width)}x${Math.round(r.height)}`);
+        if (r.width === 0 || r.height === 0 || cs.visibility === 'hidden' || cs.display === 'none')
+          continue;
+        if (r.width < 44 || r.height < 44)
+          bad.push(
+            `${el.tagName}.${String(el.className).slice(0, 30)} ${Math.round(r.width)}x${Math.round(r.height)}`,
+          );
       }
       return bad;
     });
-    if (small.length) throw new Error(`${small.length} controls under 44 px: ${small.slice(0, 5).join('; ')}`);
+    if (small.length)
+      throw new Error(`${small.length} controls under 44 px: ${small.slice(0, 5).join('; ')}`);
   },
 };
 
@@ -118,7 +135,12 @@ const SPECS = {
   const browser = await chromium.launch({
     ...(process.env.E2E_BROWSER ? { executablePath: process.env.E2E_BROWSER } : {}),
     headless: true,
-    args: ['--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=swiftshader'],
+    args: [
+      '--enable-unsafe-swiftshader',
+      '--ignore-gpu-blocklist',
+      '--use-gl=angle',
+      '--use-angle=swiftshader',
+    ],
   });
   let failed = 0;
   for (const name of names) {

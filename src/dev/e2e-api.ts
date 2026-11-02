@@ -15,8 +15,12 @@ export interface E2eApi {
   seed(n: number): void;
   setTimeScale(scale: number): void;
   events(): SimEvent[];
+  /** TECH-12: a still frame: no particles, reduced motion, and a clock that barely runs. */
+  freeze(): void;
   /** Client (CSS pixel) position of a world point, or of a Nubbin by id. */
-  worldToScreen(target: string | { x: number; z: number; y?: number }): { x: number; y: number } | null;
+  worldToScreen(
+    target: string | { x: number; z: number; y?: number },
+  ): { x: number; y: number } | null;
   screenToWorld(clientX: number, clientY: number): { x: number; z: number } | null;
 }
 
@@ -34,6 +38,13 @@ export function installE2eApi(game: Game): E2eApi {
     seed: (n) => game.replaceWorld(createWorld(n, Date.now())),
     setTimeScale: (s) => game.setTimeScale(s),
     events: () => recent.slice(),
+    freeze() {
+      game.send({
+        kind: 'setSettings',
+        settings: { ...game.world.settings, particles: 'off', reducedMotion: 'on' },
+      });
+      game.setTimeScale(1e-6);
+    },
     worldToScreen(target) {
       let p: { x: number; z: number; y?: number } | undefined;
       if (typeof target === 'string') {
