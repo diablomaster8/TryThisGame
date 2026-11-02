@@ -114,23 +114,25 @@ function dropSplash(): void {
   if (document.querySelector('.title')) performance.mark?.('title-visible');
 }
 function route(): void {
+  // TECH-38: the art-direction sample galleries open in dev builds and under `?debug` only.
+  const sampleRoutes = import.meta.env.DEV || params.has('debug');
   if (params.has('sprites')) {
     mountSpriteGallery(app);
-  } else if (params.has('style3d')) {
+  } else if (params.has('style3d') && sampleRoutes) {
     // Art-direction samples for a full-3D Grove (`?style3d=1..5`).
     const i = Math.max(1, Math.min(5, Number(params.get('style3d')) || 1));
     void import('./samples/three-styles').then(
       (m) => m.mountStyleSample(canvas, m.STYLES[i - 1]!),
       showUpdateNotice,
     );
-  } else if (params.has('retro3d')) {
+  } else if (params.has('retro3d') && sampleRoutes) {
     // Console-era 3D samples (`?retro3d=1..5`).
     const i = Math.max(1, Math.min(5, Number(params.get('retro3d')) || 1));
     void import('./samples/retro-styles').then(
       (m) => m.mountRetroSample(canvas, m.RETRO_STYLES[i - 1]!),
       showUpdateNotice,
     );
-  } else if (params.has('aaa')) {
+  } else if (params.has('aaa') && sampleRoutes) {
     // The HD-port direction at a AAA finish (`?aaa=1..3`: noon, golden hour, after rain).
     const i = Math.max(1, Math.min(3, Number(params.get('aaa')) || 1));
     void import('./samples/aaa-styles').then(
