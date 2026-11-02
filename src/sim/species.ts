@@ -2,6 +2,7 @@ import { GEN1B_SPECIES } from './species-gen1b';
 import type { AlignmentBand, Nubbin, NubbinType } from './types';
 import { DIGI2_SPECIES } from './species-digi2';
 import { GEN1A_SPECIES } from './species-gen1a';
+import { R11_SPECIES } from './species-r11';
 
 /**
  * Species: what hatches from an egg and what it grows into. The Chao line is the
@@ -64,7 +65,7 @@ export const SPECIES: readonly Species[] = [
   P('puffle', 'Jigglypuff', 'grown', 'normal', { kind: 'fixed', to: 'pufflow' }),
   P('pufflow', 'Wigglytuff', 'final', 'normal'),
   P('shellbit', 'Togepi', 'baby', 'normal', { kind: 'fixed', to: 'shellwing' }),
-  P('shellwing', 'Togetic', 'final', 'fly'),
+  P('shellwing', 'Togetic', 'grown', 'fly', { kind: 'fixed', to: 'shellhalo' }),
   P('scrapper', 'Tyrogue', 'baby', 'power', {
     kind: 'byType',
     map: { run: 'kickmaster', power: 'jabmaster' },
@@ -76,9 +77,9 @@ export const SPECIES: readonly Species[] = [
   P('kissbud', 'Smoochum', 'baby', 'swim', { kind: 'fixed', to: 'frostdiva' }),
   P('frostdiva', 'Jynx', 'final', 'swim'),
   P('plugbud', 'Elekid', 'baby', 'power', { kind: 'fixed', to: 'voltbrute' }),
-  P('voltbrute', 'Electabuzz', 'final', 'power'),
+  P('voltbrute', 'Electabuzz', 'grown', 'power', { kind: 'fixed', to: 'stormbrute' }),
   P('emberbud', 'Magby', 'baby', 'power', { kind: 'fixed', to: 'blazebrute' }),
-  P('blazebrute', 'Magmar', 'final', 'power'),
+  P('blazebrute', 'Magmar', 'grown', 'power', { kind: 'fixed', to: 'blazecannon' }),
   P('droplet', 'Azurill', 'baby', 'swim', { kind: 'fixed', to: 'puddlemouse' }),
   P('puddlemouse', 'Marill', 'grown', 'swim', { kind: 'fixed', to: 'rivermouse' }),
   P('rivermouse', 'Azumarill', 'final', 'swim'),
@@ -133,6 +134,7 @@ export const SPECIES: readonly Species[] = [
   ...DIGI2_SPECIES,
 
   ...GEN1B_SPECIES,
+  ...R11_SPECIES,
 ];
 
 /**

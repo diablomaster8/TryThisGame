@@ -3,6 +3,7 @@ import { C } from './palette';
 import { ex } from './creature-extras';
 import { DIGI2_ART } from './species-art-digi2';
 import { GEN1B_ART } from './species-art-gen1b';
+import { R11_ART } from './species-art-r11';
 import { SPECIES_ART_GEN1A } from './species-art-gen1a';
 import { UNIQUE_ART_PREFIX, uniqueArt } from './unique-art';
 import { FOE_ART_PREFIX, foeArt } from './foe-family-art';
@@ -465,6 +466,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   ...DIGI2_ART,
   ...GEN1B_ART,
   ...SPECIES_ART_GEN1A,
+  ...R11_ART,
 };
 
 export function speciesArt(id: string): CreatureSpec | undefined {

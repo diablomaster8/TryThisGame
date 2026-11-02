@@ -55,7 +55,7 @@ describe('party bouts', () => {
   });
 
   it('everyone chooses, then the turn resolves; a breath goes first; Huddle heals', () => {
-    const b = bout(partyWorld(3000), 2, 5);
+    const b = bout(partyWorld(3000), 2, 6);
     expect(b.active).toBe(0);
     battleAct(b, { k: 'guard' });
     // Choosing resolves nothing yet (recs FIGHT-18).
