@@ -1,4 +1,5 @@
 import { BATTLE } from '../config/tuning-battle';
+import { debugSet } from './debug-set';
 import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
@@ -650,6 +651,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         world.debugSeason = cmd.season;
         world.season = cmd.season;
       } else delete world.debugSeason;
+      return;
+    case 'debugSet':
+      debugSet(world, cmd.path, cmd.value);
       return;
     case 'debugGive':
       if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
