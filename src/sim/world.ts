@@ -1,3 +1,4 @@
+import { diaryPanel, diarySession, newDiary, stepGroveDiary } from './grove-diary';
 import { BATTLE } from '../config/tuning-battle';
 import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
@@ -615,6 +616,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       noteNubbin(world, n, events);
       return;
     }
+    case 'diaryNote':
+      // R0474: the private diary (sim/diary.ts).
+      if (cmd.what === 'session') diarySession(world);
+      else if (cmd.what === 'skip') (world.diary ??= newDiary()).scenesSkipped += 1;
+      else diaryPanel(world, cmd.what.panel);
+      return;
     case 'setTimeZone': {
       // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
       const m = Math.round(cmd.offsetMin);
@@ -1431,6 +1438,8 @@ export function stepWorld(
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
     sampleAll(world);
   }
+  // R0474: the diary counts live play only.
+  if (!offline) stepGroveDiary(world, dtMs, events);
   return events;
 }
 

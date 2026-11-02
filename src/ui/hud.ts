@@ -517,6 +517,11 @@ export function mountHud(
   };
   new ResizeObserver(placeToasts).observe(top);
   window.addEventListener('resize', placeToasts);
+  // R0474: the private diary hears which panels get opened and which scenes get skipped.
+  window.addEventListener('grove:panel', (e) =>
+    game()?.send({ kind: 'diaryNote', what: { panel: String((e as CustomEvent).detail) } }),
+  );
+  window.addEventListener('grove:skip', () => game()?.send({ kind: 'diaryNote', what: 'skip' }));
   placeToasts();
   // Read out politely by screen readers; each toast is added as a new node.
   toasts.setAttribute('role', 'status');

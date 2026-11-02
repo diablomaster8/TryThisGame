@@ -53,6 +53,7 @@ import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../confi
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
 import { OFFER_TEXT } from '../config/strings-camp';
+import { PROGRESS_TEXT } from '../config/strings-r11d4-progress';
 import { buildSettingsTabs } from './settings-tabs';
 import type { SettingsTabId } from '../config/strings-r11d4';
 import { playStats } from '../sim/quest-offers';
@@ -525,7 +526,15 @@ export class SettingsMenu {
     mountOfflinePacks(body);
     at('about');
     const bug = el('div', 'settings-actions');
-    bug.append(button(BUG_TEXT.copy, () => void this.copyBugReport()));
+    bug.append(
+      button(BUG_TEXT.copy, () => void this.copyBugReport()),
+      // R0511 / R0474: the Progress page and the private diary, loaded on demand.
+      button(PROGRESS_TEXT.openFromSettings, () => {
+        void import('./progress-panel').then((m) =>
+          m.openProgress(this.parent, () => this.game()?.world ?? null),
+        );
+      }),
+    );
     body.appendChild(bug);
   }
 
@@ -564,6 +573,7 @@ export class SettingsMenu {
       renderer: readGraphicsPref(),
       settings: g.world.settings,
       save: g.exportJson(),
+      diary: g.world.diary ?? null,
     });
     try {
       await navigator.clipboard.writeText(text);

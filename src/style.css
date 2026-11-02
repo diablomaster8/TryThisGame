@@ -5335,3 +5335,36 @@ html.story-resting canvas {
 .settings-pane .field-row {
   min-height: 48px;
 }
+
+/* R0511: ring meters on the Progress page. The number and label carry it; the ring is a bonus. */
+.progress-rings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.progress-ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+.progress-dial {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background:
+    radial-gradient(closest-side, #1c1632 74%, transparent 76%),
+    conic-gradient(#f2d34c calc(var(--pct) * 1%), rgba(255, 255, 255, 0.18) 0);
+}
+.progress-bests,
+.progress-diary {
+  text-align: left;
+  padding-left: 18px;
+  margin: 4px 0 10px;
+}
