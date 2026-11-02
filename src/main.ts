@@ -98,6 +98,15 @@ document.addEventListener('visibilitychange', () => {
 });
 
 const params = new URLSearchParams(location.search);
+if (import.meta.env.DEV && params.has('audiolab')) {
+  // R0507: the sound-effect level table (dev only; its code never ships).
+  void import('./dev/audiolab').then((m) => {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:fixed;inset:0;overflow:auto;background:#fff;color:#000;z-index:999;padding:16px;font:13px sans-serif';
+    document.body.appendChild(box);
+    return m.runAudioLab(box);
+  });
+}
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
 let kidsLock: number | null;
 // A browser may have cleared localStorage: put back any newer IndexedDB copy before a slot is read.

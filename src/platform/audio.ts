@@ -995,6 +995,41 @@ export function playKindle(): void {
   }
 }
 
+/**
+ * R0507 (TECH-64): render one sound effect through the real bus graph into an offline
+ * context and hand back its samples (mono mix), for the `?audiolab` dev page. It swaps the
+ * module's live graph for the offline one for the length of the render and then puts the
+ * live one back, so call it only from the lab, never during play.
+ */
+export async function renderSoundOffline(
+  name: SoundName,
+  seconds = 2,
+  rate = 44100,
+): Promise<Float32Array | null> {
+  const Off =
+    typeof OfflineAudioContext !== 'undefined'
+      ? OfflineAudioContext
+      : (window as unknown as { webkitOfflineAudioContext?: typeof OfflineAudioContext })
+          .webkitOfflineAudioContext;
+  if (!Off) return null;
+  const saved = { ctx, unlocked, sfxEnabled, master, musicBus, sfxBus, delaySend, reverbSend };
+  const off = new Off(1, Math.floor(seconds * rate), rate);
+  try {
+    ctx = off as unknown as AudioContext;
+    unlocked = true;
+    sfxEnabled = true;
+    lastComicAt = -1e9;
+    buildGraph(ctx);
+    playSound(name);
+    const buf = await off.startRendering();
+    return buf.getChannelData(0);
+  } catch {
+    return null;
+  } finally {
+    ({ ctx, unlocked, sfxEnabled, master, musicBus, sfxBus, delaySend, reverbSend } = saved);
+  }
+}
+
 export function playSound(name: SoundName): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
   if (COMIC_SOUNDS.includes(name)) {
