@@ -1,3 +1,4 @@
+import { nubbinArtId } from '../render/sprites/stage-art';
 import {
   Box3,
   Vector3,
@@ -75,8 +76,10 @@ export function nubbinLook(n: Nubbin): Look {
     const shade = n.shadow ? '~shadow' : '';
     const roster = ROSTER.find((s) => s.name.toLowerCase() === n.species.toLowerCase());
     if (roster) return { key: `roster:${roster.name}${shade}`, height };
-    const art = speciesArt(n.species);
-    if (art) return { key: `art:${n.species}${shade}`, height: GROVE3D.nubbinHeight * art.size };
+    // Lane F r11 (EVO): the Radiant top stage and a single's juvenile look have their own art.
+    const artId = nubbinArtId(n);
+    const art = speciesArt(artId);
+    if (art) return { key: `art:${artId}${shade}`, height: GROVE3D.nubbinHeight * art.size };
     stubOnce(`species:${n.species}`, 'no recipe; drawn as the base Nubbin');
     return { key: `nubbin${shade}`, height };
   }
@@ -89,9 +92,11 @@ export function nubbinLook(n: Nubbin): Look {
       n.form.second ? `second-${n.form.band}-${n.form.type}-${n.form.second}` : null,
       `first-${n.form.band}-${n.form.type}`,
     ];
+    // Lane F r11 (EVO): the Chaos-tier stage wears its band's signature over the form.
+    const rad = n.form.radiant ? `~radiant:${n.form.band}` : '';
     for (const id of ids) {
       if (!id) continue;
-      if (variantById(id)) return { key: `variant:${id}${over}${tints}`, height };
+      if (variantById(id)) return { key: `variant:${id}${rad}${over}${tints}`, height };
     }
     stubOnce(`form:${n.form.band}-${n.form.type}`, 'no variant found; base Nubbin');
     return { key: `nubbin${over}${tints}`, height };

@@ -919,6 +919,18 @@ export const RADIANT = {
   juvenileScale: 0.72,
 } as const;
 
+/** Lane F r11 (EVO): the Chao Chaos-tier stage in Pixel: wings at least this big. */
+export const RADIANT_PX = { wingScale: 1.8 } as const;
+
+/** Lane F r11 (EVO): the top stage's Full 3D finish. */
+export const RADIANT3D = {
+  /** A Radiant pocket form's glowing rim (the Eternal Sun wears 0.3). */
+  rimGlow: 0.35,
+  /** A Chaos-tier Nubbin's wings grow by this much, to at least `wingMin` (an Eternal's are 2.2). */
+  wingGrow: 1.35,
+  wingMin: 1.9,
+} as const;
+
 export const ETERNAL = {
   minRebirths: 2,
   sunThreshold: 0.8,

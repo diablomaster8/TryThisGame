@@ -1,4 +1,6 @@
 import { buildShinyGlintSheet } from './shiny-glint';
+import { RADIANT_PX } from '../../config/tuning';
+import { nubbinArtId } from './stage-art';
 import type { KeeperAlignment, Nubbin } from '../../sim/types';
 import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childLean, leanStep } from './child-hint';
@@ -178,7 +180,7 @@ export class SheetCache {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
     if (n.stage === 'cocoon') return cocoonKey(n);
     const sh = n.shadow ? (n.bond ? 'shb' : 'sh') : '-';
-    if (n.species !== 'chao') return `species:${n.species}:${sh}`;
+    if (n.species !== 'chao') return `species:${nubbinArtId(n)}:${sh}`;
     // Each filled slot carries its size step (LOOK-36): a level crossing a step redraws.
     const steps = partSteps(n);
     const parts = ALL_PART_SLOTS.map((s) => {
@@ -191,7 +193,7 @@ export class SheetCache {
     const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}:b${beltOf(n)}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
-      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
+      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}${n.form.radiant ? ':R' : ''}:${parts}:${hat}:${variant}`;
     }
     return `child:${childLook(n.alignment).id}:${parts}:${hat}:${variant}`;
   }
@@ -255,7 +257,7 @@ export class SheetCache {
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
       if (n.stage === 'cocoon') return buildCocoonFor(n);
       // Other families use the generic creature drawer; their look is the species.
-      const art = family !== 'chao' ? speciesArt(n.species) : undefined;
+      const art = family !== 'chao' ? speciesArt(nubbinArtId(n)) : undefined;
       if (art) {
         if (!n.shadow) return buildCreatureSheet(art, n.hat);
         // Shadow: ash-grey coat and an ember eye, whatever the species.
@@ -316,18 +318,24 @@ export class SheetCache {
             n.tone,
             n.form.band,
           );
-        return build(
-          lookOf(
-            tone(colors),
-            n.form.type,
-            n.form.second,
-            { ...n.parts },
-            false,
-            n.hat,
-            n.shiny || n.heirloom,
-            n.form.band,
-          ),
+        const adult = lookOf(
+          tone(colors),
+          n.form.type,
+          n.form.second,
+          { ...n.parts },
+          false,
+          n.hat,
+          n.shiny || n.heirloom,
+          n.form.band,
         );
+        // Lane F r11 (EVO): the Chaos-tier stage: great wings and the band's signature.
+        if (n.form.radiant)
+          adult.shape = {
+            ...adult.shape,
+            radiantBand: n.form.band,
+            wingScale: Math.max(adult.shape.wingScale, RADIANT_PX.wingScale),
+          };
+        return build(adult);
       }
       const hint = childLean(n.alignment).band;
       const base = childLook(n.alignment).colors;

@@ -7,6 +7,7 @@ import { R11_ART } from './species-art-r11';
 import { SPECIES_ART_GEN1A } from './species-art-gen1a';
 import { UNIQUE_ART_PREFIX, uniqueArt } from './unique-art';
 import { FOE_ART_PREFIX, foeArt } from './foe-family-art';
+import { isStageArt, stageArt } from './stage-art';
 
 /**
  * Art specs for every non-Chao species, keyed by species id (sim/species.ts). Each is
@@ -474,5 +475,7 @@ export function speciesArt(id: string): CreatureSpec | undefined {
   if (id.startsWith(UNIQUE_ART_PREFIX)) return uniqueArt(id, (s) => SPECIES_ART[s]) ?? undefined;
   // R0157 (lane B r10): a Hollow foe family's own look, or its Act V Greyling.
   if (id.startsWith(FOE_ART_PREFIX)) return foeArt(id);
+  // Lane F r11 (EVO): the Radiant top stage and a single's juvenile look.
+  if (isStageArt(id)) return stageArt(id, (s) => SPECIES_ART[s]);
   return SPECIES_ART[id];
 }

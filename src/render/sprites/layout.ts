@@ -40,6 +40,8 @@ export interface ChaoShape {
   band?: 'sun' | 'moon' | 'neutral' | null;
   /** LOOK-37: an Eternal's band, for its Chaos-tier signature (halo, devil tail, motes). */
   eternalBand?: 'sun' | 'moon' | 'neutral';
+  /** Lane F r11 (EVO): the band of a Chaos-tier Nubbin (`form.radiant`), for its signature. */
+  radiantBand?: 'sun' | 'moon' | 'neutral';
 }
 
 export const CHILD_SHAPE: ChaoShape = {

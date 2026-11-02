@@ -70,6 +70,7 @@ describe('party bouts', () => {
     expect(b.turn).toBe(2);
     expect(b.active).toBe(0);
     const hurt = b.sides[0].find((p) => p.hp < p.maxHp && standing(p));
+    expect(hurt).toBeDefined();
     if (hurt) {
       battleAct(b, { k: 'rally' });
       battleAct(b, { k: 'guard' });
