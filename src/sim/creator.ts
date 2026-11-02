@@ -15,6 +15,8 @@ import { newId, withRng } from './world';
  * runs here in the sim on the `creatorUnlock` command, and the picker's two commands refuse
  * unless the flag is set.
  */
+/** A picked Sun or Moon band's alignment: past an Eternal's 0.8, so the band holds. */
+const CREATOR_ALIGN = 0.9;
 const SALT = '8a5ab3bdca45e046fcafa1e807580a6e';
 const HASH = '28904de2d4c059b94512f98a1fba4928edb1b5f6cfd5f2831318828b8b5836e0';
 
@@ -93,6 +95,9 @@ export function applyPick(n: Nubbin, p: CreatorPick, world: World): void {
   n.cocoonKind = null;
   n.hatchRemainingMs = 0;
   const band = p.band ?? 'neutral';
+  // The hidden alignment follows a picked band, so the sheet's word and later steps agree.
+  if (p.band)
+    n.alignment = p.band === 'sun' ? CREATOR_ALIGN : p.band === 'moon' ? -CREATOR_ALIGN : 0;
   const type = p.type ?? s.type;
   const lean = { ...n.typeLean };
   switch (p.stage) {
