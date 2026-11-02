@@ -9,3 +9,12 @@ export const FIRST_LOOP = {
   /** A step idle this long gets a pulsing nudge on the chip (never a block). */
   idleNudgeMs: 20 * SECOND,
 } as const;
+
+/** R0467 (TECH-25): the first minute stays quiet; at most two toasts show at once. */
+export const FIRST_MINUTE = {
+  /** Visitor and season toasts wait until this long after the first hatch of a new save. */
+  quietMs: 20 * SECOND,
+  /** A save older than this (sim time) is never "new", whatever its diary says. */
+  newSaveMs: 30 * 60 * SECOND,
+  maxVisibleToasts: 2,
+} as const;

@@ -176,7 +176,9 @@ import {
   noteAdultEntry,
 } from '../platform/mature-recheck';
 import { MATURE_RECHECK } from '../config/tuning-tech';
-import { feedbackFor, groveSfx, runFeedback } from './event-feedback';
+import { FIRST_MINUTE } from '../config/tuning-r11d4';
+import { firstMinuteQuiet } from '../sim/first-loop';
+import { badgeLine, feedbackFor, groveSfx, runFeedback } from './event-feedback';
 import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
@@ -1063,6 +1065,8 @@ export function mountHud(
 
   /** A season's festival toast, held until no story scene is on or waiting. */
   let heldFestival: string | null = null;
+  /** R0467: toasts held through a new save's first minute (visitors). */
+  const heldQuiet: string[] = [];
   // R0359: festival vignettes started this visit, so one is never started twice while its
   // `festivalGagSeen` waits for the next sim step.
   const festivalGagsStarted = new Set<string>();
@@ -1378,8 +1382,12 @@ export function mountHud(
         'story-queued',
         !!next && dialogue.shouldPlay(next),
       );
+      if (heldQuiet.length > 0 && !firstMinuteQuiet(g.world)) {
+        for (const t of heldQuiet.splice(0)) toast(t);
+      }
       if (
         heldFestival &&
+        !firstMinuteQuiet(g.world) &&
         !(next && dialogue.shouldPlay(next)) &&
         !dialogue.isOpen &&
         !away.isOpen &&
@@ -1506,6 +1514,8 @@ export function mountHud(
           toast(ride);
           continue;
         }
+        // R0467: a badge earned with the hatch rides on the hatch card as a chip.
+        if (e.kind === 'achievement' && hatchCard.foldBadge(badgeLine(e.id, e.shells))) continue;
         // R0466 (TECH-24): the plain toast-and-sound kinds are one table (ui/event-feedback.ts).
         if (runFeedback(feedbackFor(e, { world: g.world }), toast, playSound)) continue;
         if (e.kind === 'hatched') {
@@ -1601,9 +1611,12 @@ export function mountHud(
           );
         } else if (e.kind === 'visitor') {
           const who = TL[e.trainer]?.name ?? e.trainer;
-          toast(
-            e.gift ? UI_TEXT.visitor(who, UI_TEXT.giftNames[e.gift]) : UI_TEXT.visitorNoGift(who),
-          );
+          // R0467: in a new save's first minute the visitor waits for the hatch to finish.
+          const visit = e.gift
+            ? UI_TEXT.visitor(who, UI_TEXT.giftNames[e.gift])
+            : UI_TEXT.visitorNoGift(who);
+          if (firstMinuteQuiet(g.world)) heldQuiet.push(visit);
+          else toast(visit);
           if (e.gift) playSound('buy');
         } else if (e.kind === 'lanternNight') {
           toast(UI_TEXT.lanternNight);
@@ -2053,7 +2066,7 @@ function makeToaster(host: HTMLElement): (text: string, ms?: number) => void {
   let timer = 0;
   const pump = (): void => {
     timer = 0;
-    while (queue.length > 0 && visible < TOASTS.maxVisible) {
+    while (queue.length > 0 && visible < FIRST_MINUTE.maxVisibleToasts) {
       const now = performance.now();
       if (now < nextAt) {
         timer = window.setTimeout(pump, nextAt - now);

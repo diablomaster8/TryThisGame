@@ -46,6 +46,12 @@ export function groveSfx(e: SimEvent): SoundName | null {
   }
 }
 
+/** R0467: a badge as a chip for the hatch card ("🏅 Warm Hands +25 🐚"). */
+export function badgeLine(id: string, shells: number): string {
+  const title = ACHIEVEMENT_LIST.find((x) => x.id === id)?.title ?? id;
+  return `🏅 ${title} +${shells} 🐚`;
+}
+
 /** What one event says and sounds like. Both parts are optional. */
 export interface Feedback {
   toast?: string;
