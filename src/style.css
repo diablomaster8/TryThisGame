@@ -5275,3 +5275,63 @@ html.story-resting canvas {
     forced-color-adjust: none;
   }
 }
+
+/* R0447: the title's first screen: one big Continue, New game, Load, and the new-game cards. */
+.title-continue {
+  min-height: 72px;
+  align-items: flex-start;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.title-continue small,
+.title-newcard small {
+  font-weight: 400;
+  opacity: 0.85;
+}
+.title-newcard {
+  width: min(360px, 100%);
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 2px;
+}
+.title-graphics-help {
+  margin: -6px auto 10px;
+  width: min(360px, 100%);
+  font-size: 0.8125rem;
+  opacity: 0.75;
+}
+
+/* R0468: Settings tabs. Rows keep 48 px targets; the tab strip scrolls sideways on a phone. */
+.settings-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+}
+.settings-tab {
+  flex: none;
+  min-height: 48px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.settings-tab[aria-selected='true'] {
+  background: rgba(242, 211, 76, 0.2);
+  border-color: #f2d34c;
+  font-weight: 700;
+}
+.settings-pane .check-row,
+.settings-pane .field-row {
+  min-height: 48px;
+}
