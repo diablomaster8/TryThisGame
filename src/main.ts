@@ -11,6 +11,7 @@ import './move.css';
 import './look.css';
 import './world.css';
 import './dungeon.css';
+import './world-r11d2.css';
 import type { Game } from './game';
 import type { EduAge } from './config/edu';
 import { isAudioUnlocked, resumeAudio, suspendAudio, unlockAudio } from './platform/audio';
