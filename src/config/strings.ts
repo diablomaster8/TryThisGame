@@ -2,6 +2,7 @@
 import { aOrAn, ordinal, plural } from './grammar';
 import type { PlaceRefusal } from '../sim/types';
 import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
+import { R11_LABELS } from './strings-r11';
 
 import { DIGI2_LABELS } from './strings-digi2';
 
@@ -165,6 +166,7 @@ export const SPECIES_LABELS: Record<string, string> = {
   ...DIGI2_LABELS,
   ...GEN1B_SPECIES_LABELS,
   ...GEN1A_LABELS,
+  ...R11_LABELS,
 };
 
 /** The ten playable Keepers. */
