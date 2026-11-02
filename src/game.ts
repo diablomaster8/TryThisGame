@@ -573,6 +573,7 @@ export class Game {
       },
       sparkle: (pos) => (s3 ?? this.view).sparkle(pos.x, pos.z),
       placing: () => this.placing,
+      survey: () => this.camera.survey,
       placeHover: (pos) => {
         this.placeHoverAt = pos;
       },

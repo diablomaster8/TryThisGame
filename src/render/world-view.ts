@@ -1507,6 +1507,7 @@ export class WorldView {
         z: kz + (kride?.dz ?? 0),
         mode: 'billboard',
         tint: this.dim,
+        token: true,
       });
       // The silhouette through whatever stands in front, in the Keeper's trim colour; not
       // through its own carrier on a ride (R0085).
@@ -1537,6 +1538,7 @@ export class WorldView {
           z: k2.pos.z,
           mode: 'billboard',
           tint: this.dim,
+          token: true,
         });
       }
     }
