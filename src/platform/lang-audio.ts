@@ -6,6 +6,7 @@
  * unlocked by the first tap and switched on, like every other sound.
  */
 import { isAudioUnlocked, isSoundEnabled } from './audio';
+import { CLIP_TEXT } from '../config/strings-r11d6';
 
 /**
  * Clip ids with a real recording at `audio/lang/<id>.mp3`. Add an id here when its file
@@ -34,13 +35,54 @@ export function clipFor(id: string): Clip {
 }
 
 let current: HTMLAudioElement | null = null;
+let noteEl: HTMLElement | null = null;
+let noteTimer = 0;
+let lastNoteAt = -1e9;
+
+/**
+ * R0445: tapping a word that has no recording yet plays the chime, and says so in a small
+ * line at the bottom of the screen, so nobody thinks the chime is the word. At most one
+ * note every few seconds, and it is a polite status line for screen readers.
+ */
+function sayMissing(): void {
+  if (typeof document === 'undefined') return;
+  const now = Date.now();
+  if (now - lastNoteAt < CLIP_TEXT.noteEveryMs) return;
+  lastNoteAt = now;
+  if (!noteEl) {
+    const n = document.createElement('div');
+    n.setAttribute('role', 'status');
+    n.className = 'lang-clip-note';
+    n.style.cssText =
+      'position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);' +
+      'max-width:min(90vw,420px);padding:10px 14px;border-radius:12px;background:rgba(30,40,50,.92);' +
+      'color:#fff;font:14px/1.35 system-ui,sans-serif;text-align:center;z-index:60;pointer-events:none';
+    document.body.appendChild(n);
+    noteEl = n;
+  }
+  noteEl.textContent = CLIP_TEXT.tapNote;
+  noteEl.style.display = 'block';
+  window.clearTimeout(noteTimer);
+  noteTimer = window.setTimeout(() => {
+    if (noteEl) noteEl.style.display = 'none';
+  }, CLIP_TEXT.noteMs);
+}
+
+/** Every course clip id with no recording yet (the check script and the tests list these). */
+export function missingClips(ids: Iterable<string>): string[] {
+  const out: string[] = [];
+  for (const id of ids) if (!RECORDED.has(id)) out.push(id);
+  return out;
+}
 
 /** Play a word's clip, cutting off the one before. Silent until sound is on. */
 export function playWord(id: string): void {
   if (!isAudioUnlocked() || !isSoundEnabled()) return;
   try {
     current?.pause();
-    current = new Audio(clipFor(id).url);
+    const clip = clipFor(id);
+    if (clip.placeholder) sayMissing();
+    current = new Audio(clip.url);
     void current.play().catch(() => undefined);
   } catch {
     // No audio element on this device: the word still shows its romanisation.
