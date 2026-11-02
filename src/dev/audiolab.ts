@@ -106,7 +106,9 @@ export async function runAudioLab(root: HTMLElement): Promise<void> {
   }
   root.innerHTML =
     '<h1>Audio lab</h1><p>Effect peaks and approximate LUFS through the real bus and compressor. ' +
-    'Songs are not measured here yet. Median peak: ' + (peaks.sort((a, b) => a - b)[peaks.length >> 1] ?? 0).toFixed(1) + ' dBFS.</p><table border="1" cellpadding="4" style="border-collapse:collapse">' +
+    'Songs are not measured here yet. Median peak: ' +
+    (peaks.sort((a, b) => a - b)[peaks.length >> 1] ?? 0).toFixed(1) +
+    ' dBFS.</p><table border="1" cellpadding="4" style="border-collapse:collapse">' +
     '<tr><th>sound</th><th>peak dBFS</th><th>LUFS</th><th>target peak</th><th>verdict</th></tr>' +
     rows.join('') +
     '</table>';
