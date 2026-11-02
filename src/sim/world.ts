@@ -53,6 +53,7 @@ import { buyDecor, placeDecor, removeDecor } from './decorate';
 import { noteNubbin, stepCollection } from './collection';
 import { stepDaily } from './daily';
 import { receiveNubbin, tradeAway } from './share';
+import { creatorGrant, creatorTransform, creatorUnlock } from './creator';
 import { harvest, plant, stepPlants, waterPlant } from './plants';
 import { buyToy, craft, gather, placeToy, type RecipeId } from './craft';
 import { paintTile } from './tiles';
@@ -249,6 +250,7 @@ export function createWorld(seed: number, wallMs: number): World {
     memorials: [],
     gatherReadyMs: 0,
     unlocks: { sunGrove: false, moonGrove: false },
+    creator: false,
     grove: 'main',
     races: {},
     raceRuns: 0,
@@ -859,6 +861,15 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       events.push({ kind: 'partyBout', won: cmd.won, tier: cmd.tier, shells });
       return;
     }
+    case 'creatorUnlock':
+      creatorUnlock(world, cmd.code, events);
+      break;
+    case 'creatorGrant':
+      creatorGrant(world, cmd.pick, events);
+      break;
+    case 'creatorTransform':
+      creatorTransform(world, cmd.nubbinId, cmd.pick, events);
+      break;
     case 'receiveNubbin':
       receiveNubbin(world, cmd.nubbin, events);
       return;

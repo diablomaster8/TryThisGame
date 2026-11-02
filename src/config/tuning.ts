@@ -903,6 +903,22 @@ export const GRACE = {
   veilColour: '#f4ecff',
 } as const;
 
+/**
+ * Lane F r11 (EVO): the top stage, Chaos-tier for the Chao line and Radiant for the pocket
+ * line, checked every step from `LIFECYCLE.thirdEvolutionMs` into adult life until the end.
+ * The digital line ends at its Ultimate instead.
+ */
+export const RADIANT = {
+  minLifetimeHappiness: 30,
+  minAffection: 60,
+  /** At least one stat at this level or more. */
+  minStatLevel: 10,
+  /** How much bigger a Radiant pocket species stands than its final form. */
+  pocketScale: 1.12,
+  /** A single-species pocket line's juvenile look for the child hour. */
+  juvenileScale: 0.72,
+} as const;
+
 export const ETERNAL = {
   minRebirths: 2,
   sunThreshold: 0.8,
