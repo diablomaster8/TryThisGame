@@ -176,7 +176,7 @@ import {
   noteAdultEntry,
 } from '../platform/mature-recheck';
 import { MATURE_RECHECK } from '../config/tuning-tech';
-import { groveSfx } from './event-feedback';
+import { feedbackFor, groveSfx, runFeedback } from './event-feedback';
 import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
@@ -1506,6 +1506,8 @@ export function mountHud(
           toast(ride);
           continue;
         }
+        // R0466 (TECH-24): the plain toast-and-sound kinds are one table (ui/event-feedback.ts).
+        if (runFeedback(feedbackFor(e, { world: g.world }), toast, playSound)) continue;
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           hatchCard.add(n, n?.name ?? NAMES.creature);
@@ -1515,58 +1517,8 @@ export function mountHud(
           celebration.show(e);
           evolveFlash(g.camera.reduceMotion);
           playSound('evolve');
-        } else if (e.kind === 'reaction' && e.reaction === 'love') {
-          playSound('pet');
-        } else if (e.kind === 'collected') {
-          playSound('pickup');
-        } else if (e.kind === 'landed') {
-          playSound('hit');
-        } else if (e.kind === 'keeperJumped') {
-          // MOVE-21: Lane A's jump sounds.
-          playSound(e.air ? 'hopAir' : 'hop');
-        } else if (e.kind === 'keeperLanded') {
-          playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
-        } else if (e.kind === 'bonked') {
-          // R0300/R0299: a fruit on the head, or a walk into a tree.
-          playSound('bonk');
-        } else if (e.kind === 'ballSplash') {
-          // R0293 (lane E r10): the ball into the pond.
-          playSound('splash');
         } else if (e.kind === 'hopCourse') {
           hopCourse.onEvent(e, toast);
-        } else if (e.kind === 'springBounced' && !e.nubbinId) {
-          // MOVE-57: the Keeper off a spring mushroom (a Nubbin's bounces stay quiet).
-          playSound('boing');
-        } else if (e.kind === 'bushRustle' && e.found) {
-          // MOVE-43: a bush's one-time find.
-          playSound('pickup');
-          toast(BUSH_TEXT.found);
-        } else if (e.kind === 'keeperDipped' && e.shells > 0) {
-          // MOVE-65: a pond spot's one-time find.
-          playSound('pickup');
-          toast(POND_TEXT.found(e.shells));
-        } else if (e.kind === 'hopLesson' && e.stage === 'done') {
-          // MOVE-58: the first clear.
-          toast(HOP_LESSON_TEXT.done);
-        } else if (e.kind === 'fallsKeepsake') {
-          // R0026 (lane A r10): the shelf behind the waterfall's one-time find.
-          playSound('pickup');
-          toast(MOVE_R10_TEXT.fallsKeepsake);
-        } else if (e.kind === 'lookoutFind') {
-          // MOVE-55: a lookout's one-time find.
-          playSound('pickup');
-          toast(
-            e.id === 'well'
-              ? LOOKOUT_TEXT.well
-              : e.critter
-                ? LOOKOUT_TEXT.critter
-                : LOOKOUT_TEXT.shells(e.shells),
-          );
-        } else if (e.kind === 'lookedAround' && !e.found) {
-          toast(LOOKOUT_TEXT.nothing);
-        } else if (e.kind === 'borderPushed') {
-          // WORLD-67: the Grove's edge says why it ends here, once per stretch a visit.
-          toast(e.edge === 'notYet' ? BORDER_TEXT.notYet : BORDER_TEXT.hedge);
         } else if (e.kind === 'moveUnreachable') {
           // MOVE-35: a gentle bonk every time, the words at most once a while.
           playSound('bonk');
@@ -1575,36 +1527,12 @@ export function mountHud(
             lastUnreachableToast = now;
             toast(e.jump ? MOVE_TEXT.jumpUpThere : MOVE_TEXT.cantGoThere);
           }
-        } else if (e.kind === 'secondEvolved') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
-        } else if (e.kind === 'speciesGrew') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(
-            UI_TEXT.speciesGrew(n?.name ?? NAMES.creature, SPECIES_LABELS[e.species] ?? e.species),
-          );
-        } else if (e.kind === 'cocoonStarted' && e.cocoon !== 'evolve') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          const name = n?.name ?? NAMES.creature;
-          toast(e.cocoon === 'rebirth' ? UI_TEXT.cocoonRebirth(name) : UI_TEXT.cocoonDepart(name));
         } else if (e.kind === 'reborn') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           // R0691: a sprout hears a gentle line about the glowing cocoon and the new egg.
           if (g.world.edu?.band === 'sprout' && g.world.edu.readAloud)
             speakLine(EDU_REBORN_TEXT.say(n?.name ?? NAMES.creature));
           else toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
-        } else if (e.kind === 'departed') {
-          toast(UI_TEXT.departed(e.name));
-          playSound('sad');
-        } else if (e.kind === 'moveLearned') {
-          // Lane C: a new move (recs FIGHT-17); the stats sheet's Bout card swaps it in.
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          const name = n?.name ?? NAMES.creature;
-          const say = e.slotted ? BOUT_TEXT_SHEET.learned : BOUT_TEXT_SHEET.swapIn;
-          toast(say(name, moveName(e.move)));
-        } else if (e.kind === 'eternal') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.eternal(n?.name ?? NAMES.creature));
         } else if (e.kind === 'bought') {
           shop.onBought(e.ok, e.reason, e.item);
           if (e.ok) playSound('buy');
@@ -1620,28 +1548,6 @@ export function mountHud(
         } else if (e.kind === 'chapter') {
           const title = chapterTitle(g.world.campaign, e.chapter);
           if (title !== null) toast(STORY_TEXT.chapterStarted(e.chapter, title));
-        } else if (e.kind === 'turnedShadow') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(STORY_TEXT.turnedShadow(n?.name ?? NAMES.creature));
-          playSound('sad');
-        } else if (e.kind === 'shadowBonded') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(STORY_TEXT.shadowBonded(n?.name ?? NAMES.creature));
-          playSound('evolve');
-        } else if (e.kind === 'ranAway') {
-          toast(STORY_TEXT.ranAway(e.name));
-          playSound('sad');
-        } else if (e.kind === 'strayReturned') {
-          toast(STORY_TEXT.strayReturned(e.name));
-        } else if (e.kind === 'degenerated') {
-          toast(STORYLINE_TEXT.degenerated(e.name));
-          playSound('sad');
-        } else if (e.kind === 'restored') {
-          toast(STORYLINE_TEXT.restored(e.name));
-          playSound('evolve');
-        } else if (e.kind === 'lanternLit') {
-          toast(STORY_TEXT.lanternLit);
-          playSound('pickup');
         } else if (e.kind === 'langReact' && events.find((x) => x.kind === 'langReact') === e) {
           // One caption per word, for the nearest Nubbin; the faces show on every one.
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
@@ -1673,24 +1579,6 @@ export function mountHud(
                   : UI_TEXT.interactRefused(name)),
           );
           if (e.ok) playSound('pet');
-        } else if (e.kind === 'called') {
-          toast(UI_TEXT.called(e.count));
-          playSound('tap');
-        } else if (e.kind === 'fetching') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.fetching(n?.name ?? NAMES.creature));
-        } else if (e.kind === 'courting') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.courting(n?.name ?? NAMES.creature));
-        } else if (e.kind === 'bred') {
-          toast(UI_TEXT.bred);
-          playSound('hatch');
-        } else if (e.kind === 'lessonDone') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(
-            UI_TEXT.lessonDone(n?.name ?? NAMES.creature, UI_TEXT.lessonNames[e.lesson], e.level),
-          );
-          playSound('win');
         } else if (e.kind === 'weather') {
           // No sky underground or inside a minigame (review 2026-10-21, bug 20).
           const loc = g.world.location;
@@ -1928,29 +1816,6 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'plantGrew') {
           if (e.stage === 3) toast(UI_TEXT.plantGrew);
-        } else if (e.kind === 'crafted') {
-          if (e.ok) {
-            const name = (UI_TEXT.recipeNames as Record<string, string>)[e.recipe] ?? e.recipe;
-            toast(UI_TEXT.crafted(name));
-            playSound('buy');
-          } else toast(UI_TEXT.needsMaterials);
-        } else if (e.kind === 'gathered') {
-          toast(UI_TEXT.gathered(e.what, e.count));
-          playSound('tap');
-        } else if (e.kind === 'toyPlaced') {
-          toast(UI_TEXT.toyPlaced);
-        } else if (e.kind === 'plotBought') {
-          if (e.ok) {
-            toast(UI_TEXT.plotBought);
-            playSound('buy');
-          }
-        } else if (e.kind === 'achievement') {
-          const a = ACHIEVEMENT_LIST.find((x) => x.id === e.id);
-          toast(UI_TEXT.achievement(a?.title ?? e.id, e.shells));
-          playSound('win');
-        } else if (e.kind === 'questDone') {
-          toast(UI_TEXT.questDone);
-          playSound('cheer');
         } else if (e.kind === 'questClaimed') {
           toast(UI_TEXT.questClaimed(e.shells, e.egg));
           playSound('buy');
@@ -1960,30 +1825,12 @@ export function mountHud(
             ? requestLine(q.template, q.from, !TRAINER_LABELS[q.from], 'thanks')
             : null;
           if (thanks) toast(thanks);
-        } else if (e.kind === 'friendsMade') {
-          const a = g.world.nubbins.find((x) => x.id === e.a);
-          const b = g.world.nubbins.find((x) => x.id === e.b);
-          toast(UI_TEXT.friendsMade(a?.name ?? NAMES.creature, b?.name ?? NAMES.creature));
         } else if (e.kind === 'wildArrived') {
           toast(UI_TEXT.wildArrived(SPECIES_LABELS[e.species] ?? e.species));
           playChirp(speciesOf(e.species).family);
-        } else if (e.kind === 'wildSettled') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.wildSettled(n?.name ?? NAMES.creature));
-          playSound('hatch');
-        } else if (e.kind === 'wildLeft') {
-          toast(UI_TEXT.wildLeft);
         } else if (e.kind === 'eduResult') {
           // R0686: the results card shows the Shells and the sticker; no toast over a round.
           if (!edu.isOpen()) toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
-        } else if (e.kind === 'eduStarted') {
-          toast(EDU_TEXT.playHelp);
-        } else if (e.kind === 'recruited') {
-          toast(TEN_TEXT.recruited(e.name, TEN_TEXT.roleNames[e.role] ?? e.role));
-          playSound('buy');
-        } else if (e.kind === 'townGrew') {
-          toast(TEN_TEXT.townGrew(TEN_TEXT.unlockNames[e.unlock] ?? e.unlock));
-          playSound('win');
         } else if (e.kind === 'slip') {
           // R0307: say what helps; the "(A slip.)" tag is on the stats sheet only.
           toast(slipNudge(g.world, e.nubbinId, e.slip));
@@ -1999,10 +1846,6 @@ export function mountHud(
         } else if (e.kind === 'fernStone') {
           toast(fernStoneLine(g.world, e.line, e.stones));
           playSound('pop');
-        } else if (e.kind === 'wellRaised') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(TEN_TEXT.wellRaised(n?.name ?? NAMES.creature));
-          playSound('win');
         } else if (e.kind === 'trained') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(
@@ -2069,16 +1912,6 @@ export function mountHud(
         } else if (e.kind === 'dyed') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.dyed(n?.name ?? NAMES.creature, e.slot));
-        } else if (e.kind === 'reaction') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          if (n && Math.random() < 0.35) {
-            // R0462 (TECH-65): in the Nubbin's own voice.
-            playChirp(
-              speciesOf(n.species).family,
-              e.reaction !== 'sad' && e.reaction !== 'dizzy',
-              chirpVoice(n.id, n.personality),
-            );
-          }
         }
       }
     },
