@@ -56,6 +56,11 @@ export type SoundName =
   | 'whoosh'
   | 'splash'
   | 'ding'
+  // R0450 round 11: a guarded blow's dull clunk, a critical hit's bright crack, and the panel ticks.
+  | 'guardClunk'
+  | 'critHit'
+  | 'tickOpen'
+  | 'tickClose'
   // Lane C round 6 (FIGHT-76): battle hits by type, and a tuckered-out yawn.
   | 'woodblock'
   | 'swish'
@@ -1169,6 +1174,20 @@ export function playSound(name: SoundName): void {
       case 'yawn':
         tone(520, 0, 520, 'sine', 0.05, 180);
         tone(260, 380, 300, 'sine', 0.03, 140);
+        break;
+      case 'guardClunk':
+        tone(180, 0, 110, 'triangle', 0.05, 120);
+        tone(300, 0, 60, 'square', 0.02, 200);
+        break;
+      case 'critHit':
+        tone(880, 0, 70, 'square', 0.04, 1500);
+        tone(1320, 60, 160, 'triangle', 0.04, 1800);
+        break;
+      case 'tickOpen':
+        tone(1100, 0, 28, 'sine', 0.02, 1300);
+        break;
+      case 'tickClose':
+        tone(800, 0, 28, 'sine', 0.02, 640);
         break;
       case 'ding':
         tone(1568, 0, 500, 'sine', 0.05);
