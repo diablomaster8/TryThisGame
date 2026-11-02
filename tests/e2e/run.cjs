@@ -60,14 +60,12 @@ const SPECS = {
     });
     await page.waitForFunction(() => window.grove.world.nubbins.some((n) => n.stage === 'child'), null, { timeout: 20000 });
     const id = await page.evaluate(() => window.grove.world.nubbins.find((n) => n.stage === 'child').id);
-    await page.evaluate((id) => {
-      window.grove.send({ kind: 'pet', nubbinId: id });
-      window.grove.send({ kind: 'feed', nubbinId: id });
-    }, id);
-    await page.waitForFunction(() => {
-      const k = window.grove.test.events().map((e) => e.kind);
-      return k.includes('petted') && k.includes('ate');
-    }, null, { timeout: 40000 });
+    // The Keeper holds one intent at a time: pet first, then feed.
+    const saw = (kind) => page.waitForFunction((k) => window.grove.test.events().some((e) => e.kind === k), kind, { timeout: 30000 });
+    await page.evaluate((id) => window.grove.send({ kind: 'pet', nubbinId: id }), id);
+    await saw('petted');
+    await page.evaluate((id) => window.grove.send({ kind: 'feed', nubbinId: id }), id);
+    await saw('ate');
     if (Date.now() - t0 > 60000) throw new Error('first loop took over 60 s');
   },
   async reload({ page }) {
