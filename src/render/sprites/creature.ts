@@ -9,7 +9,7 @@ import {
   type KitExtra,
   type KitPlan,
   type QuadOpts,
-} from './creature-kit-digi';
+} from './creature-kit-quad';
 import {
   drawGas,
   drawGen1b,
@@ -108,7 +108,7 @@ export interface CreatureSpec {
   /** Width over the plan's default, body and (more gently) head: a squat Gengar, a vast Snorlax. */
   girth?: number;
   marks: Mark[];
-  /** Extra head and body pieces from the digital-line kit (creature-kit-digi.ts). */
+  /** Extra head and body pieces from the digital-line kit (creature-kit-quad.ts). */
   extras?: readonly KitExtra[];
   /** Extra parts for the later first-generation pocket species (`creature-gen1b.ts`). */
   gen1b?: Gen1bPart[];
@@ -116,7 +116,7 @@ export interface CreatureSpec {
   heads?: HeadsSpec;
   /** The serpent plan's body chain (`creature-serpent.ts`, LOOK-05). */
   serpent?: SerpentOpts;
-  /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
+  /** The quad plan's stance, legs, neck and muzzle (`creature-kit-quad.ts`, LOOK-06). */
   quad?: QuadOpts;
   /** The bird plan's wing edge and tail (`creature-bird.ts`, LOOK-39). */
   bird?: BirdOpts;

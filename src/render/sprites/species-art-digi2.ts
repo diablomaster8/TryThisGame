@@ -7,7 +7,7 @@ import { insect } from './insect-kit';
  * Art recipes for the digital line's Versions 2 to 5 (sim/species-digi2.ts), read by both
  * renderers like the rest of species-art.ts. Likeness comes from colour, silhouette and a
  * few signature pieces (a pelt and horn, a mane, sunglasses, a single eye); the four-legged
- * and fish plans and the extras come from creature-kit-digi.ts.
+ * and fish plans and the extras come from creature-kit-quad.ts.
  */
 const pal = (
   body: number,

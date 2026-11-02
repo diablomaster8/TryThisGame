@@ -1,14 +1,14 @@
 import type * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
 import { C, color } from '../render/sprites/palette';
-import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-digi';
+import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-quad';
 import { V, type Prim } from '../samples/sculpted';
 import type { PartSpec, SpeciesSpec } from '../samples/species';
 import type { Layout } from './art-species';
 import { DINO_LEAN_DEG } from '../config/tuning-look-r10e';
 
 /**
- * The 3D side of the digital-line kit (render/sprites/creature-kit-digi.ts): layouts for
+ * The 3D side of the digital-line kit (render/sprites/creature-kit-quad.ts): layouts for
  * the four-legged and fish plans, and the extras (beak, sunglasses, tusks, mane, pincers,
  * drill nose, propeller, single eye, extra heads) sculpted onto the recipe's figure.
  * art-species.ts asks `kitLayout` first and hands its finished spec to `patchKitSpec`.

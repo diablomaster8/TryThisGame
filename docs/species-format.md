@@ -392,7 +392,7 @@ With the `boulders` part, every segment is a rock (Onix).
 
 ## Generated species: the quad plan
 
-A recipe with `plan: 'quad'` may carry a `quad` block (`creature-kit-digi.ts` `quadOf`, LOOK-06), read
+A recipe with `plan: 'quad'` may carry a `quad` block (`creature-kit-quad.ts` `quadOf`, LOOK-06), read
 by both renderers. Babies (size under 0.95) keep a head a third bigger.
 
 | Field     | What it does                                                                                  |
