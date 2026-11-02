@@ -31,7 +31,8 @@ import {
   type SerpentOpts,
 } from './creature-serpent';
 import { C, shadeOf } from './palette';
-import { PixelCanvas } from './pixel-canvas';
+import { PixelCanvas, PX } from './pixel-canvas';
+import { DINO_LEAN_PX } from '../../config/tuning-look-r10e';
 import { drawExtras, type Extra } from './creature-extras';
 import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
 
@@ -795,6 +796,41 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
   }
 }
 
+/**
+ * The Greymon line (a long snout under a skull helmet, or SkullGreymon's ribs) leans forward
+ * over its legs; Charizard's snout alone does not. The 3D side reads the same test.
+ */
+export function leansForward(spec: CreatureSpec): boolean {
+  const x = spec.extras ?? [];
+  return x.includes('dinoSnout') && (x.includes('skullHelmet') || x.includes('ribs'));
+}
+
+/**
+ * R0377: the Pixel lean. The 3D figure shears everything above the hips forward by
+ * DINO_LEAN_DEG; a 32 px frame cannot take the full slope, so rows above the hips slide
+ * toward the face (+x in the side and front quarter views) by `DINO_LEAN_PX.slope` design pixels per row (the full share from the
+ * side, half from the quarter views, none head-on), in whole design pixels so the art stays
+ * crisp, capped so the snout stays in the frame. The legs and feet stay planted.
+ */
+function leanPixels(pc: PixelCanvas, a: Anchors): void {
+  const share = a.face >= 1 ? 1 : a.face > 0 ? 0.5 : 0;
+  if (share === 0) return;
+  const hip = a.bodyCy + Math.round(a.bodyRy * 0.4);
+  const { width, data } = pc;
+  for (let y = 0; y < hip; y++) {
+    const n = Math.min(DINO_LEAN_PX.max, Math.round((hip - y) * DINO_LEAN_PX.slope * share));
+    if (n === 0) continue;
+    const by = n * PX;
+    for (let r = y * PX; r < (y + 1) * PX; r++) {
+      const row = data.slice(r * width, (r + 1) * width);
+      for (let x = 0; x < width; x++) {
+        const from = x - by;
+        data[r * width + x] = from >= 0 && from < width ? row[from]! : 0;
+      }
+    }
+  }
+}
+
 /** Draw one frame of a species into a fresh 32×32 canvas, wearing `hat` when given (LOOK-61). */
 export function drawCreature(
   angle: DrawnAngle,
@@ -837,6 +873,7 @@ export function drawCreature(
     if (angle !== 'side') pc.px(a.headCx - a.headRx + 2, cy, C.rose);
     pc.px(a.headCx + a.headRx - 2, cy, C.rose);
   }
+  if (leansForward(spec)) leanPixels(pc, a);
   pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
   drawGas(pc, a, spec);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
