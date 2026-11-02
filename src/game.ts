@@ -7,6 +7,7 @@ import { REGIONS, regionHour } from './config/regions';
 import { regionOf } from './sim/regions';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
+import { openTraces } from './sim/regions-trace';
 import { secretGlint } from './sim/world-hints';
 import { CAMERA, KEEPER, LANDMARK_HOLD, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
@@ -1178,6 +1179,9 @@ export class Game {
       (c) => Math.hypot(c.x - k.x, c.z - k.z) <= COLLECT.sparkleRadius,
     );
     // R0111 (lane D r9): the Grove's secret nook twinkles while its Old Key is held.
+    for (const t of openTraces(this.world)) {
+      if (Math.hypot(t.x - k.x, t.z - k.z) <= COLLECT.sparkleRadius) near.push(t);
+    }
     const nook = secretGlint(this.world);
     if (nook) near.push(nook);
     if (!near.length) return;

@@ -5,7 +5,7 @@ import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
 import { regionOf } from '../sim/regions';
-import { hintToast, secretToasts } from './world-hints-ui';
+import { hintToast, secretToasts, traceToasts } from './world-hints-ui';
 import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
@@ -2044,6 +2044,10 @@ export function mountHud(
           // R0091: one-time collectibles and their sets.
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
+        } else if (e.kind === 'traceFound') {
+          // R0090: a small remembered thing in the world.
+          for (const line of traceToasts(e.id, game()?.world)) toast(line);
+          playSound('tickOpen');
         } else if (e.kind === 'worldHint') {
           // R0127 (lane D r9): a mechanic taught once, in the world.
           const t = hintToast(e.id, game()?.world);

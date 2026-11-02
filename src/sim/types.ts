@@ -1965,6 +1965,8 @@ export type SimEvent =
   | { kind: 'storyRegionOpened'; region: string }
   /** R0091: a one-time collectible was picked up, and a region's set of a kind finished. */
   | { kind: 'keepsakeFound'; id: string; what: 'petal' | 'postcard' | 'key' }
+  /** R0090: the Keeper walked up to a world trace (a small remembered thing) for the first time. */
+  | { kind: 'traceFound'; id: string }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }
   | { kind: 'secretFound'; region: string }
