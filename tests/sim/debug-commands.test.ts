@@ -29,7 +29,8 @@ describe('debug force commands', () => {
     expect(lifespanMs(n)).toBeGreaterThan(LIFECYCLE.adultMs);
     applyCommand(w, { kind: 'debugForceEndOfLife', nubbinId: n.id }, []);
     stepWorld(w, SIM.stepMs);
-    expect(n.stage).toBe('cocoon');
-    expect(['rebirth', 'depart']).toContain(n.cocoonKind);
+    // Reborn at once, or (under the bar) its last-day window opens with the age held there.
+    if (n.stage === 'cocoon') expect(n.cocoonKind).toBe('rebirth');
+    else expect(n.graceMs).toBeGreaterThan(0);
   });
 });

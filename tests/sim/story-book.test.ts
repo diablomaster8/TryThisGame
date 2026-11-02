@@ -299,8 +299,8 @@ describe('save v13', () => {
     delete (json.world as Partial<World>).lines;
     const back = deserialize(JSON.stringify(json));
     const same = deserialize(serialize(world, 1));
-    expect(SAVE_VERSION).toBe(13);
-    expect(back.version).toBe(13);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(13);
+    expect(back.version).toBe(SAVE_VERSION);
     expect(back.world.lines).toEqual({});
     // Identical apart from the new field (which the migration adds at the end of the world).
     const bare = (w: World): string => {

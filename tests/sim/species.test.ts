@@ -88,7 +88,9 @@ describe('species data', () => {
     n.typeLean.power += 100;
     run(LIFECYCLE.secondEvolutionMs + 1000);
     expect(n.species).toBe('hornsaur');
-    run(LIFECYCLE.thirdEvolutionMs - LIFECYCLE.secondEvolutionMs + 1000);
+    // Skip the quiet hours of the adult day to just before the final form.
+    n.stageMs = LIFECYCLE.thirdEvolutionMs - 1000;
+    run(2000);
     expect(n.species).toBe('ironsaur');
     expect(events.filter((e) => e.kind === 'speciesGrew')).toHaveLength(2);
   });

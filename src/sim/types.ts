@@ -214,6 +214,10 @@ export interface Nubbin {
   eternal: AlignmentBand | null;
   /** Reached end of life while the player was away; check runs in live play. */
   awaitingKeeper: boolean;
+  /** The last day (save v14): live time left in the gentle window before the check, or null. */
+  graceMs: number | null;
+  /** The near-the-end heads-up was raised this life (save v14). */
+  restNoticed: boolean;
   /** 0..100: how safe it feels with its Keeper (sim/trust.ts). */
   trust: number;
   /** Jaded by mistreatment: wary, dark-coated, for life. */
@@ -1790,6 +1794,12 @@ export type SimEvent =
   | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
   | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
   | { kind: 'awaitingKeeper'; nubbinId: string }
+  /** The last day: a check that would end in a departure opened the gentle window instead. */
+  | { kind: 'graceStarted'; nubbinId: string }
+  /** The care in the window was enough: the Nubbin will be reborn. */
+  | { kind: 'graceKept'; nubbinId: string }
+  /** An adult within an hour of the end and under the rebirth bar. */
+  | { kind: 'restSoon'; nubbinId: string }
   /** A waiting Nubbin's end-of-life check runs now: renderers may bring it into view. */
   | { kind: 'endOfLifeFocus'; nubbinId: string }
   | { kind: 'critterGiven'; nubbinId: string; species: string }

@@ -41,7 +41,7 @@ import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
 import { eat, pet, putDown, react } from './behavior';
 import { shyHopBack } from './nubbin-hop';
-import { addAffection, addHappiness, applyPet } from './needs';
+import { addAffection, addHappiness, applyPet, graceFeed } from './needs';
 import { isFree } from './nubbin';
 import { giveHeartFruit } from './breeding';
 import { noteCare, noteTouch } from './personality';
@@ -1347,6 +1347,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       if (n.behavior.state === 'thrown') return;
       world.inventory.fruit -= 1;
       eat(n, now, events);
+      graceFeed(n);
       addTrust(n, TRUST.feed, events);
       noteCampaign(world, 'feed', n.id);
       if (n.stray) settleStray(n);

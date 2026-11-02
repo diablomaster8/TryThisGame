@@ -1,8 +1,8 @@
-import { NEEDS, SIM } from '../config/tuning';
+import { NEEDS, SIM, SLIPS } from '../config/tuning';
 import { splitSpan } from './clock';
 import { stepCollection } from './collection';
 import { advanceStage, hatch } from './lifecycle';
-import { applyFruit, decayNeeds, isHungry, sampleHappiness } from './needs';
+import { applyFruit, decayNeeds, inGrace, isHungry, sampleHappiness } from './needs';
 import { isFree } from './nubbin';
 import { stepSlips } from './slips';
 import { addPoints } from './stats';
@@ -125,8 +125,9 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
       if (n.hatchRemainingMs <= 0) hatch(n, events, world.timeMs);
       continue;
     }
-    // Sleep when exhausted, otherwise rest a little: coarse steps do not model naps.
-    if (n.needs.energy <= 0) {
+    // Sleep when tired enough that the live sim would count a sleepy slip, otherwise rest a
+    // little: coarse steps do not model naps, and an unmodelled nap must not log a slip.
+    if (n.needs.energy <= SLIPS.sleepyEnergy) {
       n.behavior.state = 'nap';
       if (tally) tally.naps[n.id] = (tally.naps[n.id] ?? 0) + 1;
       n.needs.energy = 0.6;
@@ -138,7 +139,8 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
     decayNeeds(n, dtMs);
     if (n.behavior.state === 'nap') n.behavior.state = 'sit';
     advanceStage(n, dtMs, events, world, true);
-    if (world.nubbins.includes(n)) sampleHappiness(n, dtMs / 1000);
+    // The last-day window only runs live, so its average waits with it.
+    if (world.nubbins.includes(n) && !inGrace(n)) sampleHappiness(n, dtMs / 1000);
   }
   stepSlips(world, dtMs, events, true);
   // Hatches, evolutions, rebirths and Eternals while away count as seen (review C, item 8).

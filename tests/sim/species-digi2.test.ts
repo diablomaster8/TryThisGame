@@ -149,7 +149,9 @@ describe('digital line, Versions 1 to 5', () => {
     n.typeLean.run += 300;
     run(LIFECYCLE.secondEvolutionMs + 1000);
     expect(n.species).toBe('manefist');
-    run(LIFECYCLE.thirdEvolutionMs - LIFECYCLE.secondEvolutionMs + 1000);
+    // Skip the quiet hours of the adult day to just before the final form.
+    n.stageMs = LIFECYCLE.thirdEvolutionMs - 1000;
+    run(2000);
     expect(n.species).toBe('pipsprite');
   });
 

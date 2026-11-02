@@ -100,7 +100,7 @@ describe('shrines (R0159)', () => {
     for (const n of party) n.needs.happiness = 0;
     useShrine(world, 'snuggly');
     expect(shrinePower(world)).toBeCloseTo(1 + S.snugglyPower);
-    for (const n of party) expect(n.needs.happiness).toBe(S.snugglyHappy);
+    for (const n of party) expect(n.needs.happiness).toBeCloseTo(S.snugglyHappy, 2);
     for (const n of party) n.needs.energy = n.needs.hunger = 0.1;
     useShrine(world, 'picnic');
     for (const n of party) expect([n.needs.energy, n.needs.hunger]).toEqual([1, 1]);

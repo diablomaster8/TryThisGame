@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EGG, LIFECYCLE, SIM } from '../../src/config/tuning';
+import { EGG, GRACE, LIFECYCLE, SIM } from '../../src/config/tuning';
 import { catchUp } from '../../src/sim/offline';
 import { deserialize, serialize } from '../../src/sim/save';
 import { lifespanMs } from '../../src/sim/slips';
@@ -33,8 +33,9 @@ function twoNearTheEnd(): { w: World; ns: Nubbin[] } {
   return { w, ns };
 }
 
+/** The checks that ran: under the bar, each opens its last-day window (2026-11-02). */
 const cocoonsOf = (events: SimEvent[]): string[] =>
-  events.flatMap((e) => (e.kind === 'cocoonStarted' && e.cocoon === 'depart' ? [e.nubbinId] : []));
+  events.flatMap((e) => (e.kind === 'graceStarted' ? [e.nubbinId] : []));
 
 describe('waiting end-of-life checks and the away screen', () => {
   it('hold while the screen is up, then run one at a time with a focus event each', () => {
@@ -61,7 +62,7 @@ describe('waiting end-of-life checks and the away screen', () => {
     expect(cocoonsOf(second)).toHaveLength(1);
     expect(cocoonsOf(second)[0]).not.toBe(cocoonsOf(first)[0]);
     // Both cocoons play out on screen and leave memorials.
-    runMs(w, LIFECYCLE.cocoonMs + LIFECYCLE.awaitingStaggerMs * ns.length);
+    runMs(w, GRACE.windowMs + LIFECYCLE.cocoonMs + LIFECYCLE.awaitingStaggerMs * ns.length);
     expect(w.memorials.length).toBe(ns.length);
   });
 

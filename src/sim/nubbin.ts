@@ -97,6 +97,8 @@ export function createEgg(
     gradeUpgrades: {},
     eternal: null,
     awaitingKeeper: false,
+    graceMs: null,
+    restNoticed: false,
     trust: TRUST.start,
     shadow: false,
     bond: false,

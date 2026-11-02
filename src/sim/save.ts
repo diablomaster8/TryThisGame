@@ -10,7 +10,7 @@ import { defaultSettings } from './world';
 import { footing } from './terrain';
 import { cleanSlotLabel } from './slot-label';
 
-export const SAVE_VERSION = 13;
+export const SAVE_VERSION = 14;
 
 export interface SaveFile {
   version: number;
@@ -173,6 +173,19 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
   (data) => {
     const world = data.world as Record<string, unknown> | undefined;
     if (world) world.lines = {};
+    return data;
+  },
+  // 13 to 14 (gentle life cycle, 2026-11-02): no Nubbin is in its last-day window yet and
+  // none has had the near-the-end heads-up.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const nubbins = Array.isArray(world?.nubbins)
+      ? (world.nubbins as Record<string, unknown>[])
+      : [];
+    for (const n of nubbins) {
+      n.graceMs = null;
+      n.restNoticed = false;
+    }
     return data;
   },
 ];
@@ -456,6 +469,8 @@ export function validateWorld(w: World): World {
     n.hat ??= null;
     n.eternal ??= null;
     n.awaitingKeeper ??= false;
+    if (!isNum(n.graceMs) || n.stage !== 'adult') n.graceMs = null;
+    n.restNoticed ??= false;
     n.trust ??= TRUST.start;
     n.shadow ??= false;
     n.bond ??= false;

@@ -828,15 +828,19 @@ export const NEEDS = {
   affectionMax: 100,
   affectionStart: 10,
   petHappiness: 5,
-  petAffection: 2,
+  petAffection: 4,
   dropHappiness: -10,
   dropAffection: -3,
   /** One fruit restores this much hunger (0..1). */
   fruitHunger: 0.5,
   fruitHappiness: 3,
   fruitStaminaPoints: 10,
-  /** Happiness drifts toward 0 by this much per minute when nothing else happens. */
-  happinessDriftPerMinute: 0.5,
+  /**
+   * Happiness drifts toward its resting mood by this much per minute when nothing else
+   * happens (Maor, 2026-11-02: a Nubbin left alone settles at mild content, not at 0).
+   */
+  happinessDriftPerMinute: 0.25,
+  happinessRest: 20,
   /** Pets are only counted as a new kindness after this gap. */
   petCooldownMs: 2 * SECOND,
 } as const;
@@ -853,11 +857,12 @@ export const TREES = {
 export const LIFECYCLE = {
   childMs: 60 * MINUTE,
   cocoonMs: 30 * SECOND,
-  adultMs: 5 * HOUR,
+  /** Maor, 2026-11-02: a full day (was 5 h), so Nubbins rarely leave. */
+  adultMs: 24 * HOUR,
   /** How far into adult life the second evolution settles. */
   secondEvolutionMs: 60 * MINUTE,
-  /** Lines with a champion stage take their final form this far into adult life. */
-  thirdEvolutionMs: 3 * HOUR,
+  /** Lines with a champion stage take their final form this far into adult life (3/5 of it). */
+  thirdEvolutionMs: 14.4 * HOUR,
   /** A hatchling with a fixed rule to another baby grows into it after this long. */
   babyGrowthMs: 10 * MINUTE,
   /** Waiting end-of-life checks run this far apart once the Keeper is back, one cocoon at a time. */
@@ -867,11 +872,35 @@ export const LIFECYCLE = {
 } as const;
 
 export const REBIRTH = {
-  /** Lifetime average happiness needed to be reborn instead of departing. */
-  minLifetimeHappiness: 30,
-  minAffection: 40,
+  /** Lifetime average happiness needed to be reborn instead of departing (was 30 and 40 until 2026-11-02). */
+  minLifetimeHappiness: 15,
+  minAffection: 20,
   /** Fraction of stat points carried into the next life. */
   keepPointsFraction: 0.1,
+} as const;
+
+/**
+ * The last day (Maor, 2026-11-02): a live end-of-life check that would end in a departure
+ * opens a gentle window first. Care in it counts extra; meet the bar by the end and the
+ * Nubbin is reborn. An adult this close to the end and under the bar raises a heads-up.
+ */
+export const GRACE = {
+  windowMs: 20 * MINUTE,
+  /** A pet or a fruit in the window counts this much more affection than usual. */
+  affectionScale: 2,
+  /** ...and adds this much sim time at its current happiness to the lifetime average. */
+  sampleMsPerCare: 15 * MINUTE,
+  /** The heads-up comes this long before the end. */
+  noticeMs: 1 * HOUR,
+  /** The faint cocoon's flicker: opacity range and period. */
+  veilMin: 0.18,
+  veilMax: 0.42,
+  veilPeriodMs: 2400,
+  /** Reduced motion: a steady veil at this opacity. */
+  veilStill: 0.3,
+  /** The veil is a cocoon this much bigger than a real one; Full 3D draws it in this colour. */
+  veilScale: 1.25,
+  veilColour: '#f4ecff',
 } as const;
 
 export const ETERNAL = {
@@ -1540,6 +1569,8 @@ export const TOWN = {
 export const SLIPS = {
   afterMs: 120_000,
   cooldownMs: 300_000,
+  /** Awake with energy under this counts toward a sleepy slip (catch-up naps at it). */
+  sleepyEnergy: 0.1,
   keep: 8,
   /** Each slip trims the adult span by this fraction, down to the floor. */
   lifespanPerSlip: 0.05,
@@ -1902,8 +1933,8 @@ export const STORY_PROPS: readonly StoryPropDef[] = [
 
 /** The separate campaigns (sim/storyline.ts, sim/storyline-rules.ts). */
 export const STORYLINES = {
-  /** S1: the partner's adult span, as a multiple of the usual one (5 h × 72 ≈ 15 days). */
-  hundredSpanScale: 72,
+  /** S1: the partner's adult span, as a multiple of the usual one (24 h × 15 = 15 days). */
+  hundredSpanScale: 15,
   /** S2: foes per bout and their levels by tier. */
 } as const;
 

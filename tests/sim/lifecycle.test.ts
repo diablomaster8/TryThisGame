@@ -1,7 +1,7 @@
 import { budgetMs } from './timing-budget';
 import { lifespanMs } from '../../src/sim/slips';
 import { describe, expect, it } from 'vitest';
-import { EGG, LIFECYCLE, REBIRTH, SIM } from '../../src/config/tuning';
+import { EGG, GRACE, LIFECYCLE, REBIRTH, SIM } from '../../src/config/tuning';
 import { eternalBandFor } from '../../src/sim/lifecycle';
 import { catchUp } from '../../src/sim/offline';
 import { createEgg } from '../../src/sim/nubbin';
@@ -22,6 +22,20 @@ function run(world: World, steps: number, cmds: Command[] = []): SimEvent[] {
 /** Run the sim for `ms` at ×1000 fidelity: fixed steps, no frame cap. */
 function runMs(world: World, ms: number): SimEvent[] {
   return run(world, Math.ceil(ms / SIM.stepMs));
+}
+
+/**
+ * The middle of a long adult day as time away, an hour of catch-up at a time with `before`
+ * run first (the same rules in coarse steps): a full day of fine steps is too slow for
+ * the suite since adults live 24 h (2026-11-02). Returns the reported events.
+ */
+function away(world: World, ms: number, before: () => void): SimEvent[] {
+  const events: SimEvent[] = [];
+  for (let left = ms; left > 0; left -= HOUR) {
+    before();
+    events.push(...catchUp(world, Math.min(HOUR, left), 0).events);
+  }
+  return events;
 }
 
 function solo(seed = 3): { w: World; n: Nubbin } {
@@ -63,9 +77,10 @@ describe('a full life at ×1000', () => {
       ...Object.fromEntries(Object.entries(n.stats).map(([k, v]) => [k, v.grade])),
     };
 
-    const events: SimEvent[] = [];
+    // The day passes away from the Grove until its last hour, which runs live.
+    const events = away(w, lifespanMs(n) - n.stageMs - HOUR, () => keepLoved(n));
     const chunk = 10 * 60_000;
-    const total = LIFECYCLE.adultMs + LIFECYCLE.cocoonMs + 1000;
+    const total = HOUR + LIFECYCLE.cocoonMs + 1000;
     for (let t = 0; t < total; t += chunk) {
       keepLoved(n);
       events.push(...runMs(w, Math.min(chunk, total - t)));
@@ -110,14 +125,21 @@ describe('a full life at ×1000', () => {
     n.happinessSamples = 10;
     n.needs.hunger = 1;
     const id = n.id;
-    const events: SimEvent[] = [];
+    const unhappy = () => {
+      n.needs.hunger = 1;
+      n.needs.energy = 1;
+      n.needs.happiness = -50;
+    };
+    const events = away(w, lifespanMs(n) - n.stageMs - HOUR, unhappy);
     const chunk = 10 * 60_000;
-    for (let t = 0; t < LIFECYCLE.adultMs + LIFECYCLE.cocoonMs + 1000; t += chunk) {
+    // The last hour live, then the last-day window with no care, then the cocoon.
+    for (let t = 0; t < HOUR + GRACE.windowMs + LIFECYCLE.cocoonMs + 1000; t += chunk) {
       n.needs.hunger = 1;
       n.needs.energy = 1;
       n.needs.happiness = -50;
       events.push(...runMs(w, chunk));
     }
+    expect(events.some((e) => e.kind === 'graceStarted')).toBe(true);
     expect(events.some((e) => e.kind === 'cocoonStarted' && e.cocoon === 'depart')).toBe(true);
     expect(events.some((e) => e.kind === 'departed')).toBe(true);
     expect(w.nubbins.find((x) => x.id === id)).toBeUndefined();
@@ -125,16 +147,19 @@ describe('a full life at ×1000', () => {
     expect(w.memorials[0]?.name).toBe(n.name);
   });
 
-  it('runs a whole life quickly (sim time 6+ hours in under 3 s)', () => {
+  it('runs six hours of a life in fine steps quickly (under 3 s)', () => {
+    // Egg, childhood and the start of adult life: the per-hour cost the budget has always
+    // held (a whole life was six hours until adults lived a day, 2026-11-02).
     const { w, n } = solo(8);
     const start = performance.now();
     const chunk = 10 * 60_000;
-    for (let t = 0; t < LIFE_MS + LIFECYCLE.cocoonMs + 1000; t += chunk) {
+    for (let t = 0; t < 6 * HOUR; t += chunk) {
       keepLoved(n);
       runMs(w, chunk);
     }
     expect(performance.now() - start).toBeLessThan(budgetMs());
-    expect(n.rebirths).toBe(1);
+    expect(n.stage).toBe('adult');
+    expect(LIFE_MS).toBeGreaterThan(24 * HOUR);
   });
 });
 
@@ -180,12 +205,13 @@ describe('Eternal', () => {
     expect(events.some((e) => e.kind === 'eternal' && e.band === 'sun')).toBe(true);
     expect(n.eternal).toBe('sun');
     expect(n.form?.type).toBe('normal');
-    const later: SimEvent[] = [];
+    const later = away(w, LIFECYCLE.adultMs, () => (n.needs.hunger = 1));
     const chunk = 10 * 60_000;
-    for (let t = 0; t < LIFECYCLE.adultMs + HOUR; t += chunk) {
+    for (let t = 0; t < HOUR; t += chunk) {
       n.needs.hunger = 1;
       later.push(...runMs(w, chunk));
     }
+    expect(n.stageMs).toBeGreaterThan(LIFECYCLE.adultMs);
     expect(n.stage).toBe('adult');
     expect(later.some((e) => e.kind === 'cocoonStarted')).toBe(false);
     expect(w.nubbins).toHaveLength(1);
@@ -214,11 +240,12 @@ describe('end of life while away', () => {
     expect(n.awaitingKeeper).toBe(true);
     expect(n.stageMs).toBe(lifespanMs(n)); // frozen there (slips may have trimmed the span)
     expect(n.stage).toBe('adult');
-    // Live play resumes: the check runs with the cocoon on screen.
+    // Live play resumes: the check runs on screen, opening the last-day window first.
     n.needs.hunger = 1;
     const live = runMs(w, 1000);
-    expect(live.some((e) => e.kind === 'cocoonStarted' && e.cocoon === 'depart')).toBe(true);
-    const after = runMs(w, LIFECYCLE.cocoonMs + 1000);
+    expect(live.some((e) => e.kind === 'graceStarted')).toBe(true);
+    const after = runMs(w, GRACE.windowMs + LIFECYCLE.cocoonMs + 1000);
+    expect(after.some((e) => e.kind === 'cocoonStarted' && e.cocoon === 'depart')).toBe(true);
     expect(after.some((e) => e.kind === 'departed')).toBe(true);
     expect(w.memorials).toHaveLength(1);
   });
@@ -292,9 +319,9 @@ describe('end of life while away, gaps that are not whole minutes', () => {
       expect(w.memorials).toHaveLength(0);
       expect(n.awaitingKeeper).toBe(true);
       expect(n.stage).toBe('adult');
-      // Back in live play, the check runs on screen.
+      // Back in live play, the check runs on screen (after the last-day window).
       n.needs.hunger = 1;
-      expect(departs(runMs(w, LIFECYCLE.cocoonMs + 2000))).toBe(true);
+      expect(departs(runMs(w, GRACE.windowMs + LIFECYCLE.cocoonMs + 2000))).toBe(true);
     });
 
     it(`${label} with departures on: the departure happens and is reported`, () => {

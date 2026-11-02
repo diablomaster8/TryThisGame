@@ -13,7 +13,7 @@ function wants(n: Nubbin, world: World, away: boolean): SlipKind[] {
   const out: SlipKind[] = [];
   if (n.stage === 'egg' || n.stage === 'cocoon') return out;
   if (n.needs.hunger < 0.15) out.push('hungry');
-  if (n.needs.energy < 0.1 && n.behavior.state !== 'nap') out.push('sleepy');
+  if (n.needs.energy < SLIPS.sleepyEnergy && n.behavior.state !== 'nap') out.push('sleepy');
   // Lonely: a child past its first ten minutes with little affection.
   if (n.stage === 'child' && n.needs.affection < 15 && n.ageMs > 600_000) out.push('lonely');
   // Away, the weather is not simulated and nobody runs for shelter, so rain is no slip.

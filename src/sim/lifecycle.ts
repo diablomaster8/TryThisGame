@@ -1,7 +1,16 @@
-import { BEHAVIOR, EGG, EGGSHELL, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from '../config/tuning';
+import {
+  BEHAVIOR,
+  EGG,
+  EGGSHELL,
+  ETERNAL,
+  GRACE,
+  LIFECYCLE,
+  REBIRTH,
+  TYPE_LEAN,
+} from '../config/tuning';
 import { eggshellColour, eggshellId } from '../config/cosmetics';
 import { bandOf, roundAlignment, winningType } from './alignment';
-import { lifetimeHappiness } from './needs';
+import { inGrace, lifetimeHappiness } from './needs';
 import { decidePersonality, personalityCause } from './personality';
 import { nextSpecies, speciesOf } from './species';
 import { levelOf, nextGrade } from './stats';
@@ -27,10 +36,11 @@ import { rememberDeparted } from './remembrance'; /* Lane E r9 */
  *
  * Evolution picks the adult form from alignment band and type lean, raises one grade,
  * and unlocks the Sun or Moon Grove. The second evolution settles an hour into adult
- * life. After five hours an adult is either reborn (glowing cocoon → egg, keeping name,
- * 10 % of points, grade upgrades and affection) or departs (soft cocoon → memorial
- * flower). Eternals never age. While the player is away, departures only happen when
- * `allowOfflineDepartures` is on; otherwise the Nubbin waits for the Keeper.
+ * life. After a day an adult is either reborn (glowing cocoon → egg, keeping name,
+ * 10 % of points, grade upgrades and affection) or, in live play, has a last-day window in
+ * which care counts extra before it departs (soft cocoon → memorial flower). Eternals never
+ * age. While the player is away, departures only happen when `allowOfflineDepartures` is
+ * on; otherwise the Nubbin waits for the Keeper.
  */
 export function advanceStage(
   n: Nubbin,
@@ -53,6 +63,10 @@ export function advanceStage(
       runEndOfLife(n, world, false, events);
       world.endOfLife = { held: false, nextMs: world.timeMs + LIFECYCLE.awaitingStaggerMs };
     }
+    return;
+  }
+  if (inGrace(n)) {
+    if (world) tickGrace(n, dtMs, world, offline, events);
     return;
   }
   n.stageMs += dtMs;
@@ -92,6 +106,18 @@ export function advanceStage(
           events.push({ kind: 'speciesGrew', nubbinId: n.id, species: n.species });
         }
       }
+    }
+    // The heads-up: live, once a life, when the end is near and the bar not yet met.
+    if (
+      !offline &&
+      world &&
+      !n.eternal &&
+      !n.restNoticed &&
+      lifespanMs(n) - n.stageMs <= GRACE.noticeMs &&
+      !meetsRebirthBar(n, world)
+    ) {
+      n.restNoticed = true;
+      events.push({ kind: 'restSoon', nubbinId: n.id });
     }
     if (!n.eternal && n.stageMs >= lifespanMs(n) && world) {
       n.stageMs = lifespanMs(n);
@@ -158,7 +184,44 @@ export function holdEndOfLife(world: World, hold: boolean): void {
   world.endOfLife = { held: hold, nextMs };
 }
 
-/** The end-of-life check. Rebirth when loved; otherwise a departure (or a wait). */
+/** Whether the end-of-life check would end in a rebirth now. */
+export function meetsRebirthBar(n: Nubbin, world: World): boolean {
+  // R0691: a sprout's Nubbin always comes back (a reader's too, if a grown-up chose it).
+  return (
+    eduAlwaysReborn(world) ||
+    (lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
+      n.needs.affection >= REBIRTH.minAffection)
+  );
+}
+
+/** How close to the rebirth bar, 0..1: the weaker of lifetime happiness and affection. */
+export function rebirthReadiness(n: Nubbin, world: World): number {
+  if (eduAlwaysReborn(world)) return 1;
+  const h = lifetimeHappiness(n) / REBIRTH.minLifetimeHappiness;
+  const a = n.needs.affection / REBIRTH.minAffection;
+  return Math.max(0, Math.min(1, h, a));
+}
+
+/**
+ * The last-day window: live time only (catch-up and a held away screen leave it where it
+ * was), and the age stays put. The bar met at any point means a rebirth; the window
+ * running out means a gentle departure.
+ */
+function tickGrace(n: Nubbin, dtMs: number, world: World, offline: boolean, events: SimEvent[]) {
+  if (offline || world.endOfLife?.held) return;
+  if (meetsRebirthBar(n, world)) {
+    n.graceMs = null;
+    events.push({ kind: 'graceKept', nubbinId: n.id });
+    startCocoon(n, 'rebirth', 0, events);
+    return;
+  }
+  n.graceMs = (n.graceMs ?? 0) - dtMs;
+  if (n.graceMs > 0) return;
+  n.graceMs = null;
+  startCocoon(n, 'depart', 0, events);
+}
+
+/** The end-of-life check. Rebirth when loved; otherwise the last day (or a wait). */
 export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: SimEvent[]): void {
   // While the away screen is up, a check that comes due waits like one from catch-up.
   if (!offline && world.endOfLife?.held) {
@@ -168,12 +231,7 @@ export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: 
     }
     return;
   }
-  // R0691: a sprout's Nubbin always comes back (a reader's too, if a grown-up chose it).
-  const loved =
-    eduAlwaysReborn(world) ||
-    (lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
-      n.needs.affection >= REBIRTH.minAffection);
-  if (loved) {
+  if (meetsRebirthBar(n, world)) {
     n.awaitingKeeper = false;
     startCocoon(n, 'rebirth', 0, events);
     return;
@@ -186,7 +244,13 @@ export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: 
     return;
   }
   n.awaitingKeeper = false;
-  startCocoon(n, 'depart', 0, events);
+  if (offline) {
+    // Departures while away (the setting is on) are listed on the away screen.
+    startCocoon(n, 'depart', 0, events);
+    return;
+  }
+  n.graceMs = GRACE.windowMs;
+  events.push({ kind: 'graceStarted', nubbinId: n.id });
 }
 
 export function hatch(n: Nubbin, events: SimEvent[], nowMs = 0): void {
@@ -394,6 +458,8 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   }
   n.slips = [];
   n.slipCount = 0;
+  n.graceMs = null;
+  n.restNoticed = false;
   n.moody = null;
   n.wellRaised = false;
   n.typeLean = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };

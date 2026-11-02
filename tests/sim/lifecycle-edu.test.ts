@@ -24,7 +24,8 @@ describe('Learning Grove end of life (R0691)', () => {
     const main = createWorld(1, 0);
     const b = unhappyAdult(main);
     runEndOfLife(b, main, false, []);
-    expect(b.cocoonKind).toBe('depart');
+    // Under the bar in live play: the last-day window opens before any departure.
+    expect(b.graceMs).toBeGreaterThan(0);
   });
 
   it('a reader save departs unless the grown-up switched it on', () => {
@@ -32,7 +33,7 @@ describe('Learning Grove end of life (R0691)', () => {
     applyCommand(w, { kind: 'eduStart', age: 6, band: 'reader' }, []);
     const a = unhappyAdult(w);
     runEndOfLife(a, w, false, []);
-    expect(a.cocoonKind).toBe('depart');
+    expect(a.graceMs).toBeGreaterThan(0);
     const w2 = createWorld(2, 0);
     applyCommand(w2, { kind: 'eduStart', age: 6, band: 'reader' }, []);
     applyCommand(w2, { kind: 'eduSetAlwaysReborn', on: true }, []);
