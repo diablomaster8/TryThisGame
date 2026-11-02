@@ -37,3 +37,14 @@ export const SETTINGS_TABS: Array<{ id: SettingsTabId; label: string }> = [
   { id: 'saves', label: '💾 Saves' },
   { id: 'about', label: 'ℹ About' },
 ];
+
+/** R0448 (TECH-06): the chip's first-loop lines. */
+export const FIRST_LOOP_TEXT = {
+  hatchHint: 'Tap the egg, pick it up and shake it. Five shakes!',
+  pat: (name: string) => `Give ${name} a pat`,
+  patHint: (name: string) => `Tap ${name}, then tap Pet`,
+  name: () => 'Name your Nubbin',
+  nameHint: (name: string) => `Tap ${name}, then tap its name to change it`,
+  skip: 'I know how to play',
+  skipLabel: 'Skip the first-steps guide',
+};

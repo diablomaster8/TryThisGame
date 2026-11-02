@@ -1,4 +1,4 @@
-import { diaryPanel, diarySession, newDiary, stepGroveDiary } from './grove-diary';
+import { diaryPanel, diarySession, newDiary, shakeBonusMs, stepGroveDiary } from './grove-diary';
 import { BATTLE } from '../config/tuning-battle';
 import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
@@ -478,7 +478,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (now - n.lastShakeMs < EGG.shakeCooldownMs) return;
       n.lastShakeMs = now;
       if (n.stage === 'egg') {
-        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - EGG.shakeBonusMs);
+        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - shakeBonusMs(world));
         // R0351: every third shake, a tiny foot pokes out of the bottom.
         n.eggShakes = (n.eggShakes ?? 0) + 1;
         const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
@@ -620,6 +620,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // R0474: the private diary (sim/diary.ts).
       if (cmd.what === 'session') diarySession(world);
       else if (cmd.what === 'skip') (world.diary ??= newDiary()).scenesSkipped += 1;
+      else if (cmd.what === 'loopSkip') (world.diary ??= newDiary()).loopSkipped = true;
       else diaryPanel(world, cmd.what.panel);
       return;
     case 'setTimeZone': {
@@ -649,6 +650,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'rename': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
+      // R0448: the first rename ends the guided loop's last step.
+      if (n) (world.diary ??= newDiary()).firstNameMs ??= world.timeMs;
       return;
     }
     // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.

@@ -5368,3 +5368,28 @@ html.story-resting canvas {
   padding-left: 18px;
   margin: 4px 0 10px;
 }
+
+/* R0448: the first loop's skip button and the quiet-spell nudge (still when motion is reduced). */
+.objective-skip {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 124px);
+  z-index: 12;
+  min-height: 44px;
+  opacity: 0.9;
+  pointer-events: auto;
+}
+.objective-nudge {
+  outline: 3px solid #f2d34c;
+  animation: objective-pulse 1.2s ease-in-out infinite;
+}
+@keyframes objective-pulse {
+  50% {
+    outline-offset: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .objective-nudge {
+    animation: none;
+  }
+}

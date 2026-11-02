@@ -1502,7 +1502,7 @@ export type Command =
   /** TECH-45: the device's time zone, minutes east of UTC. */
   | { kind: 'setTimeZone'; offsetMin: number }
   /** R0474: the diary hears a new session start, a panel open or a skipped scene. */
-  | { kind: 'diaryNote'; what: 'session' | 'skip' | { panel: string } }
+  | { kind: 'diaryNote'; what: 'session' | 'skip' | 'loopSkip' | { panel: string } }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   /** The UI holds waiting end-of-life checks while the away screen is open. */

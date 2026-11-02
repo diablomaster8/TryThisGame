@@ -5,6 +5,8 @@
  * save, and the bug report can copy it. Pure: it reads this step's events and the step length.
  * Times are sim milliseconds (`world.timeMs`), so a fast-forwarded test reads the same.
  */
+import { EGG } from '../config/tuning';
+import { FIRST_LOOP } from '../config/tuning-r11d4';
 import type { SimEvent, World } from './types';
 
 export interface Diary {
@@ -24,6 +26,9 @@ export interface Diary {
   evolutions: number;
   rebirths: number;
   hatched: number;
+  /** R0448: the first rename, and whether the player chose "I know how to play". */
+  firstNameMs?: number | null;
+  loopSkipped?: boolean;
 }
 
 /** The longest a panel name may be, and how many distinct panels one diary keeps. */
@@ -47,11 +52,21 @@ export function newDiary(): Diary {
     evolutions: 0,
     rebirths: 0,
     hatched: 0,
+    firstNameMs: null,
   };
 }
 
 /** The sim never sees the wall clock, so a session's length is counted in this transient. */
 const session = { ms: 0 };
+
+/**
+ * The first egg of a save hatches in five shakes (R0448); every later shake is the usual bonus.
+ * An old save with Nubbins already out is not a first egg.
+ */
+export function shakeBonusMs(world: World): number {
+  const first = (world.diary?.hatched ?? 0) === 0 && world.nubbins.every((n) => n.stage === 'egg');
+  return first ? FIRST_LOOP.firstShakeBonusMs : EGG.shakeBonusMs;
+}
 
 /** A load or a return from another tab: a new session starts. */
 export function diarySession(world: World): void {
@@ -118,7 +133,9 @@ export function cleanDiary(raw: unknown): Diary {
     const v = r[k];
     return typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : (base[k] as number);
   };
-  const time = (k: 'firstHatchMs' | 'firstPetMs' | 'firstFeedMs'): number | null => {
+  const time = (
+    k: 'firstHatchMs' | 'firstPetMs' | 'firstFeedMs' | 'firstNameMs',
+  ): number | null => {
     const v = r[k];
     return typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : null;
   };
@@ -144,5 +161,7 @@ export function cleanDiary(raw: unknown): Diary {
     evolutions: num('evolutions'),
     rebirths: num('rebirths'),
     hatched: num('hatched'),
+    firstNameMs: time('firstNameMs'),
+    ...(r['loopSkipped'] === true ? { loopSkipped: true } : {}),
   };
 }
