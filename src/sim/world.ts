@@ -1,6 +1,6 @@
 import { BATTLE } from '../config/tuning-battle';
+import { runHandler } from './commands';
 import { orderSystems, runSystems, type SimSystem, type StepCtx, type SystemRuns } from './systems';
-import { debugSet } from './debug-set';
 import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
@@ -36,7 +36,7 @@ import {
   startThrow,
   updateBehavior,
 } from './behavior';
-import { WILD_CRITTERS, giveCritter, giveEssence } from './critters';
+import { giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
   keeperJump,
@@ -47,7 +47,7 @@ import {
 } from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
-import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
+import { createWeather, seasonAt, stepWeather } from './weather';
 import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
@@ -58,7 +58,7 @@ import { receiveNubbin, tradeAway } from './share';
 import { harvest, plant, stepPlants, waterPlant } from './plants';
 import { buyToy, craft, gather, placeToy, type RecipeId } from './craft';
 import { paintTile } from './tiles';
-import { buyPlot, hasRoom } from './roster';
+import { buyPlot } from './roster';
 import { claimQuest, noteQuest, queueQuestEvents, stepQuests } from './quests';
 import { feedWild, stepHabitats } from './habitats';
 import { neighbourGift, visit } from './neighbourhood';
@@ -82,7 +82,6 @@ import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { chooseCastHome } from './line-rewards';
-import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
 import { lookAround } from './lookout';
@@ -90,20 +89,12 @@ import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
 import { stepHopCourse } from './hop-course';
 import { addRewards, buy } from './shop';
-import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
-import {
-  advanceStage,
-  evolve,
-  hatch,
-  holdEndOfLife,
-  keepEggshell,
-  secondEvolve,
-} from './lifecycle';
-import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
+import { advanceStage, hatch, holdEndOfLife, keepEggshell } from './lifecycle';
+import { createEgg, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
-import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { holdSlips, stepSlips } from './slips';
 import { stepMoody } from './soul-idle';
 import { setAnticsLive } from './antics';
 import { stepDiary } from './diary';
@@ -147,26 +138,9 @@ import { resolve } from './obstacles';
 import { resolveNubbin } from './nubbin-hop';
 import { courseById, prizeFor } from './race';
 import { collideThrown } from './throw-collide';
-import {
-  eduResetSession,
-  eduStartBreak,
-  eduEndBreak,
-  eduResult,
-  eduSetAge,
-  eduSetReaderAge,
-  eduSetGame,
-  eduSetName,
-  eduSetSession,
-  eduLesson,
-  eduStart,
-  stepEdu,
-  clampRounds,
-} from './edu';
-import { eduSetLimits, eduUnlockLimits } from './edu-limits';
+import { stepEdu } from './edu';
 /* Lane E r9 */
-import { eduSetTag } from './edu-session';
 import {
-  NUBBIN_TYPES,
   type Command,
   type DyeColor,
   type Item,
@@ -183,8 +157,6 @@ import { hatchInArms } from './hatch-arms';
 import { noteCheckpoint } from './story-marks';
 import { enterStoryRegion, leaveStoryRegion } from './story-regions';
 import { tapCare } from './access';
-import { setLossHold } from './loss-notice';
-import { noteActivity } from './edu-report';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
@@ -384,6 +356,8 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
 }
 
 function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void {
+  // TECH-35: the moved domains (sim/commands/) answer first.
+  if (runHandler(world, cmd, events)) return;
   const k = world.keeper;
   const now = world.timeMs;
   switch (cmd.kind) {
@@ -405,14 +379,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     // Lane E r10 (R0710): Simple touch's one-tap care.
     case 'tapCare':
       tapCare(world, cmd.nubbinId, events);
-      return;
-    // Lane E r10 (R0694): a grown-up's choice for a loss chapter.
-    case 'eduLossHold':
-      setLossHold(world, cmd.chapter, cmd.hold);
-      return;
-    // Lane E r10 (R0745): attention counters for the grown-up report.
-    case 'eduActivity':
-      noteActivity(world, cmd.game, cmd.what, cmd.ms);
       return;
     case 'pet':
       k.intent = { kind: 'pet', nubbinId: cmd.nubbinId };
@@ -646,79 +612,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
       return;
     }
-    // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.
-    case 'debugSeason':
-      if (cmd.season) {
-        world.debugSeason = cmd.season;
-        world.season = cmd.season;
-      } else delete world.debugSeason;
-      return;
-    case 'debugSet':
-      debugSet(world, cmd.path, cmd.value);
-      return;
-    case 'debugGive':
-      if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
-      else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
-      else if (cmd.what === 'egg') {
-        // Fill the roster for checks: free eggs of every family up to the cap.
-        withRng(world, (rng) => {
-          const babies = SPECIES.filter((s) => s.stage === 'baby');
-          for (let i = 0; i < cmd.amount && hasRoom(world); i++) {
-            const egg = createEgg(
-              newId(world, 'nub'),
-              { x: rng.float(-4, 4), z: rng.float(-3, 3) },
-              rng,
-              rng.pick(EGG_COLORS),
-              rng.pick(babies).id,
-            );
-            egg.name = uniqueName(world, egg.name, rng);
-            world.nubbins.push(egg);
-          }
-        });
-      } else if (cmd.what === 'critter') {
-        withRng(world, (rng) => {
-          for (let i = 0; i < cmd.amount; i++) {
-            const s = rng.pick(WILD_CRITTERS).id;
-            world.inventory.critters[s] = (world.inventory.critters[s] ?? 0) + 1;
-          }
-        });
-      } else {
-        withRng(world, (rng) => {
-          for (let i = 0; i < cmd.amount; i++) {
-            const t = rng.pick(NUBBIN_TYPES);
-            world.inventory.essences[t] = (world.inventory.essences[t] ?? 0) + 1;
-          }
-        });
-      }
-      return;
     case 'holdEndOfLife':
       holdEndOfLife(world, cmd.hold);
       return;
-    case 'debugFillNeeds': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n) return;
-      n.needs.hunger = 1;
-      n.needs.energy = 1;
-      return;
-    }
-    case 'debugForceEvolve': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
-      if (n.stage === 'adult') {
-        if (n.form && n.form.second === null) secondEvolve(n, events);
-        return;
-      }
-      evolve(n, events, world);
-      return;
-    }
-    case 'debugForceEndOfLife': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage !== 'adult') return;
-      n.eternal = null;
-      // The Nubbin's own lifespan: slips shorten it and some storylines lengthen it.
-      n.stageMs = lifespanMs(n);
-      return;
-    }
     case 'giveHeartFruit':
       if (world.inventory.heartFruit <= 0) return;
       k.intent = { kind: 'heartFruit', nubbinId: cmd.nubbinId };
@@ -993,9 +889,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         events.push({ kind: 'located', location: cmd.location });
       }
       return;
-    case 'debugWeather':
-      withRng(world, (rng) => setWeather(world, cmd.weather, rng, events));
-      return;
     case 'setRunning':
       k.running = cmd.running;
       return;
@@ -1060,101 +953,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       else n.hideBelt = true;
       return;
     }
-    case 'eduStart':
-      eduStart(world, cmd.age, events, cmd.band);
-      return;
-    case 'eduSetBand':
-      if (world.edu) world.edu.band = cmd.band;
-      return;
-    case 'eduSetLanguage':
-      if (world.edu) world.edu.storyLanguage = cmd.language;
-      return;
-    case 'eduSetReadAloud':
-      if (world.edu) world.edu.readAloud = cmd.on;
-      return;
-    case 'eduSetRounds':
-      // Lane E r7, R0746.
-      if (world.edu) world.edu.roundsPerGame = clampRounds(cmd.rounds);
-      return;
-    case 'eduSetAlwaysReborn':
-      // Lane E r7, R0691: the field only exists when on.
-      if (world.edu) {
-        if (cmd.on) world.edu.alwaysReborn = true;
-        else delete world.edu.alwaysReborn;
-      }
-      return;
-    case 'eduSetReadToMe':
-      if (world.edu) world.edu.readToMe = cmd.on;
-      return;
-    /* Lane E r9 */
-    case 'eduSetAutoAdvance':
-      if (world.edu) {
-        if (cmd.on) world.edu.autoAdvance = true;
-        else delete world.edu.autoAdvance;
-      }
-      return;
-    case 'langSkipWait':
-      if (world.edu) world.edu.langSkipAt = world.timeMs;
-      return;
-    case 'eduLesson':
-      eduLesson(world, cmd.id, cmd.best);
-      return;
-    case 'langStart':
-      langStart(world, cmd.course);
-      return;
-    case 'langWord':
-      noteWord(world, cmd.word, cmd.how, events);
-      return;
-    case 'langTraced':
-      // The step itself is met by the quest's rule in noteSideCommand, after this.
-      langTraced(world, cmd.quest, events);
-      return;
-    case 'eduSetAge':
-      eduSetAge(world, cmd.age, cmd.resetGames);
-      return;
-    /* Lane E r10, R0735 */
-    case 'eduSetReaderAge':
-      eduSetReaderAge(world, cmd.age);
-      return;
-    case 'eduTutorialSaid':
-      if (world.edu) world.edu.tutorialSaid = true;
-      return;
-    case 'eduSetGame':
-      eduSetGame(world, cmd.game, cmd.on);
-      return;
-    case 'eduSetSession':
-      eduSetSession(world, cmd.minutes);
-      return;
-    case 'eduSetName':
-      eduSetName(world, cmd.name);
-      return;
-    /* Lane E r9, R0696 */
-    case 'eduSetTag':
-      eduSetTag(world, cmd.icon, cmd.colour);
-      return;
-    case 'eduResult':
-      eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
-      return;
-    case 'eduSetLimits':
-      // Lane E r8, R0695.
-      eduSetLimits(world, cmd.limits);
-      return;
-    case 'eduUnlockLimits':
-      eduUnlockLimits(world, world.lastWallMs);
-      return;
-    case 'eduSetPlace':
-      // Lane E r8, R0680.
-      if (world.edu) (world.edu.places ??= {})[cmd.place] = cmd.on;
-      return;
-    case 'eduResetSession':
-      eduResetSession(world);
-      return;
-    case 'eduStartBreak':
-      eduStartBreak(world);
-      return;
-    case 'eduEndBreak':
-      eduEndBreak(world);
-      return;
     case 'setPartner':
       setPartner(world, cmd.slot, cmd.nubbinId);
       return;
@@ -1296,11 +1094,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (n && n.stage !== 'egg' && n.stage !== 'cocoon')
         react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
-      return;
-    }
-    case 'debugHatchNow': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
       return;
     }
   }
