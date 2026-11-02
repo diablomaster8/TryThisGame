@@ -38,6 +38,40 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Gentle life cycle (2026-11-02, branch feat/gentle-lifecycle)
+
+Maor, 2026-11-02: "nubbins die way too quickly... they should rarely die". He approved the set
+below, including **adult life 24 h (was 5 h)**: this overrides the 5 h in `docs/brief.md` and
+the old CLAUDE.md. Save v14.
+
+- *Works:* happiness drifts toward `NEEDS.happinessRest` 20 at 0.25/min (was toward 0 at 0.5);
+  catch-up naps once energy is at `SLIPS.sleepyEnergy` (0.1), so no sleepy slips while away
+  (was ~19 a life, each trimming 5 % off the span); rebirth bar 15 lifetime happiness and 20
+  affection (was 30/40); `petAffection` 4 (was 2); `adultMs` 24 h, `thirdEvolutionMs` 14.4 h
+  (3/5 of the day, as before). The last day (`GRACE`, `sim/lifecycle.ts`): a live end-of-life
+  check under the bar opens a 20-minute window instead of departing (`graceMs` on the Nubbin,
+  age held, live time only: catch-up and a held away screen leave it); a pet or a hand-fed fruit
+  in it gives double affection and adds 15 min at the current happiness to the lifetime average;
+  the bar met at any point starts the rebirth cocoon (`graceKept`), the window running out the
+  departure cocoon. Waiting (`awaitingKeeper`) Nubbins get their window live after the away
+  screen; departures while away with `allowOfflineDepartures` on are unchanged. A faint pale
+  cocoon flickers round the Nubbin in both renderers (`render/grace-veil.ts`; still under
+  reduced motion). Heads-up `restSoon` toast once a life, live, within 1 h of the end and under
+  the bar. Stats sheet: a "Ready to come back" meter (🌱, label and a word line, the number in
+  high contrast) and the last-day hint. Toasts for the window opening and for the rescue.
+- *Outcomes* (real sim, `sim-life` script, 3 seeds each, 8 h capped catch-up): before, every
+  care level departed except "devoted"; now "none" (2 min twice a day) departs after its
+  window, "light" (10 min twice a day) and "attentive" are always reborn.
+- *Assumptions:* the second evolution stays 1 h into adult life (the brief's "an hour in");
+  only the third evolution scales. `dayCount` stays a fifth of the adult span (a "day" is now
+  4.8 h), so E2's Nova visits (days 4, 8, 11) come 4.8× later in real time; S1's
+  `hundredSpanScale` 72 → 15 keeps its 15 real days. Eternal needs two rebirths, so it now takes
+  about 50 h of Grove time. Fruit a Nubbin finds itself does not count as last-day care.
+- *Known:* the live sim still naps only at energy 0, so a long live session can log a sleepy
+  slip each energy cycle (unchanged; slips only trim the span, floor 75 %). The full-life tests
+  now run the middle of the adult day as catch-up (24 h of fine steps was 13 s a test); the
+  timing test times six hours of fine steps, the per-hour cost it always held.
+
 ## PERF review (2026-11-01, branch perf/review)
 
 Speed only; nothing the player sees or does changed. Review and before/after table:
