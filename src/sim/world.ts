@@ -64,6 +64,7 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
+import { crossExits } from './region-walk';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepWorldHints } from './world-hints';
@@ -1372,6 +1373,9 @@ export function stepWorld(
       stepRide(world, dtMs, moved, events);
       stepSwimTow(world);
       stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
+      // R11 lane D (WORLD-39): a border walked into: seamless now, loaded through the iris.
+      const seam = crossExits(world, events);
+      if (seam) travel(world, seam.id, events);
     }
     // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
     if (!offline) stepPropReach(world);

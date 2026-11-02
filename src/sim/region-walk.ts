@@ -1,0 +1,330 @@
+/**
+ * R11 lane D (d1): the Keeper in a drawn region beyond the Grove (WORLD-25, 39, 56). A drawn
+ * region is a `Location` of the form `region:<id>`; its ground is the walk grid and solids of
+ * its `RegionSpec` (`config/region-layout.ts`), not the Grove's hills and colliders. Here:
+ * - which drawn region the Keeper is in (`drawnRegion`), and the registry of region specs a
+ *   new region joins (`REGION_SPECS`);
+ * - walking there: stick and tap walks (A* on the walk grid), sliding along the trees, pushed
+ *   out of trunks and buildings, never off the region (`stepRegionWalk`);
+ * - the borders (WORLD-39): stepping into an exit's box asks for the crossing. A seamless exit
+ *   crosses at once and re-bases the Keeper into the neighbour's own coordinates (a floating
+ *   origin, WORLD-56: every region stays local and small); a loaded exit (gate, door, stairs)
+ *   raises `exitReached` and the game plays the iris, then sends `travel` at the dark moment.
+ * Nubbins stay home in the Grove and keep simulating; the region holds only the Keeper.
+ */
+import { REGIONS, type RegionExit, type RegionId } from '../config/regions';
+import {
+  cellAt,
+  regionLayout,
+  type RegionLayout,
+  type RegionSolid,
+  type RegionSpec,
+} from '../config/region-layout';
+import { WOOD_SPEC } from '../config/region-wood';
+import { REGION_WALK } from '../config/tuning-r11d1';
+import { KEEPER } from '../config/tuning';
+import { astar, stringPull, gridLineOfSight } from './astar';
+import { keeperSpeedMultiplier } from './perks';
+import type { Location, SimEvent, Vec2, World } from './types';
+
+/** Every drawn region beyond the Grove. A new region joins here with its spec (see the report). */
+export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
+  wood: WOOD_SPEC,
+};
+
+const PREFIX = 'region:';
+
+/** The location string of a drawn region. */
+export function regionLocation(id: RegionId): Location {
+  return `${PREFIX}${id}`;
+}
+
+/** The drawn region the Keeper is in, or null in the Grove, a visit, the Hollow. */
+export function drawnRegion(world: World | { location: Location }): RegionId | null {
+  return drawnRegionOf(world.location);
+}
+
+export function drawnRegionOf(location: Location): RegionId | null {
+  if (!location.startsWith(PREFIX)) return null;
+  const id = location.slice(PREFIX.length) as RegionId;
+  return REGION_SPECS[id] ? id : null;
+}
+
+/** The layout of a drawn region (built once). */
+export function layoutOf(id: RegionId): RegionLayout | null {
+  const spec = REGION_SPECS[id];
+  return spec ? regionLayout(spec) : null;
+}
+
+// ---------------------------------------------------------------- solids
+
+interface SolidIndex {
+  cells: Map<number, RegionSolid[]>;
+}
+const solidIndex = new WeakMap<RegionLayout, SolidIndex>();
+const SOLID_CELL = 4;
+
+function solidsOf(l: RegionLayout): SolidIndex {
+  let s = solidIndex.get(l);
+  if (s) return s;
+  const all: RegionSolid[] = [...l.solids];
+  for (const t of l.trees) if (t.solid) all.push({ x: t.x, z: t.z, r: 0.3 + 0.15 * t.s });
+  const cells = new Map<number, RegionSolid[]>();
+  for (const c of all) {
+    const reach = Math.max(c.r, (c.w ?? 0) / 2, (c.h ?? 0) / 2) + 1;
+    for (
+      let z = Math.floor((c.z - reach) / SOLID_CELL);
+      z <= Math.floor((c.z + reach) / SOLID_CELL);
+      z++
+    )
+      for (
+        let x = Math.floor((c.x - reach) / SOLID_CELL);
+        x <= Math.floor((c.x + reach) / SOLID_CELL);
+        x++
+      ) {
+        const k = (z + 512) * 1024 + (x + 512);
+        let list = cells.get(k);
+        if (!list) cells.set(k, (list = []));
+        list.push(c);
+      }
+  }
+  s = { cells };
+  solidIndex.set(l, s);
+  return s;
+}
+
+/** Push a walker of radius `r` out of every solid it overlaps. True when moved. */
+export function resolveRegion(l: RegionLayout, p: Vec2, r: number): boolean {
+  const list = solidsOf(l).cells.get(
+    (Math.floor(p.z / SOLID_CELL) + 512) * 1024 + (Math.floor(p.x / SOLID_CELL) + 512),
+  );
+  if (!list) return false;
+  let moved = false;
+  for (const c of list) {
+    if (c.w !== undefined && c.h !== undefined) {
+      const hx = c.w / 2 + r;
+      const hz = c.h / 2 + r;
+      const dx = p.x - c.x;
+      const dz = p.z - c.z;
+      if (Math.abs(dx) >= hx || Math.abs(dz) >= hz) continue;
+      // Out along the shallower side.
+      if (hx - Math.abs(dx) < hz - Math.abs(dz)) p.x = c.x + Math.sign(dx || 1) * hx;
+      else p.z = c.z + Math.sign(dz || 1) * hz;
+      moved = true;
+    } else {
+      const dx = p.x - c.x;
+      const dz = p.z - c.z;
+      const d = Math.hypot(dx, dz);
+      const min = c.r + r;
+      if (d >= min) continue;
+      const nx = d > 1e-6 ? dx / d : 1;
+      const nz = d > 1e-6 ? dz / d : 0;
+      p.x = c.x + nx * min;
+      p.z = c.z + nz * min;
+      moved = true;
+    }
+  }
+  return moved;
+}
+
+/** Whether a walker of radius `r` at p stands on walkable ground (its centre and four sides). */
+export function standsIn(l: RegionLayout, x: number, z: number, r: number): boolean {
+  const ok = (px: number, pz: number) => {
+    const c = cellAt(l, px, pz);
+    return c >= 0 && l.grid[c] === 1;
+  };
+  return ok(x, z) && ok(x + r, z) && ok(x - r, z) && ok(x, z + r) && ok(x, z - r);
+}
+
+// ---------------------------------------------------------------- walking
+
+interface Plan {
+  target: Vec2;
+  legs: Vec2[];
+  atMs: number;
+}
+const plans = new WeakMap<World, Plan>();
+
+function cellCentre(l: RegionLayout, i: number): Vec2 {
+  const ix = i % l.gw;
+  const iz = Math.floor(i / l.gw);
+  return {
+    x: -l.spec.size.w / 2 + (ix + 0.5) * l.cell,
+    z: -l.spec.size.h / 2 + (iz + 0.5) * l.cell,
+  };
+}
+
+/** The legs of a tap walk from `from` to `to`, string-pulled; empty when out of reach. */
+export function planRegionWalk(l: RegionLayout, from: Vec2, to: Vec2): Vec2[] {
+  const s = cellAt(l, from.x, from.z);
+  const g = cellAt(l, to.x, to.z);
+  if (s < 0 || g < 0) return [];
+  const walk = (ix: number, iz: number) => l.grid[iz * l.gw + ix] === 1;
+  const path = astar(
+    l.gw,
+    l.gh,
+    walk,
+    s % l.gw,
+    Math.floor(s / l.gw),
+    g % l.gw,
+    Math.floor(g / l.gw),
+    {
+      maxExpansions: REGION_WALK.maxExpansions,
+    },
+  );
+  if (!path) return [];
+  const pulled = stringPull(path, l.gw, (ax, az, bx, bz) => gridLineOfSight(walk, ax, az, bx, bz));
+  const legs = pulled.slice(1, -1).map((i) => cellCentre(l, i));
+  legs.push({ x: to.x, z: to.z });
+  return legs;
+}
+
+/**
+ * One substep of the Keeper in a drawn region. Called from the Keeper's substep in place of
+ * the Grove's walk; the Keeper stays on the ground here (no hills to jump yet).
+ */
+export function stepRegionWalk(world: World, dtMs: number): void {
+  const id = drawnRegion(world);
+  const l = id ? layoutOf(id) : null;
+  if (!l) return;
+  const k = world.keeper;
+  const dt = dtMs / 1000;
+  const r = REGION_WALK.radius;
+  let dx = 0;
+  let dz = 0;
+  let speed = 0;
+  if (k.input.x !== 0 || k.input.z !== 0) {
+    const len = Math.hypot(k.input.x, k.input.z);
+    dx = k.input.x / len;
+    dz = k.input.z / len;
+    speed =
+      KEEPER.speed *
+      Math.min(1, len) *
+      keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier);
+    plans.delete(world);
+  } else if (k.moveTarget) {
+    let plan = plans.get(world);
+    if (
+      !plan ||
+      plan.target !== k.moveTarget ||
+      world.timeMs - plan.atMs > REGION_WALK.replanMs * 10
+    ) {
+      plan = {
+        target: k.moveTarget,
+        legs: planRegionWalk(l, k.pos, k.moveTarget),
+        atMs: world.timeMs,
+      };
+      plans.set(world, plan);
+    }
+    while (
+      plan.legs.length > 1 &&
+      Math.hypot(plan.legs[0]!.x - k.pos.x, plan.legs[0]!.z - k.pos.z) < 0.4
+    )
+      plan.legs.shift();
+    const next = plan.legs[0];
+    const d = next ? Math.hypot(next.x - k.pos.x, next.z - k.pos.z) : 0;
+    if (!next || (plan.legs.length === 1 && d <= REGION_WALK.arrive)) {
+      k.moveTarget = null;
+      k.intent = null;
+      plans.delete(world);
+    } else {
+      dx = (next.x - k.pos.x) / d;
+      dz = (next.z - k.pos.z) / d;
+      speed = Math.min(
+        d / Math.max(dt, 1e-6),
+        KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier),
+      );
+    }
+  }
+  if (speed > 0) {
+    const step = speed * dt;
+    const nx = k.pos.x + dx * step;
+    const nz = k.pos.z + dz * step;
+    // Slide along the edge of open ground: the whole step, else either axis alone.
+    if (standsIn(l, nx, nz, r)) {
+      k.pos.x = nx;
+      k.pos.z = nz;
+    } else if (standsIn(l, nx, k.pos.z, r)) k.pos.x = nx;
+    else if (standsIn(l, k.pos.x, nz, r)) k.pos.z = nz;
+    k.facing = Math.atan2(dx, dz);
+  }
+  const bx = k.pos.x;
+  const bz = k.pos.z;
+  resolveRegion(l, k.pos, r);
+  // Never pushed out of a solid into the trees.
+  if (!standsIn(l, k.pos.x, k.pos.z, r * 0.5)) {
+    k.pos.x = bx;
+    k.pos.z = bz;
+  }
+  const hw = l.spec.size.w / 2 - r;
+  const hh = l.spec.size.h / 2 - r;
+  k.pos.x = Math.max(-hw, Math.min(hw, k.pos.x));
+  k.pos.z = Math.max(-hh, Math.min(hh, k.pos.z));
+  k.y = 0;
+  k.vy = 0;
+  k.grounded = true;
+}
+
+// ---------------------------------------------------------------- borders
+
+/** The region whose exits the Keeper's position is read against. */
+function hereRegion(world: World): RegionId | null {
+  if (world.location === 'grove') return 'grove';
+  return drawnRegion(world);
+}
+
+function inRect(e: RegionExit, p: Vec2): boolean {
+  return (
+    p.x >= e.rect.x && p.x <= e.rect.x + e.rect.w && p.z >= e.rect.z && p.z <= e.rect.z + e.rect.h
+  );
+}
+
+/** Whether an exit leads somewhere drawn that walking into it may take (not the lane or the Hollow). */
+export function walkableExit(e: RegionExit): boolean {
+  return e.to === 'grove' || !!REGION_SPECS[e.to];
+}
+
+/** The exits of the current region that walking can take, for the renderers' approach checks. */
+export function walkExitsHere(world: World): readonly RegionExit[] {
+  const here = hereRegion(world);
+  return here ? REGIONS[here].exits.filter(walkableExit) : [];
+}
+
+/**
+ * WORLD-39/56: how a seamless crossing re-bases a point: the neighbour's coordinates are this
+ * region's shifted by the exit's arrival less its centre, so the Keeper keeps its footing
+ * and no coordinate grows past the region's own half size.
+ */
+export function seamlessOffset(e: RegionExit): Vec2 {
+  return {
+    x: e.arrive.x - (e.rect.x + e.rect.w / 2),
+    z: e.arrive.z - (e.rect.z + e.rect.h / 2),
+  };
+}
+
+const inside = new WeakMap<World, string | null>();
+
+/**
+ * After the Keeper's step (live play only): stepping into a walkable exit's box raises it once.
+ * Leaving the box re-arms it, so arriving on a box never bounces the Keeper straight back.
+ * A loaded exit raises `exitReached` (the game irises, then sends `travel`); a seamless one is
+ * returned for the step to take now.
+ */
+export function crossExits(world: World, events: SimEvent[]): RegionExit | null {
+  const here = hereRegion(world);
+  if (!here) return null;
+  const k = world.keeper;
+  const hit = REGIONS[here].exits.find((e) => walkableExit(e) && inRect(e, k.pos)) ?? null;
+  const was = inside.get(world);
+  inside.set(world, hit ? hit.id : null);
+  if (!hit || was === hit.id || was === undefined || world.ride) return null;
+  // A seamless edge is crossed by the caller at once (`travel`, which re-bases the Keeper).
+  if (hit.kind === 'seamless') return hit;
+  events.push({ kind: 'exitReached', exit: hit.id });
+  return null;
+}
+
+/** Forget the armed exit (a load, a travel): the next step only notes where the Keeper is. */
+export function resetCrossing(world: World): void {
+  inside.delete(world);
+}

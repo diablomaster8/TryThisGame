@@ -572,6 +572,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Partners keep near the Keeper.
   if (
     isPartner(world, n.id) &&
+    !world.location.startsWith('region:') /* R11 lane D: they wait at home */ &&
     dist(n.pos, world.keeper.pos) > PARTNERS.followDistance &&
     rng.chance(0.7)
   ) {

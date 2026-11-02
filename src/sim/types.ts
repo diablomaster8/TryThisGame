@@ -819,7 +819,14 @@ export interface PlacedDecor {
 }
 
 /** The home Grove, the story places, or a neighbour's Grove (`visit:<trainer>`). */
-export type Location = 'grove' | 'hollow' | 'corvin' | 'dungeon' | `visit:${string}`;
+export type Location =
+  | 'grove'
+  | 'hollow'
+  | 'corvin'
+  | 'dungeon'
+  | `visit:${string}`
+  // R11 lane D: a drawn region beyond the Grove (`sim/region-walk.ts`), e.g. `region:wood`.
+  | `region:${string}`;
 
 /** What lies on a Hollow floor. */
 export type DungeonLootKind = 'shells' | 'stone' | 'seed' | 'essence' | 'critter' | 'egg';
@@ -1956,6 +1963,8 @@ export type SimEvent =
   | { kind: 'karate'; nubbinId: string; won: boolean; belt: number }
   | { kind: 'located'; location: Location }
   | { kind: 'regionEntered'; region: string }
+  // R11 lane D (WORLD-39): the Keeper walked into a loaded exit; the game irises, then travels.
+  | { kind: 'exitReached'; exit: string }
   | { kind: 'regionDiscovered'; region: string }
   | { kind: 'travelRefused'; exit: string; reason: string }
   /** Lane C r10 agent A (R0605, R0640): a questline region entered, left, refused or newly open. */
