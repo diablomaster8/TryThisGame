@@ -20,3 +20,9 @@ export const OVERVIEW_TEXT = {
   here: 'You are here',
   open: (name: string) => `Open the map of ${name}`,
 };
+
+/** R0138 (WORLD-72): standing on a photo spot. */
+export const PHOTO_SPOT_TEXT = {
+  first: '📷 A good spot for a photo. The windmill sits right in the frame.',
+  again: '📷 The view is still good from here.',
+};

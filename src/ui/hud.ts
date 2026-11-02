@@ -6,6 +6,7 @@ import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
 import { regionOf } from '../sim/regions';
 import { hintToast, secretToasts, traceToasts } from './world-hints-ui';
+import { PHOTO_SPOT_TEXT } from '../config/strings-r11d6';
 import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
@@ -2044,6 +2045,9 @@ export function mountHud(
           // R0091: one-time collectibles and their sets.
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
+        } else if (e.kind === 'photoSpot') {
+          // R0138: a framed vista; the camera is the Photo button.
+          toast(e.first ? PHOTO_SPOT_TEXT.first : PHOTO_SPOT_TEXT.again);
         } else if (e.kind === 'traceFound') {
           // R0090: a small remembered thing in the world.
           for (const line of traceToasts(e.id, game()?.world)) toast(line);

@@ -1967,6 +1967,8 @@ export type SimEvent =
   | { kind: 'keepsakeFound'; id: string; what: 'petal' | 'postcard' | 'key' }
   /** R0090: the Keeper walked up to a world trace (a small remembered thing) for the first time. */
   | { kind: 'traceFound'; id: string }
+  /** R0138: the Keeper stepped onto a photo spot (`first`: the first time ever). */
+  | { kind: 'photoSpot'; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }
   | { kind: 'secretFound'; region: string }

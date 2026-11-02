@@ -67,6 +67,7 @@ import { travel } from './regions';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepTraces } from './regions-trace';
+import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
 import { rememberCare } from './care-memory';
@@ -1415,6 +1416,7 @@ export function stepWorld(
   stepLandmarks(world, events);
   stepCollectibles(world, events);
   stepTraces(world, events);
+  stepPhotoSpots(world, events);
   // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
   stepWorldHints(world, events);
   stepLittleGrove(world);
