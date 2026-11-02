@@ -67,8 +67,10 @@ the old CLAUDE.md. Save v14.
   4.8 h), so E2's Nova visits (days 4, 8, 11) come 4.8× later in real time; S1's
   `hundredSpanScale` 72 → 15 keeps its 15 real days. Eternal needs two rebirths, so it now takes
   about 50 h of Grove time. Fruit a Nubbin finds itself does not count as last-day care.
-- *Known:* the live sim still naps only at energy 0, so a long live session can log a sleepy
-  slip each energy cycle (unchanged; slips only trim the span, floor 75 %). The full-life tests
+- *Fixed (2026-11-02, fix/live-sleepy-slips):* live naps now start at `SLIPS.sleepyEnergy`
+  too (`isExhausted`), so only a Nubbin kept awake (held, carried, mid-lesson) logs a sleepy
+  slip; a 6 h live session logs 0, down from 14 (`tests/sim/live-sleepy-slips.test.ts`).
+- *Known:* the full-life tests
   now run the middle of the adult day as catch-up (24 h of fine steps was 13 s a test); the
   timing test times six hours of fine steps, the per-hour cost it always held.
 

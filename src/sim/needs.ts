@@ -1,4 +1,4 @@
-import { GRACE, NEEDS } from '../config/tuning';
+import { GRACE, NEEDS, SLIPS } from '../config/tuning';
 import type { Mood, Needs, Nubbin } from './types';
 
 const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
@@ -99,8 +99,13 @@ export function isHungry(n: Nubbin): boolean {
   return n.needs.hunger < NEEDS.hungryThreshold;
 }
 
+/**
+ * Tired enough to lie down: at the sleepy-slip threshold, so a Nubbin left free naps before
+ * a slip can count. Only being kept awake (held, carried, mid-lesson) logs one; minigames
+ * reset the timers.
+ */
 export function isExhausted(n: Nubbin): boolean {
-  return n.needs.energy <= 0;
+  return n.needs.energy <= SLIPS.sleepyEnergy;
 }
 
 /** What the face, emote ball and bubbles show. Number meters are for the stats sheet. */
