@@ -16,7 +16,11 @@ describe('world overview (R0130)', () => {
     const seen = new Set<string>(['grove']);
     const todo = ['grove'];
     while (todo.length)
-      for (const n of adj.get(todo.pop()!) ?? []) if (!seen.has(n)) (seen.add(n), todo.push(n));
+      for (const n of adj.get(todo.pop()!) ?? [])
+        if (!seen.has(n)) {
+          seen.add(n);
+          todo.push(n);
+        }
     const lonely = ids.filter((i) => !seen.has(i));
     // The Hollow is a stair below the Grove, not an overland link; it may stand apart.
     expect(lonely.filter((i) => i !== 'hollow')).toEqual([]);
