@@ -196,8 +196,9 @@ export class ItemKit {
     return mesh;
   }
 
-  private cocoon(n: Nubbin): THREE.Mesh {
-    const geo = this.geo(
+  /** The cocoon's shape, foot half a unit below its origin (shared with the last-day veil). */
+  cocoonGeo(): THREE.BufferGeometry {
+    return this.geo(
       'cocoon',
       () =>
         new THREE.LatheGeometry(
@@ -205,6 +206,10 @@ export class ItemKit {
           24,
         ),
     );
+  }
+
+  private cocoon(n: Nubbin): THREE.Mesh {
+    const geo = this.cocoonGeo();
     const c = COCOON[cocoonColourKey(n)] ?? COCOON.evolve!;
     // Its own material: a departing cocoon fades and a rebirth one shimmers (see Actors).
     const mesh = new THREE.Mesh(

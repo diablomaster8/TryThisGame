@@ -1097,6 +1097,16 @@ export const TEN_TEXT = {
   wellRaised: (name: string) => `${name} was well raised: a second stat gained a grade.`,
   moodyTag: { grumpy: 'Grumpy', sleepy: 'Sleepy' } as Record<string, string>,
   dayCount: (day: number, of: number) => `Day ${day} of about ${of}`,
+  // The gentle life cycle (2026-11-02): rebirth readiness and the last day.
+  readiness: 'Ready to come back',
+  readinessYes: 'Ready: it will be reborn when its time comes.',
+  readinessNo: 'Not yet. Pets, fruit and happy days help it come back.',
+  graceHint: 'Its last day. Stay close: pets and fruit from your hand count double now.',
+  restSoon: (name: string) =>
+    `${name} is near the end of this life. Some care now helps it come back.`,
+  graceStarted: (name: string) =>
+    `${name} is fading softly. Stay close: pets and fruit from your hand count double now.`,
+  graceKept: (name: string) => `${name}'s glow steadies. It will come back.`,
   // Gym
   gym: 'Gym',
   gymHelp:

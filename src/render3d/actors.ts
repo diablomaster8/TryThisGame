@@ -25,6 +25,7 @@ import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
+import { graceVeil } from '../render/grace-veil';
 import {
   landBeatFor,
   PET_BEAT_BURST,
@@ -36,7 +37,7 @@ import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
+import { FERN_STONE, GRACE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
 import { BondGlow } from './bond-glow';
 import {
@@ -112,6 +113,8 @@ interface Actor {
   rig: Rigged | null;
   /** The egg or cocoon shell shown instead of a rig for those stages. */
   shell: THREE.Mesh | null;
+  /** The last day: the faint cocoon round a Nubbin in its window (render/grace-veil.ts). */
+  veil?: THREE.Mesh | null;
   /** The look still being sculpted, and the soft stand-in shown until it is ready. */
   look: Look | null;
   stand: THREE.Mesh | null;
@@ -330,6 +333,8 @@ export class Actors {
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
   private readonly pops = new Map<string, { kind: 'squash' | 'pop' | 'splat'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
+  /** The last-day veil's material, made on first use and shared (one flicker for all). */
+  private veilMat: THREE.MeshBasicMaterial | null = null;
   /** MOVE-27: the glide's leaf wings. */
   private readonly wings: GlideWings;
   private readonly wadeRipple: WadeRipple;
@@ -899,9 +904,33 @@ export class Actors {
     }
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
+    a.veil?.removeFromParent();
     if (a.shell) this.kit.release(a.shell);
     a.emote.removeFromParent();
     this.nubbins.delete(id);
+  }
+
+  /** The last day: a faint cocoon flickers round the Nubbin, all of them in step. */
+  private veil(a: Actor, n: Nubbin, x: number, y: number, z: number, nowMs: number): void {
+    const v = graceVeil(n, nowMs, this.calm);
+    if (v <= 0) {
+      a.veil?.removeFromParent();
+      a.veil = null;
+      return;
+    }
+    this.veilMat ??= new THREE.MeshBasicMaterial({
+      color: GRACE.veilColour,
+      transparent: true,
+      depthWrite: false,
+    });
+    if (!a.veil) {
+      a.veil = new THREE.Mesh(this.kit.cocoonGeo(), this.veilMat);
+      a.veil.scale.setScalar(GRACE.veilScale);
+      a.veil.renderOrder = 2;
+      this.group.add(a.veil);
+    }
+    this.veilMat.opacity = v;
+    a.veil.position.set(x, y + 0.5 * GRACE.veilScale, z);
   }
 
   /**
@@ -1270,6 +1299,7 @@ export class Actors {
           waryPosture(a.rig);
         this.tumble(a, n, o, nowMs);
         this.ripple(a, inWater, x, z, (t * 1250) / SWIM_STYLE.strokeMs[style]);
+        this.veil(a, n, x, footY, z, nowMs);
       } else if (a.stand) {
         placeStand(a.stand, x, gy + y, z, t);
       } else if (a.shell) {

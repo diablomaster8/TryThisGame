@@ -1984,6 +1984,9 @@ export function mountHud(
           toast(slipNudge(g.world, e.nubbinId, e.slip));
         } else if (e.kind === 'slipSoon') {
           toast(slipNudge(g.world, e.nubbinId, e.slip));
+        } else if (e.kind === 'restSoon' || e.kind === 'graceStarted' || e.kind === 'graceKept') {
+          const name = g.world.nubbins.find((x) => x.id === e.nubbinId)?.name ?? NAMES.creature;
+          toast(TEN_TEXT[e.kind](name));
         } else if (e.kind === 'npcBark') {
           const npc = g.world.npcs.find((x) => x.id === e.npcId);
           const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';

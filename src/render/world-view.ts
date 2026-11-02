@@ -7,7 +7,7 @@ import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
 import { Y_STATE } from './dress-y-state';
 import { LOOK_STATE, nubbinSits, storyId } from '../config/npc-looks';
-import { DUNGEON, EGG, FERN_STONE, LIFECYCLE, UI } from '../config/tuning';
+import { DUNGEON, EGG, FERN_STONE, GRACE, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
@@ -95,6 +95,8 @@ import { byteLaceUntied } from '../sim/byte-lace'; /* Lane E r10, R0366 */
 import { SPLAT, splatAmount } from './splat'; /* Lane E r10, R0299 */
 import { STRAY_GAIT, strayGait, tipLift, wobble } from './stray-gait'; /* Lane E r10, R0326 */
 import { cocoonShake, revealTurn } from './evolve-reveal';
+import { graceVeil } from './grace-veil';
+import { buildCocoonSheet } from './sprites/egg';
 import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
@@ -2522,6 +2524,9 @@ export class WorldView {
       );
       // R0525 (lane A r10): the held prop (crayon, bell, drum, trumpet) and rising notes.
       if (perf) this.drawPerformProp(perf, n, x, y, z, yaw, flip, perfMs, opacity);
+      // The last day: a faint cocoon flickers round it (render/grace-veil.ts).
+      const veil = n.stage === 'adult' ? graceVeil(n, nowMs, this.particles.reduceMotion) : 0;
+      if (veil > 0) this.drawVeil(x, y, z, veil);
       // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
       // laid on the head in the sprite's own plane, a hair toward the camera.
       const cam = PIXEL_VIEW.camera;
@@ -2641,6 +2646,28 @@ export class WorldView {
   }
 
   /** R0525 (lane A r10): a performer's prop beside it and a note now and then above it. */
+  /** The last-day veil: the departing cocoon's sheet, faint and a little bigger, in front. */
+  private drawVeil(x: number, y: number, z: number, opacity: number): void {
+    const sheet = this.sheets.get('cocoon:depart', () => buildCocoonSheet('depart'));
+    const rect = sheet.frames.get(frameKey('idle', 'front', 0));
+    const m = PIXEL_VIEW.camera?.matrixWorld.elements;
+    if (!rect || !m) return;
+    const s = GRACE.veilScale;
+    this.batch.draw({
+      sheet,
+      rect,
+      flip: false,
+      x: x + m[8]! * 0.05,
+      y: y + m[9]! * 0.05,
+      z: z + m[10]! * 0.05,
+      mode: 'billboard',
+      opacity,
+      tint: this.dim,
+      w: (rect.w / NATIVE_PPU) * s,
+      h: (rect.h / NATIVE_PPU) * s,
+    });
+  }
+
   private drawPerformProp(
     perf: NonNullable<ReturnType<typeof performLook>>,
     n: Nubbin,

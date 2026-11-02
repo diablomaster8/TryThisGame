@@ -29,6 +29,8 @@ import { RecentlyBox, SoulRow } from './soul-row';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
+import { rebirthReadiness } from '../sim/lifecycle';
+import { inGrace } from '../sim/needs';
 import { TEN_TEXT } from '../config/strings';
 import { levelOf } from '../sim/stats';
 import { STATS, UI } from '../config/tuning';
@@ -230,7 +232,10 @@ export class StatsSheet {
     memRow.append(el('strong', undefined, TEN_TEXT.memoryLabel), this.memorySel);
     this.life.appendChild(memRow);
     this.lifeText = el('div', 'help');
-    this.life.appendChild(this.lifeText);
+    // The gentle life cycle: how close it is to coming back, as a meter with a word.
+    this.ready = meter(TEN_TEXT.readiness, '🌱');
+    this.readyText = el('div', 'help');
+    this.life.append(this.ready.root, this.readyText, this.lifeText);
     this.acc = el('div', 'sheet-acc');
     const dyeSelect = (label: string, slot: 'hat' | 'scarf') => {
       const sel = el('select');
@@ -397,6 +402,8 @@ export class StatsSheet {
   private readonly acc: HTMLDivElement;
   private readonly life: HTMLDivElement;
   private readonly lifeText: HTMLDivElement;
+  private readonly ready: { root: HTMLDivElement; set(v: number): void };
+  private readonly readyText: HTMLDivElement;
   private readonly memorySel: HTMLSelectElement;
   private readonly hatDye: HTMLSelectElement;
   private readonly scarfDye: HTMLSelectElement;
@@ -574,8 +581,13 @@ export class StatsSheet {
     // Life: the day count, slips, past lives, what the next rebirth keeps.
     this.life.hidden = isEgg;
     if (document.activeElement !== this.memorySel) this.memorySel.value = n.memory;
+    const readiness = rebirthReadiness(n, world);
+    this.ready.root.hidden = this.readyText.hidden = !!n.eternal || n.stage === 'cocoon';
+    this.ready.set(readiness);
+    this.readyText.textContent = readiness >= 1 ? TEN_TEXT.readinessYes : TEN_TEXT.readinessNo;
     const dc = dayCount(n);
     const lines = [TEN_TEXT.dayCount(dc.day, dc.of)];
+    if (inGrace(n)) lines.unshift(TEN_TEXT.graceHint);
     if (n.slips.length === 0) lines.push(TEN_TEXT.noSlips);
     else {
       const recent = n.slips.slice(-3).map((s) => TEN_TEXT.slipNames[s.kind] ?? s.kind);
