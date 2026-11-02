@@ -1,6 +1,7 @@
 import { buildShinyGlintSheet } from './shiny-glint';
 import { RADIANT_PX } from '../../config/tuning';
 import { nubbinArtId } from './stage-art';
+import { radiantColors } from './radiant-sign';
 import type { KeeperAlignment, Nubbin } from '../../sim/types';
 import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childLean, leanStep } from './child-hint';
@@ -319,7 +320,7 @@ export class SheetCache {
             n.form.band,
           );
         const adult = lookOf(
-          tone(colors),
+          tone(n.form.radiant && !look ? radiantColors(colors, n.form.band) : colors),
           n.form.type,
           n.form.second,
           { ...n.parts },

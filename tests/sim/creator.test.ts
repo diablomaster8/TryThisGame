@@ -126,7 +126,7 @@ const digiUltimate = SPECIES.find((s) => s.family === 'digi' && !s.evolve)!;
 describe('creatorGrant is exact', () => {
   // Known src bug: applyPick treats a Chao (no `evolve` rule) as `later`, so a first-form pick
   // gets form.second set and reads as the second form. Expected failure; flip to `it` on fix.
-  it.fails('Chao first form: sun/power (stays young)', () => {
+  it('Chao first form: sun/power (stays young)', () => {
     const w = open();
     const n = grant(w, { species: 'chao', stage: 'first', band: 'sun', type: 'power' });
     expect(n.species).toBe('chao');

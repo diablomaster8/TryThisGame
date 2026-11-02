@@ -120,7 +120,9 @@ export function applyPick(n: Nubbin, p: CreatorPick, world: World): void {
   // Past a stage's timer, so the natural steps do not undo the pick; a form with steps left
   // (a grown pocket species, a digital champion) still takes them on time.
   const later =
-    p.stage === 'second' || p.stage === 'radiant' || !s.evolve || s.stage === 'champion';
+    p.stage === 'second' ||
+    p.stage === 'radiant' ||
+    (s.family !== 'chao' && (!s.evolve || s.stage === 'champion'));
   n.form = {
     band,
     type,
