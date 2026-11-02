@@ -6,9 +6,12 @@
 import { writeFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { poseFor } from '../../src/render/sprites/chao';
-import { drawCreature } from '../../src/render/sprites/creature';
+import { drawCreature, type CreatureSpec } from '../../src/render/sprites/creature';
 import type { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
 import { SPECIES_ART } from '../../src/render/sprites/species-art';
+import { BEHAVIOR, GROVE3D } from '../../src/config/tuning';
+import { artSpec } from '../../src/render3d/art-species';
+import type { Prim } from '../../src/samples/sculpted';
 import { blitScaled, encodePng, solid } from '../tools/png';
 
 const QUADS = Object.keys(SPECIES_ART).filter((id) => SPECIES_ART[id]!.plan === 'quad');
@@ -58,6 +61,52 @@ describe('quad plan', () => {
           `${id} frame ${i}`,
         ).toBe(true);
       });
+    }
+  });
+});
+
+/** The lowest and highest point a prim reaches. */
+const reach = (q: Prim) => q.radii?.y ?? Math.max(q.r, q.r2 ?? 0);
+const lowY = (q: Prim) => Math.min(q.a.y, q.b?.y ?? Infinity) - reach(q);
+const highY = (q: Prim) => Math.max(q.a.y, q.b?.y ?? -Infinity) + reach(q);
+
+describe('quad tail set and gait (R0375)', () => {
+  it('sets a low tail lower than a high one, in both renderers', () => {
+    const low: CreatureSpec = { ...SPECIES_ART.nibbler!, addons: [] };
+    const high: CreatureSpec = { ...low, quad: { ...low.quad, tailSet: 'high' as const } };
+    // Pixel: in the side view the tail is the leftmost thing drawn; its top row moves down.
+    const top = (pc: PixelCanvas) => {
+      for (let x = 0; x < pc.width; x++)
+        for (let y = 0; y < pc.height; y++) if (pc.data[y * pc.width + x]) return y;
+      return -1;
+    };
+    const ph = top(drawCreature('side', poseFor('idle', 0), high));
+    const pl = top(drawCreature('side', poseFor('idle', 0), low));
+    expect(pl).toBeGreaterThan(ph);
+    // 3D: the tail part's root is lower on the body.
+    const root = (s: CreatureSpec) => artSpec('t', s).parts.find((p) => p.name === 'tail')!.pivot.y;
+    expect(root(low)).toBeLessThan(root(high));
+  });
+
+  it('keeps the feet planted at walkSpeed: every quad walks inside the gait clock range', () => {
+    // render3d/gait.ts plays the walk at walkSpeed / natural speed, between 0.35 and
+    // maxCadence; inside that range the swing matches the ground and nothing slides. The
+    // swing legs' stride is 2π · hip height · legSwing (species.ts), scaled to the figure.
+    for (const id of QUADS) {
+      const art = SPECIES_ART[id]!;
+      const s = artSpec(id, art);
+      const all = [...s.torso.prims, ...s.head.prims, ...s.parts.flatMap((p) => p.prims)];
+      const footY = Math.min(...all.map(lowY));
+      const tall = Math.max(...all.map(highY)) - footY;
+      const legs = s.parts.filter((p) => p.name.startsWith('leg'));
+      expect(legs.length, id).toBe(4);
+      const hip = legs.reduce((m, p) => m + p.pivot.y - footY, 0) / legs.length;
+      const stride = 2 * Math.PI * hip * Math.min(1, 0.55 * (s.stride?.length ?? 1));
+      const natural =
+        (stride * ((GROVE3D.nubbinHeight * art.size) / tall)) / (s.stride?.period ?? 0.8);
+      const cadence = BEHAVIOR.walkSpeed / natural;
+      expect(cadence, id).toBeGreaterThan(0.35);
+      expect(cadence, id).toBeLessThan(GROVE3D.maxCadence);
     }
   });
 });

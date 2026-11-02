@@ -6,6 +6,7 @@ import {
   drawKitBody,
   drawKitExtras,
   kitAnchors,
+  quadOf,
   type KitExtra,
   type KitPlan,
   type QuadOpts,
@@ -399,6 +400,9 @@ function drawTail(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, behind: boole
   if (behind === a.back) return;
   let x = a.back ? a.bodyCx + 1 : a.face >= 1 ? a.bodyCx - a.bodyRx - 1 : a.bodyCx + a.bodyRx - 1;
   let y = (a.plan === 'round' ? a.headCy + 2 : a.bodyCy) + 1;
+  // LOOK-06: a quad's tail leaves the rump high (a dog's, a fox's) or low (a rat's, a slowpoke's).
+  if (a.plan === 'quad')
+    y = a.bodyCy + Math.round(a.bodyRy * (quadOf(spec).tailSet === 'low' ? 0.4 : -0.5));
   // LOOK-10: a round baby's flame curls out past the big head, so it shows from the front.
   if (spec.tail === 'flame' && a.plan === 'round' && a.face < 1 && !a.back) {
     x = a.headCx + a.headRx - 2;
