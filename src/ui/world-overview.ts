@@ -47,7 +47,7 @@ export function worldOverview(
   root.append(el('h3', undefined, OVERVIEW_TEXT.title), el('p', 'help', OVERVIEW_TEXT.help));
   const found = new Set<RegionId>(regionsFound(world));
   const here = regionOf(world.location);
-  const sheet = svg('svg', { viewBox: '0 0 100 100', class: 'wm-overview-sheet', role: 'group' });
+  const sheet = svg('svg', { viewBox: '-4 -4 108 112', class: 'wm-overview-sheet', role: 'group' });
   sheet.setAttribute('aria-label', OVERVIEW_TEXT.title);
   sheet.setAttribute('style', 'width:100%;max-width:520px;display:block;margin:0 auto');
   for (const [a, b] of overviewLinks()) {
@@ -104,7 +104,7 @@ export function worldOverview(
       'font-size': '3.4',
       fill: 'currentColor',
     });
-    label.textContent = known ? WORLD_TEXT.regions[id] : OVERVIEW_TEXT.fogged;
+    label.textContent = known ? WORLD_TEXT.regions[id] : '';
     g.appendChild(label);
     if (id === here) {
       const you = svg('text', {

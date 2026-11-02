@@ -159,6 +159,8 @@ export class WorldMapPanel {
   private storyTabs: HTMLElement | null = null;
   /** R0130: the World overview is showing, not a region's page. */
   private overview = false;
+  private keepsakes: HTMLElement | null = null;
+  private centreBtn: HTMLElement | null = null;
   private zoom = 1;
   private panX = 0;
   private panY = 0;
@@ -193,6 +195,7 @@ export class WorldMapPanel {
     this.chipLayer = el('div', 'wm-chips');
     this.view.append(this.canvas, this.dotLayer, this.lines, this.keeper, this.chipLayer);
     const centre = button(WORLD_TEXT.centre, () => this.centre(), 'btn btn-small wm-centre');
+    this.centreBtn = centre;
     this.elsewhere = el('div', 'wm-elsewhere');
     this.sheet = el('div', 'wm-sheet');
     this.sheet.hidden = true;
@@ -250,6 +253,12 @@ export class WorldMapPanel {
     if (!g) return;
     this.drawTabs(g.world);
     this.drawStoryTabs(g.world);
+    // R0130: the overview shows only itself; the layers, centre button and notes step aside.
+    this.layerRow.hidden = this.overview;
+    this.layerLine.hidden = this.overview || this.layerLine.textContent === '';
+    if (this.centreBtn) this.centreBtn.hidden = this.overview;
+    this.campaign.hidden = this.overview;
+    if (this.keepsakes) this.keepsakes.hidden = this.overview;
     if (this.overview) {
       this.view.hidden = true;
       this.elsewhere.hidden = false;
@@ -347,9 +356,9 @@ export class WorldMapPanel {
       this.tabs.appendChild(b);
     }
     // R0091: the shown region's one-time collectibles.
-    const old = this.tabs.nextElementSibling;
-    if (old?.classList.contains('wm-keepsakes')) old.remove();
-    this.tabs.after(el('p', 'wm-keepsakes', keepsakeLine(w, this.tab)));
+    this.keepsakes?.remove();
+    this.keepsakes = el('p', 'wm-keepsakes', keepsakeLine(w, this.tab));
+    this.tabs.after(this.keepsakes);
   }
 
   /** Lane C r10 agent A (R0650): the questline regions' tabs, under the map's own. */
