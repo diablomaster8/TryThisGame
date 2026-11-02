@@ -65,4 +65,12 @@ export const CREATOR_TEXT = {
   full: 'The roster is full.',
   done: (name: string) => `${name} is ready.`,
   families: { chao: 'Nubbin', pocket: 'Pocket line', digi: 'Digital line' },
+  stages: {
+    egg: 'Egg',
+    child: 'Child',
+    first: 'First form',
+    second: 'Second form',
+    adult: 'Adult',
+  },
+  invalid: (why: string) => `Cannot use this pick (${why}).`,
 };
