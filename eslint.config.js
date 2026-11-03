@@ -120,5 +120,38 @@ export default tseslint.config(
       '@typescript-eslint/no-misused-promises': 'error',
     },
   },
+  {
+    // TECH-38: the art-direction galleries (samples/*-styles) are reached from main.ts only,
+    // never imported by game code, so they stay out of the play path.
+    files: [
+      'src/render/**/*.ts',
+      'src/render3d/**/*.ts',
+      'src/ui/**/*.ts',
+      'src/platform/**/*.ts',
+      'src/input/**/*.ts',
+      'src/minigames/**/*.ts',
+      'src/game.ts',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/samples/*-styles', '**/samples/contact-sheet-3d'],
+              message: 'The sample galleries are loaded by main.ts only.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // TECH-37: the project's own rule is to split a file past about 800 lines. A warning, not
+    // an error: the existing long files are listed by this rule until they are split.
+    files: ['src/**/*.ts'],
+    ignores: ['src/content/**', 'src/samples/**'],
+    rules: { 'max-lines': ['warn', { max: 800, skipBlankLines: true, skipComments: true }] },
+  },
   prettier,
 );

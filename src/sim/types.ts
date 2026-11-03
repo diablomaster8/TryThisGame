@@ -1507,6 +1507,8 @@ export type Command =
   | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence' | 'egg'; amount: number }
   // R0118 (lane D r9): force a season for checks (null goes back to the calendar)
   | { kind: 'debugSeason'; season: Season | null }
+  /** TECH-47: the World editor sets one leaf by path (sim/debug-set.ts checks the type). */
+  | { kind: 'debugSet'; path: string[]; value: unknown }
   | { kind: 'debugFillNeeds'; nubbinId: string }
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }

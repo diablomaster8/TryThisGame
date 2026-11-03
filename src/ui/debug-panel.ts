@@ -20,6 +20,7 @@ import { COMIC_SOUNDS, playSound } from '../platform/audio';
 import { battleDebugControls } from './battle-debug';
 import { buildScenario, SCENARIOS } from '../dev/scenarios';
 import { SCENARIO_TEXT } from '../config/strings-r10d3';
+import { WORLD_EDITOR_TEXT } from '../config/strings-r11d5';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -320,6 +321,27 @@ export class DebugPanel {
       ),
     );
     this.root.appendChild(scen);
+
+    // TECH-47: the World editor, loaded on first open.
+    const editorHost = el('div');
+    let closeEditor: (() => void) | null = null;
+    this.root.append(
+      button(
+        WORLD_EDITOR_TEXT.open,
+        () => {
+          if (closeEditor) {
+            closeEditor();
+            closeEditor = null;
+            return;
+          }
+          void import('./debug-world-tree').then((m) => {
+            closeEditor = m.mountWorldEditor(editorHost, () => this.game());
+          });
+        },
+        'btn btn-small',
+      ),
+      editorHost,
+    );
 
     this.root.appendChild(
       button(
