@@ -29,3 +29,27 @@ export const HILL_OUTING = {
   /** How close to the foot a walk must end for the climb to start. */
   footReach: 1.2,
 } as const;
+
+/**
+ * R0109 (WORLD-23): flying zones for a Fly partner (`sim/flight-zones.ts`). An updraft at a
+ * cliff's foot lifts the Keeper `liftLevels` terraces in `liftMs`; a glide line from a hill
+ * top's lookout carries the Keeper `perLevel` units for every level it drops, at
+ * `glideSpeed`, steering only sideways (`steer` units a second, at most `steerMax` off the
+ * line; a Learning Grove rides the line). Each zone is a hill (index into `GROVE.hills`) and
+ * an angle from its centre (degrees, atan2(dz, dx)); `fly` is the partner's least Fly level.
+ */
+export const FLIGHT_ZONES = {
+  fly: 30,
+  liftLevels: 2,
+  liftMs: 1200,
+  perLevel: 8,
+  glideSpeed: 4,
+  steer: 1.5,
+  steerMax: 4,
+  /** How near a zone's spot the Keeper must step to set it off. */
+  reach: 0.9,
+  /** Leaves swirl at a zone the renderers draw within this many units of the Keeper. */
+  showWithin: 24,
+  updrafts: [{ hill: 1, angleDeg: 30 }],
+  glides: [{ hill: 1, angleDeg: 60 }],
+} as const;

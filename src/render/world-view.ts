@@ -78,6 +78,8 @@ import { buildTapFlagSheet } from './sprites/tap-flags';
 import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
 import { KEEPER_SLOPE } from '../config/tuning-move';
 import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
+import { FLIGHT_SPOTS, keeperFlight } from '../sim/flight-zones';
+import { FLIGHT_ZONES } from '../config/tuning-r11d2';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
@@ -400,6 +402,41 @@ export class WorldView {
         h: 0.3,
         tint: this.dim,
       });
+    }
+  }
+
+  /**
+   * R0109: a swirl of three leaves over each flying zone near the Keeper (an updraft at a
+   * cliff's foot, a glide line's lookout), rising and turning; still under reduced motion.
+   */
+  private drawFlightZones(world: World, nowMs: number): void {
+    this.leafSheet ??= buildParticleSheet();
+    const sheet = this.leafSheet;
+    const rect = sheet.frames.get(frameKey('leaf', 'front', 0));
+    if (!rect) return;
+    const k = world.keeper.pos;
+    const near = FLIGHT_ZONES.showWithin;
+    const calm = this.particles.reduceMotion;
+    for (const z of FLIGHT_SPOTS) {
+      if (Math.abs(z.at.x - k.x) > near || Math.abs(z.at.z - k.z) > near) continue;
+      const base = terraceY(z.at.x, z.at.z);
+      for (let i = 0; i < 3; i++) {
+        const t = calm ? i / 3 : (nowMs / 1600 + i / 3) % 1;
+        const a = t * Math.PI * 4 + i * 2.1;
+        this.batch.draw({
+          sheet,
+          rect,
+          flip: i % 2 === 0,
+          x: z.at.x + Math.cos(a) * 0.35,
+          y: base + 0.15 + t * (z.kind === 'updraft' ? 1.6 : 0.7),
+          z: z.at.z + Math.sin(a) * 0.35,
+          mode: 'billboard',
+          w: 0.3,
+          h: 0.22,
+          opacity: calm ? 0.8 : Math.min(1, (1 - t) * 3),
+          tint: this.dim,
+        });
+      }
     }
   }
 
@@ -1512,8 +1549,9 @@ export class WorldView {
       // The silhouette through whatever stands in front, in the Keeper's trim colour; not
       // through its own carrier on a ride (R0085).
       if (!kride?.sits) batch.markXray(k.alignment === 'moon' ? KEEPER_XRAY.moon : KEEPER_XRAY.sun);
-      if (keeperGliding(world)) this.drawGlideLeaves(kx, ky, kz, yaw, nowMs);
+      if (keeperGliding(world) || keeperFlight(world)) this.drawGlideLeaves(kx, ky, kz, yaw, nowMs);
     }
+    if (this.location === 'grove') this.drawFlightZones(world, nowMs);
     const k2 = world.coop.active ? world.keeper2 : null;
     if (k2) {
       const sheet2 = this.sheets.keeper(world.coop.trainer, k2.alignment);
@@ -2182,7 +2220,7 @@ export class WorldView {
     yaw: number,
     alpha: number,
     nowMs: number,
-    shadow: (x: number, y: number, z: number, r: number) => void,
+    shadow: (x: number, y: number, z: number, r: number, at?: number) => void,
   ): void {
     // TECH-31: at most one new sheet baked a frame; a changed look may wait a frame.
     const sheet = this.sheets.forNubbin(n, true);

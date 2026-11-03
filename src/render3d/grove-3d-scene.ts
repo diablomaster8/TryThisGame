@@ -1,3 +1,5 @@
+import { FLIGHT_SPOTS } from '../sim/flight-zones';
+import { FLIGHT_ZONES } from '../config/tuning-r11d2';
 import { openSky } from '../render/cave-bands';
 import { viewportSize } from '../platform/viewport';
 import * as THREE from 'three';
@@ -1593,6 +1595,30 @@ export class Grove3dScene {
     }
   }
 
+  /** R0109: when the flying zones near the Keeper last sent up their leaves. */
+  private flightPuffAt = 0;
+  private readonly flightPuff = new THREE.Vector3();
+
+  /** R0109: a few leaves rise over each flying zone near the Keeper, now and then. */
+  private puffFlightZones(world: World): void {
+    if (this.lastMs - this.flightPuffAt < 450) return;
+    this.flightPuffAt = this.lastMs;
+    const k = world.keeper.pos;
+    const near = FLIGHT_ZONES.showWithin;
+    for (const z of FLIGHT_SPOTS) {
+      if (Math.abs(z.at.x - k.x) > near || Math.abs(z.at.z - k.z) > near) continue;
+      this.flightPuff.set(z.at.x, standHeight(z.at.x, z.at.z) + 0.2, z.at.z);
+      const rise = z.kind === 'updraft' ? 1.4 : 0.6;
+      this.bursts.burst(
+        'leaf',
+        this.flightPuff,
+        2,
+        { spread: 0.3, speed: 0.2, rise, lifeMs: 1400 },
+        this.lastMs,
+      );
+    }
+  }
+
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
     // HOT-1: the selected Nubbin sits in the clear part of the screen (the sheet's shift).
     applyViewShift(this.camera, this.viewShift);
@@ -1607,6 +1633,7 @@ export class Grove3dScene {
     this.lastWorld = world;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
+    if (home) this.puffFlightZones(world);
     this.villageSquare.update(world, home);
     this.garden.update(world, standHeight, nowMs, home);
     const run = this.location === 'dungeon' ? world.dungeon : null;
