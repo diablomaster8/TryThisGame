@@ -532,7 +532,8 @@ export function showTitle(
     menu.appendChild(backButton(() => homeMenu()));
   };
 
-  if (focusMode) mainMenu();
+  // `?slots` opens the full save list (the old first screen) for test drivers and power users.
+  if (focusMode || new URLSearchParams(location.search).has('slots')) mainMenu();
   else homeMenu();
   const section = focus.section;
   if (section) {
