@@ -95,6 +95,31 @@ export function langQuestOpens(world: World, c: CampaignState, quest: Quest): bo
   return world.timeMs >= st.sinceMs + LANG.nextQuestAfterMs && isMorning(world.timeMs);
 }
 
+/** A teach step's check: `lang:he:teach:nubbins:shalom:3` is word `he-shalom`, three Nubbins. */
+export function teachTarget(check: string | undefined): { word: string; count: number } | null {
+  const m = /^lang:(he|ja):teach:nubbins:([a-z-]+):(\d+)$/.exec(check ?? '');
+  return m ? { word: `${m[1]}-${m[2]}`, count: Number(m[3]) } : null;
+}
+
+/**
+ * R0708: the child says a word to a Nubbin. It hears it (and copies the gesture), and the
+ * Nubbin counts once toward a teach step for that word, however often it is asked.
+ */
+export function langTeach(world: World, nubbinId: string, word: string, events: SimEvent[]): void {
+  if (!world.edu || !WORDS.has(word)) return;
+  if (!world.nubbins.some((n) => n.id === nubbinId)) return;
+  const n = world.nubbins.find((x) => x.id === nubbinId)!;
+  noteWord(world, word, 'used', events);
+  const gesture = gestureFor(word);
+  if (gesture) {
+    react(n, GESTURE_FACE[gesture], world.timeMs, events);
+    events.push({ kind: 'langReact', nubbinId: n.id, word, gesture });
+  }
+  const taught = (world.edu.taught ??= {});
+  const list = (taught[word] ??= []);
+  if (!list.includes(nubbinId)) list.push(nubbinId);
+}
+
 /** A language quest's rule: nothing moves outside a Learning Grove save. */
 export function langRule(quest: Quest): StoryRule {
   const edu = (world: World): boolean => world.edu !== null;
@@ -102,18 +127,22 @@ export function langRule(quest: Quest): StoryRule {
     id: quest.id,
     opens: (w, c) => langQuestOpens(w, c, quest),
     gate: (w) => edu(w),
-    canAct: (w) => edu(w),
+    canAct: (w, _c, _st, i) => edu(w) && !teachTarget(quest.steps[i ?? -1]?.check),
     completeGate: (w) => edu(w),
     // A finished tracing game meets the step it was opened for.
-    note: (_w, _c, st, _i, cmd) => {
+    note: (w, _c, st, i, cmd) => {
       if (cmd.kind === 'langTraced' && cmd.quest === quest.id) st.acted = true;
+      // R0708: a teach step is met once enough distinct Nubbins have been taught its word.
+      const t = teachTarget(quest.steps[i]?.check);
+      if (t && cmd.kind === 'langTeach' && (w.edu?.taught?.[t.word]?.length ?? 0) >= t.count)
+        st.acted = true;
     },
     // Every other step is met by playing its own scene: the greeting, the bow and the
     // "oyasumi" are choices in it, and the Grove has no separate Say action (review
     // 2026-10-21, bug 8). Only a tracing step waits, for the tracing game.
     auto: (_w, _c, _st, i) => {
       const check = quest.steps[i]?.check;
-      return check !== undefined && !TRACE_TARGETS[check];
+      return check !== undefined && !TRACE_TARGETS[check] && !teachTarget(check);
     },
   };
 }

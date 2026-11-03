@@ -47,6 +47,7 @@ import {
 } from '../sim/types';
 import type { Game } from '../game';
 import { RideButton } from './ride-button';
+import { SayWordButton } from './say-word-button'; /* R0708 */
 import { BattleCard } from './battle-card';
 import { jobOfNubbin } from '../sim/battle/tactics/jobs';
 import { JOB_LAYER_TEXT, JOB_TEXT } from '../config/strings-tactics';
@@ -84,6 +85,7 @@ export class StatsSheet {
   private heartBtn!: HTMLButtonElement;
   /** R0085: Ride / Get down, and Cheer on (`ui/ride-button.ts`). */
   private rideBtn = new RideButton(() => this.game());
+  private sayWord = new SayWordButton(() => this.game());
   private catchBtn!: HTMLButtonElement;
   /** Lane C: the Bout card (battle stats, traits, move slots). */
   private readonly bout: BattleCard;
@@ -223,6 +225,7 @@ export class StatsSheet {
       this.heartBtn,
       this.rideBtn.ride,
       this.rideBtn.cheer,
+      this.sayWord.el,
     );
 
     // Accessories: dyed hat and scarf, glasses.
@@ -580,6 +583,7 @@ export class StatsSheet {
     this.refreshGive(world, n);
     this.bout.refresh(n);
     this.rideBtn.refresh(world, n);
+    this.sayWord.refresh(world, n.id, n.stage === 'child' || n.stage === 'adult');
 
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;

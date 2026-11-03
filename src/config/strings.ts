@@ -1035,6 +1035,8 @@ export const LANG_TEXT = {
   // The grown-up area
   grownUpTitle: 'Language words',
   grownUpHelp:
+  /** R0708: the stats-sheet button while a teach step waits. */
+  sayWord: '🔊 Say a word',
     'Heard: the word came up in a scene, or your child tapped it. Used: your child traced it or picked it in a choice.',
   heardUsed: (heard: number, used: number) => `heard ${heard} · used ${used}`,
   notMet: 'not met yet',
