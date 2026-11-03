@@ -64,7 +64,7 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
-import { crossExits } from './region-walk';
+import { clampToRegion, crossExits } from './region-walk';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepWorldHints } from './world-hints';
@@ -392,7 +392,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'moveKeeperTo':
       k.moveTarget = { x: cmd.pos.x, z: cmd.pos.z };
-      clampToWorld(k.moveTarget);
+      // R11 lane D: a drawn region has its own bounds.
+      if (!clampToRegion(world, k.moveTarget)) clampToWorld(k.moveTarget);
       k.intent = null;
       return;
     case 'keeperInput':

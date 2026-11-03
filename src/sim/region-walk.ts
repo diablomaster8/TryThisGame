@@ -142,6 +142,9 @@ interface Plan {
   target: Vec2;
   legs: Vec2[];
   atMs: number;
+  /** The closest the Keeper has come to the walk's end, and when it last got closer. */
+  best: number;
+  bestMs: number;
 }
 const plans = new WeakMap<World, Plan>();
 
@@ -157,9 +160,16 @@ function cellCentre(l: RegionLayout, i: number): Vec2 {
 /** The legs of a tap walk from `from` to `to`, string-pulled; empty when out of reach. */
 export function planRegionWalk(l: RegionLayout, from: Vec2, to: Vec2): Vec2[] {
   const s = cellAt(l, from.x, from.z);
-  const g = cellAt(l, to.x, to.z);
+  let g = cellAt(l, to.x, to.z);
   if (s < 0 || g < 0) return [];
   const walk = (ix: number, iz: number) => l.grid[iz * l.gw + ix] === 1;
+  // A tap in the trees walks to the nearest open ground instead (within a few cells).
+  let end: Vec2 = to;
+  if (l.grid[g] !== 1) {
+    g = nearestOpen(l, g);
+    if (g < 0) return [];
+    end = cellCentre(l, g);
+  }
   const path = astar(
     l.gw,
     l.gh,
@@ -175,8 +185,32 @@ export function planRegionWalk(l: RegionLayout, from: Vec2, to: Vec2): Vec2[] {
   if (!path) return [];
   const pulled = stringPull(path, l.gw, (ax, az, bx, bz) => gridLineOfSight(walk, ax, az, bx, bz));
   const legs = pulled.slice(1, -1).map((i) => cellCentre(l, i));
-  legs.push({ x: to.x, z: to.z });
+  legs.push({ x: end.x, z: end.z });
   return legs;
+}
+
+/** The nearest walkable cell to cell `i`, searching square rings out to 4 cells; -1 if none. */
+function nearestOpen(l: RegionLayout, i: number): number {
+  const ix = i % l.gw;
+  const iz = Math.floor(i / l.gw);
+  for (let r = 1; r <= 4; r++) {
+    let best = -1;
+    let bestD = Infinity;
+    for (let dz = -r; dz <= r; dz++)
+      for (let dx = -r; dx <= r; dx++) {
+        if (Math.max(Math.abs(dx), Math.abs(dz)) !== r) continue;
+        const x = ix + dx;
+        const z = iz + dz;
+        if (x < 0 || z < 0 || x >= l.gw || z >= l.gh || l.grid[z * l.gw + x] !== 1) continue;
+        const d = dx * dx + dz * dz;
+        if (d < bestD) {
+          bestD = d;
+          best = z * l.gw + x;
+        }
+      }
+    if (best >= 0) return best;
+  }
+  return -1;
 }
 
 /**
@@ -213,6 +247,8 @@ export function stepRegionWalk(world: World, dtMs: number): void {
         target: k.moveTarget,
         legs: planRegionWalk(l, k.pos, k.moveTarget),
         atMs: world.timeMs,
+        best: Infinity,
+        bestMs: world.timeMs,
       };
       plans.set(world, plan);
     }
@@ -223,7 +259,15 @@ export function stepRegionWalk(world: World, dtMs: number): void {
       plan.legs.shift();
     const next = plan.legs[0];
     const d = next ? Math.hypot(next.x - k.pos.x, next.z - k.pos.z) : 0;
-    if (!next || (plan.legs.length === 1 && d <= REGION_WALK.arrive)) {
+    const last = plan.legs[plan.legs.length - 1];
+    const left = last ? Math.hypot(last.x - k.pos.x, last.z - k.pos.z) : 0;
+    if (left < plan.best - 0.05) {
+      plan.best = left;
+      plan.bestMs = world.timeMs;
+    }
+    // Pressed against a trunk with the end just beyond it: it has got as near as it can.
+    const stalled = world.timeMs - plan.bestMs > REGION_WALK.stallMs;
+    if (!next || stalled || (plan.legs.length === 1 && d <= REGION_WALK.arrive)) {
       k.moveTarget = null;
       k.intent = null;
       plans.delete(world);
@@ -327,4 +371,16 @@ export function crossExits(world: World, events: SimEvent[]): RegionExit | null 
 /** Forget the armed exit (a load, a travel): the next step only notes where the Keeper is. */
 export function resetCrossing(world: World): void {
   inside.delete(world);
+}
+
+/** Keep a point inside the drawn region the Keeper is in; false (untouched) anywhere else. */
+export function clampToRegion(world: World, p: Vec2): boolean {
+  const id = drawnRegion(world);
+  const spec = id ? REGION_SPECS[id] : undefined;
+  if (!spec) return false;
+  const hw = spec.size.w / 2;
+  const hh = spec.size.h / 2;
+  p.x = Math.max(-hw, Math.min(hw, p.x));
+  p.z = Math.max(-hh, Math.min(hh, p.z));
+  return true;
 }

@@ -72,6 +72,10 @@ import { slotId } from './platform/storage';
 import { takeBackup, writeCheckpoint } from './platform/save-backups';
 import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
 import { playSoulSounds } from './ui/soul-sounds';
+import { playIris } from './ui/travel-iris';
+import { playSound } from './platform/audio';
+import { REGION_BORDER } from './config/tuning-r11d1';
+import { regionFar } from './render/region-host-px';
 
 /** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
 function reduce0(reduce: boolean, dtMs: number, rate: number): number {
@@ -507,6 +511,18 @@ export class Game {
   private focus: { id: string; untilMs: number } | null = null;
   /** R0107: the camera holds still until this time after a landmark is found. */
   private landmarkHoldUntil = -Infinity;
+  /** R11 lane D: a loaded border's iris is playing. */
+  private exitPending = false;
+
+  private takeExit(exit: string): void {
+    if (this.exitPending) return;
+    this.exitPending = true;
+    playSound(REGION_BORDER.stepSound);
+    playIris(() => {
+      this.exitPending = false;
+      this.send({ kind: 'travel', exit });
+    });
+  }
   private hooks: GameHooks;
 
   constructor(
@@ -960,7 +976,15 @@ export class Game {
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
-        else if (e.kind === 'travelled') {
+        // R11 lane D (WORLD-39): a loaded border: a footstep and the iris, the trip at the
+        // dark moment; arriving anywhere cuts the follow to the Keeper's new spot.
+        else if (e.kind === 'exitReached') this.takeExit(e.exit);
+        else if (e.kind === 'regionEntered') {
+          this.camera.target.x = this.world.keeper.pos.x;
+          this.camera.target.z = this.world.keeper.pos.z;
+          // WORLD-56: the pixel camera's far plane reaches across the region's diagonal.
+          regionFar(this.camera.camera, e.region);
+        } else if (e.kind === 'travelled') {
           // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
           this.camera.target.x = e.to.x;
           this.camera.target.z = e.to.z;

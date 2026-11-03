@@ -20,6 +20,8 @@ export const REGION_LAYOUT = {
   treeClear: 1.4,
   /** Half the width of a stream; the cells it crosses are water (not walkable). */
   streamHalf: 1.8,
+  /** Forest drawn past the region's edge (never walked), so the view never shows the void. */
+  edge: 12,
   /** Grass tufts per chunk on open ground (3D draws them; the pixel ground paints them). */
   tuftsPerChunk: 26,
 } as const;
@@ -29,6 +31,8 @@ export const REGION_WALK = {
   radius: 0.35,
   /** A tap target is reached within this. */
   arrive: 0.25,
+  /** A tap walk that has not got closer for this long (ms) stops where it is. */
+  stallMs: 1500,
   /** Re-plan a tap walk at most this often (ms). */
   replanMs: 600,
   /** A* bound for a 56 × 56 cell region. */
@@ -46,7 +50,7 @@ export const REGION_BORDER = {
   /** ...and its scene is built within this, so the iris only has to swap it in. */
   prebuildReach: 8,
   /** Loaded: the iris (shared with fast travel, `WORLD_TRAVEL.irisMs`) and its footstep. */
-  stepSound: 'step',
+  stepSound: 'pat',
 } as const;
 
 /** WORLD-56: coordinates. Every region is local and centred, inside this on each axis. */

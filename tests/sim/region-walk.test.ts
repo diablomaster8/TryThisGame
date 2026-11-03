@@ -51,7 +51,8 @@ describe('the Wood as a drawn region (WORLD-25)', () => {
       }
     }
     expect(n).toBe(l.trees.length);
-    expect(l.chunks.size).toBe(8 * 8);
+    // The forest margin past the edge is drawn too (12 u), so the grid runs -5..4 each way.
+    expect(l.chunks.size).toBe(10 * 10);
   });
 
   it('plans a tap walk round the trees from the gate to the Wishing Oak', () => {

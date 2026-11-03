@@ -58,6 +58,7 @@ import { CryTears } from './cry-tears';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
+import { RegionHost3d, snapShadow } from './region-host';
 import { nearestChild, occluders } from './occluders';
 import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
@@ -388,8 +389,16 @@ export class Grove3dScene {
   /** R0074: cut the camera on the next frame (a fast-travel trip). */
   private travelCut = false;
   private readonly onHidden = (): void => {
-    if (document.hidden) this.actors.pool.trim();
+    if (!document.hidden) return;
+    this.actors.pool.trim();
+    this.regions.trim(); // R11 lane D (WORLD-15): drop cached chunks beyond the live ring
   };
+  /** R11 lane D: drawn regions beyond the Grove (`region-host.ts`). */
+  readonly regions: RegionHost3d;
+  /** R11 lane D (WORLD-68): link a region's programs for the light set it is drawn in. */
+  private compileRegion(o: THREE.Object3D): Promise<unknown> {
+    return Promise.all([this.warm('plain'), this.compileAs('plain', [o])]);
+  }
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
   /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
@@ -587,6 +596,7 @@ export class Grove3dScene {
     this.dungeonFloor.userData.pick = { kind: 'ground', id: 'ground' };
     this.scene.add(this.dungeonFloor);
     this.pickables.push(this.dungeonFloor);
+    this.regions = new RegionHost3d(this.scene, (o) => this.compileRegion(o));
     this.visit = new VisitSet(this.scene, this.tex, this.pickables);
     this.story = new StorySets(this.scene, this.tex, this.pickables);
 
@@ -728,7 +738,11 @@ export class Grove3dScene {
     // An act's camp and fields are a Hollow floor under the open sky (lane B, R0147).
     const cave = (place === 'dungeon' && !openSky(this.floor)) || place === 'hollow';
     this.dungeonFloor.visible =
-      !grove && !visiting && !this.story.showing && !(place === 'dungeon' && this.floor);
+      !grove &&
+      !visiting &&
+      !this.story.showing &&
+      !(place === 'dungeon' && this.floor) &&
+      !place.startsWith('region:');
     this.actors.ground = grove ? standHeight : () => 0;
     this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
     // Underground there is no sky: a mid-tone vault, a cool fill, the torches.
@@ -1819,6 +1833,10 @@ export class Grove3dScene {
     this.props.blades.rotation.z += dt * 0.6;
     this.water.update(this.time.value, this.sky.sun, this.sky.hemi);
     this.sky.tick(this.time.value);
+    // R11 lane D: drawn regions (streamed chunks, loaded and seamless borders), and the sun's
+    // shadow box held on the Keeper and snapped to its texel grid (WORLD-56).
+    this.regions.frame(world, world.keeper.pos, this.time.value, this.reduceMotion);
+    if (!this.shedCave) snapShadow(this.sky.sun, this.camTarget);
     PARTICLE_TIME.value = this.time.value;
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
   }

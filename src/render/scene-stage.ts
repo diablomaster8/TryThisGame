@@ -94,7 +94,7 @@ export function terraceY(x: number, z: number): number {
 /** Which visiting Keepers are drawn at a location: the pixel and 3D views' shared rule. */
 export function npcHere(location: Location, trainer: string): boolean {
   if (location === 'grove') return true;
-  if (location === 'dungeon') return false;
+  if (location === 'dungeon' || location.startsWith('region:')) return false;
   if (location === 'corvin') return trainer === 'corvin' || trainer === 'ember';
   return trainer === 'nova';
 }

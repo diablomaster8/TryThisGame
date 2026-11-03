@@ -54,6 +54,7 @@ import { townUnlocks } from '../sim/town';
 import { drawVillage } from './region-village';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch, type SpriteDraw } from './sprite-batch';
+import { RegionHostPx } from './region-host-px';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
@@ -192,6 +193,8 @@ export class WorldView {
   private readonly tapPath = new TapPath();
   /** TECH-02: the ring under a held Nubbin and the ease down after a place. */
   private readonly heldRing = new HeldRing();
+  /** R11 lane D: drawn regions beyond the Grove (`region-host-px.ts`). */
+  readonly regions = new RegionHostPx();
   /** MOVE-46: the Keeper's footfalls, by surface. */
   private readonly footfall = new Footfall();
   private tufts = 0;
@@ -755,6 +758,15 @@ export class WorldView {
         this.density,
         this.daylight?.phase === 'night' || this.daylight?.phase === 'dusk',
       );
+    // R11 lane D: a drawn region beyond the Grove, and the ways into one from here.
+    if (!bare)
+      this.regions.frame(
+        world,
+        batch,
+        batch.mesh.parent,
+        this.dim,
+        this.keeperDrawPos(world, alpha),
+      );
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
@@ -1226,7 +1238,10 @@ export class WorldView {
         !bare &&
         (home
           ? item.kind !== 'notebook'
-          : !this.visiting && !underground && item.kind === 'notebook');
+          : !this.visiting &&
+            !underground &&
+            !world.location.startsWith('region:') &&
+            item.kind === 'notebook');
       if (!shownHere) continue;
       seenItems.add(item.id);
       let prev = this.items.get(item.id);

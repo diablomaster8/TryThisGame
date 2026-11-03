@@ -72,6 +72,8 @@ export interface RegionLayout {
   gw: number;
   gh: number;
   grid: Uint8Array;
+  /** Forest drawn this far past each edge (units); the ground and the chunk range include it. */
+  margin: number;
   trees: LayoutTree[];
   props: LayoutProp[];
   solids: RegionSolid[];
@@ -198,13 +200,19 @@ export function regionLayout(spec: RegionSpec): RegionLayout {
   // Trees on a jittered grid wherever the ground is not open or wet.
   const trees: LayoutTree[] = [];
   const sp = L.treeSpacing;
-  for (let z = -hh + sp / 2; z < hh; z += sp) {
-    for (let x = -hw + sp / 2; x < hw; x += sp) {
+  const M = L.edge;
+  for (let z = -hh - M + sp / 2; z < hh + M; z += sp) {
+    for (let x = -hw - M + sp / 2; x < hw + M; x += sp) {
       const tx = x + (rand() - 0.5) * 2 * L.treeJitter;
       const tz = z + (rand() - 0.5) * 2 * L.treeJitter;
       const s = 0.8 + rand() * 0.6;
       const kind = Math.floor(rand() * 3);
-      if (Math.abs(tx) > hw - 0.5 || Math.abs(tz) > hh - 0.5) continue;
+      // Past the edge: the forest goes on, never solid, never walked.
+      if (Math.abs(tx) > hw - 0.5 || Math.abs(tz) > hh - 0.5) {
+        const lane = (spec.spurs ?? []).some((s2) => toLine(tx, tz, s2, false) < L.pathHalf + 1);
+        if (!lane) trees.push({ x: tx, z: tz, s, kind, solid: false });
+        continue;
+      }
       const open = openness(spec, tx, tz, spurs);
       if (open < L.treeClear) continue;
       if (spec.stream && toLine(tx, tz, spec.stream, false) < L.streamHalf + 1) continue;
@@ -215,8 +223,11 @@ export function regionLayout(spec: RegionSpec): RegionLayout {
   const props: LayoutProp[] = (spec.micro ?? []).map((m, i) => ({ x: m.x, z: m.z, kind: i % 5 }));
   // The chunks: each tree, prop and tuft goes to the chunk it stands in.
   const size = WORLD_STREAM.chunk;
-  const cmin = { cx: Math.floor(-hw / size), cz: Math.floor(-hh / size) };
-  const cmax = { cx: Math.floor((hw - 1e-6) / size), cz: Math.floor((hh - 1e-6) / size) };
+  const cmin = { cx: Math.floor((-hw - M) / size), cz: Math.floor((-hh - M) / size) };
+  const cmax = {
+    cx: Math.floor((hw + M - 1e-6) / size),
+    cz: Math.floor((hh + M - 1e-6) / size),
+  };
   const chunks = new Map<string, LayoutChunk>();
   for (let cz = cmin.cz; cz <= cmax.cz; cz++) {
     for (let cx = cmin.cx; cx <= cmax.cx; cx++) {
@@ -244,6 +255,7 @@ export function regionLayout(spec: RegionSpec): RegionLayout {
     gw,
     gh,
     grid,
+    margin: M,
     trees,
     props,
     solids: [...(spec.solids ?? [])],
