@@ -21,3 +21,18 @@ export const OVERVIEW_NODES: Readonly<
   lane: { x: 36, y: 80, icon: '🛤️', fill: '#a06a3b' },
   village: { x: 22, y: 92, icon: '🏘️', fill: '#f29c2e' },
 };
+
+/**
+ * R0137 (WORLD-71): rain fills puddles. A Nubbin that is wandering or playing within `radius`
+ * of one splashes and gains `happinessPerMinute`, a little better than sheltering. Bonus only:
+ * nothing needs it.
+ */
+export const PUDDLES = {
+  radius: 1.6,
+  happinessPerMinute: 2.4,
+  spots: [
+    { x: 0, z: 6 },
+    { x: -4, z: 8 },
+    { x: 5, z: 15 },
+  ],
+} as const;

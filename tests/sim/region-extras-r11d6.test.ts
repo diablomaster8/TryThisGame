@@ -51,3 +51,25 @@ describe('photo spots (R0138)', () => {
     expect(ev[1]).toEqual({ kind: 'photoSpot', region: 'grove', first: false });
   });
 });
+
+describe('rain puddles (R0137)', () => {
+  it('sit on open ground, and a Nubbin in one gains happiness only in the rain', async () => {
+    const { PUDDLES } = await import('../../src/config/tuning-r11d6');
+    const { stepWeather } = await import('../../src/sim/weather');
+    const { Rng } = await import('../../src/sim/rng');
+    const w = createWorld(2, 0);
+    for (const p of PUDDLES.spots) expect(blocked({ x: p.x, z: p.z }, w, 0.5)).toBe(false);
+    const n = w.nubbins.find((x) => x.stage !== 'egg') ?? w.nubbins[0]!;
+    n.stage = 'child';
+    n.behavior.state = 'wander';
+    n.pos.x = PUDDLES.spots[0]!.x;
+    n.pos.z = PUDDLES.spots[0]!.z;
+    const before = n.needs.happiness;
+    w.weather = { kind: 'clear', untilMs: 1e12, intensity: 0 };
+    stepWeather(w, 60_000, new Rng(1), []);
+    expect(n.needs.happiness).toBe(before);
+    w.weather = { kind: 'rain', untilMs: 1e12, intensity: 1 };
+    stepWeather(w, 60_000, new Rng(1), []);
+    expect(n.needs.happiness).toBeGreaterThan(before);
+  });
+});

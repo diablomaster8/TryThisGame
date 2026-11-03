@@ -26,3 +26,12 @@ export const PHOTO_SPOT_TEXT = {
   first: '📷 A good spot for a photo. The windmill sits right in the frame.',
   again: '📷 The view is still good from here.',
 };
+
+/** R0091 (WORLD-27): what each lost postcard says, by its number in `<region>:postcard:<n>`. */
+export const POSTCARD_NOTES: Readonly<Record<string, readonly string[]>> = {
+  grove: [
+    '✉️ A postcard, soft with rain: "The sea is bigger than we thought. Save us a seat."',
+    '✉️ A postcard from the village: "Somebody ate the whole pie. We are not saying who."',
+    '✉️ An unsigned postcard: "Slow hands grow the best gardens."',
+  ],
+};
