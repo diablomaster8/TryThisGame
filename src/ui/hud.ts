@@ -2075,6 +2075,15 @@ export function mountHud(
           heldFestival = UI_TEXT.festival[e.season];
         } else if (e.kind === 'coop') {
           toast(e.active ? UI_TEXT.coopOn : UI_TEXT.coopOff);
+        } else if (e.kind === 'coopGag') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(
+            e.gag === 'spin'
+              ? UI_TEXT.coopSpin(n?.name ?? NAMES.creature)
+              : e.gag === 'avalanche'
+                ? UI_TEXT.coopAvalanche
+                : UI_TEXT.coopBow,
+          );
         } else if (e.kind === 'dyed') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.dyed(n?.name ?? NAMES.creature, e.slot));

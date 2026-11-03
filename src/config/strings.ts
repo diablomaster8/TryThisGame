@@ -823,6 +823,9 @@ export const UI_TEXT = {
   } as Record<string, string>,
   coopOn: 'A second Keeper has joined.',
   coopOff: 'The second Keeper has left.',
+  coopSpin: (name: string) => `${name} gets petted from both sides and spins with joy.`,
+  coopAvalanche: 'Two shakes, one tree, three fruit. Somebody is under it.',
+  coopBow: 'Both Keepers bow. "After you." "No, after you."',
   dyed: (name: string, slot: string) => `${name}'s ${slot} is dyed.`,
   toyPlaced: 'Toy placed.',
   photoTaken: 'Snap!',
@@ -871,6 +874,7 @@ export const EDU_TEXT = {
     shapes: 'Shapes',
     sounds: 'Sounds & rhymes',
     animals: 'Animals',
+    tracing: 'Tracing',
   },
   gameIcons: {
     colours: '🎨',
@@ -879,6 +883,7 @@ export const EDU_TEXT = {
     shapes: '🔷',
     sounds: '🎵',
     animals: '🐾',
+    tracing: '✏️',
   },
   /** The reader band's names for the three games it plays (review C, item 18). */
   readerGameNames: {
@@ -898,6 +903,7 @@ export const EDU_TEXT = {
     shapes: 'Circle, square, triangle and friends.',
     sounds: 'Animal sounds, first sounds, rhymes, claps.',
     animals: 'Names, sounds, homes and babies.',
+    tracing: 'Trace letters, numbers and your name.',
   },
   domains: {
     cognition: 'Thinking & maths',
@@ -1028,6 +1034,7 @@ export const LANG_TEXT = {
   trace: 'Trace it',
   traceTitle: 'Tracing',
   traceHelpHe: 'Hebrew goes from right to left. Start each letter on its right side.',
+  traceHelpEn: 'Follow the numbers. Start at the green dot.',
   traceHelpJa: 'Follow the numbered strokes in order, starting at the dot.',
   traceAgain: 'Nearly! Start at the dot and follow the line.',
   traceMore: 'Keep going over the letter.',

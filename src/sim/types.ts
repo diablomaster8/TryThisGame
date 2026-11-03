@@ -1619,7 +1619,7 @@ export type Command =
   | { kind: 'wearBelt'; nubbinId: string; on: boolean }
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
-  | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
+  | { kind: 'keeper2Act'; action: 'pet' | 'feed' | 'shake' }
   // MOVE-54: Keeper 2's jump, pressed and let go.
   | { kind: 'keeper2Jump'; down: boolean }
   // MOVE-55: look around from a lookout.
@@ -2034,10 +2034,12 @@ export type SimEvent =
   | { kind: 'rideSat'; nubbinId: string }
   | { kind: 'rideHopped'; nubbinId: string }
   | { kind: 'swimHint' }
-  | { kind: 'festival'; season: Season }
+  | { kind: 'festival'; season: Season; giftHat?: string }
   | { kind: 'sledding'; nubbinId: string }
   | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }
   | { kind: 'coop'; active: boolean }
+  /** R0364: a two-Keeper gag: a double-happy spin, a fruit avalanche, an "after you" bow. */
+  | { kind: 'coopGag'; gag: 'spin' | 'avalanche' | 'bow'; nubbinId?: string; treeId?: string; who: 1 | 2 }
   | { kind: 'eduStarted'; age: EduAge }
   | { kind: 'eduResult'; game: EduGameId; stars: number; sticker: boolean }
   | { kind: 'recruited'; name: string; role: TownRole; prosperity: number }
