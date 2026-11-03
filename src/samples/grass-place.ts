@@ -14,6 +14,8 @@ export interface GrassField {
   centreZ: number;
   allow: (x: number, z: number, y: number) => boolean;
   count: number;
+  /** R0132: a height multiplier at a spot (taller out on the wild ring); 1 when absent. */
+  tall?: (x: number, z: number) => number;
 }
 
 /** The two crossed passes of tufts: per pass, `count` 4×4 matrices and RGB colours. */
@@ -46,7 +48,7 @@ export function placeGrass(field: GrassField): GrassPlacement {
       p.set(x, y - 0.03, z);
       q.setFromAxisAngle(up, rnd() * Math.PI + pass * (Math.PI / 2));
       const sc = 0.7 + rnd() * 0.8;
-      s.set(sc, sc * (0.8 + rnd() * 0.5), sc);
+      s.set(sc, sc * (0.8 + rnd() * 0.5) * (field.tall ? field.tall(x, z) : 1), sc);
       m.compose(p, q, s);
       m.toArray(matrices, placed * 16);
       col.setHSL(0.26 + rnd() * 0.06, 0.55 + rnd() * 0.3, 0.42 + rnd() * 0.18);

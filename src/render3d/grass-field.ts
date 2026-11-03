@@ -30,6 +30,8 @@ export function groveGrassField(): GrassField {
     half: GROVE3D.grassHalf,
     centreZ: 0,
     count: GROVE3D.grassCount,
+    // R0132: wilder and taller out on the ring past the heart.
+    tall: (x, z) => (Math.max(Math.abs(x), Math.abs(z)) > GROVE3D.grassHeart ? 1.35 : 1),
     allow: (x, z, y) => {
       if (y > 3.5 || y < -0.2) return false;
       if (pathDistance(x, z) < GROVE3D.pathWidth + 0.3) return false;
@@ -40,6 +42,11 @@ export function groveGrassField(): GrassField {
       // Thin out over the last few units of the square, so the meadow frays into the
       // painted ground instead of stopping at a straight line. A hash of the spot, not a
       // random draw, so the same tufts are kept every time.
+      // R0132: past the heart the meadow thins to a share of its density.
+      if (Math.max(Math.abs(x), Math.abs(z)) > GROVE3D.grassHeart) {
+        const w = Math.abs(Math.sin(x * 4.1414 + z * 9.7373) * 24634.6345) % 1;
+        if (w > GROVE3D.grassWildShare) return false;
+      }
       const edge = GROVE3D.grassHalf - Math.max(Math.abs(x), Math.abs(z));
       if (edge < GRASS_FRAY) {
         const h = Math.abs(Math.sin(x * 12.9898 + z * 78.233) * 43758.5453) % 1;
