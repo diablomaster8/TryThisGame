@@ -64,3 +64,6 @@ short entry under "Logged sessions" below: the date, the audience, and the items
 ## Logged sessions
 
 None yet. One session per audience (adult; parent and child) closes R0346.
+
+Copy `docs/playtest-sessions/TEMPLATE.md` for each session; `npx tsx tests/tools/playtest-tally.ts`
+counts the sessions per audience and lists the moments that hit the scoring rule.
