@@ -480,7 +480,9 @@ export class Game {
     const w = this.world;
     const k = w.keeper;
     const F = CAMERA_FOLLOW;
-    if (w.location !== 'grove' || runFloor(w)) this.groundY = 0;
+    // R11 d7: a drawn region's terraces carry the Keeper (its y is the ground there).
+    if (w.location.startsWith('region:') && !runFloor(w)) this.groundY = k.y;
+    else if (w.location !== 'grove' || runFloor(w)) this.groundY = 0;
     else {
       // The height Pixel draws the feet at; 3D keeps its own ground under the orbit target.
       const feet =

@@ -15,6 +15,7 @@ import { keeperPutDown } from './keeper';
 import {
   drawnRegionOf,
   regionLocation,
+  exitLocked,
   REGION_SPECS,
   resetCrossing,
   seamlessOffset,
@@ -59,7 +60,7 @@ export function travelBlock(
   if (!exit) return 'no-exit';
   const to = regions[exit.to];
   if (!to.built) return 'unbuilt';
-  if (exit.unlock && !world.campaign?.flags[exit.unlock]) return 'locked';
+  if (exitLocked(world, exit)) return 'locked';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   if (exit.to === 'lane' && !(sub && TRAINERS.some((t) => `visit:${t.id}` === sub))) {
@@ -90,7 +91,11 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   if (exit.to === 'lane') visit(world, sub!.slice('visit:'.length), events);
   else if (REGION_SPECS[exit.to]) setLocation(world, regionLocation(exit.to), events);
   else setLocation(world, 'grove', events);
-  if (keep) {
+  // R11 d7: a seamless way taken from afar (not walked over the line) lands on its arrival.
+  const size = REGIONS[exit.to].size;
+  const fits =
+    keep && Math.abs(was.x + keep.x) <= size.w / 2 && Math.abs(was.z + keep.z) <= size.h / 2;
+  if (keep && fits) {
     k.pos = { x: was.x + keep.x, z: was.z + keep.z };
     if (target) k.moveTarget = { x: target.x + keep.x, z: target.z + keep.z };
   } else {

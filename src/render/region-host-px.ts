@@ -6,6 +6,7 @@ import { REGION_BORDER, REGION_CACHE, REGION_ORIGIN } from '../config/tuning-r11
 import { WORLD_STREAM } from '../config/tuning-world';
 import {
   drawnRegion,
+  EDGE_SPECS,
   layoutOf,
   REGION_SPECS,
   seamlessOffset,
@@ -44,11 +45,20 @@ export interface RegionPxModule {
   createRegionPx(l: RegionLayout): RegionPx;
   /** The arch over a loaded way in, drawn in whichever region it stands. */
   drawEntrance(batch: SpriteBatch, x: number, z: number, tint: number): void;
+  /** R11 d7: the few sprites that change with the world (a thawed door), drawn every frame. */
+  drawDynamic?(batch: SpriteBatch, world: World, tint: number): void;
 }
 
 /** Each drawn region's pixel module, loaded on first approach (a new region adds a line). */
 export const REGION_PX: Partial<Record<RegionId, () => Promise<RegionPxModule>>> = {
   wood: () => import('./region-wood'),
+  shore: () => import('./region-shore'),
+  sunlands: () => import('./region-sunmoon').then((m) => m.sun),
+  moonlands: () => import('./region-sunmoon').then((m) => m.moon),
+  ruins: () => import('./region-ruins'),
+  ridge: () => import('./region-ridge'),
+  // R11 d7: the Grove's stand-in strip, drawn only across a seamless border from a neighbour.
+  grove: () => import('./region-grove-edge'),
 };
 
 interface Live {
@@ -128,9 +138,9 @@ export class RegionHostPx {
       const cx = e.rect.x + e.rect.w / 2;
       const cz = e.rect.z + e.rect.h / 2;
       const d = Math.hypot(keeper.x - cx, keeper.z - cz);
-      if (!REGION_SPECS[e.to]) continue;
-      if (d <= REGION_BORDER.prewarmReach) this.load(e.to);
       const seam = e.kind === 'seamless';
+      if (!REGION_SPECS[e.to] && !(seam && EDGE_SPECS[e.to])) continue;
+      if (d <= REGION_BORDER.prewarmReach) this.load(e.to);
       if (d <= (seam ? REGION_BORDER.neighbourReach : REGION_BORDER.prebuildReach)) {
         want.add(e.to);
         if (seam) near.push({ id: e.to, off: seamlessOffset(e), at: e.arrive });
@@ -150,6 +160,8 @@ export class RegionHostPx {
     for (const l of this.live.values()) l.px.ground.visible = l.id === here;
     if (here) {
       const l = this.live.get(here);
+      // R11 d7: a region first drawn as a seamless neighbour still sits at that offset.
+      l?.px.ground.position.set(0, 0, 0);
       if (l) {
         this.drawRegion(l, batch, keeper, null, tint);
         // R0140: in co-op the second Keeper's ring is drawn too (ring-only: its set is not kept).
@@ -157,6 +169,7 @@ export class RegionHostPx {
         if (k2 && secondKeeperApart(keeper, k2))
           this.drawRegion(l, batch, k2, null, tint, WORLD_STREAM.rings, keeper);
       }
+      this.mods.get(here)?.drawDynamic?.(batch, world, tint);
     }
     for (const n of near) {
       const l = this.live.get(n.id);
@@ -178,8 +191,14 @@ export class RegionHostPx {
       }
       const ex = e.rect.x + e.rect.w / 2;
       const ez = e.rect.z + e.rect.h / 2;
-      // Stand it just beyond the box, on the region's edge side.
-      art.drawEntrance(batch, ex, ez + (ez < 0 ? -1.2 : 1.2), tint);
+      // Stand it just beyond the box, on the region's edge side (R11 d7: east and west too).
+      const side = Math.abs(ex) > Math.abs(ez);
+      art.drawEntrance(
+        batch,
+        side ? ex + Math.sign(ex) * 1.2 : ex,
+        side ? ez : ez + (ez < 0 ? -1.2 : 1.2),
+        tint,
+      );
     }
   }
 

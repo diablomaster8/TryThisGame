@@ -31,10 +31,22 @@ export const WOOD_GROUND: GroundLook = {
 /** Texels per world unit of the painted ground. */
 export const GROUND_PPU = 8;
 
+/**
+ * R11 d7: a region's own painting over the generic ground, before the speckle: `px`/`pz` map
+ * region units to canvas texels, `ppu` texels a unit.
+ */
+export type GroundPaint = (
+  g: CanvasRenderingContext2D,
+  px: (x: number) => number,
+  pz: (z: number) => number,
+  ppu: number,
+) => void;
+
 export function paintRegionGround(
   l: RegionLayout,
   look: GroundLook,
   dapple: boolean,
+  extra?: GroundPaint,
 ): HTMLCanvasElement {
   const ppu = GROUND_PPU;
   const M = l.margin;
@@ -94,6 +106,24 @@ export function paintRegionGround(
     for (const cr of l.spec.crossings ?? [])
       g.fillRect(px(cr.x - cr.r), pz(cr.z - 1), cr.r * 2 * ppu, 2 * ppu);
   }
+  // R11 d7: standing water (the sea, a lagoon, a lake) and the region's own painting.
+  g.fillStyle = look.water;
+  for (const b of l.spec.water ?? [])
+    g.fillRect(px(b.x - b.w / 2), pz(b.z - b.h / 2), b.w * ppu, b.h * ppu);
+  // Boardwalks and jetties: planks across their length.
+  for (const d of l.spec.decks ?? []) {
+    const x0 = px(d.x - d.w / 2);
+    const z0 = pz(d.z - d.h / 2);
+    g.fillStyle = '#9c6e3e';
+    g.fillRect(x0, z0, d.w * ppu, d.h * ppu);
+    g.fillStyle = '#7a5230';
+    const along = d.w > d.h;
+    for (let i = 0; i < (along ? d.w : d.h); i += 0.75) {
+      if (along) g.fillRect(x0 + i * ppu, z0, 1, d.h * ppu);
+      else g.fillRect(x0, z0 + i * ppu, d.w * ppu, 1);
+    }
+  }
+  extra?.(g, px, pz, ppu);
   // Grass speckle and little flowers: one small tile of lit and shaded texels, laid as a
   // pattern (a per-texel pass over the whole canvas cost a 200 ms frame on the approach).
   const tile = document.createElement('canvas');

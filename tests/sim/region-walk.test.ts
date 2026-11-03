@@ -9,11 +9,9 @@ import { regionOf } from '../../src/sim/regions';
 import {
   drawnRegion,
   planRegionWalk,
-  REGION_SPECS,
   seamlessOffset,
   standsIn,
 } from '../../src/sim/region-walk';
-import type { RegionDef } from '../../src/config/regions';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -182,40 +180,29 @@ describe('coordinates (WORLD-56)', () => {
 });
 
 describe('a seamless border between drawn regions (WORLD-39, 56)', () => {
-  it('crosses on foot without an iris and re-bases the Keeper into the neighbour', () => {
-    // A stand-in shore: the engine only needs a spec and a built flag to draw and walk it.
-    const shore = REGIONS.shore as RegionDef & { built: boolean };
-    const was = shore.built;
-    shore.built = true;
-    REGION_SPECS.shore = {
-      id: 'shore',
-      size: shore.size,
-      seed: 7,
-      path: [
-        { x: -68, z: 0 },
-        { x: 60, z: 0 },
-      ],
-      loop: false,
-      pois: [],
-    };
-    try {
-      const world = createWorld(11, 0);
-      const exit = REGIONS.grove.exits.find((e) => e.id === 'grove-marsh')!;
-      world.keeper.pos = { x: 12, z: 41 };
-      run(world, 2);
-      world.keeper.input = { x: 0, z: 1 };
-      const events = run(world, 30);
-      world.keeper.input = { x: 0, z: 0 };
-      // No iris: the step itself crossed, and the Keeper keeps its footing in shore coordinates.
-      expect(events.some((e) => e.kind === 'exitReached')).toBe(false);
-      expect(world.location).toBe('region:shore');
-      const off = seamlessOffset(exit);
-      expect(Math.abs(world.keeper.pos.x - (12 + off.x))).toBeLessThan(1);
-      expect(Math.abs(world.keeper.pos.x)).toBeLessThanOrEqual(REGION_ORIGIN.maxLocal);
-      expect(Math.abs(world.keeper.pos.z)).toBeLessThanOrEqual(REGION_ORIGIN.maxLocal);
-    } finally {
-      shore.built = was;
-      delete REGION_SPECS.shore;
-    }
+  it('crosses the marsh into the shore on foot without an iris, and back', () => {
+    // R11 d7: the shore is real now (it replaced d1's stand-in).
+    const world = createWorld(11, 0);
+    const exit = REGIONS.grove.exits.find((e) => e.id === 'grove-marsh')!;
+    world.keeper.pos = { x: 8, z: 41 };
+    run(world, 2);
+    world.keeper.input = { x: 0, z: 1 };
+    const events: SimEvent[] = [];
+    for (let i = 0; i < 40 && world.location === 'grove'; i++) run(world, 1, events);
+    world.keeper.input = { x: 0, z: 0 };
+    // No iris: the step itself crossed, and the Keeper keeps its footing in shore coordinates.
+    expect(events.some((e) => e.kind === 'exitReached')).toBe(false);
+    expect(world.location).toBe('region:shore');
+    const off = seamlessOffset(exit);
+    expect(Math.abs(world.keeper.pos.x - (8 + off.x))).toBeLessThan(1);
+    expect(Math.abs(world.keeper.pos.x)).toBeLessThanOrEqual(REGION_ORIGIN.maxLocal);
+    expect(Math.abs(world.keeper.pos.z)).toBeLessThanOrEqual(REGION_ORIGIN.maxLocal);
+    // Stop just over the line, then turn round and walk back up into the Grove.
+    world.keeper.input = { x: 0, z: -1 };
+    const back = run(world, 40);
+    world.keeper.input = { x: 0, z: 0 };
+    expect(back.some((e) => e.kind === 'exitReached')).toBe(false);
+    expect(world.location).toBe('grove');
+    expect(Math.abs(world.keeper.pos.x - 8)).toBeLessThan(1);
   });
 });

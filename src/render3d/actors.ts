@@ -1486,7 +1486,12 @@ export class Actors {
     if (this.keeperHold) this.keeperLift = 0;
     else {
       const ky = lerp(this.keeperPrevY, keeper.y, this.keeperAlpha ?? alpha);
-      this.keeperFeet = runFloor(world) ? 0 : keeperFooting(world, kp.x, kp.z, ky).y;
+      // R11 d7: in a drawn region the feet stand on its own ground (its terraces), never the Grove's.
+      this.keeperFeet = runFloor(world)
+        ? 0
+        : world.location.startsWith('region:')
+          ? this.ground(kp.x, kp.z)
+          : keeperFooting(world, kp.x, kp.z, ky).y;
       this.keeperLift = Math.max(0, ky - this.keeperFeet);
       // MOVE-65: a pond dip sinks the rig under the water and back.
       const dip = keeperDip(world);

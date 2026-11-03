@@ -6,6 +6,7 @@ import { WORLD_STREAM } from '../config/tuning-world';
 import { ActiveChunks, ChunkLRU, chunkKey, type ChunkCoord } from '../render/chunks';
 import {
   drawnRegion,
+  EDGE_SPECS,
   layoutOf,
   REGION_SPECS,
   seamlessOffset,
@@ -40,6 +41,13 @@ export interface Region3d {
   setChunks(chunks: readonly LayoutChunk[], cache: ChunkLRU<Float32Array[]>, clip: boolean): void;
   /** Per-frame motion (the dapple's drift), from the scene's clock in seconds. */
   tick(t: number, still: boolean, cam: THREE.Vector3, keeper: Vec2): void;
+  /** R11 d7: read the world for what changes with it (a door that thaws, lanterns lit). */
+  sync?(world: World): void;
+  /**
+   * R11 d7: drawn only as a seamless neighbour's edge (true) or as the region the Keeper is in:
+   * an edge leaves out its small props, its shadows and its finer dressing (fewer draws).
+   */
+  edge?(on: boolean): void;
   dispose(): void;
 }
 
@@ -52,6 +60,13 @@ export interface Region3dModule {
 /** Each drawn region's 3D module, loaded on first approach (a new region adds a line). */
 export const REGION_3D: Partial<Record<RegionId, () => Promise<Region3dModule>>> = {
   wood: () => import('./region-wood'),
+  shore: () => import('./region-shore'),
+  sunlands: () => import('./region-sunmoon').then((m) => m.sun),
+  moonlands: () => import('./region-sunmoon').then((m) => m.moon),
+  ruins: () => import('./region-ruins'),
+  ridge: () => import('./region-ridge'),
+  // R11 d7: the Grove's stand-in strip, drawn only across a seamless border from a neighbour.
+  grove: () => import('./region-grove-edge'),
 };
 
 interface Live {
@@ -178,11 +193,11 @@ export class RegionHost3d {
     if (here) want.set(here, { at: keeper, off: null, warm: true });
     const exits = here || home ? walkExitsHere(world) : [];
     for (const e of exits) {
-      if (!REGION_SPECS[e.to]) continue;
+      const seam = e.kind === 'seamless';
+      if (!REGION_SPECS[e.to] && !(seam && EDGE_SPECS[e.to])) continue;
       const cx = e.rect.x + e.rect.w / 2;
       const cz = e.rect.z + e.rect.h / 2;
       const d = Math.hypot(keeper.x - cx, keeper.z - cz);
-      const seam = e.kind === 'seamless';
       if (d > (seam ? REGION_BORDER.neighbourReach : REGION_BORDER.prewarmReach)) continue;
       const off = seamlessOffset(e);
       want.set(e.to, { at: e.arrive, off: seam ? { x: -off.x, z: -off.z } : null, warm: true });
@@ -201,6 +216,7 @@ export class RegionHost3d {
       if (id === here) {
         l.r.group.visible = true;
         l.r.group.position.set(0, 0, 0);
+        l.r.edge?.(false);
         // The active set with hysteresis (WORLD-09): refilled only when a chunk joins or leaves.
         const moved = l.chunks.update(keeper.x, keeper.z);
         // R0140: in co-op the second Keeper's ring stays drawn too.
@@ -213,12 +229,14 @@ export class RegionHost3d {
       } else if (w.off) {
         l.r.group.visible = true;
         l.r.group.position.set(w.off.x, -0.03, w.off.z);
+        l.r.edge?.(true);
         this.fill(l, w.at, REGION_BORDER.neighbourRows - 1, true);
       } else {
         l.r.group.visible = false;
         this.prewarm(l, w.at);
       }
       l.r.tick(t, still, cam, keeper);
+      l.r.sync?.(world);
     }
     this.placeArches(exits, here);
   }
@@ -236,10 +254,17 @@ export class RegionHost3d {
       let a = this.arches.get(e.id);
       if (!a) {
         a = mod.entrance().clone();
+        const ex = e.rect.x + e.rect.w / 2;
         const ez = e.rect.z + e.rect.h / 2;
-        a.position.set(e.rect.x + e.rect.w / 2, 0, ez + (ez < 0 ? -1.2 : 1.2));
-        // Open toward the region the Keeper walks out of.
-        a.rotation.y = ez < 0 ? 0 : Math.PI;
+        // R11 d7: an east or west way in stands beyond the box on that side, turned to face in.
+        if (Math.abs(ex) > Math.abs(ez)) {
+          a.position.set(ex + Math.sign(ex) * 1.2, 0, ez);
+          a.rotation.y = ex < 0 ? Math.PI / 2 : -Math.PI / 2;
+        } else {
+          a.position.set(ex, 0, ez + (ez < 0 ? -1.2 : 1.2));
+          // Open toward the region the Keeper walks out of.
+          a.rotation.y = ez < 0 ? 0 : Math.PI;
+        }
         this.arches.set(e.id, a);
         this.group.add(a);
       }

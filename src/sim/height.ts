@@ -10,6 +10,7 @@
  */
 import { JUMP, TERRACE } from '../config/tuning-sim';
 import { groveHeight, hillHeight, ledgeY, TERRACES, type Terrace } from './terrain';
+import { regionGround, regionLevel } from './region-walk';
 import type { Location, Vec2 } from './types';
 
 /** The regions with a height field today. */
@@ -19,6 +20,8 @@ function hasHeights(region: Location): boolean {
 
 /** The drawn ground's height at (x, z) in a region (0 where the region is flat). */
 export function heightAt(region: Location, x: number, z: number): number {
+  // R11 d7 (WORLD-36): a drawn region's terraces (`regionGround`; flat regions answer 0).
+  if (region.startsWith('region:')) return regionGround(region)(x, z);
   return hasHeights(region) ? groveHeight(x, z) : 0;
 }
 
@@ -38,6 +41,7 @@ export function hillAt(x: number, z: number): Terrace | null {
  * counts the level it has fully reached.
  */
 export function terraceAt(region: Location, x: number, z: number): number {
+  if (region.startsWith('region:')) return regionLevel(region, z);
   if (!hasHeights(region)) return 0;
   const t = hillAt(x, z);
   if (!t) return 0;

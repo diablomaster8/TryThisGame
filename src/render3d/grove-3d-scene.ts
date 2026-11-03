@@ -93,6 +93,7 @@ import { VillageSquare } from './village-square';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
+import { regionGround } from '../sim/region-walk';
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
@@ -805,7 +806,7 @@ export class Grove3dScene {
       !this.story.showing &&
       !(place === 'dungeon' && this.floor) &&
       !place.startsWith('region:');
-    this.actors.ground = grove ? standHeight : () => 0;
+    this.actors.ground = grove ? standHeight : regionGround(place);
     // R0094: a drawn region wears its own sky (rain, snow, fog), the Grove's sim weather aside.
     const reg = place.startsWith('region:');
     this.sky.set(hour, d, grove || reg ? weather : 'clear', this.camTarget);
@@ -1739,7 +1740,7 @@ export class Grove3dScene {
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
     // A key moment frames its Nubbin instead, and a story scene its speakers (bugs 10, 11).
-    const ground = this.location === 'grove' ? standHeight : () => 0;
+    const ground = this.location === 'grove' ? standHeight : regionGround(this.location);
     // Reduced motion: the camera cuts to where it is going instead of gliding there.
     // R0074: after a fast-travel trip the camera cuts to the new place behind the iris.
     const snap = dt === 0 || this.reduceMotion || this.travelCut;

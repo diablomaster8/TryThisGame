@@ -38,6 +38,66 @@ export interface RegionSpec {
   solids?: readonly RegionSolid[];
   /** Small props on open ground, by kind index (each renderer has its own set of looks). */
   micro?: readonly { x: number; z: number }[];
+  /** R11 d7: open areas (a beach, a terrace, a square), as boxes centred on (x, z). */
+  open?: readonly RegionBox[];
+  /** R11 d7: standing water (the sea, a lagoon, a lake): never walked, never wooded. */
+  water?: readonly RegionBox[];
+  /** R11 d7: boardwalks and jetties: walkable even over water. */
+  decks?: readonly RegionBox[];
+  /** R11 d7: the share of fill trees kept (0..1, default 1): a beach or a terrace is sparse. */
+  treeKeep?: number;
+  /**
+   * R11 d7 (WORLD-36): terraces for a vertical region, bands across z with a level each. The
+   * band edges are cliffs (not walkable) except where the main path climbs them as a ramp.
+   */
+  terraces?: readonly RegionTerrace[];
+}
+
+/** A box centred on (x, z), `w` × `h` units. */
+export interface RegionBox {
+  x: number;
+  z: number;
+  w: number;
+  h: number;
+}
+
+/** A terrace: from `z0` to `z1` (z0 < z1) the ground stands at `y`; the gap to the next is a cliff. */
+export interface RegionTerrace {
+  z0: number;
+  z1: number;
+  y: number;
+}
+
+/** Whether (x, z) is inside any of the boxes. */
+export function inBoxes(boxes: readonly RegionBox[] | undefined, x: number, z: number): boolean {
+  if (!boxes) return false;
+  for (const b of boxes)
+    if (Math.abs(x - b.x) <= b.w / 2 && Math.abs(z - b.z) <= b.h / 2) return true;
+  return false;
+}
+
+/**
+ * R11 d7: the ground's height at (x, z) in a terraced region (0 elsewhere): each terrace's own
+ * level, ramping linearly across the gap between two terraces (the cliff, or the path's ramp).
+ */
+export function terraceHeight(spec: RegionSpec, z: number): number {
+  const t = spec.terraces;
+  if (!t || t.length === 0) return 0;
+  for (let i = 0; i < t.length; i++) {
+    const a = t[i]!;
+    if (z >= a.z0 && z <= a.z1) return a.y;
+    const b = t[i + 1];
+    if (b && z > a.z1 && z < b.z0) return a.y + ((z - a.z1) / (b.z0 - a.z1)) * (b.y - a.y);
+  }
+  return z < t[0]!.z0 ? t[0]!.y : t[t.length - 1]!.y;
+}
+
+/** Whether z falls in a cliff band between two terraces. */
+function inCliff(spec: RegionSpec, z: number): boolean {
+  const t = spec.terraces;
+  if (!t) return false;
+  for (let i = 0; i + 1 < t.length; i++) if (z > t[i]!.z1 && z < t[i + 1]!.z0) return true;
+  return false;
 }
 
 /** A tree: position, scale, look (0..2) and whether its trunk is solid. */
@@ -93,6 +153,14 @@ function seeded(seed: number): () => number {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+/** A stable 0..1 roll for a spot, apart from the layout's stream (keeps the Wood unchanged). */
+function hashKeep(x: number, z: number): number {
+  let h = Math.imul((x * 100) | 0, 0x27d4eb2d) ^ Math.imul((z * 100) | 0, 0x165667b1);
+  h = Math.imul(h ^ (h >>> 15), 0x85ebca6b);
+  h ^= h >>> 13;
+  return (h >>> 0) / 4294967296;
 }
 
 /** Distance from a point to a polyline (closed when `loop`). */
@@ -155,6 +223,12 @@ export function openness(spec: RegionSpec, x: number, z: number, spurs: SpurList
     if (r > 0) d = Math.min(d, Math.hypot(x - p.x, z - p.z) - r);
   }
   for (const c of spec.crossings ?? []) d = Math.min(d, Math.hypot(x - c.x, z - c.z) - c.r);
+  // Open boxes: negative inside, the distance to the box outside.
+  for (const b of spec.open ?? []) {
+    const ex = Math.abs(x - b.x) - b.w / 2;
+    const ez = Math.abs(z - b.z) - b.h / 2;
+    d = Math.min(d, ex > 0 || ez > 0 ? Math.hypot(Math.max(ex, 0), Math.max(ez, 0)) : -1);
+  }
   return d;
 }
 
@@ -189,12 +263,16 @@ export function regionLayout(spec: RegionSpec): RegionLayout {
     for (let ix = 0; ix < gw; ix++) {
       const x = -hw + (ix + 0.5) * cell;
       const z = -hh + (iz + 0.5) * cell;
-      const open = openness(spec, x, z, spurs) <= 0;
+      let open = openness(spec, x, z, spurs) <= 0;
+      const deck = inBoxes(spec.decks, x, z);
       const wet =
-        !!spec.stream &&
-        toLine(x, z, spec.stream, false) < L.streamHalf &&
+        !deck &&
+        ((!!spec.stream && toLine(x, z, spec.stream, false) < L.streamHalf) ||
+          inBoxes(spec.water, x, z)) &&
         !(spec.crossings ?? []).some((c) => Math.hypot(x - c.x, z - c.z) < c.r);
-      grid[iz * gw + ix] = wet ? 2 : open ? 1 : 0;
+      // A cliff between terraces is walked only up the main path (its ramp).
+      if (open && inCliff(spec, z) && toLine(x, z, spec.path, spec.loop) > L.pathHalf) open = false;
+      grid[iz * gw + ix] = wet ? 2 : open || deck ? 1 : 0;
     }
   }
   // Trees on a jittered grid wherever the ground is not open or wet.
@@ -210,12 +288,20 @@ export function regionLayout(spec: RegionSpec): RegionLayout {
       // Past the edge: the forest goes on, never solid, never walked.
       if (Math.abs(tx) > hw - 0.5 || Math.abs(tz) > hh - 0.5) {
         const lane = (spec.spurs ?? []).some((s2) => toLine(tx, tz, s2, false) < L.pathHalf + 1);
-        if (!lane) trees.push({ x: tx, z: tz, s, kind, solid: false });
+        // R11 d7: no margin trees standing in the sea, and a sparse region's margin is sparse too.
+        const skip =
+          inBoxes(spec.water, tx, tz) ||
+          inBoxes(spec.open, tx, tz) ||
+          (spec.treeKeep !== undefined && hashKeep(tx, tz) > spec.treeKeep);
+        if (!lane && !skip) trees.push({ x: tx, z: tz, s, kind, solid: false });
         continue;
       }
       const open = openness(spec, tx, tz, spurs);
       if (open < L.treeClear) continue;
       if (spec.stream && toLine(tx, tz, spec.stream, false) < L.streamHalf + 1) continue;
+      if (inBoxes(spec.water, tx, tz) || inBoxes(spec.decks, tx, tz)) continue;
+      // A sparse region keeps only some of its fill (drawn after the roll, so the wood is unchanged).
+      if (spec.treeKeep !== undefined && hashKeep(tx, tz) > spec.treeKeep) continue;
       if ((spec.solids ?? []).some((b) => Math.hypot(tx - b.x, tz - b.z) < b.r + 2)) continue;
       trees.push({ x: tx, z: tz, s, kind, solid: open <= 3 });
     }
@@ -240,7 +326,8 @@ export function regionLayout(spec: RegionSpec): RegionLayout {
         if (Math.abs(x) > hw || Math.abs(z) > hh) continue;
         const o = openness(spec, x, z, spurs);
         // At the edges of open ground, where grass grows thick against the trees.
-        if (o > -0.4 && o < 2.5) tufts.push(x, z, 0.7 + r() * 0.6);
+        if (o > -0.4 && o < 2.5 && !inBoxes(spec.water, x, z) && !inBoxes(spec.decks, x, z))
+          tufts.push(x, z, 0.7 + r() * 0.6);
       }
       chunks.set(`${cx},${cz}`, { cx, cz, trees: [], props: [], tufts: new Float32Array(tufts) });
     }

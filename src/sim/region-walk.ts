@@ -16,11 +16,17 @@ import { REGIONS, type RegionExit, type RegionId } from '../config/regions';
 import {
   cellAt,
   regionLayout,
+  terraceHeight,
   type RegionLayout,
   type RegionSolid,
   type RegionSpec,
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
+import { RIDGE_SPEC } from '../config/region-ridge';
+import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
+import { SHORE_SPEC } from '../config/region-shore';
+import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
+import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
 import { REGION_WALK } from '../config/tuning-r11d1';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
@@ -30,6 +36,19 @@ import type { Location, SimEvent, Vec2, World } from './types';
 /** Every drawn region beyond the Grove. A new region joins here with its spec (see the report). */
 export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   wood: WOOD_SPEC,
+  shore: SHORE_SPEC,
+  sunlands: SUN_SPEC,
+  moonlands: MOON_SPEC,
+  ruins: RUINS_SPEC,
+  ridge: RIDGE_SPEC,
+};
+
+/**
+ * R11 d7: places drawn only as a seamless neighbour's edge, never entered as a region (the
+ * Grove has its own scene; from inside the shore the engine draws this stand-in strip of it).
+ */
+export const EDGE_SPECS: Partial<Record<RegionId, RegionSpec>> = {
+  grove: GROVE_EDGE_SPEC,
 };
 
 const PREFIX = 'region:';
@@ -50,9 +69,38 @@ export function drawnRegionOf(location: Location): RegionId | null {
   return REGION_SPECS[id] ? id : null;
 }
 
+const FLAT = (): number => 0;
+const grounds = new Map<RegionId, (x: number, z: number) => number>();
+
+/**
+ * R11 d7 (WORLD-36): the ground height under (x, z) in the drawn region a location names (its
+ * terraces), or a flat 0 anywhere else that is not the Grove. The renderers stand the Keeper
+ * and aim the cameras with it.
+ */
+export function regionGround(location: Location): (x: number, z: number) => number {
+  const id = drawnRegionOf(location);
+  const spec = id ? REGION_SPECS[id] : undefined;
+  if (!id || !spec?.terraces) return FLAT;
+  let fn = grounds.get(id);
+  if (!fn) grounds.set(id, (fn = (_x: number, z: number) => terraceHeight(spec, z)));
+  return fn;
+}
+
+/** R11 d7: which terrace a point stands on in a drawn region (0 the lowest; 0 when flat). */
+export function regionLevel(location: Location, z: number): number {
+  const id = drawnRegionOf(location);
+  const t = id ? REGION_SPECS[id]?.terraces : undefined;
+  if (!t) return 0;
+  const ys = [...new Set(t.map((x) => x.y))].sort((a, b) => a - b);
+  const y = terraceHeight(REGION_SPECS[id!]!, z);
+  let level = 0;
+  for (let i = 0; i < ys.length; i++) if (y >= ys[i]! - 1e-6) level = i;
+  return level;
+}
+
 /** The layout of a drawn region (built once). */
 export function layoutOf(id: RegionId): RegionLayout | null {
-  const spec = REGION_SPECS[id];
+  const spec = REGION_SPECS[id] ?? EDGE_SPECS[id];
   return spec ? regionLayout(spec) : null;
 }
 
@@ -259,8 +307,14 @@ export function stepRegionWalk(world: World, dtMs: number): void {
       plan.legs.shift();
     const next = plan.legs[0];
     const d = next ? Math.hypot(next.x - k.pos.x, next.z - k.pos.z) : 0;
-    const last = plan.legs[plan.legs.length - 1];
-    const left = last ? Math.hypot(last.x - k.pos.x, last.z - k.pos.z) : 0;
+    // R11 d7: progress is the walk still to go along the legs, not the straight line to the
+    // end (a switchback heads away from its end for a while without being stuck).
+    let left = d;
+    for (let i = 1; i < plan.legs.length; i++)
+      left += Math.hypot(
+        plan.legs[i]!.x - plan.legs[i - 1]!.x,
+        plan.legs[i]!.z - plan.legs[i - 1]!.z,
+      );
     if (left < plan.best - 0.05) {
       plan.best = left;
       plan.bestMs = world.timeMs;
@@ -304,7 +358,8 @@ export function stepRegionWalk(world: World, dtMs: number): void {
   const hh = l.spec.size.h / 2 - r;
   k.pos.x = Math.max(-hw, Math.min(hw, k.pos.x));
   k.pos.z = Math.max(-hh, Math.min(hh, k.pos.z));
-  k.y = 0;
+  // R11 d7 (WORLD-36): a terraced region carries the Keeper up its ramps.
+  k.y = terraceHeight(l.spec, k.pos.z);
   k.vy = 0;
   k.grounded = true;
 }
@@ -326,6 +381,21 @@ function inRect(e: RegionExit, p: Vec2): boolean {
 /** Whether an exit leads somewhere drawn that walking into it may take (not the lane or the Hollow). */
 export function walkableExit(e: RegionExit): boolean {
   return e.to === 'grove' || !!REGION_SPECS[e.to];
+}
+
+/**
+ * R11 d7: why a way out is shut now, or null: a campaign flag not yet set, the Sun or Moon
+ * lands before the first adult of that alignment unlocks them (WORLD-34), or the ruins from
+ * the Learning Grove (WORLD-37, `main` audience).
+ */
+export function exitLocked(world: World, e: RegionExit): 'locked' | null {
+  if (e.unlock && !world.campaign?.flags[e.unlock]) return 'locked';
+  if (e.to === 'sunlands' && !world.unlocks.sunGrove) return 'locked';
+  if (e.to === 'moonlands' && !world.unlocks.moonGrove) return 'locked';
+  if (e.to === 'ruins' && world.edu) return 'locked';
+  // R0115: the ruins' door stays sealed under ice until chapter 9 is behind the Keeper.
+  if (e.id === 'ruins-door' && ruinsState(world.campaign) === 'sealed') return 'locked';
+  return null;
 }
 
 /** The exits of the current region that walking can take, for the renderers' approach checks. */
@@ -362,6 +432,11 @@ export function crossExits(world: World, events: SimEvent[]): RegionExit | null 
   const was = inside.get(world);
   inside.set(world, hit ? hit.id : null);
   if (!hit || was === hit.id || was === undefined || world.ride) return null;
+  // R11 d7: a shut way says why once (the HUD toasts it) and the Keeper stays put.
+  if (exitLocked(world, hit)) {
+    events.push({ kind: 'travelRefused', exit: hit.id, reason: 'locked' });
+    return null;
+  }
   // A seamless edge is crossed by the caller at once (`travel`, which re-bases the Keeper).
   if (hit.kind === 'seamless') return hit;
   events.push({ kind: 'exitReached', exit: hit.id });
@@ -378,8 +453,9 @@ export function clampToRegion(world: World, p: Vec2): boolean {
   const id = drawnRegion(world);
   const spec = id ? REGION_SPECS[id] : undefined;
   if (!spec) return false;
-  const hw = spec.size.w / 2;
-  const hh = spec.size.h / 2;
+  // Just inside: a point on the far edge would fall past the walk grid's last cell.
+  const hw = spec.size.w / 2 - 0.01;
+  const hh = spec.size.h / 2 - 0.01;
   p.x = Math.max(-hw, Math.min(hw, p.x));
   p.z = Math.max(-hh, Math.min(hh, p.z));
   return true;
