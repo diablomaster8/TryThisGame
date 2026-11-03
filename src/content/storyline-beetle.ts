@@ -112,6 +112,19 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         },
       },
       {
+        // R0584: read from how the partner was raised; nothing is written back.
+        when: 'personality:shy',
+        scene: {
+          id: 'b-c1-shy',
+          lines: [
+            N(
+              'Your partner hangs back behind your legs, the way shy ones do, and watches the banners.',
+            ),
+            HOB('Good. The ones who watch first are the ones who spot the loose strap.'),
+          ],
+        },
+      },
+      {
         when: 'days:>=3',
         scene: {
           id: 'b-c1-ledger',
