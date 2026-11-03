@@ -11,6 +11,13 @@ export const EGG_FINISH = {
   glassChance: 0.01,
 };
 
+/** R0402: the Hollow's rare critters (a phoenix, a dragon), only from critter finds there. */
+export const RARE_CRITTER_DROP = {
+  /** The chance a critter find is a rare one, from this depth down. */
+  chance: 0.12,
+  minDepth: 2,
+};
+
 export const EGGSHELL = {
   /** How long a hatchling wears its eggshell in live play before it comes off (LOOK-26). */
   wearMs: 10 * 60_000,

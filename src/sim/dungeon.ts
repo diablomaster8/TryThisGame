@@ -1,6 +1,7 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { hashString } from './hash-string';
-import { CRITTER_SPECIES } from './critters';
+import { CRITTER_SPECIES, RARE_CRITTERS } from './critters';
+import { RARE_CRITTER_DROP } from '../config/tuning-look'; /* Lane E r11, R0402 */
 import { dayKey } from './daily';
 import { tzOf } from './local-time';
 import { createEgg, EGG_COLORS } from './nubbin';
@@ -1326,6 +1327,13 @@ function grantEgg(world: World, rng: Rng): Nubbin | null {
   return egg;
 }
 
+/** R0402: below the first floor a critter find may be a rare one (a phoenix, a dragon). */
+export function critterFind(rng: Rng, depth: number, id: string): string {
+  if (depth >= RARE_CRITTER_DROP.minDepth && rng.chance(RARE_CRITTER_DROP.chance))
+    return rng.pick(RARE_CRITTERS).id;
+  return id;
+}
+
 function takeLoot(
   world: World,
   run: DungeonRun,
@@ -1364,7 +1372,11 @@ function takeLoot(
       if (loot.param) inv.essences[loot.param] = (inv.essences[loot.param] ?? 0) + amount;
       break;
     case 'critter':
-      if (loot.param) inv.critters[loot.param] = (inv.critters[loot.param] ?? 0) + amount;
+      if (loot.param) {
+        // R0402: below the first floor a critter find may be a rare one (phoenix, dragon).
+        loot = { ...loot, param: critterFind(rng, run.depth, loot.param) };
+        inv.critters[loot.param!] = (inv.critters[loot.param!] ?? 0) + amount;
+      }
       break;
     case 'egg':
       if (!grantEgg(world, rng)) {
