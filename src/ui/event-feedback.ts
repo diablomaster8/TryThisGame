@@ -13,10 +13,8 @@ import {
   LOOKOUT_TEXT,
   NAMES,
   POND_TEXT,
-  SPECIES_LABELS,
   STORYLINE_TEXT,
   TEN_TEXT,
-  TYPE_LABELS,
   UI_TEXT,
   EDU_TEXT,
 } from '../config/strings';
