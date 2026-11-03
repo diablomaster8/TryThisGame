@@ -94,20 +94,28 @@ export function paintRegionGround(
     for (const cr of l.spec.crossings ?? [])
       g.fillRect(px(cr.x - cr.r), pz(cr.z - 1), cr.r * 2 * ppu, 2 * ppu);
   }
-  // Grass speckle and little flowers on the open ground.
-  const img = g.getImageData(0, 0, W, H);
-  const d = img.data;
-  for (let y = 0; y < H; y++)
-    for (let x = 0; x < W; x++) {
+  // Grass speckle and little flowers: one small tile of lit and shaded texels, laid as a
+  // pattern (a per-texel pass over the whole canvas cost a 200 ms frame on the approach).
+  const tile = document.createElement('canvas');
+  tile.width = tile.height = 64;
+  const tg = tile.getContext('2d')!;
+  for (let y = 0; y < 64; y++)
+    for (let x = 0; x < 64; x++) {
       const h = hash(x, y, 5);
       if (h < 0.86) continue;
-      const i = (y * W + x) * 4;
-      const f = h > 0.995 ? 1.6 : h > 0.93 ? 1.12 : 0.88;
-      d[i] = Math.min(255, d[i]! * f);
-      d[i + 1] = Math.min(255, d[i + 1]! * f);
-      d[i + 2] = Math.min(255, d[i + 2]! * (h > 0.995 ? 1.4 : f));
+      tg.fillStyle =
+        h > 0.995
+          ? 'rgba(255,240,200,0.7)'
+          : h > 0.93
+            ? 'rgba(255,255,220,0.14)'
+            : 'rgba(0,0,0,0.14)';
+      tg.fillRect(x, y, 1, 1);
     }
-  g.putImageData(img, 0, 0);
+  const pattern = g.createPattern(tile, 'repeat');
+  if (pattern) {
+    g.fillStyle = pattern;
+    g.fillRect(0, 0, W, H);
+  }
   if (dapple) {
     // The pixel view's painted dapple: pools of light under the canopy, and shade.
     g.globalAlpha = 0.16;

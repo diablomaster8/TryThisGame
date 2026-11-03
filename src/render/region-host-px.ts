@@ -64,6 +64,8 @@ export class RegionHostPx {
   private readonly live = new Map<RegionId, Live>();
   /** Sprites drawn by regions in the last frame (the debug readout). */
   drawn = 0;
+  /** Regions released so far (WORLD-15). */
+  released = 0;
 
   private load(id: RegionId): RegionPxModule | null {
     const m = this.mods.get(id);
@@ -138,6 +140,7 @@ export class RegionHostPx {
       l.px.dispose();
       l.cache.clear();
       this.live.delete(id);
+      this.released++;
     }
     if (!parent) return;
     for (const id of want) this.ensure(id, parent);
@@ -152,7 +155,8 @@ export class RegionHostPx {
       // Neighbour coordinates are ours shifted by the offset: draw them back by it.
       const off = { x: -n.off!.x, z: -n.off!.z };
       l.px.ground.visible = true;
-      l.px.ground.position.set(off.x, 0, off.z);
+      // Under the near region's own ground where the two overlap (the forest margin).
+      l.px.ground.position.set(off.x, -0.03, off.z);
       this.drawRegion(l, batch, n.at, off, tint, REGION_BORDER.neighbourRows - 1);
     }
     // The arch over each loaded way in, from the drawn region's own module.
@@ -187,9 +191,14 @@ export class RegionHostPx {
         const key = chunkKey({ cx: cx + dx, cz: cz + dz });
         const c = l.layout.chunks.get(key);
         if (!c) continue;
+        const hw = l.layout.spec.size.w / 2;
+        const hh = l.layout.spec.size.h / 2;
         for (const d of this.draws(l, key, c)) {
           d.tint = tint;
           if (off) {
+            // Across a seamless border only the neighbour's own ground is drawn, never its
+            // forest margin, which would stand inside this region.
+            if (Math.abs(d.x) > hw || Math.abs(d.z) > hh) continue;
             Object.assign(scratch, d);
             scratch.x = d.x + off.x;
             scratch.z = d.z + off.z;
@@ -200,7 +209,15 @@ export class RegionHostPx {
       }
   }
 
-  /** A hidden tab (iOS drops background tabs): keep only each region's active ring cached. */
+  /** The debug panel's region line (WORLD-15). */
+  debug(): string {
+    const parts = [...this.live.values()].map(
+      (l) => `${l.id} cache ${l.cache.size}c ${Math.round(l.cache.bytes / 1024)}kB`,
+    );
+    return `regions ${parts.join(', ') || 'none'}  sprites ${this.drawn}  released ${this.released}`;
+  }
+
+  /** A hidden tab (iOS drops background tabs): drop the chunk caches; the view rebuilds them. */
   trim(): void {
     for (const l of this.live.values()) l.cache.clear();
   }
@@ -226,3 +243,8 @@ export function regionFar(camera: THREE.OrthographicCamera, region: string): voi
   camera.far = far;
   camera.updateProjectionMatrix();
 }
+
+// Dev builds only: the Edge drivers register a stand-in region here to check a seamless border
+// live (`recs-2026-10-27/tools/r11-d1-seam.cjs`); the module instances must be the app's own.
+if (import.meta.env.DEV)
+  (globalThis as { __regionEngine?: object }).__regionEngine = { REGIONS, REGION_SPECS, REGION_PX };

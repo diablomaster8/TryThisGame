@@ -397,6 +397,11 @@ export class Grove3dScene {
   readonly regions: RegionHost3d;
   /** R11 lane D (WORLD-68): link a region's programs for the light set it is drawn in. */
   private compileRegion(o: THREE.Object3D): Promise<unknown> {
+    // Its textures go up now too, so the iris's frame uploads nothing.
+    o.traverse((m) => {
+      const map = ((m as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined)?.map;
+      if (map) this.renderer.initTexture(map);
+    });
     return Promise.all([this.warm('plain'), this.compileAs('plain', [o])]);
   }
   /** WORLD-09: the ground's index cut to the chunks in view. */

@@ -64,9 +64,3 @@ export const REGION_ORIGIN = {
 export const REGION_CACHE = {
   lruBytes: 3 * 1024 * 1024,
 } as const;
-
-/** WORLD-15: memory caps per tier, and what the debug line reads against. */
-export const REGION_MEM = {
-  phone: { gpuTexMB: 96, geometries: 350, heapMB: 180 },
-  desktop: { gpuTexMB: 384, geometries: 1200, heapMB: 600 },
-} as const;

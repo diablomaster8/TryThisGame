@@ -6,7 +6,14 @@ import { REGION_ORIGIN } from '../../src/config/tuning-r11d1';
 import { SIM } from '../../src/config/tuning';
 import { WORLD_STREAM } from '../../src/config/tuning-world';
 import { regionOf } from '../../src/sim/regions';
-import { drawnRegion, planRegionWalk, seamlessOffset, standsIn } from '../../src/sim/region-walk';
+import {
+  drawnRegion,
+  planRegionWalk,
+  REGION_SPECS,
+  seamlessOffset,
+  standsIn,
+} from '../../src/sim/region-walk';
+import type { RegionDef } from '../../src/config/regions';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -170,6 +177,45 @@ describe('coordinates (WORLD-56)', () => {
         // There and back again lands within a few units (each arrival sits just inside).
         expect(Math.hypot(a.x + b.x, a.z + b.z), e.id).toBeLessThan(8);
       }
+    }
+  });
+});
+
+describe('a seamless border between drawn regions (WORLD-39, 56)', () => {
+  it('crosses on foot without an iris and re-bases the Keeper into the neighbour', () => {
+    // A stand-in shore: the engine only needs a spec and a built flag to draw and walk it.
+    const shore = REGIONS.shore as RegionDef & { built: boolean };
+    const was = shore.built;
+    shore.built = true;
+    REGION_SPECS.shore = {
+      id: 'shore',
+      size: shore.size,
+      seed: 7,
+      path: [
+        { x: -68, z: 0 },
+        { x: 60, z: 0 },
+      ],
+      loop: false,
+      pois: [],
+    };
+    try {
+      const world = createWorld(11, 0);
+      const exit = REGIONS.grove.exits.find((e) => e.id === 'grove-marsh')!;
+      world.keeper.pos = { x: 12, z: 41 };
+      run(world, 2);
+      world.keeper.input = { x: 0, z: 1 };
+      const events = run(world, 30);
+      world.keeper.input = { x: 0, z: 0 };
+      // No iris: the step itself crossed, and the Keeper keeps its footing in shore coordinates.
+      expect(events.some((e) => e.kind === 'exitReached')).toBe(false);
+      expect(world.location).toBe('region:shore');
+      const off = seamlessOffset(exit);
+      expect(Math.abs(world.keeper.pos.x - (12 + off.x))).toBeLessThan(1);
+      expect(Math.abs(world.keeper.pos.x)).toBeLessThanOrEqual(REGION_ORIGIN.maxLocal);
+      expect(Math.abs(world.keeper.pos.z)).toBeLessThanOrEqual(REGION_ORIGIN.maxLocal);
+    } finally {
+      shore.built = was;
+      delete REGION_SPECS.shore;
     }
   });
 });

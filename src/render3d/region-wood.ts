@@ -266,9 +266,12 @@ class Wood3d implements Region3d {
   }
 
   /** One chunk's instance matrices per batch (cached by the host). */
-  private build(c: LayoutChunk): Float32Array[] {
+  private build(c: LayoutChunk, clip: boolean): Float32Array[] {
     const lists: number[][] = Array.from({ length: BATCHES }, () => []);
+    const hw = this.l.spec.size.w / 2;
+    const hh = this.l.spec.size.h / 2;
     const put = (b: number, x: number, z: number, s: number, yaw: number) => {
+      if (clip && (Math.abs(x) > hw || Math.abs(z) > hh)) return;
       tmpP.set(x, 0, z);
       tmpQ.setFromAxisAngle(UP, yaw);
       tmpS.setScalar(s);
@@ -288,13 +291,13 @@ class Wood3d implements Region3d {
     return lists.map((l) => new Float32Array(l));
   }
 
-  setChunks(chunks: readonly LayoutChunk[], cache: ChunkLRU<Float32Array[]>): void {
+  setChunks(chunks: readonly LayoutChunk[], cache: ChunkLRU<Float32Array[]>, clip: boolean): void {
     const counts = new Array<number>(BATCHES).fill(0);
     for (const c of chunks) {
-      const key = `${c.cx},${c.cz}`;
+      const key = `${c.cx},${c.cz}${clip ? 'c' : ''}`;
       let data = cache.get(key);
       if (!data) {
-        data = this.build(c);
+        data = this.build(c, clip);
         cache.set(
           key,
           data,

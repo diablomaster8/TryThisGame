@@ -31,8 +31,12 @@ import type { Vec2, World } from '../sim/types';
 
 export interface Region3d {
   readonly group: THREE.Group;
-  /** Refill the batches from these chunks (region-local; the group carries any offset). */
-  setChunks(chunks: readonly LayoutChunk[], cache: ChunkLRU<Float32Array[]>): void;
+  /**
+   * Refill the batches from these chunks (region-local; the group carries any offset). `clip`
+   * leaves out what stands past the region's own edge (its forest margin): across a seamless
+   * border that ground belongs to the near region.
+   */
+  setChunks(chunks: readonly LayoutChunk[], cache: ChunkLRU<Float32Array[]>, clip: boolean): void;
   /** Per-frame motion (the dapple's drift), from the scene's clock in seconds. */
   tick(t: number, still: boolean): void;
   dispose(): void;
@@ -141,17 +145,17 @@ export class RegionHost3d {
   }
 
   /** Fill from the chunks round `centre` within `rings` (a neighbour's edge, a prewarm). */
-  private fill(l: Live, centre: Vec2, rings: number = WORLD_STREAM.rings): void {
+  private fill(l: Live, centre: Vec2, rings: number = WORLD_STREAM.rings, clip = false): void {
     const cx = Math.floor(centre.x / WORLD_STREAM.chunk);
     const cz = Math.floor(centre.z / WORLD_STREAM.chunk);
     const coords: ChunkCoord[] = [];
     for (let dz = -rings; dz <= rings; dz++)
       for (let dx = -rings; dx <= rings; dx++) coords.push({ cx: cx + dx, cz: cz + dz });
-    this.fillFrom(l, coords);
+    this.fillFrom(l, coords, clip);
   }
 
-  private fillFrom(l: Live, coords: readonly ChunkCoord[]): void {
-    const key = coords.map(chunkKey).sort().join('|');
+  private fillFrom(l: Live, coords: readonly ChunkCoord[], clip = false): void {
+    const key = coords.map(chunkKey).sort().join('|') + (clip ? '|clip' : '');
     if (key === l.key) return;
     l.key = key;
     const list: LayoutChunk[] = [];
@@ -160,7 +164,7 @@ export class RegionHost3d {
       if (ch) list.push(ch);
     }
     this.drawnChunks = list.length;
-    l.r.setChunks(list, l.cache);
+    l.r.setChunks(list, l.cache, clip);
   }
 
   /** Call once a frame: what the Keeper's place needs, built, shown, filled or released. */
@@ -200,8 +204,8 @@ export class RegionHost3d {
           this.fillFrom(l, l.chunks.list());
       } else if (w.off) {
         l.r.group.visible = true;
-        l.r.group.position.set(w.off.x, 0, w.off.z);
-        this.fill(l, w.at, REGION_BORDER.neighbourRows - 1);
+        l.r.group.position.set(w.off.x, -0.03, w.off.z);
+        this.fill(l, w.at, REGION_BORDER.neighbourRows - 1, true);
       } else {
         l.r.group.visible = false;
         this.prewarm(l, w.at);
@@ -236,7 +240,17 @@ export class RegionHost3d {
     for (const [id, a] of this.arches) a.visible = shown.has(id);
   }
 
-  /** A hidden tab (iOS drops background tabs): drop every cached chunk beyond the live ring. */
+  /** The debug panel's region line (WORLD-15): what is live, its chunks and cache, releases. */
+  debug(): string {
+    const parts = [...this.live.values()].map(
+      (l) =>
+        `${l.id}${l.r.group.visible ? '' : ' (built)'} ${l.warm === 'yes' ? 'linked ' : ''}` +
+        `cache ${l.cache.size}c ${Math.round(l.cache.bytes / 1024)}kB`,
+    );
+    return `regions ${parts.join(', ') || 'none'}  chunks ${this.drawnChunks}  released ${this.released}`;
+  }
+
+  /** A hidden tab (iOS drops background tabs): drop the chunk caches; the batches keep the live ring. */
   trim(): void {
     for (const l of this.live.values()) l.cache.clear();
   }
@@ -280,3 +294,6 @@ export function snapShadow(sun: THREE.DirectionalLight, focus: THREE.Vector3): v
   sun.position.copy(t).add(off);
   sun.target.updateMatrixWorld();
 }
+
+if (import.meta.env.DEV)
+  (globalThis as { __regionEngine3d?: object }).__regionEngine3d = { REGION_3D };
