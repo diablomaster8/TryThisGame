@@ -331,7 +331,19 @@ export const EDU_MASTERY = {
  * limits a place to one band. Names and spoken words are `EDU_PLACES_TEXT` (strings-kids).
  */
 export type EduPlaceId =
-  'book' | 'collection' | 'decorate' | 'photo' | 'playFight' | 'kindergarten' | 'map' | 'beetle';
+  | 'book'
+  | 'collection'
+  | 'decorate'
+  | 'photo'
+  | 'playFight'
+  | 'kindergarten'
+  | 'map'
+  | 'beetle'
+  | 'funRun'
+  | 'shellDash'
+  | 'glowCave'
+  | 'atlas'
+  | 'arcade';
 
 export const PLACES_EDU: ReadonlyArray<{
   id: EduPlaceId;
@@ -347,6 +359,13 @@ export const PLACES_EDU: ReadonlyArray<{
   { id: 'kindergarten', icon: '🏫', on: false },
   { id: 'map', icon: '🗺', on: false },
   { id: 'beetle', icon: '🪲', on: false },
+  // R0688-R0690: the kid-safe race, dash and cave; R0687: Nova's Atlas and the Arcade, off
+  // until a grown-up opens each world (the Arcade is for readers).
+  { id: 'funRun', icon: '🏁', on: true },
+  { id: 'shellDash', icon: '🐚', on: true },
+  { id: 'glowCave', icon: '🍄', on: true },
+  { id: 'atlas', icon: '🌍', on: false },
+  { id: 'arcade', icon: '🕹', on: false, band: 'reader' },
 ];
 
 /** R0713 (KIDS-45): the age-4 Animals round mix: name it, who says it, where it lives. */

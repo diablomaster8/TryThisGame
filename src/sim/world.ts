@@ -85,6 +85,8 @@ import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from '
 import { chooseCastHome } from './line-rewards';
 import { eduNotice } from './edu-notice';
 import { langStart, langTeach, langTraced, noteWord, srsAnswer } from './lang';
+import { funRunDone } from './fun-run';
+import { glowSolve } from './dungeon-glow';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
 import { lookAround } from './lookout';
@@ -1129,6 +1131,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetAge':
       eduSetAge(world, cmd.age, cmd.resetGames);
+      return;
+    case 'glowSolve':
+      glowSolve(world, cmd.depth, events);
+      return;
+    case 'funRunDone':
+      funRunDone(world, cmd.nubbinId);
       return;
     /* Lane E r10, R0735 */
     case 'eduSetReaderAge':

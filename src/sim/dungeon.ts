@@ -89,6 +89,8 @@ import { noteDailyDepth, noteLevelDone, notePickup, noteTripEnd } from './dungeo
 // Lane B r9 (helper d): kid mode, raised shelves, authored story floors.
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { gentleFloor, hollowKid } from './dungeon-kid';
+import { glowBlocks, glowFollow, glowSticker } from './dungeon-glow';
+import { GLOW_CAVE } from '../config/tuning-kids';
 import { stepKidBerries } from './dungeon-kid-play';
 import { raiseShelves, type Shelf } from './dungeon-shelves';
 import type { Hop } from './dungeon-hops';
@@ -1076,6 +1078,8 @@ export function enterDungeon(
     ...(story ? { story: true as const } : {}),
     // R0188: kid mode (story floors are the story's own).
     ...(!story && hollowKid(world) ? { kid: true as const } : {}),
+    // R0690: a sprout's cave is the Glow Cave (short, lit, nothing snatched, a puzzle a floor).
+    ...(!story && world.edu?.band === 'sprout' ? { glow: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
     // R0185 (round 9): today's shared Hollow is a fixed act chain, the same for everyone.
     ...(daily ? { dailyAct: dailyActOf(today.seed) } : {}),
@@ -1272,6 +1276,8 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
   world.keeper.moveTarget = null;
   // Camps, fields and side caves have their own ways in and out (R0147, R0152).
   if ((pending === 'up' || pending === 'down') && zoneStairs(world, run, pending, events)) return;
+  // R0690: the Glow Cave's way down and its chest wait for the floor's puzzle.
+  if ((pending === 'down' || pending === 'chest') && glowBlocks(run, pending)) return;
   if (pending === 'up') {
     // Inside an act the stairs up climb a level; from its top they lead home.
     if (run.act !== undefined && !run.story && run.depth > actStartDepth(run.act))
@@ -1294,6 +1300,7 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     const egg = rng.chance(DUNGEON.chestEggChance + run.depth * 0.03) && hasRoom(world);
     if (egg) grantEgg(world, rng);
     events.push({ kind: 'chestOpened', shells, egg });
+    glowSticker(world, run, events);
   } else if (pending?.startsWith('stray:')) {
     const s = run.strays.find((x) => x.id === pending.slice('stray:'.length));
     if (!s || world.inventory.fruit < 1) return;
@@ -1486,7 +1493,17 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     const fleeing = s.cooldownMs > 0;
     // R0281: a stray that bumped the Keeper holds still and asks before it snatches.
     const touching =
-      !fleeing && maySnatch(s, settling) && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0;
+      !fleeing &&
+      !run.glow &&
+      maySnatch(s, settling) &&
+      dist(s.pos, k.pos) < 0.9 &&
+      world.inventory.shells > 0;
+    // R0690: a shy glowbug follows the Keeper and waits for a fruit; it never takes anything.
+    if (run.glow) {
+      glowFollow(s.pos, k.pos, DUNGEON.straySpeed, dt, GLOW_CAVE.followDistance * DUNGEON.cell);
+      resolveDungeon(s.pos, f, 0.3, 'all');
+      continue;
+    }
     if (stepStrayAsk(world, run, s, touching, dtMs, events)) continue;
     if (s.cooldownMs > 0 && !fleeing) {
       // It just snatched after asking: off it runs.

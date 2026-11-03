@@ -9,7 +9,16 @@ describe('R0680 (KIDS-12) Places menu', () => {
     const w = createWorld(1, 0);
     applyCommand(w, { kind: 'eduStart', age: 4 }, []);
     const open = openPlaces(w.edu!);
-    expect(open).toEqual(['book', 'collection', 'decorate', 'photo', 'playFight']);
+    expect(open).toEqual([
+      'book',
+      'collection',
+      'decorate',
+      'photo',
+      'playFight',
+      'funRun',
+      'shellDash',
+      'glowCave',
+    ]);
     for (const p of PLACES_EDU) {
       expect(p.icon.length).toBeGreaterThan(0);
       expect(EDU_PLACES_TEXT.names[p.id].length).toBeGreaterThan(0);

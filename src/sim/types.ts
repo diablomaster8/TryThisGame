@@ -779,6 +779,10 @@ export interface EduState {
   srsDay?: number;
   srsKey?: string;
   /** The language courses the child has started from Nova's postcard. */
+  /** R0688: Fun Run ribbons earned (one per finished run; no placings, no tiers). */
+  ribbons?: number;
+  /** R0690: cave stickers found in Glow Cave chests. */
+  caveStickers?: number;
   courses: Record<LangCourseId, boolean>;
 }
 
@@ -1037,6 +1041,9 @@ export interface DungeonRun {
   kid?: true;
   /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
   flyLiftDepth?: number;
+  /** R0690: a sprout's Glow Cave run, and the floors whose puzzle is solved. */
+  glow?: true;
+  glowSolved?: number[];
   /** Lane B r10 (R0191): the depth where a flying party Nubbin already carried the Keeper over a pit. */
   flyCarryDepth?: number;
   // Lane B round 9 (helper c).
@@ -1719,6 +1726,8 @@ export type Command =
   /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
   | { kind: 'eduNotice'; item: string }
   /** Lane E r10, R0679: the sprout tutorial was said (once per Grove). */
+  | { kind: 'funRunDone'; nubbinId: string }
+  | { kind: 'glowSolve'; depth: number }
   | { kind: 'eduTutorialSaid' }
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
@@ -2132,6 +2141,8 @@ export type SimEvent =
       param: string | null;
       /** The party Nubbin that found it, or null for the Keeper. */
       by: string | null;
+  | { kind: 'glowSolved'; depth: number }
+  | { kind: 'glowSticker'; count: number }
     }
   | { kind: 'chestOpened'; shells: number; egg: boolean }
   | { kind: 'strayFed'; ok: boolean; name: string | null; pos?: { x: number; z: number } }

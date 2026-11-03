@@ -50,3 +50,39 @@ export const EDU_TRACE = {
   /** A short buzz on an accepted stroke, where the device has one. */
   vibrateMs: 15,
 } as const;
+
+/** R0688 (KIDS-20): the Learning Grove's "Fun Run": one short friendly course, no placings. */
+export const FUN_RUN = {
+  /** Rivals: the child's other Nubbins first, then Fern's, up to this many. */
+  rivals: 3,
+  /** The course: swim, run, fly, one short stretch each. */
+  sections: [
+    { kind: 'swim', length: 9 },
+    { kind: 'run', length: 11 },
+    { kind: 'fly', length: 8 },
+  ] as const,
+  /** Rivals' stat levels sit within this many levels of the runner's, so the field is close. */
+  rivalSpread: 6,
+  /** The spoken count at the start, one step each, and the gap between steps (ms). */
+  countSteps: 4,
+  countGapMs: 900,
+  /** The cheer button's side in px (a 📣 big enough for a small hand). */
+  cheerPx: 96,
+  /** Fern's rivals when the child has too few Nubbins of their own. */
+  fernNames: ['Fern’s Moss', 'Fern’s Dot', 'Fern’s Bean'] as const,
+} as const;
+
+/** R0690 (KIDS-22): the sprout's "Glow Cave": the Hollow kept short, lit and gentle. */
+export const GLOW_CAVE = {
+  /** The cave has at most this many floors; the chest is on the last. */
+  floors: 3,
+  /** Floors are always at least this lit (glowing mushrooms), 0..1. */
+  minLight: 0.9,
+  /** The red-gem puzzle: how many to tap, and how many decoys sit among them. */
+  gems: { red: 4, decoys: 5 },
+  /** The door puzzle: the shapes it may ask for, and how many pictures to pick from. */
+  shapes: ['circle', 'square', 'triangle', 'star'] as const,
+  doorOptions: 3,
+  /** A glowbug keeps this far from the Keeper (cells) and drifts up to it slowly. */
+  followDistance: 1.6,
+} as const;

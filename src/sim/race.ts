@@ -201,6 +201,8 @@ export interface RaceState {
   finished: boolean;
   /** Final placements by racer id once finished. */
   placements: string[];
+  /** R0688: the Learning Grove's Fun Run: no prize tiers, no placings shown, a ribbon for all. */
+  friendly?: boolean;
 }
 
 function levelsOf(n: Nubbin): Record<StatKey, number> {

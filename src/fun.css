@@ -932,3 +932,14 @@ body.line-shake-big #app {
   margin: 2px 0 -4px;
   font-size: 0.8rem;
 }
+
+/* R0688: the Fun Run's cheer is a big round 📣 a small hand cannot miss. */
+.race .cheer.cheer-big {
+  width: var(--cheer-px, 96px);
+  height: var(--cheer-px, 96px);
+  min-width: var(--cheer-px, 96px);
+  border-radius: 50%;
+  font-size: 44px;
+  line-height: 1;
+  padding: 0;
+}

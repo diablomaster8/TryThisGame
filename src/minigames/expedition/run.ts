@@ -58,6 +58,12 @@ export interface RunState {
   } | null;
   /** R0324 (FUN-35): what the results card's superlative is made from. */
   fun: RunFun;
+  /** R0689: the sprout's Shell Dash: gentle bumps, no hold, counted aloud. */
+  kid: boolean;
+  durationMs: number;
+  /** R0689: Shell totals (5, 10, 15 ...) reached and not yet said aloud; the screen drains it. */
+  calls: number[];
+  nextCall: number;
 }
 
 /** R0324: run stats for the results card's one silly superlative. */
@@ -76,8 +82,12 @@ export interface RunFun {
 export const RUNNER_W = 20;
 export const RUNNER_H = 26;
 
-export function createRun(seed: number): RunState {
+export function createRun(seed: number, kid = false): RunState {
   return {
+    kid,
+    durationMs: kid ? EXPEDITION.kid.durationMs : EXPEDITION.durationMs,
+    calls: [],
+    nextCall: EXPEDITION.kid.countEvery,
     rng: Rng.fromSeed(seed),
     timeMs: 0,
     distance: 0,
@@ -110,7 +120,8 @@ export function createRun(seed: number): RunState {
 
 export function jumpPressed(run: RunState): void {
   if (run.finished) return;
-  run.holding = true;
+  // R0689: a sprout's jump is one height; holding does nothing.
+  run.holding = !run.kid;
   if (run.onGround) {
     run.onGround = false;
     run.runnerVy = -EXPEDITION.jumpVelocity;
@@ -143,7 +154,7 @@ function spawnPattern(run: RunState, x: number): void {
   };
   const ground = EXPEDITION.groundY;
 
-  if (roll < EXPEDITION.obstacleChance) {
+  if (roll < (run.kid ? EXPEDITION.kid.obstacleChance : EXPEDITION.obstacleChance)) {
     // An obstacle with a few shells arcing over it.
     const kind: ThingKind = rng.pick(['rock', 'log', 'bush']);
     const w = kind === 'log' ? 34 : 18;
@@ -228,6 +239,11 @@ export function stepRun(run: RunState, dtMs: number): void {
         t.taken = true;
         run.shells += EXPEDITION.shellValue;
         run.lastEvent = { kind: 'shell', atMs: run.timeMs };
+        // R0689: "5! 10! 15!" for a child who is counting along.
+        while (run.kid && run.shells >= run.nextCall) {
+          run.calls.push(run.nextCall);
+          run.nextCall += EXPEDITION.kid.countEvery;
+        }
         break;
       case 'essence':
         t.taken = true;
@@ -248,7 +264,14 @@ export function stepRun(run: RunState, dtMs: number): void {
         break;
       default:
         // Obstacles cost Shells but never end the run.
-        if (run.hitCooldownMs <= 0) {
+        if (run.hitCooldownMs <= 0 && run.kid) {
+          // R0689: a gentle bounce, and nothing lost.
+          run.hits += 1;
+          run.hitCooldownMs = EXPEDITION.kid.hitCooldownMs;
+          run.onGround = false;
+          run.runnerVy = -EXPEDITION.kid.bounceVelocity;
+          run.lastEvent = { kind: 'hit', atMs: run.timeMs, thing: t.kind, dropped: 0 };
+        } else if (run.hitCooldownMs <= 0) {
           run.hits += 1;
           const dropped = Math.min(run.shells, EXPEDITION.obstaclePenalty);
           run.shells -= dropped;
@@ -269,12 +292,12 @@ export function stepRun(run: RunState, dtMs: number): void {
 
   // The rewards always hold the Shells so far, so quitting early keeps them like the rest.
   run.rewards.shells = run.shells;
-  if (run.timeMs >= EXPEDITION.durationMs) run.finished = true;
+  if (run.timeMs >= run.durationMs) run.finished = true;
 }
 
 /** Progress 0..1 for the HUD bar. */
 export function progressOf(run: RunState): number {
-  return Math.min(1, run.timeMs / EXPEDITION.durationMs);
+  return Math.min(1, run.timeMs / run.durationMs);
 }
 
 /**

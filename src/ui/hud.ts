@@ -147,6 +147,7 @@ import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { LimitCard, syncKidsLock } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
+import { GlowCave } from './glow-cave';
 import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
@@ -464,6 +465,18 @@ export function mountHud(
     return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
   }
 
+  /** R0687 / R0690: the Learning Grove's places that open existing screens. */
+  const openEduAtlas = (): void => atlas.open();
+  const openEduArcade = (): void => cabinet.open();
+  const openGlowCave = (): void => dungeon.open();
+
+  function startFunRun(): void {
+    const g = game();
+    if (!g || races.screen.isOpen) return;
+    sheet.close();
+    races.funRun();
+  }
+
   function startExpedition(): void {
     const g = game();
     if (!g || expedition.isOpen) return;
@@ -487,6 +500,16 @@ export function mountHud(
       g.world.location === 'hollow' || g.world.campaign?.chapter === 8 ? 'hollow' : 'meadow',
       g.graphics,
       g.scene3d,
+      // R0689: a sprout's run is Shell Dash (30 s, gentle bumps, counted aloud); readers keep
+      // the normal Expedition.
+      g.world.edu?.band === 'sprout'
+        ? {
+            kid: true,
+            speak: (t) => {
+              if (game()?.world.edu?.readAloud) speakLine(t);
+            },
+          }
+        : {},
     );
   }
 
@@ -675,6 +698,8 @@ export function mountHud(
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // R0690: the Glow Cave's floor puzzle for a sprout.
+  const glowCave = new GlowCave(root, game);
   // Lane B r8: the boss scroll (R0207) waits for the boss celebration to close.
   dungeon.scrollBusy = () => celebration.isOpen;
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
@@ -840,6 +865,11 @@ export function mountHud(
       kindergarten: () => kindergarten.open(),
       map: () => map.open(),
       beetle: () => startTank(),
+      shellDash: () => startExpedition(),
+      funRun: () => startFunRun(),
+      glowCave: () => openGlowCave(),
+      atlas: () => openEduAtlas(),
+      arcade: () => openEduArcade(),
     },
     () => grownUps.open(),
   );
@@ -1238,6 +1268,7 @@ export function mountHud(
       const isEdu = !!g.world.edu;
       racesBtn.hidden = isEdu;
       dungeon.refresh(g.world);
+      glowCave.refresh();
       expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
       expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
       setActionGlyph(expeditionBtn, isEdu ? '🎓' : '🧭');

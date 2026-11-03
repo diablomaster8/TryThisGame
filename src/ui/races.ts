@@ -7,6 +7,8 @@ import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 import { byteFooter } from './fun-toasts';
 import { nextTip } from './tips';
+import { createFunRun, funRunTip } from '../sim/fun-run';
+import { speakLine } from './lesson';
 
 /** Pick a course and tier, then run the race with the selected (or first grown) Nubbin. */
 export class RacesMenu {
@@ -66,6 +68,43 @@ export class RacesMenu {
       row.append(text, tiers);
       this.list.appendChild(row);
     }
+  }
+
+  /**
+   * R0688: the Learning Grove's Fun Run, from Places. One short course, three friendly rivals
+   * (the child's other Nubbins, then Fern's), no placings, a ribbon for everyone. It reports
+   * `funRunDone` only (never `raceResult`), so no tier is touched.
+   */
+  funRun(): void {
+    const g = this.game();
+    if (!g?.world.edu) return;
+    const runner = this.runnerPick();
+    if (!runner) {
+      this.toast(UI_TEXT.expeditionNeedsNubbin);
+      return;
+    }
+    const race = createFunRun(g.world, runner, raceSeedFor(g.world, 'funrun', 1));
+    g.renderPaused = true;
+    const sheets = g.view.sheets;
+    this.screen.footer = [];
+    this.screen.tip = '';
+    this.screen.friendlyTip = funRunTip(race);
+    this.screen.friendlySpeak = (t) => {
+      if (this.game()?.world.edu?.readAloud) speakLine(t);
+    };
+    this.screen.start(
+      race,
+      runner,
+      sheets.forNubbin(runner),
+      sheets,
+      1,
+      () => {
+        g.renderPaused = false;
+        if (race.finished) g.send({ kind: 'funRunDone', nubbinId: runner.id });
+      },
+      g.graphics,
+      g.scene3d,
+    );
   }
 
   private startRace(courseId: string, tier: number): void {
