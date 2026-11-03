@@ -744,8 +744,60 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
     case 'word':
       box.appendChild(el('span', 'edu-read', o.word));
       break;
+    case 'clock':
+      box.appendChild(clockSvg(o.h, o.m));
+      break;
   }
   return box;
+}
+
+/** R0716: an analogue clock face showing h:m. */
+function clockSvg(h: number, m: number): SVGSVGElement {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  svg.classList.add('edu-clock');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'A clock');
+  const add = (tag: string, attrs: Record<string, string>): void => {
+    const n = document.createElementNS(ns, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    svg.appendChild(n);
+  };
+  add('circle', {
+    cx: '50',
+    cy: '50',
+    r: '46',
+    fill: '#fffaf0',
+    stroke: '#1b1326',
+    'stroke-width': '4',
+  });
+  for (let i = 1; i <= 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', String(50 + Math.sin(a) * 36));
+    t.setAttribute('y', String(54 - Math.cos(a) * 36));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('font-size', '11');
+    t.setAttribute('fill', '#1b1326');
+    t.textContent = String(i);
+    svg.appendChild(t);
+  }
+  const hand = (turns: number, len: number, w: number): void => {
+    const a = turns * Math.PI * 2;
+    add('line', {
+      x1: '50',
+      y1: '50',
+      x2: String(50 + Math.sin(a) * len),
+      y2: String(50 - Math.cos(a) * len),
+      stroke: '#1b1326',
+      'stroke-width': String(w),
+      'stroke-linecap': 'round',
+    });
+  };
+  hand(((h % 12) + m / 60) / 12, 22, 5);
+  hand(m / 60, 33, 3);
+  return svg;
 }
 
 function shapeSvg(shape: string): SVGSVGElement {

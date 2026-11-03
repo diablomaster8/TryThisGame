@@ -39,7 +39,9 @@ export type EduOption =
   | { kind: 'sum'; icon: string; a: number; b: number }
   | { kind: 'picture'; icon: string; label: string }
   /** A whole word to read, for the reader band. */
-  | { kind: 'word'; word: string };
+  | { kind: 'word'; word: string }
+  /** R0716: an analogue clock face for the reader's telling-the-time round. */
+  | { kind: 'clock'; h: number; m: number };
 
 export interface EduRound {
   game: EduGameId;

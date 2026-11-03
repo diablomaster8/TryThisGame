@@ -1,3 +1,4 @@
+import { EDU_SHOP_PRICES, EDU_SPELL_TIERS, patternErrors } from '../../config/edu-reader';
 import { EDU_READER_RHYMES, EDU_READER_WORDS, wordClip } from '../../config/edu';
 import type { Rng } from '../../sim/rng';
 import { pickDistinct, shuffleWithAnswer, type EduOption, type EduRound } from './games';
@@ -20,7 +21,90 @@ function numberOptions(rng: Rng, right: number): { options: EduOption[]; answer:
   return shuffleWithAnswer(rng, mkN(right), wrong.map(mkN));
 }
 
+/** R0716: place value, telling the time, money in Shells and simple fractions. */
+export function readerMathsRound(rng: Rng): EduRound {
+  const kind = rng.int(0, 3);
+  if (kind === 0) {
+    const digits = [rng.int(1, 9), rng.int(0, 9), rng.int(1, 9)];
+    const at = rng.int(0, 2);
+    const mult = [100, 10, 1][at]!;
+    const place = ['hundreds', 'tens', 'ones'][at]!;
+    const n = digits[0]! * 100 + digits[1]! * 10 + digits[2]!;
+    const d = digits[at]! || 1;
+    if (digits[at] === 0) digits[at] = 1;
+    const num = digits[0]! * 100 + digits[1]! * 10 + digits[2]!;
+    void n;
+    return {
+      game: 'counting',
+      prompt: `In ${num}, what is the value of the ${d} in the ${place} place?`,
+      cue: null,
+      ...valueOptions(rng, d * mult),
+      teach: `The ${d} is in the ${place} place, so it is worth ${d * mult}.`,
+    };
+  }
+  if (kind === 1) {
+    const h = rng.int(1, 12);
+    const m = rng.pick([0, 15, 30, 45] as const);
+    const say = (hh: number, mm: number): string =>
+      mm === 0
+        ? `${hh} o'clock`
+        : mm === 15
+          ? `quarter past ${hh}`
+          : mm === 30
+            ? `half past ${hh}`
+            : `quarter to ${(hh % 12) + 1}`;
+    const right = say(h, m);
+    const wrong = pickDistinct(
+      rng,
+      [0, 15, 30, 45].flatMap((mm) => [say(h, mm), say((h % 12) + 1, mm)]).filter((t) => t !== right),
+      3,
+    );
+    const { options, answer } = shuffleWithAnswer(rng, mkW(right), wrong.map(mkW));
+    return {
+      game: 'counting',
+      prompt: 'What time does the clock show?',
+      cue: { kind: 'clock', h, m },
+      options,
+      answer,
+      teach: `The short hand points to ${m === 45 ? (h % 12) + 1 : h}, the long hand to ${m / 5}: ${right}.`,
+    };
+  }
+  if (kind === 2) {
+    const [thing, price] = rng.pick(EDU_SHOP_PRICES);
+    const tens = Math.floor(price / 10) * 10;
+    return {
+      game: 'counting',
+      prompt: `${cap2(thing)} costs ${price} 🐚. You pay ${tens} 🐚 and then ? more.`,
+      cue: null,
+      ...numberOptions(rng, price - tens),
+      teach: `${tens} + ${price - tens} = ${price} Shells.`,
+    };
+  }
+  const whole = rng.pick([8, 12, 16, 20, 24, 40] as const);
+  const [name, div] = rng.pick([
+    ['half', 2],
+    ['a quarter', 4],
+  ] as const);
+  return {
+    game: 'counting',
+    prompt: `What is ${name} of ${whole}?`,
+    cue: null,
+    ...numberOptions(rng, whole / div),
+    teach: `Share ${whole} into ${div} equal groups: each group has ${whole / div}.`,
+  };
+}
+
+const cap2 = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** Place-value options: the answer and values of the same digit in other places. */
+function valueOptions(rng: Rng, right: number): { options: EduOption[]; answer: number } {
+  const d = Number(String(right).replace(/0+$/, ''));
+  const pool = [1, 10, 100, 1000].map((m) => d * m).filter((n) => n !== right);
+  return shuffleWithAnswer(rng, mkN(right), pickDistinct(rng, pool, 3).map(mkN));
+}
+
 export function readerSumRound(rng: Rng): EduRound {
+  if (rng.chance(0.3)) return readerMathsRound(rng);
   const kind = rng.int(0, 3);
   if (kind === 0) {
     const a = rng.int(6, 14);
@@ -55,8 +139,8 @@ export function readerSumRound(rng: Rng): EduRound {
       teach: `${a} + ${total - a} = ${total}. Count on from ${a} to ${total}.`,
     };
   }
-  const table = rng.pick([2, 5, 10] as const);
-  const n = rng.int(2, 10);
+  const table = rng.int(2, 12);
+  const n = rng.int(2, 12);
   return {
     game: 'counting',
     prompt: `What is ${n} × ${table}?`,
@@ -90,7 +174,24 @@ export function misspellings(word: string): string[] {
   return [...out];
 }
 
+/** R0716: a word from one of the four tiers, with errors a child might really make. */
+function tieredSpellingRound(rng: Rng): EduRound {
+  const word = rng.pick(rng.pick(EDU_SPELL_TIERS)).toLowerCase();
+  const wrong = pickDistinct(rng, patternErrors(word), 3);
+  const { options, answer } = shuffleWithAnswer(rng, mkW(word), wrong.map(mkW));
+  return {
+    game: 'letters',
+    prompt: 'Which is the right spelling?',
+    cue: null,
+    options,
+    answer,
+    teach: `${word}: look at it, then cover it and say the letters.`,
+    cueClip: wordClip(word),
+  };
+}
+
 export function readerSpellingRound(rng: Rng): EduRound {
+  if (rng.chance(0.85)) return tieredSpellingRound(rng);
   const w = rng.pick(EDU_READER_WORDS);
   const wrong = pickDistinct(rng, misspellings(w.word), 3);
   const { options, answer } = shuffleWithAnswer(rng, mkW(w.word), wrong.map(mkW));

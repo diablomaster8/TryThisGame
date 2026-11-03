@@ -4,6 +4,7 @@
  * game climbs. Content follows the review in PROGRESS.md: Head Start domains,
  * kindergarten readiness benchmarks, guided play, no fail state, no timers under 5.
  */
+import { EDU_SPELL_WORDS } from './edu-reader';
 export type EduAge = 3 | 4 | 5 | 6;
 export const EDU_AGES: readonly EduAge[] = [3, 4, 5, 6];
 
@@ -403,6 +404,7 @@ function buildClips(): Record<string, string> {
     ...EDU_ANIMALS.map((a) => animalClip(a.name)),
     ...EDU_WORDS.map((w) => wordClip(w.word)),
     ...EDU_READER_WORDS.map((w) => wordClip(w.word)),
+    ...EDU_SPELL_WORDS.map(wordClip),
     ...EDU_READER_RHYMES.flat().map(wordClip),
     ...EDU_PHONEMES.map(phonemeClip),
   ];
