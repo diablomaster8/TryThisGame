@@ -87,7 +87,7 @@ async function shoot(j, gfx) {
     errors++;
     console.log('ERR', e.message.slice(0, 200));
   });
-  await p.goto(url);
+  await p.goto(url + (url.includes('?') ? '&slots' : '?slots')); // R0447: the full save list
   await p.waitForTimeout(4000);
   await p.click(`[aria-label="Start a new ${j.mode} in empty slot 1"]`);
   await p.waitForTimeout(1200);

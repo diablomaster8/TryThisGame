@@ -1,3 +1,4 @@
+import { diaryPanel, diarySession, newDiary, shakeBonusMs, stepGroveDiary } from './grove-diary';
 import { BATTLE } from '../config/tuning-battle';
 import { runHandler } from './commands';
 import { orderSystems, runSystems, type SimSystem, type StepCtx, type SystemRuns } from './systems';
@@ -447,7 +448,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (now - n.lastShakeMs < EGG.shakeCooldownMs) return;
       n.lastShakeMs = now;
       if (n.stage === 'egg') {
-        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - EGG.shakeBonusMs);
+        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - shakeBonusMs(world));
         // R0351: every third shake, a tiny foot pokes out of the bottom.
         n.eggShakes = (n.eggShakes ?? 0) + 1;
         const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
@@ -585,6 +586,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       noteNubbin(world, n, events);
       return;
     }
+    case 'diaryNote':
+      // R0474: the private diary (sim/diary.ts).
+      if (cmd.what === 'session') diarySession(world);
+      else if (cmd.what === 'skip') (world.diary ??= newDiary()).scenesSkipped += 1;
+      else if (cmd.what === 'loopSkip') (world.diary ??= newDiary()).loopSkipped = true;
+      else diaryPanel(world, cmd.what.panel);
+      return;
     case 'setTimeZone': {
       // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
       const m = Math.round(cmd.offsetMin);
@@ -612,6 +620,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'rename': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
+      // R0448: the first rename ends the guided loop's last step.
+      if (n) (world.diary ??= newDiary()).firstNameMs ??= world.timeMs;
       return;
     }
     case 'holdEndOfLife':
@@ -1293,6 +1303,8 @@ export function stepWorld(
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
     sampleAll(world);
   }
+  // R0474: the diary counts live play only.
+  if (!offline) stepGroveDiary(world, dtMs, events);
   return events;
 }
 

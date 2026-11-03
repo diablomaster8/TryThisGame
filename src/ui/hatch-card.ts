@@ -23,6 +23,7 @@ export class HatchCard {
   private readonly title: HTMLParagraphElement;
   private readonly sub: HTMLParagraphElement;
   private readonly note: HTMLParagraphElement;
+  private chips: string[] = [];
   private ids: string[] = [];
   private names: string[] = [];
   private openedAt = -Infinity;
@@ -57,6 +58,7 @@ export class HatchCard {
       this.names = [];
       this.pics.textContent = '';
       this.note.textContent = '';
+      this.chips = [];
     }
     if (n) this.ids.push(n.id);
     this.names.push(name);
@@ -73,11 +75,24 @@ export class HatchCard {
   }
 
   /** Folds a "New in the book" note into the card when it came with the hatch. */
-  foldFirstSeen(key: string): boolean {
+  foldFirstSeen(): boolean {
     if (this.root.hidden || performance.now() - this.openedAt > FOLD_MS) return false;
-    if (key !== 'chao:child') return false;
-    this.note.textContent = HATCH_CARD_TEXT.firstInBook;
+    // Every first sighting that comes with the hatch (the form, the colour) is one chip.
+    if (this.chips.some((c) => c.startsWith('📖'))) return true;
+    this.addChip(`📖 ${HATCH_CARD_TEXT.firstInBook}`);
     return true;
+  }
+
+  /** R0467: a badge earned with the hatch rides on the card as a second chip. */
+  foldBadge(text: string): boolean {
+    if (this.root.hidden || performance.now() - this.openedAt > FOLD_MS) return false;
+    this.addChip(text);
+    return true;
+  }
+
+  private addChip(text: string): void {
+    this.chips.push(text);
+    this.note.textContent = this.chips.join('  ·  ');
   }
 
   private pet(): void {

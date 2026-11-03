@@ -184,10 +184,11 @@ async function probe(TAG) {
   page.on('pageerror', (e) => logs.push('PAGEERR ' + String(e).slice(0, 200)));
   page.on('dialog', (d) => d.accept());
   await page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 180000 });
-  await page.waitForSelector('text=Slot 1', { timeout: 120000 });
+  await page.waitForSelector('.title-new', { timeout: 120000 });
   await page.locator('.title-graphics select').selectOption(TAG === 'px' ? 'pixel' : '3d');
   await page.waitForTimeout(300);
-  await page.locator('button:has-text("Slot 1")').first().click();
+  await page.locator('.title-new').click();
+  await page.locator('.title-newcard[data-card="campaign"]').click();
   await page.waitForTimeout(1500);
   await page.locator('button:visible', { hasText: 'Gardener' }).first().click();
   await page.waitForFunction(() => window.grove && window.grove.world, null, { timeout: 120000 });

@@ -1189,6 +1189,8 @@ export interface World {
   tzOffsetMin?: number;
   /** Lane C r10 agent B (R0649): the slot's own name and colour tag, set on the title. */
   slotLabel?: SlotLabel;
+  /** R0474 (TECH-32): the private on-device play diary (sim/grove-diary.ts). Never sent anywhere. */
+  diary?: import('./grove-diary').Diary;
   rngState: number;
   /** Sim time in ms since the world was created. */
   timeMs: number;
@@ -1499,6 +1501,8 @@ export type Command =
   | { kind: 'setSettings'; settings: Settings }
   /** TECH-45: the device's time zone, minutes east of UTC. */
   | { kind: 'setTimeZone'; offsetMin: number }
+  /** R0474: the diary hears a new session start, a panel open or a skipped scene. */
+  | { kind: 'diaryNote'; what: 'session' | 'skip' | 'loopSkip' | { panel: string } }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   /** The UI holds waiting end-of-life checks while the away screen is open. */

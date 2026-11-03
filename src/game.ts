@@ -1155,6 +1155,8 @@ export class Game {
       { kind: 'setTimeZone', offsetMin: -new Date().getTimezoneOffset() },
       [],
     );
+    // R0474: a load or a return from another tab is a new visit in the private diary.
+    applyCommand(this.world, { kind: 'diaryNote', what: 'session' }, []);
   }
 
   /** TECH-53: put the Pixel governor's shed level into the view: sway, daylight, frame height. */

@@ -140,6 +140,8 @@ export function modal(
     if (root.hidden) playSound('tickOpen');
     root.hidden = false;
     focus.opened();
+    // R0474: the private diary counts which panels get opened (hud.ts listens).
+    window.dispatchEvent(new CustomEvent('grove:panel', { detail: title }));
   }
   function hide() {
     if (root.hidden) return;

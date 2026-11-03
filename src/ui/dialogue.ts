@@ -355,6 +355,7 @@ export class Dialogue {
    * tapping. It stops at the next real choice or lesson card, or ends the scene.
    */
   skip(): void {
+    window.dispatchEvent(new Event('grove:skip')); // R0474: the private diary counts it
     if (this.root.hidden || this.waiting() || this.skipBtn.hidden) return;
     if (this.held) {
       this.hooks.skip?.();

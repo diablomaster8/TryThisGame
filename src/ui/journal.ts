@@ -31,6 +31,7 @@ import { renderBoard } from './journal-board';
 import { renderEndingShelf, renderErrands, renderQuestsPage } from './journal-quests';
 import { JOURNAL_TEXT } from '../config/strings-journal';
 import { LINE_REWARD_TEXT } from '../config/strings-camp9';
+import { PROGRESS_TEXT } from '../config/strings-r11d4-progress';
 import { phoneSheet, tabKeys } from './journal-sheet';
 import { storyBoutJournal } from './battle-scenes';
 import { spineControls, stepControls, storyActButton } from './journal-step';
@@ -70,7 +71,8 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'quests' | 'paths' | 'endings' | 'hollow' | 'places' = 'chapter';
+  private page: 'chapter' | 'quests' | 'paths' | 'endings' | 'hollow' | 'places' | 'progress' =
+    'chapter';
   /** R0660: on a phone the tabs sit at the foot of the sheet, in thumb reach. */
   private readonly phone = window.matchMedia?.('(orientation: portrait) and (max-width: 600px)');
 
@@ -169,6 +171,8 @@ export class Journal {
       ['hollow', HOLLOW_R6_TEXT.journalTitle],
       // R0107: the landmarks found, with their traces and keepsakes (`ui/landmark-card.ts`).
       ['places', PLACES_TEXT.tab],
+      // R0511 / R0474: ring meters and the private diary (`ui/progress-panel.ts`, on demand).
+      ['progress', PROGRESS_TEXT.tab],
     ] as const) {
       const b = button(
         label,
@@ -187,7 +191,11 @@ export class Journal {
     }
     tabKeys(tabs);
     this.body.appendChild(tabs);
-    if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
+    if (this.page === 'progress') {
+      const holder = el('div', 'journal-progress');
+      this.body.appendChild(holder);
+      void import('./progress-panel').then((m) => m.renderProgress(g.world, holder));
+    } else if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
     else if (this.page === 'quests') renderQuestsPage(g, this.body);
     else if (this.page === 'paths') this.renderPaths(view);
     else if (this.page === 'endings') {

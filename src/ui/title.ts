@@ -43,6 +43,7 @@ import { AGE_PICK_TEXT } from '../config/strings-kids';
 import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { SLOT_LABEL_TEXT } from '../config/strings';
+import { HOME_TEXT } from '../config/strings-r11d4';
 import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
 /* Lane E r9, R0696 / R0720 */
 import { eduTagLabel, tagCss, tagStep, type EduTag } from './kids-launch';
@@ -154,6 +155,7 @@ export function showTitle(
   });
   graphicsRow.append(el('strong', undefined, UI_TEXT.graphicsLabel), graphicsSel);
   card.appendChild(graphicsRow);
+  card.appendChild(el('div', 'title-graphics-help', HOME_TEXT.graphicsHelp));
   // The slot list comes after the renderer pick, so the pick is in the first screenful.
   const menu = el('div', 'title-menu');
   card.appendChild(menu);
@@ -174,8 +176,11 @@ export function showTitle(
     else finish({ slot, fresh: true, trainer: null });
   };
 
-  const mainMenu = () => {
+  /** R0447: where a "back" arrow returns to (the home, the new-game cards or the save list). */
+  let returnTo: () => void = () => homeMenu();
+  const mainMenu = (modes: SaveMode[] = MODES) => {
     menu.innerHTML = '';
+    returnTo = () => mainMenu(modes);
     const now = Date.now();
     // Lane C r10 agent B (R0622): one read of the slot index in place of parsing every save.
     const slotIndex = readSlotIndex();
@@ -184,7 +189,7 @@ export function showTitle(
       { length: SLOTS_PER_MODE },
       (_, i) => slotIndex.slots[slotId({ mode: 'edu', index: i + 1 })] !== undefined,
     ).some(Boolean);
-    const order = kidsFirst ? ['edu' as SaveMode, ...MODES.filter((m) => m !== 'edu')] : MODES;
+    const order = kidsFirst ? ['edu' as SaveMode, ...modes.filter((m) => m !== 'edu')] : modes;
     for (const mode of order) {
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
@@ -322,6 +327,7 @@ export function showTitle(
       if (mode === focusMode) focus.section = section;
     }
     recentlyErased(now);
+    menu.appendChild(backButton(() => homeMenu()));
   };
 
   /** TECH-29: erased slots from the last week, each with Restore while its slot is empty. */
@@ -396,7 +402,7 @@ export function showTitle(
     menu.appendChild(
       backButton(() => {
         subtitle(false);
-        mainMenu();
+        returnTo();
       }),
     );
     speakLine(EDU_TEXT.chooseAge);
@@ -427,7 +433,7 @@ export function showTitle(
     }
     menu.appendChild(row);
     menu.appendChild(el('div', 'help', STORYLINE_TEXT.sideHelp.dawn ?? ''));
-    menu.appendChild(backButton(mainMenu));
+    menu.appendChild(backButton(() => returnTo()));
   };
 
   const keeperMenu = (slot: SaveSlot, storyline?: string, side?: KeeperAlignment) => {
@@ -451,10 +457,84 @@ export function showTitle(
       grid.appendChild(b);
     }
     menu.appendChild(grid);
-    menu.appendChild(backButton(mainMenu));
+    menu.appendChild(backButton(() => returnTo()));
   };
 
-  mainMenu();
+  /** R0447: the first screen: Continue (newest save), New game, Load another save. */
+  const homeMenu = () => {
+    menu.innerHTML = '';
+    subtitle(false);
+    returnTo = homeMenu;
+    const now = Date.now();
+    const slotIndex = readSlotIndex();
+    let newest: { slot: SaveSlot; summary: SaveSummary | null; at: number } | null = null;
+    for (const mode of MODES) {
+      for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+        const slot: SaveSlot = { mode, index };
+        const entry = slotIndex.slots[slotId(slot)];
+        if (!entry) continue;
+        const at = entry.summary?.savedAtWallMs ?? 0;
+        if (!newest || at > newest.at) newest = { slot, summary: entry.summary ?? null, at };
+      }
+    }
+    if (newest) {
+      const n = newest;
+      const said = n.summary ? describe(n.slot.mode, n.summary, now) : '';
+      const when = n.at > 0 ? HOME_TEXT.ago(now - n.at) : '';
+      const modeName = SLOT_TEXT.modes[n.slot.mode] ?? n.slot.mode;
+      const who = n.summary?.names.length ? n.summary.names[0] : slotName(n.slot.index, n.summary);
+      const ch = n.summary?.chapter;
+      const line = [who, modeName, ch != null ? SLOT_TEXT.chapter(ch) : '', when]
+        .filter((t) => t)
+        .join(' · ');
+      const go = button(
+        '',
+        () => finish({ slot: n.slot, fresh: false, trainer: null }),
+        'btn btn-primary btn-wide title-continue',
+      );
+      go.append(el('strong', undefined, HOME_TEXT.continue), el('small', undefined, line));
+      go.setAttribute('aria-label', `${HOME_TEXT.continue}: ${line}. ${said}`);
+      menu.appendChild(go);
+    }
+    menu.appendChild(button(HOME_TEXT.newGame, () => newMenu(), 'btn btn-wide title-new'));
+    if (newest)
+      menu.appendChild(button(HOME_TEXT.loadOther, () => mainMenu(), 'btn btn-wide title-load'));
+  };
+
+  /** R0447: three cards for a new game; each opens its mode's first empty slot. */
+  const newMenu = () => {
+    menu.innerHTML = '';
+    returnTo = newMenu;
+    menu.appendChild(el('div', 'help', HOME_TEXT.newTitle));
+    const slotIndex = readSlotIndex();
+    for (const key of ['campaign', 'free', 'edu', 'more']) {
+      const info = HOME_TEXT.cards[key]!;
+      const card = button(
+        '',
+        () => {
+          if (key === 'more') {
+            mainMenu(MODES.filter((m) => !['campaign', 'free', 'edu'].includes(m)));
+            return;
+          }
+          const mode = key as SaveMode;
+          let free = 0;
+          for (let i = 1; i <= SLOTS_PER_MODE && !free; i++)
+            if (slotIndex.slots[slotId({ mode, index: i })] === undefined) free = i;
+          if (free) startNew({ mode, index: free });
+          else mainMenu([mode]);
+        },
+        'btn title-newcard',
+      );
+      card.dataset.card = key;
+      card.append(el('strong', undefined, info.name), el('small', undefined, info.blurb));
+      menu.appendChild(card);
+    }
+    menu.appendChild(backButton(() => homeMenu()));
+  };
+
+  // `?slots` opens the full save list (the old first screen) for test drivers and power users.
+  if (focusMode || new URLSearchParams(location.search).has('slots')) mainMenu();
+  else homeMenu();
   const section = focus.section;
   if (section) {
     section.scrollIntoView({ block: 'center' });

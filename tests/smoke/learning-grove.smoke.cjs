@@ -120,9 +120,9 @@ function step(name, ok, note = '') {
   try {
     // 1. Title: Learning Grove, slot 1, age 4, Start my Grove.
     await page.goto(BASE, { waitUntil: 'domcontentloaded', timeout: 120000 });
-    await page.waitForSelector('text=Slot 1', { timeout: 90000 });
-    const section = page.locator('.title-mode').filter({ hasText: 'Learning Grove' });
-    const slot = section.first().locator('button:has-text("Slot 1")').first();
+    await page.waitForSelector('.title-new', { timeout: 90000 });
+    await page.locator('.title-new').click();
+    const slot = page.locator('.title-newcard[data-card="edu"]');
     step('title shows a Learning Grove slot', (await slot.count()) > 0);
     await slot.click();
     await page.waitForTimeout(600);
@@ -147,7 +147,7 @@ function step(name, ok, note = '') {
         () =>
           !!window.grove?.world ||
           ([...document.querySelectorAll('.topbar')].some((e) => e.offsetParent) &&
-            ![...document.querySelectorAll('.title-mode')].some((e) => e.offsetParent)),
+            ![...document.querySelectorAll('.title-menu')].some((e) => e.offsetParent)),
       );
     }
     step('Grove boots', booted);
