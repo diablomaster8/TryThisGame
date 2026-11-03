@@ -1,3 +1,4 @@
+import { frozenVoId } from '../content/vo-hash';
 import { TRAINER_LABELS } from '../config/strings';
 import { StageReact } from './stage-react';
 import { CG4_U4 } from '../config/tuning-u4';
@@ -519,7 +520,7 @@ export class Dialogue {
     if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
       speakLine(this.fullText, {
         speaker: chorus ? 'narrator' : who,
-        clipId: line.id,
+        clipId: line.id ?? frozenVoId(line.text),
         onWord: (w) => this.wordLight.light(w),
         onDone: autoNext,
       });

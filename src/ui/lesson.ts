@@ -22,6 +22,7 @@ import { appendScriptText, withoutScript } from './lang-dom';
 import { sproutChoices } from './sprout-choices';
 import { renderBeat } from './do-beats'; /* Lane E r10, R0700 */
 import { doBeatFor } from './do-plan';
+import { currentVoice } from '../platform/voice';
 import { bestVoice, pauseAfterLine, shoutChunks, voiceFor } from './read-aloud';
 import { READ_ALOUD } from '../config/tuning-fun-r7';
 
@@ -189,7 +190,8 @@ export function speakLine(text: string, opts: SpeakOptions = {}): void {
     if (!said) return;
     // R0342: the speaker's own pitch and rate, and the device's best English voice.
     const tone = voiceFor(opts.speaker);
-    const voice = bestVoice(synth.getVoices?.() ?? []);
+    // R0698: the grown-up's saved voice, else the best local English one.
+    const voice = currentVoice() ?? bestVoice(synth.getVoices?.() ?? []);
     // R0310: a sound word is said, then its sound plays, before the line goes on. R0342: a
     // shouted word is its own chunk, lowercased, with a pitch bump.
     const token = ++speakToken;

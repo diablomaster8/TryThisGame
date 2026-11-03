@@ -62,3 +62,11 @@ export const GLOW_CAVE_TEXT = {
   stickerName: 'Cave sticker',
   help: 'Tap the glowing things. Nothing here can hurt you.',
 } as const;
+
+/** R0698: the grown-up area's read-aloud voice chooser. */
+export const KIDS_VOICE_TEXT = {
+  label: 'Reading voice',
+  auto: 'Best voice on this device',
+  hear: 'Hear this voice',
+  sample: 'Hello! I am going to read your story.',
+} as const;
