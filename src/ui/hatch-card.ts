@@ -75,9 +75,10 @@ export class HatchCard {
   }
 
   /** Folds a "New in the book" note into the card when it came with the hatch. */
-  foldFirstSeen(key: string): boolean {
+  foldFirstSeen(): boolean {
     if (this.root.hidden || performance.now() - this.openedAt > FOLD_MS) return false;
-    if (key !== 'chao:child') return false;
+    // Every first sighting that comes with the hatch (the form, the colour) is one chip.
+    if (this.chips.some((c) => c.startsWith('📖'))) return true;
     this.addChip(`📖 ${HATCH_CARD_TEXT.firstInBook}`);
     return true;
   }

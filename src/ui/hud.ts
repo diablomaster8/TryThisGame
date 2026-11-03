@@ -1625,7 +1625,7 @@ export function mountHud(
         } else if (e.kind === 'decorRefused') {
           toast(UI_TEXT.decorRefused[e.reason]);
         } else if (e.kind === 'firstSeen') {
-          if (!hatchCard.foldFirstSeen(e.key)) toast(UI_TEXT.firstSeen(keyLabel(e.key)));
+          if (!hatchCard.foldFirstSeen()) toast(UI_TEXT.firstSeen(keyLabel(e.key)));
         } else if (e.kind === 'received') {
           toast(e.ok ? UI_TEXT.received(e.name) : UI_TEXT.receiveFull);
         } else if (e.kind === 'traded') {
