@@ -105,9 +105,10 @@ export function eduResult(
   const e = world.edu;
   if (!e) return;
   const s = Math.max(0, Math.min(3, Math.round(stars)));
-  eduClimb(world, game, s, !!first);
+  if (game !== 'tracing') eduClimb(world, game, s, !!first);
   if (item) eduSeen(world, item, s === 3);
-  const p = e.progress[game];
+  // R0702: a save from before the tracing game has no progress entry for it yet.
+  const p = (e.progress[game] ??= { plays: 0, stars: 0 });
   p.plays += 1;
   p.stars += s;
   const before = e.stickers;
@@ -122,7 +123,8 @@ export function eduResult(
 export function enabledGames(world: World): EduGameId[] {
   const e = world.edu;
   if (!e) return [];
-  return gamesForBand(e.band).filter((g) => e.games[g]);
+  // R0702: an older save has no switch for a newer game; it follows the age's default.
+  return gamesForBand(e.band).filter((g) => e.games[g] ?? EDU_RECOMMENDED[e.age].includes(g));
 }
 
 /** The games a band is offered: readers skip the preschool ones (review C, item 18). */

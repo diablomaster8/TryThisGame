@@ -169,7 +169,7 @@ export function langStart(world: World, course: LangCourseId): void {
 
 /** What a tracing step asks for: glyphs in writing order, and the word it uses, if any. */
 export interface TraceTarget {
-  lang: 'he' | 'ja';
+  lang: 'he' | 'ja' | 'en';
   glyphs: string[];
   word?: string;
 }

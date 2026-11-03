@@ -619,6 +619,8 @@ function makeOne(
       return countingRound(at, rng, weigh);
     case 'letters':
       return letterRound(at, rng, ownName, weigh);
+    case 'tracing': // R0702: drawn by TraceGame; a stray ask gets a letter round
+      return { ...letterRound(at, rng, ownName, weigh), game: 'tracing' };
     case 'sounds':
       return soundRound(at, rng, weigh);
     case 'animals':

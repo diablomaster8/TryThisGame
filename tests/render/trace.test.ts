@@ -73,7 +73,7 @@ describe('English tracing (R0702)', () => {
     expect(EDU_GAMES).toContain('tracing');
     expect(EDU_RECOMMENDED[3]).not.toContain('tracing');
     for (const a of [4, 5, 6] as const) expect(EDU_RECOMMENDED[a]).toContain('tracing');
-    const world = createWorld(1);
+    const world = createWorld(1, 0);
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'eduStart', age: 4 }, events);
     delete (world.edu!.progress as Record<string, unknown>).tracing;

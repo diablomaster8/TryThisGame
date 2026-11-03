@@ -7,7 +7,8 @@
 export type EduAge = 3 | 4 | 5 | 6;
 export const EDU_AGES: readonly EduAge[] = [3, 4, 5, 6];
 
-export type EduGameId = 'colours' | 'letters' | 'counting' | 'shapes' | 'sounds' | 'animals';
+export type EduGameId =
+  'colours' | 'letters' | 'counting' | 'shapes' | 'sounds' | 'animals' | 'tracing';
 export const EDU_GAMES: readonly EduGameId[] = [
   'colours',
   'letters',
@@ -15,6 +16,7 @@ export const EDU_GAMES: readonly EduGameId[] = [
   'shapes',
   'sounds',
   'animals',
+  'tracing',
 ];
 
 /** Learning domain per game, for the grown-up progress view. */
@@ -25,14 +27,15 @@ export const EDU_DOMAIN: Record<EduGameId, 'cognition' | 'literacy' | 'language'
   shapes: 'cognition',
   sounds: 'language',
   animals: 'nature',
+  tracing: 'literacy',
 };
 
 /** Recommended set per age. Everything is available; this is the default selection. */
 export const EDU_RECOMMENDED: Record<EduAge, readonly EduGameId[]> = {
   3: ['colours', 'animals', 'shapes', 'counting'],
-  4: ['colours', 'shapes', 'counting', 'letters', 'animals'],
-  5: ['letters', 'counting', 'sounds', 'shapes', 'colours', 'animals'],
-  6: ['letters', 'sounds', 'counting', 'shapes', 'animals'],
+  4: ['colours', 'shapes', 'counting', 'letters', 'animals', 'tracing'],
+  5: ['letters', 'counting', 'sounds', 'shapes', 'colours', 'animals', 'tracing'],
+  6: ['letters', 'sounds', 'counting', 'shapes', 'animals', 'tracing'],
 };
 
 export const EDU = {
@@ -292,6 +295,8 @@ export const EDU_LADDER: Record<EduGameId, readonly RoundSpec[]> = {
   shapes: AGE_RUNGS,
   sounds: AGE_RUNGS,
   animals: AGE_RUNGS,
+  // R0702: tracing has no rounds to pick; the entry keeps the record complete.
+  tracing: AGE_RUNGS,
 };
 
 /** R0682: the starting rung by age (counting has more rungs than ages). */

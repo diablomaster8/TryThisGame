@@ -39,6 +39,8 @@ import { LangPanel } from './lang';
 import { renderGrownUp } from './grown-up'; /* Lane E r10 */
 import { appendWithIcons, eduIcon, eduIconSpan } from './edu-icons'; /* Lane E r10, R0715 */
 import { langCourses } from '../sim/lang';
+import { TraceGame } from './trace';
+import { tracedItem, tracingTarget } from './edu-tracing';
 
 /**
  * The Learning Grove screens: the game picker, a round screen with big targets and no
@@ -48,6 +50,7 @@ import { langCourses } from '../sim/lang';
 export class EduScreen {
   private readonly picker;
   private readonly lang: LangPanel;
+  private readonly tracer: TraceGame;
   private readonly root: HTMLDivElement;
   private readonly card: HTMLDivElement;
   private round: EduRound | null = null;
@@ -72,6 +75,7 @@ export class EduScreen {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
     this.picker.root.classList.add('edu-picker');
     this.lang = new LangPanel(parent, game_, toast);
+    this.tracer = new TraceGame(parent, game_);
     this.next = new NextCard(parent, () => this.showMe());
     // R0321: the sprout band's peekaboo.
     this.peek = new Peekaboo(parent, game_);
@@ -179,6 +183,7 @@ export class EduScreen {
 
   close(): void {
     this.picker.hide();
+    this.tracer.close();
     this.noteSitting('quit');
     if (!this.root.hidden) {
       this.root.hidden = true;
@@ -212,9 +217,41 @@ export class EduScreen {
     return this.picker.isOpen() || !this.root.hidden;
   }
 
+  /** R0702: the tracing game: each traced glyph feeds `edu.items` and pays like a round. */
+  private startTracing(): void {
+    const g = this.game_();
+    const e = g?.world.edu;
+    if (!g || !e) return;
+    this.picker.hide();
+    const target = tracingTarget(e.age, e.childName, Rng.fromSeed(Date.now()));
+    g.send({ kind: 'eduActivity', game: 'tracing', what: 'open' });
+    const at = performance.now();
+    this.tracer.open(
+      '',
+      target,
+      () => {
+        g.send({
+          kind: 'eduActivity',
+          game: 'tracing',
+          what: 'complete',
+          ms: performance.now() - at,
+        });
+      },
+      (glyph, i) =>
+        g.send({
+          kind: 'eduResult',
+          game: 'tracing',
+          stars: 3,
+          item: tracedItem(glyph),
+          first: i === 0,
+        }),
+    );
+  }
+
   private start(id: EduGameId): void {
     const g = this.game_();
     if (!g?.world.edu) return;
+    if (id === 'tracing') return this.startTracing();
     this.picker.hide();
     this.game = id;
     this.roundNo = 0;

@@ -13,4 +13,5 @@ export const EDU_ROUND_STANDARDS: Readonly<Record<EduGameId, readonly string[]>>
   shapes: ['K.G.A.2'],
   sounds: ['RF.K.2', 'ELOF: Language and Communication'],
   animals: ['K-LS1-1', 'ELOF: Scientific Reasoning'],
+  tracing: ['RF.K.1d', 'ELOF: Literacy'],
 };
