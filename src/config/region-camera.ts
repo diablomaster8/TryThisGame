@@ -34,6 +34,7 @@ export const REGION_CAMERA: Readonly<Partial<Record<RegionId, RegionCamera>>> = 
   shore: { distanceK3d: 1.1 },
   sunlands: { pitchDeg3d: 32, distanceK3d: 1.1 },
   moonlands: {},
+  ruins: { pitchDeg3d: 32 },
 };
 
 const NONE: RegionCamera = {};

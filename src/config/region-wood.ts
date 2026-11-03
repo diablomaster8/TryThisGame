@@ -168,6 +168,11 @@ export const WOOD_SPEC: RegionSpec = {
       { x: 0, z: 56 },
       { x: 0, z: 46 },
     ],
+    // R11 d7: the lane east from the mill bridge to the ruins' archway.
+    [
+      { x: 43, z: 6 },
+      { x: 56, z: 0 },
+    ],
   ],
   solids: [
     { x: 36, z: 0, r: 2.4, w: 4.4, h: 4 },

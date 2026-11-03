@@ -5,6 +5,7 @@
  * the rest are declared so quests, the map and streaming can name them before they exist.
  * A region with `built: false` can be named but never entered.
  */
+import { RUINS_POIS } from './region-ruins';
 import { SHORE_POIS } from './region-shore';
 import { MOON_POIS, SUN_POIS } from './region-sunmoon';
 import { WOOD_POIS } from './region-wood';
@@ -273,7 +274,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     ['clearing', 'deep-wood', 'old-oak', 'old-mill', 'woodcutter'],
     [
       way('wood-trail', 'grove', [0, 54], [-31, -43], 'gate', 0),
-      way('wood-ruins', 'ruins', [54, 0], [-34, 0], 'gate', N / 2),
+      way('wood-ruins', 'ruins', [54, 0], [-29, 0], 'gate', N / 2),
     ],
     // WORLD-25: laid out (`region-wood.ts`) and drawn by the region engine (R11 lane D).
     { pois: WOOD_POIS, built: true },
@@ -311,9 +312,10 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'ruins',
     'ruin',
     [72, 72],
-    ['temple', 'stones', 'archive'],
+    [],
     [way('ruins-wood', 'wood', [-34, 0], [51, 0], 'gate', -N / 2)],
-    { audience: 'main' },
+    // WORLD-37 (R11 d7): laid out in `region-ruins.ts`, drawn by the region engine.
+    { audience: 'main', pois: RUINS_POIS, built: true },
   ),
   sunlands: future(
     'sunlands',

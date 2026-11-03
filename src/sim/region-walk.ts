@@ -22,6 +22,7 @@ import {
   type RegionSpec,
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
+import { RUINS_SPEC } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
@@ -37,6 +38,7 @@ export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   shore: SHORE_SPEC,
   sunlands: SUN_SPEC,
   moonlands: MOON_SPEC,
+  ruins: RUINS_SPEC,
 };
 
 /**
