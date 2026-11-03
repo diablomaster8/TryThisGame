@@ -108,6 +108,11 @@ function play(): Run {
       world.location = 'grove';
       world.keeper.pos = { x: p.x, z: p.z };
     }),
+    // R11 d8 (R0101): the Wood is walkable, so its quests are offered from its own points.
+    ...REGIONS.wood.pois.map((p) => () => {
+      world.location = 'region:wood';
+      world.keeper.pos = { x: p.x, z: p.z };
+    }),
     () => (world.location = 'dungeon'),
     () => (world.location = 'corvin'),
   ];

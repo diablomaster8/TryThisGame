@@ -4,3 +4,4 @@
  * domain. `tests/arch/tuning-domains.test.ts` checks every tuning-*.ts file is in one domain.
  */
 export * from '../tuning-world';
+export * from '../tuning-r11d8';
