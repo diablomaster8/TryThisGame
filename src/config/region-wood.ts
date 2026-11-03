@@ -56,6 +56,8 @@ export const WOOD_POIS: readonly PoiDef[] = [
   { id: 'deep-wood', x: -42, z: -42, tier: 'minor' },
   { id: 'woodcutter', x: 20, z: 40, tier: 'minor' },
   { id: 'mill-bridge', x: 41, z: 6, tier: 'micro' },
+  // R0110: optional ground behind the Wood's boulder gate (config/region-wild.ts); no story here.
+  { id: 'hidden-glade', x: -52, z: -20, tier: 'micro' },
 ];
 
 /**

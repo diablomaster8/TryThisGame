@@ -8,6 +8,7 @@ import { REGIONS } from '../config/regions';
 import { regionOf } from '../sim/regions';
 import { hintToast, secretToasts, traceToasts } from './world-hints-ui';
 import { PHOTO_SPOT_TEXT } from '../config/strings-r11d6';
+import { REGION_LIFE_TEXT } from '../config/strings-r11d8';
 import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
@@ -452,7 +453,8 @@ export function mountHud(
       return `${TL[t]?.name ?? t}’s Grove`;
     }
     // R11 lane D: a drawn region says its own name.
-    if (loc.startsWith('region:')) return (WORLD_TEXT.regions as Record<string, string>)[loc.slice(7)] ?? loc;
+    if (loc.startsWith('region:'))
+      return (WORLD_TEXT.regions as Record<string, string>)[loc.slice(7)] ?? loc;
     return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
   }
 
@@ -1908,6 +1910,22 @@ export function mountHud(
           // R0091: one-time collectibles and their sets.
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
+        } else if (e.kind === 'regionCritter') {
+          // R0120: a region's critter, taken by walking up to it.
+          toast(REGION_LIFE_TEXT.critter(e.species));
+          playSound('pickup');
+        } else if (e.kind === 'gateOpened') {
+          // R0110: a stat gate gave way to the right partner.
+          toast(REGION_LIFE_TEXT.gate);
+          playSound('pickup');
+        } else if (e.kind === 'companionReacts') {
+          // R0121: a partner's reaction to a new place (the picture is the sprite).
+          const n = game()?.world.nubbins.find((x) => x.id === e.id);
+          if (n && e.first)
+            toast(
+              REGION_LIFE_TEXT.companion(n.name, 'is taking it all in.') +
+                REGION_LIFE_TEXT.firstVisit,
+            );
         } else if (e.kind === 'photoSpot') {
           // R0138: a framed vista; the camera is the Photo button.
           toast(e.first ? PHOTO_SPOT_TEXT.first : PHOTO_SPOT_TEXT.again);

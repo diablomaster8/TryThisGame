@@ -72,5 +72,11 @@ export function regionSkyAt(
   }
   if (draw === 'rain' && def.sheltered) intensity *= REGION_WEATHER_LIVE.canopyShare;
   const fog = kind === 'fog' ? REGION_WEATHER_LIVE.fog * (0.7 + roll * 0.3) : 0;
-  return { kind, draw, intensity, fog, season: skyForce.season ?? regionSeason(region, groveSeason) };
+  return {
+    kind,
+    draw,
+    intensity,
+    fog,
+    season: skyForce.season ?? regionSeason(region, groveSeason),
+  };
 }

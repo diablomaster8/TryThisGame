@@ -70,6 +70,9 @@ import { travel } from './regions';
 import { clampToRegion, crossExits } from './region-walk';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepRegionCompanion } from './region-companion';
+import { stepRegionCritters } from './region-critters';
+import { stepRegionGates } from './region-gates';
 import { stepTraces } from './regions-trace';
 import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
@@ -1152,6 +1155,8 @@ function stepNubbins({ world, dtMs, offline, events }: StepCtx, rng: Rng): void 
     advanceStage(n, dtMs, events, world, offline);
     // Party members underground are moved by the Hollow step instead.
     // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
+    // R0121: a partner in a drawn region follows the Keeper there instead.
+    if (stepRegionCompanion(world, n, dtMs)) continue;
     if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
       updateBehavior(n, world, dtMs, rng, events);
       // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
@@ -1268,6 +1273,11 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   plainSys('diary', 520, ALWAYS, ({ world, offline, events }) => stepDiary(world, events, offline)),
   plainSys('landmarks', 530, ALWAYS, ({ world, events }) => stepLandmarks(world, events)),
   plainSys('collectibles', 540, ALWAYS, ({ world, events }) => stepCollectibles(world, events)),
+  plainSys('region-life', 541, ALWAYS, ({ world, dtMs, events }) => {
+    // R0120/R0110 (R11 d8): a region's critter spots and its stat gates.
+    stepRegionCritters(world, events);
+    stepRegionGates(world, dtMs, events);
+  }),
   plainSys('traces', 543, ALWAYS, ({ world, events }) => stepTraces(world, events)),
   plainSys('photo-spots', 546, ALWAYS, ({ world, events }) => stepPhotoSpots(world, events)),
   // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.

@@ -98,6 +98,7 @@ import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
 import { GrovePuddles } from './puddles';
 import { AmbientLife3d } from './ambient';
+import { RegionLife3d } from './region-life';
 import { ambientAwake } from '../render/ambient-life';
 
 /** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
@@ -282,6 +283,7 @@ export class Grove3dScene {
   readonly regionSky = { fog: 0, intensity: 0 };
   private readonly puddles: GrovePuddles;
   private readonly ambient: AmbientLife3d;
+  private readonly regionLife: RegionLife3d;
 
   /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
   private updateAmbient(world: World): void {
@@ -586,6 +588,7 @@ export class Grove3dScene {
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.puddles = new GrovePuddles(this.world3d, groveHeight);
     this.ambient = new AmbientLife3d(this.scene);
+    this.regionLife = new RegionLife3d(this.scene);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     // Lane A r8: the idle looks' bursts (puddle splashes, fireflies, a harrumph's puff).
@@ -1931,6 +1934,7 @@ export class Grove3dScene {
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
     this.puddles.update(world);
     this.updateAmbient(world);
+    this.regionLife.update(world, this.time.value, this.reduceMotion);
   }
 
   render(): void {

@@ -179,6 +179,8 @@ export interface Nubbin {
   /** Hidden -1..1. */
   alignment: number;
   personality: Personality | null;
+  /** R0121 (R11 d8): the regions it has been to as a partner, for the one-time first-visit lean. */
+  regionsSeen?: string[];
   /** How it was treated as a child; decides the personality at evolution. */
   childCare: {
     pets: number;
@@ -1332,6 +1334,10 @@ export interface World {
   landmarks: Record<string, number>;
   /** R0091: one-time collectibles picked up, id → sim time (absent in older saves). */
   collected?: Record<string, number>;
+  /** R0120 (R11 d8): how many times each region critter spot was taken (absent in older saves). */
+  critterTakes?: Record<string, number>;
+  /** R0110 (R11 d8): how long a partner has leaned on each closed gate, ms (absent in older saves). */
+  gateTries?: Record<string, number>;
   /** R0127 (lane D r9): world hints already shown, hint id → sim time (absent in older saves). */
   hintsSeen?: Record<string, number>;
   /** R0111 (lane D r9): region secrets found, region → sim time (absent in older saves). */
@@ -1984,6 +1990,10 @@ export type SimEvent =
   | { kind: 'traceFound'; id: string }
   /** R0138: the Keeper stepped onto a photo spot (`first`: the first time ever). */
   | { kind: 'photoSpot'; region: string; first: boolean }
+  /** R0120: a region's critter was taken. R0110: a gate gave way. R0121: a partner reacts to a new place. */
+  | { kind: 'regionCritter'; region: string; species: string }
+  | { kind: 'gateOpened'; region: string; id: string }
+  | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }
   | { kind: 'secretFound'; region: string }
