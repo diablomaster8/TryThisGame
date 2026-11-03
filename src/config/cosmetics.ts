@@ -6,6 +6,7 @@ import type { C } from '../render/sprites/palette';
 import { HOLLOW_COSMETICS } from './cosmetics-hollow';
 import { LANE_E_R9_COSMETICS } from './cosmetics-r9e'; /* Lane E r9 */
 import { SECRETS_R9B_COSMETICS } from './cosmetics-r9b'; /* Lane B r9 */
+import { FACE_COSMETICS } from './cosmetics-r11e'; /* Lane E r11 */
 import type { Season } from '../sim/types';
 
 /**
@@ -578,6 +579,8 @@ export const COSMETICS: readonly Cosmetic[] = [
   ...LANE_E_R9_COSMETICS,
   // Lane B r9 (R0183, R0189): the secret levels' keepsakes.
   ...SECRETS_R9B_COSMETICS,
+  // Lane E r11 (R0400): the face slot.
+  ...FACE_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));

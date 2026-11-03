@@ -171,7 +171,7 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
       ['idle', 'side', 0],
     ]);
     const row = heading(
-      `  …two-tone ${colour}/gold, shiny, metal, glass ${colour}, Sun adult, Moon adult`,
+      `  …metal, glass ${colour}, two-tone ${colour}/gold, shiny, Sun adult, Moon adult`,
     );
     const idle = poseFor('idle', 0);
     // R0399: the finish rows, a metal ramp and a dithered glass over the plain child.
@@ -228,6 +228,11 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
       lookOf(look.colors, 'normal', null, undefined, false, id),
       idleAngles,
     );
+  }
+  // R0400: the face slot's wearables, on the plain child.
+  for (const id of ['sunglasses', 'heart-glasses', 'whiskers']) {
+    const wearing = lookOf(CHILD_NEUTRAL);
+    chao(`Face: ${id}`, { ...wearing, wear: [id] }, idleAngles);
   }
   for (const hat of ['straw', 'crown', 'beanie', 'flower', 'bucket']) {
     chao(`Hat: ${hat}`, lookOf(CHILD_NEUTRAL, null, null, undefined, false, hat), idleAngles);

@@ -14,7 +14,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
-import { cosmeticLabel } from '../config/cosmetics';
+import { cosmetic, cosmeticLabel } from '../config/cosmetics';
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import { bandOf, childHint } from '../sim/alignment';
@@ -33,6 +33,8 @@ import { ROSTER_FILTER_TEXT } from '../config/strings-soul-r8';
 import { leaningPersonality } from '../sim/personality';
 import { personalityIcon } from './personality-chip';
 import { mayWear } from '../sim/remembrance'; /* Lane E r9 */
+import { wornIn } from '../sim/wear'; /* Lane E r11 */
+import { WEAR_SLOT_TEXT } from '../config/strings-look-r11e';
 import { playChirp } from '../platform/audio';
 import { chirpVoice } from '../platform/chirp-voice';
 import { speciesOf } from '../sim/species';
@@ -177,22 +179,37 @@ export class RosterMenu {
     body.appendChild(stats);
     const actions = el('div', 'roster-actions');
     if (n.stage !== 'egg') {
-      const hatSelect = el('select', 'roster-hat');
-      hatSelect.setAttribute('aria-label', PANEL_A11Y_TEXT.hatFor(n.name)); // TECH-28
-      const none = el('option', undefined, UI_TEXT.noHat);
-      none.value = '';
-      hatSelect.appendChild(none);
-      for (const hat of new Set(g.world.inventory.hats)) {
-        if (!mayWear(n, hat)) continue; /* Lane E r9, R0424 */
-        const o = el('option', undefined, cosmeticLabel(hat));
-        o.value = hat;
-        hatSelect.appendChild(o);
+      // R0400: one picker per slot that has something owned (the hat slot always shows).
+      const owned = [...new Set(g.world.inventory.hats)].filter((id) => mayWear(n, id));
+      for (const slot of ['hat', 'face', 'neck', 'back', 'body'] as const) {
+        const ids = owned.filter((id) => (cosmetic(id)?.slot ?? 'hat') === slot);
+        const current = wornIn(n, slot);
+        if (slot !== 'hat' && !ids.length && !n.wear?.[slot]) continue;
+        const pick = el('select', slot === 'hat' ? 'roster-hat' : 'roster-hat roster-wear');
+        pick.setAttribute(
+          'aria-label',
+          slot === 'hat'
+            ? PANEL_A11Y_TEXT.hatFor(n.name)
+            : WEAR_SLOT_TEXT.forSlot(n.name, WEAR_SLOT_TEXT[slot]),
+        ); // TECH-28
+        const none = el(
+          'option',
+          undefined,
+          slot === 'hat' ? UI_TEXT.noHat : `${WEAR_SLOT_TEXT[slot]}: ${WEAR_SLOT_TEXT.none}`,
+        );
+        none.value = '';
+        pick.appendChild(none);
+        for (const hat of ids) {
+          const o = el('option', undefined, cosmeticLabel(hat));
+          o.value = hat;
+          pick.appendChild(o);
+        }
+        pick.value = current && ids.includes(current) ? current : '';
+        pick.addEventListener('change', () => {
+          g.send({ kind: 'wearSlot', nubbinId: n.id, slot, id: pick.value || null });
+        });
+        actions.appendChild(pick);
       }
-      hatSelect.value = n.hat ?? '';
-      hatSelect.addEventListener('change', () => {
-        g.send({ kind: 'wearHat', nubbinId: n.id, hat: hatSelect.value || null });
-      });
-      actions.appendChild(hatSelect);
       // LOOK-60: the dress-up mirror, with a live preview.
       actions.appendChild(
         button(WARDROBE_TEXT.open, () => this.wardrobe.open(n.id), 'btn btn-small'),

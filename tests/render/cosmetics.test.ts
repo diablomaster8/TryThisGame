@@ -48,12 +48,12 @@ describe('the cosmetics registry', () => {
     )
       .map((c) => c.id)
       .filter((id) => !id.startsWith('look-') && id !== 'hop-hat' && id !== 'black-belt');
-    // The five hats, eighteen new ones and the eggshell.
-    expect(ids.length + 1).toBe(24);
+    // The five hats, eighteen new ones, the three face items (R0400) and the eggshell.
+    expect(ids.length + 1).toBe(27);
     expect(new Set(COSMETICS.map((c) => c.id)).size).toBe(COSMETICS.length);
     for (const c of COSMETICS) expect(c.label).not.toBe(c.id);
     const slots = new Set(COSMETICS.map((c) => c.slot));
-    for (const s of ['hat', 'neck', 'back', 'body']) expect(slots.has(s as never)).toBe(true);
+    for (const s of ['hat', 'face', 'neck', 'back', 'body']) expect(slots.has(s as never)).toBe(true);
   });
 
   it('every wearable draws in Pixel and in Full 3D', () => {

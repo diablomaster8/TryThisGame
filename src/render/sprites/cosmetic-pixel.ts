@@ -37,13 +37,17 @@ export function drawCosmetic(
 ): void {
   const c = cosmetic(id);
   if (!c || c.bespoke || !c.px || layerOf(c.slot, angle) !== layer) return;
+  if (c.slot === 'face' && BACK_VIEW.has(angle)) return; // the face is not seen from behind
   const ops = BACK_VIEW.has(angle) ? (c.pxBack ?? c.px) : c.px;
   const side = angle === 'side' ? -1 : 0;
+  // R0400: a face item is drawn around both eyes (at -4 and +4); the side view has the one
+  // eye at +4 and the three-quarter view eyes at -1 and +5, so it keeps the right half there.
+  const faceOps = c.slot === 'face' && (angle === 'side' || angle === 'frontQuarter');
   const [ax, ay] =
     c.slot === 'hat'
       ? [L.headCx + side, L.headCy - L.headRy]
       : c.slot === 'face'
-        ? [L.headCx + side, L.headCy]
+        ? [L.headCx + (angle === 'frontQuarter' ? 1 : 0), L.headCy]
         : c.slot === 'neck'
           ? [L.headCx, L.headCy + L.headRy]
           : [L.bodyCx, L.bodyCy];
@@ -56,7 +60,22 @@ export function drawCosmetic(
     }
     return C[k as keyof typeof C];
   };
-  for (const op of ops) drawOp(pc, op, ax, ay, col);
+  for (const op of ops)
+    if (!faceOps || angle !== 'side' || opCx(op) >= 1) drawOp(pc, op, ax, ay, col);
+}
+
+/** An op's centre x, for keeping the right half of a face item in the side view. */
+function opCx(op: PxOp): number {
+  switch (op[0]) {
+    case 'rect':
+      return op[1] + op[3] / 2;
+    case 'line':
+      return (op[1] + op[3]) / 2;
+    case 'tri':
+      return (op[1] + op[3] + op[5]) / 3;
+    default:
+      return op[1];
+  }
 }
 
 function drawOp(

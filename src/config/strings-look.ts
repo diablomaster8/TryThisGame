@@ -229,6 +229,10 @@ export const FLAVOUR = {
     'halo-band': 'Pure as anything. Mind the mud.',
     horns: 'Purely decorative. Mostly.',
     'black-belt': 'Earned, not bought. Mentions it anyway.',
+    // Lane E r11 (R0400): the face slot.
+    sunglasses: 'Cool indoors. Walks into the odd door.',
+    'heart-glasses': 'Everything looks lovely. Even the mud.',
+    whiskers: 'Painted on in a hurry. Purrs on request.',
     // Lane B round 7 (R0206): the Hollow's keepsakes.
     'hollow-mushroom': 'Big Grumblecap wanted quiet. You got the hat.',
     'hollow-hedge': 'Clipped by a knight. Still sheds leaves on the carpet.',

@@ -220,6 +220,8 @@ export interface Nubbin {
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: NubbinParts;
   hat: string | null;
+  /** Lane E r11, R0400: what is worn outside the hat slot (face, neck, back, body); absent: nothing. */
+  wear?: Partial<Record<'face' | 'neck' | 'back' | 'body', string>>;
   /* Lane E r9 */
   /** R0424: names of departed bonded friends this Nubbin remembers (the remembrance hat). */
   remembers?: string[];
@@ -1572,6 +1574,13 @@ export type Command =
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
   /** TECH-45: the device's time zone, minutes east of UTC. */
+  /** Lane E r11, R0400: put on or take off one slot's item (the hat slot included). */
+  | {
+      kind: 'wearSlot';
+      nubbinId: string;
+      slot: 'hat' | 'face' | 'neck' | 'back' | 'body';
+      id: string | null;
+    }
   | { kind: 'setTimeZone'; offsetMin: number }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }

@@ -705,6 +705,8 @@ export interface ChaoLook {
   finish?: 'metal' | 'glass' | null;
   /** Extra sparkles. */
   shiny?: boolean;
+  /** Lane E r11, R0400: registry wearables outside the hat slot (face, neck, back, body). */
+  wear?: readonly string[];
   /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
   gem?: boolean;
   /** LOOK-69 (R0437): the Dojo belt round the middle, 1–5 (render/belt.ts); unset draws none. */
@@ -1734,6 +1736,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   if (horn) drawHorn(pc, angle, L, horn, false);
   if (look.shape.dorsal) drawDorsal(pc, angle, L, col, false);
   if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'behind');
+  for (const id of look.wear ?? []) drawCosmetic(pc, angle, L, id, 'behind');
 
   // Legs and body.
   drawLegs(pc, angle, pose, L, tellType === 'run' ? { ...col, shade: tell } : col);
@@ -1756,6 +1759,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     }
     if (look.shape.dorsal) drawDorsal(pc, angle, L, col, true);
     if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'body');
+    for (const id of look.wear ?? []) drawCosmetic(pc, angle, L, id, 'body');
   } else {
     pc.ellipse(L.bodyCx, L.bodyCy - 1, L.bodyRx, 2, col.body);
   }
@@ -1860,6 +1864,8 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       pc.blit(tmp, 0, 0);
     } else drawHat(pc, angle, L, look.hat);
   }
+  // R0400: the face, neck, back and body slots (registry items; `wear` skips the hat slot).
+  for (const id of look.wear ?? []) drawCosmetic(pc, angle, L, id, 'over');
   // LOOK-69: the Dojo belt round the belly, its knot and tails at the front.
   if (look.belt) {
     const [bc, bs] = BELT_COLOURS[Math.min(BELT_COLOURS.length, look.belt) - 1]!;
