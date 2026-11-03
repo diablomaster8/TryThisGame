@@ -27,7 +27,8 @@ and no memory), so they read as mid; Settings → Quality → High lifts them.
 | Eager JS                    | ≤450 kB gzip    | `npm run check:bundle` asserts the baseline (845 kB today) +10% and a 1000 kB ceiling; 450 is the goal, not yet met |
 | First playable frame        | ≤3 s on Fast 4G | manual (`window.__groveLoadMs`)                                                                                     |
 | 7-day `indefinite` catch-up | ≤3 s            | `tests/sim/offline.test.ts`                                                                                         |
-| One autosave                | ≤2 ms           | manual (debug panel `save` section in the frame log)                                                                |
+| 30-day catch-up, full Grove | ≤1.5 s          | `tests/sim/offline-perf.test.ts` (8 adults, campaign, Hollow run; TECH-73: ~0.4 s, so no worker needed)             |
+| One autosave                | ≤2 ms           | `tests/sim/offline-perf.test.ts` (serialise, 8 adults, campaign, Hollow run; the write is manual)                   |
 
 ## How the renderers hold it
 
