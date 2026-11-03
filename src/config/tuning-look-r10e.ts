@@ -37,6 +37,23 @@ export const METAL_ARM = { steel: '#9aa4b8', joint: '#5c6478', claw: '#dcd6e6' }
 export const DINO_LEAN_DEG = 25;
 
 /**
+ * R0377: the Greymon line's 3D stripes wrap from `from` degrees (180 is the spine) to `to`
+ * (0 is the belly) round each flank in `segs` painted capsules of radius `r`, laid `out` times the body radius
+ * (the sculpt's blended surface stands a little outside the body ellipsoid).
+ */
+export const STRIPE_WRAP = { from: 170, to: 50, segs: 4, r: 0.1, out: 1.08 } as const;
+
+/** R0377: MetalGreymon's chest missile in 3D: its steel body, red nose and the dark hatch. */
+export const CHEST_MISSILE = { body: '#9aa4b8', nose: '#d8402a', hatch: '#2a2838' } as const;
+
+/**
+ * R0377: the Pixel side of that lean (creature.ts `leanPixels`): rows above the hips slide
+ * forward `slope` design pixels per row up from the hips, at most `max`, so the snout stays
+ * in the 32 px frame. Quarter views take half.
+ */
+export const DINO_LEAN_PX = { slope: 0.3, max: 4 } as const;
+
+/**
  * LOOK-51: the garden idle acts (render/idle-acts.ts). A content Nubbin standing idle plays
  * one every `gapMs` (seeded per Nubbin, skipped while a personality gag plays) for `playMs`;
  * a child at `childRate` of the rate. `weights` is each personality's table (a Nubbin with no

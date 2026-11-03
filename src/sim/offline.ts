@@ -87,6 +87,10 @@ function isReportable(e: SimEvent): boolean {
   return (
     e.kind === 'hatched' ||
     e.kind === 'evolved' ||
+    // Lane F r11 (EVO): every later stage too, so the away screen shows the whole path.
+    e.kind === 'secondEvolved' ||
+    e.kind === 'speciesGrew' ||
+    e.kind === 'ascended' ||
     e.kind === 'reborn' ||
     e.kind === 'departed' ||
     e.kind === 'eternal' ||

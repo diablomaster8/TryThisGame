@@ -11,6 +11,9 @@ import type { NubbinType, SimEvent } from '../sim/types';
 import { EVOLVE_QUIPS } from '../config/strings-fun-r7';
 import { startQuip } from '../render/evolve-quip';
 import { toastBand } from './fun-toasts';
+import { EVO_TEXT, STAGE_NAMES } from '../config/strings-evo';
+import { stageInfo } from '../sim/growth-stage';
+import type { Nubbin } from '../sim/types';
 import { button, dialogFocus, el } from './dom';
 
 /**
@@ -88,6 +91,43 @@ export class Celebration {
         el('p', undefined, UI_TEXT.groveUnlocked(GROVE_LABELS[e.groveUnlocked])),
       );
     }
+    if (n) this.lines.appendChild(this.stageLine(n));
+    this.parent.appendChild(this.root);
+    this.root.hidden = false;
+    this.focus.opened();
+    clearTimeout(this.timer);
+    this.timer = window.setTimeout(() => this.hide(), 6000);
+  }
+
+  /** The stage the Nubbin stands on now, as one line: name and "Stage k of M". */
+  private stageLine(n: Nubbin): HTMLParagraphElement {
+    const info = stageInfo(n);
+    const name =
+      info.key === 'radiant' && n.species === 'chao' ? EVO_TEXT.chaosTier : STAGE_NAMES[info.key];
+    return el('p', 'celebrate-stage', EVO_TEXT.stageReached(name, info.index, info.total));
+  }
+
+  /** Lane F r11 (EVO): the card for the later stages (second form, new species, the top). */
+  showStage(e: Extract<SimEvent, { kind: 'secondEvolved' | 'speciesGrew' | 'ascended' }>): void {
+    const g = this.game();
+    if (!g) return;
+    const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+    const name = n?.name ?? NAMES.creature;
+    this.evolved = null;
+    this.lines.innerHTML = '';
+    const species = SPECIES_LABELS[e.species] ?? e.species;
+    if (e.kind === 'ascended') {
+      const tier = e.species === 'chao' ? EVO_TEXT.chaosTier : STAGE_NAMES.radiant;
+      this.title.textContent = EVO_TEXT.ascendedTitle(name);
+      this.lines.appendChild(el('p', 'celebrate-form', EVO_TEXT.ascendedLine(tier)));
+    } else if (e.kind === 'secondEvolved') {
+      this.title.textContent = EVO_TEXT.secondTitle(name);
+      this.lines.appendChild(el('p', 'celebrate-form', `${species} · ${TYPE_LABELS[e.second]}`));
+    } else {
+      this.title.textContent = EVO_TEXT.grewTitle(name);
+      this.lines.appendChild(el('p', 'celebrate-form', species));
+    }
+    if (n) this.lines.appendChild(this.stageLine(n));
     this.parent.appendChild(this.root);
     this.root.hidden = false;
     this.focus.opened();

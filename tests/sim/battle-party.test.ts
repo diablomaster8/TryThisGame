@@ -55,7 +55,7 @@ describe('party bouts', () => {
   });
 
   it('everyone chooses, then the turn resolves; a breath goes first; Huddle heals', () => {
-    const b = bout(partyWorld(3000), 2, 5);
+    const b = bout(partyWorld(3000), 2, 6);
     expect(b.active).toBe(0);
     battleAct(b, { k: 'guard' });
     // Choosing resolves nothing yet (recs FIGHT-18).
@@ -70,6 +70,7 @@ describe('party bouts', () => {
     expect(b.turn).toBe(2);
     expect(b.active).toBe(0);
     const hurt = b.sides[0].find((p) => p.hp < p.maxHp && standing(p));
+    expect(hurt).toBeDefined();
     if (hurt) {
       battleAct(b, { k: 'rally' });
       battleAct(b, { k: 'guard' });

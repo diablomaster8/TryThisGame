@@ -29,6 +29,7 @@ import { grandchildSpec } from '../samples/grandchild-spec';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
+import { RADIANT_ART_PREFIX } from '../render/sprites/stage-art';
 import { color, shadeOf } from '../render/sprites/palette';
 import { keeperOutfit } from '../render/keeper-look';
 import { EXTRA_LOOKS } from '../sim/extra-looks';
@@ -36,8 +37,9 @@ import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
 import { withNpcAccessories } from './npc-accessories';
 import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS, WEATHERED } from '../config/npc-looks';
-import { CHILD_HINT } from '../config/tuning';
+import { CHILD_HINT, RADIANT3D } from '../config/tuning';
 import { withBirthmark } from './birthmark-3d';
+import { withRadiant } from './radiant-3d';
 import { weathered } from './weathered';
 
 /**
@@ -73,7 +75,12 @@ function resolve(key: string): SpeciesSpec | null {
   if (key.startsWith('art:')) {
     const id = key.slice(4);
     const art = speciesArt(id);
-    return art ? artSpec(id, art) : null;
+    if (!art) return null;
+    const spec = artSpec(id, art);
+    // Lane F r11 (EVO): a Radiant pocket form glows at the rim, like the Eternals.
+    return id.startsWith(RADIANT_ART_PREFIX)
+      ? { ...spec, surface: { ...spec.surface, rimGlow: RADIANT3D.rimGlow } }
+      : spec;
   }
   return null;
 }
@@ -303,6 +310,10 @@ export function specForKey(key: string): SpeciesSpec {
       (m) => m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny',
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
+    // Lane F r11 (EVO): the Chaos-tier stage over a second form, while the spec still knows
+    // its palette roles (critter parts and birthmarks clone it without them).
+    const radiant = mod('radiant:');
+    if (radiant) spec = withRadiant(spec, radiant);
     const parts = mod('parts:');
     if (parts)
       spec = withCritterParts(

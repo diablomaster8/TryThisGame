@@ -6,10 +6,11 @@ import {
   drawKitBody,
   drawKitExtras,
   kitAnchors,
+  quadOf,
   type KitExtra,
   type KitPlan,
   type QuadOpts,
-} from './creature-kit-digi';
+} from './creature-kit-quad';
 import {
   drawGas,
   drawGen1b,
@@ -30,7 +31,8 @@ import {
   type SerpentOpts,
 } from './creature-serpent';
 import { C, shadeOf } from './palette';
-import { PixelCanvas } from './pixel-canvas';
+import { PixelCanvas, PX } from './pixel-canvas';
+import { DINO_LEAN_PX } from '../../config/tuning-look-r10e';
 import { drawExtras, type Extra } from './creature-extras';
 import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
 
@@ -108,7 +110,7 @@ export interface CreatureSpec {
   /** Width over the plan's default, body and (more gently) head: a squat Gengar, a vast Snorlax. */
   girth?: number;
   marks: Mark[];
-  /** Extra head and body pieces from the digital-line kit (creature-kit-digi.ts). */
+  /** Extra head and body pieces from the digital-line kit (creature-kit-quad.ts). */
   extras?: readonly KitExtra[];
   /** Extra parts for the later first-generation pocket species (`creature-gen1b.ts`). */
   gen1b?: Gen1bPart[];
@@ -116,7 +118,7 @@ export interface CreatureSpec {
   heads?: HeadsSpec;
   /** The serpent plan's body chain (`creature-serpent.ts`, LOOK-05). */
   serpent?: SerpentOpts;
-  /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
+  /** The quad plan's stance, legs, neck and muzzle (`creature-kit-quad.ts`, LOOK-06). */
   quad?: QuadOpts;
   /** The bird plan's wing edge and tail (`creature-bird.ts`, LOOK-39). */
   bird?: BirdOpts;
@@ -399,6 +401,9 @@ function drawTail(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, behind: boole
   if (behind === a.back) return;
   let x = a.back ? a.bodyCx + 1 : a.face >= 1 ? a.bodyCx - a.bodyRx - 1 : a.bodyCx + a.bodyRx - 1;
   let y = (a.plan === 'round' ? a.headCy + 2 : a.bodyCy) + 1;
+  // LOOK-06: a quad's tail leaves the rump high (a dog's, a fox's) or low (a rat's, a slowpoke's).
+  if (a.plan === 'quad')
+    y = a.bodyCy + Math.round(a.bodyRy * (quadOf(spec).tailSet === 'low' ? 0.4 : -0.5));
   // LOOK-10: a round baby's flame curls out past the big head, so it shows from the front.
   if (spec.tail === 'flame' && a.plan === 'round' && a.face < 1 && !a.back) {
     x = a.headCx + a.headRx - 2;
@@ -791,6 +796,41 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
   }
 }
 
+/**
+ * The Greymon line (a long snout under a skull helmet, or SkullGreymon's ribs) leans forward
+ * over its legs; Charizard's snout alone does not. The 3D side reads the same test.
+ */
+export function leansForward(spec: CreatureSpec): boolean {
+  const x = spec.extras ?? [];
+  return x.includes('dinoSnout') && (x.includes('skullHelmet') || x.includes('ribs'));
+}
+
+/**
+ * R0377: the Pixel lean. The 3D figure shears everything above the hips forward by
+ * DINO_LEAN_DEG; a 32 px frame cannot take the full slope, so rows above the hips slide
+ * toward the face (+x in the side and front quarter views) by `DINO_LEAN_PX.slope` design pixels per row (the full share from the
+ * side, half from the quarter views, none head-on), in whole design pixels so the art stays
+ * crisp, capped so the snout stays in the frame. The legs and feet stay planted.
+ */
+function leanPixels(pc: PixelCanvas, a: Anchors): void {
+  const share = a.face >= 1 ? 1 : a.face > 0 ? 0.5 : 0;
+  if (share === 0) return;
+  const hip = a.bodyCy + Math.round(a.bodyRy * 0.4);
+  const { width, data } = pc;
+  for (let y = 0; y < hip; y++) {
+    const n = Math.min(DINO_LEAN_PX.max, Math.round((hip - y) * DINO_LEAN_PX.slope * share));
+    if (n === 0) continue;
+    const by = n * PX;
+    for (let r = y * PX; r < (y + 1) * PX; r++) {
+      const row = data.slice(r * width, (r + 1) * width);
+      for (let x = 0; x < width; x++) {
+        const from = x - by;
+        data[r * width + x] = from >= 0 && from < width ? row[from]! : 0;
+      }
+    }
+  }
+}
+
 /** Draw one frame of a species into a fresh 32×32 canvas, wearing `hat` when given (LOOK-61). */
 export function drawCreature(
   angle: DrawnAngle,
@@ -833,6 +873,7 @@ export function drawCreature(
     if (angle !== 'side') pc.px(a.headCx - a.headRx + 2, cy, C.rose);
     pc.px(a.headCx + a.headRx - 2, cy, C.rose);
   }
+  if (leansForward(spec)) leanPixels(pc, a);
   pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
   drawGas(pc, a, spec);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;

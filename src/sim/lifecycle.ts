@@ -17,6 +17,7 @@ import { levelOf, nextGrade } from './stats';
 import { lifespanMs, noteEvolutionSlips } from './slips';
 import { beforeRebirth } from './inheritance';
 import { evolvedThisLife } from './degeneration';
+import { canAscend } from './growth-stage';
 import type {
   AlignmentBand,
   CocoonKind,
@@ -105,6 +106,11 @@ export function advanceStage(
           n.species = next;
           events.push({ kind: 'speciesGrew', nubbinId: n.id, species: n.species });
         }
+      }
+      // Lane F r11 (EVO): the top stage, Chaos-tier or Radiant, once the care bar is met.
+      if (canAscend(n)) {
+        n.form.radiant = true;
+        events.push({ kind: 'ascended', nubbinId: n.id, species: n.species });
       }
     }
     // The heads-up: live, once a life, when the end is near and the bar not yet met.

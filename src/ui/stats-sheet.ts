@@ -49,6 +49,8 @@ import { BattleCard } from './battle-card';
 import { jobOfNubbin } from '../sim/battle/tactics/jobs';
 import { JOB_LAYER_TEXT, JOB_TEXT } from '../config/strings-tactics';
 import { button, el, meter } from './dom';
+import { EVO_TEXT, STAGE_ICONS, STAGE_NAMES } from '../config/strings-evo';
+import { stageInfo } from '../sim/growth-stage';
 
 const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 
@@ -87,6 +89,9 @@ export class StatsSheet {
   private renamer: RenameDialog | null = null;
   /** R0360: the dry caption under the name. */
   private readonly caption: HTMLDivElement;
+  /** Lane F r11 (EVO): the stage row: pips, icon, name and "Stage k of M". */
+  private readonly stageRow: HTMLDivElement;
+  private stageKey = '';
   /** R0522: the personality chip (a child's leaning) and its card. */
   private readonly personality = new PersonalityChip();
   /** Lane A r8: likes, dislikes, the favourite toy and a moody chip. */
@@ -134,6 +139,8 @@ export class StatsSheet {
     head.prepend(handle);
     this.caption = el('div', 'sheet-caption');
     this.caption.hidden = true;
+    this.stageRow = el('div', 'sheet-stage');
+    this.stageRow.setAttribute('role', 'group');
 
     const needs = el('div', 'sheet-needs');
     this.meters = {
@@ -320,7 +327,15 @@ export class StatsSheet {
     this.insideBox.append(needs);
     this.growBox = el('div', 'sheet-panel');
     this.placeGrow(false);
-    this.root.append(head, this.caption, this.tabBar, this.careBox, this.insideBox, this.growBox);
+    this.root.append(
+      head,
+      this.caption,
+      this.stageRow,
+      this.tabBar,
+      this.careBox,
+      this.insideBox,
+      this.growBox,
+    );
     parent.appendChild(this.root);
   }
 
@@ -480,6 +495,30 @@ export class StatsSheet {
     this.game()?.send({ kind: 'select', id: null });
   }
 
+  /** The stage row: rebuilt only when the stage changes. */
+  private refreshStage(n: Nubbin): void {
+    const info = stageInfo(n);
+    const name =
+      info.key === 'radiant' && n.species === 'chao' ? EVO_TEXT.chaosTier : STAGE_NAMES[info.key];
+    const text = EVO_TEXT.stageOf(info.index, info.total);
+    const key = `${info.index}|${info.total}|${info.key}|${name}`;
+    if (key === this.stageKey) return;
+    this.stageKey = key;
+    const pips = el('span', 'stage-pips');
+    pips.setAttribute('aria-hidden', 'true');
+    for (let i = 1; i <= info.total; i++)
+      pips.appendChild(el('span', i <= info.index ? 'stage-pip on' : 'stage-pip'));
+    const icon = el('span', 'stage-icon', STAGE_ICONS[info.key]);
+    icon.setAttribute('aria-hidden', 'true');
+    this.stageRow.replaceChildren(
+      pips,
+      icon,
+      el('span', 'stage-name', name),
+      el('span', 'stage-of', text),
+    );
+    this.stageRow.setAttribute('aria-label', `${EVO_TEXT.stageLabel}: ${name}, ${text}`);
+  }
+
   /** Called every few frames while open. */
   refresh(): void {
     const g = this.game();
@@ -492,6 +531,7 @@ export class StatsSheet {
     }
     this.name.textContent = n.name;
     this.subtitle.textContent = subtitleFor(n, world);
+    this.refreshStage(n);
     this.personality.update(n);
     this.personality.meter(n, toastBand(world) === 'sprout');
     this.soul.update(n);

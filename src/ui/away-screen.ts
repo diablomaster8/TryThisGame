@@ -1,4 +1,5 @@
-import { formatDuration, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import { formatDuration, NAMES, SPECIES_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import { EVO_TEXT, STAGE_NAMES } from '../config/strings-evo';
 import type { AwayReport, World } from '../sim/types';
 import { button, dialogFocus, el } from './dom';
 import { awayDiary } from '../sim/away-diary';
@@ -65,6 +66,19 @@ export class AwayScreen {
           text = UI_TEXT.awayEvolved(
             nameOf(e.nubbinId),
             `${bandWord(e.band)} ${TYPE_LABELS[e.type]}`,
+          );
+          break;
+        // Lane F r11 (EVO): the later stages, so the away screen shows the whole path.
+        case 'secondEvolved':
+          text = EVO_TEXT.awaySecond(nameOf(e.nubbinId), TYPE_LABELS[e.second]);
+          break;
+        case 'speciesGrew':
+          text = EVO_TEXT.awayGrew(nameOf(e.nubbinId), SPECIES_LABELS[e.species] ?? e.species);
+          break;
+        case 'ascended':
+          text = EVO_TEXT.awayAscended(
+            nameOf(e.nubbinId),
+            e.species === 'chao' ? EVO_TEXT.chaosTier : STAGE_NAMES.radiant,
           );
           break;
         case 'reborn':

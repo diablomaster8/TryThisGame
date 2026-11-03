@@ -44,6 +44,39 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - R0640: the region pitch card is shown once ever per line (`QuestBook.pitched?`, optional, no bump, set by the `linePitched` command).
 - R0630: hats are unequipped at boot only when they are side-save hats (`DERIVED_HATS`) that the side saves no longer give.
 
+## Round 11 · Lane F EVO: evolution ladders and the creator code (2026-11-02, branch r11/f)
+
+Plan and tree: `recs-2026-10-27/EVOLUTION-PLAN-2026-11-02.md`. Shots: `recs-2026-10-27/evo-shots/`.
+
+- **Works.**
+  - Every line has a ladder (`sim/growth-stage.ts` `stageInfo`), egg counted. Chao: egg → child →
+    first form → second form → Chaos-tier (5), or the Eternal at the top. Pocket: egg → each species →
+    Radiant (4–5). A single species shows a juvenile look for the child hour. Digital: 6 stages, ending
+    at the Ultimate.
+  - The top stage (`form.radiant`, event `ascended`) is checked every step from adult +14.4 h. It
+    needs lifetime happiness ≥ 30, affection ≥ 60 and one stat at level 10 or more (`RADIANT` in
+    tuning). It runs the same way in catch-up, and the away screen lists second forms, species
+    changes and the top stage.
+  - Eight canon evolutions extend short pocket lines (`sim/species-r11.ts`, `species-art-r11.ts`).
+  - Looks in both modes:
+    - Chao Chaos-tier: Pixel uses `radiant-sign.ts` + `radiantColors`; 3D uses `radiant-3d.ts`
+      `~radiant:<band>`. Each band gets its own colours and signature, and it never copies an
+      Eternal.
+    - Pocket Radiant and juvenile recipes: `render/sprites/stage-art.ts`, `art:radiant:<id>`.
+  - The stats sheet has a stage row (pips, icon, name, "Stage k of M"). Celebration cards show for
+    the top stage, second forms and species changes.
+  - Creator code: the roster's receive box takes it, and the sim checks a salted SHA-256
+    (`sim/creator.ts`). It sets `world.creator` (save v15, migration and fixtures). The picker
+    (`ui/creator-picker.ts`) grants or transforms through the `creatorGrant`/`creatorTransform`
+    commands.
+- **Stubbed.**
+  - The 3D Radiant rim glow is applied only in the game's look keys, not on the stage's art sheet.
+  - Ironwyrm still reads close to Boulderwyrm.
+- **Known.**
+  - Creator picks bypass the Eternal rules by design (Maor only).
+  - `window.groveUi.creator.open()` opens the picker in dev even while it is locked. The sim
+    refuses the commands.
+
 ## Gentle life cycle (2026-11-02, branch feat/gentle-lifecycle)
 
 Maor, 2026-11-02: "nubbins die way too quickly... they should rarely die". He approved the set

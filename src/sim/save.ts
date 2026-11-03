@@ -10,7 +10,7 @@ import { defaultSettings } from './world';
 import { footing } from './terrain';
 import { cleanSlotLabel } from './slot-label';
 
-export const SAVE_VERSION = 14;
+export const SAVE_VERSION = 15;
 
 export interface SaveFile {
   version: number;
@@ -186,6 +186,12 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       n.graceMs = null;
       n.restNoticed = false;
     }
+    return data;
+  },
+  // 14 to 15 (lane F r11, EVO): the creator picker starts locked.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    if (world) world.creator ??= false;
     return data;
   },
 ];

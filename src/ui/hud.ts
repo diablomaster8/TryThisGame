@@ -29,7 +29,6 @@ import {
   PERSONALITY_LABELS,
   SPECIES_LABELS,
   TRAINER_LABELS,
-  TYPE_LABELS,
   UI_TEXT,
   DUNGEON_TEXT,
   HOLLOW_TEXT,
@@ -896,6 +895,9 @@ export function mountHud(
       shop,
       expedition,
       sheet,
+      get creator() {
+        return roster.creator;
+      },
       get debug() {
         return debug;
       },
@@ -1582,14 +1584,14 @@ export function mountHud(
             lastUnreachableToast = now;
             toast(e.jump ? MOVE_TEXT.jumpUpThere : MOVE_TEXT.cantGoThere);
           }
-        } else if (e.kind === 'secondEvolved') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
-        } else if (e.kind === 'speciesGrew') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(
-            UI_TEXT.speciesGrew(n?.name ?? NAMES.creature, SPECIES_LABELS[e.species] ?? e.species),
-          );
+        } else if (
+          e.kind === 'secondEvolved' ||
+          e.kind === 'speciesGrew' ||
+          e.kind === 'ascended'
+        ) {
+          // Lane F r11 (EVO): the later stages get the card (and not a toast as well).
+          celebration.showStage(e);
+          if (e.kind === 'ascended') evolveFlash(g.camera.reduceMotion);
         } else if (e.kind === 'cocoonStarted' && e.cocoon !== 'evolve') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;

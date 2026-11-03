@@ -5275,3 +5275,92 @@ html.story-resting canvas {
     forced-color-adjust: none;
   }
 }
+
+/* ---------- Lane F r11 (EVO): stage row and creator picker ---------- */
+
+.sheet-stage {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  min-height: 32px;
+}
+
+.stage-pips {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.stage-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  box-sizing: border-box;
+  opacity: 0.55;
+}
+
+.stage-pip.on {
+  background: currentColor;
+  opacity: 1;
+}
+
+.stage-name {
+  font-weight: 700;
+}
+
+.stage-of {
+  opacity: 0.85;
+}
+
+.celebrate-stage {
+  font-weight: 700;
+}
+
+.creator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.creator-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875rem;
+}
+
+.creator-field select {
+  min-height: 44px;
+  font-size: 1rem;
+}
+
+.creator-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.creator-check input {
+  width: 24px;
+  height: 24px;
+}
+
+.creator-error {
+  color: #b3261e;
+  font-weight: 700;
+  min-height: 1.2em;
+}
+
+.creator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.creator-actions .btn {
+  min-height: 44px;
+}

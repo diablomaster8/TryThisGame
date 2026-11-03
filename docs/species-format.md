@@ -392,7 +392,7 @@ With the `boulders` part, every segment is a rock (Onix).
 
 ## Generated species: the quad plan
 
-A recipe with `plan: 'quad'` may carry a `quad` block (`creature-kit-digi.ts` `quadOf`, LOOK-06), read
+A recipe with `plan: 'quad'` may carry a `quad` block (`creature-kit-quad.ts` `quadOf`, LOOK-06), read
 by both renderers. Babies (size under 0.95) keep a head a third bigger.
 
 | Field     | What it does                                                                                  |
@@ -401,7 +401,7 @@ by both renderers. Babies (size under 0.95) keep a head a third bigger.
 | `legLen`  | Leg length, 0.4–1.0 (dog 0.6, horse 0.9).                                                     |
 | `neck`    | How far the head stands up and forward on a neck, 0–0.6.                                      |
 | `snout`   | Muzzle length, 0–0.5.                                                                         |
-| `tailSet` | `high` or `low`; read by neither renderer yet.                                                |
+| `tailSet` | `high` (default, off the top of the rump) or `low` (drooping, Rattata, Slowpoke).             |
 
 ## Where it is seen
 

@@ -35,6 +35,9 @@ import { mayWear } from '../sim/remembrance'; /* Lane E r9 */
 import { playChirp } from '../platform/audio';
 import { chirpVoice } from '../platform/chirp-voice';
 import { speciesOf } from '../sim/species';
+import { isCreatorCode } from '../sim/creator';
+import { CREATOR_TEXT } from '../config/strings-evo';
+import { CreatorPicker } from './creator-picker';
 
 const PERSONALITIES: readonly Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
 
@@ -48,6 +51,8 @@ export class RosterMenu {
   private readonly list: HTMLDivElement;
   private readonly codeDialog: ReturnType<typeof modal>;
   private readonly receiveDialog: ReturnType<typeof modal>;
+  /** Lane F r11 (EVO): the creator picker, opened by the creator code. */
+  readonly creator: CreatorPicker;
   /** R0579 (lane A r8): show only one personality, or all. */
   private filter: Personality | 'all' = 'all';
 
@@ -62,6 +67,7 @@ export class RosterMenu {
     this.dialog.body.appendChild(this.list);
     this.codeDialog = modal(parent, UI_TEXT.share, UI_TEXT.close);
     this.receiveDialog = modal(parent, UI_TEXT.receive, UI_TEXT.close);
+    this.creator = new CreatorPicker(parent, game);
   }
 
   open(): void {
@@ -81,6 +87,19 @@ export class RosterMenu {
     const g = this.game();
     if (!g) return;
     this.list.innerHTML = '';
+    // Lane F r11 (EVO): the creator picker's button, only once the creator code was entered.
+    if (g.world.creator) {
+      this.list.appendChild(
+        button(
+          CREATOR_TEXT.open,
+          () => {
+            this.dialog.hide();
+            this.creator.open();
+          },
+          'btn btn-small',
+        ),
+      );
+    }
     // Moss is not listed while he keeps to the hill (sim/roster.ts).
     // Lane C r10 agent D (R0594): a line's Nubbin living in its own place is listed only there.
     const mine = nubbinsHere(g.world, rosterNubbins(g.world));
@@ -283,6 +302,16 @@ export class RosterMenu {
       UI_TEXT.receiveTake,
       () => {
         const g = this.game();
+        // Lane F r11 (EVO): the creator code is not a share code; it unlocks the picker.
+        if (g && isCreatorCode(box.value)) {
+          g.send({ kind: 'creatorUnlock', code: box.value.trim() });
+          box.value = '';
+          status.textContent = CREATOR_TEXT.unlocked;
+          d.hide();
+          this.creator.open();
+          setTimeout(() => this.refresh(), 150);
+          return;
+        }
         const n = decodeNubbin(box.value.trim());
         if (!g || !n) {
           status.textContent = UI_TEXT.codeBad;
