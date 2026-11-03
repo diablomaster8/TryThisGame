@@ -24,6 +24,7 @@ import { attentionReport, gameStandards, printButton, weekChart } from './edu-re
 import { storyProgress, storySettings } from './edu-story';
 import { tipsDeckPanel } from './edu-tips-deck';
 import { childrenList } from './children-list';
+import { graduateSection } from './graduate';
 import { tagRows } from './kids-tag-rows';
 import { langProgress } from './lang';
 import { lossSettings } from './loss-notice';
@@ -143,6 +144,7 @@ function drawChild(body: HTMLElement, g: Game, game: () => Game | null, rerender
   body.appendChild(tagRows(g, e.icon ?? null, e.tagColour ?? null));
   storySettings(body, g);
   childrenList(body, g, rerender); /* R0728 */
+  graduateSection(body, g); /* R0727 */
   // Lane E r10 (R0709, R0710): reading and touch.
   body.appendChild(el('h3', undefined, ACCESS_TEXT.heading));
   mountAccessSettings(body, game)(g);
