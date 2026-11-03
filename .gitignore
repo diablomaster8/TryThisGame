@@ -9,3 +9,4 @@ Thumbs.db
 script-book-whole/
 docs/logs/parity/
 tests/e2e/out/
+.cache/
