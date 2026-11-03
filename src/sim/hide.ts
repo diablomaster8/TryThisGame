@@ -19,7 +19,7 @@ const HIDING = /^(tree|rock|lantern|wild|well|windmill)(-|$)/;
 export function hideSpot(world: World, n: Nubbin): Vec2 | null {
   const k = world.keeper.pos;
   let best: Vec2 | null = null;
-  let bestD = HIDE.radius;
+  let bestD: number = HIDE.radius;
   for (const c of obstacles(world)) {
     if (c.shape.type !== 'circle' || c.top < 0.6 || !HIDING.test(c.id)) continue;
     if (c.flags.includes('soft') || c.flags.includes('nubbinOnly')) continue;

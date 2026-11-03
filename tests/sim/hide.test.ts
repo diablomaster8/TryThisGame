@@ -17,7 +17,7 @@ function shyOne(world: World): Nubbin {
 
 describe('peekaboo hide state (R0321)', () => {
   it('picks a spot on the far side of an obstacle from the Keeper', () => {
-    const world = createWorld('hide');
+    const world = createWorld(1, 0);
     const n = shyOne(world);
     const tree = obstacles(world).find((c) => c.id.startsWith('tree-'))!;
     n.pos = { x: tree.x + 1, z: tree.z + 1 };
@@ -31,7 +31,7 @@ describe('peekaboo hide state (R0321)', () => {
   });
 
   it('only shy Nubbins hide, and a hider pops out giggling when the Keeper walks up', () => {
-    const world = createWorld('hide2');
+    const world = createWorld(2, 0);
     const n = shyOne(world);
     n.personality = 'cheerful';
     expect(hideAct(n, world, Rng.fromSeed(1))).toBeNull();
