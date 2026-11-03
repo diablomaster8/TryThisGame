@@ -760,7 +760,7 @@ export function mountHud(
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
   const moreList = el('div', 'title-menu');
   for (const [label, open] of [
-    [`🏫 ${UI_TEXT.kindergarten}`, () => kindergarten.open()],
+    [`🏫 ${UI_TEXT.kindergarten}`, () => (game()?.world.edu ? edu : kindergarten).open()],
     [`🥋 ${UI_TEXT.karate}`, () => karate.open()],
     [`📔 ${UI_TEXT.collection}`, () => book.open()],
     [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
@@ -2164,7 +2164,8 @@ export function mountHud(
       }
       if (id?.startsWith('building:') && g) {
         const which = id.slice('building:'.length);
-        if (which === 'school') kindergarten.open();
+        // R0742: in the Learning Grove the hut is the door to Play & learn.
+        if (which === 'school') (g.world.edu ? edu : kindergarten).open();
         else if (which === 'dojo') karate.open();
         // R0527 (lane A r10): a Nubbin hiding inside is coaxed out by a tap on the door.
         else if (which === 'cottage' && g.world.nubbins.some((n) => n.cottageHide))
