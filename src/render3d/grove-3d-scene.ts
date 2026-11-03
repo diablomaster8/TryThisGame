@@ -91,6 +91,7 @@ import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from '
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
+import { StaticFreezer, freezeWanted } from './static-freeze';
 
 export { prewarmCreatures } from './prewarm';
 
@@ -311,6 +312,8 @@ export class Grove3dScene {
   private readonly villageSquare: VillageSquare;
   private readonly water: GroveWater;
   private readonly actors: Actors;
+  /** r11-d3: still scenery skips its matrix work (`static-freeze.ts`). */
+  readonly freezer: StaticFreezer | null;
   /** R0456 (lane D r10): the creature pool's sizes, for the debug panel's memory line. */
   get poolCounts(): CreaturePool['counts'] {
     return this.actors.pool.counts;
@@ -531,6 +534,14 @@ export class Grove3dScene {
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
+    this.freezer = freezeWanted()
+      ? new StaticFreezer(
+          this.scene,
+          (o) => o === this.actors.group,
+          2000,
+          new URLSearchParams(location.search).has('debug'),
+        )
+      : null;
     // Lane A r8: the idle looks' bursts (puddle splashes, fireflies, a harrumph's puff).
     this.actors.beatBurst = (kind, x, z) =>
       this.bursts.burst(
@@ -1601,6 +1612,7 @@ export class Grove3dScene {
     const dt = this.lastMs === 0 ? 0 : Math.max(0, Math.min(0.1, (nowMs - this.lastMs) / 1000));
     this.lastMs = nowMs;
     this.time.value = nowMs / 1000;
+    this.freezer?.tick(dt * 1000); // first, while the scene is as last drawn
     this.village.update(townUnlocks(world));
     this.ensureTrees(world);
     this.groveKind = world.grove;
