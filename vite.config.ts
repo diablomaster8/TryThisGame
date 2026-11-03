@@ -70,6 +70,42 @@ function woff2Only(): Plugin {
 }
 
 /**
+ * R0446 (TECH-04, r11-d3): lists the source modules in the eager graph (the entry chunk and
+ * every chunk it imports statically) in `dist/.vite/eager-modules.json`, so
+ * `npm run check:bundle` can fail when a Full 3D module leaks into what every player loads.
+ */
+function eagerModules(): Plugin {
+  return {
+    name: 'eager-modules',
+    apply: 'build',
+    generateBundle(_options, bundle) {
+      const chunks = Object.values(bundle).filter((c) => c.type === 'chunk');
+      const byName = new Map(chunks.map((c) => [c.fileName, c]));
+      const seen = new Set<string>();
+      const todo = chunks.filter((c) => c.isEntry).map((c) => c.fileName);
+      while (todo.length) {
+        const f = todo.pop()!;
+        if (seen.has(f)) continue;
+        seen.add(f);
+        const c = byName.get(f);
+        if (c) todo.push(...c.imports);
+      }
+      const slash = (s: string): string => s.replace(/\\/g, '/');
+      const root = slash(resolve('.'));
+      const modules = [...seen]
+        .flatMap((f) => Object.keys(byName.get(f)?.modules ?? {}))
+        .map((id) => slash(id).replace(root + '/', ''))
+        .sort();
+      this.emitFile({
+        type: 'asset',
+        fileName: '.vite/eager-modules.json',
+        source: JSON.stringify(modules, null, 1),
+      });
+    },
+  };
+}
+
+/**
  * R0461 (TECH-20): `offline-manifest.json` lists, per "Keep for offline" pack, the build
  * files that pack needs and their bytes, so Settings can show sizes and hand the service
  * worker the list. Packs are picked by chunk name, with every chunk they import. The
@@ -184,7 +220,7 @@ function offlineManifest(): Plugin {
 
 export default defineConfig({
   base,
-  plugins: [swBuildId(), woff2Only(), offlineManifest()],
+  plugins: [swBuildId(), woff2Only(), offlineManifest(), eagerModules()],
   build: {
     target: 'es2022',
     sourcemap: false,
