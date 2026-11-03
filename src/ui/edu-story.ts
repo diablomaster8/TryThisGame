@@ -5,6 +5,8 @@
  * the `parentNote` lines. Everything reads `world.edu` and the loaded edu chunk and sends
  * commands; nothing here changes the world.
  */
+import { listenOptIn, setListenOptIn } from '../platform/listen';
+import { LISTEN_TEXT } from '../config/strings-listen';
 import { standardsList } from './edu-report'; /* Lane E r10 */
 import { EDU_STORY_TEXT } from '../config/strings';
 import { READ_TEXT } from '../config/strings-fun-r7';
@@ -123,12 +125,26 @@ export function storySettings(body: HTMLElement, g: Game): void {
   );
   row2.append(cb2, text2);
   body.appendChild(row2);
+  listenRow(body);
   voiceChooser(body);
+}
+
+/** R0744: the grown-up's opt-in for the "I heard you!" listener (off by default). */
+function listenRow(body: HTMLElement): void {
+  const row = el('label', 'check-row');
+  const cb = el('input');
+  cb.type = 'checkbox';
+  cb.checked = listenOptIn();
+  cb.addEventListener('change', () => setListenOptIn(cb.checked));
+  const text = el('span');
+  text.append(el('strong', undefined, LISTEN_TEXT.label), el('small', undefined, LISTEN_TEXT.help));
+  row.append(cb, text);
+  body.appendChild(row);
 }
 
 /** R0698: the read-aloud voice chooser with a sample, for the voices this device has. */
 function voiceChooser(body: HTMLElement): void {
-  let voices: SpeechSynthesisVoice[] = [];
+  let voices: SpeechSynthesisVoice[];
   try {
     voices = englishVoices(window.speechSynthesis?.getVoices?.() ?? []);
   } catch {
