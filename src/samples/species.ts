@@ -404,6 +404,11 @@ export interface Rigged extends Creature {
   /** R0042: set by the stage: the biped walk's arm swing scaled (a running Keeper; 1 unset). */
   armSwingScale?: number;
   lookAt: THREE.Vector3 | null;
+  /**
+   * R0412: set by the stage: a face laid over the pose's own (photo mode's expression
+   * picker); `wink` shuts the first eye only. Null or unset keeps the pose's face.
+   */
+  faceOverride?: (Partial<Expression> & { wink?: boolean }) | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
   /**
@@ -2209,12 +2214,14 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     crownSpring?.update(fdt, still);
     mouth.open(mouthOpen);
     // The face: the pose's expression (with the species' overrides) eased in over a beat.
-    const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}) };
+    const over = rig.faceOverride;
+    const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}), ...(over ?? {}) };
     const k = pose === 'sleep' ? Math.min(1, dt / 1.2) : Math.min(1, dt / 0.3);
     mouth.mood((ex.frown ?? 0) * k, (ex.gape ?? 0) * k);
     lidClose = Math.max(lidClose, ex.lid * k);
     if (lidClose > 0) for (const l of lids) setLid(l, lidClose);
     else blink(lids, t, 0.6);
+    if (over?.wink && lids[0]) setLid(lids[0], 1);
     for (const e of eyes) {
       setLid(e.lower, ex.squint * k * 0.5);
       // A happy shut eye is the skin with a lash arc on it, not lids over a dome.

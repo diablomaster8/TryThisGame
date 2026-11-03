@@ -23,6 +23,9 @@ import { ALBUM, PHOTO_STICKERS } from '../config/tuning-look';
 import { addPhoto, listPhotos } from '../platform/photo-album';
 import { Album } from './album';
 import { PHOTO_SELFIE_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
+import { PHOTO3D_TEXT } from '../config/strings-photo3d';
+import { goldenUnlocked, Photo3dMode } from './photo-3d';
+import { drawFrame, PHOTO_FRAMES, type PhotoFrame } from './photo-look';
 
 /** A framed snapshot of a Nubbin, drawn on the pixel grid, saved as a PNG. */
 export class PhotoMode {
@@ -65,6 +68,43 @@ export class PhotoMode {
     // Lane E r9, R0441: the "With me" selfie with the Keeper.
     this.selfieBtn = button(`🤳 ${PHOTO_SELFIE_TEXT.withMe}`, () => this.toggleSelfie(), 'btn');
     this.dialog.body.appendChild(this.selfieBtn);
+    // R0412: Full 3D opens the free-camera mode; its card button comes back here.
+    this.photo3d = new Photo3dMode(parent, game, () => this.openCard());
+    // R0412: Pixel keeps its card, with a group shot and the frames.
+    const extras = el('div', 'photo-stickers');
+    this.groupBtn = button(`👥 ${PHOTO3D_TEXT.groups.row}`, () => this.toggleGroup(), 'btn');
+    extras.appendChild(this.groupBtn);
+    const frameSel = el('select');
+    frameSel.setAttribute('aria-label', PHOTO3D_TEXT.frame);
+    for (const f of PHOTO_FRAMES) {
+      const o = el('option', undefined, `${PHOTO3D_TEXT.frame}: ${PHOTO3D_TEXT.frames[f] ?? f}`);
+      o.value = f;
+      frameSel.appendChild(o);
+    }
+    frameSel.className = 'btn';
+    frameSel.addEventListener('change', () => {
+      this.frame = frameSel.value as PhotoFrame;
+      this.redraw();
+    });
+    this.frameSel = frameSel;
+    extras.appendChild(frameSel);
+    this.dialog.body.appendChild(extras);
+  }
+
+  private readonly photo3d: Photo3dMode;
+  /* R0412: the pixel card's group shot and frame. */
+  private readonly groupBtn: HTMLButtonElement;
+  private readonly frameSel: HTMLSelectElement;
+  private groupShot = false;
+  private frame: PhotoFrame = 'none';
+
+  private toggleGroup(): void {
+    this.groupShot = !this.groupShot;
+    this.groupBtn.textContent = this.groupShot
+      ? PHOTO3D_TEXT.groups.one!
+      : `👥 ${PHOTO3D_TEXT.groups.row}`;
+    if (this.groupShot && this.withMe) this.toggleSelfie();
+    this.redraw();
   }
 
   private readonly album: Album;
@@ -229,9 +269,22 @@ export class PhotoMode {
     );
   }
 
+  /** R0412: Full 3D opens the free-camera photo mode; Pixel (or a 3D view not ready) the card. */
   open(): void {
     const g = this.game();
     if (!g) return;
+    if (g.scene3d && this.photo3d.open(this.selected())) return;
+    this.openCard();
+  }
+
+  /** The framed card photo (Pixel's photo mode; Full 3D's card button). */
+  openCard(): void {
+    const g = this.game();
+    if (!g) return;
+    const golden = this.frameSel.querySelector<HTMLOptionElement>('option[value="golden"]');
+    if (golden) golden.disabled = !goldenUnlocked(g);
+    if (golden?.disabled && this.frame === 'golden') this.frame = 'none';
+    this.frameSel.value = this.frame;
     this.mode = 'nubbin';
     this.switcher.hidden = !chapterShot.get();
     this.switcher.textContent = `📷 ${STORY_UI_TEXT.chapterPhoto}`;
@@ -254,8 +307,13 @@ export class PhotoMode {
 
   close(): void {
     this.dialog.hide();
+    this.photo3d.close();
   }
 
+  /**
+   * The card dialog is open. The 3D mode is left out on purpose: the HUD holds the Full 3D
+   * render while a panel covers the Grove (`render-hold.ts`), and the 3D mode is the view.
+   */
   isOpen(): boolean {
     return this.dialog.isOpen();
   }
@@ -300,12 +358,18 @@ export class PhotoMode {
     for (let x = 8; x < W - 8; x += 7) ctx.fillRect(x, 66 + ((x * 7) % 5), 2, 1);
     // In Full 3D the picture is the Nubbin as it stands in the 3D Grove, not the sprite.
     // Lane E r9, R0441: with the Keeper, the selfie once it holds the Nubbin.
-    const selfie3d =
-      this.withMe && g.world.keeper.carrying === n.id
+    const group = this.groupShot ? this.drawGroup(g, n, ctx, W) : false;
+    const selfie3d = group
+      ? null
+      : this.withMe && g.world.keeper.carrying === n.id
         ? (g.scene3d?.selfie((W - 12) * S, 72 * S) ?? null)
         : null;
-    const shot = selfie3d ?? g.scene3d?.portrait(n.id, (W - 12) * S, 72 * S) ?? null;
-    if (shot) {
+    const shot = group
+      ? null
+      : (selfie3d ?? g.scene3d?.portrait(n.id, (W - 12) * S, 72 * S) ?? null);
+    if (group) {
+      // R0412: the row is already drawn.
+    } else if (shot) {
       ctx.imageSmoothingEnabled = true;
       ctx.drawImage(shot, 6, 6, W - 12, 72);
       ctx.imageSmoothingEnabled = false;
@@ -341,7 +405,7 @@ export class PhotoMode {
       }
     }
     // FUN-39: the photobomber leans in at the frame's edge, waving, half out of the picture.
-    if (fun.bomber) this.drawBomber(g, fun.bomber, fun.side, ctx, W, S);
+    if (fun.bomber && !group) this.drawBomber(g, fun.bomber, fun.side, ctx, W, S);
     drawShadowText(ctx, n.name, W / 2, 84, color(C.darkPlum), color(C.cream), 1, 'center');
     const form = n.species === 'chao' ? keyLabel(formKey(n)) : keyLabel(n.species);
     drawText(ctx, form, W / 2, 95, color(C.plum), 1, 'center');
@@ -368,7 +432,52 @@ export class PhotoMode {
       1,
       'center',
     );
+    // R0412: the chosen frame over the cream border, under the stickers.
+    if (this.frame !== 'none') {
+      ctx.imageSmoothingEnabled = true;
+      drawFrame(ctx, this.frame, W, H);
+      ctx.imageSmoothingEnabled = false;
+    }
     this.drawStickers(ctx);
+  }
+
+  /**
+   * R0412: the pixel group shot: up to eight hatched Nubbins in a row, the chosen one in the
+   * middle, each a front happy frame, shrinking a little as the row fills.
+   */
+  private drawGroup(g: Game, n: Nubbin, ctx: CanvasRenderingContext2D, W: number): boolean {
+    const others = g.world.nubbins.filter(
+      (x) => x.id !== n.id && x.stage !== 'egg' && x.stage !== 'cocoon',
+    );
+    if (others.length === 0) return false;
+    const cast = [n, ...others].slice(0, 8);
+    // Middle-out, so the chosen one stands in the centre.
+    const order = cast.map((_, i) => (i % 2 ? (i + 1) / 2 : -i / 2));
+    const size = Math.max(24, Math.min(52, Math.floor((W - 16) / cast.length) + 6));
+    const step = Math.min(size - 4, (W - 12 - size) / Math.max(1, cast.length - 1));
+    const shift = cast.length % 2 ? 0 : 0.5;
+    // Back row first (the outer ones), so the middle overlaps them.
+    const drawOrder = cast.map((x, i) => ({ x, s: order[i]! - shift })).reverse();
+    for (const { x, s } of drawOrder) {
+      const sheet = g.view.sheets.forNubbin(x);
+      const rect =
+        sheet.frames.get(frameKey('happy', 'front', 0)) ?? sheet.frames.values().next().value;
+      if (!rect) continue;
+      ctx.drawImage(
+        sheet.texture.image as HTMLCanvasElement,
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        Math.round(W / 2 - size / 2 + s * step),
+        72 - size + 2,
+        size,
+        size,
+      );
+    }
+    this.lastIds = cast.map((x) => x.id);
+    this.lastCaption = PHOTO3D_TEXT.caption(cast.map((x) => x.name));
+    return true;
   }
 
   /* Lane E r9 */
