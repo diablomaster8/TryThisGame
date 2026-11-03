@@ -20,7 +20,7 @@ describe('step systems', () => {
       'hop-lesson',
     ]);
     expect(SYSTEMS.at(-1)!.id).toBe('battle-needs');
-    expect(SYSTEMS.length).toBe(45);
+    expect(SYSTEMS.length).toBe(46);
   });
 
   it('every system declares live, offline and coarse behaviour', () => {
