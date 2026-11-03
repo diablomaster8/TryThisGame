@@ -268,4 +268,6 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   wildScanned: 'elsewhere',
   wildSettled: 'table',
   worldHint: 'elsewhere',
+  traceFound: 'elsewhere',
+  photoSpot: 'elsewhere',
 };
