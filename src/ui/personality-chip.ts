@@ -12,7 +12,7 @@ import {
   FORMING_TEXT,
 } from '../config/strings-fun-r7';
 import { PALETTE } from '../render/sprites/palette';
-import { leanShares, leaningPersonality } from '../sim/personality';
+import { PERSONALITIES, leanShares, leaningPersonality } from '../sim/personality';
 import { LIFECYCLE } from '../config/tuning';
 import type { Nubbin, Personality } from '../sim/types';
 import { el } from './dom';
@@ -74,6 +74,62 @@ const ICONS: Record<Personality, { rows: string[]; ink: Record<string, number> }
       '.llllll.',
     ],
     ink: { l: 28, K: 0, Z: 6 },
+  },
+  // R0529: the second four. Curious: wide eyes and a question mark.
+  curious: {
+    rows: [
+      '.....tt.',
+      '..ccc..t',
+      '.ccccct.',
+      'cKKccKKc',
+      'cKKccKKc',
+      'ccccccct',
+      'cccKKccc',
+      '.cccccc.',
+    ],
+    ink: { c: 30, K: 0, t: 0 },
+  },
+  // Gentle: closed, smiling eyes and a heart.
+  gentle: {
+    rows: [
+      '..bbbb..',
+      '.bbbbbb.',
+      'bKKbbKKb',
+      'bbbbbbbb',
+      'bbbbbbbb',
+      'bbKbbKbb',
+      '.bbKKbr.',
+      '..bbbrrr',
+    ],
+    ink: { b: 34, K: 0, r: 24 },
+  },
+  // Bold: a stern brow and a big grin.
+  bold: {
+    rows: [
+      '..oooo..',
+      '.oooooo.',
+      'oKKooKKo',
+      'ooKooKoo',
+      'oooooooo',
+      'oKKKKKKo',
+      '.oK66Ko.',
+      '..oooo..',
+    ],
+    ink: { o: 21, K: 0, '6': 6 },
+  },
+  // Dreamy: half-shut eyes and a little star.
+  dreamy: {
+    rows: [
+      's.vvvv..',
+      '.vvvvvv.',
+      'vvvvvvvv',
+      'vKKvvKKv',
+      'vvvvvvvv',
+      'vvvKKvvv',
+      '.vvvvvv.',
+      '..vvvv..',
+    ],
+    ink: { v: 19, K: 0, s: 20 },
   },
 };
 
@@ -166,7 +222,10 @@ export class PersonalityChip {
     const shares = leanShares(n);
     this.forming.innerHTML = '';
     const row = el('div', 'forming-bars');
-    for (const p of ['cheerful', 'shy', 'mischievous', 'lazy'] as const) {
+    // R0529: the first four always; the second four once their own care has begun, so a
+    // phone sheet is not eight thin bars from the start.
+    const shown = PERSONALITIES.filter((p, i) => i < 4 || shares[p] > 0);
+    for (const p of shown) {
       const bar = el('div', 'forming-bar');
       bar.setAttribute('role', 'img'); // TECH-28: an aria-label needs a role to be read.
       bar.setAttribute('aria-label', `${PERSONALITY_LABELS[p]} ${Math.round(shares[p] * 100)}%`);

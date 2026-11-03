@@ -17,6 +17,7 @@ import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
+import { basePersonality } from '../sim/personality';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
@@ -1229,7 +1230,7 @@ export class Actors {
         /* Lane E r10 */ if (!gag && act && act.emote !== 'none' && pose === act.pose3d)
           a.gagEmote = act.emote;
         a.rig.glide = fly?.phase === 'glide';
-        a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
+        a.rig.waddleScale = n.personality ? PERSONA_WADDLE[basePersonality(n.personality)] : 1;
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);

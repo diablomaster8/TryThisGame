@@ -48,7 +48,22 @@ export type LifeStage = 'egg' | 'child' | 'cocoon' | 'adult';
 /** Why a Nubbin is in a cocoon: growing up, being reborn, or moving on. */
 export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
 
-export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
+/**
+ * R0529 (SOUL-11): the eight personalities, the first four from the original set. Code that only
+ * knows the first four can map the rest with `basePersonality` (sim/personality.ts).
+ */
+export const PERSONALITIES = [
+  'cheerful',
+  'shy',
+  'mischievous',
+  'lazy',
+  'curious',
+  'gentle',
+  'bold',
+  'dreamy',
+] as const;
+
+export type Personality = (typeof PERSONALITIES)[number];
 
 /** R0167: a Hollow party role. */
 export type HollowRole = 'fetch' | 'fight' | 'light' | 'scout' | 'swim';
@@ -201,6 +216,17 @@ export interface Nubbin {
     tucks?: number;
     /** R0530: sim time the last touch or tuck-in was counted. */
     lastCareMs?: number;
+    /**
+     * R0529 (SOUL-11), the second four's care; absent = 0, no save bump. `curious`: critters
+     * given and things inspected; `gentle`: hugs, tuck-ins and praise; `bold`: high fives,
+     * games of catch and expeditions; `dreamMs`: sim ms sat near an idle Keeper.
+     */
+    curious?: number;
+    gentle?: number;
+    /** R0529: praise among the gentle care; gentle needs kind words, not hugs alone (R0530). */
+    praises?: number;
+    bold?: number;
+    dreamMs?: number;
   };
   /** Set at evolution. */
   form: NubbinForm | null;
@@ -2257,4 +2283,15 @@ export interface GearState {
 
 /** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
 export type PersonalityCause =
-  'pets' | 'touches' | 'throws' | 'feeds' | 'tucks' | 'quiet' | 'mixed';
+  | 'pets'
+  | 'touches'
+  | 'throws'
+  | 'feeds'
+  | 'tucks'
+  | 'quiet'
+  | 'mixed'
+  // R0529: the second four.
+  | 'critters'
+  | 'gentleCare'
+  | 'play'
+  | 'company';

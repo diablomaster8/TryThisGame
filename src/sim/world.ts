@@ -45,7 +45,7 @@ import {
   rollAsked,
   updateKeeper,
 } from './keeper';
-import { noteCare } from './personality';
+import { noteCare, noteSecondCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
 import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
 import { tzOf } from './local-time';
@@ -546,6 +546,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const ok = withRng(world, (rng) => giveCritter(n, cmd.species, rng, events));
       if (!ok) return;
       world.inventory.critters[cmd.species] = (world.inventory.critters[cmd.species] ?? 0) - 1;
+      noteSecondCare(n, 'curious');
       nudgeAlignment(n, k.alignment);
       react(n, 'love', now, events);
       return;
@@ -571,6 +572,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       }
       addRewards(world, r, events);
       noteCampaign(world, 'expedition');
+      // R0529: an expedition is a bold outing for every child at home.
+      for (const c of world.nubbins) noteSecondCare(c, 'bold');
       return;
     }
     case 'buy':
@@ -764,6 +767,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       n.behavior.untilMs = now + 20_000;
       n.behavior.itemId = toy.id;
       n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
+      noteSecondCare(n, 'bold');
       events.push({ kind: 'fetching', nubbinId: n.id });
       return;
     }

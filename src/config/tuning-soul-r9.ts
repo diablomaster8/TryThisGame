@@ -187,7 +187,16 @@ export const CALLING = {
 export const JEALOUSY = {
   radius: 5,
   /** Chance per pet by personality (no personality yet: cheerful's). */
-  chance: { cheerful: 0.4, mischievous: 0.5, shy: 0.1, lazy: 0.15 },
+  chance: {
+    cheerful: 0.4,
+    mischievous: 0.5,
+    shy: 0.1,
+    lazy: 0.15,
+    curious: 0.3,
+    gentle: 0.1,
+    bold: 0.45,
+    dreamy: 0.15,
+  },
   /** Any Nubbin this fond of the Keeper asks to be picked up too. */
   fondAffection: 60,
   askMs: 2500,

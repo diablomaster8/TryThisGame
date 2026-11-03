@@ -191,6 +191,10 @@ export const SHEET_CAPTIONS: Record<string, string> = {
   shy: 'Shy. Will tell you about it later. Much later.',
   mischievous: 'Up to something. Has been since Tuesday.',
   lazy: 'Lazy, in the way of a cat in the one patch of sun.',
+  curious: 'Curious. Has looked under every stone, then under the stones under those.',
+  gentle: 'Gentle. Pats anyone who looks sad, including the well.',
+  bold: 'Bold. Walks first, thinks second, splashes always.',
+  dreamy: 'Dreamy. Somewhere else, and enjoying the view.',
   hatted: 'Wears the hat as though it was always theirs. It was not.',
   glasses: 'The glasses are for reading. Nothing has been read.',
   shadow: 'Grey, and taking its time about trust. Fair.',
@@ -215,6 +219,10 @@ export const PERSONALITY_BLURBS = {
   shy: 'Would like to say hello. Has been working up to it since Tuesday.',
   mischievous: 'Not guilty. Probably. Look over there.',
   lazy: 'Believes walking is something that happens to other people.',
+  curious: 'Wants to know what that is. And that. And that.',
+  gentle: 'Will share its fruit. Will also share yours.',
+  bold: 'First into the pond, first out of it, first back in.',
+  dreamy: 'Watching a butterfly. Has been for some time.',
 } as const;
 
 export const PERSONALITY_TENDENCIES = {
@@ -222,6 +230,10 @@ export const PERSONALITY_TENDENCIES = {
   shy: ['Keeps its distance at first', 'Hides in bushes', 'Likes a quiet sit'],
   mischievous: ['Plays and swims a lot', 'Hardly ever sits', 'Up to something'],
   lazy: ['Sits and naps a lot', 'Not much of a swimmer', 'Greets you, eventually'],
+  curious: ['Wanders far', 'Pokes at anything new', 'Rarely sits for long'],
+  gentle: ['Comforts a crying friend', 'Shares its fruit', 'Greets you warmly'],
+  bold: ['Leads the others about', 'Splashes in the pond', 'Plays rough and loud'],
+  dreamy: ['Stargazes and watches butterflies', 'Slow on its feet', 'Sits near you a lot'],
 } as const;
 
 export const PERSONALITY_CHIP_TEXT = {
@@ -242,6 +254,10 @@ export const LOCKED_TEXT = {
     tucks: 'All those early nights.',
     quiet: 'All that quiet time on its own.',
     mixed: 'A bit of everything, mostly kindness.',
+    critters: 'All those critters and new things to look at.',
+    gentleCare: 'All those hugs, tuck-ins and kind words.',
+    play: 'All those high fives, games and trips out.',
+    company: 'All that quiet time sat beside you.',
   },
 } as const;
 
@@ -258,5 +274,9 @@ export const FORMING_TEXT = {
     'Throws → Mischievous',
     'Meals and early nights → Lazy',
     'Leaving it be → Shy',
+    'Critters and new things → Curious',
+    'Hugs, tuck-ins and praise → Gentle',
+    'High fives, catch and expeditions → Bold',
+    'Sitting quietly with you → Dreamy',
   ],
 } as const;

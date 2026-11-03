@@ -9,9 +9,10 @@
  * `sitWith` and `sitBesideMs` for the poses and the sit-with gags; nothing else does.
  */
 import { KEEPER_IDLE } from '../config/tuning-fun-r7';
-import { NEEDS } from '../config/tuning';
+import { NEEDS, PERSONALITY } from '../config/tuning';
 import { addAffection } from './needs';
 import { isFree } from './nubbin';
+import { noteDream } from './personality';
 import { isWary } from './trust';
 import type { Nubbin, SimEvent, World } from './types';
 
@@ -85,6 +86,14 @@ export function stepKeeperIdle(world: World, dtMs: number, events: SimEvent[]): 
   }
   const was = k.idleMs ?? 0;
   k.idleMs = was + dtMs;
+  // R0529 (SOUL-11): a child sitting quietly near the idle Keeper is turning dreamy.
+  for (const c of world.nubbins)
+    if (
+      c.stage === 'child' &&
+      c.behavior.state === 'sit' &&
+      Math.hypot(c.pos.x - k.pos.x, c.pos.z - k.pos.z) < PERSONALITY.dreamyRadius
+    )
+      noteDream(c, dtMs);
   if (k.idleMs < KEEPER_IDLE.sitMs) return;
   if (was < KEEPER_IDLE.sitMs) events.push({ kind: 'keeperSat' });
   const now = world.timeMs;

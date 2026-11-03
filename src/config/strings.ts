@@ -246,6 +246,10 @@ export const PERSONALITY_LABELS = {
   shy: 'Shy',
   mischievous: 'Mischievous',
   lazy: 'Lazy',
+  curious: 'Curious',
+  gentle: 'Gentle',
+  bold: 'Bold',
+  dreamy: 'Dreamy',
 } as const;
 
 export const COURSE_LABELS: Record<string, string> = {

@@ -20,7 +20,7 @@ import { bandOf, childHint } from '../sim/alignment';
 import { rosterNubbins, storyNubbin } from '../sim/roster';
 import { nubbinsHere } from '../sim/nubbin-home';
 import { levelOf } from '../sim/stats';
-import { STAT_KEYS, type Nubbin, type Personality } from '../sim/types';
+import { PERSONALITIES, STAT_KEYS, type Nubbin, type Personality } from '../sim/types';
 import { button, el, modal } from './dom';
 import { Wardrobe } from './wardrobe';
 import { RARITY_TEXT, WARDROBE_TEXT } from '../config/strings-look';
@@ -39,7 +39,7 @@ import { isCreatorCode } from '../sim/creator';
 import { CREATOR_TEXT } from '../config/strings-evo';
 import { CreatorPicker } from './creator-picker';
 
-const PERSONALITIES: readonly Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
+// R0529: all eight, in their one order (sim/types.ts).
 
 /**
  * The roster: every Nubbin with a portrait, name (tap to rename), stats, age, rebirth
