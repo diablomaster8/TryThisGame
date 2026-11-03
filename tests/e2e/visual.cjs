@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* TECH-12 (slice): visual regression for both renderers, opt-in (needs a browser):
  *   npm run test:visual                 compare with tests/e2e/golden/
  *   npm run golden:update               re-shoot the goldens

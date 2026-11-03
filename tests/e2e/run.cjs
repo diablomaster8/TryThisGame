@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* TECH-11: the browser half of the play harness. Opt-in, not part of `npm test`:
  *   npm run build && npx vite preview --port 4173 &   (or `npx vite --port 5173`)
  *   E2E_URL=http://localhost:4173 npm run test:e2e
