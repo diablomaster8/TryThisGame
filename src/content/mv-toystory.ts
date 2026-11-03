@@ -113,6 +113,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts01-s1',
+        summary: 'You got the army men downstairs and reported Andy’s presents over the baby monitor.',
         goal: 'Get the army men downstairs and report Andy’s birthday presents over the baby monitor.',
         hint: 'A stealth expedition. Freeze whenever a grown-up looks your way: humans must never see a toy move.',
         check: 'expedition:complete:mv-ts-birthday-recon:stealth',
@@ -252,6 +253,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts02-s1',
+        summary: 'You slipped into Andy’s backpack with Woody and rode to Pizza Planet.',
         goal: 'Slip into Andy’s backpack with Woody before the car leaves for Pizza Planet.',
         hint: 'Cross the landing while Andy hunts for his shoes. Freeze whenever anyone turns round.',
         check: 'expedition:complete:mv-ts-backpack-dash:stealth',
@@ -329,6 +331,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts02-s3',
+        summary: 'You kept hold of Buzz when the Claw lifted him, and the whole bundle was carried off together.',
         goal: 'Keep hold of Buzz when the Claw lifts him out of the machine.',
         hint: 'An expedition inside the claw machine: grab Woody, grab Buzz, and don’t let the Claw split the party.',
         check: 'expedition:complete:mv-ts-claw-machine',
@@ -411,6 +414,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts03-s1',
+        summary: 'You crept through Sid’s house past a sleeping Scud, and Buzz heard his own voice on the television.',
         goal: 'Sneak through Sid’s house to the front door while Scud sleeps.',
         hint: 'Stealth. Scud wakes at noise, so move on the rugs and freeze on the floorboards.',
         check: 'expedition:complete:mv-ts-sids-hallway:stealth',
@@ -459,6 +463,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts03-s2',
+        summary: 'You reached Buzz after his fall, but Hannah got there first and had him at her tea table.',
         goal: 'Get to Buzz after his fall, before Hannah finds him.',
         hint: 'The stairwell is open ground. Go down the banister, not the stairs.',
         check: 'expedition:complete:mv-ts-stairwell',
@@ -569,6 +574,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts04-s1',
+        summary: 'You sprang the backyard ambush on Sid, and Woody’s voice box said his name.',
         goal: 'Spring the backyard ambush on Sid before the rocket goes up.',
         hint: 'An expedition with timing. Each strange toy takes a position, and your Nubbins rise from the sandpit on Woody’s cue.',
         check: 'expedition:complete:mv-ts-backyard-ambush',
@@ -710,6 +716,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts05-s2',
+        summary: 'You rode Buster through the yard sale and brought Wheezy home.',
         goal: 'Ride Buster through the yard sale and bring Wheezy home.',
         hint: 'Stealth on dogback: Buster is allowed in the yard. Toys are not.',
         check: 'expedition:complete:mv-ts-yard-sale:stealth',
@@ -876,6 +883,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts06-s2',
+        summary: 'You got Buzz out of the box and caught up with the rescue party in a pink convertible.',
         goal: 'Get Buzz out of the box and catch up with the rescue party.',
         hint: 'An expedition through the Barn after closing. Pull the tape from the bottom; that flap gives first.',
         check: 'expedition:complete:mv-ts-toy-barn',
@@ -1003,6 +1011,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts07-s2',
+        summary: 'You hid under the cleaner’s bench and handed back what he dropped, and Woody’s arm came out better than new.',
         goal: 'Hide under the cleaner’s bench and hand back whatever he drops.',
         hint: 'Stealth: little things roll off the bench. Roll them back while his head is down.',
         check: 'expedition:complete:mv-ts-cleaners-bench:stealth',
@@ -1282,6 +1291,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts09-s1',
+        summary: 'You got every toy out of the bin bag before the lorry came, and found a box marked for donation.',
         goal: 'Get every toy out of the bin bag before the bin lorry arrives.',
         hint: 'A short expedition: tear, crawl, hide under the recycling crate. Count heads before you move.',
         check: 'expedition:complete:mv-ts-curbside',
@@ -1474,6 +1484,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts10-s1',
+        summary: 'You broke out of Sunnyside past Lotso’s guards, and a heavy knock set Buzz right again.',
         goal: 'Break out of Sunnyside past Lotso’s guards.',
         hint: 'Stealth. The monkey’s screens go dark once Woody and Slinky are in; move then, not before.',
         check: 'expedition:complete:mv-ts-sunnyside-breakout:stealth',
@@ -1615,6 +1626,7 @@ export const MV_TOYSTORY: Quest[] = [
     steps: [
       {
         id: 'mv-ts11-s1',
+        summary: 'You got the toys and Woody’s note into the attic box before Andy came back upstairs.',
         goal: 'Get the toys and Woody’s note into the attic box before Andy comes back upstairs.',
         hint: 'A short stealth run across the landing. Andy’s mum is in the doorway, so go round behind the laundry basket.',
         check: 'expedition:complete:mv-ts-attic-box:stealth',
@@ -1690,6 +1702,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts11-s3',
+        summary: 'You played with Andy and Bonnie one last time, and Andy waved goodbye.',
         goal: 'Play with Andy and Bonnie one last time.',
         hint: 'Free play. There is no score. Play until the sun goes down.',
         check: 'play:mv-ts-last-afternoon',
@@ -1802,6 +1815,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts12-s2',
+        summary: 'You walked Forky to the town where Bonnie’s family was staying, and found a carnival and an antique shop.',
         goal: 'Walk Forky back to the town where Bonnie’s family is staying.',
         hint: 'A night expedition along the verge. Stay out of headlights, and watch Forky near bins.',
         check: 'expedition:complete:mv-ts-roadside-night',
@@ -1850,6 +1864,7 @@ export const MV_TOYSTORY: Quest[] = [
       },
       {
         id: 'mv-ts12-s3',
+        summary: 'You got out of the antique shop through the letterbox, and Forky stayed behind with Gabby.',
         goal: 'Get out of Second Chance Antiques before the dummies catch you.',
         hint: 'Stealth among the shelves. The dummies can’t see you behind glass.',
         check: 'expedition:complete:mv-ts-antique-store:stealth',

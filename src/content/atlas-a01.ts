@@ -803,6 +803,7 @@ export const ATLAS_A01: Quest[] = [
       },
       {
         id: 'a01-06-s2',
+        summary: 'You passed Winry the parts in the right order, and Ed’s new arm was ready.',
         goal: 'Hand Winry the parts for Ed’s new arm, in the right order.',
         hint: 'Watch which tray she nods at. Plates, then the wrist, then the fine springs last.',
         check: 'give:a01-parts:rockbell-workshop',

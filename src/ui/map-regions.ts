@@ -42,9 +42,9 @@ export function storyRegionTabs(
   for (const r of regionOpenOrder()) {
     const open = storyRegionOpen(w, r);
     const name = STORY_REGION_TEXT.tabs[r] ?? r;
-    const label = open
-      ? `${here === r ? '➤ ' : ''}${name}`
-      : `${name} · ${STORY_REGION_TEXT.lockedHint(regionOpensAt(r))}`;
+    // Lane C r11 (R0650): a locked tab is a lock and a name, so the row stays short on a phone;
+    // its hint is in its label for a screen reader and the nearest one is written below.
+    const label = open ? `${here === r ? '➤ ' : ''}${name}` : `🔒 ${name}`;
     const b = button(
       label,
       () => (open ? pick(r) : toast(STORY_REGION_TEXT.lockedHint(regionOpensAt(r)))),
@@ -53,8 +53,19 @@ export function storyRegionTabs(
     b.setAttribute('role', 'tab');
     b.setAttribute('aria-selected', String(r === current));
     b.dataset.region = r;
+    if (!open)
+      b.setAttribute('aria-label', `${name}. ${STORY_REGION_TEXT.lockedHint(regionOpensAt(r))}`);
     row.appendChild(b);
   }
+  const next = regionOpenOrder().find((r) => !storyRegionOpen(w, r));
+  if (next)
+    row.appendChild(
+      el(
+        'p',
+        'help wm-next-unlock',
+        `${STORY_REGION_TEXT.names[next] ?? next}: ${STORY_REGION_TEXT.lockedHint(regionOpensAt(next))}`,
+      ),
+    );
   return row;
 }
 

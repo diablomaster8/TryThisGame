@@ -18,6 +18,8 @@ import {
   storyRegionHere,
 } from '../sim/story-regions';
 import type { CampaignState, Command, SimEvent, World } from '../sim/types';
+import { CAMP11C_TEXT } from '../config/strings-camp11c';
+import { confirmModal } from './confirm';
 import { button, el } from './dom';
 
 /** The Go-to choices where the Keeper stands: a region to enter, or null for the Grove. */
@@ -110,6 +112,17 @@ export class RegionChip {
         if (line) toast(line);
       } else if (e.kind === 'storyRegionEntered') {
         toast(STORY_REGION_TEXT.entered(STORY_REGION_TEXT.names[e.region] ?? e.region));
+      } else if (e.kind === 'keeperSwitchPrompt') {
+        // R0633: Dawn is a Sun Keeper's story, Dusk a Moon Keeper's: ask, and switch on a yes.
+        const sun = e.want === 'sun';
+        void confirmModal({
+          title: sun ? CAMP11C_TEXT.switchSun : CAMP11C_TEXT.switchMoon,
+          body: sun ? CAMP11C_TEXT.switchSun : CAMP11C_TEXT.switchMoon,
+          confirm: CAMP11C_TEXT.switchYes,
+          cancel: CAMP11C_TEXT.switchNo,
+        }).then((ok) => {
+          if (ok) this.send({ kind: 'switchKeeper', alignment: e.want });
+        });
       } else if (e.kind === 'storyRegionLeft') {
         toast(STORY_REGION_TEXT.left);
       } else if (e.kind === 'storyRegionRefused') {

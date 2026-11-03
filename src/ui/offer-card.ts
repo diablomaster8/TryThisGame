@@ -39,6 +39,14 @@ export function pitchOf(quest: Quest): string {
   return goal.length <= 100 ? goal : `${goal.slice(0, 99).trimEnd()}…`;
 }
 
+/**
+ * R0629: the pitch for a child profile: the writer's `pitchChild` (read aloud), else the usual
+ * one-line pitch. A child's offer is a picture the giver waves; tapping it starts the quest.
+ */
+export function pitchForProfile(quest: Quest, child: boolean): string {
+  return child && quest.pitchChild ? quest.pitchChild : pitchOf(quest);
+}
+
 export class OfferCard {
   private readonly root: HTMLDivElement;
   private readonly chip: HTMLButtonElement;

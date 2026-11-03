@@ -2998,6 +2998,7 @@ export const ATLAS_A27: Quest[] = [
       },
       {
         id: 'a27-16-s2',
+        summary: 'You brought your gift to the wedding feast, and Sindokht kept filling your plate.',
         goal: 'Bring your gift to the wedding feast.',
         hint: 'Find your place at the long table on the first night.',
         check: 'give:a27-gift:wedding',

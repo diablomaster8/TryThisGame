@@ -38,6 +38,12 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 11 · Lane C pace helper (assumptions)
+
+- R0633: one Keeper across lines. Dawn needs a Sun Keeper and Dusk a Moon Keeper; while the active Keeper is the other side the line holds, and entering its region emits `keeperSwitchPrompt` (tested). Logged In needs nothing.
+- R0640: the region pitch card is shown once ever per line (`QuestBook.pitched?`, optional, no bump, set by the `linePitched` command).
+- R0630: hats are unequipped at boot only when they are side-save hats (`DERIVED_HATS`) that the side saves no longer give.
+
 ## Gentle life cycle (2026-11-02, branch feat/gentle-lifecycle)
 
 Maor, 2026-11-02: "nubbins die way too quickly... they should rarely die". He approved the set

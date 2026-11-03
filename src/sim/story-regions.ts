@@ -6,6 +6,7 @@ import {
 } from '../config/story-regions';
 import { STORY_REGION_TUNING } from '../config/tuning';
 import { setLocation } from './campaign';
+import { keeperMismatch } from './keeper-line';
 import { storylineRule } from './storyline-rules';
 import { withRng } from './world';
 import { setWeather } from './weather';
@@ -137,6 +138,10 @@ export function enterStoryRegion(world: World, r: string, events: SimEvent[]): b
   world.storyRegion = r;
   present(world, r as StoryRegionId, events);
   events.push({ kind: 'storyRegionEntered', region: r });
+  for (const id of STORY_REGIONS[r as StoryRegionId].lines) {
+    const want = keeperMismatch(world, id);
+    if (want) events.push({ kind: 'keeperSwitchPrompt', line: id, want });
+  }
   return true;
 }
 

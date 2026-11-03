@@ -544,6 +544,7 @@ export const ATLAS_A04: Quest[] = [
       },
       {
         id: 'a4-04-s3',
+        summary: 'You slipped across the courtyard while the guards changed, and brought the queen her water unseen.',
         goal: 'Bring the queen water without being seen.',
         hint: 'Fill a cup at the trough while the guards change.',
         check: 'give:a4-devasena:water',

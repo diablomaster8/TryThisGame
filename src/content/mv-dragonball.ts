@@ -361,6 +361,7 @@ export const MV_DRAGONBALL: Quest[] = [
       },
       {
         id: 'mv-db02-s3',
+        summary: 'You went up to Oolong’s mansion and found sofas and a cake trolley instead of a cellar.',
         goal: 'Fetch the stolen girls from Oolong’s mansion.',
         hint: 'A short expedition. The girls are not in a dungeon. You will see.',
         check: 'expedition:complete:mv-oolong-mansion',
@@ -443,6 +444,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db03-s1',
+        summary: 'You crossed the Diablo Desert with Bulma’s party, in a very small car.',
         goal: 'Cross the Diablo Desert with Bulma’s party.',
         hint: 'An expedition. Water matters more than speed. Oolong will complain whatever you pick.',
         check: 'expedition:complete:mv-diablo-desert',
@@ -582,6 +584,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db04-s1',
+        summary: 'You carried the lost turtle back to the sea, and it returned with a tiny old man on its shell.',
         goal: 'Carry the lost turtle back to the sea.',
         hint: 'An expedition with a heavy, slow passenger. A Power Nubbin helps; a patient one helps more.',
         check: 'expedition:complete:mv-turtle-to-sea',
@@ -713,6 +716,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db05-s1',
+        summary: 'You followed Pilaf’s gang towards his castle, and a tank with a ninja dog on top found your camp.',
         goal: 'Follow Pilaf’s gang back to his castle.',
         hint: 'An expedition by night. Puar can turn into a bat to scout; let her.',
         check: 'expedition:complete:mv-pilaf-castle',
@@ -929,6 +933,7 @@ export const MV_DRAGONBALL: Quest[] = [
       },
       {
         id: 'mv-db06-s3',
+        summary: 'You swam the shark lake, and your Nubbin stopped to bump noses with the shark.',
         goal: 'Swim the shark lake.',
         hint: 'A Swim expedition. The shark only gets the slowest swimmer, so do not be the slowest swimmer.',
         check: 'expedition:complete:mv-shark-lake:swim',
@@ -1145,6 +1150,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db08-s1',
+        summary: 'You flew into the blizzard to find who ruled the snowbound village, and crashed into a snowbank.',
         goal: 'Find out who holds the snowbound village under its thumb.',
         hint: 'An expedition through snow. A Nubbin with good stamina keeps the others warm.',
         check: 'expedition:complete:mv-jingle-village',
@@ -1165,6 +1171,7 @@ export const MV_DRAGONBALL: Quest[] = [
       },
       {
         id: 'mv-db08-s2',
+        summary: 'You climbed Muscle Tower floor by floor to its top, and met the stitched-up giant.',
         goal: 'Climb Muscle Tower floor by floor.',
         hint: 'A tower expedition: one fight per floor. Each floor’s guard has one weakness. Ninjas hate light; jelly hates cold.',
         check: 'expedition:complete:mv-muscle-tower',
@@ -1273,6 +1280,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db09-s1',
+        summary: 'You dived the pirate cave past its traps and found a Dragon Ball on a pile of treasure.',
         goal: 'Dive the underwater pirate cave ahead of General Blue.',
         hint: 'A Swim expedition. Your Swim Nubbin leads; the others follow its bubbles.',
         check: 'expedition:complete:mv-pirate-cave:swim',
@@ -1611,6 +1619,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db12-s1',
+        summary: 'You stormed the Red Ribbon headquarters with Goku, a whole city of red buildings behind a wall.',
         goal: 'Storm the Red Ribbon Army’s headquarters with Goku.',
         hint: 'An expedition through a whole base. Nubbins are small: send them under fences while Goku goes over them.',
         check: 'expedition:complete:mv-red-ribbon-hq',
@@ -1970,6 +1979,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db15-s1',
+        summary: 'You went with Goku to find out why Krillin had not come back.',
         goal: 'Find out why Krillin hasn’t come back.',
         hint: 'Go back to the arena with Goku. It’s a short walk, and the longest in the line.',
         check: 'expedition:complete:mv-arena-at-night',
@@ -2093,6 +2103,7 @@ export const MV_DRAGONBALL: Quest[] = [
     steps: [
       {
         id: 'mv-db16-s1',
+        summary: 'You stood with Master Roshi at the sealing, and when his strength ran out Piccolo spilled free.',
         goal: 'Stand with Master Roshi when he tries to seal King Piccolo.',
         hint: 'An expedition to Piccolo’s camp. Carry the rice cooker; whatever happens, don’t drop it.',
         check: 'expedition:complete:mv-piccolo-camp',
@@ -2508,6 +2519,7 @@ export const MV_DRAGONBALL: Quest[] = [
       },
       {
         id: 'mv-db19-s2',
+        summary: 'You travelled the world with Goku and had five Dragon Balls by the end of the second year.',
         goal: 'Travel the world with Goku, and gather Dragon Balls on the way.',
         hint: 'A long expedition in stages. The radar Bulma gave you finds the balls once they wake from stone. Fly between stops.',
         check: 'expedition:complete:mv-three-years-road',

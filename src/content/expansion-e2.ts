@@ -222,6 +222,7 @@ export const EXPANSION_E2: Quest[] = [
     steps: [
       {
         id: 'e2-s1',
+        summary: 'You hatched Nova’s egg, and the small Nubbin looked up at you as if it had been waiting.',
         goal: 'Hatch Nova’s egg.',
         hint: 'It hatches in a few minutes. Shake it while held to hurry it.',
         check: 'hatch:dandy',

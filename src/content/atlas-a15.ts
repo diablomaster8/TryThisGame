@@ -2505,6 +2505,7 @@ export const ATLAS_A15: Quest[] = [
       },
       {
         id: 'a15-15-s3',
+        summary: 'You poured out the Lion’s courage, and he felt full of it at last.',
         goal: 'Pour out the Lion’s courage.',
         hint: 'Hold the green dish while Oz pours from the square green bottle, then pass it to the Lion.',
         check: 'give:a15-lion:courage',

@@ -581,6 +581,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
       // ------------------------------------------------ 1. chapter 11: the rattle
       {
         id: 's9-step1',
+        summary: 'You took the old trowel to Hazel, and she ran her thumb along its worn edge.',
         goal: 'Take the old trowel to Hazel.',
         hint: 'The old trowel lies by the cottage step, and Hazel is right there. Tap the trowel.',
         check: 'give:item:old-trowel:hazel',

@@ -630,6 +630,7 @@ export const QUESTS_HOLMES: Quest[] = [
       },
       {
         id: 'q79-s2',
+        summary: 'You led Silver Blaze into the pond and washed the brown off in long, muddy ribbons.',
         goal: 'Find Silver Blaze in Silas Brindle’s paddock and wash it in the pond.',
         hint: 'Go through the gap in the hedge to the neighbouring land. Lead it to the pond to wash.',
         check: 'swim:silver-blaze:pond',
@@ -1061,6 +1062,7 @@ export const QUESTS_HOLMES: Quest[] = [
       },
       {
         id: 'q83-s2',
+        summary: 'You threw the smoke-rocket through the window and shouted the alarm, and Holmes walked you home satisfied.',
         goal: 'Throw the smoke-rocket through the window and shout “Fire!”',
         hint: 'Stand at the singer’s gate. Wait for Holmes’s sign, then throw and shout.',
         check: 'give:item:smoke-rocket:irene-window',

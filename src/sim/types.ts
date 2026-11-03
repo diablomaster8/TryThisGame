@@ -540,6 +540,12 @@ export interface QuestBook {
   stats?: { offered: number; accepted: number; declined: number; shelved: number };
   /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
   areaOfferMs?: Record<string, number>;
+  /** Lane C r11 (R0641): quests with a step skipped or imagined, with how many; no leaf mark. */
+  skippedSteps?: Record<string, number>;
+  /** Lane C r11 (R0651): sim ms of the last arrival beat, for its cap. */
+  lastBeatMs?: number;
+  /** Lane C r11 (R0640): lines whose region pitch card has been shown, once ever. */
+  pitched?: string[];
 }
 
 /** Lane C r10 agent B (R0649, CAMP-57): a save slot's tag colours (each shown with an icon). */
@@ -1522,9 +1528,11 @@ export type Command =
   | { kind: 'lightLantern'; id: string }
   | { kind: 'debugChapter'; chapter: number; line?: string }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
-  | { kind: 'sideAct'; story: string }
+  | { kind: 'sideAct'; story: string; skipped?: boolean }
   /** Lane C r10 agent C (R0614, R0615): skip the spine's current goal (Story only pace). */
-  | { kind: 'skipGoal' }
+  | { kind: 'skipGoal'; line?: string }
+  /** R0600: go to the Valley Fair once it is open. */
+  | { kind: 'playFair' }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
   | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
@@ -1538,6 +1546,8 @@ export type Command =
   | { kind: 'questDecline'; id: string }
   | { kind: 'questShelve'; id: string }
   | { kind: 'questTrack'; id: string; on: boolean }
+  // Lane C r11 (R0640): a line's region pitch card was shown; it is never pitched again.
+  | { kind: 'linePitched'; id: string }
   // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
   | { kind: 'debugQuestOffer'; id: string }
   // Lane C r9 (R0594): at a line's end, bring one of its Nubbins home or let it stay.
@@ -1960,6 +1970,8 @@ export type SimEvent =
   | { kind: 'travelRefused'; exit: string; reason: string }
   /** Lane C r10 agent A (R0605, R0640): a questline region entered, left, refused or newly open. */
   | { kind: 'storyRegionEntered'; region: string }
+  /** R0633: the region's line wants the other Keeper side; the UI asks whether to switch. */
+  | { kind: 'keeperSwitchPrompt'; line: string; want: KeeperAlignment }
   | { kind: 'storyRegionLeft'; region: string }
   | { kind: 'storyRegionRefused'; region: string; reason: string }
   | { kind: 'storyRegionOpened'; region: string }

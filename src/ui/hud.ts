@@ -1,4 +1,6 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { offerStorageFull } from './backup'; /* Lane C r11 */
+import { lastSaveProblem } from '../platform/save-room';
 import { hollowKidVoice } from './hollow-kid-voice';
 import { R10B4_TEXT } from '../config/strings-r10b4';
 import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
@@ -96,6 +98,7 @@ import { MOVE_R10_TEXT } from '../config/strings-move-r10';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { RegionChip } from './region-chip';
+import { arrivalBeat, pitchLines } from './line-pitch';
 import { sceneWaitsForRegion } from '../sim/story-regions';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
@@ -594,6 +597,8 @@ export function mountHud(
   setBattleDialogue(dialogue);
   let resumeAsked = false;
   const journal = new Journal(root, game);
+  // Lane C r11 (R0666): a keepsake's Watch again plays the closing scene from a copy; no sim.
+  journal.replay = (scene) => dialogue.playScene(scene, {}, () => undefined);
   // Lane C r10 agent C (R0620): "The story so far", after the away screen of a long break.
   const recap = new RecapCard(root, () => journal.open());
   const partyBout = new PartyBoutPanel(root, game, toast);
@@ -1461,6 +1466,13 @@ export function mountHud(
       hollowKidVoice(g.world, events, toast); /* Lane B r10 (R0188): kid mode's read-aloud. */
       offerCard.onEvents(events);
       regionChip.onEvents(events, toast);
+      pitchLines(events, g.world, (cmd) => g.send(cmd));
+      arrivalBeat(
+        events,
+        g.world,
+        document.documentElement.classList.contains('dialogue-open'),
+        toast,
+      );
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
@@ -2140,7 +2152,9 @@ export function mountHud(
       else sheet.close();
     },
     onStorageBlocked() {
-      toast(UI_TEXT.storageBlocked);
+      // Lane C r11 (R0623): a full store offers the backup file; blocked storage says so.
+      if (lastSaveProblem() === 'full') offerStorageFull(toast);
+      else toast(UI_TEXT.storageBlocked);
       storageChip.hidden = false;
     },
     onOtherTab() {

@@ -123,6 +123,7 @@ export const MV_MOONKNIGHT: Quest[] = [
     steps: [
       {
         id: 'mv-mk01-hire',
+        summary: 'You tracked the werewolf through the woods and found a steel trap someone else had set first.',
         goal: 'Track the werewolf through the woods with the man in silver.',
         hint: 'Send a Nubbin with good Run or Fly on the Expedition; it picks up the trail faster.',
         check: 'expedition:clear:mv-russell-woods',
@@ -303,6 +304,7 @@ export const MV_MOONKNIGHT: Quest[] = [
       },
       {
         id: 'mv-mk02-statue',
+        summary: 'You reached Khonshu’s statue before dawn and found Marc sitting at its foot, breathing.',
         goal: 'Reach Khonshu’s statue before dawn, with Marlene and Frenchie close behind.',
         hint: 'Cross the dunes on the Expedition map; the moonlit path shows the way.',
         check: 'expedition:clear:mv-khonshu-tomb',
@@ -853,6 +855,7 @@ export const MV_MOONKNIGHT: Quest[] = [
     steps: [
       {
         id: 'mv-mk06-ward',
+        summary: 'You found Steven among his film reels and Jake in a cell painted like a cab.',
         goal: 'Find Steven and Jake in the asylum’s locked wings.',
         hint: 'Explore the wards on the Expedition map. Doors open for Nubbins who trust you; bring your highest-trust pair.',
         check: 'expedition:clear:mv-asylum-wards',
@@ -994,6 +997,7 @@ export const MV_MOONKNIGHT: Quest[] = [
     steps: [
       {
         id: 'mv-mk07-mission',
+        summary: 'You walked four night-walkers home and saw a pale hood waiting a street behind each time.',
         goal: 'Walk the Mission’s night-walkers home while Hunter’s Moon prowls.',
         hint: 'Four Expedition legs at night; keep a Nubbin with each visitor.',
         check: 'expedition:clear:mv-mission-night:4',
@@ -1109,6 +1113,7 @@ export const MV_MOONKNIGHT: Quest[] = [
     steps: [
       {
         id: 'mv-mk08-orders',
+        summary: 'You followed Marc on Khonshu’s raids and watched the heroes carried up into the moon.',
         goal: 'Follow Marc on Khonshu’s raids across the city.',
         hint: 'Three Expedition legs, one for each stolen power. A Fly Nubbin keeps watch from above.',
         check: 'expedition:clear:mv-khonshu-raids:3',
@@ -1267,6 +1272,7 @@ export const MV_SPAWN: Quest[] = [
     steps: [
       {
         id: 'mv-sp01-alley',
+        summary: 'You helped the stranger in the alley learn who he was from an old man’s memory.',
         goal: 'Help the stranger in the alley find out who he was.',
         hint: 'Search the city on the Expedition map. The alley folk talk to Nubbins, not to him.',
         check: 'expedition:clear:mv-rat-city',
@@ -1299,6 +1305,7 @@ export const MV_SPAWN: Quest[] = [
       },
       {
         id: 'mv-sp01-wanda',
+        summary: 'You found Spawn a safe place to rest, under a tarp your Nubbin dragged over.',
         goal: 'Find Spawn somewhere safe to rest.',
         hint: 'Back in the alley, give him a blanket from your Grove inventory.',
         check: 'give:mv-spawn:blanket',
@@ -1404,6 +1411,7 @@ export const MV_SPAWN: Quest[] = [
     steps: [
       {
         id: 'mv-sp02-clown',
+        summary: 'You tracked Twist’s men through the docks, and your Swim Nubbin brought up a soggy manifest.',
         goal: 'Track Tony Twist’s men through the docks.',
         hint: 'Expedition: the docks. A Swim Nubbin can scout the piers from the water.',
         check: 'expedition:clear:mv-twist-docks',
@@ -1584,6 +1592,7 @@ export const MV_SPAWN: Quest[] = [
       },
       {
         id: 'mv-sp03-rage',
+        summary: 'You helped Spawn bring the suit back under control, one quiet link at a time.',
         goal: 'Help Spawn bring the suit back under his control.',
         hint: 'Sit with Spawn in the alley and pet him, as you would a Shadow Nubbin, until his trust passes 30.',
         check: 'trust:mv-spawn:>30',
@@ -1809,6 +1818,7 @@ export const MV_SPAWN: Quest[] = [
     steps: [
       {
         id: 'mv-sp05-wynn',
+        summary: 'You stole Wynn’s files on the Simmons case, and your Nubbin carried the grey folder out of the vent.',
         goal: 'Steal Jason Wynn’s files on the Simmons killing.',
         hint: 'Expedition: Wynn’s tower, stealth route. A Fly Nubbin through the vents avoids the guards.',
         check: 'expedition:clear:mv-wynn-tower:stealth',
@@ -1939,6 +1949,7 @@ export const MV_SPAWN: Quest[] = [
     steps: [
       {
         id: 'mv-sp06-road',
+        summary: 'You crossed Mephisto’s border along the blue road to the cliff above Malebolgia’s pit.',
         goal: 'Cross Mephisto’s border into Malebolgia’s pit.',
         hint: 'Expedition: the Hell road. The heat drains stamina; a Swim Nubbin handles it best.',
         check: 'expedition:clear:mv-hell-road',
@@ -2016,6 +2027,7 @@ export const MV_SPAWN: Quest[] = [
       },
       {
         id: 'mv-sp06-crown',
+        summary: 'You left the pit with Spawn, climbing the burning blue road to ordinary night air.',
         goal: 'Leave the pit with Spawn.',
         hint: 'Retrace the Hell road on the Expedition map; it is shorter on the way out.',
         check: 'expedition:clear:mv-hell-road:return',
@@ -2234,6 +2246,7 @@ export const MV_SPAWN: Quest[] = [
     steps: [
       {
         id: 'mv-sp08-mammon',
+        summary: 'You found Cogliostro on a hill above an empty field, by following the smell of oranges.',
         goal: 'Find Cogliostro.',
         hint: 'He isn’t at the cemetery. Search the Expedition map; your fearless Nubbin can follow his scent.',
         check: 'expedition:clear:mv-cog-search',

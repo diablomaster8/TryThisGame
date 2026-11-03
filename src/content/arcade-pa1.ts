@@ -547,6 +547,7 @@ export const ARCADE_PA1: Quest[] = [
       },
       {
         id: 'pa1-05-s2',
+        summary: 'You found the right silver spanner among seven, and Tails got the engine running.',
         goal: 'Hand Tails the spanner he needs.',
         hint: 'It’s one of the seven on the bench. Your Nubbin may already know which.',
         check: 'give:pa1-spanner:tails',

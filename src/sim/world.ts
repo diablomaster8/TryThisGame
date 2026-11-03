@@ -1,4 +1,6 @@
 import { BATTLE } from '../config/tuning-battle';
+import { hasDerivedHat } from './derived-unlocks';
+import { playFair } from './epilogue';
 import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
@@ -608,7 +610,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'wearHat': {
       const n = findNubbin(world, cmd.nubbinId);
       if (!n) return;
-      if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
+      if (cmd.hat && !world.inventory.hats.includes(cmd.hat) && !hasDerivedHat(cmd.hat)) return;
       if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
       n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
@@ -1255,7 +1257,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     // Lane C r10 agent C (R0614, R0615): Story only pace skips the spine's goal.
     case 'skipGoal':
-      skipGoal(world, events);
+      skipGoal(world, events, cmd.line);
+      return;
+    case 'playFair':
+      playFair(world);
       return;
     case 'lineAbandon':
       // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
@@ -1274,6 +1279,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'questTrack':
       trackQuest(world, cmd.id, cmd.on);
       return;
+    case 'linePitched': {
+      const book = world.questBook;
+      if (book && !(book.pitched ?? []).includes(cmd.id)) (book.pitched ??= []).push(cmd.id);
+      return;
+    }
     case 'debugQuestOffer':
       debugOffer(world, cmd.id, events);
       return;

@@ -676,6 +676,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q03-s2',
+        summary: 'You timed two Fly Nubbins carrying a coconut across the pond, and compared how fast they went.',
         goal: 'Find out how fast a Fly Nubbin can carry a coconut.',
         hint: 'Take a coconut from the palm on the coast, hand it to a Fly Nubbin and time its flight across the pond.',
         check: 'time:fly-nubbin:carry:coconut',
@@ -903,6 +904,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q05-s1',
+        summary: 'You asked Sparks to build something to win over the rabbit, and she heard how the rabbit beat the lot.',
         goal: 'Ask Sparks to build something that can win over the rabbit.',
         hint: 'Sparks is in the Workshop. Bring one sun fruit; Sparks will need it.',
         check: 'give:item:sun-fruit:sparks',
@@ -1336,6 +1338,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q08-s2',
+        summary: 'You harvested a crop from the aqueduct beds and took it to Reggie, who held it up to the light.',
         goal: 'Harvest a crop from the aqueduct beds and take it to the committee.',
         hint: 'Ripe crops glow. Tap to harvest, take it to Reggie in the Keepers’ Hall, then tap Do it in the Journal.',
         check: 'give:item:crop:reggie',
@@ -1460,6 +1463,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q09-s2',
+        summary: 'You settled the gourd and shoe argument by balancing the shoe on the gourd on your head.',
         goal: 'Settle the argument between the gourd camp and the shoe camp.',
         hint: 'Wear the gourd and the shoe where both camps can see. Tap each in your bag and choose Wear.',
         check: 'wear:item:gourd+lost-shoe',
@@ -1574,6 +1578,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q10-s1',
+        summary: 'You offered Harrow less than he asked for the brass bell, and the haggling began.',
         goal: 'Offer Harrow less than he is asking for the brass bell.',
         hint: 'Tap Do it in the Journal and start low. Lower than feels polite. Harrow will look wounded; he isn’t.',
         check: 'shop:offer:harrow:below-asking',
@@ -1711,6 +1716,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q11-s1',
+        summary: 'You picked fresh mint for Mr Crisp, and he asked for one moment.',
         goal: 'Pick fresh mint for Mr Crisp.',
         hint: 'Mint grows in a small patch by the pond. Bring Mr Crisp the top leaves, then tap Do it in the Journal.',
         check: 'give:item:mint-leaves:mr-crisp',
@@ -2261,6 +2267,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q15-s1',
+        summary: 'You asked Mr Dibble for six different fruits, and he did not have the one you wanted.',
         goal: 'Ask Mr Dibble for six different fruits.',
         hint: 'Pick a fruit from the order list at the stall. Each fruit counts once.',
         check: 'ask:dibble:fruit:6',
@@ -2305,6 +2312,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q15-s2',
+        summary: 'You tried all twelve fruits, and by the end Mr Dibble had stopped smiling.',
         goal: 'Keep asking until you have tried all twelve fruits.',
         hint: 'Keep choosing from the order list. Something gives at twelve.',
         check: 'ask:dibble:fruit:12',
@@ -2407,6 +2415,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q16-s1',
+        summary: 'You paid Byte 5 Shells for an argument, and he turned the sand timer over.',
         goal: 'Pay Byte 5 Shells for an argument.',
         hint: 'Bring 5 Shells and tap Do it in the Journal. Byte gives a receipt, then an argument.',
         check: 'pay:shells:5:byte',
@@ -2687,6 +2696,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q18-s1',
+        summary: 'You peeled the banana in one smooth move and disarmed the Nubbin.',
         goal: 'Disarm the Nubbin with the banana.',
         hint: 'Tap Do it in the Journal when the banana is at the top of its swing. Your Nubbin knows where the peel goes.',
         check: 'class:fruit-defence:banana',
@@ -2733,6 +2743,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q18-s2',
+        summary: 'You caught every raspberry in the bowl, forty out of forty, and the floor stayed spotless.',
         goal: 'Catch every raspberry in the bowl.',
         hint: 'Slide the bowl left and right under the falling raspberries. Missing three restarts the drill.',
         check: 'class:fruit-defence:raspberry',
@@ -2758,6 +2769,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q18-s3',
+        summary: 'You tossed the pineapple across the clearing, and your Nubbin caught it in both arms.',
         goal: 'Toss the pineapple to your Nubbin from across the clearing.',
         hint: 'Hold the pineapple, aim at your Nubbin and tap Throw. Your Nubbin will run to meet it.',
         check: 'class:fruit-defence:pineapple',
@@ -2979,6 +2991,7 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q20-s1',
+        summary: 'You found and tapped one of every kind of tree in the Grove, even the tired palm on the coast.',
         goal: 'Find and tap one of every kind of tree in the Grove.',
         hint: 'Your Grove has one tree for each fruit, plus the palm on the coast. Your journal ticks each one off.',
         check: 'tap:tree:every-kind',
@@ -3024,6 +3037,7 @@ export const QUESTS_PYTHON: Quest[] = [
       },
       {
         id: 'q20-s2',
+        summary: 'You photographed Mr Arbour’s board from the meadow, and one small larch was clear in the picture.',
         goal: 'Photograph Mr Arbour’s board from the meadow.',
         hint: 'Find the far ridge with the board in view, squint a little, then tap Do it in the Journal.',
         check: 'photo:subject:larch-board:far-ridge',

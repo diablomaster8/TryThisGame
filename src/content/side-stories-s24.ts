@@ -859,6 +859,7 @@ export const SIDE_STORY_S24: Quest[] = [
       // ------------------------------------------------ 9. the rock: give her the lantern
       {
         id: 's24-step9',
+        summary: 'You lit Hazel’s lantern and gave it to Nova, and its small gold light picked out her face.',
         goal: 'Light Hazel’s lantern and give it to Nova.',
         hint: 'Sit with her first. Then light the lantern and put it in her hands.',
         check: 'give:s24-nova:hazels-lantern',

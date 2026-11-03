@@ -5,7 +5,7 @@ import { chapterDef, FINAL_CHAPTER, setLocation } from './campaign';
 import { actLabel, checkMet } from './storyline-checks';
 import { isSharedLine, storylineRule, type StoryAction } from './storyline-rules';
 import { sceneById, storylineById } from './story-scenes';
-import { queueScene, seen } from './story-state';
+import { queueScene, sceneSeasonHolds, seen } from './story-state';
 import { stampEnding } from './story-marks';
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
 
@@ -148,7 +148,7 @@ export function stepStoryline(world: World, c: CampaignState, events: SimEvent[]
   if (c.step === 0) {
     const opening = variantOf(c, def.opening.id);
     if (!seen(c, opening)) {
-      queueScene(c, opening);
+      if (sceneSeasonHolds(world, opening)) queueScene(c, opening);
       return;
     }
     c.step = 1;
@@ -157,18 +157,26 @@ export function stepStoryline(world: World, c: CampaignState, events: SimEvent[]
   if (c.step === 1) {
     for (const beat of def.beats ?? []) {
       if (seen(c, beat.scene.id) || !checkMet(world, c, beat.when)) continue;
-      queueScene(c, variantOf(c, beat.scene.id));
+      const id = variantOf(c, beat.scene.id);
+      if (!sceneSeasonHolds(world, id)) continue;
+      queueScene(c, id);
       return;
     }
     if (!checkMet(world, c, def.goal)) return;
     c.goalMetMs ??= world.timeMs;
     if (rule?.holdsClose?.(world, c)) return;
     c.step = 2;
-    queueScene(c, variantOf(c, def.closing.id));
+    const closing = variantOf(c, def.closing.id);
+    if (sceneSeasonHolds(world, closing)) queueScene(c, closing);
     return;
   }
   if (c.step !== 2) return;
-  if (!seen(c, variantOf(c, def.closing.id))) return;
+  const closing = variantOf(c, def.closing.id);
+  if (!seen(c, closing)) {
+    // R0634: a closing held by its season waits here and queues when the season comes round.
+    if (sceneById(closing)?.season && sceneSeasonHolds(world, closing)) queueScene(c, closing);
+    return;
+  }
   if (c.chapter < s.chapters.length) {
     beginStoryChapter(world, c, c.chapter + 1, events);
     // The next opening queues in the same tick, so the story never sits on an empty queue.

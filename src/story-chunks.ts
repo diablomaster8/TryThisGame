@@ -46,11 +46,18 @@ export function storyNeeds(json: string): { story: boolean; bands: EduBand[] } |
  * The chunks the current slot waits for before it boots (rejects when one fails to load, so
  * the caller shows the update notice). `freshBand` is a new Learning Grove's chosen band.
  */
-export function storyChunksBeforePlay(slot: SaveSlot, freshBand: EduBand | null): Promise<void> {
+export function storyChunksBeforePlay(
+  slot: SaveSlot,
+  freshBand: EduBand | null,
+  sandbox = false,
+): Promise<void> {
   const json = readSave();
   // An unreadable save is treated as needing everything, as before.
   const needs = json === null ? { story: false, bands: [] } : storyNeeds(json);
-  if (slot.mode === 'free' && needs && !needs.story) {
+  // Lane C r11 (R0627): a Hazel's Grove Sandbox (story off: a saved one, or a new one) boots
+  // without waiting too; a new story slot reads empty but needs the scripts.
+  const storyOff = slot.mode === 'free' || (slot.mode === 'campaign' && (json !== null || sandbox));
+  if (storyOff && needs && !needs.story) {
     loadStoryScripts().catch(() => undefined);
     return Promise.resolve();
   }

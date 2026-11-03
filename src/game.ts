@@ -71,6 +71,7 @@ import { tierForRes } from './config/tuning-world';
 import { slotId } from './platform/storage';
 import { takeBackup, writeCheckpoint } from './platform/save-backups';
 import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
+import { currentChapterKeys } from './sim/chapter-select'; /* Lane C r11 (R0619) */
 import { playSoulSounds } from './ui/soul-sounds';
 
 /** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
@@ -731,6 +732,9 @@ export class Game {
     this.catchingUp = true;
     const start = performance.now();
     let shown = false;
+    // Lane C r11 (R0619): chapters begun while away get a checkpoint too (the snapshot
+    // taken once catch-up ends: the first one this device has of them).
+    const chaptersBefore = currentChapterKeys(world);
     try {
       const run = catchUpInChunks(world, elapsedMs, now);
       let sliceStart = start;
@@ -764,6 +768,8 @@ export class Game {
       this.catchingUp = false;
       if (shown) this.hooks.onCatchUpEnd();
     }
+    const begun = currentChapterKeys(world).filter((k) => !chaptersBefore.includes(k));
+    if (begun.length > 0) this.keepCheckpoints([], begun);
   }
 
   /**
@@ -771,9 +777,11 @@ export class Game {
    * IndexedDB, with a backup beside it; the sim records the key once the write succeeded.
    * Without IndexedDB nothing is kept and the game runs on.
    */
-  private keepCheckpoints(events: SimEvent[]): void {
+  private keepCheckpoints(events: SimEvent[], begun?: string[]): void {
     if (this.holdSaves || this.crashed) return;
-    const keys = chapterKeysOf(events, this.world).filter((k) => !hasCheckpoint(this.world, k));
+    const keys = (begun ?? chapterKeysOf(events, this.world)).filter(
+      (k) => !hasCheckpoint(this.world, k),
+    );
     if (keys.length === 0) return;
     const slot = slotId(currentSlot());
     const json = serialize(this.world, Date.now());

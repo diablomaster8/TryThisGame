@@ -342,6 +342,7 @@ export const SIDE_STORY_S25: Quest[] = [
       // ------------------------------------------------ 4. The Night It Couldn't Sleep (outline Q5 end, Q6)
       {
         id: 's25-step4',
+        summary: 'You gave your Nubbin a toy to hold, and it curled up round it in the basket.',
         goal: 'Give your Nubbin something to hold.',
         hint: 'Take the knitted toy off the window seat and put it in the basket.',
         check: 'give:s25-toy:nubbin',

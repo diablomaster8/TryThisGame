@@ -321,6 +321,7 @@ export const EXPANSION_E1: Quest[] = [
       },
       {
         id: 'e1-s2',
+        summary: 'You won over one creature, and it moved into a corner of the square to stay.',
         goal: 'Win over one creature who will stay.',
         hint: 'A settled wild visitor, a returned stray, a beaten rival: any of them moves in.',
         check: 'recruits:>=1',
@@ -329,6 +330,7 @@ export const EXPANSION_E1: Quest[] = [
       },
       {
         id: 'e1-s3',
+        summary: 'You filled the square enough for a stall, with cheap fruit that tasted just as good.',
         goal: 'Fill the square enough for a stall.',
         hint: 'Each recruit raises prosperity. The stall opens at 20.',
         check: 'prosperity:>=20',
@@ -337,6 +339,7 @@ export const EXPANSION_E1: Quest[] = [
       },
       {
         id: 'e1-s4',
+        summary: 'You brought the gym back, and Nubbins queued up for every station.',
         goal: 'Bring the gym back.',
         hint: 'Prosperity 40.',
         check: 'prosperity:>=40',
@@ -345,6 +348,7 @@ export const EXPANSION_E1: Quest[] = [
       },
       {
         id: 'e1-s5',
+        summary: 'You found a minder for the bathhouse step, and the recruit took up the towel at once.',
         goal: 'Find a minder for the bathhouse step.',
         hint: 'Prosperity 60.',
         check: 'prosperity:>=60',
@@ -353,6 +357,7 @@ export const EXPANSION_E1: Quest[] = [
       },
       {
         id: 'e1-s6',
+        summary: 'You filled the fortune tent by the well, and the first free reading came true.',
         goal: 'Fill the fortune tent.',
         hint: 'Prosperity 80.',
         check: 'prosperity:>=80',
@@ -361,6 +366,7 @@ export const EXPANSION_E1: Quest[] = [
       },
       {
         id: 'e1-s7',
+        summary: 'You raised the standing festival, with bunting, a banner and race prizes.',
         goal: 'Raise the standing festival.',
         hint: 'Prosperity 100.',
         check: 'prosperity:>=100',

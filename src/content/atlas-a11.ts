@@ -873,6 +873,7 @@ export const ATLAS_A11: Quest[] = [
       },
       {
         id: 'a11-06-s3',
+        summary: 'You chose a gift for Eeyore, and by evening he looked almost cheerful.',
         goal: 'Choose what your Nubbin gives Eeyore.',
         hint: 'There is no wrong present. Nothing at all is one of the choices.',
         check: 'give:a11-eeyore:birthday',

@@ -1420,6 +1420,7 @@ export const ATLAS_A13: Quest[] = [
     steps: [
       {
         id: 'a13-11-s1',
+        summary: 'You got Pinocchio to take his medicine, and he was out of bed in minutes.',
         goal: 'Get Pinocchio to take his medicine.',
         hint: 'He’ll bargain. Let him. Sugar first, then the glass.',
         check: 'give:a13-medicine:pin',
@@ -2109,6 +2110,7 @@ export const ATLAS_A13: Quest[] = [
       },
       {
         id: 'a13-17-s3',
+        summary: 'You waded in and pulled Alidoro out of the sea, as wet as a carpet.',
         goal: 'Get Alidoro out of the sea.',
         hint: 'Pinocchio is in the water. So is the dog, and the dog can’t swim. Wade in from the shallows.',
         check: 'swim:a13-alidoro:sea',
@@ -2524,6 +2526,7 @@ export const ATLAS_A13: Quest[] = [
       },
       {
         id: 'a13-20-s4',
+        summary: 'You kept Pinocchio company through the winter, and he dreamed of the Fairy, well and smiling.',
         goal: 'Keep Pinocchio company through the winter.',
         hint: 'He works every day now. The pennies in the jar are for a new coat.',
         check: 'give:a13-coat-money:snail',

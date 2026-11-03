@@ -954,6 +954,7 @@ export const ATLAS_A14: Quest[] = [
       },
       {
         id: 'a14-05-s2',
+        summary: 'You swam for the shore and made it, and the river carried the veil away to the sea.',
         goal: 'Swim for the shore.',
         hint: 'Stay outside the surf and swim along the coast to the river mouth.',
         check: 'swim:a14-scheria:coast',
@@ -1356,6 +1357,7 @@ export const ATLAS_A14: Quest[] = [
       },
       {
         id: 'a14-08-s2',
+        summary: 'You gave the giant the wine, and the clever plan worked out of sight.',
         goal: 'Give the giant the wine.',
         hint: 'Carry the bowl of wine to the giant after his dinner.',
         check: 'give:a14-wine:cyclops',

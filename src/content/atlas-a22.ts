@@ -1951,6 +1951,7 @@ export const ATLAS_A22: Quest[] = [
       },
       {
         id: 'a22-16-s2',
+        summary: 'You stood in the family photograph in the courtyard while the photographer ducked under his cloth.',
         goal: 'Stand in the family photograph.',
         hint: 'Stand on the steps with the family when the photographer calls.',
         check: 'photo:a22-family:casita',

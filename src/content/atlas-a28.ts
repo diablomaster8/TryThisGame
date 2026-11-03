@@ -1160,6 +1160,7 @@ export const ATLAS_A28: Quest[] = [
       },
       {
         id: 'a28-08-s3',
+        summary: 'You watched Ananse pay what he owed, and he tucked his payment into his hatband.',
         goal: 'See whether Ananse pays what he owes.',
         hint: 'Stay by the empty box on Ananse’s step.',
         check: 'give:a28-ananse:trade',

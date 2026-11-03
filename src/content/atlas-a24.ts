@@ -2438,6 +2438,7 @@ export const ATLAS_A24: Quest[] = [
       },
       {
         id: 'a24-17-s2',
+        summary: 'You paddled in the surf while Kotick learned to swim, and he began to wonder where the others went.',
         goal: 'Paddle in the surf while Kotick learns to swim.',
         hint: 'Stay in the shallows. The big waves are for seals, not for guests.',
         check: 'swim:a24-surf:novastoshnah',
@@ -2551,6 +2552,7 @@ export const ATLAS_A24: Quest[] = [
     steps: [
       {
         id: 'a24-18-s1',
+        summary: 'You searched the northern sea with Kotick and found the Sea Cows, who nobody had believed in.',
         goal: 'Search the northern sea with Kotick for a safe beach.',
         hint: 'Ask everyone. The old sea lion first. Mind the walrus; he’s grumpy.',
         check: 'swim:a24-search:islands',
@@ -2590,6 +2592,7 @@ export const ATLAS_A24: Quest[] = [
       },
       {
         id: 'a24-18-s2',
+        summary: 'You followed the Sea Cows under the cliffs with Kotick and found the beach no hunter could reach.',
         goal: 'Follow the Sea Cows through the dark water with Kotick.',
         hint: 'Stay close behind Kotick. The page lets you breathe; it’s that kind of page.',
         check: 'swim:a24-sea-cows:tunnel',

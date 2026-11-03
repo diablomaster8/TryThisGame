@@ -1,4 +1,5 @@
 import { mountHudSchemeSetting } from './hud-scheme';
+import { mountProfileBackup } from './backup'; /* Lane C r11 */
 import { shareOrDownload } from '../platform/share';
 import { mountOfflinePacks } from './offline-packs';
 import { SHARE_TEXT } from '../config/strings-r9d3';
@@ -46,6 +47,7 @@ import { KID_SHEET_TEXT } from '../config/strings-kids';
 import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
 import { mountStoryPaceSetting } from './story-pace-setting';
+import { mountStoryStartSetting } from './story-start-setting'; /* Lane C r11 (R0627) */
 import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
 import { mountSaveInfo } from './save-info-panel';
@@ -416,7 +418,13 @@ export class SettingsMenu {
     this.questFlow.title = OFFER_TEXT.flowHelp;
     body.appendChild(el('div', 'help', OFFER_TEXT.flowHelp));
     // Lane C r10 agent C (R0614): Story pace, a self-contained row (ui/story-pace-setting.ts).
-    this.syncPace = mountStoryPaceSetting(body, this.game);
+    // Lane C r11 (R0627): a Sandbox's "Start Hazel's story", refreshed with the pace row.
+    const syncStart = mountStoryStartSetting(body, this.game);
+    const syncPaceRow = mountStoryPaceSetting(body, this.game);
+    this.syncPace = (g) => {
+      syncPaceRow(g);
+      syncStart(g);
+    };
     // R0670: telemetry-free play counts; they travel in an exported save.
     this.playLine = el('div', 'help');
     body.appendChild(this.playLine);
@@ -486,6 +494,8 @@ export class SettingsMenu {
     body.appendChild(saves);
     // R0659 (CAMP-67): last saved, size, and the copies kept.
     // Lane C r10 agent B: with the rolling backups, Restore and the checkpoint count.
+    // Lane C r11 (R0625, R0626): the whole-profile backup and what story worlds read.
+    mountProfileBackup(body, this.toast);
     this.syncSaveInfo = mountSaveInfo(body, {
       game: this.game,
       toast: this.toast,

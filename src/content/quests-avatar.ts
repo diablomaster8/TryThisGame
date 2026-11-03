@@ -1210,6 +1210,7 @@ export const QUESTS_AVATAR: Quest[] = [
     steps: [
       {
         id: 'q53-s1',
+        summary: 'You joined the fan-warriors’ morning drill and finished it without dropping your fan.',
         goal: 'Join the fan-warriors’ morning drill and finish it without dropping your fan.',
         hint: 'Copy the warrior at the front. Open, sweep, close: the rhythm is slower than it looks.',
         check: 'train:fan-drill',
@@ -1346,6 +1347,7 @@ export const QUESTS_AVATAR: Quest[] = [
     steps: [
       {
         id: 'q54-s1',
+        summary: 'You finished Master Pian’s three lessons, in the brush, the stillness and the garden.',
         goal: 'Complete Master Pian’s three lessons: the brush, the stillness and the garden.',
         hint: 'Each lesson is a short timing game. Slow, steady inputs score better than fast ones.',
         check: 'train:pian-lessons:3',

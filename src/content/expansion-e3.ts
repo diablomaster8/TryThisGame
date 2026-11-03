@@ -271,6 +271,7 @@ export const EXPANSION_E3: Quest[] = [
       },
       {
         id: 'e3-s2',
+        summary: 'You named two partners, and the two Nubbins began to keep close to each other too.',
         goal: 'Name two partners.',
         hint: 'The partners panel. Pick the two who wait for each other.',
         check: 'partners:set',
@@ -287,6 +288,7 @@ export const EXPANSION_E3: Quest[] = [
       },
       {
         id: 'e3-s4',
+        summary: 'You tied the twine and merged your two partners into one new, glowing shape.',
         goal: 'Tie the twine: merge your partners.',
         hint: 'Both adults, both fond of you (affection 60), one twine.',
         check: 'merged',

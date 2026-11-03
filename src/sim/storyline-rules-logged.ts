@@ -18,7 +18,10 @@ export const LOGGED_AREAS = ['day', 'night'] as const;
 /** The ending the flags add up to: Root's word or the company's, and whether all three came through. */
 function loggedEnding(c: CampaignState): string {
   if (c.flags['l-root'] === 'spare') return 'quiet-exit';
-  return counter(c, 'departed') > 0 ? 'one-short' : 'everyone-wakes';
+  // R0654: beside Hazel's Grove only the party's own departures count (`onEvent`).
+  const gone =
+    c.flags['l-castGone'] !== undefined ? Number(c.flags['l-castGone']) : counter(c, 'departed');
+  return gone > 0 ? 'one-short' : 'everyone-wakes';
 }
 
 /** The party's ids, from the comma-joined flag. */
@@ -66,6 +69,12 @@ registerStorylineRule({
     // (`present`), drawn only while the Keeper is there.
     if (!isSharedLine(world, c)) world.grove = 'sun';
     c.flags.area = 'day';
+    if (isSharedLine(world, c)) c.flags['l-castGone'] = 0;
+  },
+  onEvent: (world, c, e) => {
+    if (e.kind !== 'departed' || !isSharedLine(world, c)) return;
+    const mine = typeof c.flags.cast === 'string' && c.flags.cast.split(',').includes(e.nubbinId);
+    c.flags['l-castGone'] = Number(c.flags['l-castGone'] ?? 0) + (mine ? 1 : 0);
   },
   present: (_world, c) => ({ grove: c.flags.area === 'night' ? 'moon' : 'sun' }),
   onArea: (world, c, area) => {

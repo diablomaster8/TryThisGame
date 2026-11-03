@@ -21,6 +21,7 @@ import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 import { comedyReport } from './comedy-report';
 import { lineFlagProblems, ruleFlags } from './line-flags';
 import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
+import { openWorldChecks } from './open-world-check'; /* Lane C r11, R0645 */
 import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
 import { STANDARD_LABELS } from '../../src/config/strings-access-r10';
 import { EDU_ROUND_STANDARDS } from '../../src/config/edu-standards-r10';
@@ -1028,6 +1029,16 @@ for (const e of [
   if (total > CAMP10D.storyShellsMax)
     problems.push(`story Shells ${total} over the budget ${CAMP10D.storyShellsMax}`);
 }
+// Lane C r11 (R0645, R0613, R0600, R0634): the open world's rules, the gate graph, the epilogue.
+const openWorld = openWorldChecks({
+  quests: allQuests,
+  storylines: STORYLINE_CONTENT,
+  campaignEndings: Object.keys(C.CAMPAIGN_ENDINGS),
+  campaignSceneIds: campIds,
+});
+problems.push(...openWorld.problems);
+warnings.push(...openWorld.warnings);
+if (process.argv.includes('--gates')) console.log(openWorld.graph.join('\n'));
 // Lane E r10, R0700 (KIDS-32): a do lesson whose verb opens no beat falls back to "We did it!"
 // (warning; add the verb to DO_VERBS in src/ui/do-plan.ts).
 let unmappedDo = 0;

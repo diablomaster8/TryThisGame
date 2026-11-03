@@ -26,6 +26,7 @@ import {
 } from '../content/edu-kit';
 import { CHOICE_PAYOFFS } from './choice-payoffs';
 import { registerLangCourses, registerLangQuests } from './lang';
+import { epilogueLines, FAIR_SCENE, registerEpilogue } from './epilogue';
 import { loadOnce } from './load-once';
 import type { CampaignState, World } from './types';
 
@@ -189,10 +190,18 @@ export const loadStoryScripts: () => Promise<void> = loadOnce(() =>
     import('../content/campaign'),
     import('./side-story-content'),
     import('./storyline-content'),
-  ]).then(([campaign, side, lines]) => {
+    import('../content/epilogue'),
+  ]).then(([campaign, side, lines, epi]) => {
     registerCampaign(campaignContent(campaign));
     registerSideStories(side.SIDE_STORY_CONTENT);
     registerStorylines(lines.STORYLINE_CONTENT);
+    registerEpilogue({ callbacks: epi.EPILOGUE_CALLBACKS, frame: epi.EPILOGUE_FRAME });
+    // R0600: the Valley Fair's lines are built from the endings a save reached (`sceneFor`).
+    add({
+      id: FAIR_SCENE,
+      lines: [{ who: 'narrator', text: 'The valley fair.' }],
+      set: { fairSeen: true },
+    });
   }),
 );
 
@@ -862,6 +871,7 @@ export function sceneFor(
   const scene = SCENE_BY_ID.get(id);
   const c = world.campaign;
   if (!scene) return undefined;
+  if (id === FAIR_SCENE) return { ...scene, lines: epilogueLines(world), choices: [], lessons: [] };
   const edu = band !== 'main' ? eduLookup?.(band, id) : undefined;
   const base: PlayScene = edu
     ? {

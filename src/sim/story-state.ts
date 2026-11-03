@@ -75,6 +75,12 @@ export function sceneTimeHolds(ms: number, id: string): boolean {
   return f >= STORY.duskAt;
 }
 
+/** R0634: whether scene `id` may play in the world's season (no `season` gate: always). */
+export function sceneSeasonHolds(world: World, id: string): boolean {
+  const want = sceneById(id)?.season;
+  return !want || want.includes(world.season);
+}
+
 /** Queue a scene once: never twice, never one already seen, never an unknown id. */
 export function queueScene(c: CampaignState, id: string): boolean {
   if (!sceneById(id)) return false;

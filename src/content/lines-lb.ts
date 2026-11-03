@@ -284,6 +284,7 @@ export const LINE_LB: Quest[] = [
     steps: [
       {
         id: 'lb02-s1',
+        summary: 'You counted five Shells into Ned’s hand and bought a leaf from his shop.',
         goal: 'Buy a leaf from Ned’s shop on the Larkins’ step.',
         hint: 'Talk to Ned at his shop and count out 5 Shells. You will get them back.',
         check: 'give:shells:lb-ned',

@@ -1145,6 +1145,7 @@ export const ATLAS_A07: Quest[] = [
       },
       {
         id: 'a7-08-s2',
+        summary: 'You helped Miguel out of the pool, and his family cheered a new little relation.',
         goal: 'Help Miguel when he falls in the pool.',
         hint: 'Get to the edge of the pool and help pull Miguel out.',
         check: 'swim:a7-pool:mansion',

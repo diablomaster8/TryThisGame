@@ -5,7 +5,8 @@ import { createEgg } from './nubbin';
 import { setPartner } from './partners';
 import { Rng } from './rng';
 import { speciesByFamily } from './species';
-import { registerStorylineRule } from './storyline-rules';
+import { HUNDRED_PROSPERITY_GAIN } from '../config/tuning-camp11c';
+import { isSharedLine, registerStorylineRule } from './storyline-rules';
 import { counter, storyPartner } from './storyline-checks';
 import { setWeather } from './weather';
 import type { HabitatKind, SimEvent, World } from './types';
@@ -83,6 +84,8 @@ registerStorylineRule({
       setPartner(world, 0, egg.id);
     });
     c.flags.area = 'meadow';
+    // R0654: beside Hazel's Grove the ending reads what the line added, not a Grove already rich.
+    c.flags['base:prosperity'] = world.town.prosperity;
   },
   onChapter: (_world, c, n) => {
     if (n === 9) c.flags['hush-wins-at'] = counter(c, 'karateWon');
@@ -118,8 +121,14 @@ registerStorylineRule({
   },
   endingFor: (world, c) => {
     const p = storyPartner(world, c);
-    const prosperity = world.town.prosperity;
     if (p?.moody || p?.shadow) return 'grey-fold';
+    if (isSharedLine(world, c)) {
+      const gained = world.town.prosperity - Number(c.flags['base:prosperity'] ?? 0);
+      if (gained >= HUNDRED_PROSPERITY_GAIN.bright) return 'bright-fold';
+      if (gained < HUNDRED_PROSPERITY_GAIN.quiet) return 'quiet-fold';
+      return 'the-fold';
+    }
+    const prosperity = world.town.prosperity;
     if (prosperity >= 100) return 'bright-fold';
     if (prosperity < 60) return 'quiet-fold';
     return 'the-fold';

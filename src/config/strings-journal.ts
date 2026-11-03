@@ -14,6 +14,7 @@ export const JOURNAL_TEXT = {
   claimed: 'Claimed',
   /** R0665: the Quests page, its search and its chips. */
   questsTab: 'Quests',
+  moreTab: 'More',
   search: 'Search quests',
   searchHint: 'Title, who asks, or where',
   chips: {
