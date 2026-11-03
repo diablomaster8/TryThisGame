@@ -36,6 +36,12 @@ export function drawCosmetic(
   layer: CosmeticLayer,
 ): void {
   const c = cosmetic(id);
+  // R0413: a costume's head parts (antennae, hood, helmet) go on in the hat pass.
+  if (c?.slot === 'body' && c.head && layer === 'over') {
+    const side = angle === 'side' ? -1 : 0;
+    const col = (k: CosmeticColour): number => C[k as keyof typeof C];
+    for (const op of c.head) drawOp(pc, op, L.headCx + side, L.headCy - L.headRy, col);
+  }
   if (!c || c.bespoke || !c.px || layerOf(c.slot, angle) !== layer) return;
   if (c.slot === 'face' && BACK_VIEW.has(angle)) return; // the face is not seen from behind
   const ops = BACK_VIEW.has(angle) ? (c.pxBack ?? c.px) : c.px;

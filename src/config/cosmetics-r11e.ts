@@ -5,7 +5,7 @@
  * on the eye anchor with the eyes at x = +-0.3. Plain data, drawn by both renderers.
  */
 import type { Cosmetic } from './cosmetics';
-import { FACE_WEAR_LABELS } from './strings-look-r11e';
+import { FACE_WEAR_LABELS, RACE_BAND_LABELS } from './strings-look-r11e';
 
 export const FACE_COSMETICS: readonly Cosmetic[] = [
   {
@@ -72,3 +72,36 @@ export const FACE_COSMETICS: readonly Cosmetic[] = [
     ],
   },
 ];
+
+/** R0437: the course colour each race headband wears, by course id. */
+const BAND_COLOUR = { meadow: 'leaf', cliffs: 'orange', lagoon: 'shallows' } as const;
+
+/** The headband a Nubbin wears in a race on this course, or null for an unknown course. */
+export const raceBandId = (course: string): string | null =>
+  course in BAND_COLOUR ? `race-band-${course}` : null;
+
+/**
+ * R0437: the race headband, a face-slot band across the brow in the course colour. A race
+ * puts it on the runner for the length of the race; it is never kept in the wardrobe.
+ */
+export const RACE_BAND_COSMETICS: readonly Cosmetic[] = (
+  Object.keys(BAND_COLOUR) as (keyof typeof BAND_COLOUR)[]
+).map((course) => {
+  const id = `race-band-${course}` as keyof typeof RACE_BAND_LABELS;
+  const k = BAND_COLOUR[course];
+  return {
+    id,
+    label: RACE_BAND_LABELS[id],
+    slot: 'face',
+    rarity: 'common',
+    source: 'race',
+    px: [
+      ['rect', -7, -4, 15, 2, k],
+      ['px', 8, -3, k],
+      ['px', 9, -2, k],
+      ['px', 9, -1, k],
+      ['rect', -6, -4, 13, 1, 'white'],
+    ],
+    mesh: [['torus', k, [0, 0.45, -0.7], [0.74, 0.74, 0.12], [Math.PI / 2, 0, 0]]],
+  } satisfies Cosmetic;
+});

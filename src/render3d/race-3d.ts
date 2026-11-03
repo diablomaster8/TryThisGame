@@ -9,6 +9,8 @@ import { sectionAt, type RaceState, type Racer } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
+import { Dresser } from './dress';
+import { raceBandId } from '../config/cosmetics-r11e';
 import { speciesArt } from '../render/sprites/species-art';
 import { buildStoryRace } from './dress-f-sets';
 import { gaitTime } from './gait';
@@ -77,6 +79,9 @@ export class Race3dView implements RaceView {
   /** R0325 (FUN-36): the butterfly a gazing runner stopped for, and where it looks. */
   private butterfly: RaceButterfly | null = null;
   private readonly gaze = new THREE.Vector3();
+  /** R0437: dresses the player's rig with the race headband. */
+  private readonly dresser = new Dresser();
+  private player: Nubbin | null = null;
 
   constructor(private readonly host: Grove3dScene) {
     // The 3D race keeps its HUD in the screen's own elements; this holds nothing yet.
@@ -87,6 +92,8 @@ export class Race3dView implements RaceView {
     this.stop();
     const stage = new MiniStage(this.host, RACE3D.hour);
     this.stage = stage;
+    const band = raceBandId(race.course.id);
+    this.player = band ? { ...player, wear: { ...player.wear, face: band } } : null;
     this.spans = sectionSpans(race.course);
     this.openedMs = performance.now();
     this.lastMs = 0;
@@ -135,6 +142,8 @@ export class Race3dView implements RaceView {
   }
 
   stop(): void {
+    for (const r of this.runners) if (r.rig && r.racer.isPlayer) this.dresser.strip(r.rig);
+    this.player = null;
     // Rival looks are a race's own; their rigs would otherwise pile up in the pool.
     const keep = new Set(this.runners.filter((r) => r.racer.isPlayer).map((r) => r.look.key));
     const rivals = this.runners.filter((r) => !keep.has(r.look.key)).map((r) => r.look.key);
@@ -209,6 +218,8 @@ export class Race3dView implements RaceView {
         continue;
       }
       r.rig = rig;
+      // R0437: the player's headband, in the course colour, for the length of the race.
+      if (r.racer.isPlayer && this.player) this.dresser.update(rig, this.player);
       r.compiling = true;
       rig.ground = (x) => trackHeight(this.spans, x / U);
       rig.setPose('idle');

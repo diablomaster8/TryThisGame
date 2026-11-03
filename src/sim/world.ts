@@ -184,9 +184,9 @@ import {
 } from './types';
 import { findCuriosity } from './curiosities';
 import { mayWear } from './remembrance'; /* Lane E r9 */
-import { hatchInArms } from './hatch-arms';
 import { wearInSlot } from './wear'; /* Lane E r11, R0400 */
 import { cosmetic } from '../config/cosmetics'; /* Lane E r11, R0400 */
+import { hatchInArms } from './hatch-arms';
 import { noteCheckpoint } from './story-marks';
 import { enterStoryRegion, leaveStoryRegion } from './story-regions';
 import { tapCare } from './access';
@@ -620,7 +620,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat) && !hasDerivedHat(cmd.hat)) return;
       if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
-      n.hat = cmd.hat;
       // Lane E r11, R0400: an item for another slot goes to its own slot, not the hat.
       const slot = cmd.hat ? (cosmetic(cmd.hat)?.slot ?? 'hat') : 'hat';
       if (slot !== 'hat') {
@@ -628,11 +627,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         noteNubbin(world, n, events);
         return;
       }
+      n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
       noteNubbin(world, n, events);
       return;
     }
-    case 'setTimeZone': {
     case 'wearSlot': {
       if (wearInSlot(world, cmd.nubbinId, cmd.slot, cmd.id)) {
         const n = findNubbin(world, cmd.nubbinId);
@@ -640,6 +639,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       }
       return;
     }
+    case 'setTimeZone': {
       // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
       const m = Math.round(cmd.offsetMin);
       if (Number.isFinite(m) && m >= -720 && m <= 840) world.tzOffsetMin = m;

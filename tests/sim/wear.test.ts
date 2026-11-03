@@ -67,3 +67,29 @@ describe('per-slot wear (R0400)', () => {
     expect(keep.n.hat).toBe('party');
   });
 });
+
+describe('body costumes (R0413)', () => {
+  it('wears a costume in the body slot and recolours through costumeOf', async () => {
+    const { costumeOf } = await import('../../src/sim/wear');
+    const { world, n } = worldWithNubbin();
+    world.inventory.hats.push('costume-frog', 'costume-ghost');
+    applyCommand(world, { kind: 'wearSlot', nubbinId: n.id, slot: 'body', id: 'costume-frog' }, []);
+    expect(costumeOf(n)?.id).toBe('costume-frog');
+    expect(costumeOf(n)?.costume?.body).toBe('leaf');
+    applyCommand(world, { kind: 'wearSlot', nubbinId: n.id, slot: 'hat', id: 'costume-ghost' }, []);
+    expect(n.hat).toBeNull();
+  });
+});
+
+describe('race headbands (R0437)', () => {
+  it('has one face-slot headband per course, none for an unknown one', async () => {
+    const { raceBandId } = await import('../../src/config/cosmetics-r11e');
+    const { COURSES } = await import('../../src/sim/race');
+    for (const c of COURSES) {
+      const id = raceBandId(c.id);
+      expect(id, c.id).toBeTruthy();
+      expect(cosmetic(id!)?.slot).toBe('face');
+    }
+    expect(raceBandId('nowhere')).toBeNull();
+  });
+});

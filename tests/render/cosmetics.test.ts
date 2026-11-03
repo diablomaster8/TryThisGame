@@ -48,8 +48,8 @@ describe('the cosmetics registry', () => {
     )
       .map((c) => c.id)
       .filter((id) => !id.startsWith('look-') && id !== 'hop-hat' && id !== 'black-belt');
-    // The five hats, eighteen new ones, the three face items (R0400) and the eggshell.
-    expect(ids.length + 1).toBe(27);
+    // The five hats, eighteen new ones, the three face items (R0400), the five costumes (R0413), the three race headbands (R0437) and the eggshell.
+    expect(ids.length + 1).toBe(35);
     expect(new Set(COSMETICS.map((c) => c.id)).size).toBe(COSMETICS.length);
     for (const c of COSMETICS) expect(c.label).not.toBe(c.id);
     const slots = new Set(COSMETICS.map((c) => c.slot));

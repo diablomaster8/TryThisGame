@@ -1576,8 +1576,6 @@ export type Command =
       rival?: { name: string; species: string };
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
-  | { kind: 'setSettings'; settings: Settings }
-  /** TECH-45: the device's time zone, minutes east of UTC. */
   /** Lane E r11, R0400: put on or take off one slot's item (the hat slot included). */
   | {
       kind: 'wearSlot';
@@ -1585,6 +1583,8 @@ export type Command =
       slot: 'hat' | 'face' | 'neck' | 'back' | 'body';
       id: string | null;
     }
+  | { kind: 'setSettings'; settings: Settings }
+  /** TECH-45: the device's time zone, minutes east of UTC. */
   | { kind: 'setTimeZone'; offsetMin: number }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }

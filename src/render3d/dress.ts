@@ -250,6 +250,18 @@ export function registryItem(id: string): Item | null {
   };
 }
 
+/** R0413: a body costume's head parts (antennae, hood, helmet), built like a hat. */
+function headItem(id: string): Item | null {
+  const c = cosmetic(id);
+  if (!c?.headMesh) return null;
+  const base = registryItem(id);
+  if (!base) return null;
+  const pieces = c.headMesh.map(([geo, k, pos, scale, rot]) =>
+    p(geo, C[k as keyof typeof C], pos, scale, rot),
+  );
+  return { at: 'top', pieces };
+}
+
 /** The dye swaps the hat's main colours for the dye and its warm shades for the dye's shade. */
 const DYE_MAIN = new Set<number>([C.cream, C.sunYellow, C.teal, C.rose, C.violet]);
 const DYE_SHADE = new Set<number>([C.ember, C.moonPurple, C.plum, C.orange]);
@@ -374,6 +386,11 @@ export class Dresser {
     const worn: { item: Item; dye: DyeColor | null }[] = [];
     if (hat && item) worn.push({ item, dye });
     for (const id of extras) worn.push({ item: registryItem(id)!, dye: null });
+    // R0413: a costume's head parts sit on the dome like a hat.
+    for (const id of extras) {
+      const head = headItem(id);
+      if (head) worn.push({ item: head, dye: null });
+    }
     for (const { item: it, dye: dd } of worn) {
       const g = this.build(it.pieces, (c) => dyed(c, dd));
       if (it.at === 'top') {

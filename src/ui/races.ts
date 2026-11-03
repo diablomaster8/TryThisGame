@@ -9,6 +9,7 @@ import { byteFooter } from './fun-toasts';
 import { nextTip } from './tips';
 import { createFunRun, funRunTip } from '../sim/fun-run';
 import { speakLine } from './lesson';
+import { raceBandId } from '../config/cosmetics-r11e'; /* Lane E r11, R0437 */
 
 /** Pick a course and tier, then run the race with the selected (or first grown) Nubbin. */
 export class RacesMenu {
@@ -133,10 +134,13 @@ export class RacesMenu {
     const sheets = g.view.sheets;
     this.screen.footer = byteFooter(g.world);
     this.screen.tip = nextTip(g.world);
+    // R0437: the runner wears the course's headband for the race (not kept afterwards).
+    const band = raceBandId(course.id);
+    const banded = band ? { ...runner, wear: { ...runner.wear, face: band } } : runner;
     this.screen.start(
       race,
       runner,
-      sheets.forNubbin(runner),
+      sheets.forNubbin(banded),
       sheets,
       hatRoll,
       (outcome) => {

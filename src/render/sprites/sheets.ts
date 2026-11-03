@@ -29,7 +29,7 @@ import {
 } from './chao';
 import { speciesOf } from '../../sim/species';
 import { isJewel } from '../../sim/nubbin';
-import { wornExtras } from '../../sim/wear';
+import { costumeOf, wornExtras } from '../../sim/wear';
 import { buildCreatureSheet } from './creature';
 import { buildEggSheet } from './egg';
 import { buildCocoonFor, cocoonKey } from './cocoon';
@@ -98,6 +98,18 @@ function childLook(alignment: number): { id: string; colors: ChaoColors } {
   if (lean.band === 'moon')
     return { id: `moon${step}`, colors: step > 1 ? CHILD_MOON : CHILD_MOON_FAINT };
   return { id: 'neutral', colors: CHILD_NEUTRAL };
+}
+
+/** R0413: a costume recolours the body, shade and belly roles. */
+function costumeColors(colors: ChaoColors, n: Nubbin): ChaoColors {
+  const c = costumeOf(n)?.costume;
+  if (!c) return colors;
+  return {
+    ...colors,
+    body: C[c.body],
+    shade: C[c.shade],
+    belly: c.belly ? C[c.belly] : colors.belly,
+  };
 }
 
 export class SheetCache {
@@ -245,6 +257,7 @@ export class SheetCache {
       const build = (look: ChaoLook): SpriteSheet =>
         buildChaoSheet({
           ...look,
+          colors: n.shadow ? look.colors : costumeColors(look.colors, n),
           partSteps: partSteps(n),
           gem,
           finish: n.shadow ? null : (n.finish ?? null),

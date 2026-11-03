@@ -233,6 +233,15 @@ export const FLAVOUR = {
     sunglasses: 'Cool indoors. Walks into the odd door.',
     'heart-glasses': 'Everything looks lovely. Even the mud.',
     whiskers: 'Painted on in a hurry. Purrs on request.',
+    'race-band-meadow': 'Green for grass, tied tight for the first stretch.',
+    'race-band-cliffs': 'Orange, like the rock, and just as stubborn.',
+    'race-band-lagoon': 'Blue as the lagoon, damp by the second lap.',
+    // Lane E r11 (R0413): the body costumes.
+    'costume-bee': 'Buzzes. Has no idea where the honey is.',
+    'costume-frog': 'Eyes on top. Opinions on everything.',
+    'costume-ghost': 'Two holes cut for the eyes. Boo, politely.',
+    'costume-dino': 'Tiny roar. Very sincere spikes.',
+    'costume-knight': 'Defends the Grove from beetles. And naps.',
     // Lane B round 7 (R0206): the Hollow's keepsakes.
     'hollow-mushroom': 'Big Grumblecap wanted quiet. You got the hat.',
     'hollow-hedge': 'Clipped by a knight. Still sheds leaves on the carpet.',

@@ -30,7 +30,8 @@ import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
 import { RADIANT_ART_PREFIX } from '../render/sprites/stage-art';
-import { color, shadeOf } from '../render/sprites/palette';
+import { C, color, shadeOf } from '../render/sprites/palette';
+import { cosmetic } from '../config/cosmetics';
 import { DYE_COLORS } from '../render/sprites/chao';
 import type { DyeColor } from '../sim/types';
 import { keeperOutfit } from '../render/keeper-look';
@@ -204,6 +205,18 @@ function lookPalette(base: SpeciesSpec, lookId: string): SpeciesSpec {
   });
 }
 
+/** R0413: a costume's colours over a body, by role. */
+function costumeSpec(base: SpeciesSpec, id: string): SpeciesSpec {
+  const c = cosmetic(id)?.costume;
+  if (!c) return base;
+  const colors: Partial<NubbinColors> = {
+    body: color(C[c.body]),
+    crownShade: color(C[c.shade]),
+  };
+  if (c.belly) colors.belly = color(C[c.belly]);
+  return variant(base, `${base.name} (${id})`, { colors: byRole(base, colors) });
+}
+
 /** Shadow-touched: every colour to an ash lilac of the same lightness, any species. */
 function ashen(base: SpeciesSpec): SpeciesSpec {
   const spec = cloneSpec(base);
@@ -322,6 +335,9 @@ export function specForKey(key: string): SpeciesSpec {
         m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny' || m.startsWith('finish:'),
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
+    // R0413: a body costume recolours the body, crown shade and belly.
+    const costume = mod('costume:');
+    if (costume) spec = costumeSpec(spec, costume);
     if (Object.keys(dyedTips).length)
       spec = variant(spec, `${spec.name} (dyed)`, { colors: byRole(spec, dyedTips) });
     // Lane F r11 (EVO): the Chaos-tier stage over a second form, while the spec still knows

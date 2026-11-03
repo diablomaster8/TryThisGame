@@ -20,6 +20,8 @@ import {
 } from '../render/sprites/chao';
 import { buildCocoonSheet, buildEggSheet, EGG_PALETTES } from '../render/sprites/egg';
 import { buildEmoteSheet, EMOTE_SHAPES } from '../render/sprites/emote';
+import { cosmetic } from '../config/cosmetics';
+import { C } from '../render/sprites/palette';
 import { drawCreature } from '../render/sprites/creature';
 import { buildKeeperSheet } from '../render/sprites/keeper';
 import { SPECIES_ART } from '../render/sprites/species-art';
@@ -233,6 +235,23 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
   for (const id of ['sunglasses', 'heart-glasses', 'whiskers']) {
     const wearing = lookOf(CHILD_NEUTRAL);
     chao(`Face: ${id}`, { ...wearing, wear: [id] }, idleAngles);
+  }
+  // R0413: the five body costumes on the plain child (recoloured as the sheet cache does).
+  for (const id of [
+    'costume-bee',
+    'costume-frog',
+    'costume-ghost',
+    'costume-dino',
+    'costume-knight',
+  ]) {
+    const c = cosmetic(id)!.costume!;
+    const colors = {
+      ...CHILD_NEUTRAL,
+      body: C[c.body],
+      shade: C[c.shade],
+      belly: c.belly ? C[c.belly] : CHILD_NEUTRAL.belly,
+    };
+    chao(`Costume: ${id}`, { ...lookOf(colors), wear: [id] }, idleAngles);
   }
   for (const hat of ['straw', 'crown', 'beanie', 'flower', 'bucket']) {
     chao(`Hat: ${hat}`, lookOf(CHILD_NEUTRAL, null, null, undefined, false, hat), idleAngles);

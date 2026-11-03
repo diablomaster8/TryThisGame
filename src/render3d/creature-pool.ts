@@ -24,6 +24,7 @@ import { speciesArt } from '../render/sprites/species-art';
 import { partsModBody } from '../samples/nubbin-critter-parts';
 import { partSteps } from '../render/sprites/part-size';
 import { specForKey, tintMods } from './looks';
+import { costumeOf } from '../sim/wear';
 import { SculptFarm } from './sculpt-farm';
 import { qualityForRes } from './sculpt-res';
 import { stubOnce } from './stubs';
@@ -72,7 +73,9 @@ export function nubbinLook(n: Nubbin): Look {
     (mark ? `~mark:${mark}` : '') +
     // R0427: an adult's dyed wing and crown tips.
     (n.stage === 'adult' && n.wingDye ? `~wingtip:${n.wingDye}` : '') +
-    (n.stage === 'adult' && n.crownDye ? `~crowntip:${n.crownDye}` : '');
+    (n.stage === 'adult' && n.crownDye ? `~crowntip:${n.crownDye}` : '') +
+    // R0413: a body costume recolours the body.
+    (costumeOf(n) ? `~costume:${n.wear!.body}` : '');
   const over = look ? `~look:${look}` : '';
   if (n.species !== 'chao') {
     // Other lines keep their own colours; only the Shadow's grey reaches them.

@@ -1,4 +1,4 @@
-import { cosmetic, type CosmeticSlot } from '../config/cosmetics';
+import { cosmetic, type Cosmetic, type CosmeticSlot } from '../config/cosmetics';
 import { hasDerivedHat } from './derived-unlocks';
 import { mayWear } from './remembrance';
 import type { Nubbin, World } from './types';
@@ -32,6 +32,13 @@ export function wornExtras(n: Nubbin): string[] {
     if (id && cosmetic(id)?.slot === s) out.push(id);
   }
   return out;
+}
+
+/** The costume a Nubbin wears in its body slot (R0413), or null. */
+export function costumeOf(n: Pick<Nubbin, 'wear'>): Cosmetic | null {
+  const id = n.wear?.body;
+  const c = id ? cosmetic(id) : null;
+  return c?.costume ? c : null;
 }
 
 /** Whether a wearable is owned: bought or won, or unlocked by play. */
