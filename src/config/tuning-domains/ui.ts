@@ -10,3 +10,4 @@ export * from '../tuning-r9d2';
 export * from '../tuning-r9d3';
 export * from '../tuning-r9d4';
 export * from '../tuning-r10d2';
+export * from '../tuning-r11d4';
