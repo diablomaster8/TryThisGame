@@ -168,8 +168,8 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'nap':
       return 'sleep';
     // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never asleep.
-    case 'shelter':
     // R0321: a hider crouches behind its tree (the sit), after the walk there.
+    case 'shelter':
     case 'hide':
       return moving ? walk() : 'sit';
     case 'eat':

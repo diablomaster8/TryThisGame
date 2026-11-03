@@ -2,7 +2,7 @@ import { playArea } from '../play-area';
 import { EXPEDITION_FUN_TEXT } from '../../config/strings-fun-r6';
 import { playChime, playSound } from '../../platform/audio';
 import { ExpeditionSfx } from './sfx';
-import { EXPEDITION, SIM, UI } from '../../config/tuning';
+import { SIM, UI } from '../../config/tuning';
 import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import type { Grove3dScene } from '../../render3d/grove-3d-scene';

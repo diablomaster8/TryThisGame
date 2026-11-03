@@ -2810,8 +2810,8 @@ export function clipFor(n: Nubbin): string {
     case 'nap':
       return 'sleep';
     // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never the sleep pose.
-    case 'shelter':
     // R0321: a hider crouches behind its tree (the sit), after the walk there.
+    case 'shelter':
     case 'hide':
       return n.behavior.target ? 'walk' : 'sit';
     case 'eat':
