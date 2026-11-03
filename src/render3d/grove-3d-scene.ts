@@ -97,6 +97,9 @@ import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
 
+/** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
+const FOG_WHITE = new THREE.Color('#e8eef2');
+
 export { prewarmCreatures } from './prewarm';
 
 /**
@@ -272,6 +275,9 @@ export class Grove3dScene {
   private particlesShed = false;
   private groveBloomShed = false;
   private shadowShed = false;
+  /** R0094: the haze and rain share a drawn region's own sky asks for (the game sets it). */
+  readonly regionSky = { fog: 0, intensity: 0 };
+
   /** A shed step changed something `setDaylight` decides: re-run it next frame. */
   private dayDirty = false;
   private readonly smaa: SMAAPass;
@@ -753,7 +759,13 @@ export class Grove3dScene {
       !(place === 'dungeon' && this.floor) &&
       !place.startsWith('region:');
     this.actors.ground = grove ? standHeight : () => 0;
-    this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
+    // R0094: a drawn region wears its own sky (rain, snow, fog), the Grove's sim weather aside.
+    const reg = place.startsWith('region:');
+    this.sky.set(hour, d, grove || reg ? weather : 'clear', this.camTarget);
+    if (reg && this.regionSky.fog > 0) {
+      this.sky.fog.density *= 1 + this.regionSky.fog * 3;
+      this.sky.fog.color.lerp(FOG_WHITE, this.regionSky.fog * 0.7);
+    }
     // Underground there is no sky: a mid-tone vault, a cool fill, the torches.
     this.sky.sky.visible = !cave;
     // R0190: an act's caves wear its look over the depth band, and tint the Keeper's lamp.
@@ -882,10 +894,18 @@ export class Grove3dScene {
     this.lampSources = sources;
     // TECH-52: the tier's light particles, or the Grove's first shed step.
     const light = this.tierFx.particles === 'light' || (!cave && this.particlesShed);
-    this.weather.set(grove, place, weather, d, light && particles === 'full' ? 'light' : particles);
+    this.weather.intensity = reg ? this.regionSky.intensity : null;
+    this.weather.set(
+      grove,
+      place,
+      weather,
+      d,
+      light && particles === 'full' ? 'light' : particles,
+      reg,
+    );
     // Rain cools the grade a touch (it used to grey it to a wash; art pass 2) and snow
     // brightens and cools it, as the pixel post pass.
-    const wet = grove && weather === 'rain';
+    const wet = (grove || reg) && weather === 'rain';
     this.grade.uniforms.uSaturation!.value = wet ? GROVE3D.rain.saturation : GRADE_SATURATION;
     if (wet)
       (this.grade.uniforms.uTint!.value as THREE.Color).multiply(
