@@ -10,6 +10,7 @@
  * A recording that fails to load falls back to 2 or 3, so a missing file is never silence.
  */
 import { EDU_CLIPS } from '../config/edu';
+import { planUiClips, uiClipFile } from '../config/edu-clips';
 import { isAudioUnlocked, isSoundEnabled, sfxOut } from './audio';
 import { EDU_RECIPES, recipeLength, renderRecipe, type Seg } from './edu-synth';
 
@@ -116,4 +117,67 @@ export function playEduClips(ids: readonly string[], onDone?: () => void): void 
     playOne(ids[i]!, () => window.setTimeout(() => step(i + 1), 250));
   };
   step(0);
+}
+
+/**
+ * R0699 (KIDS-31): ids of the fixed-line clips (`config/edu-clips.ts`) whose recording has
+ * landed under `public/audio/edu/ui/<id>.mp3`. Add an id when its file arrives; until every
+ * clip a line needs is listed, the line is spoken by the device voice as before.
+ */
+export const EDU_UI_RECORDED: ReadonlySet<string> = new Set<string>([]);
+
+let uiAudio: { pause(): void } | null = null;
+let uiToken = 0;
+
+/** Stop a fixed-line clip that is playing (the next line, or the story, took over). */
+export function stopUiClips(): void {
+  uiToken++;
+  try {
+    uiAudio?.pause();
+  } catch {
+    // Nothing to stop.
+  }
+  uiAudio = null;
+}
+
+/**
+ * Say `text` from recordings when it is one of the fixed lines and all its clips are
+ * recorded. Returns false when it is not (the caller speaks it). A clip that fails to load
+ * speaks the whole line with the device voice instead, so a missing file is never silence.
+ * `make` lets a test stand in for `Audio`.
+ */
+export function playUiText(
+  text: string,
+  onDone?: () => void,
+  recorded: ReadonlySet<string> = EDU_UI_RECORDED,
+  make: (url: string) => HTMLAudioElement = (url) => new Audio(url),
+): boolean {
+  if (!isAudioUnlocked() || !isSoundEnabled()) return false;
+  const ids = planUiClips(text, recorded);
+  if (!ids) return false;
+  stopUiClips();
+  try {
+    window.speechSynthesis?.cancel();
+  } catch {
+    // No speech engine: nothing to cut off.
+  }
+  const mine = uiToken;
+  const fallback = (): void => {
+    if (mine === uiToken) speak(text, () => onDone?.());
+  };
+  const step = (i: number): void => {
+    if (mine !== uiToken) return;
+    if (i >= ids.length) return onDone?.();
+    try {
+      const a = make(`${base()}${uiClipFile(ids[i]!)}`);
+      uiAudio = a;
+      a.onended = () => step(i + 1);
+      a.onerror = fallback;
+      void a.play().catch(fallback);
+    } catch {
+      fallback();
+    }
+  };
+  step(0);
+  return true;
 }

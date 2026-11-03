@@ -1121,6 +1121,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         else delete world.edu.autoAdvance;
       }
       return;
+    case 'eduSetCoPlay':
+      if (world.edu) world.edu.coPlay = cmd.mode;
+      return;
     case 'langSkipWait':
       if (world.edu) world.edu.langSkipAt = world.timeMs;
       return;

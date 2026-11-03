@@ -5,6 +5,8 @@
  * the `parentNote` lines. Everything reads `world.edu` and the loaded edu chunk and sends
  * commands; nothing here changes the world.
  */
+import { KIDS_STORY_TEXT } from '../config/strings-story-r11e';
+import { coPlayMode } from './co-play';
 import { listenOptIn, setListenOptIn } from '../platform/listen';
 import { EDU_OFFLINE_TEXT, LISTEN_TEXT } from '../config/strings-listen';
 import { eduOfflineReady } from './offline-packs';
@@ -113,6 +115,21 @@ export function storySettings(body: HTMLElement, g: Game): void {
   );
   rowAuto.append(cbAuto, textAuto);
   body.appendChild(rowAuto);
+  /* Lane E r11, R0697: playing alone turns bracketed prompts into spoken "your turn" lines. */
+  const rowAlone = el('label', 'check-row');
+  const cbAlone = el('input');
+  cbAlone.type = 'checkbox';
+  cbAlone.checked = coPlayMode(e) === 'alone';
+  cbAlone.addEventListener('change', () =>
+    g.send({ kind: 'eduSetCoPlay', mode: cbAlone.checked ? 'alone' : 'together' }),
+  );
+  const textAlone = el('span');
+  textAlone.append(
+    el('strong', undefined, KIDS_STORY_TEXT.coPlayLabel),
+    el('small', undefined, KIDS_STORY_TEXT.coPlayHelp),
+  );
+  rowAlone.append(cbAlone, textAlone);
+  body.appendChild(rowAlone);
   // R0343: Grove Readers keep reading for themselves unless the grown-up opts in.
   const row2 = el('label', 'check-row');
   const cb2 = el('input');

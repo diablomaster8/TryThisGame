@@ -39,6 +39,9 @@ import { holdMusicDuck, playBlip, playSound } from '../platform/audio';
 import { renderLineAct, sayItButton } from './line-act';
 import { refrainOf } from '../config/edu-refrains';
 import { AutoAdvance } from './auto-advance'; /* Lane E r9 */
+import { KIDS_STORY } from '../config/tuning-story-r11e';
+import { KIDS_STORY_TEXT } from '../config/strings-story-r11e';
+import { childPrompts, coPlayMode, spokenLine } from './co-play';
 import '../fun.css';
 
 /**
@@ -95,6 +98,12 @@ export class Dialogue {
   private actShown = '';
   /** Lane E r9, R0730: the read-aloud story's own page turns, and its ▶️/⏸️ toggle. */
   private readonly auto: AutoAdvance;
+  /** R0698: the 🔁 button, how often it was used, and the tap lock while a line is read. */
+  private readonly againBtn: HTMLButtonElement;
+  private repeats = 0;
+  private lockUntil = 0;
+  private lockTapped = false;
+  private speakAgain: (() => void) | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -133,11 +142,19 @@ export class Dialogue {
       }),
       () => {
         // A line still typing is finished first, then the page turns.
-        if (this.shown < this.fullText.length) this.advance();
-        this.advance();
+        if (this.shown < this.fullText.length) this.advance(true);
+        this.advance(true);
       },
     );
-    box.append(this.portrait, body, this.next, this.skipBtn, this.auto.btn);
+    this.againBtn = button(
+      KIDS_STORY_TEXT.readAgain,
+      () => this.repeatLine(),
+      'btn dialogue-again',
+    );
+    this.againBtn.hidden = true;
+    this.againBtn.setAttribute('aria-label', KIDS_STORY_TEXT.readAgainLabel);
+    this.againBtn.addEventListener('click', (e) => e.stopPropagation());
+    box.append(this.portrait, body, this.next, this.skipBtn, this.againBtn, this.auto.btn);
     this.root.appendChild(box);
     // The box takes focus when a scene starts, so Space and Enter advance it rather than
     // pressing whatever sheet button had focus before (r1025 item 2).
@@ -150,7 +167,8 @@ export class Dialogue {
     // Choices and lesson cards fill this row; Skip steps aside while they are up.
     new MutationObserver(() => this.syncSkip()).observe(this.choices, { childList: true });
     this.root.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('.dialogue-skip, .dialogue-auto')) return;
+      if ((e.target as HTMLElement).closest('.dialogue-skip, .dialogue-auto, .dialogue-again'))
+        return;
       if (this.waiting()) return;
       if (this.held) {
         this.hooks.skip?.();
@@ -454,13 +472,19 @@ export class Dialogue {
     }
   }
 
-  private advance(): void {
+  private advance(force = false): void {
     if (this.root.hidden || this.choices.childElementCount > 0) return;
     if (this.shown < this.fullText.length) {
       // Finish the line at once.
       clearInterval(this.typing);
       this.shown = this.fullText.length;
       this.finishText();
+      return;
+    }
+    // R0698 / R0697: while a sprout line is being read (at most 1.5 s), or a "your turn" prompt
+    // waits (3 s), the first tap does nothing and a second one goes on.
+    if (!force && performance.now() < this.lockUntil && !this.lockTapped) {
+      this.lockTapped = true;
       return;
     }
     const lesson = this.dueLesson();
@@ -517,13 +541,47 @@ export class Dialogue {
     const band = textBandOf(g.world);
     const e = g.world.edu;
     const autoNext = this.auto.line(); /* Lane E r9, R0730 */
-    if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
-      speakLine(this.fullText, {
-        speaker: chorus ? 'narrator' : who,
-        clipId: line.id ?? frozenVoId(line.text),
-        onWord: (w) => this.wordLight.light(w),
-        onDone: autoNext,
-      });
+    // R0697: a child playing alone hears each bracketed prompt as a "your turn" line, then waits.
+    const alone = band === 'sprout' && coPlayMode(e) === 'alone';
+    const prompts = alone ? childPrompts(this.fullText, line.childSay).length : 0;
+    const wait = prompts > 0 ? KIDS_STORY.yourTurnWaitMs : 0;
+    this.lockUntil = 0;
+    this.lockTapped = false;
+    this.speakAgain = null;
+    const reads =
+      (band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true);
+    this.againBtn.hidden = !reads;
+    if (reads) {
+      const said = spokenLine(this.fullText, alone ? 'alone' : 'together', line.childSay);
+      const speakNow = (onDone: (() => void) | undefined): boolean =>
+        speakLine(said, {
+          speaker: chorus ? 'narrator' : who,
+          // A recording holds the line without its child prompts.
+          clipId: prompts > 0 ? undefined : (line.id ?? frozenVoId(line.text)),
+          onWord: (w) => this.wordLight.light(w),
+          ...(onDone ? { onDone } : {}),
+        });
+      const onDone = (): void => {
+        this.lockTapped = false;
+        this.lockUntil = wait > 0 ? performance.now() + wait : 0;
+        if (wait > 0) window.setTimeout(autoNext, wait);
+        else autoNext();
+      };
+      this.speakAgain = () => {
+        this.lockUntil = band === 'sprout' ? performance.now() + KIDS_STORY.tapLockMs : 0;
+        this.lockTapped = false;
+        speakNow(wait > 0 ? onDone : undefined);
+      };
+      const started = speakNow(onDone);
+      if (band === 'sprout') {
+        if (started)
+          this.lockUntil =
+            wait > 0 ? Number.POSITIVE_INFINITY : performance.now() + KIDS_STORY.tapLockMs;
+        else if (wait > 0) this.lockUntil = performance.now() + wait;
+      }
+    } else if (wait > 0) {
+      this.lockUntil = performance.now() + wait;
+    }
     // R0303: a line's sound cue plays however the text appears.
     if (line.sfx) playSound(line.sfx);
     // R0303 / R0368: the stage actor's reaction to the line (its own, or read from narration).
@@ -606,9 +664,22 @@ export class Dialogue {
         if (first) playWord(first.audio);
         for (const id of ids) g?.send({ kind: 'langWord', word: id, how: 'heard' });
       },
+      band === 'sprout'
+        ? { mode: coPlayMode(g?.world.edu), childSay: this.lines[this.index]?.childSay }
+        : undefined,
     );
     this.lineExtras();
     this.announce();
+  }
+
+  /** R0698: say the line on screen again from its start; counted on the box for tests. */
+  private repeatLine(): void {
+    if (!this.speakAgain) return;
+    stopSpeaking();
+    this.repeats += 1;
+    this.root.dataset.repeats = String(this.repeats);
+    this.wordLight.reset();
+    this.speakAgain();
   }
 
   /** TECH-28: write the finished line to the live twin, once per line. */

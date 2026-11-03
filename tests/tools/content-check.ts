@@ -25,6 +25,7 @@ import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
 import { openWorldChecks } from './open-world-check'; /* Lane C r11, R0645 */
 import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
 import { STANDARD_LABELS } from '../../src/config/strings-access-r10';
+import { aloneWarning } from '../../src/ui/co-play';
 import { EDU_ROUND_STANDARDS } from '../../src/config/edu-standards-r10';
 
 const problems: string[] = [];
@@ -511,6 +512,7 @@ const aheadCheck = (
         );
     }
 };
+const aloneWarn: string[] = [];
 const eduTexts: { band: string; id: string; text: string }[] = [];
 const edu: Record<
   string,
@@ -588,6 +590,11 @@ for (const band of C.EDU_BANDS) {
     }
     for (const l of texts) {
       eduTexts.push({ band, id: e.id, text: l.text });
+      // R0697 (KIDS-29): a bracketed prompt a child playing alone would hear badly (warning).
+      if (band === 'sprout') {
+        const why = aloneWarning(l.text, (l as { childSay?: readonly string[] }).childSay);
+        if (why) aloneWarn.push(`alone? ${e.id}: ${why}`);
+      }
       st.lines++;
       st.words += l.text.split(/\s+/).length;
       if (!mapped(e.of, l.who)) problems.push(`edu ${e.id}: unmapped speaker ${l.who}`);
@@ -786,6 +793,7 @@ let results = 0;
 for (const r of C.RESULT_SETS) results += r.lines.length;
 warnings.push(...mathsWarn);
 warnings.push(...aheadWarn);
+warnings.push(...aloneWarn);
 // 8. Choices are real (SR-20261027-1304): a fun-quest choice flag that no sim rule, UI or
 // `requires` reads, and that its quest's notes don't call flavour, is a choice that changes
 // nothing. One summary line plus up to 20 examples.

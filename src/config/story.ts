@@ -42,6 +42,12 @@ export interface Line {
   /** R0323 (FUN-34): a sprout join-in refrain on this line (an id in `config/edu.ts`). */
   refrain?: string;
   /**
+   * R0697 (KIDS-29): what to say to a child playing alone for each bracketed grown-up prompt on
+   * this line, in order ("Say the name on the letter" becomes "Say the name on the letter. It is
+   * yours!"). A prompt without one is spoken as written, brackets stripped.
+   */
+  childSay?: readonly string[];
+  /**
    * R0344 (FUN-55): a stable id for voice-over, frozen once written. Without it the VO
    * exporter (`tests/tools/vo-export.ts`) keys the line as `<scene id>-<n>`.
    */

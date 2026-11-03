@@ -771,6 +771,8 @@ export interface EduState {
   readToMe?: boolean;
   /** Lane E r9, R0730: Little Sprouts' story turns its own pages after the voice (grown-up switch, default off). */
   autoAdvance?: boolean;
+  /** R0697: bracketed prompts as spoken child prompts (`alone`) or grown-up tips (`together`); absent: alone for ages 3-4. */
+  coPlay?: 'together' | 'alone';
   /** Lane E r9, R0737: the grown-up's "skip to Grove morning" for language visits (world time it was pressed). */
   langSkipAt?: number;
   /** Lane E r10, R0735: a reader's age, 7 to 10, from the grown-up area (absent: "7–10"). */
@@ -1726,6 +1728,8 @@ export type Command =
   | { kind: 'eduSetReadToMe'; on: boolean }
   /* Lane E r9: the read-aloud auto-advance switch, and skip to the next language visit. */
   | { kind: 'eduSetAutoAdvance'; on: boolean }
+  /** R0697: the grown-up's playing-alone switch. */
+  | { kind: 'eduSetCoPlay'; mode: 'together' | 'alone' }
   | { kind: 'langSkipWait' }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }

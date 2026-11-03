@@ -5505,3 +5505,27 @@ html.story-resting canvas {
   box-shadow: 0 0 0 2px rgba(27, 19, 38, 0.6);
   border-radius: 10px;
 }
+
+/* Lane E r11, R0697: a spoken child prompt is a solid warm badge; R0698: the Read it again button. */
+.edu-coplay.edu-your-turn {
+  border-style: solid;
+  border-color: #ffd36b;
+  background: rgba(255, 211, 107, 0.16);
+}
+.edu-your-turn .edu-coplay-label {
+  color: #ffd36b;
+}
+.dialogue-again {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 12px;
+  font-size: 0.9375rem;
+}
+body.edu-sprout .dialogue-again {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+}

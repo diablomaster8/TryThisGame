@@ -81,9 +81,9 @@ const CH1: EduScene[] = [
         after: 2,
         check: 'edu:say:first-sound:name',
         lines: [
-          N('(Say the name on the letter. It’s your name!)'),
+          { ...N('(Say the name on the letter. It’s your name!)'), childSay: ['Say the name on the letter out loud. It’s your name!'] },
           N('(What sound does your name start with? Say just that sound.)'),
-          N('(Now draw that letter in the air with one finger.)'),
+          { ...N('(Now draw that letter in the air with one finger.)'), childSay: ['Now draw that letter in the air with your finger!'] },
         ],
         parentNote:
           'Your child said their own name, picked out its first sound and drew its first letter in the air.',
@@ -101,7 +101,7 @@ const CH1: EduScene[] = [
           HAZEL('“Rule two: never, ever throw one.”'),
           HAZEL('“Rule three: when you’re stuck, sit down next to them and wait.”'),
           N('(Gran wants you to remember these. Say them with me!)'),
-          N('(Hold up one finger for each rule: one, two, three.)'),
+          { ...N('(Hold up one finger for each rule: one, two, three.)'), childSay: ['Hold up one finger for each rule. One, two, three!'] },
         ],
         parentNote:
           'Your child listened to Gran’s three rules for caring for animals and said them back.',
