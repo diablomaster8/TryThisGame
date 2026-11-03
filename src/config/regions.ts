@@ -6,6 +6,7 @@
  * A region with `built: false` can be named but never entered.
  */
 import { SHORE_POIS } from './region-shore';
+import { MOON_POIS, SUN_POIS } from './region-sunmoon';
 import { WOOD_POIS } from './region-wood';
 import type { Audience } from '../content/types';
 import type { Season } from '../sim/types';
@@ -156,8 +157,9 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
       },
       way('grove-wood', 'wood', [-31, -46], [0, 49], 'gate', N),
       way('grove-ridge', 'ridge', [46, -24], [0, 44], 'seamless', N),
-      way('grove-sun', 'sunlands', [-46, -6], [0, 36], 'gate', N),
-      way('grove-moon', 'moonlands', [-46, 6], [0, 36], 'gate', N),
+      // R11 d7: the gates land the Keeper just inside each land, clear of its way back.
+      way('grove-sun', 'sunlands', [-46, -6], [0, 33], 'gate', N),
+      way('grove-moon', 'moonlands', [-46, 6], [0, 33], 'gate', N),
     ],
     pois: [
       { id: 'bridge', x: 9.6, z: -4.2, landmark: 'bridge', tier: 'major' },
@@ -318,16 +320,17 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'sun',
     [80, 80],
     ['dais'],
-    [way('sun-gate', 'grove', [0, 38], [-43, -6], 'gate', 0)],
-    { clock: { fixed: 12 } },
+    [way('sun-gate', 'grove', [0, 38], [-43, -6], 'gate', N / 2)],
+    // WORLD-34 (R11 d7): laid out in `region-sunmoon.ts`, drawn by the region engine.
+    { clock: { fixed: 12 }, pois: SUN_POIS, built: true },
   ),
   moonlands: future(
     'moonlands',
     'moon',
     [80, 80],
     ['dais'],
-    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', 0)],
-    { clock: { fixed: 22 } },
+    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', N / 2)],
+    { clock: { fixed: 22 }, pois: MOON_POIS, built: true },
   ),
   // Reached only from the Learning Grove, so it has no road to the rest of the world.
   'little-grove': future('little-grove', 'meadow', [40, 40], ['sandpit', 'swings'], [], {

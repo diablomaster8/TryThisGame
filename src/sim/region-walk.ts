@@ -23,6 +23,7 @@ import {
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
 import { SHORE_SPEC } from '../config/region-shore';
+import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
 import { REGION_WALK } from '../config/tuning-r11d1';
 import { KEEPER } from '../config/tuning';
@@ -34,6 +35,8 @@ import type { Location, SimEvent, Vec2, World } from './types';
 export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   wood: WOOD_SPEC,
   shore: SHORE_SPEC,
+  sunlands: SUN_SPEC,
+  moonlands: MOON_SPEC,
 };
 
 /**
@@ -60,6 +63,23 @@ export function drawnRegionOf(location: Location): RegionId | null {
   if (!location.startsWith(PREFIX)) return null;
   const id = location.slice(PREFIX.length) as RegionId;
   return REGION_SPECS[id] ? id : null;
+}
+
+const FLAT = (): number => 0;
+const grounds = new Map<RegionId, (x: number, z: number) => number>();
+
+/**
+ * R11 d7 (WORLD-36): the ground height under (x, z) in the drawn region a location names (its
+ * terraces), or a flat 0 anywhere else that is not the Grove. The renderers stand the Keeper
+ * and aim the cameras with it.
+ */
+export function regionGround(location: Location): (x: number, z: number) => number {
+  const id = drawnRegionOf(location);
+  const spec = id ? REGION_SPECS[id] : undefined;
+  if (!id || !spec?.terraces) return FLAT;
+  let fn = grounds.get(id);
+  if (!fn) grounds.set(id, (fn = (_x: number, z: number) => terraceHeight(spec, z)));
+  return fn;
 }
 
 /** The layout of a drawn region (built once). */
@@ -409,8 +429,9 @@ export function clampToRegion(world: World, p: Vec2): boolean {
   const id = drawnRegion(world);
   const spec = id ? REGION_SPECS[id] : undefined;
   if (!spec) return false;
-  const hw = spec.size.w / 2;
-  const hh = spec.size.h / 2;
+  // Just inside: a point on the far edge would fall past the walk grid's last cell.
+  const hw = spec.size.w / 2 - 0.01;
+  const hh = spec.size.h / 2 - 0.01;
   p.x = Math.max(-hw, Math.min(hw, p.x));
   p.z = Math.max(-hh, Math.min(hh, p.z));
   return true;

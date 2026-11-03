@@ -9,7 +9,8 @@ import {
   waterlineZ,
 } from '../config/region-shore';
 import { SHORE_LOOK } from '../config/tuning-r11d7';
-import { deckMesh, disposeDecks, hourNow, paintShore, SHORE_GROUND } from '../render/region-shore';
+import { deckMesh, disposeDecks } from '../render/region-kit-px';
+import { hourNow, paintShore, SHORE_GROUND } from '../render/region-shore';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
 import type { RegionLayout } from '../config/region-layout';
 
@@ -199,7 +200,7 @@ function decorate(group: THREE.Group, l: RegionLayout): Kit3dDecor {
   sea.add(foam);
   group.add(sea);
   // The boardwalk stands on its stilts above the water.
-  const decks = deckMesh(0.07);
+  const decks = deckMesh(SHORE_SPEC.decks ?? [], 0.07);
   decks.castShadow = true;
   group.add(decks);
   let checked = -Infinity;

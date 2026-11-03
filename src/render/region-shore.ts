@@ -12,7 +12,7 @@ import type { RegionLayout } from '../config/region-layout';
 import { SHORE_LOOK } from '../config/tuning-r11d7';
 import { coastSheet } from './paint/coast';
 import type { GroundLook, GroundPaint } from './region-ground';
-import { kitModule, type KitPiece } from './region-kit-px';
+import { deckMesh, disposeDecks, kitModule, type KitPiece } from './region-kit-px';
 
 /**
  * WORLD-35 (R11 lane D, d7): the shore in the pixel view, on the region kit. Dune grass and
@@ -51,18 +51,6 @@ export const paintShore: GroundPaint = (g, px, pz, ppu) => {
     if (b.w > 100) continue;
     g.fillRect(px(b.x - b.w / 2), pz(b.z - b.h / 2), b.w * ppu, b.h * ppu);
   }
-  for (const d of SHORE_SPEC.decks ?? []) {
-    const x0 = px(d.x - d.w / 2);
-    const z0 = pz(d.z - d.h / 2);
-    g.fillStyle = '#9c6e3e';
-    g.fillRect(x0, z0, d.w * ppu, d.h * ppu);
-    g.fillStyle = '#7a5230';
-    const along = d.w > d.h;
-    for (let i = 0; i < (along ? d.w : d.h); i += 0.75) {
-      if (along) g.fillRect(x0 + i * ppu, z0, 1, d.h * ppu);
-      else g.fillRect(x0, z0 + i * ppu, d.w * ppu, 1);
-    }
-  }
 };
 
 export function shorePieces(): KitPiece[] {
@@ -82,62 +70,6 @@ export function shorePieces(): KitPiece[] {
 export function hourNow(): number {
   const d = new Date();
   return d.getHours() + d.getMinutes() / 60;
-}
-
-/**
- * The boardwalk and jetties as one flat mesh standing just above the sea (the painted planks
- * would sit under the water plane): world-space UVs over a small plank texture. Both renderers.
- */
-export function deckMesh(y: number): THREE.Mesh {
-  const pos: number[] = [];
-  const uv: number[] = [];
-  for (const d of SHORE_SPEC.decks ?? []) {
-    const x0 = d.x - d.w / 2;
-    const x1 = d.x + d.w / 2;
-    const z0 = d.z - d.h / 2;
-    const z1 = d.z + d.h / 2;
-    const along = d.w > d.h;
-    const corner = (x: number, z: number) => {
-      pos.push(x, y, z);
-      uv.push(along ? x / 0.75 : z / 0.75, along ? z : x);
-    };
-    corner(x0, z0);
-    corner(x0, z1);
-    corner(x1, z1);
-    corner(x0, z0);
-    corner(x1, z1);
-    corner(x1, z0);
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
-  g.computeVertexNormals();
-  const c = document.createElement('canvas');
-  c.width = c.height = 8;
-  const cg = c.getContext('2d')!;
-  cg.fillStyle = '#9c6e3e';
-  cg.fillRect(0, 0, 8, 8);
-  cg.fillStyle = '#7a5230';
-  cg.fillRect(0, 0, 1, 8);
-  cg.fillStyle = '#b4834e';
-  cg.fillRect(1, 0, 1, 8);
-  const t = new THREE.CanvasTexture(c);
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.magFilter = THREE.NearestFilter;
-  t.colorSpace = THREE.SRGBColorSpace;
-  const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ map: t, side: THREE.DoubleSide }));
-  m.name = 'shore-decks';
-  m.receiveShadow = true;
-  return m;
-}
-
-/** Dispose a mesh made by `deckMesh`. */
-export function disposeDecks(m: THREE.Mesh): void {
-  m.removeFromParent();
-  m.geometry.dispose();
-  const mat = m.material as THREE.MeshLambertMaterial;
-  mat.map?.dispose();
-  mat.dispose();
 }
 
 /** The sea on the pixel ground: a water plane and its foam line, moved with the tide. */
@@ -167,7 +99,7 @@ function decorate(ground: THREE.Mesh, l: RegionLayout): () => void {
   };
   sea.position.z = waterlineZ(tideAt(hourNow()));
   ground.add(sea);
-  const decks = deckMesh(0.06);
+  const decks = deckMesh(SHORE_SPEC.decks ?? [], 0.06);
   ground.add(decks);
   return () => {
     disposeDecks(decks);

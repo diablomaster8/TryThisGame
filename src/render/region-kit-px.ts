@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { LayoutChunk, RegionLayout } from '../config/region-layout';
+import type { LayoutChunk, RegionBox, RegionLayout } from '../config/region-layout';
 import { WORLD_STREAM } from '../config/tuning-world';
 import type { SpriteSheet } from './sprites/atlas';
 import {
@@ -55,6 +55,25 @@ export interface KitPxStyle {
   cut?: boolean;
 }
 
+/**
+ * The ground plane, flat, or for a terraced region cut into 1-unit rows across z and lifted
+ * to the terrace heights (the cliffs between become steep slopes the painting colours as rock).
+ */
+export function terracedPlane(
+  w: number,
+  h: number,
+  heightAt?: (x: number, z: number) => number,
+): THREE.PlaneGeometry {
+  const g = new THREE.PlaneGeometry(w, h, 1, heightAt ? Math.ceil(h) : 1);
+  g.rotateX(-Math.PI / 2);
+  if (heightAt) {
+    const p = g.attributes.position!;
+    for (let i = 0; i < p.count; i++) p.setY(i, heightAt(p.getX(i), p.getZ(i)));
+    g.computeVertexNormals();
+  }
+  return g;
+}
+
 export function sprite(
   sheet: SpriteSheet,
   key: string,
@@ -81,8 +100,7 @@ class KitPx implements RegionPx {
   ) {
     this.tex = groundTexture(paintRegionGround(l, s.look, false, s.paint));
     const size = groundSize(l);
-    const geo = new THREE.PlaneGeometry(size.w, size.h);
-    geo.rotateX(-Math.PI / 2);
+    const geo = terracedPlane(size.w, size.h, s.heightAt);
     this.ground = new THREE.Mesh(
       geo,
       new THREE.MeshLambertMaterial({ map: this.tex, alphaTest: s.cut ? 0.75 : 0 }),
@@ -156,4 +174,60 @@ export function kitModule(s: KitPxStyle): RegionPxModule & {
       }
     },
   };
+}
+
+/**
+ * R11 d7: boardwalks and jetties as one flat mesh standing just above the water (the painted planks
+ * would sit under the water plane): world-space UVs over a small plank texture. Both renderers.
+ */
+export function deckMesh(decks: readonly RegionBox[], y: number): THREE.Mesh {
+  const pos: number[] = [];
+  const uv: number[] = [];
+  for (const d of decks) {
+    const x0 = d.x - d.w / 2;
+    const x1 = d.x + d.w / 2;
+    const z0 = d.z - d.h / 2;
+    const z1 = d.z + d.h / 2;
+    const along = d.w > d.h;
+    const corner = (x: number, z: number) => {
+      pos.push(x, y, z);
+      uv.push(along ? x / 0.75 : z / 0.75, along ? z : x);
+    };
+    corner(x0, z0);
+    corner(x0, z1);
+    corner(x1, z1);
+    corner(x0, z0);
+    corner(x1, z1);
+    corner(x1, z0);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.computeVertexNormals();
+  const c = document.createElement('canvas');
+  c.width = c.height = 8;
+  const cg = c.getContext('2d')!;
+  cg.fillStyle = '#9c6e3e';
+  cg.fillRect(0, 0, 8, 8);
+  cg.fillStyle = '#7a5230';
+  cg.fillRect(0, 0, 1, 8);
+  cg.fillStyle = '#b4834e';
+  cg.fillRect(1, 0, 1, 8);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.magFilter = THREE.NearestFilter;
+  t.colorSpace = THREE.SRGBColorSpace;
+  const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ map: t, side: THREE.DoubleSide }));
+  m.name = 'shore-decks';
+  m.receiveShadow = true;
+  return m;
+}
+
+/** Dispose a mesh made by `deckMesh`. */
+export function disposeDecks(m: THREE.Mesh): void {
+  m.removeFromParent();
+  m.geometry.dispose();
+  const mat = m.material as THREE.MeshLambertMaterial;
+  mat.map?.dispose();
+  mat.dispose();
 }

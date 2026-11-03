@@ -55,6 +55,8 @@ export interface Region3dModule {
 export const REGION_3D: Partial<Record<RegionId, () => Promise<Region3dModule>>> = {
   wood: () => import('./region-wood'),
   shore: () => import('./region-shore'),
+  sunlands: () => import('./region-sunmoon').then((m) => m.sun),
+  moonlands: () => import('./region-sunmoon').then((m) => m.moon),
   // R11 d7: the Grove's stand-in strip, drawn only across a seamless border from a neighbour.
   grove: () => import('./region-grove-edge'),
 };
@@ -235,10 +237,17 @@ export class RegionHost3d {
       let a = this.arches.get(e.id);
       if (!a) {
         a = mod.entrance().clone();
+        const ex = e.rect.x + e.rect.w / 2;
         const ez = e.rect.z + e.rect.h / 2;
-        a.position.set(e.rect.x + e.rect.w / 2, 0, ez + (ez < 0 ? -1.2 : 1.2));
-        // Open toward the region the Keeper walks out of.
-        a.rotation.y = ez < 0 ? 0 : Math.PI;
+        // R11 d7: an east or west way in stands beyond the box on that side, turned to face in.
+        if (Math.abs(ex) > Math.abs(ez)) {
+          a.position.set(ex + Math.sign(ex) * 1.2, 0, ez);
+          a.rotation.y = ex < 0 ? Math.PI / 2 : -Math.PI / 2;
+        } else {
+          a.position.set(ex, 0, ez + (ez < 0 ? -1.2 : 1.2));
+          // Open toward the region the Keeper walks out of.
+          a.rotation.y = ez < 0 ? 0 : Math.PI;
+        }
         this.arches.set(e.id, a);
         this.group.add(a);
       }

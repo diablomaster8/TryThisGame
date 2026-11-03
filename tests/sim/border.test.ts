@@ -2,6 +2,7 @@
 // log; walking into it at 16 points ends at a blocker (or an exit), never on bare grass,
 // and says why once.
 import { describe, expect, it } from 'vitest';
+import { REGIONS } from '../../src/config/regions';
 import { SIM } from '../../src/config/tuning';
 import { BORDER } from '../../src/config/tuning-r9d2';
 import { borderBlockers, borderEdge, BORDER_WAYS } from '../../src/sim/border';
@@ -69,7 +70,9 @@ describe('the Grove border (WORLD-67)', () => {
           near.some((b) => b.kind === 'hedge'),
           at,
         ).toBe(true);
-      if (edge.kind === 'notYet')
+      // R11 d7: a built land's shut gate is its own blocker (the gate is drawn, not a log).
+      const shutGate = BORDER_WAYS.some((w) => w.id === edge.stretch && REGIONS[w.to].built);
+      if (edge.kind === 'notYet' && !shutGate)
         expect(
           near.some((b) => b.kind === 'log'),
           at,

@@ -50,6 +50,8 @@ export interface RegionPxModule {
 export const REGION_PX: Partial<Record<RegionId, () => Promise<RegionPxModule>>> = {
   wood: () => import('./region-wood'),
   shore: () => import('./region-shore'),
+  sunlands: () => import('./region-sunmoon').then((m) => m.sun),
+  moonlands: () => import('./region-sunmoon').then((m) => m.moon),
   // R11 d7: the Grove's stand-in strip, drawn only across a seamless border from a neighbour.
   grove: () => import('./region-grove-edge'),
 };
@@ -178,8 +180,14 @@ export class RegionHostPx {
       }
       const ex = e.rect.x + e.rect.w / 2;
       const ez = e.rect.z + e.rect.h / 2;
-      // Stand it just beyond the box, on the region's edge side.
-      art.drawEntrance(batch, ex, ez + (ez < 0 ? -1.2 : 1.2), tint);
+      // Stand it just beyond the box, on the region's edge side (R11 d7: east and west too).
+      const side = Math.abs(ex) > Math.abs(ez);
+      art.drawEntrance(
+        batch,
+        side ? ex + Math.sign(ex) * 1.2 : ex,
+        side ? ez : ez + (ez < 0 ? -1.2 : 1.2),
+        tint,
+      );
     }
   }
 

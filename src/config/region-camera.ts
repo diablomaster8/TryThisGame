@@ -29,6 +29,11 @@ export const REGION_CAMERA: Readonly<Partial<Record<RegionId, RegionCamera>>> = 
   ridge: { pitchDeg3d: 30, distanceK3d: 1.2 },
   // A tight wood: see through the canopy to the Keeper.
   wood: { canopyCut: true },
+  // R11 d7: the open shore stands a little further off to take in the beach and the sea; the
+  // terraced Sun lands look up their steps; the Moon lands keep the Grove's framing.
+  shore: { distanceK3d: 1.1 },
+  sunlands: { pitchDeg3d: 32, distanceK3d: 1.1 },
+  moonlands: {},
 };
 
 const NONE: RegionCamera = {};

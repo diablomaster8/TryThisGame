@@ -209,6 +209,7 @@ import { evolveFlash } from '../render/evolve-reveal';
 import { setEmoteFocus } from '../render/emote-size';
 import { SoulAmbient } from './soul-ambient';
 import { LossNotice } from './loss-notice';
+import { gateShutToast } from './gate-toast';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -1511,6 +1512,12 @@ export function mountHud(
         const groveSnd = groveSfx(e);
         if (groveSnd) playSound(groveSnd);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
+        // R11 d7: a shut gate says what opens it.
+        const shut = gateShutToast(e);
+        if (shut) {
+          toast(shut);
+          continue;
+        }
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
         if (ride) {

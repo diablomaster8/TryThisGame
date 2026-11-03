@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
 import type { ChunkLRU } from '../render/chunks';
+import { terracedPlane } from '../render/region-kit-px';
 import {
   groundSize,
   groundTexture,
@@ -133,8 +134,7 @@ class Kit3d implements Region3d {
     this.group.name = `region-${s.name}`;
     const mat = kitMaterial();
     this.groundTex = groundTexture(paintRegionGround(l, s.look, false, s.paint));
-    const gg = new THREE.PlaneGeometry(groundSize(l).w, groundSize(l).h);
-    gg.rotateX(-Math.PI / 2);
+    const gg = terracedPlane(groundSize(l).w, groundSize(l).h, s.heightAt);
     const gm = new THREE.MeshStandardMaterial({
       map: this.groundTex,
       roughness: 1,

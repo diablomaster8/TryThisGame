@@ -110,6 +110,19 @@ export function paintRegionGround(
   g.fillStyle = look.water;
   for (const b of l.spec.water ?? [])
     g.fillRect(px(b.x - b.w / 2), pz(b.z - b.h / 2), b.w * ppu, b.h * ppu);
+  // Boardwalks and jetties: planks across their length.
+  for (const d of l.spec.decks ?? []) {
+    const x0 = px(d.x - d.w / 2);
+    const z0 = pz(d.z - d.h / 2);
+    g.fillStyle = '#9c6e3e';
+    g.fillRect(x0, z0, d.w * ppu, d.h * ppu);
+    g.fillStyle = '#7a5230';
+    const along = d.w > d.h;
+    for (let i = 0; i < (along ? d.w : d.h); i += 0.75) {
+      if (along) g.fillRect(x0 + i * ppu, z0, 1, d.h * ppu);
+      else g.fillRect(x0, z0 + i * ppu, d.w * ppu, 1);
+    }
+  }
   extra?.(g, px, pz, ppu);
   // Grass speckle and little flowers: one small tile of lit and shaded texels, laid as a
   // pattern (a per-texel pass over the whole canvas cost a 200 ms frame on the approach).
