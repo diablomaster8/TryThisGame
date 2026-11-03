@@ -263,19 +263,22 @@ export class Race3dView implements RaceView {
     const live = !race.finished && r.racer.finishedAtMs === null;
     const gazing = live && race.timeMs < (r.racer.gazeUntilMs ?? -1);
     const perked = live && race.timeMs < (r.racer.perkUntilMs ?? -1);
+    const tumbling = live && race.timeMs < (r.racer.tumbleUntilMs ?? -1);
     const pose = resting
       ? 'sleep'
-      : stumbling
-        ? 'dizzy'
-        : gazing
-          ? 'idle'
-          : perked && !flying
-            ? 'surprised'
-            : flying
-              ? 'happy'
-              : race.finished || r.racer.finishedAtMs !== null
-                ? 'idle'
-                : 'walk';
+      : tumbling
+        ? 'tumble'
+        : stumbling
+          ? 'dizzy'
+          : gazing
+            ? 'idle'
+            : perked && !flying
+              ? 'surprised'
+              : flying
+                ? 'happy'
+                : race.finished || r.racer.finishedAtMs !== null
+                  ? 'idle'
+                  : 'walk';
     if (r.racer.isPlayer && this.butterfly) {
       const face = gazing ? this.gaze.set(x + 0.45, y + r.look.height * 0.85, z + 0.2) : null;
       const at = this.butterfly.update(face, nowMs, this.stage?.reduceMotion ?? false);

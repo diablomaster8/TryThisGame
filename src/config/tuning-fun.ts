@@ -123,6 +123,10 @@ export const RACE_GAGS = {
   chance: 0.05,
   gazeMs: 400,
   perkMs: 600,
+  /** Cheers pressed within `streakMs` of the last one: the third trips with joy for `tumbleMs`. */
+  streakMs: 4500,
+  streakNeeded: 3,
+  tumbleMs: 200,
   quirks: 40,
 } as const;
 

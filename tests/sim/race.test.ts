@@ -104,6 +104,26 @@ describe('race', () => {
     expect(finish(cheered)).toBeLessThan(finish(plain));
   });
 
+  it('trips with joy on the third quick cheer without losing any distance (R0325)', () => {
+    const race = createRace(COURSES[0]!, 1, racer(30), 5);
+    const me = race.racers.find((r) => r.isPlayer)!;
+    const wait = () => {
+      for (let i = 0; i < RACE.cheerCooldownMs / SIM.stepMs; i++) stepRace(race, SIM.stepMs);
+    };
+    expect(cheer(race)).toBe(true);
+    wait();
+    expect(cheer(race)).toBe(true);
+    expect(me.tumbles ?? 0).toBe(0);
+    wait();
+    expect(cheer(race)).toBe(true);
+    expect(me.tumbles).toBe(1);
+    expect(me.tumbleUntilMs).toBeGreaterThan(race.timeMs);
+    // A tumble is only a flag for the renderers: the racer keeps running.
+    const at = me.pos;
+    stepRace(race, SIM.stepMs);
+    expect(me.pos).toBeGreaterThan(at);
+  });
+
   it('pays prizes for the top three and records tier wins', () => {
     expect(prizeFor(1, 2)).toBe(40);
     expect(prizeFor(3, 1)).toBe(5);

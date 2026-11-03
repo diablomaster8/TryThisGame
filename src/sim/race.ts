@@ -175,6 +175,9 @@ export interface Racer {
   gazeUntilMs?: number;
   gazes?: number;
   perkUntilMs?: number;
+  /** R0325: a joyful trip after three quick cheers: a 0.2 s tumble that costs no speed. */
+  tumbleUntilMs?: number;
+  tumbles?: number;
   quirk?: number;
   /** R0417: a rival from another family (a species id the Keeper has met); absent: a Chao. */
   species?: string;
@@ -190,6 +193,8 @@ export interface RaceState {
   cheerReadyAtMs: number;
   /** When the player last cheered (-1: never), for the hurdle timing bonus. */
   lastCheerMs: number;
+  /** Cheers pressed in quick succession (R0325); the third trips with joy and resets it. */
+  cheerStreak: number;
   /** Track positions of the course's hurdles, and the roll that decides each jump. */
   hurdles: number[];
   hurdleRng: Rng;
@@ -223,7 +228,9 @@ const RIVAL_NAMES = [
 
 /** R0417: the other-family species the Keeper has met (seen in the book), for the rivals. */
 export function metSpeciesOf(world: World): string[] {
-  return SPECIES.filter((s) => s.family !== 'chao' && world.seen[s.id] !== undefined).map((s) => s.id);
+  return SPECIES.filter((s) => s.family !== 'chao' && world.seen[s.id] !== undefined).map(
+    (s) => s.id,
+  );
 }
 
 export function createRace(
@@ -317,6 +324,7 @@ export function createRace(
     cheerUntilMs: -1,
     cheerReadyAtMs: 0,
     lastCheerMs: -1,
+    cheerStreak: 0,
     hurdles: hurdlePositions(resolved),
     hurdleRng: Rng.fromSeed(hashSeed(`hurdles:${seed}`)),
     finished: false,
@@ -333,6 +341,16 @@ export function cheer(race: RaceState): boolean {
   if (me && (me.gazeUntilMs ?? -1) > race.timeMs) {
     me.gazeUntilMs = race.timeMs;
     me.perkUntilMs = race.timeMs + RACE_GAGS.perkMs;
+  }
+  // R0325: three quick cheers and it trips with joy: a brief tumble, no net speed loss.
+  race.cheerStreak =
+    race.lastCheerMs >= 0 && race.timeMs - race.lastCheerMs <= RACE_GAGS.streakMs
+      ? race.cheerStreak + 1
+      : 1;
+  if (me && race.cheerStreak >= RACE_GAGS.streakNeeded) {
+    race.cheerStreak = 0;
+    me.tumbleUntilMs = race.timeMs + RACE_GAGS.tumbleMs;
+    me.tumbles = (me.tumbles ?? 0) + 1;
   }
   race.cheerReadyAtMs = race.timeMs + RACE.cheerCooldownMs;
   race.lastCheerMs = race.timeMs;
