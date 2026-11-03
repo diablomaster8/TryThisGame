@@ -28,6 +28,8 @@ export interface Diary {
   hatched: number;
   /** R0448: the first rename, and whether the player chose "I know how to play". */
   firstNameMs?: number | null;
+  /** The current visit's length so far, in minutes. */
+  sessionMin?: number;
   loopSkipped?: boolean;
 }
 
@@ -53,11 +55,9 @@ export function newDiary(): Diary {
     rebirths: 0,
     hatched: 0,
     firstNameMs: null,
+    sessionMin: 0,
   };
 }
-
-/** The sim never sees the wall clock, so a session's length is counted in this transient. */
-const session = { ms: 0 };
 
 /**
  * The first egg of a save hatches in five shakes (R0448); every later shake is the usual bonus.
@@ -72,7 +72,7 @@ export function shakeBonusMs(world: World): number {
 export function diarySession(world: World): void {
   const d = (world.diary ??= newDiary());
   d.sessions += 1;
-  session.ms = 0;
+  d.sessionMin = 0;
 }
 
 /** A panel was opened (the UI sends it as a command). */
@@ -88,8 +88,9 @@ export function stepGroveDiary(world: World, dtMs: number, events: readonly SimE
   const d = (world.diary ??= newDiary());
   const before = d.minutesPlayed;
   d.minutesPlayed = before + dtMs / 60_000;
-  session.ms += dtMs;
-  d.longestSessionMin = Math.max(d.longestSessionMin, session.ms / 60_000);
+  // The sim never sees the wall clock: a visit's length is counted here, in the save.
+  d.sessionMin = (d.sessionMin ?? 0) + dtMs / 60_000;
+  d.longestSessionMin = Math.max(d.longestSessionMin, d.sessionMin);
   for (const e of events) {
     switch (e.kind) {
       case 'hatched':
@@ -162,6 +163,7 @@ export function cleanDiary(raw: unknown): Diary {
     rebirths: num('rebirths'),
     hatched: num('hatched'),
     firstNameMs: time('firstNameMs'),
+    sessionMin: num('sessionMin'),
     ...(r['loopSkipped'] === true ? { loopSkipped: true } : {}),
   };
 }

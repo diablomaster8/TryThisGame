@@ -11,15 +11,8 @@ import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
-import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
-import {
-  BUSH_TEXT,
-  HOP_LESSON_TEXT,
-  LOOKOUT_TEXT,
-  MOVE_TEXT,
-  POND_TEXT,
-} from '../config/strings-move';
-import { ACHIEVEMENT_LIST } from '../sim/achievements';
+import { UNREACHABLE } from '../config/tuning-move';
+import { MOVE_TEXT } from '../config/strings-move';
 import { SKILL_LIST } from '../sim/skills';
 import {
   GROVE_LABELS,
@@ -27,14 +20,11 @@ import {
   PERSONALITY_LABELS,
   SPECIES_LABELS,
   TRAINER_LABELS,
-  TYPE_LABELS,
   UI_TEXT,
   DUNGEON_TEXT,
   HOLLOW_TEXT,
   ACT_TEXT,
 } from '../config/strings';
-import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
-import { BORDER_TEXT } from '../config/strings-r9d2';
 import { gearGlyph, gearName } from './dungeon-gear';
 import { itemsToast } from './dungeon-items';
 import {
@@ -115,7 +105,6 @@ import { StatsSheet } from './stats-sheet';
 import { Dialogue } from './dialogue';
 import { Journal } from './journal';
 import { PartyBoutPanel } from './party-bout';
-import { STORYLINE_TEXT } from '../config/strings';
 import { boutTier, loggedPartyIds } from '../sim/storyline-rules-logged';
 import { chapterTitle } from '../sim/storyline';
 import { STORY_TEXT } from '../config/story';
@@ -146,7 +135,7 @@ import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
-import { TEN_TEXT, STAT_LABELS } from '../config/strings';
+import { TEN_TEXT } from '../config/strings';
 import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
@@ -178,8 +167,8 @@ import {
 import { MATURE_RECHECK } from '../config/tuning-tech';
 import { FIRST_MINUTE } from '../config/tuning-r11d4';
 import { firstMinuteQuiet } from '../sim/first-loop';
+import { STAT_LABELS } from '../config/strings';
 import { badgeLine, feedbackFor, groveSfx, runFeedback } from './event-feedback';
-import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';

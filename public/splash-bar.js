@@ -1,4 +1,5 @@
 /* R0492 (TECH-51): the splash's byte bar. See index.html. */
+/* global document, window, PerformanceObserver */
 (function () {
   var EXPECTED = 600000;
   var bar = document.getElementById('splash-bar');
@@ -20,5 +21,7 @@
       bar.value = Math.max(3, Math.min(95, Math.round((got / EXPECTED) * 100)));
       if (label) label.textContent = 'Planting the Grove… ' + Math.round(got / 1024) + ' kB';
     }).observe({ type: 'resource', buffered: true });
-  } catch (e) {}
+  } catch {
+    /* no observer: the bar just stays put */
+  }
 })();
