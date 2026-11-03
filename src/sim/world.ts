@@ -84,6 +84,7 @@ import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './sto
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { chooseCastHome } from './line-rewards';
 import { eduNotice } from './edu-notice';
+import { saveDrawing } from './drawings';
 import { langStart, langTeach, langTraced, noteWord, srsAnswer } from './lang';
 import { funRunDone } from './fun-run';
 import { glowSolve } from './dungeon-glow';
@@ -1141,6 +1142,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'langTraced':
     case 'eduNotice':
       eduNotice(world, cmd.item);
+    case 'eduNotice':
+      eduNotice(world, cmd.item);
+      return;
+    case 'saveDrawing':
+      saveDrawing(world, cmd.data);
+      return;
       return;
       // The step itself is met by the quest's rule in noteSideCommand, after this.
       langTraced(world, cmd.quest, events);

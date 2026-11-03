@@ -1346,6 +1346,8 @@ export interface World {
   seenBy?: Record<string, string>;
   /** Lane E, R0411: book tabs completed, each rewarded once. */
   bookTabs?: string[];
+  /** R0743: the child's saved drawings, small PNG data URLs, newest last (capped, sim/drawings.ts). */
+  drawings?: string[];
   /** Lane E, R0332: the curiosities (easter eggs) found, by id, with the sim time first found. */
   curiosities?: Record<string, number>;
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
@@ -1731,6 +1733,10 @@ export type Command =
   | { kind: 'langTeach'; nubbinId: string; word: string }
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
   /** Lane E r10, R0735: a reader's age, 7 to 10. */
+  /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
+  | { kind: 'eduNotice'; item: string }
+  /** R0743: a drawing from the paint pad, as a PNG data URL (sim/drawings.ts). */
+  | { kind: 'saveDrawing'; data: string }
   | { kind: 'eduSetReaderAge'; age: 7 | 8 | 9 | 10 }
   /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
   | { kind: 'eduNotice'; item: string }

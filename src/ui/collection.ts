@@ -36,6 +36,9 @@ import { tally } from '../sim/collectibles';
 import { button, el, modal } from './dom';
 import { newestWith } from '../platform/photo-album';
 import { ALBUM_TEXT } from '../config/strings-look';
+import { PAINT_TEXT } from '../config/strings-paint';
+import { PAINT } from '../config/tuning-kids-r11e';
+import { PaintPad } from './paint-pad';
 import '../look.css';
 
 const bandLabel = (b: string | undefined): string =>
@@ -145,6 +148,9 @@ export class CollectionBook {
   private spin = 0;
   /** The Battle Book's pages (FIGHT-84), under the species. */
   private readonly battle: HTMLDivElement;
+  /** R0743: the child's drawings, and the paint pad that makes them. */
+  private readonly drawings: HTMLDivElement;
+  private readonly pad: PaintPad;
 
   constructor(
     parent: HTMLElement,
@@ -157,6 +163,9 @@ export class CollectionBook {
     this.grid = el('div', 'book-grid');
     this.battle = el('div', 'book-battle');
     this.dialog.body.append(this.summary, this.tabs, this.page, this.grid, this.battle);
+    this.drawings = el('div', 'book-drawings');
+    this.dialog.body.appendChild(this.drawings);
+    this.pad = new PaintPad(parent, game);
   }
 
   open(): void {
@@ -212,6 +221,7 @@ export class CollectionBook {
   /** The open page: the figure turning through the five drawn angles and their mirrors. */
   private showPage(key: string, world: World): void {
     this.stopSpin();
+    this.refreshDrawings(world);
     this.page.innerHTML = '';
     const c = document.createElement('canvas');
     c.width = 128;
@@ -236,6 +246,30 @@ export class CollectionBook {
         : []),
       ...(by ? [el('p', 'help', BOOK_TEXT.earnedBy(by))] : []),
     );
+  }
+
+  /** R0743: the drawings shelf (Learning Grove saves, or any save that has drawings). */
+  private refreshDrawings(world: World): void {
+    this.drawings.textContent = '';
+    const list = world.drawings ?? [];
+    if (!world.edu && list.length === 0) return;
+    this.drawings.appendChild(
+      el('h3', undefined, PAINT_TEXT.shelf(list.length, PAINT.maxDrawings)),
+    );
+    if (world.edu)
+      this.drawings.appendChild(
+        button(PAINT_TEXT.open, () => this.pad.open(() => this.refresh()), 'btn'),
+      );
+    if (list.length === 0) this.drawings.appendChild(el('p', 'help', PAINT_TEXT.none));
+    const row = el('div', 'book-drawing-row');
+    list.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = PAINT_TEXT.drawingAlt(i + 1);
+      img.style.cssText = 'width:96px;height:96px;image-rendering:pixelated;margin:4px';
+      row.appendChild(img);
+    });
+    this.drawings.appendChild(row);
   }
 
   refresh(): void {
