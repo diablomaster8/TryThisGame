@@ -975,6 +975,16 @@ export class Grove3dScene {
         this.bursts.burst('leaf', at, 10, o, this.lastMs);
         this.bursts.burst('petal', at, 4, { ...o, spread: 1.2, speed: 0.5 }, this.lastMs);
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.tree);
+      } else if (e.kind === 'strayFed' && e.ok && e.pos) {
+        // R0326: a fed stray goes shy-delighted: a small ring of hearts where it stood.
+        const at = new THREE.Vector3(e.pos.x, ground(e.pos.x, e.pos.z) + 0.7, e.pos.z);
+        this.bursts.burst(
+          'heart',
+          at,
+          5,
+          { spread: 0.35, speed: 0.1, rise: 0.6, lifeMs: 1200 },
+          this.lastMs,
+        );
       } else if (e.kind === 'landed') {
         const p = this.actors.nubbinPosition(e.nubbinId);
         if (!p) continue;

@@ -201,7 +201,13 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
         case 'love':
           return 'love';
         case 'happy':
+        case 'giggle':
+        case 'hiccup':
+        case 'squish':
+        case 'smug':
           return 'happy';
+        case 'miss':
+          return 'surprised';
         case 'dizzy':
           return 'dizzy';
         case 'surprised':

@@ -1938,6 +1938,17 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'strayFed': {
+        // R0326: a fed stray goes shy-delighted: hearts where it stood.
+        if (!e.ok || !e.pos || p.reduceMotion) break;
+        p.burst('heart', e.pos.x, 0.7, e.pos.z, 5, {
+          spread: 0.35,
+          speed: 0.1,
+          rise: 0.6,
+          lifeMs: 1200,
+        });
+        break;
+      }
       case 'keeperPoofed': {
         // R0025 (lane A r10): a cloud where the Keeper splashed down, sparkles where it is back.
         if (p.reduceMotion) break;
@@ -2829,7 +2840,13 @@ export function clipFor(n: Nubbin): string {
         case 'love':
           return 'love';
         case 'happy':
+        case 'giggle':
+        case 'hiccup':
+        case 'squish':
+        case 'smug':
           return 'happy';
+        case 'miss':
+          return 'surprised';
         case 'dizzy':
           return 'dizzy';
         case 'surprised':

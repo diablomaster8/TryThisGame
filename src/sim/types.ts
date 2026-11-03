@@ -88,7 +88,18 @@ export type BehaviorState =
   | 'carried'
   | 'thrown';
 
-export type Reaction = 'happy' | 'sad' | 'surprised' | 'dizzy' | 'love' | 'confused';
+export type Reaction =
+  | 'happy'
+  | 'sad'
+  | 'surprised'
+  | 'dizzy'
+  | 'love'
+  | 'confused'
+  | 'giggle'
+  | 'hiccup'
+  | 'squish'
+  | 'smug'
+  | 'miss';
 
 export type Mood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
 
@@ -2078,7 +2089,13 @@ export type SimEvent =
   | { kind: 'dyed'; nubbinId: string; slot: DyeSlot }
   | { kind: 'coop'; active: boolean }
   /** R0364: a two-Keeper gag: a double-happy spin, a fruit avalanche, an "after you" bow. */
-  | { kind: 'coopGag'; gag: 'spin' | 'avalanche' | 'bow'; nubbinId?: string; treeId?: string; who: 1 | 2 }
+  | {
+      kind: 'coopGag';
+      gag: 'spin' | 'avalanche' | 'bow';
+      nubbinId?: string;
+      treeId?: string;
+      who: 1 | 2;
+    }
   | { kind: 'eduStarted'; age: EduAge }
   | { kind: 'eduResult'; game: EduGameId; stars: number; sticker: boolean }
   | { kind: 'recruited'; name: string; role: TownRole; prosperity: number }
@@ -2113,7 +2130,7 @@ export type SimEvent =
       by: string | null;
     }
   | { kind: 'chestOpened'; shells: number; egg: boolean }
-  | { kind: 'strayFed'; ok: boolean; name: string | null }
+  | { kind: 'strayFed'; ok: boolean; name: string | null; pos?: { x: number; z: number } }
   | { kind: 'strayStartled'; shells: number }
   /** R0162: a party Nubbin chased a stray off; or the Keeper picked up a dropped Shell. */
   | { kind: 'strayShooed'; by: string | null }

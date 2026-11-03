@@ -1303,7 +1303,7 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     const rng = Rng.fromSeed(`${run.seed}:${run.depth}:${s.id}`);
     const name = uniqueName(world, rng.pick(STRAY_NAMES), rng);
     addRecruit(world, name, 'chao', events);
-    events.push({ kind: 'strayFed', ok: true, name });
+    events.push({ kind: 'strayFed', ok: true, name, pos: { x: s.pos.x, z: s.pos.z } });
   }
 }
 

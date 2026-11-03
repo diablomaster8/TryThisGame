@@ -254,7 +254,60 @@ export function gestureFor(id: string): LangGesture | null {
 
 export function wordLearned(world: World, id: string): boolean {
   const s = world.edu?.words[id];
-  return s !== undefined && (s.used > 0 || s.heard >= LANG.learnedAfterHeard);
+  // R0701: a word recalled often enough in review (box 3 or more) counts too.
+  return (
+    s !== undefined &&
+    (s.used > 0 || s.heard >= LANG.learnedAfterHeard || (s.box ?? 0) >= LANG.srs.learnedBox)
+  );
+}
+
+// ------------------------------------------------------------------ spaced review (R0701)
+
+/**
+ * The child's play-day number, moved on once per calendar day they review. Days they do not
+ * play are not counted, so a word is never overdue for a week away and nothing is lost.
+ */
+export function srsDay(world: World): number {
+  const e = world.edu;
+  if (!e) return 0;
+  const key = localDayKey(world.lastWallMs, tzOf(world));
+  if (e.srsKey !== key) {
+    e.srsKey = key;
+    e.srsDay = (e.srsDay ?? 0) + 1;
+  }
+  return e.srsDay ?? 0;
+}
+
+/** The play-day number a review made now would use, without moving it (for the screens). */
+export function peekSrsDay(world: World): number {
+  const e = world.edu;
+  if (!e) return 0;
+  const key = localDayKey(world.lastWallMs, tzOf(world));
+  return (e.srsDay ?? 0) + (e.srsKey === key ? 0 : 1);
+}
+
+/** A review answer on a word the child has met: right goes up a box, wrong back to box 1. */
+export function srsAnswer(world: World, id: string, right: boolean, day = srsDay(world)): void {
+  const s = world.edu?.words[id];
+  if (!world.edu || !s || !WORDS.has(id)) return;
+  const box = right ? Math.min(LANG.srs.maxBox, (s.box ?? 0) + 1) : 1;
+  s.box = box;
+  s.due = day + LANG.srs.intervals[box]!;
+}
+
+/**
+ * The words due for review on a play-day, soonest first: words met but never reviewed, and
+ * reviewed words whose date has come. Ties go by box (weakest first), then id.
+ */
+export function dueWords(world: World, day: number): string[] {
+  const words = world.edu?.words ?? {};
+  return Object.entries(words)
+    .filter(([id, s]) => WORDS.has(id) && s.heard + s.used > 0 && (s.due ?? 0) <= day)
+    .sort(
+      ([a, x], [b, y]) =>
+        (x.due ?? 0) - (y.due ?? 0) || (x.box ?? 0) - (y.box ?? 0) || (a < b ? -1 : 1),
+    )
+    .map(([id]) => id);
 }
 
 /** Count a word heard or used; a learned word heard makes nearby Nubbins react. */

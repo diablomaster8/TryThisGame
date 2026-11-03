@@ -83,7 +83,7 @@ import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { chooseCastHome } from './line-rewards';
-import { langStart, langTraced, noteWord } from './lang';
+import { langStart, langTeach, langTraced, noteWord, srsAnswer } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
 import { lookAround } from './lookout';
@@ -1112,6 +1112,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'langWord':
       noteWord(world, cmd.word, cmd.how, events);
+      return;
+    case 'langReview':
+      srsAnswer(world, cmd.word, cmd.right);
+      return;
+    case 'langTeach':
+      langTeach(world, cmd.nubbinId, cmd.word, events);
       return;
     case 'langTraced':
       // The step itself is met by the quest's rule in noteSideCommand, after this.

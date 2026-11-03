@@ -7,6 +7,7 @@
  */
 import '../kids-r10.css';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
+import { LANG_REVIEW_TEXT } from '../config/strings-srs';
 import type { LanguageCourse } from '../content/types';
 import type { Game } from '../game';
 import { playWord } from '../platform/lang-audio';
@@ -65,6 +66,9 @@ export interface FriendCardParts {
   stamps: boolean[];
   onMeet: () => void;
   onWords: () => void;
+  /** R0701: the review game, with how many words are due (absent: no button). */
+  onReview?: () => void;
+  dueCount?: number;
 }
 
 /** One friend's card: the face (tap to meet or visit), the hello, the stamps and 📚. */

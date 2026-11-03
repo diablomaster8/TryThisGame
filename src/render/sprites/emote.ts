@@ -285,7 +285,15 @@ function drawEmote(
 
 /** The bubble a reaction shows over the head for a moment; both renderers use it. */
 export function bubbleFor(reaction: Reaction): EmoteShape {
-  if (reaction === 'love' || reaction === 'happy') return 'heart';
+  if (
+    reaction === 'love' ||
+    reaction === 'happy' ||
+    reaction === 'giggle' ||
+    reaction === 'squish' ||
+    reaction === 'smug'
+  )
+    return 'heart';
+  if (reaction === 'miss') return 'question';
   if (reaction === 'surprised') return 'exclaim';
   if (reaction === 'confused') return 'question';
   return 'spiral';
