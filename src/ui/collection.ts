@@ -14,6 +14,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { sproutNote } from '../config/field-notes-sprout';
 import { CURIOSITY_UI, FLAVOUR, fieldNote } from '../config/strings-look';
 import { CURIOSITY_IDS, curiositiesFound } from '../sim/curiosities';
 import { BOOK_TEXT } from '../config/strings-look';
@@ -72,11 +73,12 @@ export function keyLabel(key: string): string {
 }
 
 /** FUN-28, FUN-69: a book entry's dry line (a hat, look or critter part) or Hazel's field note. */
-export function keyFlavour(key: string): string {
+export function keyFlavour(key: string, sprout = false): string {
   const parts = key.split(':');
   if (parts[0] === 'hat' || parts[0] === 'look') return FLAVOUR.wear[parts[1] ?? ''] ?? '';
   if (parts[0] === 'part') return FLAVOUR.critter[parts[1] ?? ''] ?? '';
-  return fieldNote(key);
+  // R0358: a sprout gets one short line per entry (`field-notes-sprout.ts`).
+  return sprout ? sproutNote(key, fieldNote(key)) : fieldNote(key);
 }
 
 /**
@@ -222,12 +224,13 @@ export class CollectionBook {
     };
     tick();
     if (!reducedMotion()) this.spin = window.setInterval(tick, 400);
+    const sprout = world.edu?.band === 'sprout';
     const at = world.seen[key];
     const by = world.seenBy?.[key];
     this.page.append(
       c,
       el('h3', undefined, keyLabel(key)),
-      ...(keyFlavour(key) ? [el('p', 'flavour', keyFlavour(key))] : []),
+      ...(keyFlavour(key, sprout) ? [el('p', 'flavour', keyFlavour(key, sprout))] : []),
       ...(at !== undefined
         ? [el('p', 'help', BOOK_TEXT.firstSeen(formatDuration(world.timeMs - at)))]
         : []),
