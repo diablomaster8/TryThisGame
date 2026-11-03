@@ -5,6 +5,7 @@
  * the rest are declared so quests, the map and streaming can name them before they exist.
  * A region with `built: false` can be named but never entered.
  */
+import { RIDGE_POIS } from './region-ridge';
 import { RUINS_POIS } from './region-ruins';
 import { SHORE_POIS } from './region-shore';
 import { MOON_POIS, SUN_POIS } from './region-sunmoon';
@@ -157,7 +158,15 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'seamless',
       },
       way('grove-wood', 'wood', [-31, -46], [0, 49], 'gate', N),
-      way('grove-ridge', 'ridge', [46, -24], [0, 44], 'seamless', N),
+      // R11 d7: the east ridge's border, 8 u wide, walked straight over (see `region-ridge.ts`).
+      {
+        id: 'grove-ridge',
+        rect: { x: 44, z: -28, w: 4, h: 8 },
+        to: 'ridge',
+        arrive: { x: -28, z: 66 },
+        facing: N / 2,
+        kind: 'seamless',
+      },
       // R11 d7: the gates land the Keeper just inside each land, clear of its way back.
       way('grove-sun', 'sunlands', [-46, -6], [0, 33], 'gate', N),
       way('grove-moon', 'moonlands', [-46, 6], [0, 33], 'gate', N),
@@ -282,12 +291,21 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
   ridge: future(
     'ridge',
     'alpine',
-    [64, 96],
-    ['track', 'lookout', 'hut'],
+    [64, 160],
+    [],
     [
-      way('ridge-stair', 'grove', [0, 46], [43, -24], 'seamless', -N / 2),
-      way('ridge-peaks', 'peaks', [0, -46], [0, 30], 'door', N),
+      // WORLD-36 (R11 d7): the seamless edge back to the Grove (arrivals clear of either box).
+      {
+        id: 'ridge-stair',
+        rect: { x: -32, z: 62, w: 1.6, h: 8 },
+        to: 'grove',
+        arrive: { x: 42.8, z: -24 },
+        facing: -N / 2,
+        kind: 'seamless',
+      },
+      way('ridge-peaks', 'peaks', [0, -78], [0, 30], 'door', N),
     ],
+    { pois: RIDGE_POIS, built: true },
   ),
   peaks: future(
     'peaks',
@@ -295,7 +313,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     [64, 64],
     ['summit', 'pass', 'snowfield'],
     [
-      way('peaks-ridge', 'ridge', [0, 30], [0, -43], 'door', 0),
+      way('peaks-ridge', 'ridge', [0, 30], [0, -75], 'door', 0),
       way('peaks-ice', 'caves', [20, -20], [0, 0], 'stairs', 0),
     ],
     { clock: { offsetH: 2 } },

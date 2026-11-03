@@ -90,7 +90,11 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   if (exit.to === 'lane') visit(world, sub!.slice('visit:'.length), events);
   else if (REGION_SPECS[exit.to]) setLocation(world, regionLocation(exit.to), events);
   else setLocation(world, 'grove', events);
-  if (keep) {
+  // R11 d7: a seamless way taken from afar (not walked over the line) lands on its arrival.
+  const size = REGIONS[exit.to].size;
+  const fits =
+    keep && Math.abs(was.x + keep.x) <= size.w / 2 && Math.abs(was.z + keep.z) <= size.h / 2;
+  if (keep && fits) {
     k.pos = { x: was.x + keep.x, z: was.z + keep.z };
     if (target) k.moveTarget = { x: target.x + keep.x, z: target.z + keep.z };
   } else {

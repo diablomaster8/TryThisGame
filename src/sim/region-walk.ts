@@ -22,6 +22,7 @@ import {
   type RegionSpec,
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
+import { RIDGE_SPEC } from '../config/region-ridge';
 import { RUINS_SPEC } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
@@ -39,6 +40,7 @@ export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   sunlands: SUN_SPEC,
   moonlands: MOON_SPEC,
   ruins: RUINS_SPEC,
+  ridge: RIDGE_SPEC,
 };
 
 /**
@@ -82,6 +84,18 @@ export function regionGround(location: Location): (x: number, z: number) => numb
   let fn = grounds.get(id);
   if (!fn) grounds.set(id, (fn = (_x: number, z: number) => terraceHeight(spec, z)));
   return fn;
+}
+
+/** R11 d7: which terrace a point stands on in a drawn region (0 the lowest; 0 when flat). */
+export function regionLevel(location: Location, z: number): number {
+  const id = drawnRegionOf(location);
+  const t = id ? REGION_SPECS[id]?.terraces : undefined;
+  if (!t) return 0;
+  const ys = [...new Set(t.map((x) => x.y))].sort((a, b) => a - b);
+  const y = terraceHeight(REGION_SPECS[id!]!, z);
+  let level = 0;
+  for (let i = 0; i < ys.length; i++) if (y >= ys[i]! - 1e-6) level = i;
+  return level;
 }
 
 /** The layout of a drawn region (built once). */
@@ -293,8 +307,14 @@ export function stepRegionWalk(world: World, dtMs: number): void {
       plan.legs.shift();
     const next = plan.legs[0];
     const d = next ? Math.hypot(next.x - k.pos.x, next.z - k.pos.z) : 0;
-    const last = plan.legs[plan.legs.length - 1];
-    const left = last ? Math.hypot(last.x - k.pos.x, last.z - k.pos.z) : 0;
+    // R11 d7: progress is the walk still to go along the legs, not the straight line to the
+    // end (a switchback heads away from its end for a while without being stuck).
+    let left = d;
+    for (let i = 1; i < plan.legs.length; i++)
+      left += Math.hypot(
+        plan.legs[i]!.x - plan.legs[i - 1]!.x,
+        plan.legs[i]!.z - plan.legs[i - 1]!.z,
+      );
     if (left < plan.best - 0.05) {
       plan.best = left;
       plan.bestMs = world.timeMs;

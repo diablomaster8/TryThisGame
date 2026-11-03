@@ -7,7 +7,7 @@ import { WORLD_STREAM } from '../config/tuning-world';
 import { borderBlockers } from '../sim/border';
 import { hash, hex, Raster, rimObjects, shade } from './paint/raster';
 import { RasterAtlas } from './paint/atlas';
-import { groundTexture, GROUND_PPU } from './region-ground';
+import { groundTexture } from './region-ground';
 import type { RegionPx } from './region-host-px';
 import type { SpriteSheet } from './sprites/atlas';
 import type { SpriteDraw } from './sprite-batch';
@@ -23,21 +23,24 @@ import type { SpriteDraw } from './sprite-batch';
 
 const H = GROVE.size / 2;
 
-/** The strip's ground canvas: x across the Grove, z from `H - depth` to the edge (plus 2). */
+/**
+ * The stand-in ground: the whole Grove at a coarser `GROVE_EDGE.ppu` (only its edges are ever
+ * seen, from a neighbour across a seamless border: the shore to the south, the ridge to the
+ * east), meadow darkening to marsh toward the south edge, with the stream running out.
+ */
 export function paintGroveEdge(): { canvas: HTMLCanvasElement; w: number; h: number; z0: number } {
-  const ppu = GROUND_PPU;
-  const depth = GROVE_EDGE.depth;
-  const w = GROVE.size;
-  const h = depth + 2;
-  const z0 = H - depth;
+  const ppu = GROVE_EDGE.ppu;
+  const w = GROVE.size + 2;
+  const h = GROVE.size + 2;
+  const z0 = -H - 1;
   const c = document.createElement('canvas');
   c.width = w * ppu;
   c.height = h * ppu;
   const g = c.getContext('2d')!;
   g.fillStyle = '#5f9e3c';
   g.fillRect(0, 0, c.width, c.height);
-  // The marsh: wet, darker ground toward the edge round the stream.
-  const grad = g.createLinearGradient(0, 0, 0, c.height);
+  // The marsh: wet, darker ground toward the south edge round the stream.
+  const grad = g.createLinearGradient(0, (H + 24) * ppu, 0, c.height);
   grad.addColorStop(0, 'rgba(79,110,56,0)');
   grad.addColorStop(1, 'rgba(79,110,56,0.75)');
   g.fillStyle = grad;
@@ -49,7 +52,7 @@ export function paintGroveEdge(): { canvas: HTMLCanvasElement; w: number; h: num
     g.fillStyle = hash(i, 11) > 0.5 ? '#8fcf62' : '#4d9440';
     g.fillRect(x | 0, y | 0, 1, 2);
   }
-  const px = (x: number) => (x + H) * ppu;
+  const px = (x: number) => (x + H + 1) * ppu;
   const pz = (z: number) => (z - z0) * ppu;
   const out = GROVE.river.outflow;
   g.lineJoin = 'round';
@@ -143,7 +146,8 @@ export function edgePieces(): { key: string; x: number; z: number; w: number }[]
     w: WIDTH[p.kind]!,
   }));
   for (const b of borderBlockers())
-    if (b.kind === 'hedge' && b.z > H - 1) out.push({ key: 'hedge', x: b.x, z: b.z, w: 2.4 });
+    if (b.kind === 'hedge' && (b.z > H - 1 || b.x > H - 1))
+      out.push({ key: 'hedge', x: b.x, z: b.z, w: 2.4 });
   return out;
 }
 

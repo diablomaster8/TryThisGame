@@ -34,12 +34,13 @@ export const GROVE_EDGE_SPEC: RegionSpec = {
 /** What the edge module stands in the strip: the Grove's own pieces within reach of its south edge. */
 export function groveEdgePieces(depth: number): { x: number; z: number; kind: 0 | 1 | 2 }[] {
   const out: { x: number; z: number; kind: 0 | 1 | 2 }[] = [];
-  const near = (z: number) => z > H - depth;
-  for (const t of GROVE.trees) if (near(t.z)) out.push({ x: t.x, z: t.z, kind: 0 });
-  for (const r of GROVE.rocks) if (near(r.z)) out.push({ x: r.x, z: r.z, kind: 1 });
+  // Near the south edge (the shore's side) or the east (the ridge's).
+  const near = (x: number, z: number) => z > H - depth || x > H - depth;
+  for (const t of GROVE.trees) if (near(t.x, t.z)) out.push({ x: t.x, z: t.z, kind: 0 });
+  for (const r of GROVE.rocks) if (near(r.x, r.z)) out.push({ x: r.x, z: r.z, kind: 1 });
   // Reeds along the marsh banks of the outflow.
   for (const p of GROVE.river.outflow)
-    if (near(p.z)) {
+    if (p.z > H - depth) {
       out.push({ x: p.x - 2.4, z: p.z, kind: 2 });
       out.push({ x: p.x + 2.6, z: p.z + 1, kind: 2 });
     }

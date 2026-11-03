@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import type { LayoutChunk, RegionLayout } from '../config/region-layout';
+import type { LayoutChunk, LayoutTree, RegionLayout } from '../config/region-layout';
 import type { ChunkLRU } from '../render/chunks';
 import { terracedPlane } from '../render/region-kit-px';
 import {
@@ -86,6 +86,8 @@ export interface Kit3dStyle {
   pieces: (l: RegionLayout) => THREE.BufferGeometry;
   /** The fill's height above the ground (a terraced region), by position. */
   heightAt?: (x: number, z: number) => number;
+  /** The look a fill tree takes (default its layout kind): snowy pines above a snow line. */
+  kindAt?: (t: LayoutTree) => number;
   /** Extra meshes (sea, lake, lights) added to the group, built with the shared material or their own. */
   decorate?: (group: THREE.Group, l: RegionLayout, mat: THREE.Material) => Kit3dDecor;
   arch: () => THREE.BufferGeometry;
@@ -149,7 +151,7 @@ class Kit3d implements Region3d {
     this.owned.push(gg);
     this.mats.push(gm);
     const cap = [0, 0, 0];
-    for (const t of l.trees) cap[t.kind]!++;
+    for (const t of l.trees) cap[s.kindAt ? s.kindAt(t) : t.kind]!++;
     const geos = [...s.fill(), tuftGeo(s.tuft), s.prop()];
     const caps = [...cap, l.chunks.size * 64, Math.max(1, l.props.length)];
     geos.forEach((geo, i) => {
@@ -187,7 +189,7 @@ class Kit3d implements Region3d {
     };
     for (const i of c.trees) {
       const t = this.l.trees[i]!;
-      put(t.kind, t.x, t.z, t.s, (i * 2.399) % (Math.PI * 2));
+      put(this.s.kindAt ? this.s.kindAt(t) : t.kind, t.x, t.z, t.s, (i * 2.399) % (Math.PI * 2));
     }
     for (let i = 0; i < c.tufts.length; i += 3)
       put(3, c.tufts[i]!, c.tufts[i + 1]!, c.tufts[i + 2]!, i);

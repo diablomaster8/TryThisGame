@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { LayoutChunk, RegionBox, RegionLayout } from '../config/region-layout';
+import type { LayoutChunk, LayoutTree, RegionBox, RegionLayout } from '../config/region-layout';
 import { WORLD_STREAM } from '../config/tuning-world';
 import type { SpriteSheet } from './sprites/atlas';
 import {
@@ -44,6 +44,8 @@ export interface KitPxStyle {
   pieces: (l: RegionLayout) => readonly KitPiece[];
   /** The fill's height above the ground (a terraced region), by position. */
   heightAt?: (x: number, z: number) => number;
+  /** The look a fill tree takes (default its layout kind): snowy pines above a snow line. */
+  kindAt?: (t: LayoutTree) => number;
   paint?: GroundPaint;
   /** Extra meshes on the ground plane; returns their disposer. */
   decorate?: (ground: THREE.Mesh, l: RegionLayout) => () => void;
@@ -125,8 +127,9 @@ class KitPx implements RegionPx {
     const y = this.s.heightAt;
     for (const i of c.trees) {
       const t = this.l.trees[i]!;
-      const w = this.s.treeW[t.kind]! * t.s;
-      push(sprite(sheet, `tree-${t.kind}`, t.x, t.z, w, y ? y(t.x, t.z) : 0, (i & 1) === 1));
+      const k = this.s.kindAt ? this.s.kindAt(t) : t.kind;
+      const w = this.s.treeW[k]! * t.s;
+      push(sprite(sheet, `tree-${k}`, t.x, t.z, w, y ? y(t.x, t.z) : 0, (i & 1) === 1));
     }
     for (const i of c.props) {
       const p = this.l.props[i]!;

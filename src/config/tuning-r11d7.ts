@@ -15,8 +15,10 @@ export const SHORE_LOOK = {
 
 /** The Grove's edge strip drawn back across a seamless border from inside a neighbour. */
 export const GROVE_EDGE = {
-  /** How deep a strip of the Grove is painted along each side it shares (units). */
+  /** How deep into the Grove its pieces are stood along each side it shares (units). */
   depth: 24,
+  /** Texels a unit of the stand-in ground (coarser than a region's: only its edges show). */
+  ppu: 6,
 } as const;
 
 /** WORLD-36: the ridge's climb. */

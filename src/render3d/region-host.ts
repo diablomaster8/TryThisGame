@@ -58,6 +58,7 @@ export const REGION_3D: Partial<Record<RegionId, () => Promise<Region3dModule>>>
   sunlands: () => import('./region-sunmoon').then((m) => m.sun),
   moonlands: () => import('./region-sunmoon').then((m) => m.moon),
   ruins: () => import('./region-ruins'),
+  ridge: () => import('./region-ridge'),
   // R11 d7: the Grove's stand-in strip, drawn only across a seamless border from a neighbour.
   grove: () => import('./region-grove-edge'),
 };
