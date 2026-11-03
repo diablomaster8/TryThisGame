@@ -15,7 +15,7 @@ import {
 import type { EduBand } from '../../content/types';
 import type { Rng } from '../../sim/rng';
 import { readerRhymeRound, readerSpellingRound, readerSumRound } from './reader-games';
-import { firstSound } from '../../config/edu';
+import { animalClip, firstSound, phonemeClip, wordClip } from '../../config/edu';
 
 /**
  * Round generators for the six games. Pure and seeded, so they are testable; the
@@ -49,6 +49,15 @@ export interface EduRound {
   item?: string;
   /** R0712: show picture options without their words until the answer (sprout phonics). */
   hideLabels?: boolean;
+  /**
+   * R0675: the clip this round plays (`animal/cow`, `word/cat`; see `EDU_CLIPS`). A round with
+   * `cueAuto` is a listening task and plays it when shown; otherwise it is only a clip the
+   * round could play (a cow's moo for "Tap the cow" would give the answer away).
+   */
+  cueClip?: string;
+  /** R0675: a second clip played after the first (the first sound after the cue word). */
+  thenClip?: string;
+  cueAuto?: boolean;
 }
 
 /** R0683: an item's weight for the target pick (weaker items higher); absent = even odds. */
@@ -401,6 +410,9 @@ export function soundRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
         answer,
         teach: `${cap(w.word)} and ${right.word} both start with the "${first}" sound.`,
         item: `word:${w.word}`,
+        cueClip: wordClip(w.word),
+        thenClip: phonemeClip(first),
+        cueAuto: true,
       };
     }
   }
@@ -419,6 +431,8 @@ export function soundRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
       answer,
       teach: `${cap(w.word)} has ${syll} ${syll === 1 ? 'clap' : 'claps'}.`,
       item: `word:${w.word}`,
+      cueClip: wordClip(w.word),
+      cueAuto: true,
     };
   }
   // Rhymes.
@@ -435,6 +449,8 @@ export function soundRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
     answer,
     teach: `${cap(w.word)} rhymes with ${right.word}.`,
     item: `word:${w.word}`,
+    cueClip: wordClip(w.word),
+    cueAuto: true,
   };
 }
 
@@ -467,6 +483,7 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
       answer,
       teach: `This is a ${a.name}. It says ${a.sound}.`,
       item: `animal:${a.name}`,
+      cueClip: animalClip(a.name),
     };
   }
   if (mix4 === 'sound' || (age >= 5 && rng.chance(0.3))) {
@@ -475,11 +492,13 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
     return {
       game: 'animals',
       prompt: `Which one says "${a.sound}"?`,
+      cueAuto: true,
       cue: null,
       options,
       answer,
       teach: `The ${a.name} says ${a.sound}.`,
       item: `animal:${a.name}`,
+      cueClip: animalClip(a.name),
     };
   }
   if (mix4 === 'home' || age === 5 || (age === 6 && rng.chance(0.4))) {
@@ -499,6 +518,7 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
       answer,
       teach: `The ${a.name} lives ${where}.`,
       item: `animal:${a.name}`,
+      cueClip: animalClip(a.name),
     };
   }
   if (age === 6) {
@@ -512,6 +532,7 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
       answer,
       teach: `A baby ${a.name} is a ${a.baby}.`,
       item: `animal:${a.name}`,
+      cueClip: animalClip(a.name),
     };
   }
   const others = pickDistinct(rng, EDU_ANIMALS, n, (x) => x.name === a.name);
@@ -524,6 +545,7 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
     answer,
     teach: `This is a ${a.name}. It says ${a.sound}.`,
     item: `animal:${a.name}`,
+    cueClip: animalClip(a.name),
   };
 }
 

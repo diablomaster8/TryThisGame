@@ -1,4 +1,4 @@
-import { EDU_READER_RHYMES, EDU_READER_WORDS } from '../../config/edu';
+import { EDU_READER_RHYMES, EDU_READER_WORDS, wordClip } from '../../config/edu';
 import type { Rng } from '../../sim/rng';
 import { pickDistinct, shuffleWithAnswer, type EduOption, type EduRound } from './games';
 
@@ -120,6 +120,8 @@ export function readerRhymeRound(rng: Rng): EduRound {
       options,
       answer,
       teach: `${w.split}: ${n} beat${n === 1 ? '' : 's'}.`,
+      cueClip: wordClip(w.word),
+      cueAuto: true,
     };
   }
   const group = rng.pick(EDU_READER_RHYMES);
@@ -133,5 +135,7 @@ export function readerRhymeRound(rng: Rng): EduRound {
     options,
     answer,
     teach: `${target} and ${right} end with the same sound.`,
+    cueClip: wordClip(target),
+    cueAuto: true,
   };
 }

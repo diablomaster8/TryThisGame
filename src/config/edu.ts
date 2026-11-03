@@ -350,3 +350,45 @@ export const EDU_ANIMAL_MIX_4: Readonly<Record<'name' | 'sound' | 'home', number
   sound: 0.3,
   home: 0.3,
 };
+
+/**
+ * R0675 (KIDS-03): the listening clips of the Sounds and Animals games. A clip id is
+ * `animal/<name>`, `word/<word>` or `phoneme/<first sound>`; `EDU_CLIPS` maps each id to the
+ * file a recording would have under `public/`. Until a recording lands (and is listed in
+ * `EDU_RECORDED`, platform/edu-audio.ts) the clip is synthesised in code.
+ */
+export const animalClip = (name: string): string => `animal/${name}`;
+export const wordClip = (word: string): string => `word/${word.toLowerCase()}`;
+export const phonemeClip = (sound: string): string => `phoneme/${sound}`;
+
+const CLIP_DIR = { animal: 'animals', word: 'words', phoneme: 'phonemes' } as const;
+
+export function clipFile(id: string): string | null {
+  const [kind, name] = id.split('/');
+  const dir = CLIP_DIR[kind as keyof typeof CLIP_DIR];
+  return dir && name ? `audio/edu/${dir}/${name}.mp3` : null;
+}
+
+/** Every first sound a picture word can start with. */
+export const EDU_PHONEMES: readonly string[] = [
+  ...new Set(EDU_WORDS.map((w) => firstSound(w.word))),
+].sort();
+
+function buildClips(): Record<string, string> {
+  const ids = [
+    ...EDU_ANIMALS.map((a) => animalClip(a.name)),
+    ...EDU_WORDS.map((w) => wordClip(w.word)),
+    ...EDU_READER_WORDS.map((w) => wordClip(w.word)),
+    ...EDU_READER_RHYMES.flat().map(wordClip),
+    ...EDU_PHONEMES.map(phonemeClip),
+  ];
+  const out: Record<string, string> = {};
+  for (const id of ids) {
+    const f = clipFile(id);
+    if (f) out[id] = f;
+  }
+  return out;
+}
+
+/** Clip id -> file path under `public/`. */
+export const EDU_CLIPS: Readonly<Record<string, string>> = buildClips();

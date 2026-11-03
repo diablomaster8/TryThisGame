@@ -12,6 +12,7 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
+import { playEduClips } from '../platform/edu-audio';
 import {
   EDU_PICKER_TEXT,
   EDU_RESULTS_TEXT,
@@ -277,7 +278,11 @@ export class EduScreen {
     head.append(
       el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, this.rounds())),
       // R0674: the prompt again, for every band.
-      button('🔊', () => speakLine(spoken(r.prompt)), 'btn edu-hear'),
+      button(
+        '🔊',
+        () => speakLine(spoken(r.prompt), { onDone: () => this.playCue(r) }),
+        'btn edu-hear',
+      ),
       this.band() === 'sprout'
         ? holdToLeave(() => this.close())
         : button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
@@ -304,7 +309,23 @@ export class EduScreen {
     c.appendChild(opts);
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
-    for (const line of roundSpeech(r, this.band(), this.readAloud())) speakLine(line);
+    const lines = roundSpeech(r, this.band(), this.readAloud());
+    // R0675: a listening round plays its clip after the prompt is said (the cue word, then its
+    // first sound); a round with no voice plays the clip straight away.
+    const clipped = this.cueClips(r).length > 0;
+    if (lines.length === 0) this.playCue(r);
+    lines.forEach((line, i) =>
+      speakLine(line, clipped && i === lines.length - 1 ? { onDone: () => this.playCue(r) } : {}),
+    );
+  }
+
+  private cueClips(r: EduRound): string[] {
+    return r.cueClip ? [r.cueClip, ...(r.thenClip ? [r.thenClip] : [])] : [];
+  }
+
+  private playCue(r: EduRound): void {
+    const clips = this.cueClips(r);
+    if (clips.length && r.cueAuto && this.round === r) playEduClips(clips);
   }
 
   /** R0746: this save's rounds per game. */
