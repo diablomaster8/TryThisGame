@@ -96,6 +96,9 @@ import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from '
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
+import { GrovePuddles } from './puddles';
+import { AmbientLife3d } from './ambient';
+import { ambientAwake } from '../render/ambient-life';
 
 /** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
 const FOG_WHITE = new THREE.Color('#e8eef2');
@@ -277,6 +280,34 @@ export class Grove3dScene {
   private shadowShed = false;
   /** R0094: the haze and rain share a drawn region's own sky asks for (the game sets it). */
   readonly regionSky = { fog: 0, intensity: 0 };
+  private readonly puddles: GrovePuddles;
+  private readonly ambient: AmbientLife3d;
+
+  /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
+  private updateAmbient(world: World): void {
+    const [, d, , weather, particles] = this.dayArgs ?? [
+      12,
+      daylightAt(12),
+      'grove',
+      'clear',
+      'full',
+    ];
+    const onGrove = world.location === 'grove';
+    this.ambient.update(
+      world,
+      this.camPos,
+      this.time.value,
+      ambientAwake(d.phase, weather),
+      this.phoneSized,
+      this.reduceMotion,
+      particles === 'off' || this.staging.exclusive,
+      onGrove ? (x, z) => Math.max(groveHeight(x, z), WATER_LEVEL) : () => 0,
+    );
+  }
+
+  private get phoneSized(): boolean {
+    return Math.min(viewportSize().w, viewportSize().h) < WORLD_LOD.phoneMaxPx;
+  }
 
   /** A shed step changed something `setDaylight` decides: re-run it next frame. */
   private dayDirty = false;
@@ -553,6 +584,8 @@ export class Grove3dScene {
     this.village = new Village(this.world3d, this.tex, groveHeight);
     this.villageSquare = new VillageSquare(this.world3d, this.tex, groveHeight, this.pickables);
     this.weather = new GroveWeather(this.scene, this.world3d);
+    this.puddles = new GrovePuddles(this.world3d, groveHeight);
+    this.ambient = new AmbientLife3d(this.scene);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     // Lane A r8: the idle looks' bursts (puddle splashes, fireflies, a harrumph's puff).
@@ -1896,6 +1929,8 @@ export class Grove3dScene {
     if (!this.shedCave) snapShadow(this.sky.sun, this.camTarget);
     PARTICLE_TIME.value = this.time.value;
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
+    this.puddles.update(world);
+    this.updateAmbient(world);
   }
 
   render(): void {
