@@ -15,6 +15,8 @@ import {
 import type { EduBand } from '../../content/types';
 import type { Rng } from '../../sim/rng';
 import { readerRhymeRound, readerSpellingRound, readerSumRound } from './reader-games';
+import { GROVE_HUNT_SHAPES, GROVE_SHAPES } from '../../config/edu-grove-shapes';
+import { EDU_COLOUR_THINGS, EDU_COLOUR_THING_SHARE } from '../../config/edu-things';
 import { animalClip, firstSound, phonemeClip, wordClip } from '../../config/edu';
 
 /**
@@ -26,6 +28,10 @@ import { animalClip, firstSound, phonemeClip, wordClip } from '../../config/edu'
 export type EduOption =
   | { kind: 'colour'; colour: string; label: string }
   | { kind: 'shape'; shape: string; label: string }
+  /** R0732: a pixel object in a colour (a red apple); `label` is the colour word. */
+  | { kind: 'thing'; icon: string; colour: string; label: string; name: string }
+  /** R0733: a tappable prop in the Grove still; `prop` is its id in `GROVE_SHAPES`. */
+  | { kind: 'prop'; prop: string; shape: string; label: string }
   | { kind: 'letter'; letter: string }
   | { kind: 'count'; icon: string; n: number; label: string }
   | { kind: 'number'; n: number }
@@ -58,6 +64,10 @@ export interface EduRound {
   /** R0675: a second clip played after the first (the first sound after the cue word). */
   thenClip?: string;
   cueAuto?: boolean;
+  /** R0733: draw the options as hotspots over the Grove still. */
+  scene?: 'grove';
+  /** R0675: show the clap pad (each tap counts a beat) with this round. */
+  clapPad?: boolean;
 }
 
 /** R0683: an item's weight for the target pick (weaker items higher); absent = even odds. */
@@ -123,13 +133,23 @@ export function colourRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
   const colours = EDU_COLOURS[age];
   const right = pickTarget(rng, colours, (c) => `colour:${c}`, weigh);
   const others = pickDistinct(rng, colours, optionCount(age) - 1, (c) => c === right);
-  const mk = (c: string): EduOption => ({ kind: 'colour', colour: c, label: cap(c) });
+  const things = rng.chance(EDU_COLOUR_THING_SHARE);
+  const thingFor = (c: string, i = 0): EduOption => {
+    const list = EDU_COLOUR_THINGS[c] ?? [];
+    const t = list[i % Math.max(1, list.length)];
+    return t
+      ? { kind: 'thing', icon: t.icon, colour: c, label: cap(c), name: t.name }
+      : { kind: 'colour', colour: c, label: cap(c) };
+  };
+  const mkAt = (c: string, i = 0): EduOption =>
+    things ? thingFor(c, i) : { kind: 'colour', colour: c, label: cap(c) };
+  const mk = (c: string): EduOption => mkAt(c, 0);
   if (age >= 5 && rng.chance(0.4)) {
     // Sort: which fruit is NOT this colour.
     const { options, answer } = shuffleWithAnswer(
       rng,
       mk(others[0]!),
-      [right, right, right].map(mk),
+      [0, 1, 2].map((i) => mkAt(right, i)),
     );
     return {
       game: 'colours',
@@ -153,7 +173,29 @@ export function colourRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
   };
 }
 
+/** R0733: "Find a circle in the Grove!" with 3 or 4 tappable props of different shapes. */
+export function shapeHuntRound(rng: Rng): EduRound {
+  const right = rng.pick(GROVE_HUNT_SHAPES);
+  const others = pickDistinct(rng, GROVE_HUNT_SHAPES, 2, (s) => s === right);
+  const mk = (shape: string): EduOption => {
+    const p = rng.pick(GROVE_SHAPES.filter((x) => x.shape === shape));
+    return { kind: 'prop', prop: p.id, shape, label: cap(shape) };
+  };
+  const { options, answer } = shuffleWithAnswer(rng, mk(right), others.map(mk));
+  return {
+    game: 'shapes',
+    prompt: `Find a ${right} in the Grove!`,
+    cue: null,
+    options,
+    answer,
+    teach: `This is a ${right}.`,
+    item: `shape:${right}`,
+    scene: 'grove',
+  };
+}
+
 export function shapeRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
+  if (age >= 5 && rng.chance(0.3)) return shapeHuntRound(rng);
   const shapes = EDU_SHAPES[age];
   const right = pickTarget(rng, shapes, (x) => `shape:${x}`, weigh);
   const others = pickDistinct(rng, shapes, optionCount(age) - 1, (s) => s === right);
@@ -433,6 +475,7 @@ export function soundRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
       item: `word:${w.word}`,
       cueClip: wordClip(w.word),
       cueAuto: true,
+      clapPad: true,
     };
   }
   // Rhymes.

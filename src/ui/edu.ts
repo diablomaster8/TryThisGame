@@ -13,6 +13,10 @@ import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
 import { playEduClips } from '../platform/edu-audio';
+import { clapPad } from './edu-clap';
+import { groveStill } from './edu-scene';
+import { GROVE_SHAPES, GROVE_VIEW } from '../config/edu-grove-shapes';
+import { EDU_COLOUR_PATTERN } from '../config/edu-things';
 import {
   EDU_PICKER_TEXT,
   EDU_RESULTS_TEXT,
@@ -335,15 +339,36 @@ export class EduScreen {
       cue.appendChild(renderOption(r.cue, true));
       c.appendChild(cue);
     }
+    if (r.clapPad) c.appendChild(clapPad());
     const opts = el('div', `edu-options n${r.options.length}`);
     r.options.forEach((o, i) => {
       const b = button('', () => this.answer(i, b), 'btn edu-option');
       b.appendChild(renderOption(o, false, !r.hideLabels));
       if (o.kind === 'colour') b.setAttribute('aria-label', o.label);
+      if (o.kind === 'thing') b.setAttribute('aria-label', `${o.label} ${o.name}`);
       holdToHear(b, o);
       opts.appendChild(b);
     });
-    c.appendChild(opts);
+    if (r.scene === 'grove') {
+      // R0733: the options are hotspots over the Grove still.
+      const scene = el('div', 'edu-scene');
+      scene.appendChild(groveStill());
+      opts.className = 'edu-hotspots';
+      opts.querySelectorAll<HTMLElement>('.edu-option').forEach((b, i) => {
+        const o = r.options[i];
+        const p = o?.kind === 'prop' ? GROVE_SHAPES.find((x) => x.id === o.prop) : undefined;
+        if (!p) return;
+        b.classList.add('edu-hotspot');
+        b.textContent = '';
+        b.setAttribute('aria-label', `${o?.kind === 'prop' ? o.label : ''} (${p.name})`);
+        b.style.left = `${((p.x - 3) / GROVE_VIEW.w) * 100}%`;
+        b.style.top = `${((p.y - 3) / GROVE_VIEW.h) * 100}%`;
+        b.style.width = `${((p.w + 6) / GROVE_VIEW.w) * 100}%`;
+        b.style.height = `${((p.h + 6) / GROVE_VIEW.h) * 100}%`;
+      });
+      scene.appendChild(opts);
+      c.appendChild(scene);
+    } else c.appendChild(opts);
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
     const lines = roundSpeech(r, this.band(), this.readAloud());
@@ -650,10 +675,25 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
     case 'colour': {
       const sw = el('div', 'edu-swatch');
       sw.style.background = EDU_COLOUR_HEX[o.colour] ?? o.colour;
+      sw.classList.add(`edu-pat-${EDU_COLOUR_PATTERN[o.colour] ?? 'plain'}`);
       box.appendChild(sw);
       break;
     }
+    case 'thing': {
+      // R0732: the object sits on a plate in its colour, with the colour's pattern.
+      const plate = el(
+        'div',
+        `edu-swatch edu-thing edu-pat-${EDU_COLOUR_PATTERN[o.colour] ?? 'plain'}`,
+      );
+      plate.style.background = EDU_COLOUR_HEX[o.colour] ?? o.colour;
+      plate.appendChild(eduIcon(o.icon, 'edu-icon'));
+      box.appendChild(plate);
+      break;
+    }
     case 'shape':
+      box.appendChild(shapeSvg(o.shape));
+      break;
+    case 'prop':
       box.appendChild(shapeSvg(o.shape));
       break;
     case 'letter':

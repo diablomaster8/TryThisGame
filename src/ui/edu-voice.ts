@@ -41,7 +41,9 @@ export function countAloud(n: number): string {
 export function optionSay(o: EduOption): string {
   switch (o.kind) {
     case 'colour':
+    case 'thing':
     case 'shape':
+    case 'prop':
     case 'picture':
       return o.label;
     case 'letter':

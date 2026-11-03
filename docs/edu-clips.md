@@ -15,4 +15,4 @@ follows the effects switch.
 To add a recording: drop the mp3 at the path above and add the id to `EDU_RECORDED`.
 Mono, 44.1 kHz, trimmed, peak about -3 dB.
 
-Open: the clap pad (each tap counts a beat in clap rounds) is not built.
+The clap pad (`ui/edu-clap.ts`, `EduRound.clapPad`): each tap on the 🙌 pad counts a beat (dot + tick); it never marks the answer.
