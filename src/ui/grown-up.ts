@@ -23,7 +23,7 @@ import { limitSettings } from './edu-limits';
 import { attentionReport, gameStandards, printButton, weekChart } from './edu-report';
 import { storyProgress, storySettings } from './edu-story';
 import { tipsDeckPanel } from './edu-tips-deck';
-import { childrenList } from './children-list';
+import { childrenList, languageRow } from './children-list';
 import { graduateSection } from './graduate';
 import { tagRows } from './kids-tag-rows';
 import { langProgress } from './lang';
@@ -140,6 +140,7 @@ function drawChild(body: HTMLElement, g: Game, game: () => Game | null, rerender
   name.addEventListener('change', () => g.send({ kind: 'eduSetName', name: name.value }));
   nameRow.append(el('strong', undefined, EDU_TEXT.childName), name);
   body.appendChild(nameRow);
+  languageRow(body, g, rerender); /* R0739 */
   // Lane E r10, R0696: the slot's animal and colour can be changed here too.
   body.appendChild(tagRows(g, e.icon ?? null, e.tagColour ?? null));
   storySettings(body, g);

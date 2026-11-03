@@ -100,3 +100,23 @@ export function childrenList(body: HTMLElement, g: Game, rerender: () => void): 
     );
   body.appendChild(status);
 }
+
+/** R0739: the Learning Grove's interface language, in the Child tab. */
+export function languageRow(body: HTMLElement, g: Game, rerender: () => void): void {
+  const e = g.world.edu;
+  if (!e) return;
+  const row = el('label', 'field-row');
+  const sel = el('select');
+  for (const [id, name] of Object.entries(CHILDREN_TEXT.uiLanguages)) {
+    const o = el('option', undefined, name);
+    o.value = id;
+    sel.appendChild(o);
+  }
+  sel.value = e.uiLanguage ?? 'en';
+  sel.addEventListener('change', () => {
+    g.send({ kind: 'eduSetUiLanguage', lang: sel.value === 'he' ? 'he' : 'en' });
+    setTimeout(rerender, 100);
+  });
+  row.append(el('strong', undefined, CHILDREN_TEXT.uiLanguage), sel);
+  body.append(row, el('p', 'help', CHILDREN_TEXT.uiLanguageHelp));
+}

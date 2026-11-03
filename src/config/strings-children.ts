@@ -1,5 +1,9 @@
 /** R0728: the "Children on this device" section of the grown-up area. */
 export const CHILDREN_TEXT = {
+  uiLanguage: 'Game language',
+  uiLanguages: { en: 'English', he: 'עברית (Hebrew)' },
+  uiLanguageHelp:
+    'Changes the picker, rounds and results. Round questions and the story stay in English for now.',
   heading: 'Children on this device',
   help: (n: number, max: number) =>
     `${n} of ${max} children. Each has their own Grove, limits and minutes. The child playing now stays where they are in the order.`,

@@ -1,4 +1,5 @@
 import { cheerBuddy, showBuddy } from './edu-buddy'; /* R0741 */
+import { applyEduUiLanguage, markEduDialog, type EduUiLanguage } from './edu-lang'; /* R0739 */
 import { EDU, EDU_COLOUR_HEX, type EduGameId } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -98,10 +99,22 @@ export class EduScreen {
     });
   }
 
+  /** R0739: the picker, the round card and the results take the child's interface language. */
+  private applyLanguage(lang: EduUiLanguage): void {
+    applyEduUiLanguage(lang);
+    markEduDialog(this.picker.root, lang);
+    markEduDialog(this.card, lang);
+    const title = this.picker.root.querySelector('h2');
+    if (title) title.textContent = EDU_TEXT.play;
+    const help = this.picker.body.querySelector('.edu-play-help');
+    if (help) help.textContent = EDU_TEXT.playHelp;
+  }
+
   /** The picker: one big button per switched-on game. */
   open(): void {
     const g = this.game_();
     if (!g?.world.edu) return;
+    this.applyLanguage(g.world.edu.uiLanguage ?? 'en'); // R0739
     const body = this.picker.body;
     body.querySelectorAll('.edu-grid, .help.none').forEach((n) => n.remove());
     // R0681: the help line is for grown-ups; a sprout hears the question instead.

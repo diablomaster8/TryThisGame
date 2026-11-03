@@ -1174,6 +1174,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetSession':
       eduSetSession(world, cmd.minutes);
       return;
+    case 'eduSetUiLanguage':
+      if (world.edu && (cmd.lang === 'en' || cmd.lang === 'he')) world.edu.uiLanguage = cmd.lang;
+      return;
     case 'eduSetName':
       eduSetName(world, cmd.name);
       return;
