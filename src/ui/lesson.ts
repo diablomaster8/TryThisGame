@@ -4,6 +4,7 @@
  * read-aloud voice, and the lesson controls (ask options, the do card). The dialogue owns
  * the order of things; these only build DOM and call back. Nothing here touches the world.
  */
+import { playVoClip, stopVoClip } from '../platform/lang-audio';
 import { EDU_STORY_TEXT } from '../config/strings';
 import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
 import { lineParts } from './line-parts';
@@ -179,6 +180,7 @@ function glossaryPattern(glossary: Map<string, string>): RegExp {
  * speech support.
  */
 export function speakLine(text: string, opts: SpeakOptions = {}): void {
+  if (playVoClip(opts.clipId, opts.onDone)) return;
   try {
     const synth = window.speechSynthesis;
     if (!synth || !isAudioUnlocked() || !isSoundEnabled()) return;
@@ -242,9 +244,12 @@ export interface SpeakOptions {
   speaker?: string | null;
   onWord?: (word: string, at: number) => void;
   onDone?: () => void;
+  /** R0344: the line's stable id; a recorded clip plays in place of the device voice. */
+  clipId?: string | undefined;
 }
 
 export function stopSpeaking(): void {
+  stopVoClip();
   try {
     speakToken++;
     holdMusicDuck('speech', false);
@@ -276,7 +281,11 @@ export function renderOptions(
         box.dataset.picked = '1';
         buttons.forEach((x, i) => {
           x.disabled = true;
-          if (options[i]?.best) x.textContent = `${EDU_STORY_TEXT.bestStar} ${options[i]!.label}`;
+          if (!options[i]?.best) return;
+          // R0677: a sprout button keeps its number dot and picture; the star joins them.
+          const pic = x.querySelector('.sprout-choice-icon');
+          if (pic) pic.after(`${EDU_STORY_TEXT.bestStar} `);
+          else x.textContent = `${EDU_STORY_TEXT.bestStar} ${options[i]!.label}`;
         });
         b.classList.add('picked');
         // A beat to see the star, then the reply.

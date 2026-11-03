@@ -519,6 +519,7 @@ export class Dialogue {
     if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
       speakLine(this.fullText, {
         speaker: chorus ? 'narrator' : who,
+        clipId: line.id,
         onWord: (w) => this.wordLight.light(w),
         onDone: autoNext,
       });
