@@ -31,6 +31,8 @@ import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
 import { RADIANT_ART_PREFIX } from '../render/sprites/stage-art';
 import { color, shadeOf } from '../render/sprites/palette';
+import { DYE_COLORS } from '../render/sprites/chao';
+import type { DyeColor } from '../sim/types';
 import { keeperOutfit } from '../render/keeper-look';
 import { EXTRA_LOOKS } from '../sim/extra-looks';
 import { TRAINERS } from '../sim/trainers';
@@ -306,10 +308,18 @@ export function specForKey(key: string): SpeciesSpec {
     if (hint) spec = leanBlend(spec, Number(hint) / CHILD_HINT.steps3d);
     const look = mod('look:');
     if (look) spec = lookPalette(spec, look);
+    // R0427: the adult's dyed wing and crown tips (wings and the `tip` role).
+    const dyedTips: Partial<NubbinColors> = {};
+    const wingTip = mod('wingtip:');
+    const crownTip = mod('crowntip:');
+    if (wingTip && wingTip in DYE_COLORS) dyedTips.wing = color(DYE_COLORS[wingTip as DyeColor]);
+    if (crownTip && crownTip in DYE_COLORS) dyedTips.tip = color(DYE_COLORS[crownTip as DyeColor]);
     const colour = mods.filter(
       (m) => m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny',
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
+    if (Object.keys(dyedTips).length)
+      spec = variant(spec, `${spec.name} (dyed)`, { colors: byRole(spec, dyedTips) });
     // Lane F r11 (EVO): the Chaos-tier stage over a second form, while the spec still knows
     // its palette roles (critter parts and birthmarks clone it without them).
     const radiant = mod('radiant:');

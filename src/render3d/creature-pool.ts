@@ -69,7 +69,10 @@ export function nubbinLook(n: Nubbin): Look {
   const tints =
     tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) +
     (parts ? `~parts:${parts}` : '') +
-    (mark ? `~mark:${mark}` : '');
+    (mark ? `~mark:${mark}` : '') +
+    // R0427: an adult's dyed wing and crown tips.
+    (n.stage === 'adult' && n.wingDye ? `~wingtip:${n.wingDye}` : '') +
+    (n.stage === 'adult' && n.crownDye ? `~crowntip:${n.crownDye}` : '');
   const over = look ? `~look:${look}` : '';
   if (n.species !== 'chao') {
     // Other lines keep their own colours; only the Shadow's grey reaches them.

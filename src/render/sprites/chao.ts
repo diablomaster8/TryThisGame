@@ -713,6 +713,9 @@ export interface ChaoLook {
   scarf?: DyeColor | null;
   glasses?: boolean;
   hatDye?: DyeColor | null;
+  /** R0427: an adult's dyed wing and crown tips. */
+  wingDye?: DyeColor | null;
+  crownDye?: DyeColor | null;
 }
 
 /** Palette colour for each dye, and its shade. */
@@ -723,6 +726,12 @@ export const DYE_COLORS: Record<DyeColor, number> = {
   gold: C.sunYellow,
   violet: C.violet,
   ember: C.ember,
+  teal: C.teal,
+  navy: C.nightBlue,
+  cream: C.cream,
+  black: C.ink,
+  white: C.white,
+  coral: C.blush,
 };
 
 /**
@@ -1706,11 +1715,17 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // A second evolution's tell takes its own colour: fins, wings, legs, hands or crown tip.
   const tellType = look.colors.tell === undefined ? null : (look.shape.tellType ?? null);
   const tell = look.colors.tell ?? col.tip;
-  const wingLook = tellType === 'fly' ? { ...look, colors: { ...col, wing: tell } } : look;
+  const wingBase = tellType === 'fly' ? { ...look, colors: { ...col, wing: tell } } : look;
+  const wingLook = look.wingDye
+    ? { ...wingBase, colors: { ...wingBase.colors, wing: DYE_COLORS[look.wingDye] } }
+    : wingBase;
   const armLook = tellType === 'power' ? { ...look, colors: { ...col, body: tell } } : look;
   const lift = look.shape.crownLift ?? 0;
   const crownL = lift ? { ...L, headCy: L.headCy - lift } : L;
-  const crownCol = tellType === 'normal' ? { ...col, tip: tell } : col;
+  const crownTell = tellType === 'normal' ? { ...col, tip: tell } : col;
+  const crownCol = look.crownDye
+    ? { ...crownTell, tip: DYE_COLORS[look.crownDye], tipShade: shadeOf(DYE_COLORS[look.crownDye]) }
+    : crownTell;
 
   // Back layer: wings/back part and tail behind the body for front-ish views.
   drawWings(pc, angle, pose, L, wingLook, false);

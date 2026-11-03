@@ -189,7 +189,7 @@ export class SheetCache {
       return id ? `${id}@${steps[s] ?? 1}` : '-';
     }).join(',');
     const hat = n.hat ?? '-';
-    const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
+    const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}:${n.stage === 'adult' ? `${n.wingDye ?? '-'}.${n.crownDye ?? '-'}` : '-'}`;
     const shiny = n.shiny || n.heirloom;
     const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}:b${beltOf(n)}`;
     if (n.stage === 'adult' && n.form) {
@@ -249,6 +249,8 @@ export class SheetCache {
           scarf: n.scarf ?? null,
           glasses: !!n.glasses,
           hatDye: n.hatDye ?? null,
+          wingDye: n.stage === 'adult' ? (n.wingDye ?? null) : null,
+          crownDye: n.stage === 'adult' ? (n.crownDye ?? null) : null,
           stars: Math.min(4, n.rebirths),
           wary: n.shadow && !n.bond,
           mark: birthmarkOf(n),

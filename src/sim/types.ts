@@ -251,6 +251,9 @@ export interface Nubbin {
   scarf: DyeColor | null;
   glasses: boolean;
   hatDye: DyeColor | null;
+  /** R0427: the wing and crown tips, dyed once adult (children keep the yellow tip). */
+  wingDye?: DyeColor | null;
+  crownDye?: DyeColor | null;
   /** Care slips (sim/slips.ts): the last few, the lifetime count, and the running timers. */
   slips: Array<{ kind: SlipKind; atMs: number }>;
   slipCount: number;
@@ -600,7 +603,35 @@ export type Flavor = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moo
 export const FLAVORS: readonly Flavor[] = ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon'];
 
 export type ToyKind = 'ball' | 'radio' | 'blocks' | 'mirror' | 'tv';
-export type DyeColor = 'rose' | 'sky' | 'mint' | 'gold' | 'violet' | 'ember';
+export type DyeColor =
+  | 'rose'
+  | 'sky'
+  | 'mint'
+  | 'gold'
+  | 'violet'
+  | 'ember'
+  | 'teal'
+  | 'navy'
+  | 'cream'
+  | 'black'
+  | 'white'
+  | 'coral';
+/** R0427: where a dye goes; the wing and crown tips are for adults. */
+export type DyeSlot = 'hat' | 'scarf' | 'wingTip' | 'crownTip';
+export const DYE_COLORS_ALL: readonly DyeColor[] = [
+  'rose',
+  'sky',
+  'mint',
+  'gold',
+  'violet',
+  'ember',
+  'teal',
+  'navy',
+  'cream',
+  'black',
+  'white',
+  'coral',
+];
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
 
@@ -692,6 +723,8 @@ export interface EduState {
   lossHolds?: Record<string, LossHold>;
   /** Lane E r10 (R0718): whole minutes played per local day, the last 14 (sim/edu-report.ts). */
   daily?: Record<string, number>;
+  /** R0708: per word id, the Nubbins taught it by a `langTeach` (distinct ids, for teach steps). */
+  taught?: Record<string, string[]>;
   /** Lane E r10 (R0745): per game, opens, finishes, mid-round quits and time (local only). */
   attention?: Partial<Record<EduGameId, EduAttention>>;
   /** Which games are switched on; starts as the recommended set for the age. */
@@ -728,7 +761,10 @@ export interface EduState {
   /** Lane E r10, R0679: the sprout HUD's spoken one-time tutorial has been said. */
   tutorialSaid?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
-  words: Record<string, { heard: number; used: number }>;
+  words: Record<string, { heard: number; used: number; box?: number; due?: number }>;
+  /** R0701: the child's play-day count (a day counts only when they review), and its date key. */
+  srsDay?: number;
+  srsKey?: string;
   /** The language courses the child has started from Nova's postcard. */
   courses: Record<LangCourseId, boolean>;
 }
@@ -1613,7 +1649,7 @@ export type Command =
   | { kind: 'visit'; trainer: string | null }
   | { kind: 'neighbourGift' }
   | { kind: 'feedWild'; id: string }
-  | { kind: 'dye'; nubbinId: string; slot: 'hat' | 'scarf'; color: DyeColor | null }
+  | { kind: 'dye'; nubbinId: string; slot: DyeSlot; color: DyeColor | null }
   | { kind: 'wearGlasses'; nubbinId: string; on: boolean }
   /** Lane E r7, R0437: wear or take off the Dojo belt. */
   | { kind: 'wearBelt'; nubbinId: string; on: boolean }
@@ -1660,7 +1696,10 @@ export type Command =
   | { kind: 'langSkipWait' }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
+  | { kind: 'langReview'; word: string; right: boolean }
   | { kind: 'langTraced'; quest: string }
+  /** R0708: the child says a word to one Nubbin, which copies the gesture (a teach step). */
+  | { kind: 'langTeach'; nubbinId: string; word: string }
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
   /** Lane E r10, R0735: a reader's age, 7 to 10. */
   | { kind: 'eduSetReaderAge'; age: 7 | 8 | 9 | 10 }
@@ -2036,7 +2075,7 @@ export type SimEvent =
   | { kind: 'swimHint' }
   | { kind: 'festival'; season: Season; giftHat?: string }
   | { kind: 'sledding'; nubbinId: string }
-  | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }
+  | { kind: 'dyed'; nubbinId: string; slot: DyeSlot }
   | { kind: 'coop'; active: boolean }
   /** R0364: a two-Keeper gag: a double-happy spin, a fruit avalanche, an "after you" bow. */
   | { kind: 'coopGag'; gag: 'spin' | 'avalanche' | 'bow'; nubbinId?: string; treeId?: string; who: 1 | 2 }
