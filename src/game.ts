@@ -1008,6 +1008,8 @@ export class Game {
           this.camera.target.z = this.world.keeper.pos.z;
           // WORLD-56: the pixel camera's far plane reaches across the region's diagonal.
           regionFar(this.camera.camera, e.region);
+          // R0094/R0118: the new place's sky and season show at once, not at the next 3 s check.
+          this.lastDaylightMs = -Infinity;
         } else if (e.kind === 'travelled') {
           // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
           this.camera.target.x = e.to.x;

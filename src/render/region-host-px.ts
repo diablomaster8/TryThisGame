@@ -34,6 +34,8 @@ export interface RegionPx {
   readonly ground: THREE.Mesh;
   /** A chunk's sprites (trees, props, landmarks standing in it), region-local. */
   chunkDraws(c: LayoutChunk): SpriteDraw[];
+  /** Optional: refit a cached sprite to the look now worn (a season's sheet), once a frame. */
+  restyle?(d: SpriteDraw): void;
   dispose(): void;
 }
 
@@ -195,6 +197,7 @@ export class RegionHostPx {
         const hh = l.layout.spec.size.h / 2;
         for (const d of this.draws(l, key, c)) {
           d.tint = tint;
+          l.px.restyle?.(d);
           if (off) {
             // Across a seamless border only the neighbour's own ground is drawn, never its
             // forest margin, which would stand inside this region.

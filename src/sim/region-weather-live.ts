@@ -23,12 +23,19 @@ export interface RegionSky {
   season: Season;
 }
 
+/** Debug and checks: a spell kind held in place of the rolled one (null rolls as usual). */
+export const skyForce: { kind: RegionWeatherKind | null; season: Season | null } = {
+  kind: null,
+  season: null,
+};
+if (import.meta.env?.DEV) (globalThis as { __skyForce?: object }).__skyForce = skyForce;
+
 const memo = new Map<string, { n: number; startMs: number; end: number }>();
 
 /** The sky of the region the Keeper is in; null in the Grove and in any region without a table. */
 export function regionSky(world: World, hour: number): RegionSky | null {
   const region = regionOf(world.location) as RegionId;
-  return regionSkyAt(world.seed, region, world.timeMs, hour, world.season);
+  return regionSkyAt(world.seed, region, world.timeMs, hour, world.debugSeason ?? world.season);
 }
 
 export function regionSkyAt(
@@ -52,7 +59,7 @@ export function regionSkyAt(
     spell = regionSpell(seed, region, m.n, hourAt(m.startMs))!;
   }
   memo.set(key, { ...m, end: m.startMs + spell.ms });
-  const kind = spell.kind;
+  const kind = skyForce.kind ?? spell.kind;
   const roll = (hashSeed(`${seed}:${region}:i:${m.n}`) % 1000) / 1000;
   let draw: WeatherKind = 'clear';
   let intensity = 0;
@@ -65,5 +72,5 @@ export function regionSkyAt(
   }
   if (draw === 'rain' && def.sheltered) intensity *= REGION_WEATHER_LIVE.canopyShare;
   const fog = kind === 'fog' ? REGION_WEATHER_LIVE.fog * (0.7 + roll * 0.3) : 0;
-  return { kind, draw, intensity, fog, season: regionSeason(region, groveSeason) };
+  return { kind, draw, intensity, fog, season: skyForce.season ?? regionSeason(region, groveSeason) };
 }

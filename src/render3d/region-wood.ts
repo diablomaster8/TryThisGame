@@ -6,7 +6,9 @@ import type { ChunkLRU } from '../render/chunks';
 import { dappleMarks } from '../render/paint/wood';
 import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from '../render/region-ground';
 import type { Region3d } from './region-host';
-import type { Vec2 } from '../sim/types';
+import type { Season, Vec2 } from '../sim/types';
+import { regionLook } from '../render/region-look';
+import { SEASON_LOOK } from '../config/region-season-look';
 
 /**
  * WORLD-25 (R11 lane D): the Wood in Full 3D, a lazy chunk the region host loads on the
@@ -57,8 +59,8 @@ function merged(parts: THREE.BufferGeometry[]): THREE.BufferGeometry {
   return g;
 }
 
-function broadleaf(kind: number): THREE.BufferGeometry {
-  const leaf = LEAVES[kind]!;
+function broadleaf(kind: number, leaves = LEAVES): THREE.BufferGeometry {
+  const leaf = leaves[kind]!;
   return merged([
     tinted(at(new THREE.CylinderGeometry(0.2, 0.3, 2.4, 6), 0, 1.2, 0), BARK),
     tinted(at(new THREE.IcosahedronGeometry(1.7, 1), 0, 3.2, 0), leaf, 0.25),
@@ -69,8 +71,8 @@ function broadleaf(kind: number): THREE.BufferGeometry {
   ]);
 }
 
-function pine(): THREE.BufferGeometry {
-  const leaf = LEAVES[2]!;
+function pine(leaves = LEAVES): THREE.BufferGeometry {
+  const leaf = leaves[2]!;
   return merged([
     tinted(at(new THREE.CylinderGeometry(0.15, 0.25, 1.6, 6), 0, 0.8, 0), BARK),
     tinted(at(new THREE.ConeGeometry(1.5, 2.2, 7), 0, 2.0, 0), leaf),
@@ -206,6 +208,8 @@ class Wood3d implements Region3d {
   private readonly groundTex: THREE.CanvasTexture;
   private readonly owned: THREE.BufferGeometry[] = [];
   private readonly mats: THREE.Material[] = [];
+  private readonly groundMat: THREE.MeshStandardMaterial;
+  private season: Season = 'summer';
 
   constructor(private readonly l: RegionLayout) {
     this.group.name = 'region-wood';
@@ -219,6 +223,7 @@ class Wood3d implements Region3d {
     ground.name = 'wood-ground';
     ground.userData.pick = { kind: 'ground', id: 'ground' };
     this.group.add(ground);
+    this.groundMat = gm;
     this.owned.push(gg);
     this.mats.push(gm);
     // The dapple: soft dark pools drifting slowly over the ground, the canopy's shade.
@@ -336,7 +341,29 @@ class Wood3d implements Region3d {
   private readonly orig: Float32Array[] = [];
   private readonly hidden: Uint8Array[] = [];
 
+  /**
+   * R0118: wear a season. The crown colours are vertex colours, so the three tree batches swap
+   * to a geometry painted in the season's greens (same layout, same programs; the old ones are
+   * disposed), and the ground takes its colour and a pale wash. Runs only when the season changes.
+   */
+  private wear(season: Season): void {
+    this.season = season;
+    const look = SEASON_LOOK[season];
+    const leaves = look.crowns.map((c) => new THREE.Color(c));
+    const geos = [broadleaf(0, leaves), broadleaf(1, leaves), pine(leaves)];
+    geos.forEach((g, i) => {
+      const m = this.batches[i]!;
+      this.owned[this.owned.indexOf(m.geometry)] = g;
+      m.geometry.dispose();
+      m.geometry = g;
+    });
+    this.groundMat.color.set(look.ground);
+    this.groundMat.emissive.set(look.wash.color).multiplyScalar(look.wash.amount);
+  }
+
   tick(t: number, still: boolean, cam: THREE.Vector3, keeper: Vec2): void {
+    const season = regionLook.season ?? 'summer';
+    if (season !== this.season) this.wear(season);
     this.clearView(cam, keeper);
     if (still) return;
     this.dappleTex.offset.set((t * 0.004) % 1, (t * 0.0025) % 1);

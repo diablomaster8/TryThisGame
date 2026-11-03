@@ -2,7 +2,9 @@ import * as THREE from 'three';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
 import { WOOD_POIS } from '../config/region-wood';
 import { WORLD_STREAM } from '../config/tuning-world';
-import { woodSheet } from './paint/wood';
+import { regionLook } from './region-look';
+import { setWoodSeason, woodSheet } from './paint/wood';
+import { SEASON_LOOK } from '../config/region-season-look';
 import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from './region-ground';
 import type { RegionPx } from './region-host-px';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
@@ -55,6 +57,23 @@ class WoodPx implements RegionPx {
     this.ground.receiveShadow = true;
     // Under the sprites and the Keeper's shadow, like the Grove's ground.
     this.ground.renderOrder = -1;
+    // R0118: the season the Keeper's place wears, applied once a frame the ground is drawn.
+    const mat = this.ground.material as THREE.MeshLambertMaterial;
+    let worn = '';
+    this.ground.onBeforeRender = () => {
+      const s = regionLook.season ?? 'summer';
+      if (s === worn) return;
+      worn = s;
+      setWoodSeason(s);
+      const look = SEASON_LOOK[s];
+      mat.color.set(look.ground);
+      mat.emissive.set(look.wash.color).multiplyScalar(look.wash.amount);
+    };
+  }
+
+  /** The host calls this on each drawn sprite: the crowns follow the season's sheet. */
+  restyle(d: SpriteDraw): void {
+    d.sheet = woodSheet();
   }
 
   chunkDraws(c: LayoutChunk): SpriteDraw[] {

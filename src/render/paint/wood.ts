@@ -1,6 +1,8 @@
 import { hash, hex, Raster, rimObjects, shade, type RGB } from './raster';
 import { RasterAtlas } from './atlas';
 import type { SpriteSheet } from '../sprites/atlas';
+import { SEASON_LOOK } from '../../config/region-season-look';
+import type { Season } from '../../sim/types';
 
 /**
  * WORLD-25 (R11 lane D): the Wood's pieces in the painted pixel style, `WOOD_TEXELS` a world
@@ -13,8 +15,9 @@ export const WOOD_TEXELS = 16;
 
 const BARK = hex('#6b4a2e');
 const DBARK = hex('#3e2a1a');
-const LEAF = [hex('#2f6b3a'), hex('#3d7d3c'), hex('#5a8a3a')];
-const PINE = hex('#24563c');
+// The crowns' colours follow the season (`setWoodSeason`); LEAF[2] stays the hollow tree's own.
+let LEAF = [hex('#2f6b3a'), hex('#3d7d3c'), hex('#5a8a3a')];
+let PINE = hex('#24563c');
 const STONE = hex('#9c968a');
 const PLANK = hex('#a8743e');
 const ROOF = hex('#7a3b2a');
@@ -214,19 +217,40 @@ export function dappleMarks(
   return out;
 }
 
-let sheet: SpriteSheet | null = null;
+/** One sheet per season, built the first time it is drawn (the mega atlas copies a sheet in once). */
+const sheets = new Map<Season, SpriteSheet>();
+let wearing: Season = 'summer';
 
-export function woodSheet(): SpriteSheet {
-  if (sheet) return sheet;
+/** The pieces a season repaints: every crown (the oak, the hollow tree and the arch too). */
+function paintCrowns(add: (key: string, r: Raster) => void): void {
+  for (const k of [0, 1, 2]) add(`tree-${k}`, paintTree(k));
+  add('oak', paintOak());
+  add('hollow', paintHollowTree());
+  add('arch', paintArch());
+}
+
+function sheetFor(season: Season): SpriteSheet {
+  const have = sheets.get(season);
+  if (have) return have;
+  const look = SEASON_LOOK[season].crowns;
+  LEAF = [hex(look[0]), hex(look[1]), hex(season === 'summer' ? '#5a8a3a' : look[1])];
+  PINE = hex(look[2]);
   const atlas = new RasterAtlas(1024);
-  for (const k of [0, 1, 2]) atlas.add(`tree-${k}`, paintTree(k));
-  atlas.add('oak', paintOak());
-  atlas.add('hollow', paintHollowTree());
+  paintCrowns((k, r) => atlas.add(k, r));
   atlas.add('mill', paintMill());
   atlas.add('vines', paintVineWall());
   atlas.add('lookout', paintLookout());
-  atlas.add('arch', paintArch());
   for (const k of [0, 1, 2, 3, 4]) atlas.add(`prop-${k}`, paintProp(k));
-  sheet = atlas.build();
-  return sheet;
+  const built = atlas.build();
+  sheets.set(season, built);
+  return built;
+}
+
+/** R0118: wear a season; draws pick the new sheet up through `woodSheet` (same frame rects). */
+export function setWoodSeason(season: Season): void {
+  wearing = season;
+}
+
+export function woodSheet(): SpriteSheet {
+  return sheetFor(wearing);
 }
