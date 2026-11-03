@@ -21,6 +21,8 @@ import { topicIcon, wordIcon } from './lang-icons'; /* R0706 */
 import { langSkipRow, langWaitCard, langWaitLine, sayLangWait } from './lang-wait';
 import { friendCard, greetAll, stampsFor } from './postcard-faces'; /* Lane E r10, R0705 */
 import { speakLine } from './lesson';
+import { TraceBook } from './trace-book'; /* R0707 */
+import { TRACE_BOOK_TEXT } from '../config/strings-trace-book';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 
@@ -81,6 +83,7 @@ function wordTile(g: Game, w: VocabItem, reader: boolean): HTMLElement {
 export class LangPanel {
   private readonly dialog;
   private readonly review: LangReview;
+  private readonly book: TraceBook;
 
   constructor(
     parent: HTMLElement,
@@ -89,6 +92,7 @@ export class LangPanel {
   ) {
     this.dialog = modal(parent, LANG_TEXT.postcard, LANG_TEXT.back);
     this.review = new LangReview(parent, game, () => this.open());
+    this.book = new TraceBook(parent, game);
   }
 
   /** The picker's postcard button. */
@@ -119,6 +123,10 @@ export class LangPanel {
     const friends = el('div', 'postcard-friends');
     for (const course of langCourses()) friends.appendChild(this.courseCard(g, course));
     body.appendChild(friends);
+    // R0707: the free tracing book, every glyph met so far.
+    body.appendChild(
+      button(TRACE_BOOK_TEXT.open, () => this.book.render(this.dialog.body, () => this.open()), 'btn'),
+    );
     this.dialog.show();
     // R0705: the postcard is read aloud, then each friend says hello from their clip.
     const greet = () => greetAll(langCourses(), KIDS_R10_TUNING.greetGapMs);
