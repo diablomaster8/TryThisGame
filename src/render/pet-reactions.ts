@@ -423,7 +423,8 @@ export class PetBeats {
       return null;
     }
     const b = n.behavior;
-    const key = `:`;
+    // A new act (or a new look) restarts the look's clock; r8 shipped a constant key here.
+    const key = `${kind}:${b.sinceMs}`;
     let l = this.looks.get(n.id);
     if (!l || l.key !== key) {
       l = { key, at: nowMs, bucket: -1 };

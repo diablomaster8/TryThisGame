@@ -61,6 +61,19 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   if (b.state === 'perform' && id === 'flinch' && !b.target) return 'huddle';
   if (b.state === 'perform' && id === 'twirl') return 'chaseTail';
   if (b.state === 'sit' && id === 'doze') return 'stargaze';
+  // R0529 (lane A r11): the second four's quirks borrow the bodies above: a poke or a peer
+  // leans in, a pat or a tended tree reaches up, a fruit offered is held high, a splash
+  // stomps, a flex stretches tall, cloud gazing and daydreams lie back, a butterfly chase
+  // sparkles.
+  if ((b.state === 'perform' && id === 'poke') || (b.state === 'sit' && id === 'peer'))
+    return 'inspect';
+  if (b.state === 'perform' && (id?.startsWith('comfort:') || id === 'tend') && !b.target)
+    return 'tug';
+  if (b.state === 'perform' && id === 'offerFruit') return 'smugRun';
+  if (b.state === 'perform' && id === 'splash' && !b.target) return 'stomp';
+  if (b.state === 'perform' && id === 'flex') return 'stretch';
+  if (b.state === 'sit' && (id === 'cloudGaze' || id === 'daydream')) return 'stargaze';
+  if (b.state === 'wander' && id === 'butterfly') return 'fireflies';
   // R0558 (lane A r10): a lazy one lies back to eat.
   if (b.state === 'eat' && id === 'lieEat') return 'stargaze';
   // R0560: asking to be picked up too, arms up beside the Keeper (R0541: asking for more).

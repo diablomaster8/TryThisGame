@@ -29,7 +29,7 @@ export type QuirkId =
   | 'roam'
   | 'peer'
   | 'poke'
-  | 'pat'
+  | 'comfort'
   | 'offerFruit'
   | 'tend'
   | 'lead'
@@ -47,7 +47,7 @@ export const QUIRK_IDS: readonly QuirkId[] = [
   'roam',
   'peer',
   'poke',
-  'pat',
+  'comfort',
   'offerFruit',
   'tend',
   'lead',
@@ -65,7 +65,7 @@ export const SIGNATURE_QUIRKS: Record<Personality, readonly QuirkId[]> = {
   shy: ['hideFace', 'watch'],
   lazy: ['doze'],
   curious: ['roam', 'peer', 'poke'],
-  gentle: ['pat', 'offerFruit', 'tend'],
+  gentle: ['comfort', 'offerFruit', 'tend'],
   bold: ['lead', 'splash', 'flex'],
   dreamy: ['cloudGaze', 'butterfly', 'daydream'],
 };
@@ -184,7 +184,7 @@ function quirkOf(n: Nubbin, id: QuirkId, world: World, now: number): IdleAct | n
       const at = best ? { x: best.x + 0.7, z: best.z } : away(2);
       return { state: 'perform', ms: Q.pokeMs, itemId: 'poke', target: at };
     }
-    case 'pat': {
+    case 'comfort': {
       // The saddest (or hungriest) one nearby gets a pat.
       let best: Nubbin | null = null;
       let worst = 0;
@@ -199,7 +199,7 @@ function quirkOf(n: Nubbin, id: QuirkId, world: World, now: number): IdleAct | n
       return {
         state: 'perform',
         ms: Q.patMs,
-        itemId: `pat:`,
+        itemId: `comfort:${best.id}`,
         target: { x: best.pos.x + 0.7, z: best.pos.z },
       };
     }
@@ -229,7 +229,7 @@ function quirkOf(n: Nubbin, id: QuirkId, world: World, now: number): IdleAct | n
           o.behavior.state = 'wander';
           o.behavior.sinceMs = now;
           o.behavior.untilMs = now + ms;
-          o.behavior.itemId = `follow:`;
+          o.behavior.itemId = `follow:${n.id}`;
           o.behavior.target = { x: to.x - Math.cos(angle) * 1.2, z: to.z - Math.sin(angle) * 1.2 };
         }
       return { state: 'wander', ms, itemId: 'lead', target: to };
