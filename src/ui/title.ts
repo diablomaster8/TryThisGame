@@ -246,7 +246,7 @@ export function showTitle(
     const slotIndex = readSlotIndex();
     /* Lane E r9, R0696: the Learning Grove moves to the top once a child has a Grove. */
     const kidsFirst = Array.from(
-      { length: SLOTS_PER_MODE },
+      { length: slotsFor('edu') },
       (_, i) => slotIndex.slots[slotId({ mode: 'edu', index: i + 1 })] !== undefined,
     ).some(Boolean);
     const order = kidsFirst ? ['edu' as SaveMode, ...MODES.filter((m) => m !== 'edu')] : MODES;

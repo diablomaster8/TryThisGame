@@ -9,7 +9,7 @@ import { KIDS_PICK_TEXT, KIDS_TAG_TEXT } from '../config/strings';
 import {
   hasSave,
   readSlotSummary,
-  SLOTS_PER_MODE,
+  slotsFor,
   type SaveSlot,
   type SaveSummary,
 } from '../platform/storage';
@@ -115,7 +115,7 @@ export function showKidsPicker(
   card.appendChild(el('h1', 'kids-pick-title', KIDS_PICK_TEXT.title));
   const row = el('div', 'kids-pick-row');
   let any = false;
-  for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+  for (let index = 1; index <= slotsFor('edu'); index++) {
     const slot: SaveSlot = { mode: 'edu', index };
     if (!hasSave(slot)) continue;
     const s = readSlotSummary(slot);

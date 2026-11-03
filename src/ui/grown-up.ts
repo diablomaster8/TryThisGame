@@ -23,6 +23,7 @@ import { limitSettings } from './edu-limits';
 import { attentionReport, gameStandards, printButton, weekChart } from './edu-report';
 import { storyProgress, storySettings } from './edu-story';
 import { tipsDeckPanel } from './edu-tips-deck';
+import { childrenList } from './children-list';
 import { tagRows } from './kids-tag-rows';
 import { langProgress } from './lang';
 import { lossSettings } from './loss-notice';
@@ -141,6 +142,7 @@ function drawChild(body: HTMLElement, g: Game, game: () => Game | null, rerender
   // Lane E r10, R0696: the slot's animal and colour can be changed here too.
   body.appendChild(tagRows(g, e.icon ?? null, e.tagColour ?? null));
   storySettings(body, g);
+  childrenList(body, g, rerender); /* R0728 */
   // Lane E r10 (R0709, R0710): reading and touch.
   body.appendChild(el('h3', undefined, ACCESS_TEXT.heading));
   mountAccessSettings(body, game)(g);
