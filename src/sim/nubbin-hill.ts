@@ -1,6 +1,6 @@
 /**
- * R0086 (WORLD-20): Nubbins use the hills' height field. An idle Nubbin near a hill now and
- * then walks up its ramp along `hillRoute` (one at a time: the ramp is one Nubbin wide), sits on the top a while and walks back down
+ * R0086 (WORLD-20): Nubbins use the hills' height field. While the Keeper is up a hill, an
+ * idle Nubbin near it now and then walks up its ramp along `hillRoute` (one at a time: the ramp is one Nubbin wide), sits on the top a while and walks back down
  * (a Fly adult flutters up the first cliff instead of walking the first leg). The outing is
  * the `perform` state with an item id `hill:<hill>:<flutter 0|1>:<phase>:<waypoint>`, so a
  * save taken half way up restores it exactly. A Nubbin on a hill is not pushed off it (its
@@ -10,7 +10,7 @@
 import { BEHAVIOR } from '../config/tuning';
 import { HILL_OUTING } from '../config/tuning-r11d2';
 import { hashString } from './hash-string';
-import { canStep, hillRoute } from './height';
+import { canStep, hillAt, hillRoute } from './height';
 import { nubbinWalker, type Walker } from './obstacles';
 import { levelOf } from './stats';
 import { hillHeight, TERRACES } from './terrain';
@@ -70,8 +70,8 @@ export function hillStepOk(n: Nubbin, fx: number, fz: number): boolean {
 }
 
 /**
- * An outing to start now, or null: in the Grove, near a hill, by a hash of the Nubbin and
- * the second (no rng drawn). Gives the item id and where to walk first (the route's foot).
+ * An outing to start now, or null: in the Grove, the Keeper up a hill and the Nubbin near
+ * it, by a hash of the Nubbin and the second (no rng drawn). Gives the item id and where to walk first (the route's foot).
  */
 export function hillOutingPlan(
   n: Nubbin,
@@ -79,21 +79,17 @@ export function hillOutingPlan(
   now: number,
 ): { itemId: string; target: Vec2; ms: number } | null {
   if (world.location !== 'grove' || (n.stage !== 'child' && n.stage !== 'adult')) return null;
-  if (onHill(n)) return null;
+  // Only while the Keeper is up a hill: they come up to join it.
+  const k = world.keeper.pos;
+  if (hillHeight(k.x, k.z, false) <= 0.02 || onHill(n)) return null;
+  const hill = hillAt(k.x, k.z);
+  const best = hill ? TERRACES.indexOf(hill) : -1;
+  if (best < 0) return null;
+  const t = TERRACES[best]!;
+  if (Math.hypot(n.pos.x - t.x, n.pos.z - t.z) - t.r > HILL_OUTING.near) return null;
   const roll = hashString(`${n.id}:hill:${Math.floor(now / 1000)}`) % 1000;
   if (roll >= HILL_OUTING.chance * 1000) return null;
-  let best = -1;
-  let bd: number = HILL_OUTING.near;
-  TERRACES.forEach((t, i) => {
-    const d = Math.hypot(n.pos.x - t.x, n.pos.z - t.z) - t.r;
-    if (d < bd) {
-      bd = d;
-      best = i;
-    }
-  });
-  if (best < 0) return null;
   // The ramp is one Nubbin wide: one outing per hill at a time.
-  const t = TERRACES[best]!;
   for (const o of world.nubbins) {
     if (o === n) continue;
     if (parse(o.behavior.itemId)?.h === best) return null;

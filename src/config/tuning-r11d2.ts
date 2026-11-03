@@ -14,13 +14,13 @@ export const SURVEY_R11 = {
 } as const;
 
 /**
- * R0086 (WORLD-20): Nubbins on the terraced hills. Now and then an idle Nubbin within
- * `near` units of a hill walks up its ramp (`chance` per idle choice, drawn from a hash so
- * no rng is spent), sits on the top for `topMs`, and walks back down. A Fly adult with Fly
+ * R0086 (WORLD-20): Nubbins on the terraced hills. While the Keeper is up a hill, an idle
+ * Nubbin within `near` units of it walks up its ramp to join (`chance` per idle choice,
+ * drawn from a hash so no rng is spent), sits on the top for `topMs`, and walks back down. A Fly adult with Fly
  * level `flutterFly` or more flutters up the first cliff instead of walking the first leg.
  */
 export const HILL_OUTING = {
-  chance: 0.06,
+  chance: 0.3,
   near: 14,
   topMs: [8000, 16000] as const,
   /** Walking pace on the ramp, as a share of `BEHAVIOR.walkSpeed`. */
