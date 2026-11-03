@@ -217,6 +217,10 @@ function decorate(group: THREE.Group, l: RegionLayout): Kit3dDecor {
       sea.position.set(0, 0.04 + s * 0.02, line - s * 0.25);
       foam.scale.z = 1 + (still ? 0 : 0.4 * Math.max(0, s));
     },
+    edge(on) {
+      foam.visible = !on;
+      decks.visible = !on;
+    },
     dispose() {
       disposeDecks(decks);
       sea.removeFromParent();

@@ -71,6 +71,8 @@ export function tuftGeo(c: string): THREE.BufferGeometry {
 export interface Kit3dDecor {
   tick?(t: number, still: boolean): void;
   sync?(world: World): void;
+  /** Drawn only as a neighbour's edge: hide the finer dressing. */
+  edge?(on: boolean): void;
   dispose(): void;
 }
 
@@ -241,6 +243,20 @@ class Kit3d implements Region3d {
 
   sync(world: World): void {
     this.decor?.sync?.(world);
+  }
+
+  private edged: boolean | null = null;
+
+  /** As a seamless neighbour's edge: no tufts, props or shadows (fewer draws across the line). */
+  edge(on: boolean): void {
+    if (on === this.edged) return;
+    this.edged = on;
+    this.batches.forEach((m, b) => {
+      if (b >= 3) m.visible = !on;
+      else m.castShadow = !on;
+    });
+    for (const o of this.group.children) if (o.name === `${this.s.name}-pieces`) o.castShadow = !on;
+    this.decor?.edge?.(on);
   }
 
   /** As the Wood: a fill tree between the camera and the Keeper folds away until the view clears. */

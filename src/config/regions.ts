@@ -304,6 +304,8 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'seamless',
       },
       way('ridge-peaks', 'peaks', [0, -78], [0, 30], 'door', N),
+      // R0115 (WORLD-38): the ice caves' mouth, DUNG's floors below (the caves are not built).
+      way('ridge-ice', 'caves', [22, -61], [0, 0], 'stairs', N),
     ],
     { pois: RIDGE_POIS, built: true },
   ),
@@ -312,10 +314,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'alpine',
     [64, 64],
     ['summit', 'pass', 'snowfield'],
-    [
-      way('peaks-ridge', 'ridge', [0, 30], [0, -75], 'door', 0),
-      way('peaks-ice', 'caves', [20, -20], [0, 0], 'stairs', 0),
-    ],
+    [way('peaks-ridge', 'ridge', [0, 30], [0, -75], 'door', 0)],
     { clock: { offsetH: 2 } },
   ),
   caves: future(
@@ -323,7 +322,10 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'cave',
     [48, 48],
     ['mouth', 'lake', 'crystals'],
-    [way('caves-ice', 'peaks', [0, 0], [20, -17], 'stairs', 0)],
+    [
+      way('caves-ice', 'ridge', [0, 0], [22, -57.5], 'stairs', 0),
+      way('caves-door', 'ruins', [0, -20], [0, -27.5], 'stairs', 0),
+    ],
     { clock: 'fixed' },
   ),
   ruins: future(
@@ -331,7 +333,11 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'ruin',
     [72, 72],
     [],
-    [way('ruins-wood', 'wood', [-34, 0], [51, 0], 'gate', -N / 2)],
+    [
+      way('ruins-wood', 'wood', [-34, 0], [51, 0], 'gate', -N / 2),
+      // R0115 (WORLD-38): the sealed door, open once it thaws (`exitLocked`), to the caves.
+      way('ruins-door', 'caves', [0, -30.5], [0, -18], 'stairs', N),
+    ],
     // WORLD-37 (R11 d7): laid out in `region-ruins.ts`, drawn by the region engine.
     { audience: 'main', pois: RUINS_POIS, built: true },
   ),

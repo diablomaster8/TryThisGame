@@ -23,7 +23,7 @@ import {
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
 import { RIDGE_SPEC } from '../config/region-ridge';
-import { RUINS_SPEC } from '../config/region-ruins';
+import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
@@ -393,6 +393,8 @@ export function exitLocked(world: World, e: RegionExit): 'locked' | null {
   if (e.to === 'sunlands' && !world.unlocks.sunGrove) return 'locked';
   if (e.to === 'moonlands' && !world.unlocks.moonGrove) return 'locked';
   if (e.to === 'ruins' && world.edu) return 'locked';
+  // R0115: the ruins' door stays sealed under ice until chapter 9 is behind the Keeper.
+  if (e.id === 'ruins-door' && ruinsState(world.campaign) === 'sealed') return 'locked';
   return null;
 }
 

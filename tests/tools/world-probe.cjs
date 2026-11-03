@@ -48,6 +48,17 @@ const ALL_SPOTS = [
   ['cornerSW', -44, 44],
   ['cornerSE', 44, 44],
   ['village', -21, 39],
+  // R11 lane D: the drawn regions beyond the Grove, region-local (the 4th field is the region;
+  // the probe walks there through the ways out, `enterRegion`). Same budgets as the Grove.
+  ['woodOak', -20, -28, 'wood'],
+  ['shoreBeach', -20, 4, 'shore'],
+  ['shoreVillage', 46, 15.6, 'shore'],
+  ['sunFountain', 0, 6, 'sunlands'],
+  ['moonLake', 0, 20, 'moonlands'],
+  ['ruinsAvenue', -6, 4, 'ruins'],
+  ['ruinsTemple', 0, -22, 'ruins'],
+  ['ridgeFoot', -10, 68, 'ridge'],
+  ['ridgeSummit', 0, -62, 'ridge'],
 ];
 // PROBE_SPOTS=heart,cornerSE probes only those; PROBE_BREAKDOWN=1 adds each spot's draw calls
 // and triangles by category (creature, its hulls, shadow pass, scenery groups).
@@ -105,6 +116,37 @@ async function clearDialogue(page) {
         .catch(() => {});
     await page.waitForTimeout(150);
   }
+}
+
+/**
+ * R11 lane D: put the Keeper in `region` ('grove' or a drawn region), one way at a time (a
+ * command is applied on the next step): home first, then out (the ruins through the Wood).
+ * The Sun and Moon gates are opened for the probe.
+ */
+async function enterRegion(page, region) {
+  const here = () =>
+    page.evaluate(() => {
+      const l = window.grove.world.location;
+      return l.startsWith('region:') ? l.slice(7) : l;
+    });
+  const go = async (to) => {
+    await page.evaluate((to) => {
+      const g = window.grove;
+      const R = globalThis.__regionEngine.REGIONS;
+      const l = g.world.location;
+      const id = l.startsWith('region:') ? l.slice(7) : 'grove';
+      g.world.unlocks.sunGrove = true;
+      g.world.unlocks.moonGrove = true;
+      const e = R[id].exits.find((x) => x.to === to);
+      if (e) g.send({ kind: 'travel', exit: e.id });
+    }, to);
+    await page.waitForTimeout(600);
+  };
+  const route = region === 'ruins' ? ['wood', 'ruins'] : region === 'grove' ? [] : [region];
+  if ((await here()) === region) return;
+  for (let i = 0; i < 3 && (await here()) !== 'grove'; i++)
+    await go((await here()) === 'ruins' ? 'wood' : 'grove');
+  for (const step of route) await go(step);
 }
 
 /**
@@ -209,7 +251,8 @@ async function probe(TAG) {
       process.env.PROBE_SEASON,
     );
   const rows = [];
-  for (const [name, x, z] of SPOTS) {
+  for (const [name, x, z, region] of SPOTS) {
+    await enterRegion(page, region ?? 'grove');
     const f0 = await settleAt(page, x, z);
     if (ALL_CATS) await page.evaluate(() => (window.__probeAll = true));
     const cats =

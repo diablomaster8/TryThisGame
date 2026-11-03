@@ -42,6 +42,11 @@ export interface Region3d {
   tick(t: number, still: boolean, cam: THREE.Vector3, keeper: Vec2): void;
   /** R11 d7: read the world for what changes with it (a door that thaws, lanterns lit). */
   sync?(world: World): void;
+  /**
+   * R11 d7: drawn only as a seamless neighbour's edge (true) or as the region the Keeper is in:
+   * an edge leaves out its small props, its shadows and its finer dressing (fewer draws).
+   */
+  edge?(on: boolean): void;
   dispose(): void;
 }
 
@@ -208,6 +213,7 @@ export class RegionHost3d {
       if (id === here) {
         l.r.group.visible = true;
         l.r.group.position.set(0, 0, 0);
+        l.r.edge?.(false);
         // The active set with hysteresis (WORLD-09): refilled only when a chunk joins or leaves.
         const moved = l.chunks.update(keeper.x, keeper.z);
         if (moved.added.length || moved.removed.length || l.key === '')
@@ -215,6 +221,7 @@ export class RegionHost3d {
       } else if (w.off) {
         l.r.group.visible = true;
         l.r.group.position.set(w.off.x, -0.03, w.off.z);
+        l.r.edge?.(true);
         this.fill(l, w.at, REGION_BORDER.neighbourRows - 1, true);
       } else {
         l.r.group.visible = false;
