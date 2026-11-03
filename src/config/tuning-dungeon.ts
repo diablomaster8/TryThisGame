@@ -194,7 +194,7 @@ export const HOLLOW = {
    * Solid set pieces (R0032): the landmark blocks this share of its clear radius (cells); nav
    * closes cells within the block plus `navClearance` (world units).
    */
-  props: { landmarkShare: 0.7, navClearance: 0.35 },
+  props: { landmarkShare: 0.7, navClearance: 0.35, postRadius: 0.12, cartRadius: 0.3 },
   /**
    * Rumble rooms (R0257, R0282): from `fromDepth`, about `share` of dungeon levels mark one
    * room (at least `minSide` cells each way, never the stairs', the chest's or a boss's) whose
