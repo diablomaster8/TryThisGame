@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { WORLD_TEXT } from '../config/strings-world';
 import { hollowKidVoice } from './hollow-kid-voice';
 import { R10B4_TEXT } from '../config/strings-r10b4';
 import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
@@ -450,6 +451,8 @@ export function mountHud(
       const t = loc.slice('visit:'.length);
       return `${TL[t]?.name ?? t}’s Grove`;
     }
+    // R11 lane D: a drawn region says its own name.
+    if (loc.startsWith('region:')) return (WORLD_TEXT.regions as Record<string, string>)[loc.slice(7)] ?? loc;
     return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
   }
 

@@ -888,7 +888,7 @@ export class Actors {
 
   /** The Nubbins drawn here: none on a visit, the party in the Hollow, else all. */
   private shownNubbins(world: World): World['nubbins'] {
-    if (this.location.startsWith('visit:')) return [];
+    if (this.location.startsWith('visit:') || this.location.startsWith('region:')) return [];
     const run = this.location === 'dungeon' ? world.dungeon : null;
     // Lane C r10 agent D (R0594): a line's Nubbin that stayed in its place is drawn only there.
     return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : nubbinsHere(world);
@@ -1549,7 +1549,8 @@ export class Actors {
     // places show only their notebooks, and the Hollow Below and visits show none.
     const liveItems = new Set<string>();
     const home = this.location === 'grove';
-    const story = !home && !away && this.location !== 'dungeon';
+    const story =
+      !home && !away && this.location !== 'dungeon' && !this.location.startsWith('region:');
     for (const i of world.items.filter((it) =>
       home ? it.kind !== 'notebook' : story && it.kind === 'notebook',
     )) {

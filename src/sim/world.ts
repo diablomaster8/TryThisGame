@@ -67,6 +67,7 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
+import { clampToRegion, crossExits } from './region-walk';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepTraces } from './regions-trace';
@@ -370,7 +371,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'moveKeeperTo':
       k.moveTarget = { x: cmd.pos.x, z: cmd.pos.z };
-      clampToWorld(k.moveTarget);
+      // R11 lane D: a drawn region has its own bounds.
+      if (!clampToRegion(world, k.moveTarget)) clampToWorld(k.moveTarget);
       k.intent = null;
       return;
     case 'keeperInput':
@@ -1168,6 +1170,9 @@ function stepKeeperSystem({ world, dtMs, events }: StepCtx): void {
   stepRide(world, dtMs, moved, events);
   stepSwimTow(world);
   stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
+  // R11 lane D (WORLD-39): a border walked into: seamless now, loaded through the iris.
+  const seam = crossExits(world, events);
+  if (seam) travel(world, seam.id, events);
 }
 
 const rngSys = (

@@ -1,0 +1,101 @@
+import * as THREE from 'three';
+import type { LayoutChunk, RegionLayout } from '../config/region-layout';
+import { WOOD_POIS } from '../config/region-wood';
+import { WORLD_STREAM } from '../config/tuning-world';
+import { woodSheet } from './paint/wood';
+import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from './region-ground';
+import type { RegionPx } from './region-host-px';
+import type { SpriteBatch, SpriteDraw } from './sprite-batch';
+
+/**
+ * WORLD-25 (R11 lane D): the Wood in the pixel view, a lazy chunk the region host loads on the
+ * approach (`render/region-host-px.ts`). The ground is painted once from the layout (the dapple
+ * painted in); every tree, prop and landmark is a billboard handed out per chunk, so only the
+ * chunks round the Keeper are ever walked and the batch culls the rest of the frame.
+ */
+
+/** The landmarks the Wood's own code stands on its points of interest: look, width (units). */
+const LANDMARKS: Record<string, { key: string; w: number; dx?: number; dz?: number }> = {
+  'old-oak': { key: 'oak', w: 9.4, dz: -1 },
+  'hollow-tree': { key: 'hollow', w: 4.4 },
+  'old-mill': { key: 'mill', w: 6.9, dx: -2, dz: -2 },
+  'vine-wall': { key: 'vines', w: 4.4 },
+  lookout: { key: 'lookout', w: 3.8 },
+  woodcutter: { key: 'prop-0', w: 2 },
+  'mushroom-ring': { key: 'prop-1', w: 2.4 },
+};
+
+function sprite(key: string, x: number, z: number, w: number, flip = false): SpriteDraw | null {
+  const sheet = woodSheet();
+  const rect = sheet.frames.get(key);
+  if (!rect) return null;
+  return {
+    sheet,
+    rect,
+    flip,
+    x,
+    y: 0,
+    z,
+    mode: 'billboard',
+    w,
+    h: (w * rect.h) / rect.w,
+  };
+}
+
+class WoodPx implements RegionPx {
+  readonly ground: THREE.Mesh;
+  private readonly tex: THREE.CanvasTexture;
+
+  constructor(private readonly l: RegionLayout) {
+    this.tex = groundTexture(paintRegionGround(l, WOOD_GROUND, true));
+    const geo = new THREE.PlaneGeometry(groundSize(l).w, groundSize(l).h);
+    geo.rotateX(-Math.PI / 2);
+    this.ground = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ map: this.tex }));
+    this.ground.name = 'region-wood-ground';
+    this.ground.receiveShadow = true;
+    // Under the sprites and the Keeper's shadow, like the Grove's ground.
+    this.ground.renderOrder = -1;
+  }
+
+  chunkDraws(c: LayoutChunk): SpriteDraw[] {
+    const out: SpriteDraw[] = [];
+    const push = (d: SpriteDraw | null) => d && out.push(d);
+    for (const i of c.trees) {
+      const t = this.l.trees[i]!;
+      const w = (t.kind === 2 ? 3.6 : 4.6) * t.s;
+      push(sprite(`tree-${t.kind}`, t.x, t.z, w, (i & 1) === 1));
+    }
+    for (const i of c.props) {
+      const p = this.l.props[i]!;
+      push(sprite(`prop-${p.kind}`, p.x, p.z, 1.6));
+    }
+    const size = WORLD_STREAM.chunk;
+    for (const p of WOOD_POIS) {
+      const m = LANDMARKS[p.id];
+      if (!m) continue;
+      const x = p.x + (m.dx ?? 0);
+      const z = p.z + (m.dz ?? 0);
+      if (Math.floor(x / size) !== c.cx || Math.floor(z / size) !== c.cz) continue;
+      push(sprite(m.key, x, z, m.w));
+    }
+    return out;
+  }
+
+  dispose(): void {
+    this.tex.dispose();
+    this.ground.geometry.dispose();
+    (this.ground.material as THREE.Material).dispose();
+  }
+}
+
+export function createRegionPx(l: RegionLayout): RegionPx {
+  return new WoodPx(l);
+}
+
+/** The tree tunnel's arch: at the Grove's north wood and at the Wood's south gate. */
+export function drawEntrance(batch: SpriteBatch, x: number, z: number, tint: number): void {
+  const d = sprite('arch', x, z, 7.4);
+  if (!d) return;
+  d.tint = tint;
+  batch.draw(d);
+}

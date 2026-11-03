@@ -145,7 +145,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
       },
       // WORLD-10: the ways out to the regions not built yet (taking one is refused until then).
       way('grove-marsh', 'shore', [12, 46], [-66, 0], 'seamless', N / 2),
-      way('grove-wood', 'wood', [-28, -46], [0, 52], 'gate', N),
+      way('grove-wood', 'wood', [-31, -46], [0, 49], 'gate', N),
       way('grove-ridge', 'ridge', [46, -24], [0, 44], 'seamless', N),
       way('grove-sun', 'sunlands', [-46, -6], [0, 36], 'gate', N),
       way('grove-moon', 'moonlands', [-46, 6], [0, 36], 'gate', N),
@@ -248,11 +248,11 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     [112, 112],
     ['clearing', 'deep-wood', 'old-oak', 'old-mill', 'woodcutter'],
     [
-      way('wood-trail', 'grove', [0, 54], [-28, -43], 'gate', 0),
+      way('wood-trail', 'grove', [0, 54], [-31, -43], 'gate', 0),
       way('wood-ruins', 'ruins', [54, 0], [-34, 0], 'gate', N / 2),
     ],
-    // WORLD-25: laid out (`region-wood.ts`), not drawn yet.
-    { pois: WOOD_POIS },
+    // WORLD-25: laid out (`region-wood.ts`) and drawn by the region engine (R11 lane D).
+    { pois: WOOD_POIS, built: true },
   ),
   ridge: future(
     'ridge',

@@ -442,6 +442,7 @@ function boot(
     if (document.hidden) {
       game.save();
       game.stop();
+      game.view.regions.trim(); // R11 lane D (WORLD-15): a hidden phone tab keeps little
     } else {
       fps.reset();
       void game.resume();

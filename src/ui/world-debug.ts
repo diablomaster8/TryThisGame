@@ -55,7 +55,9 @@ export function worldLine(g: Game): string {
     return (
       `region ${regionOf(g.world.location)} chunk (${c.cx},${c.cz})` +
       `  geo ${mem.geometries} tex ${mem.textures} heap ${heapMb ?? '?'}MB` +
-      `  culled ${g.view.batch.culled}`
+      `  culled ${g.view.batch.culled}` +
+      `
+${g.view.regions.debug()}`
     );
   }
   const phone = Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx;
@@ -76,7 +78,9 @@ export function worldLine(g: Game): string {
     ` heap ${heapMb === null ? '?' : of(heapMb, cap.heapMB)}MB` +
     // R0456 (lane D r10): linked programs and the creature pool's sizes.
     ` prog ${s.renderer.info.programs?.length ?? '?'} pool ${poolLine(s.poolCounts)}` +
-    `  gov ${s.governor.ratio}/cpu${s.governor.cpuLevel}/shed${s.governor.shedLevel}`
+    `  gov ${s.governor.ratio}/cpu${s.governor.cpuLevel}/shed${s.governor.shedLevel}` +
+    `
+${s.regions.debug()}`
   );
 }
 

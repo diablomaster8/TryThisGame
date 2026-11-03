@@ -13,6 +13,7 @@
  */
 import type { JumpRoute } from './region-jumps';
 import type { PoiDef } from './regions';
+import type { RegionSpec } from './region-layout';
 
 /** The main path, a closed loop of points walked in order (the last joins the first). */
 export const WOOD_PATH: readonly { x: number; z: number }[] = [
@@ -146,3 +147,33 @@ export function loopLength(path: readonly { x: number; z: number }[]): number {
   }
   return n;
 }
+
+/**
+ * R11 (lane D, d1): the Wood as the region engine reads it (`region-layout.ts`): the loop, the
+ * stream with the mill bridge, the points of interest (each gets its clearing, and a spur when
+ * it is off the path), the lane up from the tree tunnel, and the solid pieces the Wood's own
+ * drawing code stands on them: the mill, the Wishing Oak, the hollow tree and the vine wall.
+ */
+export const WOOD_SPEC: RegionSpec = {
+  id: 'wood',
+  size: { w: 112, h: 112 },
+  seed: 0x5eed_0d,
+  path: WOOD_PATH,
+  loop: true,
+  stream: WOOD_STREAM,
+  crossings: [{ x: 41, z: 6, r: 2.6 }],
+  pois: WOOD_POIS,
+  spurs: [
+    [
+      { x: 0, z: 56 },
+      { x: 0, z: 46 },
+    ],
+  ],
+  solids: [
+    { x: 36, z: 0, r: 2.4, w: 4.4, h: 4 },
+    { x: -20, z: -35, r: 1.6 },
+    { x: -16, z: 2, r: 1.2 },
+    { x: 14, z: -14, r: 2, w: 4, h: 0.8 },
+  ],
+  micro: WOOD_MICRO,
+};
