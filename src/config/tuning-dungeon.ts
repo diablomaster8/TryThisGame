@@ -21,6 +21,8 @@ export const HOLLOW = {
    * cell, the double jump `maxJump`. Stepping stones leave water gaps from `stonesFromDepth`.
    */
   gaps: {
+    /** Sprout band (R0025): falls into one gap before a leaf-bridge grows across it. */
+    bridgeAfter: 2,
     fromDepth: 2,
     nookFromDepth: 3,
     stonesFromDepth: 3,

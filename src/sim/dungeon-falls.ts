@@ -14,9 +14,42 @@ import type { DungeonRun, SimEvent, World } from './types';
 
 const lastSafe = new WeakMap<DungeonRun, Cell>();
 
+/**
+ * R0025 (round 11): in the Learning Grove's sprout band, a leaf-bridge grows across a chasm
+ * gap after `HOLLOW.gaps.bridgeAfter` falls into it. Per floor and transient: a reload
+ * stands on dry ground again and the little ones simply get two more tries.
+ */
+interface Assist {
+  fails: Map<number, number>;
+  bridges: Set<number>;
+}
+const assists = new WeakMap<Floor, Assist>();
+
+function assistOf(f: Floor): Assist {
+  let a = assists.get(f);
+  if (!a) {
+    a = { fails: new Map(), bridges: new Set() };
+    assists.set(f, a);
+  }
+  return a;
+}
+
+/** The index of the gap a chasm cell belongs to, or -1. */
+function gapIndexOf(f: Floor, c: Cell): number {
+  return (f.gaps ?? []).findIndex((g) => g.cells.some((x) => x.x === c.x && x.y === c.y));
+}
+
+/** The cells a leaf-bridge covers on this floor right now (empty outside the sprout band). */
+export function assistBridges(f: Floor): Cell[] {
+  const a = assists.get(f);
+  if (!a || !a.bridges.size) return [];
+  return [...a.bridges].flatMap((i) => f.gaps?.[i]?.cells ?? []);
+}
+
 /** Whether the Keeper can stand at this cell: not a chasm, not deep water unless it swims. */
 function hazardAt(world: World, f: Floor, c: Cell): 'chasm' | 'water' | null {
   const v = cellAt(f, c.x, c.y);
+  if (v === CHASM && assists.get(f)?.bridges.has(gapIndexOf(f, c))) return null;
   if (v === CHASM) return 'chasm';
   if (v === WATER && f.version >= 4 && !keeperPerks(world).wade) return 'water';
   return null;
@@ -47,6 +80,16 @@ export function stepFall(world: World, run: DungeonRun, f: Floor, events: SimEve
   if (!k.grounded || k.y > HOLLOW.gaps.standHeight) return;
   const saved = lastSafe.get(run);
   if (hazard === 'chasm' && flyCarry(world, run, f, c, saved, events)) return;
+  if (hazard === 'chasm' && world.edu?.band === 'sprout') {
+    // Two falls into the same gap and the third try finds a leaf-bridge across it.
+    const gi = gapIndexOf(f, c);
+    if (gi >= 0) {
+      const a = assistOf(f);
+      const n = (a.fails.get(gi) ?? 0) + 1;
+      a.fails.set(gi, n);
+      if (n >= HOLLOW.gaps.bridgeAfter) a.bridges.add(gi);
+    }
+  }
   const back = saved && cellAt(f, saved.x, saved.y) === FLOOR ? saved : nearestDry(f, c);
   const to = cellCentre(f, back);
   const from = { x: k.pos.x, z: k.pos.z };
