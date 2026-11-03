@@ -75,6 +75,7 @@ import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
+import { keeperFlight } from '../sim/flight-zones';
 import { poseRig } from './stage-pose3d';
 import {
   keeperDip,
@@ -1530,7 +1531,8 @@ export class Actors {
     this.squashKeeper(keeper, nowMs, keeperMantle(world), keeperRoll(world));
     // MOVE-27: leaf wings while the Fly perk's glide holds the fall.
     const ky3 = this.keeperGround(kp.x, kp.z) + this.keeperLift;
-    this.wings.update(keeperGliding(world), kp.x, ky3, kp.z, this.keeperTurn, t, this.calm);
+    const flying = keeperGliding(world) || keeperFlight(world) !== null; // R0109
+    this.wings.update(flying, kp.x, ky3, kp.z, this.keeperTurn, t, this.calm);
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);

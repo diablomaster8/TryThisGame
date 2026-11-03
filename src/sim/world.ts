@@ -162,6 +162,7 @@ import { noteCheckpoint } from './story-marks';
 import { enterStoryRegion, leaveStoryRegion } from './story-regions';
 import { tapCare } from './access';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
+import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
 export function hatchSpeed(world: World): number {
@@ -1165,7 +1166,11 @@ function stepKeeperSystem({ world, dtMs, events }: StepCtx): void {
   // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
   const fx = world.keeper.pos.x;
   const fz = world.keeper.pos.z;
-  updateKeeper(world, dtMs, events);
+  // R0109: an updraft or a glide moves the Keeper in place of its walking step.
+  if (!flightStep(world, dtMs)) {
+    updateKeeper(world, dtMs, events);
+    flightTrigger(world, fx, fz);
+  }
   const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
   stepRide(world, dtMs, moved, events);
   stepSwimTow(world);

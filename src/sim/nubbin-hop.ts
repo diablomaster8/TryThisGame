@@ -8,7 +8,8 @@
  */
 import { NUBBIN_JUMP } from '../config/tuning-move-nub';
 import { JUMP } from '../config/tuning-sim';
-import { nubbinWalker, obstacles, perchTopAt, resolve } from './obstacles';
+import { obstacles, perchTopAt, resolve } from './obstacles';
+import { nubbinBody } from './nubbin-hill';
 import { groveHeight } from './terrain';
 import { isFree } from './nubbin';
 import { levelOf } from './stats';
@@ -47,7 +48,7 @@ export function resolveNubbin(n: Nubbin, world: World | null): boolean {
     n.y > 0.05
       ? groveHeight(n.pos.x, n.pos.z) + Math.max(n.y, climbCap(n)) - JUMP.stepUp
       : undefined;
-  return resolve(n.pos, world, 0.3, nubbinWalker(n), feetY);
+  return resolve(n.pos, world, 0.3, nubbinBody(n), feetY);
 }
 
 interface Hop {

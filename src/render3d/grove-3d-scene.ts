@@ -1,3 +1,7 @@
+import { FLIGHT_SPOTS } from '../sim/flight-zones';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { regionCameraFor } from '../config/region-camera';
+import { regionOf } from '../sim/regions';
 import { openSky } from '../render/cave-bands';
 import { viewportSize } from '../platform/viewport';
 import * as THREE from 'three';
@@ -1612,6 +1616,30 @@ export class Grove3dScene {
     }
   }
 
+  /** R0109: when the flying zones near the Keeper last sent up their leaves. */
+  private flightPuffAt = 0;
+  private readonly flightPuff = new THREE.Vector3();
+
+  /** R0109: a few leaves rise over each flying zone near the Keeper, now and then. */
+  private puffFlightZones(world: World): void {
+    if (this.lastMs - this.flightPuffAt < 450) return;
+    this.flightPuffAt = this.lastMs;
+    const k = world.keeper.pos;
+    const near = FLIGHT_ZONES.showWithin;
+    for (const z of FLIGHT_SPOTS) {
+      if (Math.abs(z.at.x - k.x) > near || Math.abs(z.at.z - k.z) > near) continue;
+      this.flightPuff.set(z.at.x, standHeight(z.at.x, z.at.z) + 0.2, z.at.z);
+      const rise = z.kind === 'updraft' ? 1.4 : 0.6;
+      this.bursts.burst(
+        'leaf',
+        this.flightPuff,
+        2,
+        { spread: 0.3, speed: 0.2, rise, lifeMs: 1400 },
+        this.lastMs,
+      );
+    }
+  }
+
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
     // HOT-1: the selected Nubbin sits in the clear part of the screen (the sheet's shift).
     applyViewShift(this.camera, this.viewShift);
@@ -1626,6 +1654,7 @@ export class Grove3dScene {
     this.lastWorld = world;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
+    if (home) this.puffFlightZones(world);
     this.villageSquare.update(world, home);
     this.garden.update(world, standHeight, nowMs, home);
     const run = this.location === 'dungeon' ? world.dungeon : null;
@@ -1701,13 +1730,14 @@ export class Grove3dScene {
     this.lastDip = dip;
     const yaw = orbit.currentYaw + this.yawOffset;
     this.surveyNow = orbit.survey;
-    const cave = this.location === 'dungeon';
-    const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
+    // R0125: the region's preset (the caves keep the Hollow's own, `config/region-camera.ts`).
+    const rcam = regionCameraFor(regionOf(this.location));
+    const basePitch = rcam.pitchDeg3d ?? GROVE3D.pitchDeg;
     const baseDist =
       (orbit.survey
         ? WORLD_SURVEY.distance3d
         : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0])) *
-      (cave ? READ3D.hollow.distanceK : 1);
+      (rcam.distanceK3d ?? 1);
     const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
     // MOVE-52: a hill between the camera and the Keeper tilts the orbit up or pulls it in;
@@ -1799,10 +1829,12 @@ export class Grove3dScene {
     // round the focused Nubbin too.
     const buf = this.renderer.getDrawingBufferSize(this.holeSize);
     const onScreen = this.holeNdc.copy(mid).lerp(head, 0.5).project(this.camera);
+    // R0125: a wood (`canopyCut`) opens a wider hole, so no crown ever covers the Keeper.
+    const canopyK = regionCameraFor(regionOf(this.location)).canopyCut ? CANOPY_CUT.holeK3d : 1;
     CrownFade.setHole(
       (onScreen.x * 0.5 + 0.5) * buf.x,
       (onScreen.y * 0.5 + 0.5) * buf.y,
-      buf.y * GROVE3D.crownFade.holeRadius,
+      buf.y * GROVE3D.crownFade.holeRadius * canopyK,
     );
     if (subject) {
       const at = this.holeNdc.copy(sFeet).lerp(sHead, 0.5).project(this.camera);

@@ -79,6 +79,10 @@ import { buildTapFlagSheet } from './sprites/tap-flags';
 import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
 import { KEEPER_SLOPE } from '../config/tuning-move';
 import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
+import { FLIGHT_SPOTS, keeperFlight } from '../sim/flight-zones';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { regionCameraFor } from '../config/region-camera';
+import { regionOf } from '../sim/regions';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
@@ -157,6 +161,8 @@ export interface SpritePick {
 /** MOVE-19: the Keeper's head height, the faded quads' alpha and the x-ray trim colours. */
 const KEEPER_HEAD_Y = 1.7;
 const OCCLUDER_ALPHA = 0.55;
+/** R0125: the Keeper's feet on screen, for a wood's canopy cut (scratch, reused). */
+const CANOPY_FEET = new Vector3();
 const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
 
 export class WorldView {
@@ -403,6 +409,41 @@ export class WorldView {
         h: 0.3,
         tint: this.dim,
       });
+    }
+  }
+
+  /**
+   * R0109: a swirl of three leaves over each flying zone near the Keeper (an updraft at a
+   * cliff's foot, a glide line's lookout), rising and turning; still under reduced motion.
+   */
+  private drawFlightZones(world: World, nowMs: number): void {
+    this.leafSheet ??= buildParticleSheet();
+    const sheet = this.leafSheet;
+    const rect = sheet.frames.get(frameKey('leaf', 'front', 0));
+    if (!rect) return;
+    const k = world.keeper.pos;
+    const near = FLIGHT_ZONES.showWithin;
+    const calm = this.particles.reduceMotion;
+    for (const z of FLIGHT_SPOTS) {
+      if (Math.abs(z.at.x - k.x) > near || Math.abs(z.at.z - k.z) > near) continue;
+      const base = terraceY(z.at.x, z.at.z);
+      for (let i = 0; i < 3; i++) {
+        const t = calm ? i / 3 : (nowMs / 1600 + i / 3) % 1;
+        const a = t * Math.PI * 4 + i * 2.1;
+        this.batch.draw({
+          sheet,
+          rect,
+          flip: i % 2 === 0,
+          x: z.at.x + Math.cos(a) * 0.35,
+          y: base + 0.15 + t * (z.kind === 'updraft' ? 1.6 : 0.7),
+          z: z.at.z + Math.sin(a) * 0.35,
+          mode: 'billboard',
+          w: 0.3,
+          h: 0.22,
+          opacity: calm ? 0.8 : Math.min(1, (1 - t) * 3),
+          tint: this.dim,
+        });
+      }
     }
   }
 
@@ -712,6 +753,11 @@ export class WorldView {
     // can thin to 55% (the x-ray pass shows the silhouette either way).
     const headNdc = this.keeperHeadNdc(world, camera, alpha);
     const kdFade = this.keeperDrawPos(world, alpha);
+    // R0125: in a wood (`canopyCut`) a tree over the Keeper's feet thins too, and further.
+    const canopy = headNdc !== null && regionCameraFor(regionOf(this.location)).canopyCut === true;
+    const feetNdc = canopy ? CANOPY_FEET.set(kdFade.x, 0.2, kdFade.z).project(camera.camera) : null;
+    const over = (p: Vector3, x0: number, x1: number, y0: number, y1: number): boolean =>
+      p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1;
     const hides = (d: Parameters<SpriteBatch['draw']>[0]): number => {
       if (!headNdc || d.mode !== 'billboard') return 1;
       // Nearer to the camera than the Keeper along the view direction.
@@ -727,9 +773,9 @@ export class WorldView {
         y0 = Math.min(y0, this.tmp.y);
         y1 = Math.max(y1, this.tmp.y);
       }
-      return headNdc.x >= x0 && headNdc.x <= x1 && headNdc.y >= y0 && headNdc.y <= y1
-        ? OCCLUDER_ALPHA
-        : 1;
+      if (feetNdc && (over(headNdc, x0, x1, y0, y1) || over(feetNdc, x0, x1, y0, y1)))
+        return CANOPY_CUT.pixelAlpha;
+      return over(headNdc, x0, x1, y0, y1) ? OCCLUDER_ALPHA : 1;
     };
     const run = this.location === 'dungeon' ? world.dungeon : null;
     const cave = run ? this.cave : null;
@@ -1522,12 +1568,14 @@ export class WorldView {
         z: kz + (kride?.dz ?? 0),
         mode: 'billboard',
         tint: this.dim,
+        token: true,
       });
       // The silhouette through whatever stands in front, in the Keeper's trim colour; not
       // through its own carrier on a ride (R0085).
       if (!kride?.sits) batch.markXray(k.alignment === 'moon' ? KEEPER_XRAY.moon : KEEPER_XRAY.sun);
-      if (keeperGliding(world)) this.drawGlideLeaves(kx, ky, kz, yaw, nowMs);
+      if (keeperGliding(world) || keeperFlight(world)) this.drawGlideLeaves(kx, ky, kz, yaw, nowMs);
     }
+    if (this.location === 'grove') this.drawFlightZones(world, nowMs);
     const k2 = world.coop.active ? world.keeper2 : null;
     if (k2) {
       const sheet2 = this.sheets.keeper(world.coop.trainer, k2.alignment);
@@ -1552,6 +1600,7 @@ export class WorldView {
           z: k2.pos.z,
           mode: 'billboard',
           tint: this.dim,
+          token: true,
         });
       }
     }
@@ -2195,7 +2244,7 @@ export class WorldView {
     yaw: number,
     alpha: number,
     nowMs: number,
-    shadow: (x: number, y: number, z: number, r: number) => void,
+    shadow: (x: number, y: number, z: number, r: number, at?: number) => void,
   ): void {
     // TECH-31: at most one new sheet baked a frame; a changed look may wait a frame.
     const sheet = this.sheets.forNubbin(n, true);
@@ -2211,10 +2260,11 @@ export class WorldView {
       !held && !fly && n.stage !== 'egg' && n.stage !== 'cocoon' && clipFor(n) === 'idle'
         ? signatureAt(n.id, n.species, nowMs, this.particles.reduceMotion)
         : null;
-    // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
+    // On a hill (a mark, or an outing up its ramp, R0086), stand on the terrace.
+    const hillY = this.location === 'grove' ? terraceY(x, z) : 0;
     const y = Math.max(
       lerp(v.prev.y, n.y, alpha) +
-        (held && this.location === 'grove' ? terraceY(x, z) : 0) +
+        hillY +
         (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
         (fly?.y ?? 0) +
         (sig?.dy ?? 0),
@@ -2458,7 +2508,7 @@ export class WorldView {
         lifeMs: 600,
       });
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
-    shadow(x, Math.max(0, y), z, 0.55);
+    shadow(x, Math.max(0, y - hillY), z, 0.55, hillY);
     if (rect) {
       // Squash and stretch at draw time: a landing flattens, a hatch or evolution pops.
       let sw = 1;
