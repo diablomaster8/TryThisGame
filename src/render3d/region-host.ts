@@ -38,7 +38,7 @@ export interface Region3d {
    */
   setChunks(chunks: readonly LayoutChunk[], cache: ChunkLRU<Float32Array[]>, clip: boolean): void;
   /** Per-frame motion (the dapple's drift), from the scene's clock in seconds. */
-  tick(t: number, still: boolean): void;
+  tick(t: number, still: boolean, cam: THREE.Vector3, keeper: Vec2): void;
   dispose(): void;
 }
 
@@ -168,7 +168,7 @@ export class RegionHost3d {
   }
 
   /** Call once a frame: what the Keeper's place needs, built, shown, filled or released. */
-  frame(world: World, keeper: Vec2, t: number, still: boolean): void {
+  frame(world: World, keeper: Vec2, t: number, still: boolean, cam: THREE.Vector3): void {
     const here = drawnRegion(world);
     const home = world.location === 'grove';
     const want = new Map<RegionId, { at: Vec2; off: Vec2 | null; warm: boolean }>();
@@ -210,7 +210,7 @@ export class RegionHost3d {
         l.r.group.visible = false;
         this.prewarm(l, w.at);
       }
-      l.r.tick(t, still);
+      l.r.tick(t, still, cam, keeper);
     }
     this.placeArches(exits, here);
   }

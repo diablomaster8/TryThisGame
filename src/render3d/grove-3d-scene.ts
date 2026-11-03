@@ -1840,7 +1840,7 @@ export class Grove3dScene {
     this.sky.tick(this.time.value);
     // R11 lane D: drawn regions (streamed chunks, loaded and seamless borders), and the sun's
     // shadow box held on the Keeper and snapped to its texel grid (WORLD-56).
-    this.regions.frame(world, world.keeper.pos, this.time.value, this.reduceMotion);
+    this.regions.frame(world, world.keeper.pos, this.time.value, this.reduceMotion, this.camPos);
     if (!this.shedCave) snapShadow(this.sky.sun, this.camTarget);
     PARTICLE_TIME.value = this.time.value;
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);

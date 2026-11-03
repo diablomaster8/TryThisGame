@@ -6,6 +6,7 @@ import type { ChunkLRU } from '../render/chunks';
 import { dappleMarks } from '../render/paint/wood';
 import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from '../render/region-ground';
 import type { Region3d } from './region-host';
+import type { Vec2 } from '../sim/types';
 
 /**
  * WORLD-25 (R11 lane D): the Wood in Full 3D, a lazy chunk the region host loads on the
@@ -184,6 +185,11 @@ function sharedParts(): { mat: THREE.MeshStandardMaterial; arch: THREE.Mesh } {
   return shared;
 }
 
+/** How close (crown radii at scale 1) a tree may stand to the camera's line to the Keeper. */
+const CLEAR_R = 2.3;
+/** The rotation-scale part of an instance matrix: zeroed, the tree folds to a point. */
+const FOLD = [0, 1, 2, 4, 5, 6, 8, 9, 10];
+
 /** The batches, in the order a chunk's cached instance data lists them. */
 const BATCHES = 5;
 const tmpM = new THREE.Matrix4();
@@ -317,12 +323,68 @@ class Wood3d implements Region3d {
       m.instanceMatrix.clearUpdateRanges();
       m.instanceMatrix.addUpdateRange(0, counts[b]! * 16);
       m.instanceMatrix.needsUpdate = true;
+      if (b < 3) {
+        // The trees' own matrices, to put back what `clearView` folds away.
+        const a = m.instanceMatrix.array as Float32Array;
+        this.orig[b] = a.slice(0, counts[b]! * 16);
+        this.hidden[b] = new Uint8Array(counts[b]!);
+      }
     });
   }
 
-  tick(t: number, still: boolean): void {
+  /** The tree batches' matrices as filled, and which trees stand folded out of the way. */
+  private readonly orig: Float32Array[] = [];
+  private readonly hidden: Uint8Array[] = [];
+
+  tick(t: number, still: boolean, cam: THREE.Vector3, keeper: Vec2): void {
+    this.clearView(cam, keeper);
     if (still) return;
     this.dappleTex.offset.set((t * 0.004) % 1, (t * 0.0025) % 1);
+  }
+
+  /**
+   * Keep the Keeper in sight: a tree standing between the camera and the Keeper is folded
+   * away (its instance scaled to nothing) and put back once the view clears, the Wood's
+   * stand-in for the Grove's crown fade (`crowns.ts`), which an instanced batch cannot do
+   * per tree. Only the trees whose state changes are written.
+   */
+  private clearView(cam: THREE.Vector3, k: Vec2): void {
+    const dx = k.x - cam.x;
+    const dz = k.z - cam.z;
+    const l2 = dx * dx + dz * dz;
+    if (l2 < 1e-6) return;
+    for (let b = 0; b < 3; b++) {
+      const orig = this.orig[b];
+      const hid = this.hidden[b];
+      if (!orig || !hid) continue;
+      const arr = this.batches[b]!.instanceMatrix.array as Float32Array;
+      let lo = Infinity;
+      let hi = -1;
+      for (let i = 0; i < hid.length; i++) {
+        const px = orig[i * 16 + 12]! - cam.x;
+        const pz = orig[i * 16 + 14]! - cam.z;
+        const t = (px * dx + pz * dz) / l2;
+        let block = false;
+        if (t > 0.02 && t < 0.94) {
+          const ex = px - dx * t;
+          const ez = pz - dz * t;
+          block = ex * ex + ez * ez < CLEAR_R * CLEAR_R * orig[i * 16 + 5]! ** 2;
+        }
+        if (+block === hid[i]) continue;
+        hid[i] = +block;
+        const at = i * 16;
+        if (block) for (const j of FOLD) arr[at + j] = 0;
+        else for (const j of FOLD) arr[at + j] = orig[at + j]!;
+        lo = Math.min(lo, at);
+        hi = Math.max(hi, at + 16);
+      }
+      if (hi > lo) {
+        const im = this.batches[b]!.instanceMatrix;
+        im.clearUpdateRanges();
+        im.addUpdateRange(lo, hi - lo);
+        im.needsUpdate = true;
+      }
+    }
   }
 
   dispose(): void {
