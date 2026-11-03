@@ -69,6 +69,8 @@ export function hapticFor(e: SimEvent): HapticName | null {
       return 'throw';
     case 'landed':
       return 'land';
+    case 'encounterStarted':
+      return 'encounter';
     case 'eggShaken':
       return 'eggShake';
     case 'reaction':

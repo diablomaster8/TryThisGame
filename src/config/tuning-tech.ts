@@ -44,6 +44,8 @@ export const HAPTICS = {
   cheer: [10],
   raceGo: [30],
   hit: [18],
+  /** R0192: a pack's encounter begins (a short tap; reduced motion halves it). */
+  encounter: [15],
   eggShake: [4],
   evolve: [30, 60, 30, 60, 90],
   error: [6, 30, 6],

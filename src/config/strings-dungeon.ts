@@ -338,6 +338,13 @@ export const RUMBLE_TEXT = {
   calmFailed: 'The stray wriggles free with your Shells.',
 };
 
+/** R0260: the floor-5 guardian's hall. */
+export const GUARDIAN_TEXT = {
+  start: 'A big shy guardian blocks the stairs. Calm it with kind moves, not bonks!',
+  lost: 'The guardian is still jumpy. Step out and back in when you are ready.',
+  won: 'The guardian sighs, smiles and hands you a little lantern.',
+};
+
 /** Hollow gear (R0163, R0164): tiers, bases, affixes and the gear panel. */
 export const GEAR_TEXT = {
   button: '🎒 Gear',

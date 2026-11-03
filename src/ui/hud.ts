@@ -43,6 +43,7 @@ import {
   SHRINE_TEXT,
   TRAP_TEXT,
   GEAR_TEXT,
+  GUARDIAN_TEXT,
   RUMBLE_TEXT,
   UNIQUE_RESULT_TEXT,
   UNIQUE_TEXT,
@@ -1828,6 +1829,8 @@ export function mountHud(
           toast(
             e.bonus ? UNIQUE_RESULT_TEXT.firstWin(name, e.bonus) : UNIQUE_RESULT_TEXT.again(name),
           );
+        } else if (e.kind === 'guardianHall') {
+          toast(GUARDIAN_TEXT[e.phase]);
         } else if (e.kind === 'rumbleRoom') {
           // Lane B round 5: rumble rooms (R0257, R0282) and the stray's choice (R0281).
           const p = RUMBLE_TEXT.prefix[e.prefix] ?? '';

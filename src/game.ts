@@ -1,3 +1,5 @@
+import { dungeonTapTarget } from './input/dungeon-tap';
+import { DUNGEON_TAP } from './config/tuning-dungeon-tap';
 import { setMotionPref } from './platform/motion';
 import { WalkFollow } from './render/camera-follow';
 import { easeShift, NO_SHIFT, type ViewShift } from './render/view-shift';
@@ -585,6 +587,9 @@ export class Game {
       haptic: (name) => void buzz(name, this.world.settings, this.reduceMotion),
       // HOT-3c: letting go of a hold-walk stops the Keeper where it stands.
       keeperPos: () => this.world.keeper.pos,
+      // R0192: underground a tap near a pack, shrine, stone or loot walks right to it.
+      dungeonSnap: (at) => dungeonTapTarget(this.world, at)?.pos ?? null,
+      holdReplanMs: () => (this.world.location === 'dungeon' ? DUNGEON_TAP.replanMs : null),
       // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
       pad: {
         coop: () => this.world.coop.active,

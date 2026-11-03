@@ -86,6 +86,12 @@ export interface InputHost {
   onSelect(id: string | null): void;
   /** TECH-30: the Nubbin the Keeper carries, so a tap on it puts it down gently. */
   carrying?(): string | null;
+  /**
+   * R0192: underground, where a ground tap near a pack, shrine, stone or loot should walk to
+   * instead (null elsewhere); `holdReplanMs` is how often a held finger re-plans there.
+   */
+  dungeonSnap?(at: Vec2): Vec2 | null;
+  holdReplanMs?(): number | null;
   /** HOT-3c: where the Keeper stands, so letting go of a hold-walk stops it there. */
   keeperPos?(): Vec2;
   /** TECH-30: a short buzz when a long press lifts a Nubbin. */
@@ -268,7 +274,7 @@ export class GameInput {
     const { x, y } = this.lastClient;
     const at = this.host.picker.groundPoint(x, y, this.host.camera.camera);
     const goal = this.hold.active
-      ? this.hold.follow(at, now)
+      ? this.hold.follow(at, now, this.host.holdReplanMs?.() ?? undefined)
       : at
         ? this.hold.start(at, now)
         : null;
@@ -631,7 +637,11 @@ export class GameInput {
         this.host.send({ kind: 'feedStray', id: hit.id });
         return;
       case 'loot':
-        if (hit.ground) this.host.send({ kind: 'moveKeeperTo', pos: hit.ground });
+        if (hit.ground)
+          this.host.send({
+            kind: 'moveKeeperTo',
+            pos: this.host.dungeonSnap?.(hit.ground) ?? hit.ground,
+          });
         return;
       case 'memorial':
         this.host.onSelect(`memorial:${hit.id}`);
@@ -684,7 +694,11 @@ export class GameInput {
           this.host.send({ kind: 'gather', what: 'reeds' });
           return;
         }
-        if (hit.ground) this.host.send({ kind: 'moveKeeperTo', pos: hit.ground });
+        if (hit.ground)
+          this.host.send({
+            kind: 'moveKeeperTo',
+            pos: this.host.dungeonSnap?.(hit.ground) ?? hit.ground,
+          });
         this.host.send({ kind: 'select', id: null });
         this.host.onSelect(null);
         return;

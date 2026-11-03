@@ -21,6 +21,7 @@ import {
   strayBoutEnded,
   strayBoutLive,
 } from './dungeon-strays';
+import { guardianEnded, stepGuardian } from './dungeon-guardian';
 import { rumbleEnded, stepRumble } from './dungeon-rumble';
 import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
@@ -1216,6 +1217,7 @@ export function hollowBattleEnded(world: World, fresh: SimEvent[], events: SimEv
   // Round 5: the stray's calm bout (R0281) and the rumble rooms' tactics bouts (R0257).
   if (run?.strayBout) strayBoutEnded(world, fresh, events);
   if (run && fresh.some((e) => e.kind === 'tacticsEnd')) rumbleEnded(world, fresh, events);
+  if (run && fresh.some((e) => e.kind === 'tacticsEnd')) guardianEnded(world, fresh, events);
   const enc = run?.encounter;
   const f = runFloor(world);
   if (!enc || !f) return;
@@ -1478,6 +1480,9 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   if (run.encounter || held || world.dungeon !== run || runFloor(world) !== f) return;
   // Rumble rooms (R0257, R0282): walking in starts a tactics bout on this very room.
   if (!settling) stepRumble(world, run, f, events);
+  if (world.tactics) return;
+  // R0260: the depth-5 guardian's hall.
+  if (!settling) stepGuardian(world, run, f, events);
   if (world.tactics) return;
 
   // Strays wander, flee after a snatch, and snatch Shells when they bump the Keeper.
