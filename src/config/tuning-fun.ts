@@ -118,6 +118,21 @@ export const SLAPSTICK = {
  * stopping `gazeMs` to look at a butterfly; a cheer snaps it out with a "!" for `perkMs`.
  * `quirks` is how many rival quirk lines there are (`RIVAL_QUIRKS`).
  */
+/**
+ * R0321 (FUN-32): a shy Nubbin's peekaboo. On an idle choice it may duck behind a tree, rock
+ * or lantern (the far side from the Keeper), stay put for `ms`, and pop out with a giggle when
+ * the Keeper comes within `foundRadius` (or when its time is up).
+ */
+export const HIDE = {
+  shyChance: 0.1,
+  radius: 9,
+  /** Ignore hiding places this close to the Keeper: no fun if it is in plain sight. */
+  minKeeperDist: 3,
+  ms: [5000, 9000],
+  foundRadius: 2.2,
+  happiness: 4,
+} as const;
+
 export const RACE_GAGS = {
   happyOver: 60,
   chance: 0.05,

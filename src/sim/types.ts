@@ -82,6 +82,8 @@ export type BehaviorState =
   | 'lesson'
   | 'perform'
   | 'shelter'
+  /** R0321: a shy Nubbin ducked behind a tree, rock or lantern (peekaboo). */
+  | 'hide'
   | 'court'
   | 'fetch'
   | 'held'
