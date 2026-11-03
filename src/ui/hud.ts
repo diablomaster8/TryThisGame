@@ -1110,7 +1110,17 @@ export function mountHud(
         });
         g.framePollers.push(() => joystick?.poll());
       }
-      joystick.setVisible(g.world.settings.joystick);
+      // R0510: in the Hollow on a touch device the stick is on without a trip to Settings.
+      const hollowTouch =
+        (g.world.location === 'hollow' || g.world.location === 'dungeon') &&
+        window.matchMedia?.('(pointer: coarse)').matches;
+      joystick.setVisible(g.world.settings.joystick || !!hollowTouch);
+      joystick.onEdge = () =>
+        void buzz(
+          'stickEdge',
+          g.world.settings,
+          document.documentElement.classList.contains('reduce-motion'),
+        );
       // MOVE-14: Left-handed mirrors the thumb buttons and the pad.
       const lefty = !!g.world.settings.leftHanded;
       joystick.leftHanded = lefty;

@@ -45,6 +45,8 @@ export const HAPTICS = {
   raceGo: [30],
   hit: [18],
   eggShake: [4],
+  /** R0510: a tick when the joystick's thumb reaches the rim. */
+  stickEdge: [5],
   evolve: [30, 60, 30, 60, 90],
   error: [6, 30, 6],
   /** The egg shake buzzes at most this often. */
