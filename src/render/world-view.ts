@@ -79,7 +79,9 @@ import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
 import { KEEPER_SLOPE } from '../config/tuning-move';
 import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
 import { FLIGHT_SPOTS, keeperFlight } from '../sim/flight-zones';
-import { FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { regionCameraFor } from '../config/region-camera';
+import { regionOf } from '../sim/regions';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
 import { hopFlagsShown, hopGhostAt } from './hop-course-view';
@@ -158,6 +160,8 @@ export interface SpritePick {
 /** MOVE-19: the Keeper's head height, the faded quads' alpha and the x-ray trim colours. */
 const KEEPER_HEAD_Y = 1.7;
 const OCCLUDER_ALPHA = 0.55;
+/** R0125: the Keeper's feet on screen, for a wood's canopy cut (scratch, reused). */
+const CANOPY_FEET = new Vector3();
 const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
 
 export class WorldView {
@@ -746,6 +750,11 @@ export class WorldView {
     // can thin to 55% (the x-ray pass shows the silhouette either way).
     const headNdc = this.keeperHeadNdc(world, camera, alpha);
     const kdFade = this.keeperDrawPos(world, alpha);
+    // R0125: in a wood (`canopyCut`) a tree over the Keeper's feet thins too, and further.
+    const canopy = headNdc !== null && regionCameraFor(regionOf(this.location)).canopyCut === true;
+    const feetNdc = canopy ? CANOPY_FEET.set(kdFade.x, 0.2, kdFade.z).project(camera.camera) : null;
+    const over = (p: Vector3, x0: number, x1: number, y0: number, y1: number): boolean =>
+      p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1;
     const hides = (d: Parameters<SpriteBatch['draw']>[0]): number => {
       if (!headNdc || d.mode !== 'billboard') return 1;
       // Nearer to the camera than the Keeper along the view direction.
@@ -761,9 +770,9 @@ export class WorldView {
         y0 = Math.min(y0, this.tmp.y);
         y1 = Math.max(y1, this.tmp.y);
       }
-      return headNdc.x >= x0 && headNdc.x <= x1 && headNdc.y >= y0 && headNdc.y <= y1
-        ? OCCLUDER_ALPHA
-        : 1;
+      if (feetNdc && (over(headNdc, x0, x1, y0, y1) || over(feetNdc, x0, x1, y0, y1)))
+        return CANOPY_CUT.pixelAlpha;
+      return over(headNdc, x0, x1, y0, y1) ? OCCLUDER_ALPHA : 1;
     };
     const run = this.location === 'dungeon' ? world.dungeon : null;
     const cave = run ? this.cave : null;

@@ -5,6 +5,7 @@ import { VIEW_SHIFT } from './config/tuning';
 import { Vector3 } from 'three';
 import { REGIONS, regionHour } from './config/regions';
 import { regionOf } from './sim/regions';
+import { regionCameraFor } from './config/region-camera';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
 import { secretGlint } from './sim/world-hints';
@@ -1086,6 +1087,8 @@ export class Game {
       const on = phoneDefault(this.world.settings.surveyWhenRunning);
       this.camera.runTick(on && this.world.location === 'grove' && k.running && moving, nowMs);
     }
+    // R0125: the region's Pixel zoom steps (Full 3D reads its pitch and distance itself).
+    this.camera.setRegionZooms(regionCameraFor(regionOf(this.world.location)).zooms ?? null, nowMs);
     this.camera.update(nowMs);
     // MOVE-38: the collider, nav and ground-y overlays, only once a debug toggle was on.
     if (

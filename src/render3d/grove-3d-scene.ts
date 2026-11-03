@@ -1,5 +1,7 @@
 import { FLIGHT_SPOTS } from '../sim/flight-zones';
-import { FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { regionCameraFor } from '../config/region-camera';
+import { regionOf } from '../sim/regions';
 import { openSky } from '../render/cave-bands';
 import { viewportSize } from '../platform/viewport';
 import * as THREE from 'three';
@@ -1709,13 +1711,14 @@ export class Grove3dScene {
     this.lastDip = dip;
     const yaw = orbit.currentYaw + this.yawOffset;
     this.surveyNow = orbit.survey;
-    const cave = this.location === 'dungeon';
-    const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
+    // R0125: the region's preset (the caves keep the Hollow's own, `config/region-camera.ts`).
+    const rcam = regionCameraFor(regionOf(this.location));
+    const basePitch = rcam.pitchDeg3d ?? GROVE3D.pitchDeg;
     const baseDist =
       (orbit.survey
         ? WORLD_SURVEY.distance3d
         : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0])) *
-      (cave ? READ3D.hollow.distanceK : 1);
+      (rcam.distanceK3d ?? 1);
     const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
     // MOVE-52: a hill between the camera and the Keeper tilts the orbit up or pulls it in;
@@ -1807,10 +1810,12 @@ export class Grove3dScene {
     // round the focused Nubbin too.
     const buf = this.renderer.getDrawingBufferSize(this.holeSize);
     const onScreen = this.holeNdc.copy(mid).lerp(head, 0.5).project(this.camera);
+    // R0125: a wood (`canopyCut`) opens a wider hole, so no crown ever covers the Keeper.
+    const canopyK = regionCameraFor(regionOf(this.location)).canopyCut ? CANOPY_CUT.holeK3d : 1;
     CrownFade.setHole(
       (onScreen.x * 0.5 + 0.5) * buf.x,
       (onScreen.y * 0.5 + 0.5) * buf.y,
-      buf.y * GROVE3D.crownFade.holeRadius,
+      buf.y * GROVE3D.crownFade.holeRadius * canopyK,
     );
     if (subject) {
       const at = this.holeNdc.copy(sFeet).lerp(sHead, 0.5).project(this.camera);

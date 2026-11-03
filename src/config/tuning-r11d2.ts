@@ -53,3 +53,13 @@ export const FLIGHT_ZONES = {
   updrafts: [{ hill: 1, angleDeg: 30 }],
   glides: [{ hill: 1, angleDeg: 60 }],
 } as const;
+
+/**
+ * R0125 (WORLD-59): a region with `canopyCut` (a wood). Pixel: a tree in front of the
+ * Keeper's head or feet thins to `pixelAlpha` (the Grove's occluders keep 55 %). Full 3D:
+ * the crown see-through hole round the Keeper opens `holeK3d` times wider.
+ */
+export const CANOPY_CUT = {
+  pixelAlpha: 0.4,
+  holeK3d: 1.8,
+} as const;
