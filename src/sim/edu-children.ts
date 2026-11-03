@@ -29,7 +29,9 @@ export function copySettingsJson(
   const edu = file.world.edu;
   if (!edu) return null;
   edu.sessionMinutes = from.sessionMinutes;
-  if (from.limits) edu.limits = { ...from.limits, unlockUntilMs: undefined };
-  else delete edu.limits;
+  if (from.limits) {
+    edu.limits = { ...from.limits };
+    delete edu.limits.unlockUntilMs;
+  } else delete edu.limits;
   return serialize(file.world, nowWallMs);
 }
