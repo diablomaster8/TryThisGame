@@ -21,3 +21,10 @@ export const PAINT = {
   /** How many of the child's Nubbins can be stamped. */
   maxStamps: 8,
 } as const;
+
+/** R0741: a keepsake the Nubbin wears for each domain, earned from the stars of its games. */
+export const EDU_KEEPSAKES = [
+  { id: 'edu-abacus', icon: '🧮', games: ['counting'], stars: 50 },
+  { id: 'edu-paintbrush', icon: '🖌️', games: ['colours', 'shapes'], stars: 50 },
+  { id: 'edu-book', icon: '📖', games: ['letters', 'tracing', 'sounds'], stars: 50 },
+] as const;

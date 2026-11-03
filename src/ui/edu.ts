@@ -1,3 +1,4 @@
+import { cheerBuddy, showBuddy } from './edu-buddy'; /* R0741 */
 import { EDU, EDU_COLOUR_HEX, type EduGameId } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -330,6 +331,7 @@ export class EduScreen {
     );
     head.querySelector('.edu-hear')?.setAttribute('aria-label', EDU_SAY_TEXT.hearAgain);
     c.appendChild(head);
+    showBuddy(c, this.game_()); // R0741
     // Lane E r10, R0715: the prompt's pictures as pixel art.
     const prompt = el('div', 'edu-prompt');
     appendWithIcons(prompt, r.prompt);
@@ -454,6 +456,7 @@ export class EduScreen {
       this.starsTotal += stars;
       btn.classList.add('right');
       playSound('win');
+      cheerBuddy(this.card, this.game_()); // R0741
       this.revealLabels();
       this.reply(
         `${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`,

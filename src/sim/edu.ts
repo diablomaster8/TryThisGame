@@ -14,6 +14,7 @@ import type { EduBand } from '../content/types';
 import type { EduItem, EduState, SimEvent, World } from './types';
 import { localDayKey, tzOf } from './local-time';
 import { noteDaily } from './edu-report';
+import { eduKeepsakes } from './edu-keepsakes';
 
 /**
  * Educational mode state: the age band, which games are switched on (the recommended
@@ -114,6 +115,7 @@ export function eduResult(
   const before = e.stickers;
   const total = Object.values(e.progress).reduce((sum, x) => sum + x.stars, 0);
   e.stickers = Math.floor(total / EDU.starsPerSticker);
+  eduKeepsakes(world); // R0741
   world.inventory.shells += s * EDU.shellsPerStar;
   if (s === 3) world.inventory.fruit += 1;
   events.push({ kind: 'eduResult', game, stars: s, sticker: e.stickers > before });
