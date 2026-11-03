@@ -345,6 +345,8 @@ export class WorldView {
   ): { off: number; floor: number } {
     const y = lerp(this.keeperPrev.y, world.keeper.y, this.keeperAlpha ?? alpha);
     if (runFloor(world)) return { off: Math.max(0, y), floor: 0 };
+    // R11 d7: a drawn region's own ground (flat, or its terraces in the Keeper's y), never the Grove's.
+    if (world.location.startsWith('region:')) return { off: y, floor: 0 };
     const ground = paintedGround(x, z);
     // What the feet stand on or are over: the shadow sits there.
     const floor = Math.max(0, keeperFooting(world, x, z, y).y - ground);
@@ -1348,7 +1350,7 @@ export class WorldView {
     const npcHere = (t: string) =>
       this.location === 'grove'
         ? true
-        : underground
+        : underground || this.location.startsWith('region:') // R11 d7: nobody follows out
           ? false
           : this.location === 'corvin'
             ? t === 'corvin' || t === 'ember'

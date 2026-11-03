@@ -14,6 +14,7 @@ import { keeperPutDown } from './keeper';
 import {
   drawnRegionOf,
   regionLocation,
+  exitLocked,
   REGION_SPECS,
   resetCrossing,
   seamlessOffset,
@@ -58,7 +59,7 @@ export function travelBlock(
   if (!exit) return 'no-exit';
   const to = regions[exit.to];
   if (!to.built) return 'unbuilt';
-  if (exit.unlock && !world.campaign?.flags[exit.unlock]) return 'locked';
+  if (exitLocked(world, exit)) return 'locked';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   if (exit.to === 'lane' && !(sub && TRAINERS.some((t) => `visit:${t.id}` === sub))) {

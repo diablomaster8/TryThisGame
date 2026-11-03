@@ -5,6 +5,7 @@
  * the rest are declared so quests, the map and streaming can name them before they exist.
  * A region with `built: false` can be named but never entered.
  */
+import { SHORE_POIS } from './region-shore';
 import { WOOD_POIS } from './region-wood';
 import type { Audience } from '../content/types';
 import type { Season } from '../sim/types';
@@ -144,7 +145,15 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'stairs',
       },
       // WORLD-10: the ways out to the regions not built yet (taking one is refused until then).
-      way('grove-marsh', 'shore', [12, 46], [-66, 0], 'seamless', N / 2),
+      // R11 d7: the whole south marsh is the shore's border (16 u wide, walked straight over).
+      {
+        id: 'grove-marsh',
+        rect: { x: 4, z: 44, w: 16, h: 4 },
+        to: 'shore',
+        arrive: { x: -50, z: -20 },
+        facing: 0,
+        kind: 'seamless',
+      },
       way('grove-wood', 'wood', [-31, -46], [0, 49], 'gate', N),
       way('grove-ridge', 'ridge', [46, -24], [0, 44], 'seamless', N),
       way('grove-sun', 'sunlands', [-46, -6], [0, 36], 'gate', N),
@@ -239,8 +248,21 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'shore',
     'beach',
     [140, 48],
-    ['beach', 'rock-pools', 'stilt-village', 'lagoon', 'bay'],
-    [way('shore-marsh', 'grove', [-68, 0], [12, 43], 'seamless', N)],
+    [],
+    [
+      // WORLD-35 (R11 d7): the seamless edge back into the Grove's marsh (see `region-shore.ts`).
+      {
+        id: 'shore-marsh',
+        // Neither side's arrival lands in the other's box, so stopping just over never strands
+        // the Keeper inside a box that would only fire after leaving it.
+        rect: { x: -58, z: -24, w: 16, h: 1.6 },
+        to: 'grove',
+        arrive: { x: 12, z: 42.8 },
+        facing: N,
+        kind: 'seamless',
+      },
+    ],
+    { pois: SHORE_POIS, built: true },
   ),
   wood: future(
     'wood',

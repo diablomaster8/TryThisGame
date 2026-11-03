@@ -16,11 +16,14 @@ import { REGIONS, type RegionExit, type RegionId } from '../config/regions';
 import {
   cellAt,
   regionLayout,
+  terraceHeight,
   type RegionLayout,
   type RegionSolid,
   type RegionSpec,
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
+import { SHORE_SPEC } from '../config/region-shore';
+import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
 import { REGION_WALK } from '../config/tuning-r11d1';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
@@ -30,6 +33,15 @@ import type { Location, SimEvent, Vec2, World } from './types';
 /** Every drawn region beyond the Grove. A new region joins here with its spec (see the report). */
 export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   wood: WOOD_SPEC,
+  shore: SHORE_SPEC,
+};
+
+/**
+ * R11 d7: places drawn only as a seamless neighbour's edge, never entered as a region (the
+ * Grove has its own scene; from inside the shore the engine draws this stand-in strip of it).
+ */
+export const EDGE_SPECS: Partial<Record<RegionId, RegionSpec>> = {
+  grove: GROVE_EDGE_SPEC,
 };
 
 const PREFIX = 'region:';
@@ -52,7 +64,7 @@ export function drawnRegionOf(location: Location): RegionId | null {
 
 /** The layout of a drawn region (built once). */
 export function layoutOf(id: RegionId): RegionLayout | null {
-  const spec = REGION_SPECS[id];
+  const spec = REGION_SPECS[id] ?? EDGE_SPECS[id];
   return spec ? regionLayout(spec) : null;
 }
 
@@ -304,7 +316,8 @@ export function stepRegionWalk(world: World, dtMs: number): void {
   const hh = l.spec.size.h / 2 - r;
   k.pos.x = Math.max(-hw, Math.min(hw, k.pos.x));
   k.pos.z = Math.max(-hh, Math.min(hh, k.pos.z));
-  k.y = 0;
+  // R11 d7 (WORLD-36): a terraced region carries the Keeper up its ramps.
+  k.y = terraceHeight(l.spec, k.pos.z);
   k.vy = 0;
   k.grounded = true;
 }
@@ -326,6 +339,19 @@ function inRect(e: RegionExit, p: Vec2): boolean {
 /** Whether an exit leads somewhere drawn that walking into it may take (not the lane or the Hollow). */
 export function walkableExit(e: RegionExit): boolean {
   return e.to === 'grove' || !!REGION_SPECS[e.to];
+}
+
+/**
+ * R11 d7: why a way out is shut now, or null: a campaign flag not yet set, the Sun or Moon
+ * lands before the first adult of that alignment unlocks them (WORLD-34), or the ruins from
+ * the Learning Grove (WORLD-37, `main` audience).
+ */
+export function exitLocked(world: World, e: RegionExit): 'locked' | null {
+  if (e.unlock && !world.campaign?.flags[e.unlock]) return 'locked';
+  if (e.to === 'sunlands' && !world.unlocks.sunGrove) return 'locked';
+  if (e.to === 'moonlands' && !world.unlocks.moonGrove) return 'locked';
+  if (e.to === 'ruins' && world.edu) return 'locked';
+  return null;
 }
 
 /** The exits of the current region that walking can take, for the renderers' approach checks. */
@@ -362,6 +388,11 @@ export function crossExits(world: World, events: SimEvent[]): RegionExit | null 
   const was = inside.get(world);
   inside.set(world, hit ? hit.id : null);
   if (!hit || was === hit.id || was === undefined || world.ride) return null;
+  // R11 d7: a shut way says why once (the HUD toasts it) and the Keeper stays put.
+  if (exitLocked(world, hit)) {
+    events.push({ kind: 'travelRefused', exit: hit.id, reason: 'locked' });
+    return null;
+  }
   // A seamless edge is crossed by the caller at once (`travel`, which re-bases the Keeper).
   if (hit.kind === 'seamless') return hit;
   events.push({ kind: 'exitReached', exit: hit.id });

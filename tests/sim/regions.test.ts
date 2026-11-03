@@ -65,7 +65,10 @@ describe('region graph (WORLD-04)', () => {
     expect(events).toContainEqual({ kind: 'travelRefused', exit: 'nowhere', reason: 'no-exit' });
     const shore = {
       ...REGIONS,
-      grove: { ...REGIONS.grove, exits: [{ ...REGIONS.grove.exits[0]!, to: 'shore' as const }] },
+      grove: {
+        ...REGIONS.grove,
+        exits: [{ ...REGIONS.grove.exits[0]!, to: 'little-grove' as const }],
+      },
     };
     expect(travelBlock(world, 'grove-gate', undefined, shore)).toBe('unbuilt');
   });
