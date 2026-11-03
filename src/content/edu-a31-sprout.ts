@@ -277,6 +277,7 @@ const Q1 = quest(
         GD('Is it a dog?'),
         GM('It is a guest. You do not ask a guest what it is. You give it a tortilla.'),
         N('Your Nubbin gets a warm tortilla. It holds it in both paws.'),
+        N('Plop! A drop of ink falls on the page.'),
       ],
       [
         ask(
@@ -310,6 +311,7 @@ const Q1 = quest(
         N('Smoke curls up past the beam. Your Nubbin watches it go.'),
         GM('Before the sun was the sun, two brothers played ball…'),
         N('The kitchen goes soft. Now there is grass under your feet.'),
+        N('Crackle, pop! The fire spits a little spark.'),
       ],
       [
         notice(
@@ -386,6 +388,7 @@ const Q2 = quest(
         N('They never use their hands. They bump the ball with hips and shoulders.'),
         GM('Hun Hunahpu and Vucub Hunahpu. Good players. Noisy neighbours.'),
         N('Thock! The ball rolls to your Nubbin.'),
+        N('Boing! The heavy ball bounces off the wall.'),
       ],
       [
         doit(
@@ -455,6 +458,7 @@ const Q2 = quest(
         HH('A game! We are the best!', 'happy'),
         N('The brothers tie their gear up high in their mum’s roof.'),
         N('They tell her not to worry. She worries anyway.'),
+        N('Hoo! Hoo! The owls hoot, all four in a row.'),
       ],
       [
         ask(
@@ -498,6 +502,7 @@ const Q3 = quest(
         GM('The brothers went down, down, to a place called Xibalba.'),
         GM('They did not come back up. They stayed there, far below.', 'sad'),
         N('The road stays empty. A little wind moves the dust.'),
+        N('Crunch! Your boots crunch on the stony road.'),
       ],
       [
         ask(
@@ -541,6 +546,7 @@ const Q3 = quest(
         GD('Grandmother, why can nobody go near it?'),
         GM('The lords said nobody may touch it. So of course somebody does.'),
         N('Your Nubbin pats the trunk, the way it pats you when you are tired.'),
+        N('Thump! A round green gourd drops to the ground.'),
       ],
       [
         notice(
@@ -574,6 +580,7 @@ const Q3 = quest(
         GM('Then a girl went to look at a tree she must not touch.'),
         GD('And then?'),
         GM('Ah. That is how most good stories start.', 'happy'),
+        N('Crackle, pop! Xmucane pokes the fire.'),
       ],
       [
         doit(
@@ -620,6 +627,7 @@ const Q4 = quest(
         N('She holds out her hand. Something magic happens in it.'),
         XQ('It is gone! My hand is empty!', 'shock'),
         GO('Nothing to see. Go home. You will understand later.'),
+        N('Squeak! A bat flits by, up in the dark.'),
       ],
       [
         ask(
@@ -704,6 +712,7 @@ const Q4 = quest(
         OW('More lump on that side. Hearts are not neat.'),
         N('It shines dark red. It is only sap, from a tree.'),
         XQ('Now go. Tell him you did it. I am going up to the world.', 'soft'),
+        N('Drip, drip! The red sap drips into the bowl.'),
       ],
       [
         notice(
@@ -737,6 +746,7 @@ const Q4 = quest(
         GM('The lords were fooled by a smell!', 'happy'),
         GD('By owls!'),
         N('Your Nubbin sniffs its paw. It still smells like the tree.'),
+        N('Whoosh! Four owls glide off into the dark.'),
       ],
       [
         doit(
@@ -782,6 +792,7 @@ const Q5 = quest(
         XM('I do not believe you. Go away.', 'angry'),
         XM('Here is a test! Bring me a net of corn from the garden.'),
         N('You look down the hill. In the garden is one corn plant. Just one.'),
+        N('Creak! The little door swings open.'),
       ],
       [
         ask(
@@ -822,6 +833,7 @@ const Q5 = quest(
         N('She asks for help, softly, the way you ask friends for a favour.'),
         N('She lays the silk of the ear in the net. The net is full!'),
         GM('Full from one ear! Remember that.', 'happy'),
+        N('Plop! One seed drops into the soft earth.'),
       ],
       [
         notice(
@@ -857,6 +869,7 @@ const Q5 = quest(
         XQ('Some helpers only watch. Like that one.'),
         N('You set the net down by Xmucane. She looks for a long time.'),
         XM('One plant. I planted it myself.', 'think'),
+        N('Thump! The heavy net lands by the fire.'),
       ],
       [
         ask(
@@ -891,6 +904,7 @@ const Q5 = quest(
         GM('That is how grandmothers say sorry.', 'happy'),
         GD('You never give me the good stool!'),
         GM('You never carried a net of corn.'),
+        N('Crackle, pop! The fire warms the whole house.'),
       ],
       [
         ask(
@@ -949,6 +963,7 @@ const Q6 = quest(
         GM('This Hunahpu is a twin. His father was Hun Hunahpu, the ballplayer.'),
         GM('Same name, with a bit on the front.'),
         N('Your Nubbin and the twins are friends at once.'),
+        N('Whee! The twins run off, shouting.'),
       ],
       [
         ask(
@@ -989,6 +1004,7 @@ const Q6 = quest(
         OM('It is getting bigger! Why?', 'shock'),
         XB('Tie your cloths behind you, and you can climb down!'),
         N('They do. The ends of the cloths turn into curly tails!'),
+        N('Crunch! A branch snaps. Down comes an artist!'),
       ],
       [
         ask(
@@ -1025,6 +1041,7 @@ const Q6 = quest(
         XM('I am not laughing. I am not.', 'think'),
         N('She laughs! They swing back up into the trees.'),
         GM('Do not be sad for them. They still paint and play flutes up there.', 'soft'),
+        N('Hee-hee! The monkeys chatter and swing away.'),
       ],
       [
         notice(
@@ -1058,6 +1075,7 @@ const Q6 = quest(
         XB('You laughed, Grandmother. They are happy up there.'),
         HP('Also, it was funny.', 'happy'),
         N('Xmucane gives the twins supper first, for the first time.'),
+        N('Peep! A little bird joins the flute.'),
       ],
       [
         ask(
@@ -1105,6 +1123,7 @@ const Q7 = quest(
         SM('My teeth!', 'shock'),
         N('Seven Macaw swoops down. He snatches the blowgun and flies home.'),
         HP('I am all right. Just annoyed.', 'angry'),
+        N('Whoosh! The big bird flaps and flaps.'),
       ],
       [
         notice(
@@ -1137,6 +1156,7 @@ const Q7 = quest(
         SM('My teeth hurt! Doctors! Thank goodness!', 'sad'),
         OC('Out come the jewel teeth. In go white corn teeth.'),
         N('The blowgun hangs from a beam. Hunahpu waves at it.'),
+        N('Squeak! The old healers’ stools squeak.'),
       ],
       [
         doit(
@@ -1167,6 +1187,7 @@ const Q7 = quest(
         SM('I do not feel like the sun any more.', 'sad'),
         N('The old woman gives the blowgun back to Hunahpu.'),
         HP('Thank you. It had a nice rest.', 'happy'),
+        N('Crunch! The new corn teeth crunch a tortilla.'),
       ],
       [
         doit(
@@ -1246,6 +1267,7 @@ const Q8 = quest(
         N('Then the mountain settles with a long, slow sigh.'),
         GM('Zipacna stayed there a very long time. He never carried mountains again.'),
         N('Your Nubbin takes its stick back, very carefully.'),
+        N('Splash! Zipacna wades into the river.'),
       ],
       [
         notice(
@@ -1356,6 +1378,7 @@ const Q9 = quest(
         N('A dove sits on the fence as a lookout.'),
         N('In the morning the garden is a forest again. Every tree is back!'),
         HP('What? Who did this?', 'shock'),
+        N('Whoosh! The axe swings by itself, chop, chop.'),
       ],
       [
         notice(
@@ -1391,6 +1414,7 @@ const Q9 = quest(
         RT('Do not eat me! I know a secret!', 'shock'),
         RT('Your dad’s ball and gloves are up in your gran’s roof!'),
         RT('I want food for ever. That is my price.'),
+        N('Creak! A branch bends under the hiding twins.'),
       ],
       [
         ask(
@@ -1433,6 +1457,7 @@ const Q9 = quest(
         N('Water pours out of the hole! Everyone helps.'),
         N('At home, the rat chews a cord. Down falls a bundle: a ball and gloves.'),
         XB('Father’s.', 'soft'),
+        N('Splash! Water pours from the big jar.'),
       ],
       [
         ask(
@@ -1494,6 +1519,7 @@ const Q9 = quest(
         GM('And who heard them?'),
         GD('The lords!'),
         GM('Under the court, trying to sleep. Just like before.', 'think'),
+        N('Boing! The ball bounces all night long.'),
       ],
       [
         doit(
@@ -1539,6 +1565,7 @@ const Q10 = quest(
         N('At the ballcourt, out pops the snake. Then the toad.'),
         TD('The louse is fine. It is just a bit stuck.', 'think'),
         LS('Your grandmother says come home. The lords say come down.'),
+        N('Tap, tap! The louse hops along the road.'),
       ],
       [
         ask(
@@ -1578,6 +1605,7 @@ const Q10 = quest(
         XM('And if it does both?', 'think'),
         HP('Then we are being clever.'),
         N('The twins pick up their father’s gear. Your Nubbin looks at you.'),
+        N('Plop! Each twin pats the earth round the corn.'),
       ],
       [
         ask(
@@ -1627,6 +1655,7 @@ const Q10 = quest(
         N('Behind them, two ears of corn stand green in the house.'),
         GM('Now. Which way did you go?'),
         N('The page waits, as if it is listening.'),
+        N('Boing, boing! The ball bounces down the road.'),
       ],
       [
         ask(
@@ -1678,6 +1707,7 @@ const Q11 = quest(
         MQ('Good afternoon. How may I help?'),
         HP('Go ahead of us. Say hello to everyone sitting down there.'),
         MQ('Bite strangers? Without being introduced?', 'shock'),
+        N('Splash! The first river is cold on the toes.'),
       ],
       [
         notice(
@@ -1714,6 +1744,7 @@ const Q11 = quest(
         N('The lords stare. Nobody has ever said hello by name.'),
         N('A seat for them glows. It is a hot stone.'),
         XB('No, thanks. We have been sitting all the way down.'),
+        N('Thump! A wooden lord falls off its seat.'),
       ],
       [
         ask(
@@ -1751,6 +1782,7 @@ const Q11 = quest(
         N('The mosquito finds your Nubbin. It lands on its crown and bows.'),
         N('The mosquito bows: one, two, three times!'),
         N('Your Nubbin says nothing. The mosquito takes that as yes.'),
+        N('Hee-hee! The twins skip the hot bench.'),
       ],
       [
         doit(
@@ -1794,6 +1826,7 @@ const Q12 = quest(
         N('Hunahpu ties a red feather on the torch. In the dark, it looks like a flame!'),
         N('Xbalanque puts a firefly on each candle. They glow on, off, on.'),
         N('A guard looks in, sees the glow, and goes away.'),
+        N('Pop! A little candle flame lights up.'),
       ],
       [
         notice(
@@ -1826,6 +1859,7 @@ const Q12 = quest(
         N('In the morning they give back the torch and the candles. Not burnt at all.'),
         OD('How?', 'shock'),
         HP('Good morning!', 'happy'),
+        N('Ding! A morning bell rings in the hall.'),
       ],
       [
         ask(
@@ -1853,6 +1887,7 @@ const Q12 = quest(
         N('In the Fire House, the fire roars and does not hurt them.'),
         N('Your Nubbin carries pine cones for the fire, one at a time.'),
         HP('Every house, and we are still here!', 'happy'),
+        N('Brr! says the Cold House. Crack! goes the ice.'),
       ],
       [
         notice(
@@ -1885,6 +1920,7 @@ const Q12 = quest(
         GM('And on the mountain, the corn stayed green the whole time.'),
         GD('Because they were safe!'),
         GM('Because they were clever. Being clever kept them safe.', 'happy'),
+        N('Plop! One more seed drops from the corn.'),
       ],
       [
         ask(
@@ -1970,6 +2006,7 @@ const Q13 = quest(
         N('A lord serves the squash. Splat! Seeds everywhere.'),
         OD('That is cheating!', 'angry'),
         HP('That is squash.'),
+        N('Thump! The big ball hits the end wall.'),
       ],
       [
         ask(
@@ -2011,6 +2048,7 @@ const Q13 = quest(
         GD('I like the rabbit.'),
         GM('Everybody likes the rabbit.'),
         N('Far away, two ears of corn lift their leaves in the morning light.'),
+        N('Squeak! The rabbit squeaks, very pleased.'),
       ],
       [
         notice(
@@ -2055,6 +2093,7 @@ const Q14 = quest(
         HP('Do not look at the glow. Look at the river. Five days. Promise.', 'soft'),
         N('The twins take hands and walk into the glow. Then they are gone.'),
         N('Your Nubbin hides its face in your coat.', 'sad'),
+        N('Whoosh! A warm glow lights the twins’ faces.'),
       ],
       [
         ask(
@@ -2098,6 +2137,7 @@ const Q14 = quest(
         N('On day five, two boys climb out of the river, dripping.'),
         XB('Told you. Five days!', 'happy'),
         HP('I am starving!'),
+        N('Splash! A catfish flips its tail.'),
       ],
       [
         doit(
@@ -2128,6 +2168,7 @@ const Q14 = quest(
         GD('Did she know they would come back?'),
         GM('No. That is why it counts.'),
         N('Far up the mountain, two ears of corn are green.'),
+        N('Ding! Xmucane counts the days on a bell.'),
       ],
       [
         notice(
@@ -2208,6 +2249,7 @@ const Q15 = quest(
         N('Everyone in Xibalba kneels and begs.'),
         LD('Mercy. Please.', 'shock'),
         XB('You can have mercy. Not greatness. Not any more.'),
+        N('Whee! A straw house spins up and vanishes.'),
       ],
       [
         ask(
@@ -2250,6 +2292,7 @@ const Q15 = quest(
         GD('No more ball!', 'happy'),
         GM('That was the worst thing for a lord.'),
         N('Somewhere, a ball rolls into a corner and stays there.'),
+        N('Thump! The lords’ ball rolls away, all alone.'),
       ],
       [
         notice(
@@ -2293,6 +2336,7 @@ const Q16 = quest(
         N('They tell him the whole game, point by point.'),
         N('Your Nubbin puts the ball down beside the quiet place.'),
         HP('Thank you, little one. He would have liked you.', 'happy'),
+        N('Plop! Two knees touch the soft earth.'),
       ],
       [
         ask(
@@ -2337,6 +2381,7 @@ const Q16 = quest(
         N('After them come four hundred little lights. They are the Four Hundred Boys.'),
         N('They spread across the sky and stay. The atlas says: now they are the stars.'),
         N('The first sunlight lands on the quiet place, then on you.'),
+        N('Whoosh! The twins climb up into the light.'),
       ],
       [
         notice(
@@ -2371,6 +2416,7 @@ const Q16 = quest(
         N('Your Nubbin lets you tie it round its neck.'),
         GM('They were cheeky boys. They never forgot anyone who fetched for them.', 'soft'),
         SOFT_EDGE,
+        N('Ding! The jade rings on the ball.'),
       ],
       [
         notice(
@@ -2414,6 +2460,7 @@ const Q17 = quest(
         GD('…Yes.'),
         GM('Then eat a tortilla. Go home.', 'happy'),
         N('Outside, somebody calls a dog in for supper.'),
+        N('Crackle, pop! The fire is back in the kitchen.'),
       ],
       [
         ask(
@@ -2454,6 +2501,7 @@ const Q17 = quest(
         N('It bumps the ball back, and the ball goes the wrong way. The girl laughs.'),
         GD('You can have it. Mine is better. Do not tell it.'),
         GM('A tortilla first. Nobody leaves this kitchen hungry.'),
+        N('Boing! The black ball bounces across the floor.'),
       ],
       [
         doit(
@@ -2490,6 +2538,7 @@ const Q17 = quest(
         N('It is light, and it rattles a little when you lift it.'),
         N('You hang it from the middle beam of the cottage.'),
         N('Out by the pond, the Nubbins come to look at the new ball. Nobody uses hands.'),
+        N('Boing! The ball bounces off your Nubbin.'),
       ],
       [
         notice(
@@ -2515,6 +2564,7 @@ const V_RIBBONS_1 = sc(
     N('The girl sees your Nubbin’s ribbons: gold and silver, sewn with green thread.'),
     GD('Why does it have two colours?', 'think'),
     N('Her grandmother gives her a tortilla. The question goes away for now.'),
+    N('Swish! The ribbons flap in the breeze.'),
   ],
   [
     doit(
@@ -2538,6 +2588,7 @@ const V_ROAD_STAY = sc(
     N('Xquic grinds corn on a flat stone. You fetch water from the river.'),
     N('Your Nubbin sits by the corn and looks at it.'),
     XM('They are at the crossroads by now.', 'sad'),
+    N('Swish! Xmucane sweeps, swish, swish.'),
   ],
   [
     notice(
@@ -2574,6 +2625,7 @@ const V_LORDS_STAY = sc(
     FA('They did not sit on it.'),
     N('Xmucane laughs once, out loud. Then she covers her mouth.'),
     XM('Their father sat on it.', 'soft'),
+    N('Peep! The falcon puffs out its chest.'),
   ],
   [
     ask(
@@ -2618,6 +2670,7 @@ const V_DARK_STAY = sc(
     N('Xmucane puts another log on the fire and keeps watch.'),
     XM('My mother did that when anyone was away. So I do.', 'soft'),
     N('The corn stays green. All night, both ears, green.'),
+    N('Crackle, pop! The fire is low, and so are you.'),
   ],
   [
     ask(
@@ -2653,6 +2706,7 @@ const V_DARK_DONE_STAY = sc(
     XM('Still green.', 'soft'),
     N('She says it every morning after that.'),
     N('By the third morning, you say it with her.'),
+    N('Ding! The morning bell rings.'),
   ],
   [
     notice(
@@ -2678,6 +2732,7 @@ const V_HOUSES_STAY = sc(
     N('One corn ear has six leaves. The other has seven.'),
     N('Every time you come in, you look at the corn first.'),
     XM('Still green.', 'soft'),
+    N('Splash! You carry water to the corn.'),
   ],
   [
     doit(
@@ -2705,6 +2760,7 @@ const V_RAT_COATI = sc(
   [
     N('Behind the coati trots a rat, chest out. It fetched her specially.'),
     N('It nods at you. It remembered your lunch.'),
+    N('Squeak! The rat squeaks, very proud.'),
   ],
   [
     ask(
@@ -2732,6 +2788,7 @@ const V_RAT_COURT = sc(
     N('Right behind the rabbit goes the rat. It rode down on your Nubbin’s head!'),
     RT('Slow! Is that running? I have seen faster cheese!', 'happy'),
     N('The lords chase it twice as far. That gives Xbalanque twice as long.'),
+    N('Zoom! The rat races round the ballcourt.'),
   ],
   [
     notice(
@@ -2759,6 +2816,7 @@ const V_BATS_STAY = sc(
     XM('Sit with me. Do not say anything.', 'soft'),
     N('Near dawn, the drooping ear lifts, leaf by leaf.'),
     XM('Oh.', 'soft'),
+    N('Squeak! A bat squeaks outside the window.'),
   ],
   [
     ask(
@@ -2802,6 +2860,7 @@ const V_GAME_STAY = sc(
     FA('Everything. Both twins are fine. They splatted a squash on the lords!', 'happy'),
     XM('I saw his corn.', 'soft'),
     N('Xmucane makes tortillas, far too many, and gives the first to the falcon.'),
+    N('Hee-hee! You laugh at the squash and the bat.'),
   ],
   [
     doit(
@@ -2828,7 +2887,10 @@ const V_GAME_STAY = sc(
 
 const V_COATI_TOLD = sc(
   'a31-13-rat-coati-told',
-  [FA('And a rat fetched the coati. Somebody shared lunch with it once, and it does not forget.')],
+  [
+    FA('And a rat fetched the coati. Somebody shared lunch with it once, and it does not forget.'),
+    N('Squeak! A very small cheer from the rat.'),
+  ],
   [
     notice(
       0,
@@ -2851,6 +2913,7 @@ const V_COURT_TOLD = sc(
       'Oh, and a rat. It rode down in Hunahpu’s pocket. It ran round and round the lords, shouting about cheese.',
       'happy',
     ),
+    N('Hee-hee! Even the corn seems to giggle.'),
   ],
   [
     notice(
@@ -2945,6 +3008,7 @@ const V_DANCERS_STAY = sc(
     XQ('Two of them?'),
     FA('Two. With grins.'),
     XM('Oh, I know those grins.', 'happy'),
+    N('Plop! A tiny drop of water lands on a leaf.'),
   ],
   [
     doit(
@@ -2980,6 +3044,7 @@ const V_CURTAIN_STAY = sc(
     N('Outside, the wind goes over the corn on the hill.'),
     FA('The rest begged. The boys said: mercy, yes. Greatness, no.'),
     XM('Good boys. Hard, but good.', 'soft'),
+    N('Swish! Xquic grinds the corn, swish, swish.'),
   ],
   [
     ask(
@@ -3016,6 +3081,7 @@ const V_MARGIN_HAZEL = sc(
     N('In the margin, in faint pencil, is a note. You know the hand.'),
     N('“Two boys who won by being cheeky to grumpy lords. My kind of boys.”'),
     N('Your Nubbin looks at you, asking if it may laugh. It may.'),
+    N('Swish! The pencil note is soft as a whisper.'),
   ],
   [
     notice(
@@ -3138,6 +3204,7 @@ const V_RIBBONS_16 = sc(
     GD('Look! Two colours sewn down the middle!', 'happy'),
     GM('Somebody sewed that very carefully.', 'soft'),
     N('Then the smoke closes, and you are back at sunrise.'),
+    N('Swish! The smoke clears. The ribbons gleam.'),
   ],
   [
     ask(
@@ -3168,6 +3235,7 @@ const V_COMPLETE_STAY_17 = sc(
     N('It is soft, and it smells like a field after rain.'),
     N('You hang it from the middle beam of the cottage.'),
     N('Out by the pond, the Nubbins come to look at the new ball. Nobody uses hands.'),
+    N('Boing! The ball bounces off your Nubbin.'),
   ],
   [
     notice(
@@ -3191,6 +3259,7 @@ const V_BYTE = sc(
     N('The sun is going down behind the hill. On the other side, the moon is already up.'),
     BY('Same sky. It was always the same sky. I would like that read into the record.'),
     N('He goes back to his notebook.'),
+    N('Whee! Byte and your Nubbin kick the ball.'),
   ],
   [
     notice(
