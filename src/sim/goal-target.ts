@@ -6,11 +6,12 @@
  * the objective chip's "Go there" and the journal walk or hop the Keeper to the right spot.
  * Goals with no place (a choice made in a scene, an Expedition) have none, and show no button.
  */
-import { REGIONS } from '../config/regions';
+import { REGIONS, type RegionId } from '../config/regions';
 import { LANTERN_POSTS } from '../config/tuning';
 import { chapterDef, FINAL_CHAPTER } from './campaign';
 import { objectivePoi, poiPos } from './beacon';
 import { questAreaKey } from './quest-offers';
+import { regionOf } from './regions';
 import { sideStory } from './story-scenes';
 import type { CampaignState, Vec2, World } from './types';
 
@@ -73,11 +74,22 @@ function spineTarget(world: World, n: number): Vec2 | null {
 }
 
 /** A tracked quest's place, from the chip's key `quest:<id>:<step>`: its Grove area. */
-function questTarget(id: string): Vec2 | null {
+function questTarget(world: World, id: string): Vec2 | null {
   const quest = sideStory(id);
   const key = quest ? questAreaKey(quest) : null;
   if (!key) return null;
   const [region, poi] = key.split('/');
+  const here = regionOf(world.location);
+  // R11 d8 (R0100): in its own drawn region, its point of interest; from a region next door,
+  // the way in (the Grove's tree tunnel for the Wood), so "Go there" leads the whole way.
+  if (region === here && region !== 'grove' && poi && poi !== '*') {
+    const p = REGIONS[here].pois.find((q) => q.id === poi);
+    return p ? { x: p.x, z: p.z } : null;
+  }
+  if (region && region !== here && region in REGIONS && REGIONS[region as RegionId].built) {
+    const way = REGIONS[here].exits.find((e) => e.to === region);
+    if (way) return { x: way.rect.x + way.rect.w / 2, z: way.rect.z + way.rect.h / 2 };
+  }
   if (region !== 'grove' || !poi || poi === '*') return null;
   return REGIONS.grove.pois.some((p) => p.id === poi) ? poiPos(poi) : null;
 }
@@ -87,12 +99,14 @@ function questTarget(id: string): Vec2 | null {
  * (`story:hazel:<n>`), the tracked quests (`quest:<id>:<step>`) and the beacon's own keys.
  */
 export function goalTarget(world: World, key: string | null): Vec2 | null {
-  if (!key || world.location !== 'grove') return null;
+  if (!key) return null;
   const parts = key.split(':');
+  // R11 d8: a tracked quest points on from any drawn region; the rest are the Grove's own.
+  if (parts[0] === 'quest' && parts[1]) return questTarget(world, parts[1]);
+  if (world.location !== 'grove') return null;
   if (parts[0] === 'story' && parts[1] === 'hazel') {
     const n = Number(parts[2]);
     return spineTarget(world, n) ?? objectivePoi(world, key);
   }
-  if (parts[0] === 'quest' && parts[1]) return questTarget(parts[1]);
   return objectivePoi(world, key);
 }
