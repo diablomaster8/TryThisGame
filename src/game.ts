@@ -4,6 +4,8 @@ import { easeShift, NO_SHIFT, type ViewShift } from './render/view-shift';
 import { VIEW_SHIFT } from './config/tuning';
 import { Vector3 } from 'three';
 import { REGIONS, regionHour } from './config/regions';
+import { regionLook } from './render/region-look';
+import { regionSky } from './sim/region-weather-live';
 import { regionOf } from './sim/regions';
 import { regionCameraFor } from './config/region-camera';
 import { COLLECT } from './config/region-collectibles';
@@ -78,6 +80,9 @@ import { playIris } from './ui/travel-iris';
 import { playSound } from './platform/audio';
 import { REGION_BORDER } from './config/tuning-r11d1';
 import { regionFar } from './render/region-host-px';
+
+/** R0094: the pale mist a fog spell greys the pixel picture toward. */
+const FOG_TINT = new Vector3(0.88, 0.92, 0.96);
 
 /** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
 function reduce0(reduce: boolean, dtMs: number, rate: number): number {
@@ -374,7 +379,16 @@ export class Game {
       this.weatherSid = sid;
       this.lastDaylightMs = -Infinity;
     }
-    const wk = resolveStage(this.world)?.stage.weather ? 'clear' : this.world.weather.kind;
+    // R0094/R0118: a drawn region has its own sky and season (sim/region-weather-live.ts).
+    const sky = regionSky(this.world, localHour());
+    regionLook.season = sky ? sky.season : null;
+    regionLook.fog = sky ? sky.fog : 0;
+    const wk = resolveStage(this.world)?.stage.weather
+      ? 'clear'
+      : sky
+        ? sky.draw
+        : this.world.weather.kind;
+    const wInt = sky ? sky.intensity : this.world.weather.intensity;
     const blending = this.hourBlend !== null;
     const clock =
       this.hourOverride ?? regionHour(REGIONS[regionOf(this.world.location)].clock, localHour());
@@ -387,6 +401,8 @@ export class Game {
     if (this.scene3d) {
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
+      this.scene3d.regionSky.fog = regionLook.fog;
+      this.scene3d.regionSky.intensity = wInt;
       this.scene3d.setDaylight(clock, d, this.world.location, wk, s.particles);
       return;
     }
@@ -402,14 +418,19 @@ export class Game {
     this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
       place === 'dungeon' || this.pixelGov?.sheds('weather') ? 'clear' : wk,
-      this.world.weather.intensity,
+      wInt,
       this.pixelGov ? this.pixelGov.particles(s.particles) : s.particles,
       reduce,
     );
     // Rain greys the grade a little; snow brightens and cools it.
     const w = wk;
-    const tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
-    const tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
+    let tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
+    let tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
+    if (regionLook.fog > 0) {
+      // A fog spell: the picture greys toward a pale mist.
+      tint = tint.clone().lerp(FOG_TINT, regionLook.fog);
+      tintAmount = Math.max(tintAmount, regionLook.fog * 0.6);
+    }
     this.lowRes.postPass?.apply({
       tint,
       tintAmount,
@@ -987,6 +1008,8 @@ export class Game {
           this.camera.target.z = this.world.keeper.pos.z;
           // WORLD-56: the pixel camera's far plane reaches across the region's diagonal.
           regionFar(this.camera.camera, e.region);
+          // R0094/R0118: the new place's sky and season show at once, not at the next 3 s check.
+          this.lastDaylightMs = -Infinity;
         } else if (e.kind === 'travelled') {
           // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
           this.camera.target.x = e.to.x;

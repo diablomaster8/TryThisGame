@@ -6,6 +6,7 @@
  * travel never touches them or the random stream, so leaving and coming back changes nothing
  * at home.
  */
+import { companionsArrive } from './region-companion';
 import { REGIONS, REGION_ORDER, type RegionDef, type RegionId } from '../config/regions';
 import { setLocation } from './campaign';
 import { visit } from './neighbourhood';
@@ -105,6 +106,8 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
 export function noteRegion(world: World, events: SimEvent[]): void {
   const region = regionOf(world.location);
   events.push({ kind: 'regionEntered', region });
+  // R0121: the partners come along, react to the place and lean toward its kind.
+  companionsArrive(world, events);
   const found = (world.regionsFound ??= []);
   if (!found.includes(region)) {
     found.push(region);

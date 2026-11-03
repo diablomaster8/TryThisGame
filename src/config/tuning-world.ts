@@ -224,7 +224,8 @@ export const WORLD_BEACON = {
  * is drawn only as Corvin's story set today). Add a region here when it opens.
  */
 export const WORLD_QUESTS = {
-  ownOffers: ['grove', 'hollow'] as readonly string[],
+  // R11 d8 (R0101): the Wood is drawn and walkable now, so its six quests are offered there.
+  ownOffers: ['grove', 'hollow', 'wood'] as readonly string[],
 } as const;
 
 /**

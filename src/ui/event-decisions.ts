@@ -271,4 +271,7 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   traceFound: 'elsewhere',
   photoSpot: 'elsewhere',
   exitReached: 'elsewhere',
+  regionCritter: 'elsewhere',
+  gateOpened: 'elsewhere',
+  companionReacts: 'elsewhere',
 };

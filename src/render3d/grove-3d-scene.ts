@@ -97,6 +97,13 @@ import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
 import { StaticFreezer, freezeWanted } from './static-freeze';
+import { GrovePuddles } from './puddles';
+import { AmbientLife3d } from './ambient';
+import { RegionLife3d } from './region-life';
+import { ambientAwake } from '../render/ambient-life';
+
+/** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
+const FOG_WHITE = new THREE.Color('#e8eef2');
 
 export { prewarmCreatures } from './prewarm';
 
@@ -273,6 +280,38 @@ export class Grove3dScene {
   private particlesShed = false;
   private groveBloomShed = false;
   private shadowShed = false;
+  /** R0094: the haze and rain share a drawn region's own sky asks for (the game sets it). */
+  readonly regionSky = { fog: 0, intensity: 0 };
+  private readonly puddles: GrovePuddles;
+  private readonly ambient: AmbientLife3d;
+  private readonly regionLife: RegionLife3d;
+
+  /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
+  private updateAmbient(world: World): void {
+    const [, d, , weather, particles] = this.dayArgs ?? [
+      12,
+      daylightAt(12),
+      'grove',
+      'clear',
+      'full',
+    ];
+    const onGrove = world.location === 'grove';
+    this.ambient.update(
+      world,
+      this.camPos,
+      this.time.value,
+      ambientAwake(d.phase, weather),
+      this.phoneSized,
+      this.reduceMotion,
+      particles === 'off' || this.staging.exclusive,
+      onGrove ? (x, z) => Math.max(groveHeight(x, z), WATER_LEVEL) : () => 0,
+    );
+  }
+
+  private get phoneSized(): boolean {
+    return Math.min(viewportSize().w, viewportSize().h) < WORLD_LOD.phoneMaxPx;
+  }
+
   /** A shed step changed something `setDaylight` decides: re-run it next frame. */
   private dayDirty = false;
   private readonly smaa: SMAAPass;
@@ -550,6 +589,9 @@ export class Grove3dScene {
     this.village = new Village(this.world3d, this.tex, groveHeight);
     this.villageSquare = new VillageSquare(this.world3d, this.tex, groveHeight, this.pickables);
     this.weather = new GroveWeather(this.scene, this.world3d);
+    this.puddles = new GrovePuddles(this.world3d, groveHeight);
+    this.ambient = new AmbientLife3d(this.scene);
+    this.regionLife = new RegionLife3d(this.scene);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     this.freezer = freezeWanted()
@@ -764,7 +806,13 @@ export class Grove3dScene {
       !(place === 'dungeon' && this.floor) &&
       !place.startsWith('region:');
     this.actors.ground = grove ? standHeight : () => 0;
-    this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
+    // R0094: a drawn region wears its own sky (rain, snow, fog), the Grove's sim weather aside.
+    const reg = place.startsWith('region:');
+    this.sky.set(hour, d, grove || reg ? weather : 'clear', this.camTarget);
+    if (reg && this.regionSky.fog > 0) {
+      this.sky.fog.density *= 1 + this.regionSky.fog * 3;
+      this.sky.fog.color.lerp(FOG_WHITE, this.regionSky.fog * 0.7);
+    }
     // Underground there is no sky: a mid-tone vault, a cool fill, the torches.
     this.sky.sky.visible = !cave;
     // R0190: an act's caves wear its look over the depth band, and tint the Keeper's lamp.
@@ -893,10 +941,18 @@ export class Grove3dScene {
     this.lampSources = sources;
     // TECH-52: the tier's light particles, or the Grove's first shed step.
     const light = this.tierFx.particles === 'light' || (!cave && this.particlesShed);
-    this.weather.set(grove, place, weather, d, light && particles === 'full' ? 'light' : particles);
+    this.weather.intensity = reg ? this.regionSky.intensity : null;
+    this.weather.set(
+      grove,
+      place,
+      weather,
+      d,
+      light && particles === 'full' ? 'light' : particles,
+      reg,
+    );
     // Rain cools the grade a touch (it used to grey it to a wash; art pass 2) and snow
     // brightens and cools it, as the pixel post pass.
-    const wet = grove && weather === 'rain';
+    const wet = (grove || reg) && weather === 'rain';
     this.grade.uniforms.uSaturation!.value = wet ? GROVE3D.rain.saturation : GRADE_SATURATION;
     if (wet)
       (this.grade.uniforms.uTint!.value as THREE.Color).multiply(
@@ -1888,6 +1944,9 @@ export class Grove3dScene {
     if (!this.shedCave) snapShadow(this.sky.sun, this.camTarget);
     PARTICLE_TIME.value = this.time.value;
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
+    this.puddles.update(world);
+    this.updateAmbient(world);
+    this.regionLife.update(world, this.time.value, this.reduceMotion);
   }
 
   render(): void {

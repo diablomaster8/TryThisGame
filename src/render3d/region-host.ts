@@ -12,6 +12,7 @@ import {
   walkExitsHere,
 } from '../sim/region-walk';
 import type { Vec2, World } from '../sim/types';
+import { secondKeeperApart, withSecondKeeper } from '../render/coop-chunks';
 
 /**
  * R11 lane D: the Full 3D region engine (WORLD-09, 15, 25, 39, 56, 68), the twin of the pixel
@@ -62,6 +63,8 @@ interface Live {
   key: string;
   /** Its programs are linked (or the link was tried). */
   warm: 'no' | 'going' | 'yes';
+  /** R0140: the last fill held the second Keeper's ring. */
+  coop?: boolean;
 }
 
 export class RegionHost3d {
@@ -200,8 +203,13 @@ export class RegionHost3d {
         l.r.group.position.set(0, 0, 0);
         // The active set with hysteresis (WORLD-09): refilled only when a chunk joins or leaves.
         const moved = l.chunks.update(keeper.x, keeper.z);
-        if (moved.added.length || moved.removed.length || l.key === '')
+        // R0140: in co-op the second Keeper's ring stays drawn too.
+        const k2 = world.coop?.active ? world.keeper2?.pos : undefined;
+        if (k2 && secondKeeperApart(keeper, k2))
+          this.fillFrom(l, withSecondKeeper(l.chunks.list(), k2));
+        else if (moved.added.length || moved.removed.length || l.key === '' || l.coop)
           this.fillFrom(l, l.chunks.list());
+        l.coop = !!k2 && secondKeeperApart(keeper, k2);
       } else if (w.off) {
         l.r.group.visible = true;
         l.r.group.position.set(w.off.x, -0.03, w.off.z);

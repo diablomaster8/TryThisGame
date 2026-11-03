@@ -13,6 +13,7 @@ import {
 } from '../sim/region-walk';
 import type { Vec2, World } from '../sim/types';
 import { ActiveChunks, ChunkLRU, chunkKey } from './chunks';
+import { secondKeeperApart } from './coop-chunks';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 
 /**
@@ -34,6 +35,8 @@ export interface RegionPx {
   readonly ground: THREE.Mesh;
   /** A chunk's sprites (trees, props, landmarks standing in it), region-local. */
   chunkDraws(c: LayoutChunk): SpriteDraw[];
+  /** Optional: refit a cached sprite to the look now worn (a season's sheet), once a frame. */
+  restyle?(d: SpriteDraw): void;
   dispose(): void;
 }
 
@@ -147,7 +150,13 @@ export class RegionHostPx {
     for (const l of this.live.values()) l.px.ground.visible = l.id === here;
     if (here) {
       const l = this.live.get(here);
-      if (l) this.drawRegion(l, batch, keeper, null, tint);
+      if (l) {
+        this.drawRegion(l, batch, keeper, null, tint);
+        // R0140: in co-op the second Keeper's ring is drawn too (ring-only: its set is not kept).
+        const k2 = world.coop?.active ? world.keeper2?.pos : undefined;
+        if (k2 && secondKeeperApart(keeper, k2))
+          this.drawRegion(l, batch, k2, null, tint, WORLD_STREAM.rings, keeper);
+      }
     }
     for (const n of near) {
       const l = this.live.get(n.id);
@@ -181,6 +190,8 @@ export class RegionHostPx {
     off: Vec2 | null,
     tint: number,
     rings?: number,
+    /** R0140: chunks the first Keeper's own ring already drew are left out. */
+    skipRingOf?: Vec2,
   ): void {
     const cx = Math.floor(centre.x / WORLD_STREAM.chunk);
     const cz = Math.floor(centre.z / WORLD_STREAM.chunk);
@@ -191,10 +202,17 @@ export class RegionHostPx {
         const key = chunkKey({ cx: cx + dx, cz: cz + dz });
         const c = l.layout.chunks.get(key);
         if (!c) continue;
+        if (
+          skipRingOf &&
+          Math.abs(cx + dx - Math.floor(skipRingOf.x / WORLD_STREAM.chunk)) <= WORLD_STREAM.rings &&
+          Math.abs(cz + dz - Math.floor(skipRingOf.z / WORLD_STREAM.chunk)) <= WORLD_STREAM.rings
+        )
+          continue;
         const hw = l.layout.spec.size.w / 2;
         const hh = l.layout.spec.size.h / 2;
         for (const d of this.draws(l, key, c)) {
           d.tint = tint;
+          l.px.restyle?.(d);
           if (off) {
             // Across a seamless border only the neighbour's own ground is drawn, never its
             // forest margin, which would stand inside this region.

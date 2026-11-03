@@ -93,6 +93,7 @@ import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
+import { companions } from '../sim/region-companion';
 import { noteDue, performClip, performLook } from '../render/perform-look';
 import { Perform3D } from './perform-3d';
 import { chatClip, chatHop } from '../render/chat-look';
@@ -889,7 +890,9 @@ export class Actors {
 
   /** The Nubbins drawn here: none on a visit, the party in the Hollow, else all. */
   private shownNubbins(world: World): World['nubbins'] {
-    if (this.location.startsWith('visit:') || this.location.startsWith('region:')) return [];
+    if (this.location.startsWith('visit:')) return [];
+    // R0121: in a drawn region only the partners that came along.
+    if (this.location.startsWith('region:')) return companions(world);
     const run = this.location === 'dungeon' ? world.dungeon : null;
     // Lane C r10 agent D (R0594): a line's Nubbin that stayed in its place is drawn only there.
     return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : nubbinsHere(world);
