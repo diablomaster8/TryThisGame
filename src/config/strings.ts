@@ -239,7 +239,29 @@ export const EGG_COLOR_LABELS: Record<string, string> = {
   mint: 'Mint',
   gold: 'Gold',
   violet: 'Violet',
+  // R0399: the rest of the egg palette and the extra gems.
+  yellow: 'Yellow',
+  white: 'White',
+  brown: 'Brown',
+  grey: 'Grey',
+  black: 'Black',
+  orange: 'Orange',
+  lime: 'Lime',
+  red: 'Red',
+  pearl: 'Pearl',
+  ruby: 'Ruby',
+  sapphire: 'Sapphire',
+  emerald: 'Emerald',
+  amethyst: 'Amethyst',
+  topaz: 'Topaz',
+  garnet: 'Garnet',
+  onyx: 'Onyx',
+  silver: 'Silver',
+  aquamarine: 'Aquamarine',
+  peridot: 'Peridot',
 };
+
+export const FINISH_LABELS = { shiny: 'Shiny', metal: 'Metal', glass: 'Glass' } as const;
 
 export const PERSONALITY_LABELS = {
   cheerful: 'Cheerful',

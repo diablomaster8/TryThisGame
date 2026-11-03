@@ -3,6 +3,7 @@ import { canShareText, shareText } from '../platform/share';
 import { SHARE_TEXT } from '../config/strings-r9d3';
 import {
   EGG_COLOR_LABELS,
+  FINISH_LABELS,
   formatDuration,
   NAMES,
   PERSONALITY_LABELS,
@@ -391,7 +392,10 @@ function describe(n: Nubbin): string {
   if (n.eggColor !== 'plain') {
     const colour = EGG_COLOR_LABELS[n.eggColor] ?? n.eggColor;
     const tone = n.tone ? ` / ${EGG_COLOR_LABELS[n.tone] ?? n.tone}` : '';
-    bits.push(`${n.shiny ? '✨ ' : ''}${colour}${tone}`);
+    const fin = n.finish ? `${FINISH_LABELS[n.finish]} ` : '';
+    bits.push(`${n.shiny ? '✨ ' : ''}${fin}${colour}${tone}`);
+  } else if (n.finish) {
+    bits.push(FINISH_LABELS[n.finish]);
   } else if (n.shiny) {
     bits.push('✨ Shiny');
   }

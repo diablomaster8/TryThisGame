@@ -83,6 +83,7 @@ import { titleCardUp } from './title-card';
 import { kidToaster } from './kid-notice';
 import { BreakWarning } from './break-warning';
 import { speakLine } from './lesson';
+import { EduNoticing } from './edu-noticing'; /* R0723 */
 import { EDU_REBORN_TEXT } from '../config/strings-kids';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
@@ -547,6 +548,7 @@ export function mountHud(
   // Blocked storage stays on screen, not one passing toast (review C, item 11): a small chip
   // that says why when tapped.
   const storageChip = button(
+  const noticing = new EduNoticing();
     UI_TEXT.storageBlockedChip,
     () => toast(UI_TEXT.storageBlockedTitle),
     'storage-chip',
@@ -1537,6 +1539,13 @@ export function mountHud(
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
         } else if (e.kind === 'bonked') {
           // R0300/R0299: a fruit on the head, or a walk into a tree.
+        // R0723: a sprout's Grove noticing, spoken and rate-limited.
+        const noticed = noticing.onEvent(e, g.world, performance.now());
+        if (noticed) {
+          speakLine(noticed.text);
+          toast(noticed.text);
+          g.send({ kind: 'eduNotice', item: noticed.item });
+        }
           playSound('bonk');
         } else if (e.kind === 'ballSplash') {
           // R0293 (lane E r10): the ball into the pond.

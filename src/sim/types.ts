@@ -1714,6 +1714,8 @@ export type Command =
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
   /** Lane E r10, R0735: a reader's age, 7 to 10. */
   | { kind: 'eduSetReaderAge'; age: 7 | 8 | 9 | 10 }
+  /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
+  | { kind: 'eduNotice'; item: string }
   /** Lane E r10, R0679: the sprout tutorial was said (once per Grove). */
   | { kind: 'eduTutorialSaid' }
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }

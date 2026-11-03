@@ -54,6 +54,10 @@ export const GEM_LOOK = {
   /** Shiny: one sweep every this many seconds, and the band's brightness. */
   sweep: 3,
   band: 0.7,
+  /** Glass: the front alpha, the back faces' alpha and their darkening. */
+  glassFront: 0.55,
+  glassBackAlpha: 0.8,
+  glassBack: 0.6,
   /** The shader clock held under reduced motion (band mid-body, stars full). */
   stillAt: 1.05,
 };

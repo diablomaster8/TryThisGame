@@ -22,6 +22,8 @@ export interface GemFinish {
   jewel?: boolean;
   metal?: boolean;
   shiny?: boolean;
+  /** R0399: the glass egg finish: pale, see-through (front 0.55, back faces darker). */
+  glass?: boolean;
   /** The light gem colour for the jewel rim. */
   rim?: string;
 }
@@ -73,6 +75,16 @@ function chunk(f: GemFinish): string {
       '}',
     );
   }
+  if (f.glass) {
+    // Two passes in one: the front faces at alpha 0.55, the back faces darker and denser,
+    // so the far wall shows through; a pale wash keeps the body glass-light.
+    parts.push(
+      'outgoingLight = mix( outgoingLight, vec3( 1.0 ), 0.3 );',
+      `outgoingLight *= gl_FrontFacing ? 1.0 : ${g.glassBack.toFixed(3)};`,
+      `diffuseColor.a = gl_FrontFacing ? ${g.glassFront.toFixed(3)} : ${g.glassBackAlpha.toFixed(3)};`,
+      `outgoingLight += vec3( gS > 0.96 ? ${g.spec.toFixed(3)} : 0.0 ) * ( gl_FrontFacing ? 1.0 : 0.0 );`,
+    );
+  }
   if (f.shiny) {
     // A diagonal band that crosses the body, then rests: one pass every `sweep` seconds.
     parts.push(
@@ -111,6 +123,12 @@ export function applyGemFinish(
   };
   // Off the toon ramp the physical surface does the rest: a hard clearcoat for shiny, a
   // metal for gold and silver (the stage carries an environment to reflect).
+  if (f.glass) {
+    // Transparent, both sides; the depth is not written so the far wall shows through.
+    mat.transparent = true;
+    mat.depthWrite = false;
+    mat.side = THREE.DoubleSide;
+  }
   if (!TOON.on) {
     if (f.shiny || f.jewel) mat.clearcoat = 1;
     if (f.metal) mat.metalness = GEM_LOOK.metalness;
@@ -118,7 +136,7 @@ export function applyGemFinish(
   const prev = mat.onBeforeCompile;
   // Read before the hook is swapped: three's default key is the hook's own text.
   const prevKey = mat.customProgramCacheKey.call(mat);
-  const key = `gem|${f.jewel ? 'j' : ''}${f.metal ? 'm' : ''}${f.shiny ? 's' : ''}`;
+  const key = `gem|${f.jewel ? 'j' : ''}${f.metal ? 'm' : ''}${f.shiny ? 's' : ''}${f.glass ? 'g' : ''}`;
   mat.onBeforeCompile = (shader, renderer) => {
     prev.call(mat, shader, renderer);
     Object.assign(shader.uniforms, uniforms);
@@ -138,7 +156,7 @@ export function applyGemFinish(
 
 /** Hang a finish on a spec: its `extras` (if any) still run, then the finish patches the body. */
 export function withGemFinish(spec: SpeciesSpec, f: GemFinish): void {
-  if (!f.jewel && !f.metal && !f.shiny) return;
+  if (!f.jewel && !f.metal && !f.shiny && !f.glass) return;
   const before = spec.extras;
   spec.extras = (rig: RigContext) => {
     const own = before?.(rig);

@@ -125,6 +125,7 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
   const band = /-(sun|moon)(-|$)/.exec(baseKey)?.[1] ?? null;
   const colors: Partial<NubbinColors> = {};
   let shiny = false;
+  let eggFinish: 'metal' | 'glass' | undefined;
   let gem: Gem | undefined;
   let eggName = '';
   for (const m of mods) {
@@ -155,8 +156,10 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
       colors.tip = t.body;
       colors.pad = t.crownShade;
     } else if (m === 'shiny') shiny = true;
+    else if (m === 'finish:metal' || m === 'finish:glass')
+      eggFinish = m.slice(7) as 'metal' | 'glass';
   }
-  const finish = gemFinishFor(gem, eggName, shiny);
+  const finish = gemFinishFor(gem, eggName, shiny, eggFinish);
   return variant(base, `${base.name} (tinted)`, {
     colors: byRole(base, colors),
     // Painted in the body's shader, so it reads under the toon ramp (LOOK-29, LOOK-30).
@@ -315,7 +318,8 @@ export function specForKey(key: string): SpeciesSpec {
     if (wingTip && wingTip in DYE_COLORS) dyedTips.wing = color(DYE_COLORS[wingTip as DyeColor]);
     if (crownTip && crownTip in DYE_COLORS) dyedTips.tip = color(DYE_COLORS[crownTip as DyeColor]);
     const colour = mods.filter(
-      (m) => m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny',
+      (m) =>
+        m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny' || m.startsWith('finish:'),
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
     if (Object.keys(dyedTips).length)
@@ -348,6 +352,7 @@ export function tintMods(n: {
   eggColor: string;
   tone: string | null;
   shiny: boolean;
+  finish?: 'metal' | 'glass';
   heirloom?: boolean;
   shadow?: boolean;
 }): string {
@@ -355,6 +360,7 @@ export function tintMods(n: {
   if (eggColour(n.eggColor) || jewel(n.eggColor)) mods.push(`egg:${n.eggColor}`);
   if (n.tone && (eggColour(n.tone) || jewel(n.tone))) mods.push(`tone:${n.tone}`);
   if (n.shiny || n.heirloom) mods.push('shiny');
+  if (n.finish) mods.push(`finish:${n.finish}`);
   if (n.shadow) mods.push('shadow');
   if (n.id && WEATHERED.ids.has(n.id)) mods.push('weathered');
   return mods.map((m) => `~${m}`).join('');
