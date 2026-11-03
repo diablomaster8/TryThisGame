@@ -28,6 +28,7 @@ import { costumeOf } from '../sim/wear';
 import { SculptFarm } from './sculpt-farm';
 import { qualityForRes } from './sculpt-res';
 import { stubOnce } from './stubs';
+import { glbFor, glbRig } from './glb-art';
 
 /**
  * Rigged creatures for the 3D Grove, one build per species look and reused after
@@ -217,7 +218,10 @@ export class CreaturePool {
       this.lent.add(spare);
       return spare;
     }
-    const geos = this.ready.get(look.key);
+    // R0439: an `art:` species with a model in `public/models/` is built from it (`glb-art.ts`).
+    const glb = glbFor(look.key);
+    if (glb === 'pending') return null;
+    const geos = glb !== 'none' ? [] : this.ready.get(look.key);
     if (!geos) {
       this.request(look.key);
       return null;
@@ -236,15 +240,18 @@ export class CreaturePool {
       Object.assign(TOON, { on: true, rim: GROVE3D.toon.rim, sky: GROVE3D.toon.sky });
     let rig: Rigged;
     try {
-      rig = buildSpecies(
-        specForKey(look.key),
-        // Each part's surface index, so its stand-in can take the coarse grid (`lowSurface`).
-        geos.map((g, i) => {
-          const c = g.clone();
-          c.userData.surf = i;
-          return c;
-        }),
-      );
+      rig =
+        glb !== 'none'
+          ? glbRig(glb, look.key)
+          : buildSpecies(
+              specForKey(look.key),
+              // Each part's surface index, so its stand-in can take the coarse grid (`lowSurface`).
+              geos.map((g, i) => {
+                const c = g.clone();
+                c.userData.surf = i;
+                return c;
+              }),
+            );
     } finally {
       Object.assign(TOON, was);
     }
@@ -397,7 +404,7 @@ export class CreaturePool {
    */
   lowState(key: string, res: number): 'ready' | 'pending' | 'none' {
     const q = qualityForRes(res);
-    if (q >= this.quality) return 'none';
+    if (q >= this.quality || glbFor(key) !== 'none') return 'none';
     if (this.low.has(key)) return 'ready';
     if (!this.lowAsked.has(key)) {
       this.lowAsked.add(key);
@@ -470,6 +477,8 @@ export class CreaturePool {
 
   /** Whether a look's surfaces are back, so `acquire` can build it. */
   isReady(key: string): boolean {
+    const glb = glbFor(key);
+    if (glb !== 'none' && glb !== 'pending') return true;
     return this.ready.has(key) || (this.free.get(key)?.length ?? 0) > 0;
   }
 
