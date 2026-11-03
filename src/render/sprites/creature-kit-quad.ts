@@ -72,23 +72,28 @@ interface Base {
   face: number;
   back: boolean;
   dir: 1 | -1;
+  /** The grid frame (creature.ts `gridFrame`): scale, centre column, offset rounding (LOOK-43). */
+  k: number;
+  mid: number;
+  u: (n: number) => number;
 }
 
 /** Head and body placement for the kit plans, in the same frame as creature.ts. */
 export function kitAnchors(plan: KitPlan, spec: CreatureSpec, pose: ChaoPose, b: Base): Anchors {
-  const s = spec.size;
+  const { k, mid, u } = b;
+  const s = spec.size * k;
   const side = b.face >= 1;
   const quarter = b.angle === 'frontQuarter' || b.angle === 'backQuarter';
   if (plan === 'fish') {
-    const headRx = Math.min(14, Math.round((side ? 12 : quarter ? 11 : 9) * s));
+    const headRx = Math.min(14 * k, Math.round((side ? 12 : quarter ? 11 : 9) * s));
     const headRy = Math.round(7.5 * s * pose.squash);
     return {
-      headCx: side ? 15 : 16,
-      headCy: b.feetY - headRy - 1 + pose.headDrop,
+      headCx: side ? mid - u(1) : mid,
+      headCy: b.feetY - headRy - u(1) + pose.headDrop,
       headRx,
       headRy,
-      bodyCx: 16,
-      bodyCy: b.feetY - 1,
+      bodyCx: mid,
+      bodyCy: b.feetY - u(1),
       bodyRx: 0,
       bodyRy: 0,
       feetY: b.feetY,
@@ -105,23 +110,24 @@ export function kitAnchors(plan: KitPlan, spec: CreatureSpec, pose: ChaoPose, b:
   const bodyRx = Math.round((side ? 8 : quarter ? 7 : 5.5) * s * wide);
   const bodyRy = Math.round(4.5 * s * pose.squash);
   // A long neck or muzzle pushes the body back so the head stays in the frame.
-  const bodyCx = side ? 14 - Math.round(q.neck * 3 + q.snout * 4) : 16;
+  const bodyCx = side ? mid - u(2) - Math.round((q.neck * 3 + q.snout * 4) * k) : mid;
   // Seated, the rump is on the ground and the chest stands up on the front legs.
-  const bodyCy = b.feetY - legH - bodyRy + (q.stance === 'sit' ? 2 : 0);
-  const baby = s < QUAD_BABY_SIZE ? 1.3 : 1;
+  const bodyCy = b.feetY - legH - bodyRy + (q.stance === 'sit' ? u(2) : 0);
+  // The baby test reads the species' own size, not the grid-scaled one.
+  const baby = spec.size < QUAD_BABY_SIZE ? 1.3 : 1;
   const headRx = Math.round(5 * s * baby);
   const headRy = Math.round(4.5 * s * baby * pose.squash);
-  const up = Math.round(q.neck * 6) + (q.stance === 'sit' ? 2 : 0);
-  let headCx = 16;
-  let headCy = bodyCy - 2 - up;
+  const up = Math.round(q.neck * 6 * k) + (q.stance === 'sit' ? u(2) : 0);
+  let headCx = mid;
+  let headCy = bodyCy - u(2) - up;
   if (side) {
-    headCx = bodyCx + bodyRx - 1 + Math.round(q.neck * 4);
-    headCy = bodyCy - bodyRy - 1 - up;
+    headCx = bodyCx + bodyRx - u(1) + Math.round(q.neck * 4 * k);
+    headCy = bodyCy - bodyRy - u(1) - up;
   } else if (quarter) {
-    headCx = b.back ? 13 : 19;
-    headCy = bodyCy - bodyRy + (b.back ? -1 : 1) - up;
-  } else if (b.back) headCy = bodyCy - bodyRy - 1 - up;
-  headCy = Math.max(headRy + 1, headCy);
+    headCx = b.back ? mid - u(3) : mid + u(3);
+    headCy = bodyCy - bodyRy + (b.back ? -u(1) : u(1)) - up;
+  } else if (b.back) headCy = bodyCy - bodyRy - u(1) - up;
+  headCy = Math.max(headRy + u(1), headCy);
   return {
     headCx,
     headCy: headCy + pose.headDrop,

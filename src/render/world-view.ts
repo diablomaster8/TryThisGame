@@ -72,6 +72,7 @@ import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
+import { tallFramePx } from './sprites/creature';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet, decorFrame } from './sprites/props';
 import { buildTapFlagSheet } from './sprites/tap-flags';
@@ -2622,7 +2623,8 @@ export class WorldView {
       const ball = this.emoteSprings.step(
         n.id,
         x - Math.sin(n.facing) * back,
-        y + 2.15 + em.dy,
+        // LOOK-43: over a big-grid form the ball rides as much higher as the frame is taller.
+        y + 2.15 + tallFramePx(sheet.cellH) / NATIVE_PPU + em.dy,
         z - Math.cos(n.facing) * back,
         emote,
         nowMs,
