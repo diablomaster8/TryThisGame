@@ -783,12 +783,12 @@ export interface EduState {
   words: Record<string, { heard: number; used: number; box?: number; due?: number }>;
   /** R0701: the child's play-day count (a day counts only when they review), and its date key. */
   srsDay?: number;
-  srsKey?: string;
-  /** The language courses the child has started from Nova's postcard. */
   /** R0688: Fun Run ribbons earned (one per finished run; no placings, no tiers). */
   ribbons?: number;
   /** R0690: cave stickers found in Glow Cave chests. */
   caveStickers?: number;
+  srsKey?: string;
+  /** The language courses the child has started from Nova's postcard. */
   courses: Record<LangCourseId, boolean>;
 }
 
@@ -1045,11 +1045,11 @@ export interface DungeonRun {
   // Lane B round 9.
   /** R0188: a kid run: small floors, no traps, gentle packs. */
   kid?: true;
-  /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
-  flyLiftDepth?: number;
   /** R0690: a sprout's Glow Cave run, and the floors whose puzzle is solved. */
   glow?: true;
   glowSolved?: number[];
+  /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
+  flyLiftDepth?: number;
   /** Lane B r10 (R0191): the depth where a flying party Nubbin already carried the Keeper over a pit. */
   flyCarryDepth?: number;
   // Lane B round 9 (helper c).
@@ -1736,27 +1736,25 @@ export type Command =
   | { kind: 'langReview'; word: string; right: boolean }
   /** R0701: a due word is waved at in Grove life (sim/lang.ts `langDueWave`). */
   | { kind: 'langDueWave'; word: string }
+  | { kind: 'funRunDone'; nubbinId: string }
+  | { kind: 'glowSolve'; depth: number }
   | { kind: 'langTraced'; quest: string }
   /** R0708: the child says a word to one Nubbin, which copies the gesture (a teach step). */
   | { kind: 'langTeach'; nubbinId: string; word: string }
-  | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
-  /** Lane E r10, R0735: a reader's age, 7 to 10. */
   /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
   | { kind: 'eduNotice'; item: string }
   /** R0743: a drawing from the paint pad, as a PNG data URL (sim/drawings.ts). */
   | { kind: 'saveDrawing'; data: string }
+  | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
+  /** Lane E r10, R0735: a reader's age, 7 to 10. */
   | { kind: 'eduSetReaderAge'; age: 7 | 8 | 9 | 10 }
-  /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
-  | { kind: 'eduNotice'; item: string }
   /** Lane E r10, R0679: the sprout tutorial was said (once per Grove). */
-  | { kind: 'funRunDone'; nubbinId: string }
-  | { kind: 'glowSolve'; depth: number }
   | { kind: 'eduTutorialSaid' }
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
-  /** R0739: the Learning Grove's interface language. */
-  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
+  /** R0739: the Learning Grove's interface language. */
+  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' }
   /* Lane E r9, R0696 */
   | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
   | {
@@ -2157,6 +2155,8 @@ export type SimEvent =
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
   | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
+  | { kind: 'glowSolved'; depth: number }
+  | { kind: 'glowSticker'; count: number }
   | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {
@@ -2166,8 +2166,6 @@ export type SimEvent =
       param: string | null;
       /** The party Nubbin that found it, or null for the Keeper. */
       by: string | null;
-  | { kind: 'glowSolved'; depth: number }
-  | { kind: 'glowSticker'; count: number }
     }
   | { kind: 'chestOpened'; shells: number; egg: boolean }
   | { kind: 'strayFed'; ok: boolean; name: string | null; pos?: { x: number; z: number } }

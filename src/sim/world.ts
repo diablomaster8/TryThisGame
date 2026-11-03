@@ -1136,36 +1136,33 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'langWord':
       noteWord(world, cmd.word, cmd.how, events);
       return;
+    case 'glowSolve':
+      glowSolve(world, cmd.depth, events);
+      return;
+    case 'funRunDone':
+      funRunDone(world, cmd.nubbinId);
+      return;
     case 'langDueWave':
       langDueWave(world, cmd.word, events);
       return;
     case 'langReview':
       srsAnswer(world, cmd.word, cmd.right);
       return;
-    case 'langTeach':
-      langTeach(world, cmd.nubbinId, cmd.word, events);
-      return;
-    case 'langTraced':
-    case 'eduNotice':
-      eduNotice(world, cmd.item);
     case 'eduNotice':
       eduNotice(world, cmd.item);
       return;
     case 'saveDrawing':
       saveDrawing(world, cmd.data);
       return;
+    case 'langTeach':
+      langTeach(world, cmd.nubbinId, cmd.word, events);
       return;
+    case 'langTraced':
       // The step itself is met by the quest's rule in noteSideCommand, after this.
       langTraced(world, cmd.quest, events);
       return;
     case 'eduSetAge':
       eduSetAge(world, cmd.age, cmd.resetGames);
-      return;
-    case 'glowSolve':
-      glowSolve(world, cmd.depth, events);
-      return;
-    case 'funRunDone':
-      funRunDone(world, cmd.nubbinId);
       return;
     /* Lane E r10, R0735 */
     case 'eduSetReaderAge':
@@ -1180,11 +1177,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetSession':
       eduSetSession(world, cmd.minutes);
       return;
-    case 'eduSetUiLanguage':
-      if (world.edu && (cmd.lang === 'en' || cmd.lang === 'he')) world.edu.uiLanguage = cmd.lang;
-      return;
     case 'eduSetName':
       eduSetName(world, cmd.name);
+      return;
+    case 'eduSetUiLanguage':
+      if (world.edu && (cmd.lang === 'en' || cmd.lang === 'he')) world.edu.uiLanguage = cmd.lang;
       return;
     /* Lane E r9, R0696 */
     case 'eduSetTag':

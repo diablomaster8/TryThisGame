@@ -555,6 +555,7 @@ export function mountHud(
   const fastSafe = dedupeToaster(makeToaster(toasts), () => game()?.clock.timeScale ?? 1);
   const kidNotices = kidToaster(bandToaster(fastSafe, game), game, () => kidBusy());
   const toast = kidNotices.toast;
+  const noticing = new EduNoticing();
   // Lane E r10 (R0694): the heads-up before a Learning Grove loss chapter.
   const lossNotice = new LossNotice(root, game, toast);
   const dueWave = new DueWave(toast); /* R0701 */
@@ -573,7 +574,6 @@ export function mountHud(
   // Blocked storage stays on screen, not one passing toast (review C, item 11): a small chip
   // that says why when tapped.
   const storageChip = button(
-  const noticing = new EduNoticing();
     UI_TEXT.storageBlockedChip,
     () => toast(UI_TEXT.storageBlockedTitle),
     'storage-chip',
@@ -1551,6 +1551,13 @@ export function mountHud(
           toast(ride);
           continue;
         }
+        // R0723: a sprout's Grove noticing, spoken and rate-limited.
+        const noticed = noticing.onEvent(e, g.world, performance.now());
+        if (noticed) {
+          speakLine(noticed.text);
+          toast(noticed.text);
+          g.send({ kind: 'eduNotice', item: noticed.item });
+        }
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           hatchCard.add(n, n?.name ?? NAMES.creature);
@@ -1573,13 +1580,6 @@ export function mountHud(
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
         } else if (e.kind === 'bonked') {
           // R0300/R0299: a fruit on the head, or a walk into a tree.
-        // R0723: a sprout's Grove noticing, spoken and rate-limited.
-        const noticed = noticing.onEvent(e, g.world, performance.now());
-        if (noticed) {
-          speakLine(noticed.text);
-          toast(noticed.text);
-          g.send({ kind: 'eduNotice', item: noticed.item });
-        }
           playSound('bonk');
         } else if (e.kind === 'ballSplash') {
           // R0293 (lane E r10): the ball into the pond.
