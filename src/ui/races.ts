@@ -2,7 +2,7 @@ import { mergedLevels } from '../sim/partners';
 import { COURSE_LABELS, NAMES, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { RaceScreen } from '../minigames/race/screen';
-import { COURSES, createRace, lookPrizesFor, raceSeedFor } from '../sim/race';
+import { COURSES, createRace, lookPrizesFor, metSpeciesOf, raceSeedFor } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 import { byteFooter } from './fun-toasts';
@@ -87,6 +87,7 @@ export class RacesMenu {
       seed,
       mergedLevels(g.world, runner) ?? undefined,
       g.world.nubbins.map((n) => n.name),
+      metSpeciesOf(g.world),
     );
     const hatRoll = ((seed * 9301 + 49297) % 233280) / 233280;
     g.renderPaused = true;

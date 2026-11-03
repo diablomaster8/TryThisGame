@@ -3,6 +3,7 @@ import { HURDLES } from '../config/tuning-move-race';
 import { RACE_GAGS } from '../config/tuning-fun';
 import { hashSeed, Rng } from './rng';
 import { levelOf } from './stats';
+import { SPECIES } from './species';
 import type { Nubbin, StatKey, World } from './types';
 import { STAT_KEYS } from './types';
 
@@ -175,6 +176,8 @@ export interface Racer {
   gazes?: number;
   perkUntilMs?: number;
   quirk?: number;
+  /** R0417: a rival from another family (a species id the Keeper has met); absent: a Chao. */
+  species?: string;
 }
 
 export interface RaceState {
@@ -218,6 +221,11 @@ const RIVAL_NAMES = [
   'Clover',
 ];
 
+/** R0417: the other-family species the Keeper has met (seen in the book), for the rivals. */
+export function metSpeciesOf(world: World): string[] {
+  return SPECIES.filter((s) => s.family !== 'chao' && world.seen[s.id] !== undefined).map((s) => s.id);
+}
+
 export function createRace(
   course: Course,
   tier: number,
@@ -226,6 +234,8 @@ export function createRace(
   levelsOverride?: Record<StatKey, number>,
   /** Names the rivals must not take: the player's own Nubbins (the runner's is always left out). */
   taken: readonly string[] = [],
+  /** R0417: species ids of other families the Keeper has met; tier 2+ rivals may be drawn from them. */
+  metSpecies: readonly string[] = [],
 ): RaceState {
   const rng = Rng.fromSeed(seed);
   const t = Math.max(0, Math.min(2, tier - 1));
@@ -256,6 +266,13 @@ export function createRace(
   // R0325: the rivals' quirks come from their own dice, so the stat rolls are as before.
   const quirks = Rng.fromSeed(hashSeed(`quirks:${seed}`));
   const count = rng.int(minRivals, maxRivals);
+  // R0417: from tier 2, about 40% of the field (at least two) comes from the families met.
+  const others = Rng.fromSeed(hashSeed(`others:${seed}`));
+  const otherSlots = new Set<number>();
+  if (tier >= 2 && metSpecies.length > 0) {
+    const want = Math.min(count, Math.max(2, Math.round(count * 0.4)));
+    while (otherSlots.size < want) otherSlots.add(others.int(0, count - 1));
+  }
   // A rival never shares a name with one of the Keeper's own Nubbins (two racers called Pip).
   const avoid = new Set([player.name, ...taken].map((s) => s.trim().toLowerCase()));
   const names = RIVAL_NAMES.filter((s) => !avoid.has(s.toLowerCase()));
@@ -287,6 +304,7 @@ export function createRace(
       stumbleMs: 0,
       dizzyUntilMs: -1,
       quirk: quirks.int(0, RACE_GAGS.quirks - 1),
+      ...(otherSlots.has(i) ? { species: others.pick(metSpecies) } : {}),
     });
   }
   const resolved: Course = { ...course, sections: course.tierSections?.[tier] ?? course.sections };

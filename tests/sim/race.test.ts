@@ -183,3 +183,20 @@ describe('personality', () => {
     expect(n.personality).toBe('mischievous');
   });
 });
+
+describe('rivals from other families (R0417)', () => {
+  it('tier 2 draws at least two rivals from the species met, tier 1 none, and it is seeded', () => {
+    const met = ['sparkmouse', 'embercub'];
+    for (const seed of [1, 2, 3, 4, 5]) {
+      const a = createRace(COURSES[0]!, 2, racer(20), seed, undefined, [], met);
+      const b = createRace(COURSES[0]!, 2, racer(20), seed, undefined, [], met);
+      const others = a.racers.filter((r) => r.species);
+      expect(others.length).toBeGreaterThanOrEqual(2);
+      expect(others.every((r) => met.includes(r.species!))).toBe(true);
+      expect(b.racers.map((r) => r.species)).toEqual(a.racers.map((r) => r.species));
+      const t1 = createRace(COURSES[0]!, 1, racer(20), seed, undefined, [], met);
+      expect(t1.racers.some((r) => r.species)).toBe(false);
+    }
+    expect(createRace(COURSES[0]!, 2, racer(20), 1).racers.some((r) => r.species)).toBe(false);
+  });
+});

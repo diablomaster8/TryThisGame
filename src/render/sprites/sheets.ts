@@ -353,6 +353,12 @@ export class SheetCache {
     return this.get('ambient:shadow', () => buildChaoSheet(lookOf(shadowColors(CHILD_NEUTRAL))));
   }
 
+  /** R0417: a race rival from another family, in its own art (the Chao rival look if it has none). */
+  rivalSpecies(id: string, band: 'sun' | 'moon' | 'neutral', type: string): SpriteSheet {
+    const art = speciesArt(id);
+    return art ? this.get(`rival:art:${id}`, () => buildCreatureSheet(art, null)) : this.rival(band, type);
+  }
+
   /** A generic adult look for race rivals. */
   rival(band: 'sun' | 'moon' | 'neutral', type: string): SpriteSheet {
     return this.get(`rival:${band}:${type}`, () =>

@@ -9,6 +9,7 @@ import { sectionAt, type RaceState, type Racer } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
+import { speciesArt } from '../render/sprites/species-art';
 import { buildStoryRace } from './dress-f-sets';
 import { gaitTime } from './gait';
 import type { Grove3dScene } from './grove-3d-scene';
@@ -573,6 +574,9 @@ export class Race3dView implements RaceView {
 
 /** A rival's look from its sim hint: the first evolution of its band and type. */
 function rivalLook(r: Racer): Look {
+  // R0417: a rival from another family wears its own art.
+  const art = r.species ? speciesArt(r.species) : undefined;
+  if (r.species && art) return { key: `art:${r.species}`, height: GROVE3D.nubbinHeight * art.size };
   const id = `first-${r.look.band}-${r.look.type}`;
   return {
     key: variantById(id) ? `variant:${id}` : 'nubbin',

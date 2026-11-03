@@ -99,7 +99,11 @@ export class RacePixelView implements RaceView {
     this.art ??= buildExpeditionArt();
     this.lanes = race.racers.length;
     for (const r of race.racers) {
-      this.sheets.set(r.id, r.isPlayer ? playerSheet : cache.rival(r.look.band, r.look.type));
+      this.sheets.set(r.id, r.isPlayer
+          ? playerSheet
+          : r.species
+            ? cache.rivalSpecies(r.species, r.look.band, r.look.type)
+            : cache.rival(r.look.band, r.look.type));
     }
   }
 
