@@ -1,4 +1,6 @@
 // Every player-facing name and piece of text. All names are working titles.
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 import { aOrAn, ordinal, plural } from './grammar';
 import type { PlaceRefusal } from '../sim/types';
 import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
@@ -344,7 +346,7 @@ export const UI_TEXT = {
   shadowTag: 'Shadow',
   bondedTag: 'Shadow · bonded',
   strayTag: 'Stray',
-  rebirths: (n: number) => (n === 1 ? '1 rebirth' : `${n} rebirths`),
+  rebirths: (n: number) => fmt(MESSAGES_EN.rebirths, { n }),
   fruitCount: (n: number) => `${n}`,
   // Settings
   offlineAgingTitle: 'Aging while closed',
@@ -518,8 +520,7 @@ export const UI_TEXT = {
   heartFruitGive: 'Heart fruit',
   interactRefused: (name: string) => `${name} flinches away. Not yet.`,
   interacted: (name: string, action: string) => `${name} liked that (${action.toLowerCase()}).`,
-  called: (n: number) =>
-    n === 0 ? 'Nobody came.' : n === 1 ? 'One came running.' : `${n} came running.`,
+  called: (n: number) => fmt(MESSAGES_EN.called, { n }),
   fetching: (name: string) => `${name} is after the ball!`,
   courting: (name: string) => `${name} is looking for a partner…`,
   bred: 'An egg! Two Nubbins made a little one.',
@@ -632,7 +633,7 @@ export const UI_TEXT = {
   memorialTitle: (name: string) => `In memory of ${name}`,
   memorialLived: (s: string) => `Lived ${s}`,
   memorialForm: (f: string) => `Grew into: ${f}`,
-  memorialRebirths: (n: number) => (n === 1 ? 'Reborn once' : `Reborn ${n} times`),
+  memorialRebirths: (n: number) => fmt(MESSAGES_EN.memorialRebirths, { n }),
   memorialAgo: (s: string) => `Moved on ${s} ago`,
   // Weather and days
   weatherRain: 'Rain. The swimmers are out; everyone else is under the trees.',
@@ -1020,7 +1021,7 @@ export const EDU_STORY_TEXT = {
   byDomain: 'By area',
   byStandard: 'By standard',
   recentNotes: 'What your child practised',
-  lessonCount: (n: number) => `${n} ${n === 1 ? 'lesson' : 'lessons'}`,
+  lessonCount: (n: number) => fmt(MESSAGES_EN.lessonCount, { n }),
   lessonDomains: {
     maths: 'Maths',
     literacy: 'Reading & words',
@@ -1203,7 +1204,7 @@ export const TEN_TEXT = {
     string,
     string
   >,
-  skillCost: (n: number) => `${n} pt${n === 1 ? '' : 's'}`,
+  skillCost: (n: number) => fmt(MESSAGES_EN.skillCost, { n }),
   skillBought: (name: string) => `Learned: ${name}`,
   owned: 'Owned',
   // Scans
@@ -1257,10 +1258,7 @@ export const DUNGEON_TEXT = {
     names.length
       ? `Coming along: ${names.join(' and ')}`
       : 'Nobody to bring along yet; you go alone.',
-  best: (best: number, runs: number) =>
-    runs === 0
-      ? 'Never been down.'
-      : `Deepest floor ${best} · ${runs} trip${runs === 1 ? '' : 's'}`,
+  best: (best: number, runs: number) => fmt(MESSAGES_EN.hollowBest, { best, runs }),
   floor: (n: number) => `Floor ${n}`,
   haul: (shells: number, items: number) => `${items} found · ${shells} Shells`,
   leave: 'Head home',
@@ -1320,10 +1318,10 @@ export const SLOT_TEXT = {
   back: 'Back',
   eraseConfirm: (n: number) => `Erase slot ${n}? This cannot be undone.`,
   newOverConfirm: (n: number) => `Start a new game in slot ${n}? The old one will be erased.`,
-  nubbins: (n: number) => (n === 1 ? '1 Nubbin' : `${n} Nubbins`),
+  nubbins: (n: number) => fmt(MESSAGES_EN.nubbins, { n }),
   chapter: (n: number) => `Chapter ${n}`,
   age: (n: number | string) => `Age ${n}`,
-  ago: (days: number) => (days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`),
+  ago: (days: number) => fmt(MESSAGES_EN.ago, { days: Math.max(0, days) }),
   current: (mode: string, n: number) => `Playing ${mode}, slot ${n}.`,
   /** Screen-reader names for the slot buttons, which otherwise all read alike. */
   continueLabel: (mode: string, n: number, summary: string) =>
@@ -1341,8 +1339,7 @@ export const STORYLINE_TEXT = {
     dusk: 'The Moon Keepers’ half. The same valley after dark, and the mystery from the other side.',
   } as Record<string, string>,
   locked: (other: string) => `Finish ${other} first.`,
-  pathsHelp: (n: number) =>
-    n === 1 ? 'One ending.' : `${n} endings. Here is how to reach each one.`,
+  pathsHelp: (n: number) => fmt(MESSAGES_EN.pathsHelp, { n }),
   whereTo: 'Where to',
   here: 'Here',
   areas: {
