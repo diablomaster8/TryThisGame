@@ -502,7 +502,11 @@ const homeScene = (of: string, eternal: boolean): EduScene => {
 // ================================================================== the quest
 const S24_SCENES: EduScene[] = [
   // ------------------------------------------------ step 1
-  sc('s24-tea', [...TEA_OPEN, TEA_SIT, TEA_RUN, ...TEA_CLOSE], [TEA_SPRING]),
+  sc(
+    's24-tea',
+    [...TEA_OPEN, TEA_SIT, TEA_RUN, ...TEA_CLOSE, N('Whoosh! Nova strides up the hill, bag swinging.')],
+    [TEA_SPRING],
+  ),
   sc(
     's24-tea-done',
     [
@@ -1012,6 +1016,7 @@ const S24_SCENES: EduScene[] = [
       H('“Thank you for all of it. Now go and find somewhere new!”', 'soft'),
       N('Nova cries and cries. Crying lets sad feelings out, and that’s all right.'),
       N('Your Nubbin leans on her. You stay close.'),
+      N('Sniff! Nova wipes her nose, then turns another page.'),
     ],
     [
       notice(
@@ -1068,6 +1073,7 @@ const S24_SCENES: EduScene[] = [
       NO('Gran Hazel would say I was being dramatic.', 'think'),
       Y('She would!'),
       N('Nova laughs. Then she holds the last two things: the cup and the scarf.'),
+      N('Thump! Another flat stone goes onto the pile.'),
     ],
     [
       ask(
@@ -1122,6 +1128,7 @@ const S24_SCENES: EduScene[] = [
       NO('Oh! That’s much better!', 'happy'),
       N('Up the hill, Tilly whistles again. She sounds fed up.'),
       NO('Come on. Let’s go and find Tilly.', 'happy'),
+      N('Whee! The empty bag swings like a flag.'),
     ],
     [
       doIt(
@@ -1175,6 +1182,7 @@ const S24_SCENES: EduScene[] = [
       N('You and Nova kneel down beside her.'),
       N('You put the lantern down, so you can see the knots.'),
       NO('One loop at a time. Slowly.', 'soft'),
+      N('Squeak! Fairweather’s boot squeaks in the net.'),
     ],
     [
       doIt(
@@ -1201,6 +1209,7 @@ const S24_SCENES: EduScene[] = [
       AU('That’ll do. I saw her. That’s enough for me.', 'soft'),
       N('She gives you an old stripy feather from her hat.'),
       AU('Go and see your sunrise. I’ll mind the chicks.', 'happy'),
+      N('Peep! The mother bird peeps and walks on.'),
     ],
     [
       ask(
@@ -1232,6 +1241,7 @@ const S24_SCENES: EduScene[] = [
       N('Nova gives you Gran Hazel’s lantern.'),
       NO('You do it. She’d want it to be you.', 'soft'),
       N('Look! The sky is going pale on one side.'),
+      N('Whoosh! A cool wind blows across the Shelf.'),
     ],
     [
       ask(
@@ -1262,6 +1272,7 @@ const S24_SCENES: EduScene[] = [
       N('It says: HELPING SOMEONE SAD.'),
       TI('You were all right. For a grown-up.'),
       N('Under your line there’s lots of room. Room for lots more places!'),
+      N('Squeak! The tiny pencil squeaks on the page.'),
     ],
     [
       doIt(

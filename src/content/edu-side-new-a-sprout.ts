@@ -223,6 +223,7 @@ const S11: EduQuest = quest(
         BY('Something came on the wind. Something tiny.'),
         Y('What is in the wind?'),
         BY('Good question. I have a jar!', 'happy'),
+        N('Whoosh! The wind flips every tag round and round.'),
       ],
       [
         {
@@ -635,6 +636,7 @@ const S15: EduQuest = quest(
         BY('It’s a plain egg with paint on! There’s a big thumbprint.', 'shock'),
         BY('It’s a healthy egg, though. It will hatch in a week.', 'soft'),
         N('Glitter gets on your fingers. It stays for days!'),
+        N('Plop! A blob of glitter lands on your nose.'),
       ],
       [
         {
@@ -1353,6 +1355,7 @@ const S12: EduQuest = quest(
         PX('When it buzzes in your fingers, that’s them. Walk that way.'),
         PX('And don’t walk into the stream. People do.'),
         PX('Not me. Other people.', 'think'),
+        N('Buzz! The tuning fork hums in your fingers.'),
       ],
       [
         {
@@ -2187,6 +2190,7 @@ const S18: EduQuest = quest(
         DE('A museum helps everybody remember.', 'soft'),
         DE('Or there’s Hazel’s egg book. Every egg Hazel ever hatched is in it.', 'think'),
         DU('That’s a good thing. It just isn’t Fossil.', 'sad'),
+        N('Ding! The little museum bell rings, soft and kind.'),
       ],
       [
         {
