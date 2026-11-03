@@ -1,0 +1,71 @@
+/* R0550 (lane A r11): edge chips for off-screen Nubbins and the Watch caption. */
+.watch-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+}
+.watch-chip {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(40, 32, 60, 0.82);
+  color: #fff;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  touch-action: manipulation;
+}
+.watch-chip canvas {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+.watch-chip .watch-glyph {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  font-size: 11px;
+  line-height: 1;
+  background: #fff;
+  color: #2b2140;
+  border-radius: 8px;
+  padding: 1px 3px;
+}
+.watch-chip .watch-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid #fff;
+}
+.watch-caption {
+  position: absolute;
+  left: 50%;
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  min-height: 44px;
+  max-width: calc(100vw - 32px);
+  padding: 8px 16px;
+  border-radius: 22px;
+  border: 2px solid #fff;
+  background: rgba(40, 32, 60, 0.88);
+  color: #fff;
+  font: inherit;
+  pointer-events: auto;
+  text-align: center;
+}
+.watch-caption[hidden],
+.watch-chip[hidden] {
+  display: none;
+}

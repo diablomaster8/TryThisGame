@@ -38,6 +38,8 @@ import { speciesOf } from '../sim/species';
 import { isCreatorCode } from '../sim/creator';
 import { CREATOR_TEXT } from '../config/strings-evo';
 import { CreatorPicker } from './creator-picker';
+import { WATCH } from '../config/tuning-soul-r11b';
+import { onLongPress } from './watch';
 
 // R0529: all eight, in their one order (sim/types.ts).
 
@@ -358,6 +360,11 @@ export class RosterMenu {
     c.addEventListener('click', () =>
       playChirp(speciesOf(n.species).family, true, chirpVoice(n.id, n.personality)),
     );
+    // R0550: hold the portrait to Watch this Nubbin; the roster closes so the Grove shows.
+    onLongPress(c, WATCH.longPressMs, () => {
+      g.watch(n.id);
+      this.close();
+    });
     return c;
   }
 

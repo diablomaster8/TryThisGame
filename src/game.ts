@@ -506,6 +506,8 @@ export class Game {
   private talkerKey: string | null = null;
   /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
   private focus: { id: string; untilMs: number } | null = null;
+  /** R0550: set while "Watch" follows one Nubbin with no time limit. */
+  private watchId: string | null = null;
   /** R0107: the camera holds still until this time after a landmark is found. */
   private landmarkHoldUntil = -Infinity;
   private hooks: GameHooks;
@@ -826,6 +828,33 @@ export class Game {
   }
 
   // ---------- commands ----------
+
+  /** R0550: the Nubbin the Watch camera follows, or null. */
+  get watching(): string | null {
+    return this.watchId && this.focus?.id === this.watchId ? this.watchId : null;
+  }
+
+  /** R0550: follow one Nubbin until `watch(null)`; a null id ends it. */
+  watch(id: string | null): void {
+    this.watchId = id;
+    this.focus = id ? { id, untilMs: Infinity } : null;
+  }
+
+  /** R0550: glide the camera to a Nubbin for a moment (an edge chip was tapped). */
+  panTo(id: string, ms = 2500): void {
+    if (!this.watching) this.focus = { id, untilMs: performance.now() + ms };
+  }
+
+  /**
+   * R0550: where a world point is on screen, in NDC (-1..1, y up), or null before the first
+   * frame. `behind` is true when it is behind the camera (never in the ortho pixel view).
+   */
+  ndcOf(x: number, y: number, z: number): { x: number; y: number; behind: boolean } | null {
+    const cam = this.scene3d ? this.scene3d.cameraRig(this.camera).camera : this.camera.camera;
+    const v = new Vector3(x, y, z).project(cam);
+    if (!Number.isFinite(v.x) || !Number.isFinite(v.y)) return null;
+    return { x: v.x, y: v.y, behind: v.z > 1 };
+  }
 
   send(cmd: Command): void {
     this.pending.push(cmd);
