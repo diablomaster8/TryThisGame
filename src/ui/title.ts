@@ -516,7 +516,7 @@ export function showTitle(
       tagStep(
         menu,
         (tag) => finish({ ...c, tag }),
-        backButton(() => ageMenu(slot)),
+        backButton(() => ageMenu(slot), true),
       );
     menu.appendChild(el('div', 'help', EDU_TEXT.chooseAge));
     // R0720: four sprout tiles in a row, then one wide reader tile, so nothing wraps at 375 px.
@@ -547,7 +547,7 @@ export function showTitle(
       backButton(() => {
         subtitle(false);
         mainMenu();
-      }),
+      }, true),
     );
     speakLine(EDU_TEXT.chooseAge);
   };
@@ -673,8 +673,11 @@ function portrait(trainerId: string): HTMLCanvasElement {
 }
 
 /** The "←" back to the slot list, named for screen readers (review C, item 23). */
-function backButton(onBack: () => void): HTMLButtonElement {
-  const b = button('←', onBack, 'btn btn-small');
+function backButton(onBack: () => void, kids = false): HTMLButtonElement {
+  // R0678: the Learning Grove's own steps use a big "← Back" (64 px, a word and an arrow).
+  const b = kids
+    ? button(`← ${SLOT_TEXT.back}`, onBack, 'btn kids-back')
+    : button('←', onBack, 'btn btn-small');
   b.setAttribute('aria-label', SLOT_TEXT.back);
   b.title = SLOT_TEXT.back;
   return b;

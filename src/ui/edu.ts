@@ -79,7 +79,7 @@ export class EduScreen {
     private readonly game_: () => Game | null,
     private readonly toast: (text: string) => void,
   ) {
-    this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
+    this.picker = modal(parent, EDU_TEXT.play, `🚪 ${EDU_TEXT.leave}`);
     this.picker.root.classList.add('edu-picker');
     this.lang = new LangPanel(parent, game_, toast);
     this.tracer = new TraceGame(parent, game_);

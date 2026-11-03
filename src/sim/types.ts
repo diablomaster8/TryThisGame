@@ -1734,6 +1734,8 @@ export type Command =
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langReview'; word: string; right: boolean }
+  /** R0701: a due word is waved at in Grove life (sim/lang.ts `langDueWave`). */
+  | { kind: 'langDueWave'; word: string }
   | { kind: 'langTraced'; quest: string }
   /** R0708: the child says a word to one Nubbin, which copies the gesture (a teach step). */
   | { kind: 'langTeach'; nubbinId: string; word: string }

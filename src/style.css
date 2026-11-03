@@ -5517,7 +5517,7 @@ html.story-resting canvas {
 }
 .dialogue-again {
   position: absolute;
-  left: 0;
+  right: 56px;
   bottom: 100%;
   margin-bottom: 6px;
   min-width: 44px;
@@ -5526,6 +5526,24 @@ html.story-resting canvas {
   font-size: 0.9375rem;
 }
 body.edu-sprout .dialogue-again {
+  right: calc(var(--tap-min) + 8px);
   min-width: var(--tap-min);
   min-height: var(--tap-min);
+}
+
+/*
+ * R0678: the HUD size beats the 64 px floor above (equal specificity, and the floor came
+ * later, so the 72 px phone and 80 px tablet HUD buttons were measuring 64). The extra
+ * classes put this above it. The title's kid steps are outside the body class, so their own
+ * back button carries its own floor.
+ */
+body.edu-sprout.edu-sprout.edu-sprout .topbar .btn:not(.btn-logo) {
+  min-width: var(--hud-btn);
+  min-height: var(--hud-btn);
+}
+.kids-back {
+  min-width: 64px;
+  min-height: 64px;
+  padding: 0 20px;
+  font-size: 1.1rem;
 }

@@ -85,7 +85,7 @@ import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from '
 import { chooseCastHome } from './line-rewards';
 import { eduNotice } from './edu-notice';
 import { saveDrawing } from './drawings';
-import { langStart, langTeach, langTraced, noteWord, srsAnswer } from './lang';
+import { langDueWave, langStart, langTeach, langTraced, noteWord, srsAnswer } from './lang';
 import { funRunDone } from './fun-run';
 import { glowSolve } from './dungeon-glow';
 import { stepNpcs } from './npcs';
@@ -1135,6 +1135,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'langWord':
       noteWord(world, cmd.word, cmd.how, events);
+      return;
+    case 'langDueWave':
+      langDueWave(world, cmd.word, events);
       return;
     case 'langReview':
       srsAnswer(world, cmd.word, cmd.right);

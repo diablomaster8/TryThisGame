@@ -92,7 +92,7 @@ export function tagStep(menu: HTMLElement, onDone: (tag: EduTag) => void, back: 
   menu.appendChild(icons);
   menu.appendChild(
     button(
-      KIDS_TAG_TEXT.go,
+      `🌱 ${KIDS_TAG_TEXT.go}`,
       () => onDone({ ...pick, name: name.value.trim().slice(0, EDU_TAG.nameMax) }),
       'btn btn-primary kids-tag-go',
     ),

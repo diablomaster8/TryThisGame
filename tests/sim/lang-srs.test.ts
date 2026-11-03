@@ -6,6 +6,7 @@ import {
   dueWords,
   langWordsIn,
   peekSrsDay,
+  pickDueWave,
   srsAnswer,
   srsDay,
   wordLearned,
@@ -91,6 +92,27 @@ describe('language spaced repetition (R0701)', () => {
     expect(back.edu!.words['he-toda']).toMatchObject({ box: 1, due: 2 });
     expect(back.edu!.srsDay).toBe(3);
     expect(langWordsIn).toBeDefined();
+  });
+
+  it('a due word makes the nearest free Nubbin wave, and nothing waves when none is due', () => {
+    const { w, events } = world();
+    const nub = w.nubbins[0];
+    if (!nub) throw new Error('the campaign world has no Nubbin');
+    nub.stage = 'child';
+    nub.pos = { ...w.keeper.pos };
+    const pick = pickDueWave(w, peekSrsDay(w));
+    expect(pick?.nubbinId).toBe(nub.id);
+    expect(dueWords(w, peekSrsDay(w))).toContain(pick!.word);
+    const before = events.length;
+    applyCommand(w, { kind: 'langDueWave', word: pick!.word }, events);
+    const wave = events.slice(before).find((e) => e.kind === 'langReact');
+    expect(wave).toMatchObject({ nubbinId: nub.id, word: pick!.word, gesture: 'wave' });
+    // A word that is not the due one is ignored; with every word reviewed forward, none is due.
+    const none = events.length;
+    applyCommand(w, { kind: 'langDueWave', word: 'he-not-a-word' }, events);
+    expect(events.length).toBe(none);
+    for (const id of ['he-shalom', 'he-toda', 'ja-arigatou']) srsAnswer(w, id, true, 50);
+    expect(pickDueWave(w, 50)).toBeNull();
   });
 });
 

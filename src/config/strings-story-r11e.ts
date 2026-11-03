@@ -11,3 +11,9 @@ export const KIDS_STORY_TEXT = {
   readAgain: '🔁 Read it again',
   readAgainLabel: 'Read this line again',
 } as const;
+
+/** R0701: Ori or Hana says a word that is due, while a Nubbin waves. */
+export const DUE_WAVE_TEXT = {
+  friend: { he: 'Ori', ja: 'Hana' } as Record<string, string>,
+  says: (friend: string, roman: string) => `${friend} says: ${roman}`,
+} as const;

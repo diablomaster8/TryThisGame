@@ -220,6 +220,7 @@ import { evolveFlash } from '../render/evolve-reveal';
 import { setEmoteFocus } from '../render/emote-size';
 import { SoulAmbient } from './soul-ambient';
 import { LossNotice } from './loss-notice';
+import { DueWave } from './lang-due'; /* R0701 */
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -556,6 +557,7 @@ export function mountHud(
   const toast = kidNotices.toast;
   // Lane E r10 (R0694): the heads-up before a Learning Grove loss chapter.
   const lossNotice = new LossNotice(root, game, toast);
+  const dueWave = new DueWave(toast); /* R0701 */
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
   commandTaps.add((c) => curiosities.onCommand(c)); /* Lane E r9 */
@@ -1347,6 +1349,7 @@ export function mountHud(
         applyHudScheme(g.world);
         kidNotices.flush();
         lossNotice.update(g, busy);
+        dueWave.update(g, busy || eduPrompt.isOpen); /* R0701 */
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
         offerCard.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());

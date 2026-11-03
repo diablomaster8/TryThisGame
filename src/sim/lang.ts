@@ -12,6 +12,7 @@
 import { LANG } from '../config/tuning';
 import type { LanguageCourse, Quest, VocabItem } from '../content/types';
 import { react } from './behavior';
+import { isFree } from './nubbin';
 import { localDayKey, tzOf } from './local-time';
 import { bare, scriptRuns, wordsInLine } from './lang-text';
 import { isMorning, type StoryRule } from './side-rule-kit';
@@ -338,6 +339,33 @@ export function dueWords(world: World, day: number): string[] {
         (x.due ?? 0) - (y.due ?? 0) || (x.box ?? 0) - (y.box ?? 0) || (a < b ? -1 : 1),
     )
     .map(([id]) => id);
+}
+
+/**
+ * R0701: a due word for Grove life: the soonest due word, and the free Nubbin nearest the
+ * Keeper (within the reaction radius) that will wave at it. Null when nothing is due or no
+ * Nubbin is near. Pure: nothing moves until `langDueWave` is applied.
+ */
+export function pickDueWave(world: World, day: number): { word: string; nubbinId: string } | null {
+  const word = dueWords(world, day)[0];
+  if (!word) return null;
+  const k = world.keeper.pos;
+  const near = world.nubbins
+    .filter((n) => (n.stage === 'child' || n.stage === 'adult') && isFree(n))
+    .map((n) => ({ n, d: Math.hypot(n.pos.x - k.x, n.pos.z - k.z) }))
+    .filter((e) => e.d <= LANG.reactRadius)
+    .sort((a, b) => a.d - b.d)[0];
+  return near ? { word, nubbinId: near.n.id } : null;
+}
+
+/** R0701: the Nubbin waves at a due word (its clip is the friend's to say, in the UI). */
+export function langDueWave(world: World, word: string, events: SimEvent[]): void {
+  const pick = pickDueWave(world, peekSrsDay(world));
+  if (!world.edu || !pick || pick.word !== word) return;
+  const n = world.nubbins.find((x) => x.id === pick.nubbinId);
+  if (!n) return;
+  react(n, GESTURE_FACE.wave, world.timeMs, events);
+  events.push({ kind: 'langReact', nubbinId: n.id, word, gesture: 'wave' });
 }
 
 /** Count a word heard or used; a learned word heard makes nearby Nubbins react. */

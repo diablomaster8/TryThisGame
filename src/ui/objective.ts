@@ -429,7 +429,7 @@ export class EduPrompt {
         this.openers.play();
       }),
       this.careBtn,
-      button(EDU_PROMPT_TEXT.look, () => this.hide(), 'btn btn-small edu-entry-look'),
+      button(`👀 ${EDU_PROMPT_TEXT.look}`, () => this.hide(), 'btn btn-small edu-entry-look'),
     );
     this.root.appendChild(card);
     parent.appendChild(this.root);
