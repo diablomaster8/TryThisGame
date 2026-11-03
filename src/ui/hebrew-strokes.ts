@@ -42,4 +42,35 @@ export const HEBREW_STROKES: Readonly<Record<string, Pt[][]>> = {
     P(52, 16, 54, 38, 58, 60),
     P(18, 16, 24, 48, 34, 76, 50, 84, 66, 84),
   ],
+  // The rest of the alef-bet (R0707), same guides: each starts on the right or the top line.
+  // Zayin: the top bar, then the post down from its middle.
+  ז: [P(30, 22, 52, 22, 76, 22), P(56, 22, 56, 54, 56, 86)],
+  // Chet: roof and right leg in one, then the left leg that meets the roof.
+  ח: [P(20, 22, 50, 22, 80, 22, 80, 54, 80, 86), P(22, 22, 22, 54, 22, 86)],
+  // Tet: the right side, round the bottom, up the left, then the hook in.
+  ט: [P(78, 20, 78, 54, 66, 76, 44, 84, 28, 70, 26, 42, 40, 36, 52, 54)],
+  // Kaf: the roof, round the right, and the base back to the left.
+  כ: [P(24, 22, 56, 22, 76, 30, 74, 50, 56, 64, 38, 72, 24, 76)],
+  // Nun: roof and right side, then the base with its small left leg.
+  נ: [P(22, 22, 52, 22, 74, 28, 76, 50, 72, 70), P(72, 84, 48, 84, 28, 84, 28, 66)],
+  // Samekh: a round box, from the top, round to the left and back.
+  ס: [P(60, 22, 36, 26, 22, 48, 30, 74, 52, 84, 74, 74, 78, 50, 66, 28, 60, 22)],
+  // Ayin: the right arm down into the meeting point, then the left arm.
+  ע: [P(78, 18, 72, 50, 58, 66, 34, 82), P(24, 18, 28, 46, 40, 62, 58, 66)],
+  // Pe: the curled box, then the little tongue inside.
+  פ: [
+    P(76, 24, 50, 22, 26, 26, 22, 50, 26, 82, 50, 84, 76, 84, 78, 50, 76, 24),
+    P(60, 40, 46, 44, 44, 56, 56, 60, 66, 54),
+  ],
+  // Tsadi: the small right arm joined to a body that kicks out to the right.
+  צ: [P(72, 18, 62, 34, 46, 44, 30, 42, 24, 22), P(48, 46, 54, 66, 66, 80, 80, 86)],
+  // Kuf: the roof and curve, then the leg that drops from the middle.
+  ק: [P(22, 22, 52, 22, 74, 26, 76, 42, 68, 54, 38, 56, 24, 56), P(46, 56, 46, 76, 46, 94)],
+  // Tav: roof and right leg in one, then the left leg with its foot.
+  ת: [P(18, 22, 50, 22, 82, 22, 82, 54, 82, 86), P(30, 22, 30, 54, 24, 70, 18, 86)],
+  // The four final letters (R0707): each sinks below the line.
+  ך: [P(20, 22, 52, 22, 72, 26, 78, 44, 78, 66, 78, 92)],
+  ן: [P(34, 22, 52, 22, 66, 30, 66, 56, 66, 92)],
+  ף: [P(76, 24, 50, 22, 26, 26, 22, 50, 26, 64, 50, 66, 72, 62), P(72, 22, 72, 56, 72, 92)],
+  ץ: [P(72, 18, 62, 34, 46, 44, 30, 42, 24, 22), P(48, 46, 56, 68, 60, 92)],
 };
