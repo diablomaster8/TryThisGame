@@ -7,6 +7,7 @@
 import { playChirp, playPerform } from '../platform/audio';
 import { chirpVoice } from '../platform/chirp-voice';
 import { instrumentOf } from '../sim/kindergarten';
+import { shownVariant } from '../sim/lesson-variants';
 import { speciesOf } from '../sim/species';
 import type { SimEvent, World } from '../sim/types';
 
@@ -17,7 +18,7 @@ export function playSoulSounds(events: readonly SimEvent[], world: World, timeSc
       const n = world.nubbins.find((x) => x.id === e.nubbinId);
       if (!n) continue;
       const voice = chirpVoice(n.id, n.personality);
-      playPerform(e.lesson, e.level, instrumentOf(n), voice.pitch);
+      playPerform(e.lesson, e.level, instrumentOf(n), voice.pitch, shownVariant(n)?.id);
     } else if (e.kind === 'chatTurn') {
       const n = world.nubbins.find((x) => x.id === e.nubbinId);
       if (!n) continue;

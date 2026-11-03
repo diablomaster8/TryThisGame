@@ -9,7 +9,7 @@ import { frameKey } from './animations';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
-import type { PerformProp } from '../perform-look';
+import { PERFORM_PROPS, type PerformProp } from '../perform-look';
 
 export const PERFORM_CELL = 16;
 export const DOODLE_COUNT = 12;
@@ -45,6 +45,40 @@ function prop(kind: PerformProp): PixelCanvas {
       pc.ellipse(8, 7, 4.5, 1.3, C.white);
       pc.line(11, 1, 14, 5, C.wood);
       pc.disc(10.5, 1, 1, C.cream);
+      break;
+    case 'maracas':
+      // Two red-and-yellow shakers crossed.
+      pc.line(4, 13, 7, 7, C.wood);
+      pc.line(12, 13, 9, 7, C.wood);
+      pc.disc(6.5, 5.5, 3, C.roseDeep);
+      pc.disc(9.5, 5.5, 3, C.sunDeep);
+      pc.px(5, 4, C.cream);
+      pc.px(10, 4, C.sunLight);
+      break;
+    case 'tambourine':
+      // A round frame with a skin and little jingles.
+      pc.disc(8, 8, 6, C.wood);
+      pc.disc(8, 8, 4.4, C.cream);
+      pc.px(2, 8, C.sunYellow);
+      pc.px(14, 8, C.sunYellow);
+      pc.px(8, 2, C.sunYellow);
+      pc.px(8, 14, C.sunYellow);
+      break;
+    case 'flute':
+      // A slim silver tube held across, with three holes.
+      pc.line(2, 11, 14, 5, C.lavender);
+      pc.line(2, 12, 14, 6, C.skyDeep);
+      pc.px(6, 9, C.ink);
+      pc.px(8, 8, C.ink);
+      pc.px(10, 7, C.ink);
+      break;
+    case 'pompom':
+      // A fluffy pink cheer pompom on a short stick.
+      pc.line(8, 14, 8, 8, C.wood);
+      pc.disc(8, 6, 4.5, C.rose);
+      pc.disc(6, 5, 2, C.cream);
+      pc.px(10, 4, C.roseDeep);
+      pc.px(9, 8, C.roseDeep);
       break;
     case 'trumpet':
       // A gold trumpet pointing up and out, bell at the top.
@@ -163,7 +197,7 @@ export const propKey = (p: PerformProp): string => frameKey(`prop-${p}`, 'front'
 
 export function buildPerformSheet(): SpriteSheet {
   const atlas = new AtlasBuilder(PERFORM_CELL, PERFORM_CELL, 8);
-  for (const p of ['crayon', 'bell', 'drum', 'trumpet'] as const) atlas.add(propKey(p), prop(p));
+  for (const p of PERFORM_PROPS) atlas.add(propKey(p), prop(p));
   for (let i = 0; i < DOODLE_COUNT; i++) atlas.add(doodleKey(i), doodle(i));
   return atlas.build();
 }

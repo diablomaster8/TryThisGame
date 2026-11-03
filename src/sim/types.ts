@@ -1597,7 +1597,7 @@ export type Command =
   /** A tap on a story prop (the old trowel, the flat stone...), by prop id. */
   | { kind: 'storyProp'; prop: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
-  | { kind: 'startLesson'; nubbinId: string; lesson: LessonId }
+  | { kind: 'startLesson'; nubbinId: string; lesson: LessonId; variant?: string }
   | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
   | { kind: 'buyDecor'; decor: DecorKind }
   | { kind: 'placeDecor'; decor: DecorKind; pos: Vec2; yaw?: number }
@@ -1994,8 +1994,8 @@ export type SimEvent =
   | { kind: 'talked'; npcId: string; bark?: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }
-  | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId }
-  | { kind: 'lessonDone'; nubbinId: string; lesson: LessonId; level: number }
+  | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId; variant?: string }
+  | { kind: 'lessonDone'; nubbinId: string; lesson: LessonId; level: number; variant?: string }
   | { kind: 'service'; service: 'doctor' | 'fortune'; nubbinId: string; ok: boolean }
   | { kind: 'weather'; weather: WeatherKind }
   | { kind: 'visitor'; trainer: string; gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' | null }

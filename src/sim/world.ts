@@ -50,7 +50,7 @@ import { addTrust, isWary, stepTrust } from './trust';
 import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
 import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
-import { payService, startLesson } from './kindergarten';
+import { payService, startLesson, startVariantLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
 import { noteNubbin, stepCollection } from './collection';
 import { stepDaily } from './daily';
@@ -774,7 +774,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     }
     case 'startLesson': {
       const n = findNubbin(world, cmd.nubbinId);
-      if (n) startLesson(world, n, cmd.lesson, events);
+      if (n && cmd.variant) startVariantLesson(world, n, cmd.variant, events);
+      else if (n) startLesson(world, n, cmd.lesson, events);
       return;
     }
     case 'payService': {

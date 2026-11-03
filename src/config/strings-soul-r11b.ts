@@ -1,0 +1,36 @@
+/** Lane A round 11 (SOUL), helper G4: words for the wider kindergarten (R0554). */
+
+export const KINDER_R11 = {
+  moreClasses: 'More classes',
+  moreHelp: 'Each class is paid for once. A Nubbin shows off its two favourites.',
+  learned: 'Learned',
+  groups: {
+    instrument: 'Instruments',
+    dance: 'Dance',
+    song: 'Songs',
+    drawing: 'Drawing',
+    exercise: 'Exercise',
+    manners: 'Manners',
+  } as Record<string, string>,
+  names: {
+    'instrument:bell': 'Bell',
+    'instrument:drum': 'Drum',
+    'instrument:trumpet': 'Trumpet',
+    'instrument:maracas': 'Maracas',
+    'instrument:tambourine': 'Tambourine',
+    'instrument:flute': 'Flute',
+    'dance:twist': 'Twist',
+    'dance:ra-ra': 'Ra-ra',
+    'dance:shake': 'Shake',
+    'song:lullaby': 'Lullaby',
+    'song:march': 'March',
+    'song:silly': 'Silly song',
+    'drawing:sun': 'Draw a sun',
+    'drawing:keeper': 'Draw the Keeper',
+    'drawing:friend': 'Draw a friend',
+    'exercise:stretch': 'Stretching',
+    'manners:bow': 'Bowing',
+  } as Record<string, string>,
+  started: (name: string, cls: string) => `${name} is learning ${cls.toLowerCase()}.`,
+  done: (name: string, cls: string) => `${name} learned ${cls.toLowerCase()}!`,
+};

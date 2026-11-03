@@ -2,6 +2,7 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
 import { hollowKidVoice } from './hollow-kid-voice';
+import { KINDER_R11 } from '../config/strings-soul-r11b';
 import { R10B4_TEXT } from '../config/strings-r10b4';
 import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { setBiomeBed } from '../platform/biome-beds';
@@ -1696,9 +1697,14 @@ export function mountHud(
           playSound('hatch');
         } else if (e.kind === 'lessonDone') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(
-            UI_TEXT.lessonDone(n?.name ?? NAMES.creature, UI_TEXT.lessonNames[e.lesson], e.level),
-          );
+          {
+            const who = n?.name ?? NAMES.creature;
+            toast(
+              e.variant
+                ? KINDER_R11.done(who, KINDER_R11.names[e.variant] ?? e.variant)
+                : UI_TEXT.lessonDone(who, UI_TEXT.lessonNames[e.lesson], e.level),
+            );
+          }
           playSound('win');
         } else if (e.kind === 'weather') {
           // No sky underground or inside a minigame (review 2026-10-21, bug 20).

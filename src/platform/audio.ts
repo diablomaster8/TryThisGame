@@ -1466,6 +1466,59 @@ export const PERFORM_MELODIES: readonly (readonly number[])[] = [
 ];
 
 /**
+ * R0554 (lane A r11): the wider classes' own sounds, each a few quiet notes of its own shape.
+ * Returns false for a variant that has no voice of its own (it then falls back to its family).
+ */
+function playVariantSound(id: string, pitch: number): boolean {
+  switch (id) {
+    case 'instrument:maracas':
+      for (let i = 0; i < 6; i++) burst(i * 90, 60, 0.03, 6000);
+      return true;
+    case 'instrument:tambourine':
+      for (let i = 0; i < 3; i++) {
+        burst(i * 200, 80, 0.035, 7500);
+        tone(2800 * pitch, i * 200, 60, 'triangle', 0.015);
+      }
+      return true;
+    case 'instrument:flute':
+      [880, 988, 1175, 988].forEach((f, i) =>
+        tone(f * pitch, i * 280, 300, 'sine', 0.035, f * pitch),
+      );
+      return true;
+    case 'dance:twist':
+      for (let i = 0; i < 4; i++) tone((i % 2 ? 330 : 440) * pitch, i * 150, 110, 'square', 0.015);
+      return true;
+    case 'dance:ra-ra':
+      for (let i = 0; i < 3; i++) tone(660 * pitch, i * 180, 120, 'triangle', 0.04, 880 * pitch);
+      burst(540, 200, 0.03, 5000);
+      return true;
+    case 'dance:shake':
+      for (let i = 0; i < 6; i++) tone(180 + (i % 2) * 40, i * 90, 70, 'sine', 0.05, 120);
+      return true;
+    case 'song:lullaby':
+      [392, 330, 294].forEach((f, i) => tone(f * pitch, i * 420, 520, 'sine', 0.035, f * pitch));
+      return true;
+    case 'song:march':
+      [262, 262, 330, 392].forEach((f, i) => tone(f * pitch, i * 200, 130, 'square', 0.02));
+      return true;
+    case 'song:silly':
+      [600, 900, 500, 1000].forEach((f, i) =>
+        tone(f * pitch, i * 170, 150, 'triangle', 0.035, f * pitch * 1.5),
+      );
+      return true;
+    case 'exercise:stretch':
+      tone(220 * pitch, 0, 900, 'sine', 0.035, 440 * pitch);
+      return true;
+    case 'manners:bow':
+      tone(659 * pitch, 0, 260, 'sine', 0.035);
+      tone(523 * pitch, 320, 360, 'sine', 0.035);
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
  * R0525 (SOUL-07): the sound of a lesson performed: a four-note song that grows with the
  * level, a stomp-and-squeak dance, a crayon's scratch, or the instrument it was handed (a
  * ringing bell, a drum's thump, a little trumpet fanfare). Quiet, under the sound setting.
@@ -1475,10 +1528,12 @@ export function playPerform(
   level: number,
   instrument: 'bell' | 'drum' | 'trumpet' = 'bell',
   pitch = 1,
+  variant?: string,
 ): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
   const lv = Math.max(1, Math.min(3, level));
   try {
+    if (variant && playVariantSound(variant, pitch)) return;
     if (lesson === 'singing') {
       PERFORM_MELODIES[lv - 1]!.forEach((f, i) =>
         tone(f * pitch, i * 260, 230, 'sine', 0.04, f * pitch * 1.03),
