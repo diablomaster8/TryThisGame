@@ -108,6 +108,7 @@ import {
   type IdleAct,
 } from './soul-idle';
 import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
+import { cryWalkSpeed, startCry } from './cry-soul';
 /* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
 import { eduYawnAct } from './edu-session';
 import type {
@@ -941,7 +942,8 @@ function stepBehavior(
       setState(n, 'findFood', now, Infinity);
       b.itemId = fruit;
     } else if (b.state !== 'cry' && n.needs.hunger < NEEDS.starvingThreshold) {
-      setState(n, 'cry', now, BEHAVIOR.cryMs);
+      // R0558 (lane A r11): each cries in its own way (cry-soul.ts).
+      startCry(n, world, now, BEHAVIOR.cryMs);
     }
   }
   // R0543 (lane A r9): a shy one slips behind a tree as the Keeper comes near.
@@ -1196,10 +1198,22 @@ function stepBehavior(
       if (now >= b.untilMs) chooseIdle(n, world, rng, now);
       break;
     }
+    // R0558 (lane A r11): a gentle one walks to the Keeper to cry; its cry starts there.
+    case 'cry': {
+      if (b.target) {
+        const there = walkToward(world, n, b.target, cryWalkSpeed(), dtMs);
+        if (there || walkStalled(n, b.target, now)) {
+          b.untilMs = now + (b.untilMs - b.sinceMs);
+          b.target = null;
+        }
+        break;
+      }
+      if (now >= b.untilMs) chooseIdle(n, world, rng, now);
+      break;
+    }
     case 'eat':
     case 'sit':
     case 'greet':
-    case 'cry':
     case 'pet':
     case 'react': {
       if (now >= b.untilMs) {

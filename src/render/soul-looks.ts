@@ -37,13 +37,28 @@ export type SoulLookKind =
   | 'smugRun'
   | 'tug'
   | 'callFruit'
-  | 'rubEyes';
+  | 'rubEyes'
+  // R0558 (lane A r11): eating, napping, swimming and crying by personality.
+  | 'gulp'
+  | 'nibble'
+  | 'chomp'
+  | 'curlUp'
+  | 'sprawl'
+  | 'splashSpin'
+  | 'wadeEdge'
+  | 'diveUp'
+  | 'floatBack'
+  | 'sniffle'
+  | 'cryStomp'
+  | 'cryWalk';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
   const b = n.behavior;
   if (b.state === 'shelter') return b.target ? null : 'huddle';
   const id = b.itemId;
+  const flavour = stateFlavourLook(n);
+  if (flavour) return flavour;
   // Lane A r9.
   if (b.state === 'sit' && id === 'groomSelf') return 'groomSelf';
   if (b.state === 'wander' && (id === 'hum' || id === 'inspect')) return id;
@@ -98,6 +113,44 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   return null;
 }
 
+/**
+ * R0558 (lane A r11): the clip variants for eating, napping, swimming and crying, from the
+ * act's name (sim/state-flavour.ts, sim/cry-soul.ts) or, where the sim needs none, the
+ * personality: a shy one curls up to nap and wades at the edge, a lazy one sprawls and
+ * floats on its back, a mischievous one dives and pops up, the cheerful and the bold splash
+ * and spin.
+ */
+function stateFlavourLook(n: Nubbin): SoulLookKind | null {
+  const b = n.behavior;
+  const id = b.itemId;
+  switch (b.state) {
+    case 'eat':
+      return id === 'gulp' || id === 'nibble' || id === 'chomp' ? id : null;
+    case 'nap':
+      if (id === 'nodOff') return null;
+      return n.personality === 'shy' ? 'curlUp' : n.personality === 'lazy' ? 'sprawl' : null;
+    case 'swim':
+      switch (n.personality) {
+        case 'shy':
+          return 'wadeEdge';
+        case 'lazy':
+          return 'floatBack';
+        case 'mischievous':
+          return 'diveUp';
+        case 'cheerful':
+        case 'bold':
+          return 'splashSpin';
+        default:
+          return null;
+      }
+    case 'cry':
+      if (id === 'sniffle' || id === 'cryStomp') return id;
+      return id === 'cryToKeeper' && b.target ? 'cryWalk' : null;
+    default:
+      return null;
+  }
+}
+
 /** How often each look throws up its particles, in ms (none: never). */
 export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   stomp: 650,
@@ -112,6 +165,11 @@ export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   giggleFit: 450,
   burp: 5000,
   smugRun: 500,
+  // R0558 (lane A r11).
+  chomp: 900,
+  splashSpin: 700,
+  diveUp: 1800,
+  cryStomp: 600,
 };
 
 /** The waddle's sway. */
@@ -333,6 +391,99 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.pose3d = 'walk';
       out.dx = 0.06 * Math.sin((ms / 1000) * Math.PI * 2 * 1.2) * m;
       out.dy = 0.02 * Math.abs(Math.cos((ms / 1000) * Math.PI * 2 * 1.2)) * m;
+      break;
+    // R0558 (lane A r11): the state flavours.
+    case 'gulp':
+      // Down in one: quick, deep bobs, puffed out wide.
+      out.clip = 'eat';
+      out.pose3d = 'eat';
+      out.frame = Math.floor(ms / 90) % 2;
+      out.sw = 1.06;
+      out.sh = 1 - 0.06 * Math.abs(wave(4)) * m;
+      break;
+    case 'nibble':
+      // Small, careful nibbles, drawn in on itself.
+      out.clip = 'eat';
+      out.pose3d = 'eat';
+      out.frame = Math.floor(ms / 420) % 2;
+      out.sw = 0.92;
+      out.sh = 0.93;
+      break;
+    case 'chomp':
+      // Happy chomps, bouncing on the spot between bites.
+      out.clip = 'eat';
+      out.pose3d = 'eat';
+      out.dy = 0.05 * Math.abs(wave(1.6)) * m;
+      out.sh = 1.03;
+      break;
+    case 'curlUp':
+      // Curled up small and round, asleep.
+      out.clip = 'sleep';
+      out.pose3d = 'sleep';
+      out.sw = 0.84;
+      out.sh = 0.8;
+      out.dy = -0.02;
+      break;
+    case 'sprawl':
+      // Sprawled on its back, wide and flat, wherever it dropped.
+      out.clip = 'sleep';
+      out.pose3d = 'sleep';
+      out.sw = 1.22;
+      out.sh = 0.76;
+      out.dy = -0.03;
+      break;
+    case 'splashSpin':
+      // Splashing and spinning: the body turns side-on and back (narrow, wide) as it goes.
+      out.sw = 1 - 0.25 * Math.abs(Math.sin((ms / 1000) * Math.PI * 1.4)) * m;
+      out.dy = 0.03 * Math.abs(wave(1.4)) * m;
+      break;
+    case 'wadeEdge':
+      // Only up to its tummy at the edge, a slow cautious bob.
+      out.sh = 0.96;
+      out.dy = 0.015 * wave(0.5) * m;
+      break;
+    case 'diveUp': {
+      // Under for a moment (squashed low in the water), then pops up.
+      const c = (ms % 1800) / 1800;
+      const under = c > 0.45 && c < 0.75 ? 1 : 0;
+      out.sh = 1 - 0.55 * under * (calm ? 0 : 1);
+      out.dy = (under ? -0.2 : 0.04 * Math.max(0, Math.sin(c * Math.PI * 4))) * m;
+      break;
+    }
+    case 'floatBack':
+      // Floating on its back, drifting: the lie-back body on the water.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sw = 1.14;
+      out.sh = 0.8;
+      out.dy = -0.04 + 0.01 * wave(0.4) * m;
+      break;
+    case 'sniffle':
+      // Quiet sniffles: the sad frame, hunched, a small catch of the shoulders.
+      out.clip = 'sad';
+      out.frame = 0;
+      out.pose3d = 'sad';
+      out.sw = 0.95;
+      out.sh = 0.94 + 0.02 * Math.max(0, wave(1.1)) * m;
+      break;
+    case 'cryStomp':
+      // A short loud cry, then a cross little stomp.
+      if (t < 0.6) {
+        out.clip = 'cry';
+        out.pose3d = 'sad';
+      } else {
+        out.clip = 'surprised';
+        out.frame = 0;
+        out.pose3d = 'surprised';
+        out.dy = 0.08 * Math.abs(Math.sin((ms / 300) * Math.PI)) * m;
+      }
+      break;
+    case 'cryWalk':
+      // On its way to the Keeper, sniffling: a slow, drooping walk.
+      out.clip = 'walk';
+      out.pose3d = 'walk';
+      out.sh = 0.95;
       break;
   }
   return out;

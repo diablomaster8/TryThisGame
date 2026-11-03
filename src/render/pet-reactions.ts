@@ -356,6 +356,11 @@ export const PET_BEAT_BURST: Partial<
   giggleFit: 'note',
   burp: 'dust',
   smugRun: 'dust',
+  // R0558 (lane A r11).
+  chomp: 'heart',
+  splashSpin: 'sparkle',
+  diveUp: 'sparkle',
+  cryStomp: 'dust',
 };
 
 /** Per-Nubbin beats for one renderer (each keeps its own, on its own clock). */

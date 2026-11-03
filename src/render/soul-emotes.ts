@@ -65,6 +65,10 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'peer') return 'question';
       if (id === 'cloudGaze' || id === 'daydream') return 'note';
       return null;
+    // R0558 (lane A r11): a shy one's quiet sniffle and a gentle one's walk to the Keeper
+    // show a tear; the bold one's short cry keeps the plain ball.
+    case 'cry':
+      return id === 'sniffle' || id === 'cryToKeeper' ? 'drop' : null;
     default:
       return null;
   }

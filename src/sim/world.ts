@@ -73,6 +73,7 @@ import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
 import { rememberCare } from './care-memory';
 import { coaxOut, stepCottageHide } from './cottage-hide';
+import { stepCrying } from './cry-soul';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
@@ -1435,6 +1436,8 @@ export function stepWorld(
   });
   stepCollection(world, events);
   stepFriendships(world, dtMs, events);
+  // R0558, R0581 (lane A r11): brief cries and friends who come to comfort.
+  stepCrying(world, events, offline);
   stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);

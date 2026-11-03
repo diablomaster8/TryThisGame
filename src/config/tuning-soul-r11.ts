@@ -36,3 +36,30 @@ export const QUIRKS_R11 = {
   butterflyRange: 3,
   daydreamMs: [5_000, 8_000] as const,
 } as const;
+
+/**
+ * R0558 (SOUL-41), the cry half, and R0581 (SOUL-64): crying by personality, the brief cries
+ * besides hunger, and friends coming over to comfort.
+ */
+export const CRY_SOUL = {
+  /** A bold one's cry is short (then a stomp); a gentle one walks to the Keeper to cry. */
+  boldScale: 0.5,
+  gentleScale: 1.4,
+  gentleSpeed: 0.6,
+  /** How near the Keeper a gentle one stops to cry. */
+  keeperGap: 1.3,
+  /** A brief cry (a taunt, a snatch, a throw streak). */
+  briefMs: 2_500,
+  /** A rival's puff makes the softer ones cry briefly (shy, gentle, dreamy) at this chance. */
+  tauntChance: 0.6,
+  /** This many throws within this long, and the next landing ends in tears. */
+  throwStreak: 3,
+  throwWindowMs: 2 * 60_000,
+  /** A friend this near and this fond comes over: chance per second, gentle ×3, Sun ×2. */
+  comfortRadius: 6,
+  friendAt: 10,
+  comfortPerSecond: 0.5,
+  gentleBoost: 3,
+  sunBoost: 2,
+  comfortMs: 2_000,
+} as const;
