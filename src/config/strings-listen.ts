@@ -7,4 +7,12 @@ export const LISTEN_TEXT = {
   unsupported: 'This browser cannot listen, so the game keeps its pause instead.',
 } as const;
 
+/** R0721: offline readiness of the Learning Grove. */
+export const EDU_OFFLINE_TEXT = {
+  ready: 'Ready for offline ✓',
+  notReady: 'Not saved for offline yet. Open the Learning Grove once while online.',
+  postcard: "📮 Connect once to get Ori's postcard",
+  postcardSay: "Ori's postcard needs the internet just once. Then it works anywhere.",
+} as const;
+
 export const LISTEN_TUNING = { listenMs: 3000, storeKey: 'grove.listenOptIn' } as const;

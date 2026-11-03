@@ -6,7 +6,8 @@
  * commands; nothing here changes the world.
  */
 import { listenOptIn, setListenOptIn } from '../platform/listen';
-import { LISTEN_TEXT } from '../config/strings-listen';
+import { EDU_OFFLINE_TEXT, LISTEN_TEXT } from '../config/strings-listen';
+import { eduOfflineReady } from './offline-packs';
 import { standardsList } from './edu-report'; /* Lane E r10 */
 import { EDU_STORY_TEXT } from '../config/strings';
 import { READ_TEXT } from '../config/strings-fun-r7';
@@ -126,7 +127,20 @@ export function storySettings(body: HTMLElement, g: Game): void {
   row2.append(cb2, text2);
   body.appendChild(row2);
   listenRow(body);
+  offlineRow(body);
   voiceChooser(body);
+}
+
+/** R0721: "Ready for offline ✓" once the Learning Grove files are held by this device. */
+function offlineRow(body: HTMLElement): void {
+  const p = el('p', 'help edu-offline-state');
+  p.hidden = true;
+  body.appendChild(p);
+  void eduOfflineReady().then((ok) => {
+    if (ok === null) return;
+    p.textContent = ok ? EDU_OFFLINE_TEXT.ready : EDU_OFFLINE_TEXT.notReady;
+    p.hidden = false;
+  });
 }
 
 /** R0744: the grown-up's opt-in for the "I heard you!" listener (off by default). */

@@ -16,6 +16,7 @@ import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
 import { playEduClips } from '../platform/edu-audio';
 import { clapPad } from './edu-clap';
+import { EDU_OFFLINE_TEXT } from '../config/strings-listen';
 import { groveStill } from './edu-scene';
 import { GROVE_SHAPES, GROVE_VIEW } from '../config/edu-grove-shapes';
 import { EDU_COLOUR_PATTERN } from '../config/edu-things';
@@ -135,6 +136,19 @@ export class EduScreen {
     );
     // Nova's postcard (CV3): the language courses, once their scripts have loaded.
     if (langCourses().length > 0) storyGrid.appendChild(this.lang.pickButton(() => this.close()));
+    else {
+      // R0721: never hide the postcard: offline without its chunk it says what is needed.
+      storyGrid.appendChild(
+        button(
+          EDU_OFFLINE_TEXT.postcard,
+          () => {
+            this.toast(EDU_OFFLINE_TEXT.postcardSay);
+            if (g.world.edu?.readAloud) speakLine(EDU_OFFLINE_TEXT.postcardSay);
+          },
+          'btn btn-choice edu-postcard-missing',
+        ),
+      );
+    }
     // R0321 (FUN-32): "Where's Kiki?" for the 3–6 band, once a Nubbin is out of its egg.
     const hider = g.world.edu.band === 'sprout' ? Peekaboo.pickNubbin(g) : null;
     if (hider) {

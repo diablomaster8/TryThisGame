@@ -90,7 +90,10 @@ function post(
  * On each load (main.ts, once the worker is in control): keep the ticked packs and the
  * one the slot in play needs. Quiet: nothing shows, and offline it does nothing.
  */
-export function refreshOfflinePacks(sw: ServiceWorker | null, slotNeeds: OfflinePackId | null): void {
+export function refreshOfflinePacks(
+  sw: ServiceWorker | null,
+  slotNeeds: OfflinePackId | null,
+): void {
   // On a first visit the worker is active but not yet in control: post to it directly.
   if (!sw || navigator.onLine === false) return;
   const ids = new Set<OfflinePackId>(['core', ...keptPacks()]);
@@ -149,7 +152,11 @@ export function mountOfflinePacks(parent: HTMLElement): void {
   void loadManifest().then(sync);
 }
 
-async function toggle(id: OfflinePackId, input: HTMLInputElement, state: HTMLElement): Promise<void> {
+async function toggle(
+  id: OfflinePackId,
+  input: HTMLInputElement,
+  state: HTMLElement,
+): Promise<void> {
   const ids = new Set(keptPacks());
   const m = await loadManifest();
   if (!m) return;
@@ -169,4 +176,20 @@ async function toggle(id: OfflinePackId, input: HTMLInputElement, state: HTMLEle
     res && res.held >= res.of
       ? OFFLINE_PACK_TEXT.kept
       : OFFLINE_PACK_TEXT.partial(res?.held ?? 0, res?.of ?? urlsOf(m, id).length);
+}
+
+/**
+ * R0721: whether this device already holds the whole Learning Grove pack (its chunks, the lang
+ * fonts and clips). True or false when the worker can say; null in dev, offline without the
+ * list, or with no worker in control.
+ */
+export function eduOfflineReady(): Promise<boolean | null> {
+  return loadManifest().then(async (m) => {
+    if (!m || !worker()) return null;
+    const urls = urlsOf(m, 'edu');
+    if (urls.length === 0) return null;
+    const { swHas } = await import('./offline-entries');
+    const has = await swHas(urls.slice(0, 50));
+    return has ? has.every(Boolean) : null;
+  });
 }
