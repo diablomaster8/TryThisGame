@@ -11,6 +11,7 @@ import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
 import type { LanguageCourse, VocabItem } from '../content/types';
 import { langCourses } from '../sim/lang';
+import { dueFor, LangReview } from './lang-review';
 import type { LangCourseId } from '../sim/types';
 import { clipFor, playWord } from '../platform/lang-audio';
 import { button, el, modal } from './dom';
@@ -79,6 +80,7 @@ function wordTile(g: Game, w: VocabItem, reader: boolean): HTMLElement {
 
 export class LangPanel {
   private readonly dialog;
+  private readonly review: LangReview;
 
   constructor(
     parent: HTMLElement,
@@ -86,6 +88,7 @@ export class LangPanel {
     private readonly toast: (text: string) => void,
   ) {
     this.dialog = modal(parent, LANG_TEXT.postcard, LANG_TEXT.back);
+    this.review = new LangReview(parent, game, () => this.open());
   }
 
   /** The picker's postcard button. */
@@ -143,6 +146,11 @@ export class LangPanel {
       stamps: stampsFor(course.quests, (q) => fun[q.toLowerCase()]?.status === 'done'),
       onMeet: () => this.start(g, id),
       onWords: () => this.words(g, course),
+      onReview: () => {
+        this.dialog.hide();
+        this.review.open(course);
+      },
+      dueCount: dueFor(g.world, course).length,
     });
     card.title = LANG_TEXT.progress(
       questsDone(g, course),

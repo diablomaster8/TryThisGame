@@ -106,6 +106,15 @@ export function friendCard(g: Game, course: LanguageCourse, p: FriendCardParts):
   const words = button(`📚 ${T.words}`, p.onWords, 'btn postcard-words');
   const row = el('div', 'postcard-row');
   row.append(hello, words);
+  if (p.onReview && (p.dueCount ?? 0) > 0) {
+    const review = button(
+      `🔁 ${LANG_REVIEW_TEXT.button}`,
+      p.onReview,
+      'btn postcard-words postcard-review',
+    );
+    review.setAttribute('aria-label', LANG_REVIEW_TEXT.due(p.dueCount ?? 0));
+    row.appendChild(review);
+  }
   card.append(meet, stamps, row);
   return card;
 }

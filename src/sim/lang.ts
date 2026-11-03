@@ -12,6 +12,7 @@
 import { LANG } from '../config/tuning';
 import type { LanguageCourse, Quest, VocabItem } from '../content/types';
 import { react } from './behavior';
+import { localDayKey, tzOf } from './local-time';
 import { bare, scriptRuns, wordsInLine } from './lang-text';
 import { isMorning, type StoryRule } from './side-rule-kit';
 import { queueScene } from './story-state';
