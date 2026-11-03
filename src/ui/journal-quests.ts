@@ -5,7 +5,10 @@ import { JOURNAL_TEXT } from '../config/strings-journal';
 import { ENDING_DATE_TEXT } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
-import { isFunQuestCode } from '../sim/audience';
+import { audienceAllowed, isFunQuestCode } from '../sim/audience';
+import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
+import { PACKS } from '../config/tuning-camp11-profiles';
+import { caperId, packKeepsake, packProgress } from '../sim/pack-rewards';
 import { questAreaKey } from '../sim/quest-offers';
 import { sideStory, storylines } from '../sim/story-scenes';
 import { sharesStory } from '../sim/story-book';
@@ -202,7 +205,48 @@ export function renderQuestsPage(g: Game, body: HTMLElement): void {
   });
   box.append(label, chips, count, list);
   draw();
+  renderPacks(g, body);
   body.appendChild(box);
+}
+
+/**
+ * Lane C r11 (R0638): each caper pack as one card, n of m done and the next caper's area.
+ * A pack whose audience the save may not see (Sunny below 18+, any in a Learning Grove)
+ * does not show, as its capers do not.
+ */
+export function renderPacks(g: Game, body: HTMLElement): void {
+  const c = g.world.campaign;
+  if (!c || c.storyline) return;
+  const ctx = {
+    matureContent: g.world.settings.matureContent,
+    learningGrove: !!g.world.edu,
+  };
+  const box = el('section', 'journal-packs');
+  box.appendChild(el('div', 'btn-name', PROFILE_TEXT.packsHead));
+  for (const r of PACKS.ranges) {
+    const first = sideStory(caperId(r.from));
+    if (!first || !audienceAllowed(first.audience, ctx)) continue;
+    const p = packProgress(c, r.id);
+    const card = el('div', `journal-line${p.next === null ? ' done' : ''}`);
+    card.appendChild(
+      el(
+        'div',
+        'roster-line',
+        `${p.next === null ? '✓ ' : ''}${PROFILE_TEXT.packName[r.id] ?? r.id}`,
+      ),
+    );
+    card.appendChild(el('small', undefined, PROFILE_TEXT.packCount(p.done, p.of)));
+    const next = p.next ? sideStory(p.next) : undefined;
+    if (next) {
+      const key = questAreaKey(next);
+      card.appendChild(
+        el('p', 'help', PROFILE_TEXT.packNext(next.title, key ? areaName(key) : '')),
+      );
+    } else if (g.world.inventory.keepsakes.includes(packKeepsake(r.id)))
+      card.appendChild(el('p', 'help', PROFILE_TEXT.packKept));
+    box.appendChild(card);
+  }
+  if (box.childElementCount > 1) body.appendChild(box);
 }
 
 /** Lane C r10 agent B (R0642): an ending's reach time, as a shelf road's `at`. */

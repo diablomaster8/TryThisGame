@@ -360,6 +360,7 @@ export const SIDE_STORY_S29: Quest[] = [
       // ------------------------------------------------ 4. Lessons (outline 5): THE CHOICE
       {
         id: 's29-step4',
+        summary: 'You took Marina’s rowing lesson and found a present for Portly, who took it home along the bank.',
         goal: 'Take Marina’s rowing lesson, then find something to give Portly.',
         hint: 'Pull with your back, not your arms, and look where you’ve been, not where you’re going. Portly will be close by. He always is.',
         check: 'give:s29-portly:gift',

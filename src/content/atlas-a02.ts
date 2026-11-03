@@ -332,6 +332,7 @@ export const ATLAS_A02: Quest[] = [
       },
       {
         id: 'a02-02-s2',
+        summary: 'You swam through the waterfall after Monkey and found the cave behind it.',
         goal: 'Swim through the waterfall after Monkey.',
         hint: 'Your Nubbin knows the way. Swim straight into the white water.',
         check: 'swim:a02-waterfall:curtain',
@@ -1193,6 +1194,7 @@ export const ATLAS_A02: Quest[] = [
       },
       {
         id: 'a02-10-s2',
+        summary: 'You swam down with your Nubbin to meet the river spirit, then came up gasping and sent for help.',
         goal: 'Swim down with your Nubbin and see what the river spirit is.',
         hint: 'Your Nubbin swims better than anyone here. Follow it down.',
         check: 'swim:a02-river:sandy',
@@ -2172,6 +2174,7 @@ export const ATLAS_A02: Quest[] = [
     steps: [
       {
         id: 'a02-19-s1',
+        summary: 'You rode home over the River of Heaven on the old white turtle, and your Nubbin swam round him to say sorry.',
         goal: 'Ride home over the River of Heaven on the old white turtle.',
         hint: 'The turtle is waiting for you at the river.',
         check: 'swim:a02-turtle:river-of-heaven',

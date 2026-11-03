@@ -2,6 +2,8 @@ import { ATLAS_TEXT, STORY_U4_TEXT, STORYLINE_TEXT } from '../config/strings';
 import { atlasPagesDone } from '../sim/cross-saves';
 import { readCrossSaves } from './atlas';
 import { TRAINER_LABELS } from '../config/strings';
+import { CAMP11C_TEXT } from '../config/strings-camp11c';
+import { epilogueReady, fairSeen } from '../sim/epilogue';
 import { SPEAKERS, STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
@@ -27,6 +29,7 @@ import { HOLLOW_R6_TEXT } from '../config/strings';
 import { PLACES_TEXT } from '../config/strings-world';
 import { renderPlaces } from './landmark-card';
 import { renderLines } from './journal-lines';
+import { renderChapterSelect } from './chapter-select';
 import { renderBoard } from './journal-board';
 import { renderEndingShelf, renderErrands, renderQuestsPage } from './journal-quests';
 import { JOURNAL_TEXT } from '../config/strings-journal';
@@ -35,6 +38,15 @@ import { PROGRESS_TEXT } from '../config/strings-r11d4-progress';
 import { phoneSheet, tabKeys } from './journal-sheet';
 import { storyBoutJournal } from './battle-scenes';
 import { spineControls, stepControls, storyActButton } from './journal-step';
+import '../camp-r11.css';
+import { C11_TEXT } from '../config/strings';
+import { showSkipCard, stepSummary } from './skip-card';
+import type { Scene } from '../config/story';
+import { renderAreas, renderNow, type NowOptions } from './journal-now';
+import { renderDone, renderSpineCard } from './journal-done';
+
+/** Lane C r11 (R0610): the page the journal last showed this session, kept across openings. */
+let lastPage: string | null = null;
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -71,8 +83,21 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'quests' | 'paths' | 'endings' | 'hollow' | 'places' | 'progress' =
-    'chapter';
+  private page:
+    | 'now'
+    | 'areas'
+    | 'lines'
+    | 'done'
+    | 'more'
+    | 'chapter'
+    | 'quests'
+    | 'paths'
+    | 'endings'
+    | 'hollow'
+    | 'places'
+    | 'progress' = 'now';
+  /** R0666: plays a closing scene again from a copy (the HUD sets it to the dialogue's). */
+  replay: ((scene: Scene) => void) | null = null;
   /** R0660: on a phone the tabs sit at the foot of the sheet, in thumb reach. */
   private readonly phone = window.matchMedia?.('(orientation: portrait) and (max-width: 600px)');
 
@@ -133,6 +158,8 @@ export class Journal {
   readonly openers: Record<string, () => void> = {};
 
   open(): void {
+    // R0610: the last page of this session, else Now.
+    if (lastPage) this.page = lastPage as typeof this.page;
     this.refresh();
     this.dialog.show();
   }
@@ -161,16 +188,14 @@ export class Journal {
     const tabs = el('div', 'race-tiers journal-tabs');
     tabs.setAttribute('role', 'tablist');
     tabs.setAttribute('aria-label', JOURNAL_TEXT.tabsLabel);
+    const OLD = ['chapter', 'quests', 'paths', 'endings', 'hollow', 'places'];
+    const shown = this.page !== 'more' && OLD.includes(this.page) ? 'more' : this.page;
     for (const [id, label] of [
-      ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
-      // R0665: every quest this save knows, with search and chips.
-      ['quests', JOURNAL_TEXT.questsTab],
-      ['paths', STORY_TEXT.paths],
-      ['endings', STORY_U4_TEXT.endingsTab],
-      // Lane B round 6: the Hollow's progress page (R0165).
-      ['hollow', HOLLOW_R6_TEXT.journalTitle],
-      // R0107: the landmarks found, with their traces and keepsakes (`ui/landmark-card.ts`).
-      ['places', PLACES_TEXT.tab],
+      ['now', C11_TEXT.tabs.now!],
+      ['areas', C11_TEXT.tabs.areas!],
+      ['lines', C11_TEXT.tabs.lines!],
+      ['done', C11_TEXT.tabs.done!],
+      ['more', JOURNAL_TEXT.moreTab],
       // R0511 / R0474: ring meters and the private diary (`ui/progress-panel.ts`, on demand).
       ['progress', PROGRESS_TEXT.tab],
     ] as const) {
@@ -178,15 +203,16 @@ export class Journal {
         label,
         () => {
           this.page = id;
+          lastPage = id;
           this.refresh();
         },
         'btn btn-small',
       );
-      if (this.page === id) b.classList.add('active');
+      if (shown === id) b.classList.add('active');
       b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', String(this.page === id));
+      b.setAttribute('aria-selected', String(shown === id));
       b.setAttribute('aria-controls', this.body.id);
-      b.tabIndex = this.page === id ? 0 : -1;
+      b.tabIndex = shown === id ? 0 : -1;
       tabs.appendChild(b);
     }
     tabKeys(tabs);
@@ -195,7 +221,17 @@ export class Journal {
       const holder = el('div', 'journal-progress');
       this.body.appendChild(holder);
       void import('./progress-panel').then((m) => m.renderProgress(g.world, holder));
-    } else if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
+    } else if (this.page === 'now') renderNow(g, this.body, this.nowOptions(g));
+    else if (this.page === 'areas') renderAreas(g, this.body, this.nowOptions(g));
+    else if (this.page === 'lines') this.renderLinesPage(g);
+    else if (this.page === 'done')
+      renderDone(g, this.body, {
+        titleOf: (id) => eduJournal(g)?.title(id) ?? sideStory(id)?.title ?? id,
+        replay: this.replay,
+        close: () => this.close(),
+      });
+    else if (this.page === 'more') this.renderMore(view);
+    else if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
     else if (this.page === 'quests') renderQuestsPage(g, this.body);
     else if (this.page === 'paths') this.renderPaths(view);
     else if (this.page === 'endings') {
@@ -208,6 +244,89 @@ export class Journal {
       tabs.classList.add('journal-tabs-foot');
       this.body.appendChild(tabs);
     }
+  }
+
+  /** R0610: what the Now and Areas pages need from the journal. */
+  private nowOptions(g: Game): NowOptions {
+    return {
+      titleOf: (id) => eduJournal(g)?.title(id) ?? sideStory(id)?.title ?? id,
+      controls: (id) => this.questControls(g, id),
+      spine: () => {
+        const ctl = spineControls(g, this.parent, () => this.close());
+        if (ctl.length === 0) return null;
+        const row = el('div', 'journal-actions');
+        row.append(...ctl);
+        return row;
+      },
+      close: () => this.close(),
+    };
+  }
+
+  /** The buttons for a quest's current step, as the Quests lists show them, or null. */
+  private questControls(g: Game, id: string): HTMLElement | null {
+    const c = g.world.campaign!;
+    const st = c.fun[id] ?? c.side[id];
+    const quest = sideStory(id);
+    const step = quest?.steps[Math.min(st?.step ?? 0, (quest?.steps.length ?? 1) - 1)];
+    if (!st || !quest || !step || st.status !== 'open' || !sideActable(g.world, c, id)) return null;
+    if (TRACE_TARGETS[step.check]) return null;
+    if (st.stage === 'check' && timeCheckMet(g.world, st, step.check) === false) return null;
+    const row = el('div', 'journal-actions');
+    row.append(
+      ...stepControls({
+        g,
+        parent: this.parent,
+        id,
+        title: eduJournal(g)?.title(id) ?? quest.title,
+        stepIndex: st.step,
+        step,
+        close: () => this.dialog.hide(),
+        playMicro: (kind, act) => {
+          const seed = Math.abs(hashSeed(`${id}:${step.id}`));
+          this.micro.open(kind, step.goal, seed, g.reduceMotion, act);
+        },
+      }),
+    );
+    return row;
+  }
+
+  /** R0610: Lines, with Hazel's Grove first, then each road beside it. */
+  private renderLinesPage(g: Game): void {
+    renderSpineCard(g, this.body);
+    renderLines(
+      g,
+      this.body,
+      () => this.refresh(),
+      () => this.close(),
+      this.openers,
+    );
+    // Lane C r11 (R0618): finished chapters, Watch again or Play from here.
+    renderChapterSelect(g, this.body, this.replay, () => this.close());
+  }
+
+  /** The older pages, one tap each, so nothing the journal had is lost. */
+  private renderMore(view: JournalView): void {
+    const row = el('div', 'c11-more-pages');
+    for (const [id, label] of [
+      ['chapter', STORY_TEXT.chapter(view.n, view.title)],
+      ['quests', JOURNAL_TEXT.questsTab],
+      ['paths', STORY_TEXT.paths],
+      ['endings', STORY_U4_TEXT.endingsTab],
+      ['hollow', HOLLOW_R6_TEXT.journalTitle],
+      ['places', PLACES_TEXT.tab],
+    ] as const)
+      row.appendChild(
+        button(
+          label,
+          () => {
+            this.page = id;
+            lastPage = id;
+            this.refresh();
+          },
+          'btn c11-go',
+        ),
+      );
+    this.body.appendChild(row);
   }
 
   /** The side stories the runner drives, then the open fun quests: each one's current step. */
@@ -307,7 +426,11 @@ export class Journal {
               // The Journal steps aside first, so the scene the step starts plays in the
               // clear rather than under it (review 2026-10-21, bug 29).
               this.dialog.hide();
-              const act = (): void => g.send({ kind: 'sideAct', story: id });
+              // Lane C r11 (R0617, R0641): skipping a wait says what happened, and is remembered.
+              const act = (): void => {
+                g.send({ kind: 'sideAct', story: id, ...(waiting ? { skipped: true } : {}) });
+                if (waiting) showSkipCard(this.parent, title, stepSummary(step));
+              };
               // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
               const kind = verbKind;
               if (kind && !microSkipped(g.world) && MICRO_BUILT.has(kind)) {
@@ -520,12 +643,32 @@ export class Journal {
     });
   }
 
+  /** R0600: the Valley Fair card on Hazel's Endings tab: open once the story and two lines ended. */
+  private renderFair(view: JournalView): void {
+    const g = this.game();
+    if (!g || view.storyline) return;
+    const card = el('section', 'journal-line');
+    card.appendChild(el('div', 'roster-line', CAMP11C_TEXT.fairTitle));
+    const open = epilogueReady(g.world);
+    card.appendChild(el('p', 'help', open ? CAMP11C_TEXT.fairHelp : CAMP11C_TEXT.fairLocked));
+    if (open)
+      card.appendChild(
+        button(
+          fairSeen(g.world) ? CAMP11C_TEXT.fairAgain : CAMP11C_TEXT.fairPlay,
+          () => g.send({ kind: 'playFair' }),
+          'btn btn-primary',
+        ),
+      );
+    this.body.appendChild(card);
+  }
+
   /** K47: every ending of this story, its last picture if reached, a lock icon if not. */
   private renderEndings(view: JournalView): void {
     const key = view.storyline ?? 'hazel';
     this.body.appendChild(el('p', 'help', STORY_U4_TEXT.endingsHelp));
     const grid = el('div', 'ending-gallery');
     this.body.appendChild(grid);
+    this.renderFair(view);
     const entries = Object.entries(view.endings);
     const cells = entries.map(([id, e]) => {
       const cell = el('div', 'ending-card locked');

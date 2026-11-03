@@ -142,6 +142,13 @@ export interface LineRun {
 export function playLineToEnding(world: World, events: SimEvent[], id: string): LineRun {
   // A line before may have ended underground (the Beetle Road); its region is entered from the Grove.
   if (world.location === 'dungeon') applyCommand(world, { kind: 'leaveDungeon' }, events);
+  // R0633: Dawn is a Sun Keeper's line and Dusk a Moon Keeper's.
+  if (id === 'dawn' || id === 'dusk')
+    applyCommand(
+      world,
+      { kind: 'switchKeeper', alignment: id === 'dawn' ? 'sun' : 'moon' },
+      events,
+    );
   applyCommand(world, { kind: 'storylineStart', id }, events);
   const region = regionOfLine(id);
   if (region) applyCommand(world, { kind: 'storyRegion', region }, events);

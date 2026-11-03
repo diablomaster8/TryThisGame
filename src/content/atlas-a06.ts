@@ -363,6 +363,7 @@ export const ATLAS_A06: Quest[] = [
       },
       {
         id: 'a06-02-s3',
+        summary: 'You held on to the washtub through a day, a night and another day, until the sea set you down on sand.',
         goal: 'Hold on to the washtub until the sea lets you go.',
         hint: 'Keep hold of the tub and kick towards the light.',
         check: 'swim:a06-tub:sea',
@@ -1223,6 +1224,7 @@ export const ATLAS_A06: Quest[] = [
       },
       {
         id: 'a06-09-s2',
+        summary: 'You clung to a plank while the boulders fell, and the current carried you to an island with fruit and fresh water.',
         goal: 'Hang on to a plank when the rocs drop their boulders.',
         hint: 'Grab the nearest plank and keep your Nubbin close.',
         check: 'swim:a06-wreck:plank',

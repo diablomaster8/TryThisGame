@@ -28,6 +28,7 @@ import {
   type Tex,
 } from './aaa-kit';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
+import { CAMERA } from '../config/tuning';
 import { outline, TOON, type Creature } from './creatures';
 import {
   ALL_POSES,
@@ -76,6 +77,9 @@ import {
  */
 export type { LightMood } from './aaa-kit';
 export const MOODS: LightMood[] = ['noon', 'golden', 'rain'];
+
+/** R0379: the species `&creature=art&silhouette` stages when no `&ids` are given. */
+const LOOK10_IDS = 'art:kindlefox,art:blazebrush,art:cinderkit,art:shellpup,art:bulblet';
 
 // ---------------------------------------------------------------- the valley
 
@@ -491,6 +495,11 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: LightMood): () =
   // `&stage=`, `&max=`, `&offset=`, `&ids=art:a,art:b`; `&angles`, `&silhouette`), read left
   // to right in list order with each id labelled (see `contact-sheet-3d.ts`).
   const artSheetOn = creatureParam === 'art';
+  // R0379 (LOOK-10): `&creature=art&silhouette` with no `&ids` or `&family` reviews the five
+  // signature-part species (Vulpix, Ninetales, Charmander, Squirtle, Bulbasaur) black on white,
+  // seen from the game camera's 35° (`CAMERA.pitchDeg`) instead of the line-up's eye level.
+  const gameAngle = artSheetOn && query.has('silhouette');
+  if (gameAngle && !query.get('ids') && !query.get('family')) query.set('ids', LOOK10_IDS);
   const turns = artSheetOn ? sheetTurns(query) : [0];
   const sheetEntries = (
     creatureParam === 'variants' ? sheetVariants(query) : artSheetOn ? artSheet(query) : null
@@ -862,8 +871,18 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: LightMood): () =
       const rise = (sheetRows - 1) * 3.6;
       // `&eye`: the camera at the figures' eye height, as the line-up reference was shot.
       const camY = new URLSearchParams(location.search).has('eye') ? 1.15 : 2.5 * back;
-      camera.position.set(0.4 * back, ky + camY + rise, -10.4 * back);
-      camera.lookAt(0, ky + 1.1, (sheetRows - 1) * 1.6);
+      if (gameAngle) {
+        // The game camera's pitch, backed off a little further than the line-up so the fox
+        // tails stay in frame, aimed at the sheet's middle.
+        const d = 12.5 * back + rise;
+        const p = CAMERA.pitchRad;
+        const cz = (sheetRows - 1) * 1.6;
+        camera.position.set(0, ky + 1.1 + d * Math.sin(p), cz - d * Math.cos(p));
+        camera.lookAt(0, ky + 1.1, cz);
+      } else {
+        camera.position.set(0.4 * back, ky + camY + rise, -10.4 * back);
+        camera.lookAt(0, ky + 1.1, (sheetRows - 1) * 1.6);
+      }
     } else if (creature) {
       if ('setPose' in creature) {
         attend(creature as Rigged, poseNow === 'pet');

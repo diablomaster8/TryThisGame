@@ -6,7 +6,7 @@
  * Grove). Slot 1 of each mode keeps the key the game used before slots existed, so
  * nobody loses a Grove.
  */
-import { SAVE_SAFETY } from '../config/tuning';
+import { C11_CHOICE_FLAGS, SAVE_SAFETY } from '../config/tuning';
 import type { SideWorld } from '../sim/side-saves';
 import { mirrorDelete, mirrorReadAll, mirrorWrite, newerCopy } from './save-mirror';
 import { cleanSlotLabel } from '../sim/slot-label';
@@ -20,6 +20,17 @@ import {
   withEntry,
   type SlotIndex,
 } from './slot-index';
+import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import {
+  belongsInIdb,
+  dropLive,
+  forgetLive,
+  liveLatest,
+  preloadLive,
+  resolveLive,
+  writeLive,
+} from './live-store';
+import { archiveAllUnreadable, archiveUnreadable, putWithRoom, warnIfBig } from './save-room';
 
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
 
@@ -36,12 +47,77 @@ export function isStorylineMode(mode: SaveMode): mode is StorylineMode {
   return (STORYLINE_MODES as readonly string[]).includes(mode);
 }
 
-export const SLOTS_PER_MODE = 3;
+export const SLOTS_PER_MODE = SAVE_LAYOUT.slotsPerMode;
+
+/** R0621 (CAMP-29): Hazel's Grove has 8 slots; every other mode keeps 3. */
+export function slotsFor(mode: SaveMode): number {
+  return mode === 'campaign' ? SAVE_LAYOUT.slotsPerProfile : SLOTS_PER_MODE;
+}
+
+/** The most slots any mode has. */
+export const MAX_SLOTS = Math.max(SAVE_LAYOUT.slotsPerProfile, SLOTS_PER_MODE);
+
+function clampIndex(slot: SaveSlot): number {
+  return Math.max(1, Math.min(slotsFor(slot.mode), Math.floor(slot.index) || 1));
+}
 
 export interface SaveSlot {
   mode: SaveMode;
   /** 1-based. */
   index: number;
+}
+
+/**
+ * R0626 (CAMP-34): who is playing. Until profiles have a picker, the Learning Grove's
+ * slots are the child profile `k1` and every other slot is the Keeper profile `p1`.
+ */
+export type ProfileId = string;
+
+export function profileOf(slot: SaveSlot): ProfileId {
+  return slot.mode === 'edu' ? 'k1' : 'p1';
+}
+
+export function isChildProfile(profile: ProfileId): boolean {
+  return profile.startsWith('k');
+}
+
+/** The modes a profile's slots come from. */
+export function profileModes(profile: ProfileId): SaveMode[] {
+  return isChildProfile(profile) ? ['edu'] : ['campaign', ...STORYLINE_MODES, 'free'];
+}
+
+/** A slot's save, with a big save's IndexedDB pointer (R0668) resolved. Throws if blocked. */
+function getSlotJson(key: string): string | null {
+  return resolveLive(key, localStorage.getItem(key));
+}
+
+/** A slot's save as text (null when empty or blocked), pointers resolved. Never throws. */
+export function readSlotJson(slot: SaveSlot): string | null {
+  try {
+    return getSlotJson(slotKey(slot));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Write a slot's save: in localStorage, or (R0668, flag on) in IndexedDB behind a pointer.
+ * Frees archived unreadable copies and retries once on a full store (R0623). False when
+ * nothing was written.
+ */
+function putSlotJson(key: string, json: string): boolean {
+  warnIfBig(key, json);
+  if (belongsInIdb(json)) {
+    void writeLive(key, json, (stub) => {
+      putWithRoom(() => localStorage.setItem(key, stub));
+    }).then((ok) => {
+      // No IndexedDB after all: keep it the old way rather than only in this page.
+      if (!ok && liveLatest(key, json)) putWithRoom(() => localStorage.setItem(key, json));
+    });
+    return true;
+  }
+  forgetLive(key);
+  return putWithRoom(() => localStorage.setItem(key, json));
 }
 
 const LEGACY_KEYS: Record<SaveMode, string> = {
@@ -55,7 +131,7 @@ const LEGACY_KEYS: Record<SaveMode, string> = {
 };
 
 export function slotKey(slot: SaveSlot): string {
-  const index = Math.max(1, Math.min(SLOTS_PER_MODE, Math.floor(slot.index) || 1));
+  const index = clampIndex(slot);
   return index === 1 ? LEGACY_KEYS[slot.mode] : `grove.save.${slot.mode}.${index}`;
 }
 
@@ -81,7 +157,7 @@ export function hasSave(slot: SaveSlot): boolean {
 }
 
 function mirrorKey(slot: SaveSlot): string {
-  return `${slot.mode}:${Math.max(1, Math.min(SLOTS_PER_MODE, Math.floor(slot.index) || 1))}`;
+  return `${slot.mode}:${clampIndex(slot)}`;
 }
 
 /**
@@ -90,6 +166,7 @@ function mirrorKey(slot: SaveSlot): string {
  */
 export async function restoreFromMirror(): Promise<number> {
   let restored = 0;
+  await bootStores();
   try {
     for (const { key, json } of await mirrorReadAll()) {
       const [mode, idx] = key.split(':');
@@ -97,7 +174,7 @@ export async function restoreFromMirror(): Promise<number> {
       if (!mode || !(mode in LEGACY_KEYS) || !Number.isInteger(index)) continue;
       try {
         const lsKey = slotKey({ mode: mode as SaveMode, index });
-        if (newerCopy(localStorage.getItem(lsKey), json) === 'mirror') {
+        if (newerCopy(getSlotJson(lsKey), json) === 'mirror') {
           localStorage.setItem(lsKey, json);
           restored += 1;
           indexWritten({ mode: mode as SaveMode, index }, json, false);
@@ -114,6 +191,7 @@ export async function restoreFromMirror(): Promise<number> {
 
 export function clearSlot(slot: SaveSlot): boolean {
   mirrorDelete(mirrorKey(slot));
+  dropLive(slotKey(slot));
   void dropSlotStores(mirrorKey(slot));
   indexCleared(slot);
   try {
@@ -127,9 +205,24 @@ export function clearSlot(slot: SaveSlot): boolean {
 /** Copy one slot's save over another (same mode or not). */
 export function copySlot(from: SaveSlot, to: SaveSlot): boolean {
   try {
-    const json = localStorage.getItem(slotKey(from));
+    const json = getSlotJson(slotKey(from));
     if (json === null) return false;
-    localStorage.setItem(slotKey(to), json);
+    if (!putSlotJson(slotKey(to), json)) return false;
+    mirrorWrite(mirrorKey(to), json);
+    indexWritten(to, json, false);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Lane C r11 (R0618): put a save's JSON (a chapter checkpoint) into a slot, as a copy does.
+ * False when nothing was written; the caller has already asked before filling a slot.
+ */
+export function writeSlotFrom(to: SaveSlot, json: string): boolean {
+  try {
+    if (!putSlotJson(slotKey(to), json)) return false;
     mirrorWrite(mirrorKey(to), json);
     indexWritten(to, json, false);
     return true;
@@ -157,6 +250,8 @@ export interface SaveSummary {
   /** Lane C r8 (R0648): the questlines beside Hazel's Grove, and side stories and capers done. */
   lines?: Record<string, 'active' | 'done'>;
   questsDone?: number;
+  /** Lane C r11 (R0667): the signature choices this slot made, `flag -> value`, for Compare. */
+  choices?: Record<string, string>;
   /** Lane C r10 agent B (R0649): the slot's name and tag. */
   label?: SlotLabel;
   /* Lane E r9, R0696: the child's name, animal icon and colour tag (Learning Grove). */
@@ -168,7 +263,9 @@ export interface SaveSummary {
 }
 
 /** R0648: the lines and the finished quests a save holds, read defensively from its JSON. */
-function storySummary(w: Record<string, unknown>): Pick<SaveSummary, 'lines' | 'questsDone'> {
+function storySummary(
+  w: Record<string, unknown>,
+): Pick<SaveSummary, 'lines' | 'questsDone' | 'choices'> {
   const lines: Record<string, 'active' | 'done'> = {};
   const raw = (w.lines ?? {}) as Record<string, { ending?: unknown } | null>;
   if (raw && typeof raw === 'object')
@@ -180,7 +277,21 @@ function storySummary(w: Record<string, unknown>): Pick<SaveSummary, 'lines' | '
     if (store && typeof store === 'object')
       for (const st of Object.values(store as Record<string, { status?: unknown }>))
         if (st?.status === 'done') questsDone += 1;
-  return { lines, questsDone };
+  // R0667: the signature choices, read from the spine's flags and every line's.
+  const choices: Record<string, string> = {};
+  const flagSets = [
+    (c as { flags?: unknown } | null)?.flags,
+    ...Object.values((w.lines ?? {}) as Record<string, { flags?: unknown } | null>).map(
+      (l) => l?.flags,
+    ),
+  ];
+  for (const flags of flagSets)
+    if (flags && typeof flags === 'object')
+      for (const k of C11_CHOICE_FLAGS) {
+        const v = (flags as Record<string, unknown>)[k];
+        if (v !== undefined && choices[k] === undefined) choices[k] = String(v);
+      }
+  return { lines, questsDone, choices };
 }
 
 /** Pure: a summary from a save's JSON, or null when it cannot be read. */
@@ -235,7 +346,7 @@ export function summarize(json: string): SaveSummary | null {
 
 export function readSlotSummary(slot: SaveSlot): SaveSummary | null {
   try {
-    const json = localStorage.getItem(slotKey(slot));
+    const json = getSlotJson(slotKey(slot));
     return json === null ? null : summarize(json);
   } catch {
     return null;
@@ -245,7 +356,7 @@ export function readSlotSummary(slot: SaveSlot): SaveSummary | null {
 /** Has storyline `id` reached an ending in any slot of `mode` (Dawn unlocks Dusk and back). */
 export function storylineFinished(mode: SaveMode, id: string): boolean {
   const index_ = readSlotIndex();
-  for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+  for (let index = 1; index <= slotsFor(mode); index++) {
     const s = index_.slots[slotId({ mode, index })]?.summary;
     if (s && s.storyline === id && s.ending !== null) return true;
   }
@@ -254,7 +365,7 @@ export function storylineFinished(mode: SaveMode, id: string): boolean {
 
 export function readSave(): string | null {
   try {
-    return localStorage.getItem(SAVE_KEY);
+    return getSlotJson(SAVE_KEY);
   } catch {
     return null;
   }
@@ -262,7 +373,7 @@ export function readSave(): string | null {
 
 export function writeSave(json: string): boolean {
   try {
-    localStorage.setItem(SAVE_KEY, json);
+    if (!putSlotJson(SAVE_KEY, json)) return false;
     mirrorWrite(mirrorKey(current), json);
     indexWritten(current, json, true);
     backupOnWrite(mirrorKey(current), json, Date.now());
@@ -274,6 +385,7 @@ export function writeSave(json: string): boolean {
 
 export function clearSave(): boolean {
   mirrorDelete(mirrorKey(current));
+  dropLive(SAVE_KEY);
   // A reset keeps the backups (a mis-tap can be undone) but its chapters start over.
   void dropCheckpoints(mirrorKey(current));
   indexCleared(current);
@@ -306,6 +418,8 @@ export function backupUnreadable(slot: SaveSlot, json: string): boolean {
       if (older !== null) localStorage.setItem(unreadableKey(slot, n), older);
     }
     localStorage.setItem(unreadableKey(slot, 1), json);
+    // R0623: kept in IndexedDB too, so a full store can free it without losing it.
+    void archiveUnreadable(unreadableKey(slot, 1), json);
     return true;
   } catch {
     return false;
@@ -501,21 +615,44 @@ export type SideSave = SideWorld;
 
 export const SIDE_SAVES: readonly SideSave[] = ['atlas', 'arcade', 'multiverse', 'neopia'];
 
-export function sideKey(which: SideSave): string {
+/** The key side saves used before profiles; profile p1 reads it until it writes its own. */
+export function legacySideKey(which: SideSave): string {
   return `grove.side.${which}`;
 }
 
+/** R0626 (CAMP-34): a profile's own side save, `grove.side.<world>.<profile>`. */
+export function profileSideKey(which: SideSave, profile: ProfileId): string {
+  return `grove.side.${which}.${profile}`;
+}
+
+/** The side save of the profile playing now. */
+export function sideKey(which: SideSave): string {
+  return profileSideKey(which, profileOf(current));
+}
+
+/** A child profile never has a Multiverse save (it is `adult`). */
+function sideAllowed(which: SideSave, profile: ProfileId): boolean {
+  return !(which === 'multiverse' && isChildProfile(profile));
+}
+
 export function readSide(which: SideSave): string | null {
+  const profile = profileOf(current);
+  if (!sideAllowed(which, profile)) return null;
   try {
-    return localStorage.getItem(sideKey(which));
+    const own = localStorage.getItem(profileSideKey(which, profile));
+    if (own !== null || profile !== 'p1') return own;
+    // Profile p1 inherits the device-wide side save kept before profiles.
+    return localStorage.getItem(legacySideKey(which));
   } catch {
     return null;
   }
 }
 
 export function writeSide(which: SideSave, json: string): boolean {
+  const profile = profileOf(current);
+  if (!sideAllowed(which, profile)) return false;
   try {
-    localStorage.setItem(sideKey(which), json);
+    localStorage.setItem(profileSideKey(which, profile), json);
     return true;
   } catch {
     return false;
@@ -523,8 +660,11 @@ export function writeSide(which: SideSave, json: string): boolean {
 }
 
 export function clearSide(which: SideSave): boolean {
+  const profile = profileOf(current);
   try {
-    localStorage.removeItem(sideKey(which));
+    localStorage.removeItem(profileSideKey(which, profile));
+    // Else the old device-wide save would show through again.
+    if (profile === 'p1') localStorage.removeItem(legacySideKey(which));
     return true;
   } catch {
     return false;
@@ -535,9 +675,9 @@ export function clearSide(which: SideSave): boolean {
 export function readGroveSaves(): string[] {
   const out: string[] = [];
   for (const mode of ['free', 'campaign'] as const) {
-    for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+    for (let index = 1; index <= slotsFor(mode); index++) {
       try {
-        const json = localStorage.getItem(slotKey({ mode, index }));
+        const json = getSlotJson(slotKey({ mode, index }));
         if (json !== null) out.push(json);
       } catch {
         // Blocked storage reads as no save.
@@ -545,6 +685,70 @@ export function readGroveSaves(): string[] {
     }
   }
   return out;
+}
+
+/** R0626: what the story worlds look at, per profile: the slot in play, or every slot. */
+export type WorldsRead = 'slot' | 'every';
+
+function worldsReadKey(profile: ProfileId): string {
+  return `grove.worlds.read.${profile}`;
+}
+
+export function readWorldsRead(): WorldsRead {
+  try {
+    return localStorage.getItem(worldsReadKey(profileOf(current))) === 'every' ? 'every' : 'slot';
+  } catch {
+    return 'slot';
+  }
+}
+
+export function writeWorldsRead(v: WorldsRead): boolean {
+  try {
+    localStorage.setItem(worldsReadKey(profileOf(current)), v);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * R0626: the Grove saves a story world may read when it opens. By default only the slot in
+ * play (so a variant follows the save being played); "every slot" is the old reading. The
+ * Learning Grove reads none.
+ */
+export function readStoryWorldSaves(): string[] {
+  if (current.mode === 'edu') return [];
+  if (readWorldsRead() === 'every') return readGroveSaves();
+  const json = readSlotJson(current);
+  return json === null ? [] : [json];
+}
+
+/** Every slot key a profile owns, for backups and the big-save preload. */
+export function slotKeysOf(modes: readonly SaveMode[]): Array<{ slot: SaveSlot; key: string }> {
+  const out: Array<{ slot: SaveSlot; key: string }> = [];
+  for (const mode of modes)
+    for (let index = 1; index <= slotsFor(mode); index++)
+      out.push({ slot: { mode, index }, key: slotKey({ mode, index }) });
+  return out;
+}
+
+const ALL_MODES = Object.keys(LEGACY_KEYS) as SaveMode[];
+
+/** At boot: big saves into memory (R0668), unreadable copies into IndexedDB (R0623). */
+async function bootStores(): Promise<void> {
+  try {
+    const entries = slotKeysOf(ALL_MODES).map(({ key }) => {
+      try {
+        return { key, raw: localStorage.getItem(key) };
+      } catch {
+        return { key, raw: null };
+      }
+    });
+    await preloadLive(entries);
+    await archiveAllUnreadable();
+  } catch {
+    // Either can fail alone; the game runs on localStorage.
+  }
 }
 
 // ---------- the slot index (lane C r10 agent B: R0622, R0649) ----------
@@ -586,10 +790,10 @@ function indexCleared(slot: SaveSlot): void {
 export function rebuildSlotIndex(): SlotIndex {
   let index = emptyIndex();
   for (const mode of Object.keys(LEGACY_KEYS) as SaveMode[]) {
-    for (let index_ = 1; index_ <= SLOTS_PER_MODE; index_++) {
+    for (let index_ = 1; index_ <= slotsFor(mode); index_++) {
       const slot = { mode, index: index_ };
       try {
-        const json = localStorage.getItem(slotKey(slot));
+        const json = getSlotJson(slotKey(slot));
         const summary = json === null ? null : summarize(json);
         if (json !== null && summary)
           index = withEntry(index, slotId(slot), { summary, bytes: json.length * 2 });
@@ -614,7 +818,7 @@ export function readSlotIndex(): SlotIndex {
 export function labelSlot(slot: SaveSlot, label: SlotLabel | null): boolean {
   try {
     const key = slotKey(slot);
-    const json = localStorage.getItem(key);
+    const json = getSlotJson(key);
     if (json === null) return false;
     const data = JSON.parse(json) as { world?: Record<string, unknown> };
     if (!data.world || typeof data.world !== 'object') return false;
@@ -622,7 +826,7 @@ export function labelSlot(slot: SaveSlot, label: SlotLabel | null): boolean {
     if (clean) data.world.slotLabel = clean;
     else delete data.world.slotLabel;
     const next = JSON.stringify(data);
-    localStorage.setItem(key, next);
+    if (!putSlotJson(key, next)) return false;
     mirrorWrite(mirrorKey(slot), next);
     indexWritten(slot, next, false);
     return true;

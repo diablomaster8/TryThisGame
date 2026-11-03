@@ -760,6 +760,7 @@ export const ARCADE_PA5: Quest[] = [
       },
       {
         id: 'pa5-06-s2',
+        summary: 'You helped Purah mend the slate, and its first photograph came out with half your ear in it.',
         goal: 'Help Purah mend the slate, then pose for its first photograph.',
         hint: 'Hand Purah the parts she asks for; stand in front of the slate when she says.',
         check: 'photo:pa5-purah:lab',
@@ -862,6 +863,7 @@ export const ARCADE_PA5: Quest[] = [
       },
       {
         id: 'pa5-07-s3',
+        summary: 'You brought Hestu his seeds, and he took them home for the little one.',
         goal: 'Bring Hestu his seeds.',
         hint: 'Hestu is still in the road, still worried.',
         check: 'give:pa5-seeds:hestu',

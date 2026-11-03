@@ -2011,6 +2011,7 @@ export const ATLAS_A16: Quest[] = [
       },
       {
         id: 'a16-16-s2',
+        summary: 'You gave the boy the muzzle you drew on the first morning, for his sheep.',
         goal: 'Give the boy the muzzle for his sheep.',
         hint: 'Stay by the pilot while he finds the drawing.',
         check: 'give:a16-prince:muzzle',

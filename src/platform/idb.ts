@@ -5,8 +5,12 @@
  * or slow, so the game keeps running on localStorage alone. Tests swap in `memoryKv()`.
  */
 
-export type GroveStore = 'checkpoints' | 'backups';
-const STORES: readonly GroveStore[] = ['checkpoints', 'backups'];
+// Lane C r11 (R0598, R0623, R0668): `archive` keeps the legacy saves copied before the unified
+// slots, `unreadable` the copies of saves that failed to load, `live` the big live saves.
+export type GroveStore = 'checkpoints' | 'backups' | 'archive' | 'unreadable' | 'live';
+const STORES: readonly GroveStore[] = ['checkpoints', 'backups', 'archive', 'unreadable', 'live'];
+/** Version 2 adds the r11 stores; the upgrade only creates what is missing. */
+const DB_VERSION = 2;
 const DB_NAME = 'grove';
 /** A read that has not answered in this long reads as nothing. */
 const SLOW_MS = 1500;
@@ -57,7 +61,7 @@ function idbKv(): KvBackend {
     opening ??= new Promise<IDBDatabase | null>((resolve) => {
       try {
         if (typeof indexedDB === 'undefined') return resolve(null);
-        const req = indexedDB.open(DB_NAME, 1);
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
         req.onupgradeneeded = () => {
           try {
             for (const s of STORES)

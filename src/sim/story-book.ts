@@ -9,6 +9,7 @@ import {
   storyHome,
   storySceneDone,
 } from './storyline';
+import { keeperMismatch } from './keeper-line';
 import { lineEndedRewards } from './line-rewards';
 import { orderSceneQueue } from './scene-queue';
 import { lineCast } from './storyline-rules';
@@ -195,6 +196,8 @@ export function stepLineQueue(world: World, dtMs: number, events: SimEvent[]): v
     if (line.queue.length > 0 || sideResting(world, spine, [lineOwner(line)])) continue;
     // R0597: a line moves on only while the Keeper is in its region (R0605).
     if (lineWaitsForRegion(world, line)) continue;
+    // R0633: Dawn holds until the Keeper is Sun, Dusk until Moon.
+    if (keeperMismatch(world, line.storyline!)) continue;
     if (world.location === 'dungeon' && storyHome(line.storyline!, line.chapter) !== 'dungeon')
       continue;
     stepStoryline(world, line, events);

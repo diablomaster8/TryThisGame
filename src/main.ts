@@ -55,6 +55,8 @@ import { nextTip } from './ui/tips';
 import { HOLLOW_TEXT } from './config/strings';
 import { mountSpriteGallery } from './ui/sprite-gallery';
 import { installHiddenGuard } from './platform/dom-guards';
+import { readCrossSaves } from './ui/atlas';
+import { unequipMissingHats } from './sim/derived-unlocks';
 
 function mustGet<T extends Element>(selector: string): T {
   const el = document.querySelector<T>(selector);
@@ -110,6 +112,8 @@ if (import.meta.env.DEV && params.has('audiolab')) {
 }
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
 let kidsLock: number | null;
+/** Lane C r11 (R0627): the new Hazel's Grove slot is a Sandbox: a Keeper, no story yet. */
+let sandboxStart = false;
 // A browser may have cleared localStorage: put back any newer IndexedDB copy before a slot is read.
 void restoreFromMirror()
   .then(route)
@@ -203,6 +207,7 @@ function route(): void {
       hudRoot,
       (choice) => {
         if (choice.fresh) clearSlot(choice.slot);
+        sandboxStart = choice.fresh && choice.sandbox === true;
         setSaveSlot(choice.slot);
         startGame(
           (choice.slot.mode === 'campaign' || choice.storyline) && choice.fresh
@@ -274,7 +279,7 @@ function startGame(
   // Learning Grove save also needs its own band's educational scenes (CV2) before the
   // first scene plays. A Free Grove with no story boots without them (story-chunks.ts).
   // The loaders forget a failed fetch, so "Try again" fetches afresh.
-  const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null);
+  const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null, sandboxStart);
   const ready = Promise.all([sideStories, loadBoot()]);
   ready.then(
     () => loading.step(mode === '3d' ? 0.15 : 0.8),
@@ -356,6 +361,9 @@ function boot(
   const hud = mountHud(hudRoot, () => game);
   offerInstallLater(hudRoot); // R0463 (TECH-21)
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
+  // R0630: a hat a cleared side save used to give comes off (readCrossSaves sets the derived set).
+  readCrossSaves();
+  unequipMissingHats(game.world);
   // A save that opens underground holds the floor still behind the veil (R0142).
   if (!loading.done) {
     game.send({ kind: 'setLoading', on: true });
@@ -365,7 +373,9 @@ function boot(
   }
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
-    if (storyline) {
+    if (sandboxStart) {
+      // R0627: no campaignStart; Settings → Story starts Hazel's story later.
+    } else if (storyline) {
       // Dawn & Dusk: a half started after the other reached an ending sees the whole day.
       const other = storyline === 'dawn' ? 'dusk' : storyline === 'dusk' ? 'dawn' : null;
       const flags = other && storylineFinished('dawndusk', other) ? { 'dd-other-done': true } : {};

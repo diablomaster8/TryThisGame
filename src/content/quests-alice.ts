@@ -120,6 +120,7 @@ export const QUESTS_ALICE: Quest[] = [
       },
       {
         id: 'q66-s2',
+        summary: 'You swam out of the pool of tears and joined a crowd of dripping creatures on the far side.',
         goal: 'Swim your Nubbin out of the pool of tears.',
         hint: 'Drink from the bottle, then swim across the pool to the dry edge. Your Nubbin paddles beside you.',
         check: 'swim:q66-tear-pool',
@@ -229,6 +230,7 @@ export const QUESTS_ALICE: Quest[] = [
       },
       {
         id: 'q67-s2',
+        summary: 'You handed out Alice’s comfits, and everybody won a prize.',
         goal: 'Hand out Alice’s comfits as prizes.',
         hint: 'Alice has a box of comfits in her pocket. Give one to every racer, then one to the Dodo.',
         check: 'give:item:comfit:caucus-racers',
@@ -893,6 +895,7 @@ export const QUESTS_ALICE: Quest[] = [
       },
       {
         id: 'q73-s2',
+        summary: 'You helped Tweedledum and Tweedledee into their armour, very slowly, until they stood wrapped up like parcels.',
         goal: 'Help Tweedledum and Tweedledee into their armour, very slowly.',
         hint: 'Hand each of them a bolster, a saucepan, a coal-scuttle and a few other things, one at a time.',
         check: 'give:item:q73-armour:tweedles',
@@ -983,6 +986,7 @@ export const QUESTS_ALICE: Quest[] = [
     steps: [
       {
         id: 'q74-s1',
+        summary: 'You pinned the White Queen’s shawl back on, and she told you about six impossible things.',
         goal: 'Pin the White Queen’s shawl back on.',
         hint: 'Catch the shawl in the wind, then pin it on the White Queen, one pin at a time.',
         check: 'give:item:q74-pin:white-queen',

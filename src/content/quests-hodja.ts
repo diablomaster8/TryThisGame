@@ -144,6 +144,7 @@ export const QUESTS_HODJA: Quest[] = [
       },
       {
         id: 'q86-s2',
+        summary: 'You gave the donkey water and a place under the big tree, and it stood in the shade, half asleep.',
         goal: 'Give the donkey water and a place under the big tree.',
         hint: 'The donkey wants water and shade. Tap Do it in the Journal; your Nubbin cups the water. The donkey has opinions about cups.',
         check: 'give:item:water:hodja-donkey',
@@ -467,6 +468,7 @@ export const QUESTS_HODJA: Quest[] = [
     steps: [
       {
         id: 'q89-s1',
+        summary: 'You carried Byte’s big jam pan to the Hodja, who took it as if it were a sleeping child.',
         goal: 'Carry Byte’s big jam pan to the Hodja.',
         hint: 'Take the big jam pan from Byte and give it to the Hodja under the big tree.',
         check: 'give:item:jam-pan:hodja',

@@ -1,14 +1,14 @@
 import type * as THREE from 'three';
-import type { CreatureSpec } from '../render/sprites/creature';
 import { C, color } from '../render/sprites/palette';
-import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-digi';
+import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-quad';
+import { leansForward, type CreatureSpec } from '../render/sprites/creature';
 import { V, type Prim } from '../samples/sculpted';
-import type { PartSpec, SpeciesSpec } from '../samples/species';
+import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
 import type { Layout } from './art-species';
-import { DINO_LEAN_DEG } from '../config/tuning-look-r10e';
+import { CHEST_MISSILE, DINO_LEAN_DEG, STRIPE_WRAP } from '../config/tuning-look-r10e';
 
 /**
- * The 3D side of the digital-line kit (render/sprites/creature-kit-digi.ts): layouts for
+ * The 3D side of the digital-line kit (render/sprites/creature-kit-quad.ts): layouts for
  * the four-legged and fish plans, and the extras (beak, sunglasses, tusks, mane, pincers,
  * drill nose, propeller, single eye, extra heads) sculpted onto the recipe's figure.
  * art-species.ts asks `kitLayout` first and hands its finished spec to `patchKitSpec`.
@@ -198,6 +198,18 @@ export function patchKitSpec(
   const cream = color(C.cream);
   for (const x of extras) {
     switch (x) {
+      case 'chestMissile': {
+        // R0377: MetalGreymon's missile, nose out of a dark hatch in the chest, so it reads
+        // from the front three-quarter view.
+        const y = b.y + b.r.y * 0.3;
+        const z0 = b.r.z * 0.78;
+        torso.push(
+          ell(V(0, y, z0), V(0.3, 0.26, 0.1), CHEST_MISSILE.hatch),
+          cap(V(0, y, z0), V(0, y, z0 + 0.22), 0.15, CHEST_MISSILE.body),
+          cone(V(0, y, z0 + 0.22), V(0, y, z0 + 0.46), 0.15, 0.03, CHEST_MISSILE.nose),
+        );
+        break;
+      }
       case 'dinoSnout':
         // Greymon's long muzzle (LOOK-08), with a paler jaw.
         head.push(
@@ -338,8 +350,14 @@ export function patchKitSpec(
         break;
     }
   }
+  const greymon = leansForward(art);
+  const marks =
+    greymon && art.marks.includes('stripes')
+      ? [...spec.marks, ...wrapStripes(art, L, c, parts)]
+      : spec.marks;
   const out: SpeciesSpec = {
     ...spec,
+    marks,
     gait,
     eyes,
     parts,
@@ -347,10 +365,54 @@ export function patchKitSpec(
     head: { ...spec.head, prims: head, box: boxOf(head) },
   };
   // The Greymon line (a snout under a skull helmet, or SkullGreymon's ribs) leans; Charizard's
-  // snout alone does not.
-  const greymon =
-    extras.includes('dinoSnout') && (extras.includes('skullHelmet') || extras.includes('ribs'));
+  // snout alone does not (creature.ts `leansForward`, shared with the Pixel lean).
   return greymon ? leanForward(out, L, c.body!, DINO_LEAN_DEG) : out;
+}
+
+/**
+ * R0377: the Greymon line's blue-grey stripes wrap round the flanks from the spine toward
+ * the belly, and band each flesh arm, so they read from the front three-quarter view and
+ * not only from behind. Each stripe is a chain of painted capsule marks laid on the body
+ * ellipsoid's surface at the back stripes' heights, sheared with the lean (`leanForward`
+ * moves the surface, not the marks); the belly front stays clear.
+ */
+function wrapStripes(
+  art: CreatureSpec,
+  L: Layout,
+  c: Record<string, string>,
+  parts: PartSpec[],
+): Mark[] {
+  const { from, to, segs, r, out: grow } = STRIPE_WRAP;
+  const b = L.body;
+  const lean = Math.tan((DINO_LEAN_DEG * Math.PI) / 180);
+  const out: Mark[] = [];
+  for (let i = 0; i < 3; i++) {
+    const y = b.y + 0.3 - i * 0.28;
+    const k = grow * Math.sqrt(Math.max(0, 1 - ((y - b.y) / b.r.y) ** 2));
+    const at = (deg: number, s: number) => {
+      const t = (deg * Math.PI) / 180;
+      const dz = Math.max(0, y - L.hipY) * lean;
+      return V(s * Math.sin(t) * b.r.x * k, y, Math.cos(t) * b.r.z * k + dz);
+    };
+    for (const s of [-1, 1])
+      for (let j = 0; j < segs; j++) {
+        const d0 = from + ((to - from) * j) / segs;
+        const d1 = from + ((to - from) * (j + 1)) / segs;
+        out.push({ kind: 'capsule', a: at(d0, s), b: at(d1, s), r, color: c.accent2!, soft: 0 });
+      }
+  }
+  // A band round the middle of each flesh arm (MetalGreymon's steel arm keeps none).
+  const metal = art.extras?.includes('metalArm');
+  for (const p of parts) {
+    if (p.name !== 'armL' && p.name !== 'armR') continue;
+    if (metal && p.name === 'armR') continue;
+    const arm = p.prims.find((q) => q.kind === 'capsule' && q.b);
+    if (!arm) continue;
+    const mid = arm.a.clone().add(arm.b!).multiplyScalar(0.5);
+    p.prims.push({ kind: 'torus', a: mid, r: arm.r, r2: r * 0.75, color: c.accent2! });
+    p.box = boxOf(p.prims);
+  }
+  return out;
 }
 
 /**

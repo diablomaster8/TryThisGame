@@ -7,6 +7,7 @@
  * A tab strip lists the regions found so far. The map only reads the world and sends commands.
  */
 import '../world.css';
+import '../camp-r11.css';
 import type { StoryRegionId } from '../config/story-regions';
 import { regionLine, storyRegionHere } from '../sim/story-regions';
 import { hasStoryRegions, storyRegionPage, storyRegionTabs } from './map-regions';
@@ -21,6 +22,11 @@ import { WORLD_MAP } from '../config/tuning-world';
 import type { Game } from '../game';
 import { MAP_PPU, paintGroveMap, toMapPx } from '../render/map-paint';
 import { landmarkList } from '../sim/landmarks';
+import { areaMarks, markCount, markKind, MARK_GLYPH } from '../sim/camp11';
+import { C11_TEXT } from '../config/strings';
+import { sideStory } from '../sim/story-scenes';
+import { areaName } from './offer-card';
+
 import { regionOf, regionsFound, travelBlock } from '../sim/regions';
 import { OVERVIEW_TEXT } from '../config/strings-r11d6';
 import { worldOverview } from './world-overview';
@@ -31,6 +37,8 @@ import { playIris } from './travel-iris';
 import { keepsakeLine } from './collection';
 import { MAP_LAYER_TEXT } from '../config/strings-world';
 import { MAP_LAYERS, mapOverlay, type MapLayer } from '../sim/map-overlays';
+
+const MARK_GLYPH_STATE = { available: '!', tracked: '◆', active: '◇', done: '✓' } as const;
 
 interface Chip {
   key: string;
@@ -486,6 +494,35 @@ export class WorldMapPanel {
             : this.openSheet('?', l.x, l.z, false),
       );
       if (!found) node.setAttribute('aria-label', WORLD_TEXT.notFound);
+    }
+    // Lane C r11 (R0608): one quest marker per area, a shape and a colour, with a count.
+    for (const m of Object.values(areaMarks(w))) {
+      const poi = REGIONS.grove.pois.find((p) => `grove/${p.id}` === m.area);
+      if (!poi || hidden.includes(poi.landmark ?? poi.id)) continue;
+      const kind = markKind(m);
+      const n = markCount(m);
+      const label = `${MARK_GLYPH[kind]}${n > 1 ? ` ${n}` : ''}`;
+      const node = add(`qmark:${m.area}`, poi.x, poi.z, label, `wm-qmark wm-q-${kind}`, () => {
+        this.openSheet(areaName(m.area), poi.x, poi.z, true, { poi: poi.id });
+        const list = el('ul', 'wm-qlist');
+        for (const [state, ids] of [
+          ['available', m.offer],
+          ['tracked', m.tracked],
+          ['active', m.active],
+          ['done', m.done],
+        ] as const)
+          for (const id of ids)
+            list.appendChild(
+              el(
+                'li',
+                undefined,
+                `${MARK_GLYPH_STATE[state]} ${C11_TEXT.markerState[state]}: ${sideStory(id)?.title ?? id}`,
+              ),
+            );
+        this.sheet.appendChild(el('div', 'btn-name', C11_TEXT.markerSheetHead));
+        this.sheet.appendChild(list);
+      });
+      node.setAttribute('aria-label', `${C11_TEXT.marker[kind]} (${areaName(m.area)})`);
     }
     for (const e of REGIONS.grove.exits) {
       // Ways to regions not built yet lead nowhere, so the map keeps quiet about them.

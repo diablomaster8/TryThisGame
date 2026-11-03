@@ -1348,6 +1348,7 @@ export const NEOPIA_LINE: Quest[] = [
       },
       {
         id: 'np07-step2',
+        summary: 'You brought the barn creature food without being seen, and it spoke of a castle in the sky.',
         goal: 'Bring the barn creature food without anyone seeing.',
         hint: 'Pick turnips at Meri Acres after dark. Stay out of the guards’ lantern light.',
         check: 'give:food:barn-creature',

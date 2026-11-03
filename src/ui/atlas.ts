@@ -22,6 +22,7 @@ import {
   type StoryLine,
 } from '../sim/atlas';
 import { crossSavesFrom, type CrossSaves } from '../sim/cross-saves';
+import { derivedUnlocks, setDerivedUnlocks } from '../sim/derived-unlocks';
 import { audienceContext } from '../sim/fun-quests';
 import { speakerNameIn } from '../sim/story-scenes';
 import {
@@ -41,7 +42,7 @@ import {
   type SideData,
 } from '../sim/side-saves';
 import { loseReflection, reflectEternal } from '../sim/reflection';
-import { readGroveSaves, readSide, writeSide, type SideSave } from '../platform/storage';
+import { readSide, readStoryWorldSaves, writeSide, type SideSave } from '../platform/storage';
 import type { Dialogue } from './dialogue';
 import { button, el, modal } from './dom';
 import { battleScreen } from './battle-screen';
@@ -53,9 +54,14 @@ import { DO_IT_BY, DOSSIER_TEXT } from '../config/strings-fun-r6';
 import { playLabel } from './journal-step';
 import { hashSeed } from '../sim/rng';
 
-/** A fresh read-only snapshot of the side saves and every Grove save on this device. */
+/**
+ * A fresh read-only snapshot of the side saves and the Grove save in play (R0626: every
+ * slot only when the profile's "Story worlds remember" says so).
+ */
 export function readCrossSaves(): CrossSaves {
-  return crossSavesFrom(readSide('atlas'), readSide('arcade'), readGroveSaves());
+  const x = crossSavesFrom(readSide('atlas'), readSide('arcade'), readStoryWorldSaves());
+  setDerivedUnlocks(derivedUnlocks(x)); /* R0630: recomputed each read, never saved */
+  return x;
 }
 
 /** Toast and remember each festival the side saves have unlocked and this Grove has not heard of. */
@@ -358,7 +364,7 @@ export class StoryShelf {
  */
 export function openLastEndgame(): Reflection | null {
   const mv = parseMultiverse(readSide('multiverse'));
-  const r = reflectEternal(mv, readGroveSaves());
+  const r = reflectEternal(mv, readStoryWorldSaves());
   writeSide('multiverse', serializeSide(mv));
   return r;
 }

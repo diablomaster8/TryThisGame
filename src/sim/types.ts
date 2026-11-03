@@ -1,4 +1,5 @@
 import type { StoryBoutId } from './battle/story-bouts';
+import type { CreatorPick } from './creator';
 import type {
   BattleAction,
   BattleContext,
@@ -98,6 +99,11 @@ export interface NubbinForm {
   second: NubbinType | null;
   /** Type lean snapshot at evolution, so the second evolution measures growth since. */
   leanAtEvolution: Record<NubbinType, number>;
+  /**
+   * Lane F r11 (EVO): the top stage, reached late in adult life with good care: a Chao
+   * Nubbin's Chaos-tier look, another line's Radiant one. Absent below it.
+   */
+  radiant?: true;
 }
 
 export type GroveKind = 'main' | 'sun' | 'moon';
@@ -542,6 +548,12 @@ export interface QuestBook {
   stats?: { offered: number; accepted: number; declined: number; shelved: number };
   /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
   areaOfferMs?: Record<string, number>;
+  /** Lane C r11 (R0641): quests with a step skipped or imagined, with how many; no leaf mark. */
+  skippedSteps?: Record<string, number>;
+  /** Lane C r11 (R0651): sim ms of the last arrival beat, for its cap. */
+  lastBeatMs?: number;
+  /** Lane C r11 (R0640): lines whose region pitch card has been shown, once ever. */
+  pitched?: string[];
 }
 
 /** Lane C r10 agent B (R0649, CAMP-57): a save slot's tag colours (each shown with an icon). */
@@ -1221,6 +1233,8 @@ export interface World {
   /** Sim time from which a rock or the stream bank can be tapped for materials again. */
   gatherReadyMs: number;
   unlocks: { sunGrove: boolean; moonGrove: boolean };
+  /** Lane F r11 (EVO, save v15): the creator code was entered, so the creator picker is open. */
+  creator?: boolean;
   /** Which Grove is shown. Sun and Moon are recolours, unlocked by the first adult of that band. */
   grove: GroveKind;
   /** Highest tier won per race course (0 = none). */
@@ -1443,6 +1457,10 @@ export interface World {
 // ---------- commands (input → sim) ----------
 
 export type Command =
+  // Lane F r11 (EVO): the creator code, and the creator picker's grant and transform.
+  | { kind: 'creatorUnlock'; code: string }
+  | { kind: 'creatorGrant'; pick: CreatorPick }
+  | { kind: 'creatorTransform'; nubbinId: string; pick: CreatorPick }
   // Lane C r10 agent B (R0619): a chapter's checkpoint was written to IndexedDB as `id`.
   | { kind: 'checkpointKept'; key: string; id: string }
   // Lane E (R0332): the UI spotted a curiosity; the sim logs it once.
@@ -1541,9 +1559,11 @@ export type Command =
   | { kind: 'lightLantern'; id: string }
   | { kind: 'debugChapter'; chapter: number; line?: string }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
-  | { kind: 'sideAct'; story: string }
+  | { kind: 'sideAct'; story: string; skipped?: boolean }
   /** Lane C r10 agent C (R0614, R0615): skip the spine's current goal (Story only pace). */
-  | { kind: 'skipGoal' }
+  | { kind: 'skipGoal'; line?: string }
+  /** R0600: go to the Valley Fair once it is open. */
+  | { kind: 'playFair' }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
   | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
@@ -1557,6 +1577,8 @@ export type Command =
   | { kind: 'questDecline'; id: string }
   | { kind: 'questShelve'; id: string }
   | { kind: 'questTrack'; id: string; on: boolean }
+  // Lane C r11 (R0640): a line's region pitch card was shown; it is never pitched again.
+  | { kind: 'linePitched'; id: string }
   // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
   | { kind: 'debugQuestOffer'; id: string }
   // Lane C r9 (R0594): at a line's end, bring one of its Nubbins home or let it stay.
@@ -1810,6 +1832,11 @@ export type SimEvent =
   | { kind: 'secondEvolved'; nubbinId: string; second: NubbinType; species: string }
   /** A hatchling grew into its next baby form, or a champion took its final form. */
   | { kind: 'speciesGrew'; nubbinId: string; species: string }
+  /** Lane F r11 (EVO): the top stage, Chaos-tier or Radiant (`form.radiant`). */
+  | { kind: 'ascended'; nubbinId: string; species: string }
+  /** Lane F r11 (EVO): the creator code was accepted; a pick was granted or applied. */
+  | { kind: 'creatorUnlocked' }
+  | { kind: 'creatorApplied'; nubbinId: string }
   | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
   | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
   | { kind: 'awaitingKeeper'; nubbinId: string }
@@ -1981,6 +2008,8 @@ export type SimEvent =
   | { kind: 'travelRefused'; exit: string; reason: string }
   /** Lane C r10 agent A (R0605, R0640): a questline region entered, left, refused or newly open. */
   | { kind: 'storyRegionEntered'; region: string }
+  /** R0633: the region's line wants the other Keeper side; the UI asks whether to switch. */
+  | { kind: 'keeperSwitchPrompt'; line: string; want: KeeperAlignment }
   | { kind: 'storyRegionLeft'; region: string }
   | { kind: 'storyRegionRefused'; region: string; reason: string }
   | { kind: 'storyRegionOpened'; region: string }

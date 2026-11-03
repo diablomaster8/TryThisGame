@@ -5,7 +5,14 @@
  * second erase of the same slot replaces the first.
  */
 import { SLOT_TRASH } from '../config/tuning-r9d3';
-import { clearSlot, indexRestored, slotKey, type SaveMode, type SaveSlot } from './storage';
+import {
+  clearSlot,
+  indexRestored,
+  readSlotJson,
+  slotKey,
+  type SaveMode,
+  type SaveSlot,
+} from './storage';
 
 export interface TrashEntry {
   slot: SaveSlot;
@@ -20,7 +27,8 @@ export function trashKey(slot: SaveSlot): string {
 /** Copy a slot's save into its trash key; false when there is nothing to keep. */
 export function keepInTrash(slot: SaveSlot, now: number): boolean {
   try {
-    const json = localStorage.getItem(slotKey(slot));
+    // Lane C r11 (R0668): a big save's pointer is resolved, so the copy is the save itself.
+    const json = readSlotJson(slot);
     if (json === null) return false;
     localStorage.setItem(trashKey(slot), JSON.stringify({ at: now, json }));
     return true;
@@ -58,12 +66,16 @@ function drop(slot: SaveSlot): void {
 /** The kept slots still inside the week, newest first; older copies are removed. */
 export function listTrash(
   modes: readonly SaveMode[],
-  slotsPerMode: number,
+  slotsPerMode: number | ((mode: SaveMode) => number),
   now: number,
 ): TrashEntry[] {
   const out: TrashEntry[] = [];
   for (const mode of modes)
-    for (let index = 1; index <= slotsPerMode; index++) {
+    for (
+      let index = 1;
+      index <= (typeof slotsPerMode === 'number' ? slotsPerMode : slotsPerMode(mode));
+      index++
+    ) {
       const slot = { mode, index };
       const e = readEntry(slot);
       if (!e) continue;

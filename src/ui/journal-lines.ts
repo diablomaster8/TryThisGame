@@ -1,4 +1,4 @@
-import { CAMP_TEXT, STORYLINE_TEXT } from '../config/strings';
+import { CAMP_TEXT, SKIP_CARD_TEXT, STEP_TEXT, STORYLINE_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { activeLines, lineRefusal, quietSpine, sharesStory } from '../sim/story-book';
 import { confirmModal } from './confirm';
@@ -9,6 +9,8 @@ import { JOURNAL_TEXT } from '../config/strings-journal';
 import { JOURNAL } from '../config/tuning-journal';
 import { lineMinutesLeft } from './journal-search';
 import { storyActButton } from './journal-step';
+import { skippableLineGoal } from '../sim/goal-skips';
+import { showSkipCard } from './skip-card';
 import { lineRecap } from './recap';
 import { RECAP_TEXT } from '../config/strings';
 
@@ -85,6 +87,20 @@ export function renderLines(
               g.send({ kind: 'storyAct', label, line: s.id });
               later();
             }),
+          );
+        }
+        // R0615 (lane C r11): at Story only pace, a line's goal can be skipped, with the card.
+        if (skippableLineGoal(g.world, s.id)) {
+          row.appendChild(
+            button(
+              STEP_TEXT.skipGoal,
+              () => {
+                g.send({ kind: 'skipGoal', line: s.id });
+                showSkipCard(cardHost(body), s.title, SKIP_CARD_TEXT.done(view.goalText));
+                later();
+              },
+              'btn btn-small',
+            ),
           );
         }
         for (const a of view.actions) {

@@ -760,6 +760,7 @@ export const MV_IRONMAN: Quest[] = [
       },
       {
         id: 'mv-im05-s2',
+        summary: 'You stormed the floating base with Rhodey and pulled the cables, and the transmitter dish stopped.',
         goal: 'Storm Justin Hammer’s floating base with Rhodey and Bethany and shut down his transmitter.',
         hint: 'An expedition with two Nubbins: send the quieter one to the transmitter while the other holds the gangway.',
         check: 'expedition:clear:mv-hammer-base',
@@ -1280,6 +1281,7 @@ export const MV_IRONMAN: Quest[] = [
       },
       {
         id: 'mv-im08-s2',
+        summary: 'You shut down the Guardsmen’s armour in the Vault, and every cell door held.',
         goal: 'Get through the Vault and shut down the Guardsmen’s armour without letting a single prisoner out.',
         hint: 'An expedition: send one Nubbin to hold the cell-block switches while the other follows Tony.',
         check: 'expedition:clear:mv-the-vault',
@@ -1746,6 +1748,7 @@ export const MV_IRONMAN: Quest[] = [
     steps: [
       {
         id: 'mv-im11-s1',
+        summary: 'You helped the crews search the rubble, and your Nubbins found four people alive.',
         goal: 'Help the rescue crews search the rubble for survivors.',
         hint: 'An expedition with no enemies; small Nubbins with high Stamina find more people before dark.',
         check: 'expedition:clear:mv-rescue-site',
@@ -1927,6 +1930,7 @@ export const MV_IRONMAN: Quest[] = [
       },
       {
         id: 'mv-im12-s2',
+        summary: 'You kept Tony alive on the island while the armour knelt beside him in the shade.',
         goal: 'Keep Tony alive on the island while the armour carries him across.',
         hint: 'An expedition across the island: one Nubbin finds water, one finds shade, and the armour follows your lead.',
         check: 'expedition:clear:mv-desert-island',

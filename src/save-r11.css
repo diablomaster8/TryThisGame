@@ -1,0 +1,39 @@
+/* Lane C r11 (R0621): Hazel's Grove's 8 slots as a 2-column grid of cards. */
+.title-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.title-mode-grid > .title-mode-name,
+.title-mode-grid > .title-mode-blurb {
+  grid-column: 1 / -1;
+}
+
+/* A card: the slot's main button across the top, its small actions wrapping below. */
+.title-mode-grid > .title-slot {
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 4px;
+  border: 1px solid rgba(127, 232, 255, 0.35);
+  border-radius: 8px;
+}
+
+.title-mode-grid > .title-slot > .title-slot-main {
+  flex: 1 1 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.title-mode-grid > .title-slot > .btn-small {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.title-mode-grid .title-slot-erase {
+  margin-left: 0;
+}
+
+.title-status:empty {
+  display: none;
+}

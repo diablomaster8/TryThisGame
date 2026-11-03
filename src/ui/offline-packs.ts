@@ -12,12 +12,12 @@ import { OFFLINE_PACKS } from '../config/tuning-r10d4';
 import { el } from './dom';
 
 /** `core` (the workers and the sprite manifest) is always kept and has no tick box. */
-export type PackId = 'story' | 'edu' | 'worlds' | 'core';
-const PACK_IDS: readonly PackId[] = ['story', 'edu', 'worlds'];
+export type OfflinePackId = 'story' | 'edu' | 'worlds' | 'core';
+const PACK_IDS: readonly OfflinePackId[] = ['story', 'edu', 'worlds'];
 const KEY = 'grove.offlinePacks';
 
 interface Manifest {
-  packs: Partial<Record<PackId, { files: string[]; bytes: number }>>;
+  packs: Partial<Record<OfflinePackId, { files: string[]; bytes: number }>>;
 }
 
 let manifest: Promise<Manifest | null> | null = null;
@@ -36,7 +36,7 @@ function loadManifest(): Promise<Manifest | null> {
   return manifest;
 }
 
-export function keptPacks(): PackId[] {
+export function keptPacks(): OfflinePackId[] {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? '[]') as unknown;
     return Array.isArray(raw) ? PACK_IDS.filter((p) => raw.includes(p)) : [];
@@ -45,7 +45,7 @@ export function keptPacks(): PackId[] {
   }
 }
 
-function writeKept(ids: PackId[]): void {
+function writeKept(ids: OfflinePackId[]): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(ids));
   } catch {
@@ -53,7 +53,7 @@ function writeKept(ids: PackId[]): void {
   }
 }
 
-function urlsOf(m: Manifest, id: PackId): string[] {
+function urlsOf(m: Manifest, id: OfflinePackId): string[] {
   const base = new URL(import.meta.env.BASE_URL, location.origin);
   return (m.packs[id]?.files ?? []).map((f) => new URL(f, base).href);
 }
@@ -64,7 +64,7 @@ function worker(): ServiceWorker | null {
 
 /** Hand one pack to the worker; resolves to how many of its files the cache holds. */
 function post(
-  id: PackId,
+  id: OfflinePackId,
   m: Manifest,
   sw: ServiceWorker | null = worker(),
 ): Promise<{ held: number; of: number } | null> {
@@ -90,10 +90,10 @@ function post(
  * On each load (main.ts, once the worker is in control): keep the ticked packs and the
  * one the slot in play needs. Quiet: nothing shows, and offline it does nothing.
  */
-export function refreshOfflinePacks(sw: ServiceWorker | null, slotNeeds: PackId | null): void {
+export function refreshOfflinePacks(sw: ServiceWorker | null, slotNeeds: OfflinePackId | null): void {
   // On a first visit the worker is active but not yet in control: post to it directly.
   if (!sw || navigator.onLine === false) return;
-  const ids = new Set<PackId>(['core', ...keptPacks()]);
+  const ids = new Set<OfflinePackId>(['core', ...keptPacks()]);
   if (slotNeeds) ids.add(slotNeeds);
   void loadManifest().then((m) => {
     if (!m) return;
@@ -117,7 +117,7 @@ export function mountOfflinePacks(parent: HTMLElement): void {
   box.appendChild(note);
   parent.appendChild(box);
   const kept = new Set(keptPacks());
-  const rows: { id: PackId; input: HTMLInputElement; state: HTMLElement }[] = [];
+  const rows: { id: OfflinePackId; input: HTMLInputElement; state: HTMLElement }[] = [];
   for (const id of PACK_IDS) {
     const row = el('label', 'check-row');
     const input = el('input');
@@ -149,7 +149,7 @@ export function mountOfflinePacks(parent: HTMLElement): void {
   void loadManifest().then(sync);
 }
 
-async function toggle(id: PackId, input: HTMLInputElement, state: HTMLElement): Promise<void> {
+async function toggle(id: OfflinePackId, input: HTMLInputElement, state: HTMLElement): Promise<void> {
   const ids = new Set(keptPacks());
   const m = await loadManifest();
   if (!m) return;

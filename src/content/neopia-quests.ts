@@ -85,6 +85,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq01-step1',
+        summary: 'You brought the Fire Faerie a slice of Giant Omelette, and she held it very carefully.',
         goal: 'Bring the Fire Faerie one slice of the Giant Omelette from the Tyrannian Plateau.',
         hint: 'Take a slice from the Giant Omelette in Tyrannia, then carry it back to the grotto.',
         check: 'give:item:omelette-slice:fire-faerie',
@@ -154,6 +155,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq02-step1',
+        summary: 'You brought the Water Faerie a grey pearl, and she threaded it between a pink one and a black one.',
         goal: 'Bring the Water Faerie a grey pearl from the Maraquan Ruins.',
         hint: 'Send a Swim Nubbin into the Maraquan Ruins, or try your one cast at Underwater Fishing in Maraqua.',
         check: 'give:item:grey-maraquan-pearl:water-faerie',
@@ -220,6 +222,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq03-step1',
+        summary: 'You brought the Air Faerie a bronze wind chime, and the wind hung it up for her.',
         goal: 'Bring the Air Faerie a bronze wind chime from the Shenkuu terraces.',
         hint: 'The chime seller sits on the highest terrace in Shenkuu. Pick whichever chime you like.',
         check: 'give:item:shenkuu-wind-chime:air-faerie',
@@ -287,6 +290,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq04-step1',
+        summary: 'You brought the Earth Faerie a lumpy purple turnip, still wearing some Meridell.',
         goal: 'Bring the Earth Faerie a turnip from Meri Acres Farm in Meridell.',
         hint: 'Meri Acres Farm sells its turnips at the gate. Any turnip with mud still on it counts.',
         check: 'give:item:meri-acres-turnip:earth-faerie',
@@ -351,6 +355,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq05-step1',
+        summary: 'You brought the Light Faerie a warm sunstone scarab from Sakhmet.',
         goal: 'Bring the Light Faerie a sunstone scarab from the market in Sakhmet.',
         hint: 'Sakhmet is the city of the Lost Desert. The scarab stall is beside Coltzan’s Shrine.',
         check: 'give:item:sunstone-scarab:light-faerie',
@@ -416,6 +421,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq06-step1',
+        summary: 'You brought the Dark Faerie a black candle that burned with a small violet flame.',
         goal: 'Bring the Dark Faerie a black reading candle from the chandler in Neovia.',
         hint: 'Neovia is the little town in the Haunted Woods. The chandler’s shop has a candle in every window.',
         check: 'give:item:neovian-black-candle:dark-faerie',
@@ -482,6 +488,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq07-step1',
+        summary: 'You brought the Space Faerie a light, warm piece of Kreludite.',
         goal: 'Bring the Space Faerie a pocket-sized piece of Kreludite from Kreludor.',
         hint: 'Take the shuttle from the Virtupets Space Station to Kreludor and ask the Grundo miners.',
         check: 'give:item:kreludite-chunk:space-faerie',
@@ -548,6 +555,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq08-step1',
+        summary: 'You carried a Thick Smoke Bomb very carefully to the Battle Faerie.',
         goal: 'Bring the Battle Faerie a Thick Smoke Bomb from Smugglers’ Cove on Krawk Island.',
         hint: 'The shop in Smugglers’ Cove keeps them under the counter. Ask for the counter.',
         check: 'give:item:thick-smoke-bomb:battle-faerie',
@@ -627,6 +635,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq09-step1',
+        summary: 'You brought Taelia a scoop of her own flavour, and it did not melt in her hut.',
         goal: 'Bring Taelia a scoop of her own flavour from the Ice Cream Factory in Happy Valley.',
         hint: 'The Ice Cream Factory is in Happy Valley, just down the slope. Ask for the Taelia flavour.',
         check: 'give:item:taelia-ice-cream:taelia',
@@ -696,6 +705,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq10-step1',
+        summary: 'You brought the Fountain Faerie a glass float, and light spread through it in every colour.',
         goal: 'Bring the Fountain Faerie a clear glass float from the Kiko Lake workshops.',
         hint: 'The glassblowers work on the jetty at Kiko Lake. Ask for a float, not a bottle.',
         check: 'give:item:kiko-glass-float:fountain-faerie',
@@ -800,6 +810,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq11-step1',
+        summary: 'You brought Illusen the Brightvale Herbal, and it fell open at the page on thyme.',
         goal: 'Bring Illusen a copy of the Brightvale Herbal from the scroll shop in Brightvale.',
         hint: 'Brightvale’s scroll shop is next to King Hagan’s castle. The Herbal is the fat green one.',
         check: 'give:item:brightvale-herbal:illusen',
@@ -876,6 +887,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq12-step1',
+        summary: 'You fetched a warm sack of black volcanic soil from Techo Mountain for Illusen.',
         goal: 'Fetch a sack of black volcanic soil from the foot of Techo Mountain on Mystery Island.',
         hint: 'The soil is free for the digging on Techo Mountain’s lower slopes. You carry the sack; your Nubbins supervise.',
         check: 'give:item:volcanic-soil:illusen',
@@ -1034,6 +1046,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq14-step1',
+        summary: 'You brought Jhudora a Shadow Usuki doll, and she set it in the last gap on her shelf.',
         goal: 'Bring Jhudora a Shadow Usuki doll from the Usuki shop in Neopia Central.',
         hint: 'The Usuki shop is on the main street in Neopia Central. The Shadow one is on the top shelf, at the back.',
         check: 'give:item:shadow-usuki:jhudora',
@@ -1111,6 +1124,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq15-step1',
+        summary: 'You brought Jhudora a humming violet stone from the Darigan Citadel.',
         goal: 'Bring Jhudora a humming stone from the ramparts of the Darigan Citadel.',
         hint: 'The Citadel floats above Meridell. A guard at the gate will let you pick one loose stone from the rampart.',
         check: 'give:item:citadel-stone:jhudora',
@@ -1257,6 +1271,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq17-step1',
+        summary: 'You brought the Island Chef a round, dented cheese from the Meridell Cheeseroller.',
         goal: 'Bring the Island Chef a whole round cheese from the Meridell Cheeseroller.',
         hint: 'The Cheeseroller hill is outside the Meridell village. Finish one roll and keep the cheese.',
         check: 'give:item:cheeseroller-cheese:island-chef',
@@ -1322,6 +1337,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq18-step1',
+        summary: 'You brought the Island Chef a jar of warm lava-berry jam from Tyrannian Town.',
         goal: 'Bring the Island Chef a jar of lava-berry jam from the Tyrannian Town market.',
         hint: 'The jam stall is in Tyrannia’s town, under the big stone awning. It comes in a clay jar.',
         check: 'give:item:lava-berry-jam:island-chef',
@@ -1387,6 +1403,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq19-step1',
+        summary: 'You brought the Island Chef a bundle of squeaky fresh kelp from Maraqua.',
         goal: 'Bring the Island Chef a bundle of fresh sea kelp from Maraqua.',
         hint: 'A Swim Nubbin can pick kelp in Maraqua, or buy a bundle from the stall outside King Kelpbeard’s palace.',
         check: 'give:item:maraquan-kelp:island-chef',
@@ -1452,6 +1469,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq20-step1',
+        summary: 'You brought the Island Chef a silver tube of gravy from Grundo’s Café.',
         goal: 'Bring the Island Chef a tube of gravy from Grundo’s Café on the Virtupets Space Station.',
         hint: 'Grundo’s Café is on the Space Station’s food deck. The gravy comes in a silver tube.',
         check: 'give:item:space-gravy-tube:island-chef',
@@ -1516,6 +1534,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq21-step1',
+        summary: 'You set a wobbling, gleaming jelly down in front of the Island Chef.',
         goal: 'Bring the Island Chef a jelly. Any colour, but green would be the dream.',
         hint: 'The Food Shop in Neopia Central sells common jellies. Green ones are rare; some say they come from Jelly World.',
         check: 'give:item:jelly:island-chef',
@@ -1583,6 +1602,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq22-step1',
+        summary: 'You dropped a Mortog wart into Edna’s palm, and she sniffed it like an expert.',
         goal: 'Bring Edna a Mortog wart from the pond at Kiss the Mortog, in Meridell.',
         hint: 'The Mortogs by the Meridell pond shed their warts in the reeds. Look, don’t kiss. Or kiss. Your call.',
         check: 'give:item:mortog-wart:edna',
@@ -1647,6 +1667,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq23-step1',
+        summary: 'You brought Edna a strip of crackling old bandage from the Deserted Tomb.',
         goal: 'Bring Edna a strip of old linen bandage from the Deserted Tomb in the Lost Desert.',
         hint: 'Run the Deserted Tomb once; the bandage is on the first sarcophagus. Mind the traps.',
         check: 'give:item:tomb-bandage:edna',
@@ -1712,6 +1733,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq24-step1',
+        summary: 'You brought Edna a bottle of pirate pepper sauce, and one drop turned her ears red.',
         goal: 'Bring Edna a bottle of pirate pepper sauce from the Golden Dubloon on Krawk Island.',
         hint: 'The Golden Dubloon is the pirate restaurant on Krawk Island. Ask the kitchen for the house pepper sauce.',
         check: 'give:item:dubloon-pepper-sauce:edna',
@@ -1779,6 +1801,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq25-step1',
+        summary: 'You brought Edna a pot of very dark ink from the Wise Old King’s inkwell.',
         goal: 'Bring Edna a pot of ink from the Wise Old King’s inkwell in Brightvale.',
         hint: 'The Wise Old King sits in Brightvale castle. Make him laugh or nod at his phrase game and he’ll part with a pot.',
         check: 'give:item:wise-kings-ink:edna',
@@ -1843,6 +1866,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq26-step1',
+        summary: 'You carried a huge, silver, unbroken cobweb to Edna like a wedding veil.',
         goal: 'Bring Edna a cobweb from the great hall of Eliv Thade’s castle.',
         hint: 'Eliv Thade’s castle is deep in the Haunted Woods. The cobweb hangs from the chandelier; a Fly Nubbin can reach it.',
         check: 'give:item:thade-cobweb:edna',
@@ -2057,6 +2081,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       },
       {
         id: 'nq28-step2',
+        summary: 'You baked the mushroom pie with far too much butter and fed it to the Esophagor.',
         goal: 'Bake the mushroom pie and feed it to the Esophagor.',
         hint: 'Bake it in the Neopia kitchen with mushrooms, pepper and butter, then carry it back to the cave.',
         check: 'give:food:mushroom-pie:esophagor',
@@ -2124,6 +2149,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     steps: [
       {
         id: 'nq29-step1',
+        summary: 'You brought the petpet to the Turmaculus, and the Warf gave its nose one long lick.',
         goal: 'Bring the petpet that can wake the Turmaculus.',
         hint: 'He sleeps through noise. Think about what wakes a sleeper who ignores noise. Petpets are sold in Neopia Central.',
         check: 'wake:turmaculus:warf',

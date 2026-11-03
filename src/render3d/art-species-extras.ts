@@ -87,10 +87,26 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       // game camera's front three-quarter look-down (LOOK-10).
       const r = Math.max(0.5, h.r.x * 1.05);
       const quad = art.plan === 'quad';
+      // Lane F r11 (R0379): on a quad the bulb rises to the head's middle behind it and ends
+      // in a pointed bud tip, so its outline clears the big baby head from the game camera.
       const at = quad
-        ? V(0, Math.max(b.y + b.r.y * 0.7 + r * 0.45, h.y - h.r.y * 0.9), -b.r.z * 0.25)
+        ? V(0, Math.max(b.y + b.r.y * 0.7 + r * 0.45, h.y + h.r.y * 0.1), -b.r.z * 0.35)
         : V(0, m.y + m.s * 0.35, m.z - m.s * 0.15);
       T.push(sphere(at, quad ? r : Math.max(0.45, m.s * 0.78), c));
+      if (quad) {
+        T.push(
+          cap(V(0, at.y + r * 0.6, at.z), V(0, at.y + r * 1.25, at.z + r * 0.1), r * 0.32, c, 0.12),
+        );
+        T.push(
+          cap(
+            V(0, at.y + r * 1.2, at.z + r * 0.1),
+            V(0, at.y + r * 1.55, at.z + r * 0.2),
+            r * 0.12,
+            c,
+            0.06,
+          ),
+        );
+      }
       for (const s of sides)
         T.push(
           cap(
@@ -132,7 +148,8 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       // A full dome on the back, a rim that shows round the sides from the front, and a
       // cream plastron on the belly (LOOK-10).
       T.push(ell(V(0, b.y, backZ * 0.55), V(b.r.x * 1.14, b.r.y * 1.1, b.r.z * 0.8), c));
-      T.push(ell(V(0, b.y, -0.05), V(b.r.x * 1.32, b.r.y * 1.08, 0.18), c2, 0.04));
+      // Lane F r11 (R0379): the rim stands well out past the arms, so the shell shows in outline.
+      T.push(ell(V(0, b.y - b.r.y * 0.1, -0.05), V(b.r.x * 1.62, b.r.y * 1.12, 0.2), c2, 0.04));
       T.push(
         ell(
           V(0, b.y - b.r.y * 0.05, b.r.z * 0.72),

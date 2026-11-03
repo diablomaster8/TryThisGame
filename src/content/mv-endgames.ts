@@ -144,6 +144,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 1. Stamford (both sides)
       {
         id: 'mv-e1-s1',
+        summary: 'You dug through the wreckage at Stamford, and your Nubbins brought out a backpack for Tony.',
         goal: 'Dig through the wreckage at Stamford with your Nubbins.',
         hint: 'An expedition with no enemies. Small Nubbins fit where rescuers can’t; keep their stamina up and rotate them.',
         check: 'expedition:clear:mv-stamford-wreck',
@@ -334,6 +335,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 3S. Safehouses (resistance only)
       {
         id: 'mv-e1-res-s3',
+        summary: 'You got your Nubbins to the laundrette safehouse with thirty seconds to spare.',
         goal: 'Get your Nubbins to the next safehouse before the S.H.I.E.L.D. sweep.',
         hint: 'Resistance side only. A stealth expedition: keep your Nubbins out of the drones’ lights and keep moving.',
         check: 'expedition:clear:mv-safehouse-run',
@@ -598,6 +600,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 2. Battleworld
       {
         id: 'mv-e2-s2',
+        summary: 'You crossed three domains of Battleworld and reached Doom’s throne room.',
         goal: 'Cross three domains of Battleworld and reach Doom’s capital.',
         hint: 'An expedition through Sunnyside, the Lookout and Latveria. Each baron’s patrols follow a route; wait for the gap.',
         check: 'expedition:clear:mv-battleworld',
@@ -853,6 +856,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 2. The god in the sky
       {
         id: 'mv-e3-s2',
+        summary: 'You found Marc Spector before Khonshu called him up, and heard the invitation to his sky.',
         goal: 'Find Marc Spector before Khonshu calls him up into the sky.',
         hint: 'A night expedition across New York. Your Nubbins see well by moonlight; let them lead.',
         check: 'expedition:clear:mv-khonshu-night',
@@ -1122,6 +1126,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 2. Ma Junior
       {
         id: 'mv-e4-s2',
+        summary: 'You found the bottle under the stands, and Goku pulled the cork.',
         goal: 'Find the bottle Piccolo coughs up before somebody steps on it.',
         hint: 'A short search expedition round the arena. A Fly Nubbin can check the rooftops; a small one fits under the stands.',
         check: 'expedition:clear:mv-papaya-arena',
@@ -1235,6 +1240,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 5. The wish (choice)
       {
         id: 'mv-e4-s5',
+        summary: 'You reached Kami’s Lookout, where the second set of seven balls glowed on the white tiles.',
         goal: 'Call the dragon at Kami’s Lookout and decide what to do with the wish.',
         hint: 'Bring the second set of seven Dragon Balls to the Lookout. Shenron waits for your answer; there’s no wrong one.',
         check: 'summon:mv-shenron',
@@ -1902,6 +1908,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 8. The trap
       {
         id: 'mv-e6-trap',
+        summary: 'You carried Hank Pym’s trap into the core, a room as big as a sky with silver lines running to its centre.',
         goal: 'Carry Hank Pym’s trap into Ultron’s core with the Vision and Jocasta.',
         hint: 'The final expedition. One Nubbin rides with the Vision and Jocasta; pick your bravest and most trusting.',
         check: 'expedition:clear:mv-ultron-core',
@@ -2016,6 +2023,7 @@ export const MV_ENDGAMES: Quest[] = [
       // ------------------------------------------------------------ 10b. Ending: the wish
       {
         id: 'mv-e6-end-wish',
+        summary: 'You called Shenron into the core and made the saved wish, and a small silver world with one tree began.',
         goal: 'Call Shenron into Ultron’s core and make the saved wish.',
         hint: 'Plays if you chose the saved wish. Say your own name, as Shenron told you.',
         check: 'summon:mv-shenron:core',

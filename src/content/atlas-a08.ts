@@ -1490,6 +1490,7 @@ export const ATLAS_A08: Quest[] = [
       },
       {
         id: 'a08-14-s2',
+        summary: 'You watched the village gather round to see what the bard had written.',
         goal: 'Watch the village deal with the bard.',
         hint: 'Find your form from task VIII in your satchel, and give it to Asterix.',
         check: 'give:a08-form:asterix',

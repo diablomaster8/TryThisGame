@@ -303,6 +303,7 @@ export const MV_DOOM: Quest[] = [
       },
       {
         id: 'mv-ff02-s2',
+        summary: 'You found Blackbeard’s chest in the cove, towed in by your Nubbin on a rope.',
         goal: 'Find Blackbeard’s chest in the pirate cove.',
         hint: 'A Swim Nubbin dives faster; a Fly Nubbin spots the wreck from above.',
         check: 'expedition:clear:mv-blackbeard-cove',
@@ -609,6 +610,7 @@ export const MV_DOOM: Quest[] = [
     steps: [
       {
         id: 'mv-ff04-s1',
+        summary: 'You followed the Surfer to Doom’s castle, but arrived a moment too late.',
         goal: 'Follow the Surfer to Doom’s castle in Latveria.',
         hint: 'An expedition through the castle. Stamina helps on the long climb to the tower.',
         check: 'expedition:clear:mv-latveria-castle',
@@ -828,6 +830,7 @@ export const MV_DOOM: Quest[] = [
       },
       {
         id: 'mv-ff05-s3',
+        summary: 'You climbed to the monastery at the top of the world and watched Doom take up the mask.',
         goal: 'Climb to the monastery at the top of the world.',
         hint: 'A cold, steep expedition. Bring your Nubbin with the most Stamina.',
         check: 'expedition:clear:mv-himalaya-monastery',
@@ -940,6 +943,7 @@ export const MV_DOOM: Quest[] = [
       },
       {
         id: 'mv-ff06-s2',
+        summary: 'You helped Reed learn enough magic by admitting how much he did not understand.',
         goal: 'Help Reed learn enough magic to face Doom.',
         hint: 'Gather the three pages hidden around Doom’s castle. A Fly Nubbin reaches the high shelves.',
         check: 'expedition:clear:mv-doom-library',
@@ -1082,6 +1086,7 @@ export const MV_DOOM: Quest[] = [
       },
       {
         id: 'mv-ff07-s2',
+        summary: 'You went into Mephisto’s realm with Doom and Strange, and found someone behind the flames.',
         goal: 'Go into Mephisto’s realm with Doom and Strange.',
         hint: 'A long expedition through fire. Keep your Nubbins fed: nothing here is safe to eat.',
         check: 'expedition:clear:mv-mephisto-realm',
@@ -1219,6 +1224,7 @@ export const MV_DOOM: Quest[] = [
       },
       {
         id: 'mv-ff08-s2',
+        summary: 'You broke the amplifier with your Power Nubbin, and the tower fell silent.',
         goal: 'Break the amplifier that carries the Purple Man’s voice.',
         hint: 'An expedition into the amplifier tower. A Power Nubbin can wreck the coils at the top.',
         check: 'expedition:clear:mv-doom-amplifier',
@@ -1471,6 +1477,7 @@ export const MV_DOOM: Quest[] = [
     steps: [
       {
         id: 'mv-ff10-s1',
+        summary: 'You got inside occupied Wakanda through a drain and reached the great vault.',
         goal: 'Get inside occupied Wakanda and find T’Challa.',
         hint: 'An expedition through jungle and city. A Run Nubbin slips past patrols.',
         check: 'expedition:clear:mv-wakanda-occupied',
@@ -2118,6 +2125,7 @@ export const MV_ULTRON: Quest[] = [
     steps: [
       {
         id: 'mv-ul04-s1',
+        summary: 'You tracked Ultron’s signal and found Jan asleep on a steel table, with a black steel woman beside her.',
         goal: 'Track Ultron’s signal to where he is holding Jan.',
         hint: 'An expedition along an old rail tunnel. A Run Nubbin covers the long straights.',
         check: 'expedition:clear:mv-ultron-8-lair',
@@ -2251,6 +2259,7 @@ export const MV_ULTRON: Quest[] = [
     steps: [
       {
         id: 'mv-ul05-s1',
+        summary: 'You crossed Slorenia and found its valley full of Ultrons, standing in rows.',
         goal: 'Cross Slorenia and find out what happened to its people.',
         hint: 'A long, quiet expedition. There is nothing to fight here. Keep your Nubbins close.',
         check: 'expedition:clear:mv-slorenia',
@@ -2279,6 +2288,7 @@ export const MV_ULTRON: Quest[] = [
       },
       {
         id: 'mv-ul05-s2',
+        summary: 'You got into Ultron’s fortress, and every Ultron in the valley turned its head at once.',
         goal: 'Get into Ultron’s fortress and free his “family”.',
         hint: 'An expedition with one choice at the end. A Fly Nubbin finds the vent in.',
         check: 'expedition:clear:mv-ultron-fortress',
@@ -2397,6 +2407,7 @@ export const MV_ULTRON: Quest[] = [
     steps: [
       {
         id: 'mv-ul06-s1',
+        summary: 'You crossed Kree space with Star-Lord’s crew and learned what he was searching for.',
         goal: 'Cross Phalanx-held Kree space with Star-Lord’s crew.',
         hint: 'An expedition through infected stations. Organic Nubbins resist the Phalanx; machines near them slow down.',
         check: 'expedition:clear:mv-phalanx-space',
@@ -2642,6 +2653,7 @@ export const MV_ULTRON: Quest[] = [
     steps: [
       {
         id: 'mv-ul08-s1',
+        summary: 'You reached the last heroes’ hideout through the ruined city, and heard one sound from a lab.',
         goal: 'Reach the last heroes’ hideout through the ruined city.',
         hint: 'A stealth expedition. Drones sweep in patterns. Your Nubbins’ body heat gives you away; keep them moving.',
         check: 'expedition:clear:mv-ultron-ruins',
@@ -2805,6 +2817,7 @@ export const MV_ULTRON: Quest[] = [
     steps: [
       {
         id: 'mv-ul09-s1',
+        summary: 'You got inside Titan before it hit the Earth, and saw Ultron take hold of Hank.',
         goal: 'Get inside Titan before it hits the Earth.',
         hint: 'A long Fly and Run expedition across a moon made into a machine.',
         check: 'expedition:clear:mv-ultron-titan',
@@ -2927,6 +2940,7 @@ export const MV_ULTRON: Quest[] = [
     steps: [
       {
         id: 'mv-ul10-s1',
+        summary: 'You survived the metal future long enough to reach a castle of old stone.',
         goal: 'Survive the metal future long enough to find the others who were pulled through.',
         hint: 'A harsh expedition: no fruit, no water, no plants. Bring food from the Grove.',
         check: 'expedition:clear:mv-ultron-future',

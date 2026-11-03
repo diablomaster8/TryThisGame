@@ -773,6 +773,7 @@ export const ATLAS_A09: Quest[] = [
       },
       {
         id: 'a09-05-s3',
+        summary: 'You saw the gold ring find its owner, and she smoothed her fringe twice.',
         goal: 'See the gold ring find its owner.',
         hint: 'Sit with everyone in the clearing while she gets her breath back.',
         check: 'give:a09-ring:snork-maiden',
@@ -1591,6 +1592,7 @@ export const ATLAS_A09: Quest[] = [
       },
       {
         id: 'a09-12-s3',
+        summary: 'You said goodbye to the valley and gave Snufkin his hat back before he walked on, playing.',
         goal: 'Say goodbye to the valley and give Snufkin back his hat.',
         hint: 'Snufkin is at the gate with his pack on. Bring the hat.',
         check: 'give:a09-hat:snufkin',

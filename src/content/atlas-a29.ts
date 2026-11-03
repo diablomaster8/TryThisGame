@@ -1083,6 +1083,7 @@ export const ATLAS_A29: Quest[] = [
       },
       {
         id: 'a29-09-s2',
+        summary: 'You handed out the tea and took nobody’s side out loud.',
         goal: 'Give out the tea. Take nobody’s side out loud.',
         hint: 'Put a cup by each of them. You don’t have to say anything.',
         check: 'give:a29-tea:three',

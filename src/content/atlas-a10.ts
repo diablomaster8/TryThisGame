@@ -330,6 +330,7 @@ export const ATLAS_A10: Quest[] = [
       },
       {
         id: 'a10-02-s3',
+        summary: 'You went out to the breakers with Moana and brought her safely back to the beach.',
         goal: 'Go out to the breakers with Moana, and bring her back in.',
         hint: 'Wade out to the reef edge and be ready to pull.',
         check: 'swim:a10-reef:breakers',

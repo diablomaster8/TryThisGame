@@ -3,9 +3,11 @@ import { C } from './palette';
 import { ex } from './creature-extras';
 import { DIGI2_ART } from './species-art-digi2';
 import { GEN1B_ART } from './species-art-gen1b';
+import { R11_ART } from './species-art-r11';
 import { SPECIES_ART_GEN1A } from './species-art-gen1a';
 import { UNIQUE_ART_PREFIX, uniqueArt } from './unique-art';
 import { FOE_ART_PREFIX, foeArt } from './foe-family-art';
+import { isStageArt, stageArt } from './stage-art';
 
 /**
  * Art specs for every non-Chao species, keyed by species id (sim/species.ts). Each is
@@ -434,7 +436,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   // MetalGreymon: Greymon's body and helmet with a metal arm, a chest plate and bat wings.
   ironsaur: spec(pal(C.orange, C.ember, C.lilacGrey, C.sand, C.deepWater, C.ink, C.deepWater), {
     plan: 'tall',
-    extras: ['skullHelmet', 'dinoSnout', 'metalArm'],
+    extras: ['skullHelmet', 'dinoSnout', 'metalArm', 'chestMissile'],
     wings: 'bat',
     tail: 'long',
     arms: 'metal',
@@ -465,6 +467,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   ...DIGI2_ART,
   ...GEN1B_ART,
   ...SPECIES_ART_GEN1A,
+  ...R11_ART,
 };
 
 export function speciesArt(id: string): CreatureSpec | undefined {
@@ -472,5 +475,7 @@ export function speciesArt(id: string): CreatureSpec | undefined {
   if (id.startsWith(UNIQUE_ART_PREFIX)) return uniqueArt(id, (s) => SPECIES_ART[s]) ?? undefined;
   // R0157 (lane B r10): a Hollow foe family's own look, or its Act V Greyling.
   if (id.startsWith(FOE_ART_PREFIX)) return foeArt(id);
+  // Lane F r11 (EVO): the Radiant top stage and a single's juvenile look.
+  if (isStageArt(id)) return stageArt(id, (s) => SPECIES_ART[s]);
   return SPECIES_ART[id];
 }

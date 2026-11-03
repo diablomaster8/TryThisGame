@@ -1,5 +1,6 @@
 import type { Quest, Reward } from '../content/types';
 import { HAT_IDS } from './shop';
+import { grantPackReward } from './pack-rewards';
 import type { CampaignState, SimEvent, World } from './types';
 
 /**
@@ -45,6 +46,8 @@ export function grantRewards(
         break;
     }
   }
+  // Lane C r11 (R0638): the last caper of a pack keeps the pack's own keepsake, once.
+  grantPackReward(world, c, quest.id, events);
 }
 
 /** Titles the stories gave, for the Keeper's profile beside the achievement titles. */

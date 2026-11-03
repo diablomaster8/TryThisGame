@@ -361,6 +361,7 @@ export const MV_CAP: Quest[] = [
     steps: [
       {
         id: 'mv-ca03-s1',
+        summary: 'You chased the drone plane down the runway until it was brought down in a flash of white.',
         goal: 'Chase Baron Zemo’s drone plane down the runway.',
         hint: 'An Expedition: send your fastest Nubbin along the runway and your Swim Nubbin to the water’s edge.',
         check: 'expedition:complete:mv-drone-plane',
@@ -411,6 +412,7 @@ export const MV_CAP: Quest[] = [
       },
       {
         id: 'mv-ca03-s2',
+        summary: 'You dived under the Arctic ice with your Swim Nubbin, and Steve woke up in the warm submarine.',
         goal: 'Dive under the Arctic ice with your Swim Nubbin.',
         hint: 'An Expedition dive. Your Swim Nubbin leads; the others keep the hole in the ice open.',
         check: 'expedition:complete:mv-arctic-dive:swim',
@@ -474,6 +476,7 @@ export const MV_CAP: Quest[] = [
     steps: [
       {
         id: 'mv-ca04-s1',
+        summary: 'You crossed the rewritten island to the palace, with your Nubbins counting the stairs aloud.',
         goal: 'Cross the Red Skull’s rewritten island to reach his palace.',
         hint: 'An Expedition through a world the Cube keeps rewriting. Paths shift every few turns, so carry extra fruit.',
         check: 'expedition:complete:mv-skull-island',
@@ -602,6 +605,7 @@ export const MV_CAP: Quest[] = [
     steps: [
       {
         id: 'mv-ca05-s1',
+        summary: 'You followed the trail from the smear adverts to a bunker in the desert.',
         goal: 'Follow the committee’s trail from the smear adverts to whoever is paying for them.',
         hint: 'An Expedition with a Fly Nubbin scouting the rooftops. Sam’s falcon marks the safe streets.',
         check: 'expedition:complete:mv-committee-trail',
@@ -749,6 +753,7 @@ export const MV_CAP: Quest[] = [
     steps: [
       {
         id: 'mv-ca06-s1',
+        summary: 'You found the source of the riot with your Fly Nubbin, and the notes named the real target.',
         goal: 'Find the source of the riot with your Fly Nubbin.',
         hint: 'An Expedition. Your Fly Nubbin hears the bomb’s whine before anyone else; go where its ears point.',
         check: 'expedition:complete:mv-madbomb-test:fly',
@@ -901,6 +906,7 @@ export const MV_CAP: Quest[] = [
       },
       {
         id: 'mv-ca07-s2',
+        summary: 'You traced the orders to their real source, and months later Steve took a new name.',
         goal: 'Trace the Commission’s orders to whoever is really giving them.',
         hint: 'An Expedition through government corridors. Run Nubbins open doors; Fly Nubbins listen at the vents.',
         check: 'expedition:complete:mv-commission-corridors',
@@ -1001,6 +1007,7 @@ export const MV_CAP: Quest[] = [
     steps: [
       {
         id: 'mv-ca08-s1',
+        summary: 'You raided the waterfront warehouse and learned whose shipping line stood behind it.',
         goal: 'Raid the waterfront warehouse with Steve Rogers.',
         hint: 'An Expedition. Keep one Nubbin near Steve at all times; it will tell you if he starts to lose control.',
         check: 'expedition:complete:mv-waterfront-raid',
@@ -1208,6 +1215,7 @@ export const MV_CAP: Quest[] = [
       },
       {
         id: 'mv-ca09-s3',
+        summary: 'You got the new Cube out of the vault and into Steve’s hands.',
         goal: 'Get the new Cube out of Lukin’s vault and into Steve’s hands.',
         hint: 'An Expedition into the Kronas vault. Your Power Nubbin pulls the Cube loose; your Run Nubbin carries it.',
         check: 'expedition:complete:mv-kronas-vault',
@@ -1335,6 +1343,7 @@ export const MV_CAP: Quest[] = [
       },
       {
         id: 'mv-ca10-s2',
+        summary: 'You ran supplies for the resistance under the patrols, and found Kobik hiding and frightened.',
         goal: 'Run supplies for the resistance under Hydra’s patrols.',
         hint: 'A stealth Expedition. Small Nubbins pass patrols unnoticed, so leave the big ones at camp.',
         check: 'expedition:complete:mv-resistance-run',

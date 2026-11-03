@@ -62,7 +62,9 @@ export type KitExtra =
   | 'dinoSnout'
   | 'ribs'
   // LOOK-08 (lane E r10): one metal arm (its own left), the other a clawed arm: MetalGreymon.
-  | 'metalArm';
+  | 'metalArm'
+  // R0377: MetalGreymon's chest missile (Giga Destroyer) in its open hatch.
+  | 'chestMissile';
 
 interface Base {
   angle: DrawnAngle;
@@ -285,6 +287,27 @@ export function drawKitExtras(
   const fx = a.headCx + a.headRx;
   for (const x of extras) {
     switch (x) {
+      case 'chestMissile': {
+        // R0377: a dark hatch in the chest with the missile's red nose in it from the front;
+        // from the side the missile points out ahead of the chest.
+        if (behind || a.back) break;
+        const my = a.bodyCy - Math.round(a.bodyRy * 0.35);
+        if (side) {
+          // Above the near arm's fist, which covers the middle of the chest from the side.
+          const mx = a.bodyCx + a.bodyRx - 2;
+          const sy = a.bodyCy - Math.round(a.bodyRy * 0.75);
+          pc.rect(mx, sy - 1, 4, 3, C.lilacGrey);
+          pc.px(mx + 1, sy - 1, C.pale);
+          pc.tri(mx + 4, sy - 1, mx + 4, sy + 1, mx + 6, sy, C.ember);
+        } else {
+          const mx = a.bodyCx + (a.face > 0 ? 2 : 0);
+          pc.ellipse(mx, my, 3, 2.5, C.ink);
+          pc.disc(mx, my, 2, C.lilacGrey);
+          pc.disc(mx, my, 1.1, C.ember);
+          pc.dot(mx - 1, my - 1.5, C.pale);
+        }
+        break;
+      }
       case 'dinoSnout': {
         // Greymon's long muzzle (LOOK-08): out front from the side, a pale jaw from the front.
         if (behind || a.back) break;

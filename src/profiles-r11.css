@@ -1,0 +1,65 @@
+/* Lane C r11 helper "profiles": the big Continue, empty-card starts, Who's playing. */
+.title-continue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 56px;
+  margin: 4px 0 8px;
+  font-size: 1.15em;
+}
+
+.title-continue small {
+  font-size: 0.75em;
+  opacity: 0.85;
+  overflow-wrap: anywhere;
+}
+
+/* An empty Hazel's Grove card: its name, then New story and Sandbox side by side. */
+.title-mode-grid > .title-slot-empty {
+  gap: 4px;
+}
+
+.title-slot-empty-name {
+  flex: 1 1 100%;
+  font-size: 0.85em;
+}
+
+.title-mode-grid > .title-slot-empty > .btn-small {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 4px;
+}
+
+.title-who-head {
+  margin: 4px 0 8px;
+  text-align: center;
+}
+
+.title-who-kids {
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.title-who-keeper,
+.title-who-back,
+.title-who-add,
+.title-who-kidmore {
+  min-height: 44px;
+}
+
+.title-who-kidmore,
+.title-who-add {
+  display: block;
+  margin: 6px auto;
+}
+
+.title-who-deleted {
+  margin-top: 8px;
+}
+
+.title-who-deleted summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}

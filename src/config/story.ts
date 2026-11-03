@@ -112,6 +112,11 @@ export interface Scene {
   set?: Record<string, number | boolean | string>;
   /** How the renderers draw it (render/scene-stage.ts). The sim never reads it. */
   stage?: SceneStage;
+  /**
+   * R0634 (CAMP-42): a line scene that names a season waits until the world is in one of these.
+   * The spine owns the season; lines adapt. Read by the storyline machine only.
+   */
+  season?: Array<'spring' | 'summer' | 'autumn' | 'winter'>;
 }
 
 /** The named places a scene can be staged at; marks live in config/stage-marks.ts. */

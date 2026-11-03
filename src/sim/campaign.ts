@@ -124,10 +124,12 @@ export function freshCampaignState(nowMs: number): CampaignState {
 /** Begin (or restart) the campaign in this world. */
 export function startCampaign(world: World, events: SimEvent[]): void {
   const oldMossId = world.campaign?.mossId ?? null;
+  // Lane C r11 (R0627): a Sandbox (no story yet) keeps its visitors; a restart clears them.
+  const restart = world.campaign !== null;
   const c = freshState(world.timeMs);
   world.campaign = c;
   // All ten valley Keepers, the player's pick included: the player is Hazel's grandchild.
-  world.npcs = [];
+  if (restart) world.npcs = [];
   ensureTrainers(world);
   world.season = world.debugSeason ?? campaignSeason(c); // R0118: the debug season wins
   // A restart leaves the last campaign's Moss behind; there is only ever one.
@@ -780,7 +782,22 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
     }
     case 'sideAct': {
       const c = world.campaign;
-      if (c) sideAct(world, c, cmd.story);
+      if (c) {
+        // Lane C r11 (R0641): a skipped or imagined step is remembered, so the leaf stays honest.
+        if (cmd.skipped) {
+          const book = (world.questBook ??= {
+            v: 1,
+            entries: {},
+            offer: null,
+            tracked: [],
+            areas: {},
+            here: null,
+          });
+          const sk = (book.skippedSteps ??= {});
+          sk[cmd.story] = (sk[cmd.story] ?? 0) + 1;
+        }
+        sideAct(world, c, cmd.story);
+      }
       return;
     }
     case 'debugChapter': {

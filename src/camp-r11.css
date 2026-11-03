@@ -1,0 +1,126 @@
+/* Lane C round 11, helper ui: journal pages, map quest markers, ledger, compare. */
+
+/* R0610: the Now, Areas, Lines and Done pages. */
+.c11-first,
+.c11-goal {
+  margin: 8px 0;
+}
+.c11-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 6px 0;
+}
+.c11-row {
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 0 10px 8px;
+}
+.c11-row[hidden] {
+  display: none;
+}
+.c11-row-sum {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 44px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+.c11-row-goal {
+  font-size: 0.8125rem;
+  opacity: 0.85;
+}
+.c11-go,
+.c11-more {
+  min-height: 44px;
+  min-width: 44px;
+  margin: 4px 6px 4px 0;
+}
+.c11-more-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0;
+}
+.c11-locked {
+  margin: 6px 0;
+}
+.c11-bar {
+  height: 10px;
+  margin: 6px 0;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+.c11-bar-fill {
+  height: 100%;
+  background: #f2d34c;
+}
+.c11-ledger {
+  margin: 6px 0;
+  padding-left: 18px;
+}
+.c11-ledger li {
+  margin: 4px 0;
+}
+.c11-keep {
+  margin: 8px 0;
+}
+.c11-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.c11-compare-table th,
+.c11-compare-table td {
+  padding: 6px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: left;
+}
+.title-roads {
+  margin: 8px 0;
+}
+.title-roads-sum {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* R0608: map quest markers. Each is a glyph and a colour; the glyph carries the meaning. */
+.wm-qmark {
+  min-width: 44px;
+  max-width: 56px;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.wm-q-offer {
+  background: #f2c94c;
+}
+.wm-q-tracked {
+  background: #2fb8a8;
+  color: #08302b;
+}
+.wm-q-active {
+  background: #c9c9d1;
+}
+.wm-q-done {
+  background: #fff6dc;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+.wm-qlist {
+  margin: 4px 0 8px;
+  padding-left: 18px;
+}
+
+/* R0610: no toast over an open journal or any other modal; they simply wait behind it. */
+body:has(.modal:not([hidden])) .toasts {
+  visibility: hidden;
+}
+.wm-next-unlock {
+  flex-basis: 100%;
+  margin: 2px 0 0;
+}

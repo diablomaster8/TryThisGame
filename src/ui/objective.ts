@@ -48,8 +48,10 @@ import { playIris } from './travel-iris';
 import { CHIP_LINE_TEXT } from '../config/strings';
 import { JOURNAL } from '../config/tuning-journal';
 import { activeLines } from '../sim/story-book';
+import { afterStoryNext } from '../sim/epilogue';
+import { CAMP11C_TEXT } from '../config/strings-camp11c';
 import { regionFirst, regionWaitHint } from './region-chip';
-import { storylineById } from '../sim/story-scenes';
+import { storylineById, storylines } from '../sim/story-scenes';
 import { lineMinutesLeft } from './journal-search';
 
 /**
@@ -232,7 +234,24 @@ export function objectiveOf(g: Game): Objective | null {
       };
     }
   }
-  return none;
+  return none ?? afterStoryObjective(g.world);
+}
+
+/** R0657: after the Long Night, the chip suggests the Valley Fair or the nearest unfinished line. */
+export function afterStoryObjective(world: World): Objective | null {
+  const next = afterStoryNext(
+    world,
+    storylines().map((s) => s.id),
+  );
+  if (!next) return null;
+  const title =
+    next.kind === 'fair' ? CAMP11C_TEXT.fairTitle : (storylineById(next.id)?.title ?? next.id);
+  return {
+    key: `after:${next.kind === 'fair' ? 'fair' : next.id}`,
+    goal: CAMP11C_TEXT.afterTitle,
+    hint: CAMP11C_TEXT.afterNext(title),
+    story: true,
+  };
 }
 
 export class ObjectiveChip {

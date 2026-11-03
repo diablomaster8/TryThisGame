@@ -96,12 +96,7 @@ export const FEEDBACK: FeedbackTable = {
   }), // MOVE-55
   lookedAround: (e) => (e.found ? null : { toast: LOOKOUT_TEXT.nothing }),
   borderPushed: (e) => ({ toast: e.edge === 'notYet' ? BORDER_TEXT.notYet : BORDER_TEXT.hedge }),
-  secondEvolved: (e, c) => ({
-    toast: UI_TEXT.secondEvolved(nameOf(c, e.nubbinId), TYPE_LABELS[e.second]),
-  }),
-  speciesGrew: (e, c) => ({
-    toast: UI_TEXT.speciesGrew(nameOf(c, e.nubbinId), SPECIES_LABELS[e.species] ?? e.species),
-  }),
+  // secondEvolved, speciesGrew and ascended get lane F's stage card in hud.ts (no toast).
   cocoonStarted: (e, c) =>
     e.cocoon === 'evolve'
       ? null

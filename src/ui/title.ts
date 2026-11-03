@@ -26,6 +26,9 @@ import {
   isStorylineMode,
   storylineFinished,
   SLOTS_PER_MODE,
+  slotsFor,
+  copySlot,
+  profileOf,
   type SaveMode,
   type SaveSlot,
   type SaveSummary,
@@ -43,10 +46,41 @@ import { AGE_PICK_TEXT } from '../config/strings-kids';
 import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { SLOT_LABEL_TEXT } from '../config/strings';
-import { HOME_TEXT } from '../config/strings-r11d4';
 import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
+import { C11_TEXT } from '../config/strings';
 /* Lane E r9, R0696 / R0720 */
 import { eduTagLabel, tagCss, tagStep, type EduTag } from './kids-launch';
+/* Lane C r11 (R0621): 8 Hazel's Grove slots as cards, play time, Copy. */
+import { SAVE_LAYOUT_TEXT } from '../config/strings-camp11-save';
+import '../save-r11.css';
+import '../camp-r11.css';
+/* Lane C r11 helper "profiles" (R0598, R0621, R0627, R0628, R0653) */
+import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
+import { continueSlot } from './install-hint';
+import { FIXED_PROFILES, listProfiles, markLastProfile, purgeDeleted } from '../platform/profiles';
+
+/** R0621: the big Continue, or nothing when no slot was played yet. */
+function continueHeader(
+  slot: SaveSlot | null,
+  what: string,
+  onContinue: () => void,
+): HTMLElement | null {
+  if (!slot || !hasSave(slot)) return null;
+  const b = button('', onContinue, 'btn btn-primary title-continue');
+  b.append(
+    el('strong', undefined, PROFILE_TEXT.continueBig),
+    el('small', undefined, PROFILE_TEXT.continueWhere(SLOT_TEXT.slot(slot.index), what)),
+  );
+  return b;
+}
+
+/** Does the title open on "Who's playing?" (a child's Grove, or more than the two profiles)? */
+function pickerDue(): boolean {
+  const kids = Array.from({ length: slotsFor('edu') }, (_, i) =>
+    hasSave({ mode: 'edu', index: i + 1 }),
+  ).some(Boolean);
+  return kids || listProfiles().length > FIXED_PROFILES.length;
+}
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -62,6 +96,8 @@ export interface TitleChoice {
   band?: EduBand;
   /** Lane E r9, R0696: the new Learning Grove's name, colour and animal. */
   tag?: EduTag;
+  /** R0627: a new Hazel's Grove slot as a Sandbox: the story off until Settings starts it. */
+  sandbox?: boolean;
 }
 
 const MODES: SaveMode[] = ['campaign', 'hundred', 'logged', 'beetle', 'dawndusk', 'free', 'edu'];
@@ -89,6 +125,7 @@ function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
   parts.push(s.names.length > 0 ? s.names.join(', ') : SLOT_TEXT.nubbins(s.nubbins));
   // Lane C r8 (R0648): Hazel's Grove names its other roads, a check on each one ended.
   if (mode === 'campaign') parts.push(...slotStories(s));
+  if (story && s.playMs >= 60_000) parts.push(SAVE_LAYOUT_TEXT.played(s.playMs));
   if (s.savedAtWallMs > 0) {
     const days = Math.floor((nowMs - s.savedAtWallMs) / 86_400_000);
     parts.push(SLOT_TEXT.ago(days));
@@ -155,7 +192,13 @@ export function showTitle(
   });
   graphicsRow.append(el('strong', undefined, UI_TEXT.graphicsLabel), graphicsSel);
   card.appendChild(graphicsRow);
-  card.appendChild(el('div', 'title-graphics-help', HOME_TEXT.graphicsHelp));
+  // R0621: what a slot action did (a copy, or why it could not), read out too.
+  const sayLine = el('p', 'title-status');
+  sayLine.setAttribute('role', 'status');
+  card.appendChild(sayLine);
+  const say = (text: string): void => {
+    sayLine.textContent = text;
+  };
   // The slot list comes after the renderer pick, so the pick is in the first screenful.
   const menu = el('div', 'title-menu');
   card.appendChild(menu);
@@ -164,6 +207,7 @@ export function showTitle(
 
   const finish = (c: TitleChoice) => {
     root.remove();
+    markLastProfile(profileOf(c.slot));
     onChoose(c);
   };
 
@@ -176,12 +220,28 @@ export function showTitle(
     else finish({ slot, fresh: true, trainer: null });
   };
 
-  /** R0447: where a "back" arrow returns to (the home, the new-game cards or the save list). */
-  let returnTo: () => void = () => homeMenu();
-  const mainMenu = (modes: SaveMode[] = MODES) => {
+  const mainMenu = () => {
     menu.innerHTML = '';
-    returnTo = () => mainMenu(modes);
     const now = Date.now();
+    // R0628: back to "Who's playing?" when there is a child's Grove to pick.
+    if (pickerDue()) {
+      const who = button(
+        `← ${PROFILE_TEXT.whoTitle}`,
+        () => whoMenu(),
+        'btn btn-small title-who-back',
+      );
+      who.setAttribute('aria-label', PROFILE_TEXT.backLabel);
+      menu.appendChild(who);
+    }
+    // R0621: the slot played last, big, before every card.
+    const last = continueSlot();
+    if (last && last.mode !== 'edu') {
+      const s = readSlotIndex().slots[slotId(last)]?.summary ?? null;
+      const head = continueHeader(last, s ? describe(last.mode, s, now) : '', () =>
+        finish({ slot: last, fresh: false, trainer: null }),
+      );
+      if (head) menu.appendChild(head);
+    }
     // Lane C r10 agent B (R0622): one read of the slot index in place of parsing every save.
     const slotIndex = readSlotIndex();
     /* Lane E r9, R0696: the Learning Grove moves to the top once a child has a Grove. */
@@ -189,7 +249,13 @@ export function showTitle(
       { length: SLOTS_PER_MODE },
       (_, i) => slotIndex.slots[slotId({ mode: 'edu', index: i + 1 })] !== undefined,
     ).some(Boolean);
-    const order = kidsFirst ? ['edu' as SaveMode, ...modes.filter((m) => m !== 'edu')] : modes;
+    const order = kidsFirst ? ['edu' as SaveMode, ...MODES.filter((m) => m !== 'edu')] : MODES;
+    // Lane C r11 (R0611): the four questline saves sit in one fold, since the Grove offers
+    // those lines in its own regions; the fold opens when any of them already has a save.
+    const ROADS: SaveMode[] = ['hundred', 'logged', 'beetle', 'dawndusk'];
+    const roads = el('details', 'title-roads');
+    roads.appendChild(el('summary', 'title-roads-sum', C11_TEXT.roadsHead));
+    roads.appendChild(el('p', 'help', C11_TEXT.roadsHelp));
     for (const mode of order) {
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
@@ -197,7 +263,8 @@ export function showTitle(
       // One line on what the mode is, so three identical "Empty" rows are not all it says.
       const blurb = UI_FX_TEXT.modeBlurbs[mode];
       if (blurb) section.appendChild(el('div', 'title-mode-blurb', blurb));
-      for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+      if (slotsFor(mode) > SLOTS_PER_MODE) section.classList.add('title-mode-grid');
+      for (let index = 1; index <= slotsFor(mode); index++) {
         const slot: SaveSlot = { mode, index };
         const row = el('div', 'title-slot');
         const entry = slotIndex.slots[slotId(slot)];
@@ -278,10 +345,56 @@ export function showTitle(
             'btn btn-small btn-danger title-slot-erase',
           );
           erase.hidden = true;
+          // R0621: Copy waits behind the same ⋯, into the mode's first empty slot.
+          const copy = button(
+            SAVE_LAYOUT_TEXT.copy,
+            () => {
+              let to = 0;
+              for (let i = 1; i <= slotsFor(mode) && to === 0; i++)
+                if (!slotIndex.slots[slotId({ mode, index: i })]) to = i;
+              if (to === 0) return say(SAVE_LAYOUT_TEXT.copyNoRoom);
+              if (!copySlot(slot, { mode, index: to })) return say(SAVE_LAYOUT_TEXT.copyFailed);
+              mainMenu();
+              say(SAVE_LAYOUT_TEXT.copied(to));
+            },
+            'btn btn-small title-slot-copy',
+          );
+          copy.hidden = true;
+          copy.setAttribute(
+            'aria-label',
+            SAVE_LAYOUT_TEXT.copyLabel(`${modeName}, ${SLOT_TEXT.slot(index)}`),
+          );
+          // Lane C r11 (R0667, R0669): Compare and Visit, read-only, behind the same ⋯.
+          const compare = button(
+            C11_TEXT.compare,
+            () => {
+              const others = Array.from({ length: slotsFor(mode) }, (_, i) => i + 1)
+                .filter((i) => i !== index && slotIndex.slots[slotId({ mode, index: i })])
+                .map((i) => ({
+                  index: i,
+                  summary: slotIndex.slots[slotId({ mode, index: i })]!.summary ?? null,
+                }));
+              void import('./title-compare').then((m) =>
+                m.openCompare(document.body, { index, summary }, others),
+              );
+            },
+            'btn btn-small',
+          );
+          const visit = button(
+            C11_TEXT.visit,
+            () =>
+              void import('./title-compare').then((m) => m.openVisit(document.body, { index, summary })),
+            'btn btn-small',
+          );
+          compare.hidden = true;
+          visit.hidden = true;
           const more = button(
             TRASH_TEXT.more,
             () => {
               more.hidden = true;
+              compare.hidden = mode === 'edu';
+              visit.hidden = mode === 'edu';
+              copy.hidden = false;
               erase.hidden = false;
               erase.focus();
             },
@@ -305,13 +418,35 @@ export function showTitle(
             SLOT_LABEL_TEXT.renameLabel(`${modeName}, ${SLOT_TEXT.slot(index)}`),
           );
           tagRow(row, summary);
-          row.append(main, name, fresh, more, erase);
+          row.append(main, name, fresh, more, copy, compare, visit, erase);
           /* Lane E r9, R0696: the child's colour tag down the slot's edge. */
           const tagColour = mode === 'edu' ? tagCss(summary?.eduColour) : null;
           if (tagColour) {
             row.classList.add('title-slot-tagged');
             row.style.setProperty('--tag', tagColour);
           }
+        } else if (mode === 'campaign') {
+          // R0621 / R0627: an empty Hazel's Grove card offers the story or a Sandbox.
+          row.classList.add('title-slot-empty');
+          row.appendChild(
+            el('strong', 'title-slot-empty-name', `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.empty}`),
+          );
+          const where = `${modeName}, ${SLOT_TEXT.slot(index)}`;
+          const story = button(
+            PROFILE_TEXT.newStory,
+            () => keeperMenu(slot),
+            'btn btn-small btn-primary',
+          );
+          story.title = PROFILE_TEXT.newStoryHelp;
+          story.setAttribute('aria-label', PROFILE_TEXT.newStoryLabel(where));
+          const sand = button(
+            PROFILE_TEXT.sandbox,
+            () => keeperMenu(slot, undefined, undefined, true),
+            'btn btn-small',
+          );
+          sand.title = PROFILE_TEXT.sandboxHelp;
+          sand.setAttribute('aria-label', PROFILE_TEXT.sandboxLabel(where));
+          row.append(story, sand);
         } else {
           const main = button('', () => startNew(slot), 'btn title-slot-main');
           main.append(
@@ -323,16 +458,25 @@ export function showTitle(
         }
         section.appendChild(row);
       }
-      menu.appendChild(section);
+      if (ROADS.includes(mode)) {
+        roads.appendChild(section);
+        const used = Array.from({ length: slotsFor(mode) }, (_, i) =>
+          slotId({ mode, index: i + 1 }),
+        ).some((k) => slotIndex.slots[k]);
+        if (used || mode === focusMode) roads.open = true;
+        if (!roads.isConnected) menu.appendChild(roads);
+      } else menu.appendChild(section);
       if (mode === focusMode) focus.section = section;
     }
+    const olderHost = el('div');
+    menu.appendChild(olderHost);
+    void import('./title-profiles').then((m) => m.renderOlder(olderHost, say, mainMenu)); // R0598: saves that did not fit the 8 slots
     recentlyErased(now);
-    menu.appendChild(backButton(() => homeMenu()));
   };
 
   /** TECH-29: erased slots from the last week, each with Restore while its slot is empty. */
   const recentlyErased = (now: number) => {
-    const kept = listTrash(MODES, SLOTS_PER_MODE, now);
+    const kept = listTrash(MODES, slotsFor, now);
     if (kept.length === 0) return;
     const section = el('div', 'title-mode title-trash');
     section.appendChild(el('div', 'title-mode-name', TRASH_TEXT.recent));
@@ -402,7 +546,7 @@ export function showTitle(
     menu.appendChild(
       backButton(() => {
         subtitle(false);
-        returnTo();
+        mainMenu();
       }),
     );
     speakLine(EDU_TEXT.chooseAge);
@@ -433,10 +577,15 @@ export function showTitle(
     }
     menu.appendChild(row);
     menu.appendChild(el('div', 'help', STORYLINE_TEXT.sideHelp.dawn ?? ''));
-    menu.appendChild(backButton(() => returnTo()));
+    menu.appendChild(backButton(mainMenu));
   };
 
-  const keeperMenu = (slot: SaveSlot, storyline?: string, side?: KeeperAlignment) => {
+  const keeperMenu = (
+    slot: SaveSlot,
+    storyline?: string,
+    side?: KeeperAlignment,
+    sandbox = false,
+  ) => {
     menu.innerHTML = '';
     menu.appendChild(el('div', 'help', STORY_TEXT.chooseKeeper));
     const grid = el('div', 'title-keepers');
@@ -445,7 +594,14 @@ export function showTitle(
       const label = KEEPER_LOOK_NAMES[t.id] ?? t.id;
       const b = button(
         '',
-        () => finish({ slot, fresh: true, trainer: t.id, ...(storyline ? { storyline } : {}) }),
+        () =>
+          finish({
+            slot,
+            fresh: true,
+            trainer: t.id,
+            ...(storyline ? { storyline } : {}),
+            ...(sandbox ? { sandbox: true } : {}),
+          }),
         'btn title-keeper',
       );
       b.appendChild(portrait(t.id));
@@ -457,84 +613,32 @@ export function showTitle(
       grid.appendChild(b);
     }
     menu.appendChild(grid);
-    menu.appendChild(backButton(() => returnTo()));
+    menu.appendChild(backButton(mainMenu));
   };
 
-  /** R0447: the first screen: Continue (newest save), New game, Load another save. */
-  const homeMenu = () => {
+  /** R0628: "Who's playing?": a child's Grove opens in one tap; a Keeper's through the gate. */
+  const whoMenu = (): void => {
     menu.innerHTML = '';
-    subtitle(false);
-    returnTo = homeMenu;
-    const now = Date.now();
-    const slotIndex = readSlotIndex();
-    let newest: { slot: SaveSlot; summary: SaveSummary | null; at: number } | null = null;
-    for (const mode of MODES) {
-      for (let index = 1; index <= SLOTS_PER_MODE; index++) {
-        const slot: SaveSlot = { mode, index };
-        const entry = slotIndex.slots[slotId(slot)];
-        if (!entry) continue;
-        const at = entry.summary?.savedAtWallMs ?? 0;
-        if (!newest || at > newest.at) newest = { slot, summary: entry.summary ?? null, at };
-      }
-    }
-    if (newest) {
-      const n = newest;
-      const said = n.summary ? describe(n.slot.mode, n.summary, now) : '';
-      const when = n.at > 0 ? HOME_TEXT.ago(now - n.at) : '';
-      const modeName = SLOT_TEXT.modes[n.slot.mode] ?? n.slot.mode;
-      const who = n.summary?.names.length ? n.summary.names[0] : slotName(n.slot.index, n.summary);
-      const ch = n.summary?.chapter;
-      const line = [who, modeName, ch != null ? SLOT_TEXT.chapter(ch) : '', when]
-        .filter((t) => t)
-        .join(' · ');
-      const go = button(
-        '',
-        () => finish({ slot: n.slot, fresh: false, trainer: null }),
-        'btn btn-primary btn-wide title-continue',
-      );
-      go.append(el('strong', undefined, HOME_TEXT.continue), el('small', undefined, line));
-      go.setAttribute('aria-label', `${HOME_TEXT.continue}: ${line}. ${said}`);
-      menu.appendChild(go);
-    }
-    menu.appendChild(button(HOME_TEXT.newGame, () => newMenu(), 'btn btn-wide title-new'));
-    if (newest)
-      menu.appendChild(button(HOME_TEXT.loadOther, () => mainMenu(), 'btn btn-wide title-load'));
+    void import('./title-profiles').then((m) =>
+      m.renderWho(menu, {
+        parent,
+        onKeeper: () => mainMenu(),
+        onChild: (slot) => finish({ slot, fresh: false, trainer: null }),
+        redraw: () => whoMenu(),
+      }),
+    );
   };
 
-  /** R0447: three cards for a new game; each opens its mode's first empty slot. */
-  const newMenu = () => {
-    menu.innerHTML = '';
-    returnTo = newMenu;
-    menu.appendChild(el('div', 'help', HOME_TEXT.newTitle));
-    const slotIndex = readSlotIndex();
-    for (const key of ['campaign', 'free', 'edu', 'more']) {
-      const info = HOME_TEXT.cards[key]!;
-      const card = button(
-        '',
-        () => {
-          if (key === 'more') {
-            mainMenu(MODES.filter((m) => !['campaign', 'free', 'edu'].includes(m)));
-            return;
-          }
-          const mode = key as SaveMode;
-          let free = 0;
-          for (let i = 1; i <= SLOTS_PER_MODE && !free; i++)
-            if (slotIndex.slots[slotId({ mode, index: i })] === undefined) free = i;
-          if (free) startNew({ mode, index: free });
-          else mainMenu([mode]);
-        },
-        'btn title-newcard',
-      );
-      card.dataset.card = key;
-      card.append(el('strong', undefined, info.name), el('small', undefined, info.blurb));
-      menu.appendChild(card);
-    }
-    menu.appendChild(backButton(() => homeMenu()));
-  };
-
-  // `?slots` opens the full save list (the old first screen) for test drivers and power users.
-  if (focusMode || new URLSearchParams(location.search).has('slots')) mainMenu();
-  else homeMenu();
+  if (pickerDue() && !focusMode) whoMenu();
+  else mainMenu();
+  // R0598 stage B: the one-time move (off until SAVE_LAYOUT.unifiedSlots), then its card.
+  void Promise.all([import('../platform/migrate-unified'), import('./title-profiles')])
+    .then(async ([mig, prof]) => {
+      await mig.migrateToUnified(Date.now());
+      if (root.isConnected) prof.showMovedCard(parent);
+    })
+    .catch(() => undefined);
+  void purgeDeleted(Date.now()).catch(() => undefined); // R0653: past the 30 days
   const section = focus.section;
   if (section) {
     section.scrollIntoView({ block: 'center' });

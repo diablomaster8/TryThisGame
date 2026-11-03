@@ -208,21 +208,29 @@ export function drawGen1b(
           // from the side and back, behind the raised neck from the front.
           const over = a.back || side;
           if (over ? layer !== 'mid' : layer !== 'behind') break;
-          const cy = a.bodyCy - Math.round(a.bodyRy * 0.6);
+          // R0375: a dome standing up off a dark rim, not a flat oval, so it reads as a shell
+          // and not a dish: rows narrowing to the crown, a lit cap, studs, then the rim band.
+          const rimY = a.bodyCy - Math.round(a.bodyRy * 0.3);
           const rx = a.bodyRx + 1;
-          const ry = a.bodyRy + 1;
-          pc.ellipse(a.bodyCx, cy, rx, ry, col.accent2);
-          pc.ellipse(a.bodyCx - 1, cy - 1, rx - 1, ry - 1, col.accent);
+          const h = a.bodyRy + 4;
+          for (let y = rimY - h; y <= rimY; y++) {
+            const k = (rimY - y) / h;
+            const w = Math.round(rx * Math.sqrt(1 - k * k));
+            pc.line(a.bodyCx - w, y, a.bodyCx + w, y, k > 0.2 ? col.accent : col.accent2);
+          }
+          pc.ellipse(a.bodyCx - 1, rimY - h + 2, Math.max(1, rx * 0.45), 1, C.pale);
           for (const dx of side ? [-4, 0, 4] : [-3, 3])
             pc.tri(
               a.bodyCx + dx - 1,
-              cy - 1,
+              rimY - Math.round(h * 0.35),
               a.bodyCx + dx + 1,
-              cy - 1,
+              rimY - Math.round(h * 0.35),
               a.bodyCx + dx,
-              cy - 3,
+              rimY - Math.round(h * 0.35) - 2,
               col.accent2,
             );
+          pc.ellipse(a.bodyCx, rimY + 1, rx + 1, 1.5, col.outline);
+          pc.line(a.bodyCx - rx, rimY + 1, a.bodyCx + rx, rimY + 1, col.accent2);
           break;
         }
         if (!behindPass(layer, a)) break;

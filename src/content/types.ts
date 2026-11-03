@@ -57,6 +57,8 @@ export interface QuestStep {
    * (writers; ≤ 160 chars, past tense, second person). Unset: "Done: <goal>".
    */
   summary?: string;
+  /** R0608: `region/poi` where this step happens, if it moves place (default: the quest's area). */
+  area?: string;
 }
 
 export interface Reward {
@@ -99,6 +101,11 @@ export interface Quest {
   sets?: Record<string, number | boolean | string>;
   /** Learning Grove replacements: "<scene id>#<line index>" -> new text. */
   childLines?: Record<string, string>;
+  /**
+   * R0629 (CAMP-37): the picture invitation's words for the sprout band, at most 14 words, read
+   * aloud. Unset: the offer shows its picture only and the first step's goal is read.
+   */
+  pitchChild?: string;
   /** Free-text notes for the implementer (staging, timing, art needs). */
   notes?: string;
 }

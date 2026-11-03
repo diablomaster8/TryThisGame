@@ -150,6 +150,7 @@ export const QUESTS_BEAN: Quest[] = [
       },
       {
         id: 'q21-s3',
+        summary: 'You brought Bear back down to Mr Tweed, lighter than it looked.',
         goal: 'Bring Bear back down to Mr. Tweed.',
         hint: 'Mr. Tweed is still on his rock by the pond. Take him the bear, then tap Do it in the Journal.',
         check: 'give:item:tweed-bear:mr-tweed',
@@ -884,6 +885,7 @@ export const QUESTS_BEAN: Quest[] = [
       },
       {
         id: 'q27-s2',
+        summary: 'You took a photo that nearly matched the Founders’ Portrait, stern and dignified.',
         goal: 'Take a Photo mode shot that matches the Founders’ Portrait.',
         hint: 'Everyone in the picture, empty chair included. Tap Do it in the Journal and hold the pose.',
         check: 'photo:match:founders-portrait',
@@ -1170,6 +1172,7 @@ export const QUESTS_BEAN: Quest[] = [
       },
       {
         id: 'q29-s3',
+        summary: 'You gave the egg back to Odette at the gate, safe and sound, and nobody put it down all afternoon.',
         goal: 'Give the egg back to Odette at the gate, safe and sound.',
         hint: 'Odette waits at your gate at sunset. Carry the egg to her, then tap Do it in the Journal.',
         check: 'give:item:visiting-egg:odette',

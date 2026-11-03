@@ -723,6 +723,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
       },
       {
         id: 's4-step2',
+        summary: 'You sent a swimmer up the outflow to see above the falls, and it came back and shook water all over you.',
         goal: 'Send a swimmer up the outflow to see what’s above the falls.',
         hint: 'Choose Swim at the top of the pool. If none of your Nubbins can swim yet, Marina gives one a lesson first.',
         check: 'swim:inspect:falls-dam',
@@ -1030,6 +1031,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
       },
       {
         id: 's5-step3',
+        summary: 'You held Fossil up in the shallows of the pond, and she felt light in the water.',
         goal: 'Hold Fossil up in the shallows of the pond.',
         hint: 'Bring Fossil to the pond’s edge and choose Swim. One of your swimmers can hold her, or Marina will.',
         check: 'swim:hold:fossil:pond',

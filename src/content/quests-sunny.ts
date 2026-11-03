@@ -110,6 +110,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q31-shoot',
+        summary: 'You filmed Corky’s advert in Photo mode, until the whole set came down on him.',
         goal: 'Film Corky’s advert in Photo mode while the mittened Nubbin pads across the set.',
         hint: 'Wait until Corky points and the Nubbin is on the bedsheet, then tap Do it in the Journal. That is the shot.',
         check: 'photo:scene:nubbin-mittens-advert',
@@ -414,6 +415,7 @@ export const QUESTS_SUNNY: Quest[] = [
     steps: [
       {
         id: 'q33-taste',
+        summary: 'You drank a carton of Fight Milk at the bar, and the world tilted gently to the left.',
         goal: 'Drink a carton of Fight Milk at the bar.',
         hint: 'Take the carton from the bar, then tap Do it in the Journal. Stay near a bench; you’ll want one.',
         check: 'use:item:fight-milk',
@@ -474,6 +476,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q33-gang',
+        summary: 'You got Dabney, Mags and Fitz to drink a carton each, and none of them enjoyed it.',
         goal: 'Get Dabney, Mags and Fitz to each drink a carton of Fight Milk.',
         hint: 'Tap Do it in the Journal to hand round the cartons. Fitz says yes to anything; Dabney needs persuading.',
         check: 'give:fight-milk:gang:3',
@@ -935,6 +938,7 @@ export const QUESTS_SUNNY: Quest[] = [
     steps: [
       {
         id: 'q36-lap-one',
+        summary: 'You sent a Swim Nubbin once round the pond after the rum ham, and it nudged the ham along.',
         goal: 'Send a Swim Nubbin after the rum ham, once round the pond.',
         hint: 'Tap a Nubbin with good Swim and point at the ham; it drifts with the current, anticlockwise.',
         check: 'swim:chase:rum-ham:1',
@@ -981,6 +985,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q36-lap-two',
+        summary: 'You sent your Swim Nubbin round again and pushed the ham back to the raft, to a cheer from both men.',
         goal: 'Send your Swim Nubbin round the pond again and push the ham back to the raft.',
         hint: 'Cut across the middle this time; the ham slows down as it passes the reeds.',
         check: 'swim:chase:rum-ham:2',
@@ -1369,6 +1374,7 @@ export const QUESTS_SUNNY: Quest[] = [
     steps: [
       {
         id: 'q39-roof',
+        summary: 'You filmed Corky’s jump off the pub roof, and he missed the hay cart.',
         goal: 'Film Corky’s jump off the pub roof in Photo mode.',
         hint: 'Stand by the hay cart and take the shot the moment Corky leaves the roof.',
         check: 'photo:stunt:roof-jump',
@@ -1414,6 +1420,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q39-fence',
+        summary: 'You filmed Corky going through the fence on the second run, and out into the nettles.',
         goal: 'Film Corky going through the fence.',
         hint: 'Frame the fence side-on; Corky bounces off the first time, so wait for the second run.',
         check: 'photo:stunt:fence',
@@ -1441,6 +1448,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q39-pond',
+        summary: 'You filmed the dive off the jetty, with a Swim Nubbin ready to tow Corky out.',
         goal: 'Film the dive off the jetty, with a Swim Nubbin ready to tow Corky out.',
         hint: 'Keep a Nubbin with good Swim near the jetty; it fishes Corky out once the shot is done.',
         check: 'photo:stunt:pond-dive',
@@ -1939,6 +1947,7 @@ export const QUESTS_SUNNY: Quest[] = [
     steps: [
       {
         id: 'q43-chase',
+        summary: 'You filmed scene one, the wheelbarrow chase, which ended in a hedge.',
         goal: 'Direct scene one: film the wheelbarrow chase in Photo mode.',
         hint: 'Track Rook as Corky pushes the wheelbarrow down the hill; shoot when the painted headlights face you.',
         check: 'photo:scene:lethal-weapon-5:chase',
@@ -1987,6 +1996,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q43-explosion',
+        summary: 'You filmed scene two from a safe distance, and the shed fizzed and sent one rocket into the pub sign.',
         goal: 'Direct scene two: film the shed explosion from a safe distance.',
         hint: 'Stay at the camera spot on the hill with the Nubbins; zoom in, don’t walk in.',
         check: 'photo:scene:lethal-weapon-5:explosion',
@@ -2013,6 +2023,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
       {
         id: 'q43-bridge',
+        summary: 'You filmed the final scene, the fight on the bridge, with Dabney as the villain.',
         goal: 'Direct scene three: film the fight on the bridge.',
         hint: 'Shoot from the bank so the whole bridge fits in frame; the fight is short and mostly falling.',
         check: 'photo:scene:lethal-weapon-5:bridge',

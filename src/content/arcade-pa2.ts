@@ -884,6 +884,7 @@ export const ARCADE_PA2: Quest[] = [
       },
       {
         id: 'pa2-07-s2',
+        summary: 'You and your Nubbin swam clear of the wave, and the stone steps brought you both out of the cold sea.',
         goal: 'Keep your Nubbin above the waves.',
         hint: 'When the boat goes over, swim towards your Nubbin and hold it up until the swimmers reach you.',
         check: 'swim:pa2-sea:storm',

@@ -245,6 +245,13 @@ describe('reachability from one world (R0604)', () => {
         if (world.lines[l]!.ending === null)
           applyCommand(world, { kind: 'lineAbandon', line: l }, events);
       expect(lineRefusal(world, id), id).toBeNull();
+      // R0633: Dawn is a Sun Keeper's line and Dusk a Moon Keeper's.
+      if (id === 'dawn' || id === 'dusk')
+        applyCommand(
+          world,
+          { kind: 'switchKeeper', alignment: id === 'dawn' ? 'sun' : 'moon' },
+          events,
+        );
       applyCommand(world, { kind: 'storylineStart', id }, events);
       const line = world.lines[id];
       expect(line, id).toBeDefined();

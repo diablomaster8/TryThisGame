@@ -5,6 +5,7 @@ import { color } from '../render/sprites/palette';
 import { V, type Prim } from '../samples/sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
 import { kitLayout, patchKitSpec } from './art-kit-digi';
+import { quadOf } from '../render/sprites/creature-kit-quad';
 import { applyGen1b3d } from './art-species-gen1b';
 import { vivid } from './art-species-colour';
 import { serpentChain, serpentSpec } from './art-serpent';
@@ -376,8 +377,13 @@ function legs(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec
 function tail(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec[] {
   if (art.tail === 'none') return [];
   const b = L.body;
-  const root = V(0, b.y - b.r.y * 0.2, -b.r.z * 0.85);
-  const at = (x: number, y: number, z: number) => root.clone().add(V(x, y, z));
+  // LOOK-06: a quad's tail leaves the rump high (a dog's, a fox's) or low and drooping (a
+  // rat's, a slowpoke's); the Pixel drawer reads the same `tailSet`.
+  const low = art.plan === 'quad' && quadOf(art).tailSet === 'low';
+  const set = art.plan !== 'quad' ? -0.2 : low ? -0.45 : 0.35;
+  const root = V(0, b.y + b.r.y * set, -b.r.z * 0.85);
+  const at = (x: number, y: number, z: number) =>
+    root.clone().add(V(x, low ? y * 0.4 - Math.abs(z) * 0.2 : y, z));
   let prims: Prim[];
   switch (art.tail) {
     case 'lightning':

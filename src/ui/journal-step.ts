@@ -72,8 +72,14 @@ export interface StepControlOptions {
 export function stepControls(o: StepControlOptions): HTMLButtonElement[] {
   const { g, step } = o;
   const act = (): void => g.send({ kind: 'sideAct', story: o.id });
+  // R0641: a skip or an imagined step is remembered, so the quest loses its leaf and only that.
   const skip = (): void => {
     o.close();
+    g.send({ kind: 'sideAct', story: o.id, skipped: true });
+    showSkipCard(o.parent, o.title, stepSummary(step));
+  };
+  // R0617: a played step ends with the same card, so every way through a step says what happened.
+  const played = (): void => {
     act();
     showSkipCard(o.parent, o.title, stepSummary(step));
   };
@@ -88,7 +94,7 @@ export function stepControls(o: StepControlOptions): HTMLButtonElement[] {
         playLabel(kind, false, step.check),
         () => {
           o.close();
-          o.playMicro(kind, act);
+          o.playMicro(kind, played);
         },
         'btn btn-small',
       ),

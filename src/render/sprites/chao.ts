@@ -1,6 +1,7 @@
 import type { AnyPartSlot, DyeColor, NubbinParts, NubbinType } from '../../sim/types';
 import { PART_SIZE } from '../../config/tuning-look';
 import { CLIPS, frameKey, type ClipName } from './animations';
+import { drawRadiantSign } from './radiant-sign';
 import { drawEternalSign } from './eternal-sign';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
@@ -1922,6 +1923,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   }
 
   if (look.shape.eternalBand) drawEternalSign(pc, angle, L, look.shape.eternalBand);
+  if (look.shape.radiantBand) drawRadiantSign(pc, angle, L, look.shape.radiantBand, col.tip);
   pc.finish(col.outline, [col.eye, col.glint, C.white]);
   if (look.finish === 'glass') ditherGlass(pc, [col.outline, col.eye, col.glint, C.white, C.ink]);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;

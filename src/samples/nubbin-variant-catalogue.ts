@@ -5,6 +5,7 @@ import {
   type VariantFamily,
 } from './nubbin-variants';
 import { COLOUR_VARIANTS } from './nubbin-variants-colour';
+import { withRadiant } from '../render3d/radiant-3d';
 import { FIRST_VARIANTS } from './nubbin-variants-first';
 import { SECOND_VARIANTS } from './nubbin-variants-second';
 import { SPECIAL_VARIANTS } from './nubbin-variants-special';
@@ -37,6 +38,16 @@ function artVariant(id: string): NubbinVariant | null {
   return art ? { id, family: 'child', spec: artSpec(id.slice(4), art) } : null;
 }
 
+/**
+ * A line-up id, optionally with Lane F r11's `~radiant:<band>` (the Chaos-tier stage over a
+ * second form), so the stage can show the top of the ladder beside the forms below it.
+ */
+function stagedVariant(id: string): NubbinVariant | null {
+  const [base = '', mod] = id.split('~radiant:');
+  const v = variantById(base);
+  return v && mod ? { ...v, id, spec: withRadiant(v.spec, mod) } : v;
+}
+
 /** The specs a `&creature=variants` sheet lines up: one family, filtered and capped. */
 export function sheetVariants(query: URLSearchParams): NubbinVariant[] {
   // `&ids=a,b,c` lines up exactly these variants. The stage camera looks along +z, so x runs
@@ -46,7 +57,7 @@ export function sheetVariants(query: URLSearchParams): NubbinVariant[] {
   if (ids)
     return ids
       .split(',')
-      .map((id) => variantById(id.trim()))
+      .map((id) => stagedVariant(id.trim()))
       .filter((v): v is NubbinVariant => v !== null)
       .reverse();
   const family = (query.get('family') ?? 'child') as VariantFamily;

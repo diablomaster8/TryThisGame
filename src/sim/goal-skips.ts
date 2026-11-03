@@ -13,6 +13,8 @@ import { checkVerbs, microFor } from './micro';
 import { WATCHED_VERBS } from './side-rule-kit';
 import { goalsSkippable } from './story-pace';
 import { sableOf } from './story-state';
+import { checkMet } from './storyline-checks';
+import { storyChapter } from './storyline';
 import type { CampaignState, SimEvent, World } from './types';
 
 /** The valley friends chapter 11's goal asks you to visit, in the order a skip names them. */
@@ -95,8 +97,106 @@ export function skippableGoal(world: World): string | null {
   return goal;
 }
 
+/** The number a `cmp` spec asks for (bare or `>=N`), at least 1; null when it is not a floor. */
+function floorOf(spec: string | undefined): number | null {
+  if (spec === undefined) return 1;
+  const m = /^(>=|>)?(\d+(?:\.\d+)?)$/.exec(spec);
+  if (!m) return null;
+  return m[1] === '>' ? Number(m[2]) + 1 : Number(m[2]);
+}
+
+/**
+ * R0615: the minimum change for one term of a questline goal check (storyline-checks.ts), as a
+ * function to run, or null when the term has no safe skip (time, Shells, a scene, a Nubbin).
+ */
+function termSkip(world: World, c: CampaignState, text: string): (() => void) | null {
+  const t = text.trim().split(':');
+  switch (t[0]) {
+    case 'any':
+      return () => undefined;
+    case 'flag':
+    case 'choice':
+      return () => {
+        c.flags[t[1]!] =
+          t.length > 2 ? (t[2] === 'true' ? true : t[2] === 'false' ? false : t[2]!) : true;
+      };
+    case 'act':
+      return () => {
+        c.flags[`act:${t[1]}`] = true;
+      };
+    case 'count': {
+      const n = floorOf(t[2]);
+      return n === null
+        ? null
+        : () => {
+            const k = `n:${t[1]}`;
+            const base = Number(c.flags[`base:${t[1]}`] ?? 0);
+            c.flags[k] = Math.max(Number(c.flags[k] ?? 0), base + n);
+          };
+    }
+    case 'stat': {
+      const n = floorOf(t[2]);
+      const key = t[1] as keyof typeof c.stats;
+      return n === null || !(key in c.stats)
+        ? null
+        : () => {
+            c.stats[key] = Math.max(c.stats[key], n);
+          };
+    }
+    case 'days': {
+      const n = floorOf(t[1]);
+      return n === null
+        ? null
+        : () => {
+            c.chapterStartMs = Math.min(c.chapterStartMs, world.timeMs - n * STORY.dayMs);
+          };
+    }
+    case 'prosperity': {
+      const n = floorOf(t[1]);
+      return n === null
+        ? null
+        : () => {
+            world.town.prosperity = Math.max(world.town.prosperity, n);
+          };
+    }
+    default:
+      return null;
+  }
+}
+
+/** The steps a skip of questline `c`'s goal would run (the first `|` alternative that is all skippable). */
+function lineSkipPlan(world: World, c: CampaignState, check: string): Array<() => void> | null {
+  for (const alt of check.split('|')) {
+    const steps = alt.split('&').map((x) => termSkip(world, c, x));
+    if (steps.every((s) => s !== null)) return steps as Array<() => void>;
+  }
+  return null;
+}
+
+/** The goal key a skip of running line `id` would record (`<line>:<chapter>`), or null. */
+export function skippableLineGoal(world: World, id: string): string | null {
+  const c = world.lines?.[id];
+  if (!c || c.ending !== null || !goalsSkippable(world) || c.queue.length > 0 || c.step !== 1)
+    return null;
+  const def = storyChapter(c);
+  if (!def || checkMet(world, c, def.goal)) return null;
+  return lineSkipPlan(world, c, def.goal) ? `${id}:${c.chapter}` : null;
+}
+
+/** Skip questline `id`'s current goal: each term's minimum, then the goal reads as met. */
+export function skipLineGoal(world: World, id: string): string | null {
+  const key = skippableLineGoal(world, id);
+  const c = world.lines?.[id];
+  const def = c ? storyChapter(c) : undefined;
+  if (!key || !c || !def) return null;
+  for (const step of lineSkipPlan(world, c, def.goal) ?? []) step();
+  (c.skipped ??= {})[key] = world.timeMs;
+  return key;
+}
+
 /** Skip the current goal (the `skipGoal` command). Returns the goal id skipped, or null. */
-export function skipGoal(world: World, events: SimEvent[]): string | null {
+export function skipGoal(world: World, events: SimEvent[], line?: string): string | null {
+  if (line !== undefined) return skipLineGoal(world, line);
   const goal = skippableGoal(world);
   const c = world.campaign;
   if (!goal || !c) return null;
