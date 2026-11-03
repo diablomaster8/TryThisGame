@@ -21,6 +21,7 @@ import { topicIcon, wordIcon } from './lang-icons'; /* R0706 */
 import { langSkipRow, langWaitCard, langWaitLine, sayLangWait } from './lang-wait';
 import { friendCard, greetAll, stampsFor } from './postcard-faces'; /* Lane E r10, R0705 */
 import { speakLine } from './lesson';
+import { boxesView } from './lang-boxes';
 import { TraceBook } from './trace-book'; /* R0707 */
 import { TRACE_BOOK_TEXT } from '../config/strings-trace-book';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
@@ -244,5 +245,6 @@ export function langProgress(body: HTMLElement, g: Game): void {
       fold.appendChild(list);
       body.appendChild(fold);
     }
+    boxesView(body, g.world, course.vocab); /* R0718 */
   }
 }
