@@ -170,8 +170,17 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
       ['idle', 'front', 0],
       ['idle', 'side', 0],
     ]);
-    const row = heading(`  …two-tone ${colour}/gold, shiny ${colour}, Sun adult, Moon adult`);
+    const row = heading(
+      `  …two-tone ${colour}/gold, shiny, metal, glass ${colour}, Sun adult, Moon adult`,
+    );
     const idle = poseFor('idle', 0);
+    // R0399: the finish rows, a metal ramp and a dithered glass over the plain child.
+    for (const finish of ['metal', 'glass'] as const)
+      cell(
+        row,
+        drawChao('front', idle, { ...lookOf(variantColors(CHILD_NEUTRAL, colour)), finish }),
+        finish,
+      );
     cell(
       row,
       drawChao('front', idle, lookOf(variantColors(CHILD_NEUTRAL, colour, false, 'gold'))),
