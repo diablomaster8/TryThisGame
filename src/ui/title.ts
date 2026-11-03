@@ -47,7 +47,6 @@ import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { SLOT_LABEL_TEXT } from '../config/strings';
 import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
-import { openCompare, openVisit } from './title-compare';
 import { C11_TEXT } from '../config/strings';
 /* Lane E r9, R0696 / R0720 */
 import { eduTagLabel, tagCss, tagStep, type EduTag } from './kids-launch';
@@ -58,9 +57,30 @@ import '../camp-r11.css';
 /* Lane C r11 helper "profiles" (R0598, R0621, R0627, R0628, R0653) */
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
 import { continueSlot } from './install-hint';
-import { continueHeader, pickerDue, renderOlder, renderWho, showMovedCard } from './title-profiles';
-import { markLastProfile, purgeDeleted } from '../platform/profiles';
-import { migrateToUnified } from '../platform/migrate-unified';
+import { FIXED_PROFILES, listProfiles, markLastProfile, purgeDeleted } from '../platform/profiles';
+
+/** R0621: the big Continue, or nothing when no slot was played yet. */
+function continueHeader(
+  slot: SaveSlot | null,
+  what: string,
+  onContinue: () => void,
+): HTMLElement | null {
+  if (!slot || !hasSave(slot)) return null;
+  const b = button('', onContinue, 'btn btn-primary title-continue');
+  b.append(
+    el('strong', undefined, PROFILE_TEXT.continueBig),
+    el('small', undefined, PROFILE_TEXT.continueWhere(SLOT_TEXT.slot(slot.index), what)),
+  );
+  return b;
+}
+
+/** Does the title open on "Who's playing?" (a child's Grove, or more than the two profiles)? */
+function pickerDue(): boolean {
+  const kids = Array.from({ length: slotsFor('edu') }, (_, i) =>
+    hasSave({ mode: 'edu', index: i + 1 }),
+  ).some(Boolean);
+  return kids || listProfiles().length > FIXED_PROFILES.length;
+}
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -354,13 +374,16 @@ export function showTitle(
                   index: i,
                   summary: slotIndex.slots[slotId({ mode, index: i })]!.summary ?? null,
                 }));
-              openCompare(document.body, { index, summary }, others);
+              void import('./title-compare').then((m) =>
+                m.openCompare(document.body, { index, summary }, others),
+              );
             },
             'btn btn-small',
           );
           const visit = button(
             C11_TEXT.visit,
-            () => openVisit(document.body, { index, summary }),
+            () =>
+              void import('./title-compare').then((m) => m.openVisit(document.body, { index, summary })),
             'btn btn-small',
           );
           compare.hidden = true;
@@ -445,7 +468,9 @@ export function showTitle(
       } else menu.appendChild(section);
       if (mode === focusMode) focus.section = section;
     }
-    renderOlder(menu, say, mainMenu); // R0598: saves that did not fit the 8 slots
+    const olderHost = el('div');
+    menu.appendChild(olderHost);
+    void import('./title-profiles').then((m) => m.renderOlder(olderHost, say, mainMenu)); // R0598: saves that did not fit the 8 slots
     recentlyErased(now);
   };
 
@@ -592,20 +617,25 @@ export function showTitle(
   };
 
   /** R0628: "Who's playing?": a child's Grove opens in one tap; a Keeper's through the gate. */
-  const whoMenu = (): void =>
-    renderWho(menu, {
-      parent,
-      onKeeper: () => mainMenu(),
-      onChild: (slot) => finish({ slot, fresh: false, trainer: null }),
-      redraw: () => whoMenu(),
-    });
+  const whoMenu = (): void => {
+    menu.innerHTML = '';
+    void import('./title-profiles').then((m) =>
+      m.renderWho(menu, {
+        parent,
+        onKeeper: () => mainMenu(),
+        onChild: (slot) => finish({ slot, fresh: false, trainer: null }),
+        redraw: () => whoMenu(),
+      }),
+    );
+  };
 
   if (pickerDue() && !focusMode) whoMenu();
   else mainMenu();
   // R0598 stage B: the one-time move (off until SAVE_LAYOUT.unifiedSlots), then its card.
-  void migrateToUnified(Date.now())
-    .then(() => {
-      if (root.isConnected) showMovedCard(parent);
+  void Promise.all([import('../platform/migrate-unified'), import('./title-profiles')])
+    .then(async ([mig, prof]) => {
+      await mig.migrateToUnified(Date.now());
+      if (root.isConnected) prof.showMovedCard(parent);
     })
     .catch(() => undefined);
   void purgeDeleted(Date.now()).catch(() => undefined); // R0653: past the 30 days

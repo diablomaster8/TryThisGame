@@ -21,7 +21,7 @@ export function mountStoryStartSetting(
   body: HTMLElement,
   game: () => Game | null,
 ): (g: Game) => void {
-  const box = el('div', 'field-row story-start');
+  const box = el('div', 'story-start');
   const text = el('span');
   text.append(
     el('strong', undefined, PROFILE_TEXT.storyOffHead),

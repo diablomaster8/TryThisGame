@@ -17,8 +17,8 @@ import type { CampaignState, World } from './types';
  * it, so the markers, the ledger and the recommender are safe to draw on any frame.
  */
 
-export type MarkKind = 'offer' | 'tracked' | 'active' | 'done';
-export const MARK_GLYPH: Readonly<Record<MarkKind, string>> = {
+export type MapMarkKind = 'offer' | 'tracked' | 'active' | 'done';
+export const MARK_GLYPH: Readonly<Record<MapMarkKind, string>> = {
   offer: '!',
   tracked: '◆',
   active: '◇',
@@ -82,7 +82,7 @@ export function areaMarks(world: World): Record<string, AreaMark> {
 }
 
 /** The marker an area shows: `!` over `◆` over `◇` over `✓`. */
-export function markKind(m: AreaMark): MarkKind {
+export function markKind(m: AreaMark): MapMarkKind {
   if (m.offer.length > 0) return 'offer';
   if (m.tracked.length > 0) return 'tracked';
   if (m.active.length > 0) return 'active';
