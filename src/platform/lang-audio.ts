@@ -77,11 +77,12 @@ export function missingClips(ids: Iterable<string>): string[] {
 
 /** Play a word's clip, cutting off the one before. Silent until sound is on. */
 export function playWord(id: string): void {
+  const clip = clipFor(id);
+  /* R0445: say it is missing even when sound is off, so a silent tap is not a mystery. */
+  if (clip.placeholder) sayMissing();
   if (!isAudioUnlocked() || !isSoundEnabled()) return;
   try {
     current?.pause();
-    const clip = clipFor(id);
-    if (clip.placeholder) sayMissing();
     current = new Audio(clip.url);
     void current.play().catch(() => undefined);
   } catch {
