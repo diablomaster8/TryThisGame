@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { PETALS } from '../config/region-content-r12d2';
 import { heightAt } from '../sim/height';
+import { closedGates } from '../sim/region-gates';
 import { regionMarks, type Mark } from '../sim/region-marks';
 import type { World } from '../sim/types';
 
@@ -100,6 +101,9 @@ export class RegionMarks3d {
         this.mark(world, m, tSec, still);
       }
     }
+    if (world.location.startsWith('region:'))
+      for (const g of closedGates(world))
+        this.gate(world, g.kind, g.x, g.z, g.r, this.still(tSec, still));
     for (const [mesh, n] of [
       [this.gems, this.ng],
       [this.blocks, this.nb],
@@ -107,6 +111,44 @@ export class RegionMarks3d {
       mesh.count = n;
       mesh.instanceMatrix.needsUpdate = n > 0;
       if (mesh.instanceColor) mesh.instanceColor.needsUpdate = n > 0;
+    }
+  }
+
+  private still(tSec: number, still: boolean): number {
+    return still ? 0 : tSec;
+  }
+
+  /** R0110: the three gates that are not a boulder, built from a few blocks. */
+  private gate(world: World, kind: string, x: number, z: number, r: number, t: number): void {
+    const y = heightAt(world.location, x, z);
+    if (kind === 'deepWater') {
+      this.block(x, y + 0.02, z, r * 2.6, 0.05, r * 2.6, '#24508c', t * 0.3);
+      this.block(x, y + 0.06, z, r * 1.7, 0.05, r * 1.7, '#2f6aa8', -t * 0.5);
+      this.block(x, y + 0.1, z, r * 0.8, 0.05, r * 0.8, '#173a68', t * 0.8);
+    } else if (kind === 'updraft') {
+      for (let i = 0; i < 4; i++) {
+        const a = (i / 4) * Math.PI * 2 + t * 0.4;
+        this.block(
+          x + Math.cos(a) * r * 0.8,
+          y,
+          z + Math.sin(a) * r * 0.8,
+          0.14,
+          3.4,
+          0.14,
+          '#dff0ff',
+        );
+      }
+    } else if (kind === 'longRun') {
+      for (let i = 0; i < 6; i++)
+        this.block(
+          x - r * 1.2 + i * r * 0.48,
+          y + 0.04,
+          z,
+          r * 0.4,
+          0.12,
+          r * 2.2,
+          i % 2 ? '#74502c' : '#8a5e34',
+        );
     }
   }
 

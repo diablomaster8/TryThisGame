@@ -48,3 +48,29 @@ export const WILD_NUBBIN = {
     moonlands: { types: ['normal', 'fly'], names: ['Wick', 'Dusk', 'Lull'] },
   } as Record<string, { types: readonly string[]; names: readonly string[] } | undefined>,
 } as const;
+
+/**
+ * R0110 (WORLD-24): the stat gate each other drawn region holds on optional ground, never the
+ * story. Seeded onto open ground well away from the path and every point of interest by
+ * `sim/region-gates.ts`; a partner with the matching stat at the gate's level opens it, once.
+ */
+export const GATE_PLAN = {
+  /** World units the gate keeps from the path and from every point of interest. */
+  awayFrom: 6,
+  /** Its own footprint. */
+  r: 1.5,
+  regions: {
+    shore: { kind: 'deepWater', shells: 100, essence: 'swim' },
+    ridge: { kind: 'updraft', shells: 100, essence: 'fly' },
+    ruins: { kind: 'longRun', shells: 100, essence: 'run' },
+    moonlands: { kind: 'boulder', shells: 100, essence: 'power' },
+  } as Record<
+    string,
+    | {
+        kind: 'boulder' | 'deepWater' | 'updraft' | 'longRun';
+        shells: number;
+        essence: 'swim' | 'fly' | 'run' | 'power';
+      }
+    | undefined
+  >,
+} as const;

@@ -120,6 +120,8 @@ export class RegionLife3d {
     if (this.critters.instanceColor) this.critters.instanceColor.needsUpdate = n > 0;
     let g = 0;
     for (const gate of gates) {
+      // The other kinds are drawn by `RegionMarks3d` (blocks), not as rocks.
+      if (gate.kind !== 'boulder') continue;
       if (g >= MAX_GATES) break;
       this.p.set(gate.x, heightAt(world.location, gate.x, gate.z), gate.z);
       this.q.identity();

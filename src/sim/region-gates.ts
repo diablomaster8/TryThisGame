@@ -6,7 +6,11 @@ import {
   type GateKind,
   type RegionGate,
 } from '../config/region-wild';
+import { GATE_PLAN } from '../config/tuning-r12d2';
+import type { RegionId } from '../config/regions';
 import { isPartner } from './partners';
+import { scatterSpots } from './region-spots';
+import { layoutOf } from './region-walk';
 import { regionOf } from './regions';
 import { levelOf } from './stats';
 import type { Nubbin, SimEvent, World } from './types';
@@ -24,10 +28,52 @@ export function gateIsOpen(world: Pick<World, 'collected'>, region: string, id: 
   return (world.collected ?? {})[gateKey(region, id)] !== undefined;
 }
 
+const planned = new Map<string, readonly RegionGate[]>();
+
+/**
+ * A region's gates: its authored ones (the Wood's boulder), or the one `GATE_PLAN` gives it,
+ * seeded onto open ground far from the path and every point of interest (R12 d2).
+ */
+export function gatesOf(region: string): readonly RegionGate[] {
+  const own = REGION_GATES[region];
+  if (own) return own;
+  const hit = planned.get(region);
+  if (hit) return hit;
+  const plan = GATE_PLAN.regions[region];
+  const l = layoutOf(region as RegionId);
+  let out: readonly RegionGate[] = [];
+  if (plan && l) {
+    const avoid = [...l.spec.path, ...l.spec.pois];
+    // The path between its points too, every few units.
+    for (let i = 0; i + 1 < l.spec.path.length; i++) {
+      const a = l.spec.path[i]!;
+      const b = l.spec.path[i + 1]!;
+      const n = Math.ceil(Math.hypot(b.x - a.x, b.z - a.z) / 4);
+      for (let k = 1; k < n; k++)
+        avoid.push({ x: a.x + ((b.x - a.x) * k) / n, z: a.z + ((b.z - a.z) * k) / n });
+    }
+    const at = scatterSpots(region as RegionId, 'gate', 1, 10, avoid, GATE_PLAN.awayFrom)[0];
+    if (at)
+      out = [
+        {
+          id: `${region}-${plan.kind}`,
+          kind: plan.kind,
+          x: at.x,
+          z: at.z,
+          r: GATE_PLAN.r,
+          behind: { x: at.x, z: at.z, r: 3 },
+          reward: { shells: plan.shells, essence: plan.essence },
+        },
+      ];
+  }
+  planned.set(region, out);
+  return out;
+}
+
 /** The gates still shut in the region the Keeper is in. */
 export function closedGates(world: World): RegionGate[] {
   const region = regionOf(world.location);
-  return (REGION_GATES[region] ?? []).filter((g) => !gateIsOpen(world, region, g.id));
+  return gatesOf(region).filter((g) => !gateIsOpen(world, region, g.id));
 }
 
 /** Whether `n` has what a gate of this kind asks. */
