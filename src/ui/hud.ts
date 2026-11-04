@@ -95,6 +95,7 @@ import { TEN_TEXT } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
 import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { PhotoMode } from './photo';
+import { PhotoSpotButton } from './photo-spot-button';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
 import { showCrashCard } from './gl-failure';
@@ -548,6 +549,8 @@ export function mountHud(
   const memorialCard = new MemorialCard(root, game);
   const decorate = new DecorateMenu(root, game, toast);
   const photo = new PhotoMode(root, game, () => sheet.selectedId);
+  // R0138: the "Take photo" button while the Keeper stands in a region's photo frame.
+  const photoSpotBtn = new PhotoSpotButton(root, game, () => photo);
   const pocket = new PocketMode(root, game);
   const quests = new QuestBoard(root, game);
   const profile = new ProfilePanel(root, game);
@@ -1158,6 +1161,7 @@ export function mountHud(
           g.world.location === 'hollow' ||
           g.world.location === 'corvin' ||
           g.world.location === 'dungeon';
+        photoSpotBtn.update(dialogue.isOpen || away.isOpen || photo.isOpen());
         holdRenderWhile(
           g,
           dialogue.isOpen || away.isOpen || photo.isOpen(),

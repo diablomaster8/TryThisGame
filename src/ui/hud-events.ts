@@ -25,7 +25,12 @@ import { REMEMBRANCE_TEXT } from '../config/strings-look-r9e';
 import { petToast } from '../config/strings-look';
 import { MOVE_TEXT } from '../config/strings-move';
 import { R10B4_TEXT } from '../config/strings-r10b4';
-import { PHOTO_SPOT_TEXT } from '../config/strings-r11d6';
+import {
+  PHOTO_FRAME_TEXT,
+  REGION_GAG_TEXT,
+  SEASON_KEEPSAKE_TEXT,
+  WILD_NUBBIN_TEXT,
+} from '../config/strings-r12d2';
 import { REGION_LIFE_TEXT } from '../config/strings-r11d8';
 import {
   ACT_TEXT,
@@ -640,6 +645,16 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
       // R0120: a region's critter, taken by walking up to it.
       toast(REGION_LIFE_TEXT.critter(e.species));
       playSound('pickup');
+    } else if (e.kind === 'regionGag') {
+      // R0137: a weather gag, shown only in the weather that opens it.
+      toast(
+        SEASON_KEEPSAKE_TEXT[e.id] ??
+          (e.first ? (REGION_GAG_TEXT[e.id]?.first ?? '') : (REGION_GAG_TEXT[e.id]?.again ?? '')),
+      );
+    } else if (e.kind === 'wildNubbin') {
+      // R0120: a region's shy wild Nubbin, noticed or befriended.
+      toast(e.state === 'met' ? WILD_NUBBIN_TEXT.met(e.name) : WILD_NUBBIN_TEXT.friend(e.name));
+      playSound(e.state === 'met' ? 'tickOpen' : 'win');
     } else if (e.kind === 'gateOpened') {
       // R0110: a stat gate gave way to the right partner.
       toast(REGION_LIFE_TEXT.gate);
@@ -653,7 +668,7 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
         );
     } else if (e.kind === 'photoSpot') {
       // R0138: a framed vista; the camera is the Photo button.
-      toast(e.first ? PHOTO_SPOT_TEXT.first : PHOTO_SPOT_TEXT.again);
+      toast(e.first ? PHOTO_FRAME_TEXT.first(e.region) : PHOTO_FRAME_TEXT.again);
     } else if (e.kind === 'traceFound') {
       // R0090: a small remembered thing in the world.
       for (const line of traceToasts(e.id, game()?.world)) toast(line);

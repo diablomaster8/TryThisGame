@@ -1,0 +1,37 @@
+/* Round 12, helper d2: small pieces of UI for the open world's content. */
+.photo-spot-btn {
+  position: fixed;
+  left: 50%;
+  bottom: calc(184px + env(safe-area-inset-bottom, 0px));
+  background: #f4c430;
+  color: #2a1a3a;
+  border: 2px solid #2a1a3a;
+  font-weight: 700;
+  transform: translateX(-50%);
+  min-height: 48px;
+  min-width: 48px;
+  padding: 0 20px;
+  z-index: 30;
+}
+.photo-spot-btn[hidden] {
+  display: none;
+}
+
+.wm-album {
+  margin: 4px 0 8px;
+  font-size: 0.9rem;
+}
+.wm-album-head {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.wm-album-card {
+  margin: 4px 0;
+  padding: 6px 8px;
+  border-left: 3px solid currentColor;
+}
+.wm-album-card.dim {
+  opacity: 0.6;
+}
