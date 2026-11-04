@@ -16,3 +16,4 @@ export * from '../tuning-camp11-profiles';
 export * from '../tuning-camp11-save';
 export * from '../tuning-camp11c';
 export * from '../tuning-camp11ui';
+export * from '../tuning-camp12c';
