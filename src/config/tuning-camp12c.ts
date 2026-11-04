@@ -18,7 +18,9 @@ export const C12C = {
   doors: {
     /** Drawn only within this many units of the Keeper. */
     near: 22,
-    atlas: { mark: 'step', off: [-2.2, -0.2] as const },
+    /** Pixel only: a door's sprite is drawn this many times its painted size. */
+    pixelScale: 1.6,
+    atlas: { mark: 'step', off: [-1.2, 0.3] as const },
     /** Pixel's cabinet stands beside a built workshop. */
     cabinetOff: [3.4, 0.6] as const,
     cabinetAfterChapter: 5,
@@ -32,6 +34,8 @@ export const C12C = {
   markers: {
     /** At most this many are drawn at once (one draw call each in Full 3D). */
     max: 2,
+    /** Pixel only: the sprite is drawn this many times its painted size. */
+    pixelScale: 2,
     /** Only those within this many units of the Keeper are drawn. */
     within: 45,
     /** Height above the ground over a person, a board or a place (units). */

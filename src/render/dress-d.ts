@@ -2,6 +2,8 @@ import { DRESS_D } from '../config/tuning-d';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
+import { C12C } from '../config/tuning-camp12c';
+import { NATIVE_PPU } from './sprite-batch';
 import { isDoorKey } from './story-doors';
 import { dressItems, itemSignature, shelfKeepsakes, type DressItem } from './dress-d-rules';
 import { buildDressSheet, buildShelfSheet } from './paint/dress-props';
@@ -138,6 +140,13 @@ export const dressD: PixelDressing = {
             z: it.z + dz,
             mode: 'billboard',
             tint,
+            // A door reads larger than the little props (C12C.doors.pixelScale).
+            ...(isDoorKey(it.key)
+              ? {
+                  w: (rect.w / NATIVE_PPU) * C12C.doors.pixelScale,
+                  h: (rect.h / NATIVE_PPU) * C12C.doors.pixelScale,
+                }
+              : {}),
           },
           isDoorKey(it.key) ? { id: it.key, kind: 'building' } : undefined,
         );

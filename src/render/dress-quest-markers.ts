@@ -1,10 +1,12 @@
 import type { SceneStage } from '../config/story';
+import { C12C } from '../config/tuning-camp12c';
 import { DRESS_D } from '../config/tuning-d';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { buildQuestMarkSheet } from './paint/quest-marks';
 import { questMarkers } from './quest-markers';
+import { NATIVE_PPU } from './sprite-batch';
 import { frameKey } from './sprites/animations';
 import type { SpriteSheet } from './sprites/atlas';
 
@@ -46,6 +48,8 @@ export const dressQuestMarkers: PixelDressing = {
         z: m.z,
         mode: 'billboard',
         tint: 1,
+        w: (rect.w / NATIVE_PPU) * C12C.markers.pixelScale,
+        h: (rect.h / NATIVE_PPU) * C12C.markers.pixelScale,
       });
     }
   },

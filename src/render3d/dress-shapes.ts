@@ -177,7 +177,7 @@ export function buildDressItem(tex: Tex, item: DressItem): THREE.Group | null {
     case 'doorAtlas': {
       // R0630: the Atlas's door, a bookshelf by the cottage with a compass on top.
       P.add('wood', box(1.0, 1.5, 0.34, 0.03), [0, 0.75, 0], DARK);
-      P.add('plain', box(0.88, 1.38, 0.3, 0.02), [0, 0.75, 0.04], '#3a2616');
+      P.add('plain', box(0.88, 1.38, 0.3, 0.02), [0, 0.75, 0.04], '#6a4a30');
       const spines = ['#c8553d', '#3d7ac8', '#e0b13a', '#4aa27a', '#8a5ac8', '#d9d2c0'];
       for (const y of [0.3, 0.72, 1.14]) {
         P.add('wood', box(0.9, 0.04, 0.32, 0.01), [0, y - 0.04, 0.04], WOOD);
