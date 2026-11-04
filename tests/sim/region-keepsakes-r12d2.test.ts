@@ -6,6 +6,7 @@ import { fits, spotNear } from '../../src/sim/region-spots';
 import { layoutOf, planRegionWalk, REGION_SPECS, regionLocation } from '../../src/sim/region-walk';
 import { openTraces, stepTraces, traceSpot } from '../../src/sim/regions-trace';
 import { createWorld } from '../../src/sim/world';
+import { POSTCARD_NOTES_ALL } from '../../src/config/strings-r12d2';
 import type { RegionId } from '../../src/config/regions';
 import type { SimEvent } from '../../src/sim/types';
 
@@ -94,6 +95,14 @@ describe('R0090/R0091: traces and collectibles in every drawn region', () => {
     expect(
       openTraces(w).every((o) => WORLD_TRACES.find((x) => x.id === o.id)!.region === 'ridge'),
     ).toBe(true);
+  });
+
+  it('every drawn region has a note for each of its postcards, each short', () => {
+    for (const r of ['grove', ...DRAWN]) {
+      const notes = POSTCARD_NOTES_ALL[r];
+      expect(notes, r).toHaveLength(COLLECT.perRegion.postcard);
+      for (const n of notes!) expect(n.length, n).toBeLessThanOrEqual(110);
+    }
   });
 
   it('a finished set pays its region reward once', () => {
