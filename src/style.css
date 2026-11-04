@@ -5364,3 +5364,25 @@ html.story-resting canvas {
 .creator-actions .btn {
   min-height: 44px;
 }
+
+/* R0629: the kid open flow's big invitation button and a reader's Help me. */
+.offer-card.offer-kid .offer-go {
+  width: 100%;
+  min-height: 64px;
+  font-size: 1.4rem;
+}
+.offer-help {
+  pointer-events: auto;
+  position: absolute;
+  left: 12px;
+  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  min-height: 44px;
+  min-width: 44px;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #7fd1ae;
+  color: #1a1530;
+  font-weight: bold;
+  z-index: 54;
+}

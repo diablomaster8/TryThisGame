@@ -81,6 +81,7 @@ import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
+import { helpQuest } from './kid-flow';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { chooseCastHome } from './line-rewards';
 import { langStart, langTraced, noteWord } from './lang';
@@ -1280,6 +1281,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     // Lane C r8 (R0602): the Open quest flow's answers (sim/quest-offers.ts).
     case 'questAccept':
       if (world.campaign) acceptQuest(world, world.campaign, cmd.id, cmd.shelve, events);
+      return;
+    case 'questHelp':
+      helpQuest(world, cmd.id, events);
       return;
     case 'questDecline':
       if (world.campaign) declineQuest(world, world.campaign, cmd.id);
