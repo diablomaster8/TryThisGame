@@ -6,12 +6,21 @@
  */
 // Its stylesheet (kids-r10.css) is imported by main.ts, which keeps it in the entry's CSS.
 import { frameKey } from '../render/sprites/animations';
-import { SheetCache } from '../render/sprites/sheets';
-import { deserialize } from '../sim/save';
 import type { Nubbin } from '../sim/types';
 import { slotKey, type SaveSlot } from '../platform/storage';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 import { el } from './dom';
+// R0446 (r12-d3): the save codec and the sprite sheets reach the whole sim, so they load when
+// the tile is drawn, not with the title.
+type Draw = [typeof import('../sim/save'), typeof import('../render/sprites/sheets')];
+let drawMods: Promise<Draw> | undefined;
+const loadDraw = (): Promise<Draw> =>
+  (drawMods ??= Promise.all([import('../sim/save'), import('../render/sprites/sheets')]).catch(
+    (err: unknown) => {
+      drawMods = undefined;
+      throw err;
+    },
+  ));
 
 /** Pure: the Nubbin a tile shows, the first hatched one, else the first egg, else none. */
 export function firstNubbinOf<T extends Pick<Nubbin, 'stage'>>(nubbins: readonly T[]): T | null {
@@ -21,7 +30,10 @@ export function firstNubbinOf<T extends Pick<Nubbin, 'stage'>>(nubbins: readonly
 /** Drawn pictures by slot and save time, so going back to the title doesn't redraw them. */
 const drawn = new Map<string, HTMLCanvasElement | null>();
 
-function readFirst(slot: SaveSlot): { key: string; nubbin: Nubbin | null } | null {
+function readFirst(
+  { deserialize }: Draw[0],
+  slot: SaveSlot,
+): { key: string; nubbin: Nubbin | null } | null {
   try {
     const json = localStorage.getItem(slotKey(slot));
     if (json === null) return null;
@@ -35,7 +47,7 @@ function readFirst(slot: SaveSlot): { key: string; nubbin: Nubbin | null } | nul
   }
 }
 
-function draw(n: Nubbin): HTMLCanvasElement | null {
+function draw({ SheetCache }: Draw[1], n: Nubbin): HTMLCanvasElement | null {
   const cache = new SheetCache();
   try {
     const sheet = cache.forNubbin(n);
@@ -83,24 +95,32 @@ function copyOf(src: HTMLCanvasElement): HTMLCanvasElement {
 export function showFirstNubbin(slot: SaveSlot, icon: HTMLElement): void {
   whenIdle(() => {
     if (!icon.isConnected) return;
-    const first = readFirst(slot);
-    if (!first?.nubbin) return;
-    let pic = drawn.get(first.key);
-    if (pic === undefined) {
-      pic = draw(first.nubbin);
-      drawn.set(first.key, pic);
-    }
-    if (!pic) return;
-    const shown = copyOf(pic);
-    shown.setAttribute('aria-hidden', 'true');
-    // The animal stays as a small badge on the picture, so siblings' tiles still differ.
-    const wrap = el('span', 'kids-r10-pic');
-    const badge = el('span', 'kids-r10-badge', icon.textContent ?? '');
-    badge.setAttribute('aria-hidden', 'true');
-    wrap.append(shown, badge);
-    wrap.classList.add(...[...icon.classList].map((c) => `${c}-pic`));
-    icon.replaceWith(wrap);
+    loadDraw().then(
+      ([save, sheets]) => paint(save, sheets, slot, icon),
+      () => undefined,
+    );
   });
+}
+
+function paint(save: Draw[0], sheets: Draw[1], slot: SaveSlot, icon: HTMLElement): void {
+  if (!icon.isConnected) return;
+  const first = readFirst(save, slot);
+  if (!first?.nubbin) return;
+  let pic = drawn.get(first.key);
+  if (pic === undefined) {
+    pic = draw(sheets, first.nubbin);
+    drawn.set(first.key, pic);
+  }
+  if (!pic) return;
+  const shown = copyOf(pic);
+  shown.setAttribute('aria-hidden', 'true');
+  // The animal stays as a small badge on the picture, so siblings' tiles still differ.
+  const wrap = el('span', 'kids-r10-pic');
+  const badge = el('span', 'kids-r10-badge', icon.textContent ?? '');
+  badge.setAttribute('aria-hidden', 'true');
+  wrap.append(shown, badge);
+  wrap.classList.add(...[...icon.classList].map((c) => `${c}-pic`));
+  icon.replaceWith(wrap);
 }
 
 function whenIdle(fn: () => void): void {
