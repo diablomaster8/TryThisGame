@@ -35,10 +35,10 @@ describe('command coverage', () => {
     const from = lines.findIndex((l) => l.startsWith('export type Command ='));
     let block = '';
     for (let i = from; i < lines.length; i++) {
-      if (i > from && lines[i].startsWith('export ')) break;
-      block += lines[i] + '\n';
+      if (i > from && lines[i]!.startsWith('export ')) break;
+      block += lines[i]! + '\n';
     }
-    const kinds = [...block.matchAll(/\|\s*\{\s*kind:\s*'(\w+)'/g)].map((m) => m[1]);
+    const kinds = [...block.matchAll(/\|\s*\{\s*kind:\s*'(\w+)'/g)].map((m) => m[1]!);
     expect(kinds.length).toBeGreaterThan(150);
     const missing = kinds.filter((k) => !HANDLED_KINDS.includes(k));
     expect(missing).toEqual([]);
