@@ -23,3 +23,28 @@ export const KEEPSAKE_SPOTS = {
   /** Units a collectible keeps from a trace, so the two are not one stop. */
   awayFromTrace: 4,
 } as const;
+
+/**
+ * R0120 (WORLD-53): the one wild Nubbin of each drawn region, a shy baby that may be befriended
+ * with a fruit and then moves into the village square. `types` is the favourite type of the
+ * region (the species is a seeded pick of that type), `names` are its possible names.
+ */
+export const WILD_NUBBIN = {
+  /** Stand this close, with a fruit, to offer it. */
+  reach: 2.4,
+  /** Milliseconds it takes to decide. */
+  befriendMs: 2500,
+  /** How far it strolls from its home spot, and how long one stroll takes. */
+  roam: 1,
+  strollMs: 14_000,
+  /** Fruit it takes. */
+  fruit: 1,
+  regions: {
+    wood: { types: ['power', 'normal'], names: ['Burl', 'Tansy', 'Moss'] },
+    shore: { types: ['swim'], names: ['Skerry', 'Pebble', 'Brine'] },
+    ridge: { types: ['fly'], names: ['Gust', 'Fell', 'Pip'] },
+    ruins: { types: ['power', 'normal'], names: ['Flint', 'Ember', 'Cairn'] },
+    sunlands: { types: ['run', 'fly'], names: ['Marigold', 'Dazzle', 'Noon'] },
+    moonlands: { types: ['normal', 'fly'], names: ['Wick', 'Dusk', 'Lull'] },
+  } as Record<string, { types: readonly string[]; names: readonly string[] } | undefined>,
+} as const;

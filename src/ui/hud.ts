@@ -151,7 +151,7 @@ import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PhotoSpotButton } from './photo-spot-button';
-import { PHOTO_FRAME_TEXT } from '../config/strings-r12d2';
+import { PHOTO_FRAME_TEXT, WILD_NUBBIN_TEXT } from '../config/strings-r12d2';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
 import { showCrashCard } from './gl-failure';
@@ -1951,6 +1951,10 @@ export function mountHud(
           // R0120: a region's critter, taken by walking up to it.
           toast(REGION_LIFE_TEXT.critter(e.species));
           playSound('pickup');
+        } else if (e.kind === 'wildNubbin') {
+          // R0120: a region's shy wild Nubbin, noticed or befriended.
+          toast(e.state === 'met' ? WILD_NUBBIN_TEXT.met(e.name) : WILD_NUBBIN_TEXT.friend(e.name));
+          playSound(e.state === 'met' ? 'tickOpen' : 'win');
         } else if (e.kind === 'gateOpened') {
           // R0110: a stat gate gave way to the right partner.
           toast(REGION_LIFE_TEXT.gate);

@@ -2023,6 +2023,8 @@ export type SimEvent =
   | { kind: 'photoSpot'; region: string; first: boolean }
   /** R0120: a region's critter was taken. R0110: a gate gave way. R0121: a partner reacts to a new place. */
   | { kind: 'regionCritter'; region: string; species: string }
+  // R0120 (R12 d2): a region's shy wild Nubbin noticed, or befriended with a fruit.
+  | { kind: 'wildNubbin'; region: string; name: string; state: 'met' | 'friend' }
   | { kind: 'gateOpened'; region: string; id: string }
   | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found

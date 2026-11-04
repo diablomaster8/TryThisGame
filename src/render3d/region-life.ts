@@ -3,6 +3,8 @@ import { CRITTER_RULES } from '../config/region-wild';
 import { speciesById } from '../sim/critters';
 import { closedGates } from '../sim/region-gates';
 import { liveCritters } from '../sim/region-critters';
+import { wildNubbinHere } from '../sim/region-wild-nubbin';
+import { heightAt } from '../sim/height';
 import type { World } from '../sim/types';
 
 /**
@@ -61,7 +63,7 @@ export class RegionLife3d {
     const earR = ear.translate(0.17, 0.62, 0);
     const geo = mergeSimple([body, earL, earR]);
     const mat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.9 });
-    this.critters = new THREE.InstancedMesh(geo, mat, CRITTER_RULES.maxLive);
+    this.critters = new THREE.InstancedMesh(geo, mat, CRITTER_RULES.maxLive + 1);
     this.critters.count = 0;
     this.critters.frustumCulled = false;
     this.critters.castShadow = true;
@@ -93,12 +95,24 @@ export class RegionLife3d {
     for (const c of crit) {
       const t = speciesById(c.species)?.type ?? 'normal';
       const hop = still ? 0 : Math.max(0, Math.sin(tSec * 3 + c.x)) * 0.18;
-      this.p.set(c.x, hop, c.z);
+      this.p.set(c.x, heightAt(world.location, c.x, c.z) + hop, c.z);
       this.q.setFromAxisAngle(THREE.Object3D.DEFAULT_UP, c.x + c.z);
       this.s.set(1, 1, 1);
       this.m.compose(this.p, this.q, this.s);
       this.critters.setMatrixAt(n, this.m);
       this.critters.setColorAt(n, this.c.set(TYPE_COLOUR[t] ?? '#d8c49c'));
+      n++;
+    }
+    // R12 d2 (R0120): the region's shy wild Nubbin, a bigger light-blue one.
+    const wn = here ? wildNubbinHere(world) : null;
+    if (wn) {
+      const hop = still ? 0 : Math.max(0, Math.sin(tSec * 4 + wn.x)) * 0.12;
+      this.p.set(wn.x, heightAt(world.location, wn.x, wn.z) + hop, wn.z);
+      this.q.setFromAxisAngle(THREE.Object3D.DEFAULT_UP, -wn.heading);
+      this.s.setScalar(1.45);
+      this.m.compose(this.p, this.q, this.s);
+      this.critters.setMatrixAt(n, this.m);
+      this.critters.setColorAt(n, this.c.set('#8ec8f0'));
       n++;
     }
     this.critters.count = n;
@@ -107,7 +121,7 @@ export class RegionLife3d {
     let g = 0;
     for (const gate of gates) {
       if (g >= MAX_GATES) break;
-      this.p.set(gate.x, 0, gate.z);
+      this.p.set(gate.x, heightAt(world.location, gate.x, gate.z), gate.z);
       this.q.identity();
       this.s.setScalar(gate.r);
       this.m.compose(this.p, this.q, this.s);

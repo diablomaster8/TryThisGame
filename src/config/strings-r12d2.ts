@@ -76,3 +76,10 @@ export const POSTCARD_ALBUM_TEXT = {
   unfound: '? Not found yet',
   empty: 'No postcards home yet. They lie about on open ground.',
 };
+
+/** R0120 (WORLD-53): the shy wild Nubbin of a region. */
+export const WILD_NUBBIN_TEXT = {
+  met: (name: string): string => `🐾 ${name} watches you from a safe distance. A fruit might help.`,
+  friend: (name: string): string =>
+    `🍎 ${name} takes the fruit, and then your hand. It moves into the village.`,
+};

@@ -1,6 +1,8 @@
 import { closedGates } from '../sim/region-gates';
 import { liveCritters } from '../sim/region-critters';
+import { wildNubbinHere } from '../sim/region-wild-nubbin';
 import { speciesById } from '../sim/critters';
+import { heightAt } from '../sim/height';
 import type { World } from '../sim/types';
 import { RasterAtlas } from './paint/atlas';
 import { hex, Raster, shade, type RGB } from './paint/raster';
@@ -36,6 +38,22 @@ function critter(c: RGB): Raster {
   return r;
 }
 
+/** R12 d2 (R0120): the region's shy wild Nubbin: a round light-blue baby with a yellow tip. */
+function wild(): Raster {
+  const r = new Raster(20, 22, null);
+  r.tracking = true;
+  const b = hex('#8ec8f0');
+  r.ellipse(10, 14, 6.4, 6, b);
+  r.ellipse(10, 15, 4, 3.4, shade(b, 1.2));
+  r.tri(7, 8, 13, 8, 10, 1.5, hex('#f4d84a'));
+  r.disc(7.4, 12.4, 1.1, hex('#201814'));
+  r.disc(12.6, 12.4, 1.1, hex('#201814'));
+  r.disc(5, 19, 1.4, hex('#f4d84a'));
+  r.disc(15, 19, 1.4, hex('#f4d84a'));
+  r.tracking = false;
+  return r;
+}
+
 function boulder(): Raster {
   const r = new Raster(48, 38, null);
   r.tracking = true;
@@ -53,6 +71,7 @@ function paint(): SpriteSheet {
   const atlas = new RasterAtlas(128);
   for (const [t, c] of Object.entries(TYPE_COLOUR)) atlas.add(`critter-${t}`, critter(hex(c)));
   atlas.add('boulder', boulder());
+  atlas.add('wild', wild());
   sheet = atlas.build();
   return sheet;
 }
@@ -77,7 +96,8 @@ export function drawRegionLifePx(
   if (!world.location.startsWith('region:')) return;
   const crit = liveCritters(world);
   const gates = closedGates(world);
-  if (crit.length === 0 && gates.length === 0) return;
+  const wn = wildNubbinHere(world);
+  if (crit.length === 0 && gates.length === 0 && !wn) return;
   const s = paint();
   for (const c of crit) {
     const t = speciesById(c.species)?.type ?? 'normal';
@@ -88,12 +108,33 @@ export function drawRegionLifePx(
     scratch.x = c.x;
     scratch.z = c.z;
     // A small hop now and then, still under reduced motion.
-    scratch.y = still ? 0 : Math.max(0, Math.sin(tSec * 3 + c.x)) * 0.18;
+    scratch.y =
+      heightAt(world.location, c.x, c.z) +
+      (still ? 0 : Math.max(0, Math.sin(tSec * 3 + c.x)) * 0.18);
     scratch.w = 0.9;
     scratch.h = 0.9;
     scratch.tint = tint;
     scratch.opacity = 1;
     batch.draw(scratch);
+  }
+  if (wn) {
+    const rect = s.frames.get('wild');
+    if (rect) {
+      scratch.sheet = s;
+      scratch.rect = rect;
+      scratch.x = wn.x;
+      scratch.z = wn.z;
+      scratch.y =
+        heightAt(world.location, wn.x, wn.z) +
+        (still ? 0 : Math.max(0, Math.sin(tSec * 4 + wn.x)) * 0.12);
+      scratch.flip = Math.cos(wn.heading) < 0;
+      scratch.w = 1.5;
+      scratch.h = (1.5 * rect.h) / rect.w;
+      scratch.tint = tint;
+      scratch.opacity = 1;
+      batch.draw(scratch);
+      scratch.flip = false;
+    }
   }
   for (const g of gates) {
     const rect = s.frames.get('boulder');
@@ -102,10 +143,14 @@ export function drawRegionLifePx(
     scratch.rect = rect;
     scratch.x = g.x;
     scratch.z = g.z;
-    scratch.y = 0;
+    scratch.y = heightAt(world.location, g.x, g.z);
     scratch.w = g.r * 2.4;
     scratch.h = (g.r * 2.4 * rect.h) / rect.w;
     scratch.tint = tint;
     batch.draw(scratch);
   }
 }
+
+// Dev only: the checking drivers find the wild Nubbin and the critters the way the view does.
+if (import.meta.env.DEV)
+  Object.assign(globalThis, { __wildNubbin: wildNubbinHere, __liveCritters: liveCritters });
