@@ -453,6 +453,10 @@ export class Grove3dScene {
   }
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
+  /** WORLD-09 (R12 lane D): the grass chunks, for the debug panel's World line. */
+  get grassChunks(): { live: number; kept: number } {
+    return this.props.grass.chunks;
+  }
   /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
   readonly frameGeo: Array<[number, number]> = [];
   /** Frames drawn since boot, so the probe can wait for fresh ones after a teleport. */
@@ -1978,6 +1982,16 @@ export class Grove3dScene {
     this.dof.tick(interval);
     if (!NO_LOD) {
       this.terrainChunks.update(this.terrain.mesh, this.camera);
+      // WORLD-09 (R12 lane D): the grass packed to its chunks in view; a repack is a new
+      // full count for the governor's thinning.
+      this.props.grass.chunks.frozen = this.terrainChunks.frozen;
+      if (this.props.grass.chunks.update(this.camera, GROVE3D.grassFade.to)) {
+        for (const m of this.props.grass.meshes) {
+          const d = m.userData as { full?: number; geoCount?: number };
+          d.full = m.count;
+          d.geoCount = -1;
+        }
+      }
       this.creatureLod.update(
         this.actors.group.children.filter((c) => !(c as THREE.Mesh).isMesh),
         this.camera,

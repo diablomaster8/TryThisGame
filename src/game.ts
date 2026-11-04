@@ -1196,6 +1196,7 @@ export class Game {
         this.updateDaylight(nowMs);
         this.culler.update(this.camera);
         this.view.batch.cull = this.culler.visible;
+        this.view.culler = this.culler;
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
         this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);

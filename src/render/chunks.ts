@@ -133,6 +133,102 @@ export class SpriteCuller {
     const high = sy + (d.mode === 'flat' ? Math.max(w, h) : h);
     return high >= -this.halfH - m && low <= this.halfH + m;
   };
+
+  /**
+   * WORLD-09 (R12 lane D): whether any of a ground box `[x0,x1]×[z0,z1]` holding sprites up
+   * to `height` tall can be on screen. Its four ground corners and their tops are taken to
+   * screen axes; false only when all eight fall off one side.
+   */
+  boxVisible(x0: number, x1: number, z0: number, z1: number, height: number): boolean {
+    let loX = Infinity;
+    let hiX = -Infinity;
+    let loY = Infinity;
+    let hiY = -Infinity;
+    for (let i = 0; i < 4; i++) {
+      const dx = (i & 1 ? x1 : x0) - this.cx;
+      const dz = (i & 2 ? z1 : z0) - this.cz;
+      const sx = dx * this.rx + dz * this.rz;
+      const sy = dx * this.ux - this.cy * this.uy + dz * this.uz;
+      if (sx < loX) loX = sx;
+      if (sx > hiX) hiX = sx;
+      if (sy < loY) loY = sy;
+      if (sy + height * this.uy > hiY) hiY = sy + height * this.uy;
+    }
+    const m = this.margin;
+    if (hiX < -this.halfW - m || loX > this.halfW + m) return false;
+    return hiY >= -this.halfH - m && loY <= this.halfH + m;
+  }
+}
+
+/**
+ * WORLD-09 (R12 lane D): the Grove's own static sprites (scenery, fence posts, ground
+ * dressing) bucketed into the 16 u chunks once, so a frame tests a few dozen chunk boxes and
+ * then skips every sprite of a chunk off screen with one array read, instead of lighting,
+ * swaying and culling each of the ~780 sprites one by one. The list's order is kept, so the
+ * draw order is unchanged.
+ */
+export class ChunkMask {
+  private readonly ids: Uint16Array;
+  private readonly boxes: number[] = [];
+  private readonly on: Uint8Array;
+  /** Sprites skipped by their chunk on the last `update` (the debug readout). */
+  skipped = 0;
+  /** Chunks drawn on the last `update`. */
+  live = 0;
+
+  constructor(
+    items: ReadonlyArray<{ x: number; z: number }>,
+    private readonly reach: number,
+    private readonly height: number,
+    size: number = WORLD_STREAM.chunk,
+  ) {
+    this.ids = new Uint16Array(items.length);
+    const index = new Map<string, number>();
+    items.forEach((it, i) => {
+      const c = chunkOf(it.x, it.z, size);
+      const k = chunkKey(c);
+      let id = index.get(k);
+      if (id === undefined) {
+        id = index.size;
+        index.set(k, id);
+        this.boxes.push(c.cx * size, (c.cx + 1) * size, c.cz * size, (c.cz + 1) * size);
+      }
+      this.ids[i] = id;
+    });
+    this.on = new Uint8Array(index.size).fill(1);
+  }
+
+  /** Mark the chunks the view can reach; `null` (no culler) keeps them all. */
+  update(culler: SpriteCuller | null): void {
+    this.live = 0;
+    const r = this.reach;
+    for (let c = 0; c < this.on.length; c++) {
+      const b = c * 4;
+      const v =
+        culler === null ||
+        culler.boxVisible(
+          this.boxes[b]! - r,
+          this.boxes[b + 1]! + r,
+          this.boxes[b + 2]! - r,
+          this.boxes[b + 3]! + r,
+          this.height,
+        );
+      this.on[c] = v ? 1 : 0;
+      if (v) this.live++;
+    }
+    this.skipped = 0;
+  }
+
+  /** Whether item `i` of the list built on stands in a chunk worth drawing. */
+  has(i: number): boolean {
+    if (this.on[this.ids[i]!] === 1) return true;
+    this.skipped++;
+    return false;
+  }
+
+  get chunks(): number {
+    return this.on.length;
+  }
 }
 
 /**

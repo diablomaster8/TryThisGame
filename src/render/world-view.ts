@@ -43,6 +43,8 @@ import { GROVE, GROVE3D, SIM } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
+import { ChunkMask, type SpriteCuller } from './chunks';
+import { GROVE_CHUNKS } from '../config/tuning-r12d1';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
 import { windSway } from './wind-px';
@@ -190,6 +192,16 @@ export class WorldView {
   private readonly petBeats = new PetBeats();
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
+  /**
+   * WORLD-09 (R12 lane D): the Grove's scenery, fence posts and ground dressing by 16 u
+   * chunk; a chunk off screen skips all its sprites at once. `culler` is the game's.
+   */
+  culler: SpriteCuller | null = null;
+  readonly groveChunks = {
+    scenery: new ChunkMask(SCENERY, GROVE_CHUNKS.pxReach, GROVE_CHUNKS.pxHeight),
+    fences: new ChunkMask(this.fences, 1, 2),
+    decor: new ChunkMask(this.decor, 1.5, 2),
+  };
   private darkness = 0;
   /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
   private cave: Floor | null = null;
@@ -841,7 +853,13 @@ export class WorldView {
     if (inGrove) {
       const scenery = this.sheets.scenery();
       const lampsOn = this.lights.length > 0;
-      for (const s of SCENERY) {
+      const gc = this.groveChunks;
+      gc.scenery.update(this.culler);
+      gc.fences.update(this.culler);
+      gc.decor.update(this.culler);
+      for (let si = 0; si < SCENERY.length; si++) {
+        const s = SCENERY[si]!;
+        if (!gc.scenery.has(si)) continue;
         if (isSceneryHidden(s.kind)) continue;
         const litKey =
           lampsOn && !(Y_STATE.windowsOut && s.pick?.kind === 'building')
@@ -962,7 +980,9 @@ export class WorldView {
       }
       const fence = scenery.frames.get(frameKey('fencePost', 'front', 0));
       if (fence) {
-        for (const f of this.fences) {
+        for (let fi = 0; fi < this.fences.length; fi++) {
+          const f = this.fences[fi]!;
+          if (!this.groveChunks.fences.has(fi)) continue;
           batch.draw(
             reuseDraw(
               SCENERY_DRAW,
@@ -983,7 +1003,10 @@ export class WorldView {
       }
     }
     // Ground dressing, then memorial flowers.
-    for (const d of inGrove ? this.decor : []) {
+    const decor = inGrove ? this.decor : [];
+    for (let di = 0; di < decor.length; di++) {
+      const d = decor[di]!;
+      if (!this.groveChunks.decor.has(di)) continue;
       const rect = props.frames.get(frameKey(d.frame, 'front', 0));
       if (!rect) continue;
       batch.draw(
