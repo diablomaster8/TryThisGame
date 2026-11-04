@@ -2,6 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { INDEX_KEY } from '../../src/platform/slot-index';
 import {
   clearSave,
+  clearSlot,
+  readThumb,
+  writeThumb,
   hasSave,
   readSave,
   readSlotIndex,
@@ -42,6 +45,19 @@ function fakeStorage(opts: { quota?: number } = {}): Map<string, string> {
 
 beforeEach(() => setSaveSlot(SLOT));
 afterEach(() => vi.unstubAllGlobals());
+
+describe('slot thumbnails (R0447)', () => {
+  it('keeps a small image, refuses a big or non-image one, and drops it with the slot', () => {
+    fakeStorage();
+    const img = 'data:image/jpeg;base64,' + 'A'.repeat(100);
+    expect(writeThumb(SLOT, img)).toBe(true);
+    expect(readThumb(SLOT)).toBe(img);
+    expect(writeThumb(SLOT, 'data:image/jpeg;base64,' + 'A'.repeat(13000))).toBe(false);
+    expect(readThumb(SLOT)).toBe(img);
+    clearSlot(SLOT);
+    expect(readThumb(SLOT)).toBeNull();
+  });
+});
 
 describe('storage (TECH-43)', () => {
   it('writes and reads the current slot under its own key', () => {
