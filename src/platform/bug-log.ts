@@ -62,12 +62,19 @@ export function buildId(): string {
 }
 
 /** The report as JSON, under 100 kB: the save is dropped first if it would not fit. */
-export function bugReport(extra: { renderer: string; settings: unknown; save: string }): string {
+export function bugReport(extra: {
+  renderer: string;
+  settings: unknown;
+  save: string;
+  /** R0474: the private play diary, kept outside the save so it survives a left-out save. */
+  diary?: unknown;
+}): string {
   const base = {
     build: buildId(),
     ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
     renderer: extra.renderer,
     settings: extra.settings,
+    diary: extra.diary ?? null,
     errors: readErrors(),
     events: [...events],
   };

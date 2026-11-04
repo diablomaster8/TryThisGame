@@ -222,7 +222,8 @@ export function crowdFor(
 ): Figure[] {
   out.length = 0;
   const home = location === 'grove';
-  const underground = location === 'dungeon';
+  // R11 lane D: nobody follows the Keeper out into a drawn region yet.
+  const underground = location === 'dungeon' || location.startsWith('region:');
   const only = opts.only?.() ?? null;
   // Visiting Keepers: the same rule as the pixel view's `npcHere`.
   for (const npc of world.npcs) {

@@ -38,6 +38,32 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 11 · Lane D TECH + WORLD (2026-11-04, branch r11/d)
+
+73 items: 12 done, 59 partial, 2 not started (R0112 lane, R0135 cart/boat). Lines in STATUS.md.
+
+### What works
+- Region engine: 16 u chunk streaming, seamless and loaded (tree tunnel) borders, local coords within ±80, release on exit, shader pre-warm on approach (`sim/region-walk.ts`, `config/region-layout.ts`, `render/region-host-px.ts`, `render3d/region-host.ts`; region kits in `region-kit-px.ts` / `region-kit.ts`).
+- Drawn, walkable regions in both renderers: the Wood, the shore (first seamless pair), Sun and Moon lands (gated by the first adult of each alignment), the ruins (read campaign state only) and the ridge (five terraces). Cave/Hollow mouths are paired stairs ways.
+- Survey zoom tokens for the Keeper, Keeper 2 and NPCs; landscape phone action rail; walkable hills (`sim/height.ts`); updrafts and glides (`sim/flight-zones.ts`); camera presets per region (`config/region-camera.ts`).
+- Static 3D matrices freeze after 2 s still and thaw on any write (`render3d/static-freeze.ts`, `?freeze=0` off).
+- Settings in tabs, one hatch card, Progress page and private Grove diary in the journal, guided first loop, Hollow joystick on touch, real-bytes splash bar, event feedback table (`ui/event-feedback.ts`).
+- Ordered step systems (`sim/systems.ts`, pinned hash in `tests/sim/step-determinism.test.ts`), command handler modules (`sim/commands/`), tuning domain indexes, play harness, renderer parity check, World editor in the debug panel, `npm run check`.
+- Gate 2026-11-04: lint 0 errors, tsc clean, CI=true npm test 3120 passed with 7 load timeouts that pass alone, build ok, check:bundle ok, smoke:kids 14/14, Edge smoke Pixel + 3D at 1280×800 and 375×812 with no console errors. Phone probes: 4 of 5 runs 0/58 over, 3D farOrchard 93–100 calls.
+
+### What's stubbed (and assumptions)
+- The eager bundle was re-baselined 616 → 635 kB gzip (ceiling 1000): the new region, height and flight sim code rides in the eager `save` chunk. Shrinking it needs the save path split from the sim.
+- d4's Continue / New game / Load title was dropped at the merge; main's lane C title (Continue header, Who's playing) stands. The probe and smoke drivers boot through main's title again (visible Slot 1, Keeper pick only if asked).
+- Missing language clips are said plainly (all 159 missing); real recordings are still needed.
+- Grove props/grass are not chunked; the chunk cache is in memory; the lane, cart/boat, region traces and region quests' scenes are not built.
+- Visual regression has no stable goldens; e2e needs playwright as a devDependency; `.github/workflows/e2e.yml` runs on demand only until it has run green.
+
+### Known bugs
+- One of five phone probes had 3D heart over (452,873 tris vs 450k) while the first 3D spot was still warming up (lod 1, peak 180 calls); the other four were clean.
+- A save reload sends visiting NPCs home, so a reload is not byte-identical for NPC positions.
+- Under load ~7 timing tests time out (expansions, dungeon-nav, edu-story, side-stories-late); they pass alone.
+- Other lanes editing `stepWorld` or the debug/edu command cases must move those edits into the `SYSTEMS` list or `sim/commands/`.
+
 ## Round 11 · Lane C pace helper (assumptions)
 
 - R0633: one Keeper across lines. Dawn needs a Sun Keeper and Dusk a Moon Keeper; while the active Keeper is the other side the line holds, and entering its region emits `keeperSwitchPrompt` (tested). Logged In needs nothing.

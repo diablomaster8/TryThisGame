@@ -12,7 +12,7 @@
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { HOLLOW_R9D_TEXT as T } from '../config/strings-hollow-r9-d';
 import type { Game } from '../game';
-import { cellDist, cellOf, runFloor } from '../sim/dungeon';
+import { nearestPack } from '../input/dungeon-tap';
 import type { World } from '../sim/types';
 import { button, el } from './dom';
 
@@ -52,37 +52,24 @@ export class HollowPhoneBar {
     const mapBtn = button(T.barMap, () => hooks.map(), 'btn hollow-phone-btn');
     this.acornBtn = button(T.barAcorn, () => hooks.acorn(), 'btn hollow-phone-btn');
     const sackBtn = button(T.barSack, () => hooks.sack(), 'btn hollow-phone-btn');
-    this.engageBtn = button(T.barEngage, () => this.engage(), 'btn hollow-phone-btn');
+    // R0192: floats at the bottom right (above the camera buttons, beside Jump) on any touch
+    // layout underground, not only in the narrow bar, so the right thumb reaches it.
+    this.engageBtn = button(T.barEngage, () => this.engage(), 'btn hollow-engage-fab');
+    this.engageBtn.textContent = '⚔';
+    this.engageBtn.setAttribute('aria-label', T.barEngage);
+    this.engageBtn.title = T.barEngage;
+    this.engageBtn.hidden = true;
     this.moreBtn = button(T.barMore, () => this.setMore(!this.more), 'btn hollow-phone-btn');
     this.moreBtn.setAttribute('aria-expanded', 'false');
-    row.append(mapBtn, this.acornBtn, sackBtn, this.engageBtn, this.moreBtn);
+    row.append(mapBtn, this.acornBtn, sackBtn, this.moreBtn);
     this.root.append(this.ctx, row);
-    parent.appendChild(this.root);
-  }
-
-  /** The nearest pack still about, within a few cells of the Keeper, or null. */
-  private target(world: World): { x: number; z: number } | null {
-    const run = world.dungeon;
-    const f = runFloor(world);
-    if (!run || !f || run.encounter) return null;
-    const k = cellOf(f, world.keeper.pos);
-    let best: { x: number; z: number } | null = null;
-    let bestD = Infinity;
-    for (const p of run.packs ?? []) {
-      if (p.state === 'beaten') continue;
-      const d = cellDist(k, cellOf(f, p.pos));
-      if (d < bestD && d <= PHONE.engageCells) {
-        bestD = d;
-        best = p.pos;
-      }
-    }
-    return best;
+    parent.append(this.root, this.engageBtn);
   }
 
   /** ⚔: walk to the nearest pack; touching it starts the play-fight as a tap on it would. */
   private engage(): void {
     const g = this.game();
-    const to = g && this.target(g.world);
+    const to = g && nearestPack(g.world, PHONE.engageCells)?.pos;
     if (g && to) g.send({ kind: 'moveKeeperTo', pos: { x: to.x, z: to.z } });
   }
 
@@ -109,6 +96,7 @@ export class HollowPhoneBar {
       this.setMore(on && this.more);
       if (!on) document.documentElement.classList.remove('hollow-ctx-on');
     }
+    this.refreshEngage(world, shown);
     if (!on) return;
     // The Run and camera buttons step up while a contextual button is showing.
     document.documentElement.classList.toggle(
@@ -118,7 +106,17 @@ export class HollowPhoneBar {
     const a = this.hooks.acornState(world);
     this.acornBtn.disabled = a.disabled || a.hidden;
     this.acornBtn.title = a.label;
-    const engage = !!this.target(world);
+  }
+
+  /** The floating ⚔: shown underground on a touch device (or a narrow screen); pulses in range. */
+  private refreshEngage(world: World, shown: boolean): void {
+    const touch =
+      window.innerWidth <= PHONE.maxWidth ||
+      (typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches);
+    const show = shown && touch && world.location === 'dungeon' && !!world.dungeon;
+    this.engageBtn.hidden = !show;
+    if (!show) return;
+    const engage = !!nearestPack(world, PHONE.engageCells);
     this.engageBtn.disabled = !engage;
     this.engageBtn.classList.toggle('is-ready', engage);
   }

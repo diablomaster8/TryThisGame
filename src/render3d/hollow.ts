@@ -50,6 +50,15 @@ import { HollowSectors } from './hollow-sectors';
  * (`hollow-ctx.ts`). A module's owner edits only that file; `hollow.ts` just calls it.
  */
 
+/** `?perf` in the address turns the Hollow's build-time logging on (R0194). */
+function perfOn(): boolean {
+  try {
+    return typeof location !== 'undefined' && new URLSearchParams(location.search).has('perf');
+  } catch {
+    return false;
+  }
+}
+
 export class Hollow {
   readonly group = new THREE.Group();
   private floor: Floor | null = null;
@@ -197,7 +206,28 @@ export class Hollow {
     this.ctx.bakers.length = 0;
     if (f) this.ctx.bakers.push(lightBaker(f, this.ctx));
     if (f) this.ctx.bakers.push(pathBaker(f, this.ctx));
-    if (f) for (const m of this.mods) m.build(f, this.ctx);
+    if (f) {
+      const t0 = performance.now();
+      const per: Record<string, number> = {};
+      for (const m of this.mods) {
+        const a = performance.now();
+        m.build(f, this.ctx);
+        per[m.constructor.name] = Math.round((performance.now() - a) * 10) / 10;
+      }
+      this.logBuild(f, performance.now() - t0, per);
+    }
+  }
+
+  /**
+   * R0194 (DUNG-51): with `?perf` in the address, each floor's synchronous build time (ms) and
+   * its per-module split go to the console and `window.__hollowPerf` (draw calls and
+   * triangles are in the scene's own perf stats). Budget: 400 ms desktop, 1200 ms phone.
+   */
+  private logBuild(f: Floor, ms: number, per: Record<string, number>): void {
+    if (!perfOn()) return;
+    const row = { cols: f.cols, rows: f.rows, zone: f.zone ?? 'level', ms: Math.round(ms), per };
+    (globalThis as { __hollowPerf?: unknown }).__hollowPerf = row;
+    console.info('[perf] hollow floor build', JSON.stringify(row));
   }
 
   update(

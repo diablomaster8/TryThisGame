@@ -27,6 +27,8 @@ interface BorderWay {
   at: number;
   to: keyof typeof REGIONS;
   unlock?: string;
+  /** Half its width along the edge (R11 d7: a wide seamless border is all open). */
+  half: number;
 }
 
 /** The side a point lies nearest, and where along it. */
@@ -43,20 +45,30 @@ export const BORDER_WAYS: readonly BorderWay[] = REGIONS.grove.exits.flatMap((e)
   const reach = Math.max(Math.abs(cx), Math.abs(cz));
   if (reach < h - 1) return [];
   const { side, along } = sideOf(cx, cz);
-  const way: BorderWay = { id: e.id, side, at: along, to: e.to };
+  const wide = (side === 'n' || side === 's' ? e.rect.w : e.rect.h) / 2;
+  const way: BorderWay = {
+    id: e.id,
+    side,
+    at: along,
+    to: e.to,
+    half: Math.max(BORDER.exitHalf, wide),
+  };
   if (e.unlock) way.unlock = e.unlock;
   return [way];
 });
 
 function wayOpen(way: BorderWay, world?: World): boolean {
   if (!REGIONS[way.to].built) return false;
+  // R11 d7: the Sun and Moon gates open with the first adult of that alignment.
+  if (way.to === 'sunlands' && !world?.unlocks.sunGrove) return false;
+  if (way.to === 'moonlands' && !world?.unlocks.moonGrove) return false;
   return !way.unlock || !!world?.campaign?.flags[way.unlock];
 }
 
 /** What stands at the border nearest (x, z). */
 export function borderEdge(x: number, z: number, world?: World): BorderEdge {
   const { side, along } = sideOf(x, z);
-  const way = BORDER_WAYS.find((w) => w.side === side && Math.abs(w.at - along) <= BORDER.exitHalf);
+  const way = BORDER_WAYS.find((w) => w.side === side && Math.abs(w.at - along) <= w.half);
   if (way) return { kind: wayOpen(way, world) ? 'exit' : 'notYet', side, stretch: way.id };
   return { kind: 'natural', side, stretch: side };
 }
@@ -89,7 +101,7 @@ export function borderBlockers(): readonly BorderBlocker[] {
   for (const [side, at, yaw] of sides) {
     const ways = BORDER_WAYS.filter((w) => w.side === side);
     for (let a = -h; a <= h + 1e-6; a += BORDER.step) {
-      if (ways.some((w) => Math.abs(w.at - a) <= BORDER.exitHalf)) continue;
+      if (ways.some((w) => Math.abs(w.at - a) <= w.half)) continue;
       out.push({ kind: 'hedge', ...at(a, BORDER.bushOut), yaw: 0 });
     }
     for (const w of ways)

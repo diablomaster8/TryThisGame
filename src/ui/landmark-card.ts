@@ -95,7 +95,7 @@ export function placesRows(world: World): PlaceRow[] {
     const at = nearestLandmark(t.at.x, t.at.z);
     const c = traces.get(at) ?? count();
     c.of++;
-    if (flags[`trace:${t.id}`]) c.found++;
+    if (flags[`trace:${t.id}`] || collected[`trace:${t.id}`] !== undefined) c.found++;
     traces.set(at, c);
   }
   for (const k of COLLECTIBLES) {

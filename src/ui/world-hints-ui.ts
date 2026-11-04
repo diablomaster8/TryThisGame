@@ -22,6 +22,13 @@ export function hintToast(id: string, world: World | undefined): string | null {
   return `${icon} ${text}`;
 }
 
+/** R0090: a trace's lines, one toast each (the child lines in a Learning Grove where it has them). */
+export function traceToasts(id: string, world: World | undefined): string[] {
+  const t = WORLD_TRACES.find((x) => x.id === id);
+  if (!t) return [];
+  return t.lines.map((l, i) => `🔎 ${(world?.edu && t.childLines[`${id}#${i}`]) || l.text}`);
+}
+
 /** The secret's lines, in order (one toast each). */
 export function secretToasts(region: string): readonly string[] {
   return (SECRET_TEXT as Record<string, readonly string[]>)[region] ?? [];

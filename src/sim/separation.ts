@@ -7,7 +7,8 @@
  */
 import { BODIES, JUMP } from '../config/tuning-sim';
 import { runFloor } from './dungeon';
-import { nubbinWalker, resolve } from './obstacles';
+import { resolve } from './obstacles';
+import { nubbinBody } from './nubbin-hill';
 import { ledgeY } from './terrain';
 import type { Nubbin, Vec2, World } from './types';
 
@@ -74,11 +75,11 @@ export function separateBodies(world: World, dtMs: number): void {
       if (!free(b) || b.id === k.carrying || b.id === world.ride?.nubbinId) continue;
       if (apart(a.pos, ra, b.pos, radius(b), 0.5, cap)) {
         moved = true;
-        resolve(b.pos, world, 0.3, nubbinWalker(b));
+        resolve(b.pos, world, 0.3, nubbinBody(b));
       }
     }
     for (const npc of world.npcs) if (apart(npc.pos, BODIES.npc, a.pos, ra, 0.5, cap)) moved = true;
-    if (moved) resolve(a.pos, world, 0.3, nubbinWalker(a));
+    if (moved) resolve(a.pos, world, 0.3, nubbinBody(a));
   }
   if (keeper)
     for (const npc of world.npcs)

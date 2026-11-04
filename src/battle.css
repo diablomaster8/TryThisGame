@@ -717,3 +717,16 @@ button.battle-row:focus-visible {
 .trial-w {
   grid-area: w;
 }
+
+/* R0219 (FIGHT-07): in Full 3D the stage goes see-through and the 3D arena draws in the game
+   canvas under it; the top bar and the panel keep the screen's own colours. The Grove's HUD
+   under a see-through stage is hidden (the `.expedition.three` rule covers a screen in #hud). */
+.battle-screen.three {
+  background: transparent;
+}
+.battle-screen.three > .bs-top {
+  background: #1b1430;
+}
+body:has(> .battle-screen.three:not([hidden])) > #hud > :not(.fps):not(.debug):not(.toast) {
+  visibility: hidden;
+}

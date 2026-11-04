@@ -4,6 +4,7 @@
  * turns the resolved options into body classes.
  */
 import { EGG, EGG_ANTICS } from '../config/tuning';
+import { shakeBonusMs } from './grove-diary';
 import type { AccessSettings, SimEvent, World } from './types';
 
 export interface ResolvedAccess {
@@ -39,7 +40,7 @@ export function tapCare(
   if (n.stage === 'egg') {
     if (now - n.lastShakeMs < EGG.shakeCooldownMs) return 'none';
     n.lastShakeMs = now;
-    n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - EGG.shakeBonusMs);
+    n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - shakeBonusMs(world));
     n.eggShakes = (n.eggShakes ?? 0) + 1;
     const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
     events.push({ kind: 'eggShaken', nubbinId: n.id, ...(foot ? { foot: true as const } : {}) });

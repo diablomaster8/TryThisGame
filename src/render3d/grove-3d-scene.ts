@@ -1,3 +1,7 @@
+import { FLIGHT_SPOTS } from '../sim/flight-zones';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { regionCameraFor } from '../config/region-camera';
+import { regionOf } from '../sim/regions';
 import { openSky } from '../render/cave-bands';
 import { viewportSize } from '../platform/viewport';
 import * as THREE from 'three';
@@ -58,6 +62,7 @@ import { CryTears } from './cry-tears';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
+import { RegionHost3d, snapShadow } from './region-host';
 import { nearestChild, occluders } from './occluders';
 import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
@@ -88,9 +93,18 @@ import { VillageSquare } from './village-square';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
+import { regionGround } from '../sim/region-walk';
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
+import { StaticFreezer, freezeWanted } from './static-freeze';
+import { GrovePuddles } from './puddles';
+import { AmbientLife3d } from './ambient';
+import { RegionLife3d } from './region-life';
+import { ambientAwake } from '../render/ambient-life';
+
+/** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
+const FOG_WHITE = new THREE.Color('#e8eef2');
 
 export { prewarmCreatures } from './prewarm';
 
@@ -267,6 +281,38 @@ export class Grove3dScene {
   private particlesShed = false;
   private groveBloomShed = false;
   private shadowShed = false;
+  /** R0094: the haze and rain share a drawn region's own sky asks for (the game sets it). */
+  readonly regionSky = { fog: 0, intensity: 0 };
+  private readonly puddles: GrovePuddles;
+  private readonly ambient: AmbientLife3d;
+  private readonly regionLife: RegionLife3d;
+
+  /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
+  private updateAmbient(world: World): void {
+    const [, d, , weather, particles] = this.dayArgs ?? [
+      12,
+      daylightAt(12),
+      'grove',
+      'clear',
+      'full',
+    ];
+    const onGrove = world.location === 'grove';
+    this.ambient.update(
+      world,
+      this.camPos,
+      this.time.value,
+      ambientAwake(d.phase, weather),
+      this.phoneSized,
+      this.reduceMotion,
+      particles === 'off' || this.staging.exclusive,
+      onGrove ? (x, z) => Math.max(groveHeight(x, z), WATER_LEVEL) : () => 0,
+    );
+  }
+
+  private get phoneSized(): boolean {
+    return Math.min(viewportSize().w, viewportSize().h) < WORLD_LOD.phoneMaxPx;
+  }
+
   /** A shed step changed something `setDaylight` decides: re-run it next frame. */
   private dayDirty = false;
   private readonly smaa: SMAAPass;
@@ -311,6 +357,8 @@ export class Grove3dScene {
   private readonly villageSquare: VillageSquare;
   private readonly water: GroveWater;
   private readonly actors: Actors;
+  /** r11-d3: still scenery skips its matrix work (`static-freeze.ts`). */
+  readonly freezer: StaticFreezer | null;
   /** R0456 (lane D r10): the creature pool's sizes, for the debug panel's memory line. */
   get poolCounts(): CreaturePool['counts'] {
     return this.actors.pool.counts;
@@ -388,8 +436,21 @@ export class Grove3dScene {
   /** R0074: cut the camera on the next frame (a fast-travel trip). */
   private travelCut = false;
   private readonly onHidden = (): void => {
-    if (document.hidden) this.actors.pool.trim();
+    if (!document.hidden) return;
+    this.actors.pool.trim();
+    this.regions.trim(); // R11 lane D (WORLD-15): drop cached chunks beyond the live ring
   };
+  /** R11 lane D: drawn regions beyond the Grove (`region-host.ts`). */
+  readonly regions: RegionHost3d;
+  /** R11 lane D (WORLD-68): link a region's programs for the light set it is drawn in. */
+  private compileRegion(o: THREE.Object3D): Promise<unknown> {
+    // Its textures go up now too, so the iris's frame uploads nothing.
+    o.traverse((m) => {
+      const map = ((m as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined)?.map;
+      if (map) this.renderer.initTexture(map);
+    });
+    return Promise.all([this.warm('plain'), this.compileAs('plain', [o])]);
+  }
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
   /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
@@ -529,8 +590,19 @@ export class Grove3dScene {
     this.village = new Village(this.world3d, this.tex, groveHeight);
     this.villageSquare = new VillageSquare(this.world3d, this.tex, groveHeight, this.pickables);
     this.weather = new GroveWeather(this.scene, this.world3d);
+    this.puddles = new GrovePuddles(this.world3d, groveHeight);
+    this.ambient = new AmbientLife3d(this.scene);
+    this.regionLife = new RegionLife3d(this.scene);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
+    this.freezer = freezeWanted()
+      ? new StaticFreezer(
+          this.scene,
+          (o) => o === this.actors.group,
+          2000,
+          new URLSearchParams(location.search).has('debug'),
+        )
+      : null;
     // Lane A r8: the idle looks' bursts (puddle splashes, fireflies, a harrumph's puff).
     this.actors.beatBurst = (kind, x, z) =>
       this.bursts.burst(
@@ -587,6 +659,7 @@ export class Grove3dScene {
     this.dungeonFloor.userData.pick = { kind: 'ground', id: 'ground' };
     this.scene.add(this.dungeonFloor);
     this.pickables.push(this.dungeonFloor);
+    this.regions = new RegionHost3d(this.scene, (o) => this.compileRegion(o));
     this.visit = new VisitSet(this.scene, this.tex, this.pickables);
     this.story = new StorySets(this.scene, this.tex, this.pickables);
 
@@ -728,9 +801,19 @@ export class Grove3dScene {
     // An act's camp and fields are a Hollow floor under the open sky (lane B, R0147).
     const cave = (place === 'dungeon' && !openSky(this.floor)) || place === 'hollow';
     this.dungeonFloor.visible =
-      !grove && !visiting && !this.story.showing && !(place === 'dungeon' && this.floor);
-    this.actors.ground = grove ? standHeight : () => 0;
-    this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
+      !grove &&
+      !visiting &&
+      !this.story.showing &&
+      !(place === 'dungeon' && this.floor) &&
+      !place.startsWith('region:');
+    this.actors.ground = grove ? standHeight : regionGround(place);
+    // R0094: a drawn region wears its own sky (rain, snow, fog), the Grove's sim weather aside.
+    const reg = place.startsWith('region:');
+    this.sky.set(hour, d, grove || reg ? weather : 'clear', this.camTarget);
+    if (reg && this.regionSky.fog > 0) {
+      this.sky.fog.density *= 1 + this.regionSky.fog * 3;
+      this.sky.fog.color.lerp(FOG_WHITE, this.regionSky.fog * 0.7);
+    }
     // Underground there is no sky: a mid-tone vault, a cool fill, the torches.
     this.sky.sky.visible = !cave;
     // R0190: an act's caves wear its look over the depth band, and tint the Keeper's lamp.
@@ -859,10 +942,18 @@ export class Grove3dScene {
     this.lampSources = sources;
     // TECH-52: the tier's light particles, or the Grove's first shed step.
     const light = this.tierFx.particles === 'light' || (!cave && this.particlesShed);
-    this.weather.set(grove, place, weather, d, light && particles === 'full' ? 'light' : particles);
+    this.weather.intensity = reg ? this.regionSky.intensity : null;
+    this.weather.set(
+      grove,
+      place,
+      weather,
+      d,
+      light && particles === 'full' ? 'light' : particles,
+      reg,
+    );
     // Rain cools the grade a touch (it used to grey it to a wash; art pass 2) and snow
     // brightens and cools it, as the pixel post pass.
-    const wet = grove && weather === 'rain';
+    const wet = (grove || reg) && weather === 'rain';
     this.grade.uniforms.uSaturation!.value = wet ? GROVE3D.rain.saturation : GRADE_SATURATION;
     if (wet)
       (this.grade.uniforms.uTint!.value as THREE.Color).multiply(
@@ -1597,6 +1688,30 @@ export class Grove3dScene {
     }
   }
 
+  /** R0109: when the flying zones near the Keeper last sent up their leaves. */
+  private flightPuffAt = 0;
+  private readonly flightPuff = new THREE.Vector3();
+
+  /** R0109: a few leaves rise over each flying zone near the Keeper, now and then. */
+  private puffFlightZones(world: World): void {
+    if (this.lastMs - this.flightPuffAt < 450) return;
+    this.flightPuffAt = this.lastMs;
+    const k = world.keeper.pos;
+    const near = FLIGHT_ZONES.showWithin;
+    for (const z of FLIGHT_SPOTS) {
+      if (Math.abs(z.at.x - k.x) > near || Math.abs(z.at.z - k.z) > near) continue;
+      this.flightPuff.set(z.at.x, standHeight(z.at.x, z.at.z) + 0.2, z.at.z);
+      const rise = z.kind === 'updraft' ? 1.4 : 0.6;
+      this.bursts.burst(
+        'leaf',
+        this.flightPuff,
+        2,
+        { spread: 0.3, speed: 0.2, rise, lifeMs: 1400 },
+        this.lastMs,
+      );
+    }
+  }
+
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
     // HOT-1: the selected Nubbin sits in the clear part of the screen (the sheet's shift).
     applyViewShift(this.camera, this.viewShift);
@@ -1605,12 +1720,14 @@ export class Grove3dScene {
     const dt = this.lastMs === 0 ? 0 : Math.max(0, Math.min(0.1, (nowMs - this.lastMs) / 1000));
     this.lastMs = nowMs;
     this.time.value = nowMs / 1000;
+    this.freezer?.tick(dt * 1000); // first, while the scene is as last drawn
     this.village.update(townUnlocks(world));
     this.ensureTrees(world);
     this.groveKind = world.grove;
     this.lastWorld = world;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
+    if (home) this.puffFlightZones(world);
     this.villageSquare.update(world, home);
     this.garden.update(world, standHeight, nowMs, home);
     const run = this.location === 'dungeon' ? world.dungeon : null;
@@ -1627,7 +1744,7 @@ export class Grove3dScene {
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
     // A key moment frames its Nubbin instead, and a story scene its speakers (bugs 10, 11).
-    const ground = this.location === 'grove' ? standHeight : () => 0;
+    const ground = this.location === 'grove' ? standHeight : regionGround(this.location);
     // Reduced motion: the camera cuts to where it is going instead of gliding there.
     // R0074: after a fast-travel trip the camera cuts to the new place behind the iris.
     const snap = dt === 0 || this.reduceMotion || this.travelCut;
@@ -1686,13 +1803,14 @@ export class Grove3dScene {
     this.lastDip = dip;
     const yaw = orbit.currentYaw + this.yawOffset;
     this.surveyNow = orbit.survey;
-    const cave = this.location === 'dungeon';
-    const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
+    // R0125: the region's preset (the caves keep the Hollow's own, `config/region-camera.ts`).
+    const rcam = regionCameraFor(regionOf(this.location));
+    const basePitch = rcam.pitchDeg3d ?? GROVE3D.pitchDeg;
     const baseDist =
       (orbit.survey
         ? WORLD_SURVEY.distance3d
         : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0])) *
-      (cave ? READ3D.hollow.distanceK : 1);
+      (rcam.distanceK3d ?? 1);
     const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
     // MOVE-52: a hill between the camera and the Keeper tilts the orbit up or pulls it in;
@@ -1784,10 +1902,12 @@ export class Grove3dScene {
     // round the focused Nubbin too.
     const buf = this.renderer.getDrawingBufferSize(this.holeSize);
     const onScreen = this.holeNdc.copy(mid).lerp(head, 0.5).project(this.camera);
+    // R0125: a wood (`canopyCut`) opens a wider hole, so no crown ever covers the Keeper.
+    const canopyK = regionCameraFor(regionOf(this.location)).canopyCut ? CANOPY_CUT.holeK3d : 1;
     CrownFade.setHole(
       (onScreen.x * 0.5 + 0.5) * buf.x,
       (onScreen.y * 0.5 + 0.5) * buf.y,
-      buf.y * GROVE3D.crownFade.holeRadius,
+      buf.y * GROVE3D.crownFade.holeRadius * canopyK,
     );
     if (subject) {
       const at = this.holeNdc.copy(sFeet).lerp(sHead, 0.5).project(this.camera);
@@ -1823,8 +1943,15 @@ export class Grove3dScene {
     this.props.blades.rotation.z += dt * 0.6;
     this.water.update(this.time.value, this.sky.sun, this.sky.hemi);
     this.sky.tick(this.time.value);
+    // R11 lane D: drawn regions (streamed chunks, loaded and seamless borders), and the sun's
+    // shadow box held on the Keeper and snapped to its texel grid (WORLD-56).
+    this.regions.frame(world, world.keeper.pos, this.time.value, this.reduceMotion, this.camPos);
+    if (!this.shedCave) snapShadow(this.sky.sun, this.camTarget);
     PARTICLE_TIME.value = this.time.value;
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
+    this.puddles.update(world);
+    this.updateAmbient(world);
+    this.regionLife.update(world, this.time.value, this.reduceMotion);
   }
 
   render(): void {

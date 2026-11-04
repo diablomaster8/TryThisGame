@@ -67,6 +67,11 @@ export class ActiveChunks {
     return this.live.has(chunkKey(c));
   }
 
+  /** The live chunks (R11 lane D: what a region's batches hold). */
+  list(): ChunkCoord[] {
+    return [...this.live.values()];
+  }
+
   get count(): number {
     return this.live.size;
   }
@@ -128,4 +133,64 @@ export class SpriteCuller {
     const high = sy + (d.mode === 'flat' ? Math.max(w, h) : h);
     return high >= -this.halfH - m && low <= this.halfH + m;
   };
+}
+
+/**
+ * WORLD-09 (R11 lane D): the built-chunk cache. Each region keeps what it built for a chunk
+ * (instance matrices, sprite lists) under a byte cap, least recently used first out, so
+ * walking back over ground just left costs nothing and a long walk never grows memory. The
+ * builds are cheap and seeded, so a chunk dropped here is simply built again; nothing is kept
+ * across reloads (IndexedDB would cost more to read than the build does).
+ */
+export class ChunkLRU<T> {
+  private readonly map = new Map<string, { value: T; bytes: number }>();
+  private used = 0;
+
+  constructor(private readonly capBytes: number) {}
+
+  get(key: string): T | undefined {
+    const hit = this.map.get(key);
+    if (!hit) return undefined;
+    // Re-insert so iteration order is least recently used first.
+    this.map.delete(key);
+    this.map.set(key, hit);
+    return hit.value;
+  }
+
+  set(key: string, value: T, bytes: number): void {
+    const old = this.map.get(key);
+    if (old) {
+      this.used -= old.bytes;
+      this.map.delete(key);
+    }
+    this.map.set(key, { value, bytes });
+    this.used += bytes;
+    for (const [k, v] of this.map) {
+      if (this.used <= this.capBytes || k === key) break;
+      this.map.delete(k);
+      this.used -= v.bytes;
+    }
+  }
+
+  /** Keep only `keys` (the active ring): a hidden tab on a phone drops the rest. */
+  trimTo(keys: ReadonlySet<string>): void {
+    for (const [k, v] of this.map) {
+      if (keys.has(k)) continue;
+      this.map.delete(k);
+      this.used -= v.bytes;
+    }
+  }
+
+  clear(): void {
+    this.map.clear();
+    this.used = 0;
+  }
+
+  get bytes(): number {
+    return this.used;
+  }
+
+  get size(): number {
+    return this.map.size;
+  }
 }

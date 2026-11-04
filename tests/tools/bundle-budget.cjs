@@ -71,6 +71,17 @@ for (const name of LAZY_ONLY) {
     fails.push(`${name} has no chunk of its own: something imports it statically`);
   else if (eager.some((f) => group(f) === name)) fails.push(`${name} is in the eager set`);
 }
+// R0446 (TECH-04, r11-d3): no Full 3D module, debug panel or stage inspector in the eager graph
+// (the source list comes from the `eager-modules` plugin in vite.config.ts).
+const EAGER_3D_OK = ['src/render3d/minigame-layout.ts', 'src/render3d/terrain-shape.ts'];
+const NEVER_EAGER = /^src\/(render3d\/|ui\/debug-panel\.ts|ui\/stage-inspector\.ts)/;
+const eagerListPath = path.join(dist, '.vite', 'eager-modules.json');
+if (fs.existsSync(eagerListPath)) {
+  const mods = JSON.parse(fs.readFileSync(eagerListPath, 'utf8'));
+  const leaked = mods.filter((m) => NEVER_EAGER.test(m) && !EAGER_3D_OK.includes(m));
+  console.log(`eager graph: ${mods.length} modules, ${leaked.length} that must stay lazy`);
+  for (const m of leaked) fails.push(`${m} is in the eager graph`);
+} else fails.push('dist/.vite/eager-modules.json missing (the eager-modules plugin did not run)');
 console.log('largest chunks (kB gzip):');
 for (const [k, v] of Object.entries(chunks)
   .sort((a, b) => b[1] - a[1])

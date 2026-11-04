@@ -73,10 +73,14 @@ interface Tween {
   startMs: number;
 }
 
+/** R0125: the region's own zoom steps (far, near), or null for `CAMERA.pixelsPerUnit`. */
+let regionZooms: readonly number[] | null = null;
+
 /** Pixels per unit of zoom step `index`: the player's steps, then the story step (CAMERA). */
 export function zoomPixelsPerUnit(index: number): number {
   if (index < 0) return WORLD_SURVEY.pixelsPerUnit;
   return (
+    regionZooms?.[index] ??
     CAMERA.pixelsPerUnit[index] ??
     (index >= CAMERA.pixelsPerUnit.length ? CAMERA.storyPixelsPerUnit : CAMERA.pixelsPerUnit[0])
   );
@@ -253,6 +257,18 @@ export class OrbitCamera {
     const last = CAMERA.pixelsPerUnit.length - 1;
     const at = Math.min(this.zoomIndex, last);
     this.setZoom(at >= last ? -1 : at + 1, nowMs);
+  }
+
+  /**
+   * R0125: the region's zoom steps (`config/region-camera.ts`), or null for the default
+   * ones. A change eases the view to the new step's size, as a zoom does.
+   */
+  setRegionZooms(zooms: readonly number[] | null, nowMs: number = performance.now()): void {
+    if (zooms === regionZooms) return;
+    regionZooms = zooms;
+    const to = computeViewHeight(this.frameHeight, this.pixelsPerUnit);
+    this.zoomTween = { from: this.viewHeight, to, startMs: nowMs };
+    if (this.reduceMotion) this.finishZoomTween();
   }
 
   /** R0073: true at the survey step (zoom index -1). */

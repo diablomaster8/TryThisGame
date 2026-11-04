@@ -296,12 +296,32 @@
   font-size: 0.75rem;
   white-space: nowrap;
 }
-.hollow-phone-btn.is-ready {
+.hollow-engage-fab {
+  position: fixed;
+  /* Left of Jump (76 px at right 18), above the camera buttons: clear of Run, the joystick
+     zone and the lookout chip (R0192). */
+  right: calc(var(--safe-right) + 104px);
+  bottom: calc(var(--hud-bottom) + 92px);
+  z-index: 4;
+  width: 56px;
+  height: 56px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  touch-action: manipulation;
+}
+.hollow-engage-fab[hidden] {
+  display: none;
+}
+.hollow-engage-fab.is-ready {
   border-color: #ffd27a;
   color: #ffd27a;
+  background: rgba(60, 42, 8, 0.85);
 }
 @media (prefers-reduced-motion: no-preference) {
-  html:not(.reduce-motion) .hollow-phone-btn.is-ready {
+  html:not(.reduce-motion) .hollow-engage-fab.is-ready {
     animation: hollow-engage-pulse 1.2s ease-in-out infinite;
   }
 }

@@ -15,11 +15,15 @@
     "probe:world": "node tests/tools/world-probe.cjs",
     "check:bundle": "node tests/tools/bundle-budget.cjs",
     "smoke:kids": "node tests/smoke/learning-grove.smoke.cjs",
+    "test:e2e": "node tests/e2e/run.cjs",
+    "test:visual": "node tests/e2e/visual.cjs",
+    "golden:update": "node tests/e2e/visual.cjs --update",
     "test:watch": "vitest",
-    "lint": "eslint .",
+    "lint": "eslint . --cache --cache-strategy content --cache-location .cache/eslint/",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "node tests/tools/check-all.mjs"
   },
   "dependencies": {
     "@fontsource/klee-one": "5.3.0",

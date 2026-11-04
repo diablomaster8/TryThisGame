@@ -39,6 +39,8 @@ export interface SpriteDraw {
    * every other pixel, as a building fades from in front of the cast (campaign graphics 2).
    */
   dither?: number | undefined;
+  /** R0073: drawn as a map token (`SPRITE_TOKENS.scale`) at the survey zoom: the Keeper. */
+  token?: boolean | undefined;
 }
 
 /** A sprite's four corners as drawn, kept for CPU picking. */
@@ -73,8 +75,8 @@ export interface DrawnQuad {
  * colour so cocoons can fade without a second material.
  */
 /**
- * R0073: Nubbins (and eggs) drawn this many times larger at the survey zoom (map tokens; the
- * camera sets it). Their pick quads grow with them, so they stay tappable.
+ * R0073: Nubbins (and eggs), NPCs and the Keepers (`token`) drawn this many times larger at
+ * the survey zoom (map tokens; the camera sets it). Pick quads grow with them.
  */
 export const SPRITE_TOKENS = { scale: 1 };
 
@@ -341,7 +343,7 @@ export class SpriteBatch {
         | 'storyProp';
     },
   ): void {
-    if (SPRITE_TOKENS.scale !== 1 && pick?.kind === 'nubbin') {
+    if (SPRITE_TOKENS.scale !== 1 && (pick?.kind === 'nubbin' || pick?.kind === 'npc' || d.token)) {
       const k = SPRITE_TOKENS.scale;
       d = { ...d, w: (d.w ?? d.rect.w / NATIVE_PPU) * k, h: (d.h ?? d.rect.h / NATIVE_PPU) * k };
     }

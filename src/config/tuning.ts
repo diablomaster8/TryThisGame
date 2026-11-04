@@ -166,9 +166,12 @@ export const GROVE3D = {
   rimStart: 42,
   rimHeight: 9,
   /** Instanced grass tufts (12 000 on the sample stage; fewer here for the bigger field). */
-  grassCount: 9000,
+  grassCount: 12500,
   /** Grass grows this far from the centre on each axis (the heart, where play happens). */
-  grassHalf: 30,
+  grassHalf: 44,
+  /** R0132: the heart keeps full grass; past it the ring keeps this share, taller. */
+  grassHeart: 30,
+  grassWildShare: 0.4,
   /**
    * The Grove's grass tufts sink into the ground between these distances from the camera:
    * past them the painted meadow (`terrainLook`) carries the field, at a fraction of the cost.

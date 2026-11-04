@@ -1,4 +1,5 @@
 /** Tiny DOM helpers so the UI code stays readable without a framework. */
+import { playSound } from '../platform/audio';
 
 export function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -136,12 +137,16 @@ export function modal(
   });
   const focus = dialogFocus(root, card, heading, () => hide());
   function show() {
+    if (root.hidden) playSound('tickOpen');
     root.hidden = false;
     focus.opened();
+    // R0474: the private diary counts which panels get opened (hud.ts listens).
+    window.dispatchEvent(new CustomEvent('grove:panel', { detail: title }));
   }
   function hide() {
     if (root.hidden) return;
     root.hidden = true;
+    playSound('tickClose');
     focus.closed();
   }
   return { root, body, show, hide, isOpen: () => !root.hidden };

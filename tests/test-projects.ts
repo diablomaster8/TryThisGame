@@ -51,6 +51,7 @@ export const UNIT_FILES: readonly string[] = [
   'tests/render/shiny-glint.test.ts',
   'tests/render/soul-r9.test.ts',
   'tests/render/species-gen1b-art.test.ts',
+  'tests/render/static-freeze.test.ts',
   'tests/render/swim-style.test.ts',
   'tests/render/view-shift.test.ts',
   'tests/sim/alignment-boundary.test.ts',
@@ -189,4 +190,18 @@ export const TOOL_FILES: readonly string[] = [
   'tests/tools/make-icons.test.ts',
   'tests/tools/preview.test.ts',
   'tests/tools/scenery.test.ts',
+];
+
+/**
+ * R0484 (TECH-42, r11-d3): the projects run with `isolate: false` (one module cache per worker,
+ * so three.js, the sim and the story scripts load once per worker instead of once per file).
+ * These files leave or expect global state (stubbed browser APIs, module-level pools, the
+ * goal chip's live state) and keep a fresh module cache each, in the `isolated` project.
+ * `ISOLATE=1` runs everything isolated, as before.
+ */
+export const ISOLATED_FILES: readonly string[] = [
+  'tests/render/pool-burst.test.ts',
+  'tests/sim/expansions.test.ts',
+  'tests/sim/fun-r5.test.ts',
+  'tests/sim/read-aloud.test.ts',
 ];

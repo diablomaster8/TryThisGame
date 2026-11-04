@@ -1,4 +1,5 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
+import { caveReturn } from './cave-entrances';
 import { hashString } from './hash-string';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
@@ -21,6 +22,7 @@ import {
   strayBoutEnded,
   strayBoutLive,
 } from './dungeon-strays';
+import { guardianEnded, stepGuardian } from './dungeon-guardian';
 import { rumbleEnded, stepRumble } from './dungeon-rumble';
 import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
@@ -1052,7 +1054,11 @@ export function enterDungeon(
     depth,
     daily: daily ? today.day : null,
     party,
-    returnKeeper: { x: world.keeper.pos.x, z: world.keeper.pos.z },
+    // R0115 (lane D): in by the cave mouth, out at the world's own spot by it.
+    returnKeeper: caveReturn('grove', world.keeper.pos)?.pos ?? {
+      x: world.keeper.pos.x,
+      z: world.keeper.pos.z,
+    },
     returnParty: Object.fromEntries(
       party.map((id) => {
         const n = world.nubbins.find((x) => x.id === id)!;
@@ -1130,6 +1136,9 @@ export function returnHome(world: World, run: DungeonRun): void {
   world.dungeon = null;
   const k = world.keeper;
   k.pos = { x: run.returnKeeper.x, z: run.returnKeeper.z };
+  // R0115 (lane D): back out by a mouth, facing away from it.
+  const out = caveReturn('grove', k.pos);
+  if (out) k.facing = out.facing;
   k.moveTarget = null;
   k.intent = null;
   run.party.forEach((id, i) => {
@@ -1217,6 +1226,7 @@ export function hollowBattleEnded(world: World, fresh: SimEvent[], events: SimEv
   // Round 5: the stray's calm bout (R0281) and the rumble rooms' tactics bouts (R0257).
   if (run?.strayBout) strayBoutEnded(world, fresh, events);
   if (run && fresh.some((e) => e.kind === 'tacticsEnd')) rumbleEnded(world, fresh, events);
+  if (run && fresh.some((e) => e.kind === 'tacticsEnd')) guardianEnded(world, fresh, events);
   const enc = run?.encounter;
   const f = runFloor(world);
   if (!enc || !f) return;
@@ -1479,6 +1489,9 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   if (run.encounter || held || world.dungeon !== run || runFloor(world) !== f) return;
   // Rumble rooms (R0257, R0282): walking in starts a tactics bout on this very room.
   if (!settling) stepRumble(world, run, f, events);
+  if (world.tactics) return;
+  // R0260: the depth-5 guardian's hall.
+  if (!settling) stepGuardian(world, run, f, events);
   if (world.tactics) return;
 
   // Strays wander, flee after a snatch, and snatch Shells when they bump the Keeper.

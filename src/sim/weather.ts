@@ -1,4 +1,5 @@
 import { GROVE, NEEDS, WEATHER } from '../config/tuning';
+import { PUDDLES } from '../config/tuning-r11d6';
 import { addHappiness } from './needs';
 import type { Rng } from './rng';
 import { localParts } from './local-time';
@@ -58,8 +59,17 @@ export function stepWeather(world: World, dtMs: number, rng: Rng, events: SimEve
     if (n.behavior.state === 'swim') n.typeLean.swim += WEATHER.rainSwimLeanPerSecond * dt;
     else if (n.behavior.state === 'shelter') {
       addHappiness(n, (WEATHER.shelterHappinessPerMinute * dtMs) / 60_000);
+    } else if (inPuddle(n.pos.x, n.pos.z)) {
+      // R0137: a puddle in the rain is for splashing in.
+      addHappiness(n, (PUDDLES.happinessPerMinute * dtMs) / 60_000);
     }
   }
+}
+
+/** R0137: whether a spot is in a rain puddle (only meaningful while it rains). */
+export function inPuddle(x: number, z: number): boolean {
+  for (const p of PUDDLES.spots) if (Math.hypot(p.x - x, p.z - z) <= PUDDLES.radius) return true;
+  return false;
 }
 
 /** Nearest tree to shelter under. */

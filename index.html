@@ -65,6 +65,11 @@
           transform: rotate(18deg) translateY(-6px);
         }
       }
+      #splash progress {
+        width: min(220px, 60vw);
+        height: 8px;
+        accent-color: #7bd17a;
+      }
       @media (prefers-reduced-motion: reduce) {
         #splash i {
           animation: none;
@@ -75,7 +80,12 @@
   <body>
     <div id="splash" role="status" aria-live="polite">
       <i aria-hidden="true"></i><b>Grove</b><span>Planting the Grove…</span>
+      <progress id="splash-bar" max="100" value="3" aria-label="Loading"></progress>
     </div>
+    <!-- R0492: the bar is real bytes: every script and style the browser has finished fetching
+         (compressed size, from public/splash-bar.js: the page's CSP allows no inline script), against the eager bundle's size at the last build check (about
+         570 kB). It never claims more than 95 %; the splash goes when the title paints. -->
+    <script src="splash-bar.js"></script>
     <div id="app">
       <canvas id="game" aria-label="The Grove"></canvas>
       <div id="hud"></div>
