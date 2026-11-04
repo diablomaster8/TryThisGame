@@ -390,11 +390,16 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | 
   });
 
   // R0531: the moment the personality locks, and why.
+  // R0591: the Learning Grove reader band gets a card, once per personality.
+  const edu = world?.edu;
+  const card = !!edu && edu.band === 'reader' && !(edu.cardsSeen ?? []).includes(n.personality);
+  if (card && edu) edu.cardsSeen = [...(edu.cardsSeen ?? []), n.personality];
   events.push({
     kind: 'personalityLocked',
     nubbinId: n.id,
     personality: n.personality,
     cause: personalityCause(n.childCare, n.personality),
+    ...(card ? { card: true as const } : {}),
   });
 
   const eternal = eternalBandFor(n, type);

@@ -738,6 +738,8 @@ export interface EduState {
   lossHolds?: Record<string, LossHold>;
   /** Lane E r10 (R0718): whole minutes played per local day, the last 14 (sim/edu-report.ts). */
   daily?: Record<string, number>;
+  /** R0591: personalities whose reader-band card has been shown (once each). */
+  cardsSeen?: Personality[];
   /** Lane E r10 (R0745): per game, opens, finishes, mid-round quits and time (local only). */
   attention?: Partial<Record<EduGameId, EduAttention>>;
   /** Which games are switched on; starts as the recommended set for the age. */
@@ -1952,6 +1954,8 @@ export type SimEvent =
       nubbinId: string;
       personality: Personality;
       cause: PersonalityCause;
+      /** R0591: the Learning Grove reader's personality card shows with this one. */
+      card?: true;
     }
   | { kind: 'sitBeside'; nubbinId: string }
   /** Lane A r8: a favourite or disliked fruit eaten (R0536); a moody look cleared (R0532). */

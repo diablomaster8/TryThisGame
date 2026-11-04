@@ -1,3 +1,4 @@
+import { personalityCardLines } from '../content/edu-personality-cards';
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
@@ -1495,6 +1496,10 @@ export function mountHud(
           celebration.addLine(
             `${LOCKED_TEXT.grewUp(n?.name ?? NAMES.creature, PERSONALITY_LABELS[e.personality])} ${LOCKED_TEXT.cause[e.cause]}`,
           );
+          // R0591: the Learning Grove reader's personality card, once per personality.
+          if (e.card)
+            for (const l of personalityCardLines(e.personality, n?.name ?? NAMES.creature))
+              celebration.addLine(l);
         }
         // R0527: in the Learning Grove a throw gets a picture hint.
         if (e.kind === 'thrown' && g.world.edu) toast(GENTLE_HANDS);
