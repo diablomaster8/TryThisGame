@@ -71,7 +71,9 @@ describe('region graph (WORLD-04)', () => {
     const world = createWorld(2, 0);
     expect(travelBlock(world, 'grove-cave')).toBe('use-entrance');
     expect(travelBlock(world, 'nowhere')).toBe('no-exit');
-    expect(travelBlock(world, 'grove-gate')).toBe('no-place');
+    // R12 lane D: the Grove's gate opens onto the drawn lane; only an unknown garden is no place.
+    expect(travelBlock(world, 'grove-gate')).toBeNull();
+    expect(travelBlock(world, 'grove-gate', 'visit:nobody')).toBe('no-place');
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'travel', exit: 'nowhere' }, events);
     expect(events).toContainEqual({ kind: 'travelRefused', exit: 'nowhere', reason: 'no-exit' });

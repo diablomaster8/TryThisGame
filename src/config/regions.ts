@@ -10,6 +10,7 @@ import { RUINS_POIS } from './region-ruins';
 import { SHORE_POIS } from './region-shore';
 import { MOON_POIS, SUN_POIS } from './region-sunmoon';
 import { WOOD_POIS } from './region-wood';
+import { LANE_ARRIVE, LANE_GATE_EXITS, LANE_POIS } from './region-lane';
 import type { Audience } from '../content/types';
 import type { Season } from '../sim/types';
 
@@ -41,6 +42,11 @@ export interface RegionExit {
   kind: 'seamless' | 'gate' | 'door' | 'stairs';
   /** A flag that must be set before the exit opens (the storyline condition names). */
   unlock?: string;
+  /**
+   * R12 lane D (WORLD-33): a sub-place of `to` the way leads into (a trainer's garden on the
+   * lane, `visit:<id>`), instead of the region itself.
+   */
+  sub?: string;
 }
 
 export type PoiTier = 'micro' | 'minor' | 'major';
@@ -135,7 +141,8 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         id: 'grove-gate',
         rect: { x: -2, z: 22, w: 4, h: 3 },
         to: 'lane',
-        arrive: { x: 0, z: 4 },
+        // R12 lane D: the lane's north end (a visit sent with a sub still goes straight in).
+        arrive: LANE_ARRIVE,
         facing: N,
         kind: 'gate',
       },
@@ -213,12 +220,14 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'gate',
       },
       way('lane-village', 'village', [0, 58], [0, -30], 'seamless', 0),
+      // R12 lane D (WORLD-33): the ten garden gates.
+      ...LANE_GATE_EXITS,
     ],
     pois: [
       { id: 'hazel-house', x: 0, z: 0 },
       { id: 'corvin-garden', x: 0, z: 0 },
       { id: 'neighbours', x: 0, z: 0 },
-      { id: 'milestone', x: 0, z: 0 },
+      ...LANE_POIS,
     ],
     kidsSafe: true,
     audience: 'all',

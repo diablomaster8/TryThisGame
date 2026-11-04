@@ -23,6 +23,7 @@ import {
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
 import { RIDGE_SPEC } from '../config/region-ridge';
+import { LANE_SPEC } from '../config/region-lane';
 import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
@@ -49,6 +50,7 @@ export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   moonlands: MOON_SPEC,
   ruins: RUINS_SPEC,
   ridge: RIDGE_SPEC,
+  lane: LANE_SPEC,
 };
 
 /**

@@ -59,6 +59,9 @@ const ALL_SPOTS = [
   ['ruinsTemple', 0, -22, 'ruins'],
   ['ridgeFoot', -10, 68, 'ridge'],
   ['ridgeSummit', 0, -62, 'ridge'],
+  // R12 lane D: the neighbourhood lane (WORLD-33) and the ridge's cliff ledge (WORLD-36).
+  ['laneGates', 2, -4, 'lane'],
+  ['ridgeLedge', 0, 52, 'ridge'],
 ];
 // PROBE_SPOTS=heart,cornerSE probes only those; PROBE_BREAKDOWN=1 adds each spot's draw calls
 // and triangles by category (creature, its hulls, shadow pass, scenery groups).

@@ -63,9 +63,12 @@ export function travelBlock(
   if (exitLocked(world, exit)) return 'locked';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
-  if (exit.to === 'lane' && !(sub && TRAINERS.some((t) => `visit:${t.id}` === sub))) {
+  // R12 lane D (WORLD-33): a garden gate on the lane names its own sub-place; without one
+  // the Grove's gate opens onto the drawn lane.
+  const place = sub ?? exit.sub;
+  if (exit.to === 'lane' && place && !TRAINERS.some((t) => `visit:${t.id}` === place))
     return 'no-place';
-  }
+  if (exit.to === 'lane' && !place && !REGION_SPECS.lane) return 'no-place';
   return null;
 }
 
@@ -88,7 +91,14 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   const keep = exit.kind === 'seamless' ? seamlessOffset(exit) : null;
   const was = { ...k.pos };
   const target = k.moveTarget;
-  if (exit.to === 'lane') visit(world, sub!.slice('visit:'.length), events);
+  const place = sub ?? exit.sub;
+  if (exit.to === 'lane' && place) {
+    visit(world, place.slice('visit:'.length), events);
+    resetCrossing(world);
+    noteRegion(world, events);
+    return true;
+  }
+  if (exit.to === 'lane') setLocation(world, regionLocation('lane'), events);
   else if (REGION_SPECS[exit.to]) setLocation(world, regionLocation(exit.to), events);
   else setLocation(world, 'grove', events);
   // R11 d7: a seamless way taken from afar (not walked over the line) lands on its arrival.

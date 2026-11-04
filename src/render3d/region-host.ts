@@ -60,6 +60,8 @@ export interface Region3dModule {
 /** Each drawn region's 3D module, loaded on first approach (a new region adds a line). */
 export const REGION_3D: Partial<Record<RegionId, () => Promise<Region3dModule>>> = {
   wood: () => import('./region-wood'),
+  // R12 lane D (WORLD-33): the neighbourhood lane.
+  lane: () => import('./region-lane'),
   shore: () => import('./region-shore'),
   sunlands: () => import('./region-sunmoon').then((m) => m.sun),
   moonlands: () => import('./region-sunmoon').then((m) => m.moon),
