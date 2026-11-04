@@ -71,6 +71,18 @@ function at(
   return m ? { x: m.x + off[0], z: m.z + off[1], yaw: m.yaw } : null;
 }
 
+/** Where the home Grove's notice board stands, or null when it is not up (before its chapter). */
+export function boardSpot(world: World): { x: number; z: number } | null {
+  const c = world.campaign;
+  const T = CAMP10D.props;
+  if (!c || c.chapter < T.boardFromChapter || world.location !== 'grove' || world.edu !== null)
+    return null;
+  const region = storyRegionHere(world);
+  if (region !== null && region !== 'fold') return null;
+  const p = at(T.groveBoard.mark, T.groveBoard.off);
+  return p && { x: p.x, z: p.z };
+}
+
 /** The notice board and Grove-change items standing now, in the home Grove only. */
 export function camp10dDressItems(world: World, stage: SceneStage): DressItem[] {
   const out: DressItem[] = [];

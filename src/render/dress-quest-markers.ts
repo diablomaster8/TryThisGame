@@ -1,0 +1,56 @@
+import type { SceneStage } from '../config/story';
+import { DRESS_D } from '../config/tuning-d';
+import type { World } from '../sim/types';
+import type { Daylight } from './daylight';
+import type { PixelDressCtx, PixelDressing } from './dressings';
+import { buildQuestMarkSheet } from './paint/quest-marks';
+import { questMarkers } from './quest-markers';
+import { frameKey } from './sprites/animations';
+import type { SpriteSheet } from './sprites/atlas';
+
+/**
+ * R0608, pixel renderer: draws `questMarkers(world)` as camera-facing sprites in the sprite
+ * batch (no extra draw call). They bob a little; under reduced motion they hold still.
+ */
+let ctx: PixelDressCtx | null = null;
+let sheet: SpriteSheet | null = null;
+let clock = 0;
+
+export const dressQuestMarkers: PixelDressing = {
+  id: 'quest-markers',
+  build(c) {
+    ctx = c;
+    clock = 0;
+    sheet = null;
+    if (!c.sprites) return;
+    sheet = buildQuestMarkSheet();
+    c.track(sheet);
+  },
+  update(world: World, _stage: SceneStage, _daylight: Daylight, dt: number) {
+    const c = ctx;
+    const spr = c?.sprites;
+    if (!c || !spr || !sheet) return;
+    const still = c.reduceMotion();
+    if (!still) clock += dt;
+    for (const m of questMarkers(world)) {
+      const key = m.kind === 'offer' ? 'markOffer' : 'markStep';
+      const rect = sheet.frames.get(frameKey(key, 'front', 0));
+      if (!rect) continue;
+      const bob = still ? 0 : Math.sin(clock * 3 + m.x) * DRESS_D.glint.bob;
+      spr.batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: m.x,
+        y: m.lift + bob,
+        z: m.z,
+        mode: 'billboard',
+        tint: 1,
+      });
+    }
+  },
+  dispose() {
+    ctx = null;
+    sheet = null;
+  },
+};

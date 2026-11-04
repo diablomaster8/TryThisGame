@@ -548,6 +548,8 @@ export interface QuestBook {
   areaOfferMs?: Record<string, number>;
   /** Lane C r11 (R0641): quests with a step skipped or imagined, with how many; no leaf mark. */
   skippedSteps?: Record<string, number>;
+  /** Lane C r12 (R0651): the giver walking up to the Keeper; the card waits for it. */
+  approach?: { quest: string; giver: string; startMs: number };
   /** Lane C r11 (R0651): sim ms of the last arrival beat, for its cap. */
   lastBeatMs?: number;
   /** Lane C r11 (R0640): lines whose region pitch card has been shown, once ever. */

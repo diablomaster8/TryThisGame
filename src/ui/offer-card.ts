@@ -178,6 +178,8 @@ export class OfferCard {
     if (!g || !id || !quest || busy) {
       this.root.hidden = true;
       this.chip.hidden = !quest || busy || !this.folded;
+    // R0651: the giver is still walking up; the card waits for them.
+    if (g?.world.questBook?.approach && !this.capFor) busy = true;
       if (!id) this.shown = null;
       return;
     }

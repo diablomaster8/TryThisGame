@@ -2085,3 +2085,4 @@ export * from './tuning-move-r10b';
 export * from './tuning-kids-r10'; /* Lane E r10 kids UI */
 export * from './tuning-camp11c';
 export * from './tuning-camp11ui';
+export * from './tuning-camp12c';

@@ -1,3 +1,4 @@
+import { beginApproach, stepApproach } from './offer-approach';
 import { REGIONS } from '../config/regions';
 import { OFFER_WINDOWS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
 import type { Quest } from '../content/types';
@@ -156,6 +157,7 @@ export function stepQuestOffers(
   const book = questBook(world);
   expireOffers(world, c, events);
   holdAboveAudience(world, c);
+  stepApproach(world, book);
   // R0631: while Hazel's opening is due or her goal is met, no offer is made; the area counts
   // as entered once the spine has played, so the Keeper standing there is offered then.
   if (hold) return;
@@ -193,6 +195,7 @@ export function stepQuestOffers(
     };
     book.offer = { quest: id, area: here, atMs: now };
     (book.areaOfferMs ??= {})[here] = now;
+    beginApproach(world, book, id);
     events.push({ kind: 'questOffered', quest: id, area: here });
     count(world, 'offered');
     made += 1;
