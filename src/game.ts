@@ -16,7 +16,9 @@ import { CameraControls } from './input/camera-controls';
 import {
   backupUnreadable,
   currentSlot,
+  noteSlotLoaded,
   readSave,
+  visitingProfile,
   watchOtherTabs,
   claimSlot,
   writeSave,
@@ -71,6 +73,7 @@ import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
 import { slotId } from './platform/storage';
+import { armPersistRequest } from './platform/persist';
 import { takeBackup, writeCheckpoint } from './platform/save-backups';
 import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
 import { currentChapterKeys } from './sim/chapter-select'; /* Lane C r11 (R0619) */
@@ -433,6 +436,11 @@ export class Game {
    * autosave then holds off, so the other copy survives until the player imports or resets.
    */
   private holdSaves = false;
+  /**
+   * R0669 (CAMP-77): another profile's Grove, open read-only. The world is frozen (no sim
+   * steps, no commands) and nothing is ever saved; a reload ends the visit.
+   */
+  readonly visiting = visitingProfile() !== null;
   /** A frame threw; nothing is saved until the player reloads, imports or resets. */
   private crashed = false;
   /** The save text that failed to load this session, for Settings to export. */
@@ -686,6 +694,13 @@ export class Game {
       try {
         const file = deserialize(json);
         const world = file.world;
+        // R0598 step 8: a unified slot counts its loads before its legacy key may go.
+        noteSlotLoaded();
+        if (visitingProfile() !== null) {
+          // A visit looks at the Grove as it was saved: no catch-up, nothing written.
+          this.pendingGapMs = 0;
+          return world;
+        }
         // A save with no timestamp has no gap to make up (review C, item 13); the catch-up
         // itself runs once the HUD is bound, so its indicator can paint (`catchUpOnLoad`).
         this.pendingGapMs = file.savedAtWallMs > 0 ? now - file.savedAtWallMs : 0;
@@ -790,7 +805,9 @@ export class Game {
    * Without IndexedDB nothing is kept and the game runs on.
    */
   private keepCheckpoints(events: SimEvent[], begun?: string[]): void {
-    if (this.holdSaves || this.crashed) return;
+    if (this.holdSaves || this.crashed || this.visiting) return;
+    // R0623 (CAMP-31): past the first chapter, ask the browser to keep the storage (once).
+    if (events.some((e) => e.kind === 'chapter' && e.chapter >= 2)) armPersistRequest();
     const keys = (begun ?? chapterKeysOf(events, this.world)).filter(
       (k) => !hasCheckpoint(this.world, k),
     );
@@ -805,7 +822,7 @@ export class Game {
   }
 
   save(): boolean {
-    if (this.holdSaves || this.catchingUp || this.crashed) {
+    if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
       this.lastSaveMs = performance.now();
       return false;
     }
@@ -840,6 +857,8 @@ export class Game {
   // ---------- commands ----------
 
   send(cmd: Command): void {
+    // R0669: a visit sends the sim nothing.
+    if (this.visiting) return;
     this.pending.push(cmd);
     for (const tap of commandTaps) tap(cmd); /* Lane E r9 */
   }
@@ -918,9 +937,10 @@ export class Game {
     const steps = this.clock.advance(dt);
     const events: SimEvent[] = [];
     const wall = Date.now();
-    if (this.catchingUp) {
-      // The world is mid catch-up: draw it, but hold steps and commands until it is done.
+    if (this.catchingUp || this.visiting) {
+      // The world is mid catch-up (or a visit, R0669): draw it, but hold steps and commands.
       this.clock.reset();
+      if (this.visiting) this.pending.length = 0;
     } else if (steps > 0 || this.pending.length > 0) {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
@@ -946,7 +966,7 @@ export class Game {
     // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
     // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
     const kview = this.scene3d ?? this.view;
-    if (this.catchingUp || this.clock.timeScale !== 1) {
+    if (this.catchingUp || this.visiting || this.clock.timeScale !== 1) {
       this.keeperAccMs = 0;
       kview.keeperAlpha = null;
     } else {

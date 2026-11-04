@@ -46,4 +46,8 @@ export const SAVE_LAYOUT_TEXT = {
   worldsRead: 'Story worlds remember',
   worldsReadSlot: 'This slot',
   worldsReadEvery: 'Every slot',
+  /** R0669 (CAMP-77): the title's visit to another Keeper's Grove. */
+  visitOthers: "Visit another Keeper's Grove",
+  visitOthersHelp: 'Walk round and look. Nothing you see is changed or saved.',
+  visitSlot: (keeper: string, where: string) => `Visit ${keeper}: ${where}`,
 } as const;
