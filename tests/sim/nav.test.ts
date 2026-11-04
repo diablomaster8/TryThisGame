@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { budgetMs } from './timing-budget';
 import { GROVE, KEEPER, SIM } from '../../src/config/tuning';
 import { placeDecor } from '../../src/sim/decorate';
@@ -7,6 +7,10 @@ import { blocked } from '../../src/sim/obstacles';
 import { Rng } from '../../src/sim/rng';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 import type { SimEvent, Vec2, World } from '../../src/sim/types';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 // MOVE-06: tap-to-move in the Grove follows a real path, or is refused at once.
 

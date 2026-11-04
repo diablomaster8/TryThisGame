@@ -219,7 +219,11 @@ function offlineManifest(): Plugin {
 }
 
 // R0484 (TECH-42, r11-d3): test files share a worker's module cache unless ISOLATE=1.
-const shared = process.env.ISOLATE ? {} : { isolate: false, pool: 'threads' as const };
+// HOT-CI (r11/d): CI keeps every file isolated. A shared cache lets one file's module state leak
+// into the next, and which files share a worker depends on the runner's core count, so a leak
+// that never shows here failed the 2ca30c30 deploy. Local runs keep the faster shared cache.
+const shared =
+  process.env.ISOLATE || process.env.CI ? {} : { isolate: false, pool: 'threads' as const };
 
 export default defineConfig({
   base,

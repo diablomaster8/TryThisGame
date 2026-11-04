@@ -200,6 +200,7 @@ export const TOOL_FILES: readonly string[] = [
  * `ISOLATE=1` runs everything isolated, as before.
  */
 export const ISOLATED_FILES: readonly string[] = [
+  'tests/platform/storage.test.ts', // the slot index state leaks in from other save tests
   'tests/render/pool-burst.test.ts',
   'tests/sim/expansions.test.ts',
   'tests/sim/fun-r5.test.ts',

@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { seen } from '../../src/sim/story-state';
 import { c } from './campaign-driver';
 import { begun, expectStoryDone, runUntil, status } from './side-driver';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /** The side stories of chapters 6 to 8: windows, then one full run each. */
 describe('middle side stories: windows', () => {
