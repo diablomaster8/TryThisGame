@@ -22,6 +22,14 @@ describe('dev scenarios (TECH-46)', () => {
     expect(buildScenario('no-such-thing', 1, WALL)).toBe(null);
   });
 
+  it('campaign-ch:N starts the story and hollow-floor:N goes down', () => {
+    const c = buildScenario('campaign-ch:5', 2, WALL)!;
+    expect(c.campaign).toBeTruthy();
+    const h = buildScenario('hollow-floor:6', 2, WALL)!;
+    expect(h.dungeon).toBeTruthy();
+    expect(h.dungeon!.depth).toBe(6);
+  });
+
   it('eight-nubbins is eight adults', () => {
     const w = buildScenario('eight-nubbins', 4, WALL)!;
     expect(w.nubbins.map((n) => n.stage)).toEqual(Array(8).fill('adult'));
