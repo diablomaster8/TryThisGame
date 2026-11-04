@@ -13,6 +13,9 @@ describe('TECH-01: the first fruit', () => {
     expect(n.stage).toBe('child');
     expect(n.needs.hunger).toBeLessThan(UI.feedFullAt);
     expect(wantsFirstFruit(n)).toBe(true);
+    // R0448: the guided loop asks for a pat first; once petted it is the fruit's turn.
+    expect(groveSuggestion(w)?.key).toBe('grove:loop-pat');
+    w.diary!.firstPetMs = w.timeMs;
     const tip = groveSuggestion(w);
     expect(tip?.key).toBe('grove:firstFruit');
     expect(tip?.goal).toContain(n.name);

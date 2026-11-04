@@ -1,4 +1,7 @@
+import { diaryPanel, diarySession, newDiary, shakeBonusMs, stepGroveDiary } from './grove-diary';
 import { BATTLE } from '../config/tuning-battle';
+import { runHandler } from './commands';
+import { orderSystems, runSystems, type SimSystem, type StepCtx, type SystemRuns } from './systems';
 import { hasDerivedHat } from './derived-unlocks';
 import { playFair } from './epilogue';
 import { skipGoal } from './goal-skips';
@@ -36,7 +39,7 @@ import {
   startThrow,
   updateBehavior,
 } from './behavior';
-import { WILD_CRITTERS, giveCritter, giveEssence } from './critters';
+import { giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
   keeperJump,
@@ -47,7 +50,7 @@ import {
 } from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
-import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
+import { createWeather, seasonAt, stepWeather } from './weather';
 import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
@@ -59,7 +62,7 @@ import { creatorGrant, creatorTransform, creatorUnlock } from './creator';
 import { harvest, plant, stepPlants, waterPlant } from './plants';
 import { buyToy, craft, gather, placeToy, type RecipeId } from './craft';
 import { paintTile } from './tiles';
-import { buyPlot, hasRoom } from './roster';
+import { buyPlot } from './roster';
 import { claimQuest, noteQuest, queueQuestEvents, stepQuests } from './quests';
 import { feedWild, stepHabitats } from './habitats';
 import { neighbourGift, visit } from './neighbourhood';
@@ -67,8 +70,14 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
+import { clampToRegion, crossExits } from './region-walk';
 import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepRegionCompanion } from './region-companion';
+import { stepRegionCritters } from './region-critters';
+import { stepRegionGates } from './region-gates';
+import { stepTraces } from './regions-trace';
+import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
 import { rememberCare } from './care-memory';
@@ -83,7 +92,6 @@ import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { chooseCastHome } from './line-rewards';
-import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
 import { lookAround } from './lookout';
@@ -91,20 +99,12 @@ import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
 import { stepHopCourse } from './hop-course';
 import { addRewards, buy } from './shop';
-import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
-import {
-  advanceStage,
-  evolve,
-  hatch,
-  holdEndOfLife,
-  keepEggshell,
-  secondEvolve,
-} from './lifecycle';
-import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
+import { advanceStage, hatch, holdEndOfLife, keepEggshell } from './lifecycle';
+import { createEgg, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
-import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { holdSlips, stepSlips } from './slips';
 import { stepMoody } from './soul-idle';
 import { setAnticsLive } from './antics';
 import { stepDiary } from './diary';
@@ -148,26 +148,9 @@ import { resolve } from './obstacles';
 import { resolveNubbin } from './nubbin-hop';
 import { courseById, prizeFor } from './race';
 import { collideThrown } from './throw-collide';
-import {
-  eduResetSession,
-  eduStartBreak,
-  eduEndBreak,
-  eduResult,
-  eduSetAge,
-  eduSetReaderAge,
-  eduSetGame,
-  eduSetName,
-  eduSetSession,
-  eduLesson,
-  eduStart,
-  stepEdu,
-  clampRounds,
-} from './edu';
-import { eduSetLimits, eduUnlockLimits } from './edu-limits';
+import { stepEdu } from './edu';
 /* Lane E r9 */
-import { eduSetTag } from './edu-session';
 import {
-  NUBBIN_TYPES,
   type Command,
   type DyeColor,
   type Item,
@@ -184,9 +167,8 @@ import { hatchInArms } from './hatch-arms';
 import { noteCheckpoint } from './story-marks';
 import { enterStoryRegion, leaveStoryRegion } from './story-regions';
 import { tapCare } from './access';
-import { setLossHold } from './loss-notice';
-import { noteActivity } from './edu-report';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
+import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
 export function hatchSpeed(world: World): number {
@@ -386,6 +368,8 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
 }
 
 function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void {
+  // TECH-35: the moved domains (sim/commands/) answer first.
+  if (runHandler(world, cmd, events)) return;
   const k = world.keeper;
   const now = world.timeMs;
   switch (cmd.kind) {
@@ -395,7 +379,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'moveKeeperTo':
       k.moveTarget = { x: cmd.pos.x, z: cmd.pos.z };
-      clampToWorld(k.moveTarget);
+      // R11 lane D: a drawn region has its own bounds.
+      if (!clampToRegion(world, k.moveTarget)) clampToWorld(k.moveTarget);
       k.intent = null;
       return;
     case 'keeperInput':
@@ -407,14 +392,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     // Lane E r10 (R0710): Simple touch's one-tap care.
     case 'tapCare':
       tapCare(world, cmd.nubbinId, events);
-      return;
-    // Lane E r10 (R0694): a grown-up's choice for a loss chapter.
-    case 'eduLossHold':
-      setLossHold(world, cmd.chapter, cmd.hold);
-      return;
-    // Lane E r10 (R0745): attention counters for the grown-up report.
-    case 'eduActivity':
-      noteActivity(world, cmd.game, cmd.what, cmd.ms);
       return;
     case 'pet':
       k.intent = { kind: 'pet', nubbinId: cmd.nubbinId };
@@ -481,7 +458,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (now - n.lastShakeMs < EGG.shakeCooldownMs) return;
       n.lastShakeMs = now;
       if (n.stage === 'egg') {
-        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - EGG.shakeBonusMs);
+        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - shakeBonusMs(world));
         // R0351: every third shake, a tiny foot pokes out of the bottom.
         n.eggShakes = (n.eggShakes ?? 0) + 1;
         const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
@@ -619,6 +596,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       noteNubbin(world, n, events);
       return;
     }
+    case 'diaryNote':
+      // R0474: the private diary (sim/diary.ts).
+      if (cmd.what === 'session') diarySession(world);
+      else if (cmd.what === 'skip') (world.diary ??= newDiary()).scenesSkipped += 1;
+      else if (cmd.what === 'loopSkip') (world.diary ??= newDiary()).loopSkipped = true;
+      else diaryPanel(world, cmd.what.panel);
+      return;
     case 'setTimeZone': {
       // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
       const m = Math.round(cmd.offsetMin);
@@ -646,78 +630,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'rename': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
+      // R0448: the first rename ends the guided loop's last step.
+      if (n) (world.diary ??= newDiary()).firstNameMs ??= world.timeMs;
       return;
     }
-    // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.
-    case 'debugSeason':
-      if (cmd.season) {
-        world.debugSeason = cmd.season;
-        world.season = cmd.season;
-      } else delete world.debugSeason;
-      return;
-    case 'debugGive':
-      if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
-      else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
-      else if (cmd.what === 'egg') {
-        // Fill the roster for checks: free eggs of every family up to the cap.
-        withRng(world, (rng) => {
-          const babies = SPECIES.filter((s) => s.stage === 'baby');
-          for (let i = 0; i < cmd.amount && hasRoom(world); i++) {
-            const egg = createEgg(
-              newId(world, 'nub'),
-              { x: rng.float(-4, 4), z: rng.float(-3, 3) },
-              rng,
-              rng.pick(EGG_COLORS),
-              rng.pick(babies).id,
-            );
-            egg.name = uniqueName(world, egg.name, rng);
-            world.nubbins.push(egg);
-          }
-        });
-      } else if (cmd.what === 'critter') {
-        withRng(world, (rng) => {
-          for (let i = 0; i < cmd.amount; i++) {
-            const s = rng.pick(WILD_CRITTERS).id;
-            world.inventory.critters[s] = (world.inventory.critters[s] ?? 0) + 1;
-          }
-        });
-      } else {
-        withRng(world, (rng) => {
-          for (let i = 0; i < cmd.amount; i++) {
-            const t = rng.pick(NUBBIN_TYPES);
-            world.inventory.essences[t] = (world.inventory.essences[t] ?? 0) + 1;
-          }
-        });
-      }
-      return;
     case 'holdEndOfLife':
       holdEndOfLife(world, cmd.hold);
       return;
-    case 'debugFillNeeds': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n) return;
-      n.needs.hunger = 1;
-      n.needs.energy = 1;
-      return;
-    }
-    case 'debugForceEvolve': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
-      if (n.stage === 'adult') {
-        if (n.form && n.form.second === null) secondEvolve(n, events);
-        return;
-      }
-      evolve(n, events, world);
-      return;
-    }
-    case 'debugForceEndOfLife': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage !== 'adult') return;
-      n.eternal = null;
-      // The Nubbin's own lifespan: slips shorten it and some storylines lengthen it.
-      n.stageMs = lifespanMs(n);
-      return;
-    }
     case 'giveHeartFruit':
       if (world.inventory.heartFruit <= 0) return;
       k.intent = { kind: 'heartFruit', nubbinId: cmd.nubbinId };
@@ -1001,9 +920,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         events.push({ kind: 'located', location: cmd.location });
       }
       return;
-    case 'debugWeather':
-      withRng(world, (rng) => setWeather(world, cmd.weather, rng, events));
-      return;
     case 'setRunning':
       k.running = cmd.running;
       return;
@@ -1068,101 +984,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       else n.hideBelt = true;
       return;
     }
-    case 'eduStart':
-      eduStart(world, cmd.age, events, cmd.band);
-      return;
-    case 'eduSetBand':
-      if (world.edu) world.edu.band = cmd.band;
-      return;
-    case 'eduSetLanguage':
-      if (world.edu) world.edu.storyLanguage = cmd.language;
-      return;
-    case 'eduSetReadAloud':
-      if (world.edu) world.edu.readAloud = cmd.on;
-      return;
-    case 'eduSetRounds':
-      // Lane E r7, R0746.
-      if (world.edu) world.edu.roundsPerGame = clampRounds(cmd.rounds);
-      return;
-    case 'eduSetAlwaysReborn':
-      // Lane E r7, R0691: the field only exists when on.
-      if (world.edu) {
-        if (cmd.on) world.edu.alwaysReborn = true;
-        else delete world.edu.alwaysReborn;
-      }
-      return;
-    case 'eduSetReadToMe':
-      if (world.edu) world.edu.readToMe = cmd.on;
-      return;
-    /* Lane E r9 */
-    case 'eduSetAutoAdvance':
-      if (world.edu) {
-        if (cmd.on) world.edu.autoAdvance = true;
-        else delete world.edu.autoAdvance;
-      }
-      return;
-    case 'langSkipWait':
-      if (world.edu) world.edu.langSkipAt = world.timeMs;
-      return;
-    case 'eduLesson':
-      eduLesson(world, cmd.id, cmd.best);
-      return;
-    case 'langStart':
-      langStart(world, cmd.course);
-      return;
-    case 'langWord':
-      noteWord(world, cmd.word, cmd.how, events);
-      return;
-    case 'langTraced':
-      // The step itself is met by the quest's rule in noteSideCommand, after this.
-      langTraced(world, cmd.quest, events);
-      return;
-    case 'eduSetAge':
-      eduSetAge(world, cmd.age, cmd.resetGames);
-      return;
-    /* Lane E r10, R0735 */
-    case 'eduSetReaderAge':
-      eduSetReaderAge(world, cmd.age);
-      return;
-    case 'eduTutorialSaid':
-      if (world.edu) world.edu.tutorialSaid = true;
-      return;
-    case 'eduSetGame':
-      eduSetGame(world, cmd.game, cmd.on);
-      return;
-    case 'eduSetSession':
-      eduSetSession(world, cmd.minutes);
-      return;
-    case 'eduSetName':
-      eduSetName(world, cmd.name);
-      return;
-    /* Lane E r9, R0696 */
-    case 'eduSetTag':
-      eduSetTag(world, cmd.icon, cmd.colour);
-      return;
-    case 'eduResult':
-      eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
-      return;
-    case 'eduSetLimits':
-      // Lane E r8, R0695.
-      eduSetLimits(world, cmd.limits);
-      return;
-    case 'eduUnlockLimits':
-      eduUnlockLimits(world, world.lastWallMs);
-      return;
-    case 'eduSetPlace':
-      // Lane E r8, R0680.
-      if (world.edu) (world.edu.places ??= {})[cmd.place] = cmd.on;
-      return;
-    case 'eduResetSession':
-      eduResetSession(world);
-      return;
-    case 'eduStartBreak':
-      eduStartBreak(world);
-      return;
-    case 'eduEndBreak':
-      eduEndBreak(world);
-      return;
     case 'setPartner':
       setPartner(world, cmd.slot, cmd.nubbinId);
       return;
@@ -1314,11 +1135,6 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
       return;
     }
-    case 'debugHatchNow': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
-      return;
-    }
   }
 }
 
@@ -1328,9 +1144,186 @@ export function heldNubbin(world: World): Nubbin | undefined {
 
 // ---------- stepping ----------
 
+const LIVE_ONLY: SystemRuns = { live: true, offline: false, coarse: false };
+const ALWAYS: SystemRuns = { live: true, offline: true, coarse: true };
+
+/** The Nubbins' own step: eggs incubate, needs decay, ages advance, behaviour runs. */
+function stepNubbins({ world, dtMs, offline, events }: StepCtx, rng: Rng): void {
+  // Iterate a copy: a departure removes its Nubbin from the list.
+  for (const n of [...world.nubbins]) {
+    if (n.stage === 'egg') {
+      // Eggs incubate on the ground, held and carried alike.
+      n.hatchRemainingMs -= dtMs * hatchSpeed(world);
+      // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
+      // hug; a thrown egg waits to land.
+      if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
+      if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
+        hatch(n, events, world.timeMs);
+        // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
+        keepEggshell(n, world);
+      }
+      if (n.behavior.state === 'thrown') {
+        updateBehavior(n, world, dtMs, rng, events);
+        // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
+        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
+        else resolve(n.pos, world, 0.25, 'nubbin');
+      }
+      continue;
+    }
+    decayNeeds(n, dtMs);
+    // R0164: Snug and Naps from worn gear.
+    stepGearNeeds(world, n, dtMs);
+    advanceStage(n, dtMs, events, world, offline);
+    // Party members underground are moved by the Hollow step instead.
+    // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
+    // R0121: a partner in a drawn region follows the Keeper there instead.
+    if (stepRegionCompanion(world, n, dtMs)) continue;
+    if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
+      updateBehavior(n, world, dtMs, rng, events);
+      // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
+      if (n.behavior.state === 'thrown') collideThrown(world, n, events);
+      resolveNubbin(n, world);
+    }
+  }
+}
+
+/** The Keeper's own step: intent, ride, tow, dodge. Live play only (catch-up never acts). */
+function stepKeeperSystem({ world, dtMs, events }: StepCtx): void {
+  // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
+  const fx = world.keeper.pos.x;
+  const fz = world.keeper.pos.z;
+  // R0109: an updraft or a glide moves the Keeper in place of its walking step.
+  if (!flightStep(world, dtMs)) {
+    updateKeeper(world, dtMs, events);
+    flightTrigger(world, fx, fz);
+  }
+  const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
+  stepRide(world, dtMs, moved, events);
+  stepSwimTow(world);
+  stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
+  // R11 lane D (WORLD-39): a border walked into: seamless now, loaded through the iris.
+  const seam = crossExits(world, events);
+  if (seam) travel(world, seam.id, events);
+}
+
+const rngSys = (
+  id: string,
+  order: number,
+  runs: SystemRuns,
+  step: (ctx: StepCtx, rng: Rng) => void,
+): SimSystem => ({ id, order, runs, rng: true, step });
+const plainSys = (
+  id: string,
+  order: number,
+  runs: SystemRuns,
+  step: (ctx: StepCtx) => void,
+): SimSystem => ({ id, order, runs, rng: false, step });
+
+/**
+ * Every step system, in the order the step has always run them. The numbers leave room to
+ * slot a new one in: pick a gap, and mind that rng systems (inside `withRng`) come first.
+ */
+export const SYSTEMS: readonly SimSystem[] = orderSystems([
+  rngSys('trees', 10, ALWAYS, ({ world, dtMs, events }, rng) =>
+    updateTrees(world, dtMs, rng, events),
+  ),
+  rngSys('items', 20, ALWAYS, ({ world, dtMs }) => updateItems(world, dtMs)),
+  rngSys('nubbins', 30, ALWAYS, stepNubbins),
+  rngSys('keeper', 40, LIVE_ONLY, stepKeeperSystem),
+  // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
+  rngSys('prop-reach', 50, LIVE_ONLY, ({ world }) => stepPropReach(world)),
+  // MOVE-58: the one-time hop lesson.
+  rngSys('hop-lesson', 60, LIVE_ONLY, ({ world, events }) => stepHopLesson(world, events)),
+  // MOVE-63: the hop course's flags and timer.
+  rngSys('hop-course', 70, LIVE_ONLY, ({ world, events }) => stepHopCourse(world, events)),
+  // R0352: the idle Keeper's antics and rule three's sit, in real live play only (a wall
+  // clock at x1 with the tab showing), so scripted runs and catch-up never see them.
+  rngSys('keeper-idle', 80, LIVE_ONLY, ({ world, dtMs, events, countPlay, wallMs }) => {
+    if (countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
+  }),
+  rngSys('trust', 90, ALWAYS, ({ world, dtMs, events }) => stepTrust(world, dtMs, events)),
+  // R0527 (lane A r10): in the Learning Grove a Nubbin hides in the cottage, never runs.
+  rngSys('cottage-hide', 100, ALWAYS, ({ world, offline, events }) =>
+    stepCottageHide(world, offline, events),
+  ),
+  rngSys('npcs', 110, ALWAYS, ({ world, dtMs, events }, rng) => stepNpcs(world, dtMs, rng, events)),
+  rngSys('bodies', 120, ALWAYS, ({ world, dtMs }) => separateBodies(world, dtMs)),
+  rngSys('weather', 130, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepWeather(world, dtMs, rng, events),
+  ),
+  rngSys('breeding', 140, ALWAYS, ({ world, events }, rng) => stepBreeding(world, rng, events)),
+  rngSys('season-daily', 150, ALWAYS, ({ world, wallMs, events }, rng) => {
+    if (wallMs === undefined) return;
+    // R0118 (lane D r9): the debug panel can force a season for checks.
+    world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
+    stepDaily(world, wallMs, rng, events);
+  }),
+  rngSys('line-queue', 160, ALWAYS, ({ world, dtMs, events }) =>
+    stepLineQueue(world, dtMs, events),
+  ),
+  rngSys('campaign', 170, ALWAYS, ({ world, dtMs, events }) => stepCampaign(world, dtMs, events)),
+  rngSys('story-book', 180, ALWAYS, ({ world, dtMs, events }) =>
+    stepStoryBook(world, dtMs, events),
+  ),
+  rngSys('plants', 190, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepPlants(world, dtMs, rng, events),
+  ),
+  rngSys('habitats', 200, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepHabitats(world, dtMs, rng, events),
+  ),
+  rngSys('keeper2', 210, ALWAYS, ({ world, dtMs, events }) => stepKeeper2(world, dtMs, events)),
+  rngSys('edu', 220, ALWAYS, ({ world, dtMs, wallMs, offline, countPlay }) =>
+    stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay),
+  ),
+  rngSys('slips', 230, ALWAYS, ({ world, dtMs, events }) => stepSlips(world, dtMs, events)),
+  rngSys('moody', 240, ALWAYS, ({ world, dtMs, events }) => stepMoody(world, dtMs, events)),
+  rngSys('partners', 250, ALWAYS, ({ world, dtMs, events }) => stepPartners(world, dtMs, events)),
+  rngSys('curfew', 260, ALWAYS, ({ world, dtMs, wallMs, events }) =>
+    stepCurfew(world, dtMs, wallMs, events),
+  ),
+  rngSys('quests', 270, ALWAYS, ({ world, wallMs, events }, rng) =>
+    stepQuests(world, wallMs, rng, events),
+  ),
+  rngSys('dungeon', 280, ALWAYS, ({ world, dtMs, events }, rng) =>
+    stepDungeon(world, dtMs, rng, events),
+  ),
+  plainSys('collection', 500, ALWAYS, ({ world, events }) => stepCollection(world, events)),
+  plainSys('friendships', 510, ALWAYS, ({ world, dtMs, events }) =>
+    stepFriendships(world, dtMs, events),
+  ),
+  plainSys('diary', 520, ALWAYS, ({ world, offline, events }) => stepDiary(world, events, offline)),
+  plainSys('landmarks', 530, ALWAYS, ({ world, events }) => stepLandmarks(world, events)),
+  plainSys('collectibles', 540, ALWAYS, ({ world, events }) => stepCollectibles(world, events)),
+  plainSys('region-life', 541, ALWAYS, ({ world, dtMs, events }) => {
+    // R0120/R0110 (R11 d8): a region's critter spots and its stat gates.
+    stepRegionCritters(world, events);
+    stepRegionGates(world, dtMs, events);
+  }),
+  plainSys('traces', 543, ALWAYS, ({ world, events }) => stepTraces(world, events)),
+  plainSys('photo-spots', 546, ALWAYS, ({ world, events }) => stepPhotoSpots(world, events)),
+  // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
+  plainSys('world-hints', 550, ALWAYS, ({ world, events }) => stepWorldHints(world, events)),
+  plainSys('little-grove', 560, ALWAYS, ({ world }) => stepLittleGrove(world)),
+  plainSys('seasons', 570, ALWAYS, ({ world, events }) => stepSeasons(world, events)),
+  plainSys('achievements', 580, ALWAYS, ({ world, dtMs, events }) =>
+    stepAchievements(world, events, dtMs),
+  ),
+  plainSys('town', 590, ALWAYS, ({ world, events }) => stepTown(world, events)),
+  plainSys('scans', 600, ALWAYS, ({ world, dtMs, events }) => stepScans(world, dtMs, events)),
+  plainSys('skill-points', 610, ALWAYS, ({ world, events }) => stepSkillPoints(world, events)),
+  plainSys('teams', 620, ALWAYS, ({ world, events }) => stepTeams(world, events)),
+  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
+  plainSys('battle-moves', 630, LIVE_ONLY, ({ world, dtMs, events }) =>
+    stepBattleMoves(world, dtMs, events),
+  ),
+  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
+  plainSys('battle-needs', 640, ALWAYS, ({ world }) => holdBattleNeeds(world)),
+]);
+
 /**
  * One fixed step with full fidelity. Returns the events that happened. `offline` is set by
  * catch-up for the leftover under a minute, so end-of-life checks follow the away rules.
+ * The work is the ordered system list above (TECH-34).
  */
 export function stepWorld(
   world: World,
@@ -1345,113 +1338,14 @@ export function stepWorld(
   // R0544 (lane A r8): no antics while catching up on time away.
   setAnticsLive(!offline);
 
-  withRng(world, (rng) => {
-    updateTrees(world, dtMs, rng, events);
-    updateItems(world, dtMs);
-    // Iterate a copy: a departure removes its Nubbin from the list.
-    for (const n of [...world.nubbins]) {
-      if (n.stage === 'egg') {
-        // Eggs incubate on the ground, held and carried alike.
-        n.hatchRemainingMs -= dtMs * hatchSpeed(world);
-        // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
-        // hug; a thrown egg waits to land.
-        if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
-        if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
-          hatch(n, events, world.timeMs);
-          // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
-          keepEggshell(n, world);
-        }
-        if (n.behavior.state === 'thrown') {
-          updateBehavior(n, world, dtMs, rng, events);
-          // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
-          if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-          else resolve(n.pos, world, 0.25, 'nubbin');
-        }
-        continue;
-      }
-      decayNeeds(n, dtMs);
-      // R0164: Snug and Naps from worn gear.
-      stepGearNeeds(world, n, dtMs);
-      advanceStage(n, dtMs, events, world, offline);
-      // Party members underground are moved by the Hollow step instead.
-      // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
-      if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
-        updateBehavior(n, world, dtMs, rng, events);
-        // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
-        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-        resolveNubbin(n, world);
-      }
-    }
-    // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
-    // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
-    if (!offline) {
-      // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
-      const fx = world.keeper.pos.x;
-      const fz = world.keeper.pos.z;
-      updateKeeper(world, dtMs, events);
-      const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
-      stepRide(world, dtMs, moved, events);
-      stepSwimTow(world);
-      stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
-    }
-    // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
-    if (!offline) stepPropReach(world);
-    // MOVE-58: the one-time hop lesson.
-    if (!offline) stepHopLesson(world, events);
-    // MOVE-63: the hop course's flags and timer.
-    if (!offline) stepHopCourse(world, events);
-    // R0352: the idle Keeper's antics and rule three's sit, in real live play only (a wall
-    // clock at ×1 with the tab showing), so scripted runs and catch-up never see them.
-    if (!offline && countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
-    stepTrust(world, dtMs, events);
-    // R0527 (lane A r10): in the Learning Grove a Nubbin hides in the cottage, never runs.
-    stepCottageHide(world, offline, events);
-    stepNpcs(world, dtMs, rng, events);
-    separateBodies(world, dtMs);
-    stepWeather(world, dtMs, rng, events);
-    stepBreeding(world, rng, events);
-    if (wallMs !== undefined) {
-      // R0118 (lane D r9): the debug panel can force a season for checks.
-      world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
-      stepDaily(world, wallMs, rng, events);
-    }
-    stepLineQueue(world, dtMs, events);
-    stepCampaign(world, dtMs, events);
-    stepStoryBook(world, dtMs, events);
-    stepPlants(world, dtMs, rng, events);
-    stepHabitats(world, dtMs, rng, events);
-    stepKeeper2(world, dtMs, events);
-    stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
-    stepSlips(world, dtMs, events);
-    stepMoody(world, dtMs, events);
-    stepPartners(world, dtMs, events);
-    stepCurfew(world, dtMs, wallMs, events);
-    stepQuests(world, wallMs, rng, events);
-    stepDungeon(world, dtMs, rng, events);
-  });
-  stepCollection(world, events);
-  stepFriendships(world, dtMs, events);
-  stepDiary(world, events, offline);
-  stepLandmarks(world, events);
-  stepCollectibles(world, events);
-  // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
-  stepWorldHints(world, events);
-  stepLittleGrove(world);
-  stepSeasons(world, events);
-  stepAchievements(world, events, dtMs);
-  stepTown(world, events);
-  stepScans(world, dtMs, events);
-  stepSkillPoints(world, events);
-  stepTeams(world, events);
-  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
-  if (!offline) stepBattleMoves(world, dtMs, events);
-  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
-  holdBattleNeeds(world);
+  runSystems(SYSTEMS, { world, dtMs, wallMs, offline, countPlay, events }, withRng);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
     sampleAll(world);
   }
+  // R0474: the diary counts live play only.
+  if (!offline) stepGroveDiary(world, dtMs, events);
   return events;
 }
 

@@ -3,6 +3,7 @@ import { OUTER_PROPS, type OuterProp } from '../config/outer-ring';
 import type { Tex } from '../samples/aaa-kit';
 import { arc, box, cyl, Parts, sph, type PartKey, type Vec3 } from './prop-kit';
 import { groveHeight, WATER_LEVEL } from './terrain';
+import { addOuterDecor } from './outer-decor';
 
 /**
  * R0072: the outer ring's pieces in Full 3D, from the list the pixel painter reads
@@ -329,6 +330,7 @@ export function buildOuterRing(group: THREE.Object3D, tex: Tex, pickables: THREE
       pickables.push(proxy);
     }
   }
+  addOuterDecor(P);
   const ring = P.flush();
   ring.name = 'outer-ring';
   group.add(ring);

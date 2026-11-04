@@ -51,3 +51,30 @@ describe('dev scenarios (TECH-46)', () => {
     expect(w.nubbins[0]!.awaitingKeeper).toBe(true);
   });
 });
+
+describe('dev scenarios, round 11 (TECH-46)', () => {
+  it('race-tier3 has tiers 1 and 2 won everywhere', () => {
+    const w = buildScenario('race-tier3', 2, WALL)!;
+    expect(Object.values(w.races).length).toBeGreaterThan(0);
+    expect(Object.values(w.races).every((t) => t === 2)).toBe(true);
+  });
+
+  it('expedition-ready holds grown Nubbins and Shells', () => {
+    const w = buildScenario('expedition-ready', 2, WALL)!;
+    expect(w.nubbins.every((n) => n.stage === 'adult')).toBe(true);
+    expect(w.inventory.shells).toBe(200);
+  });
+
+  it('edu-sprout and edu-reader start the Learning Grove in their band', () => {
+    expect(buildScenario('edu-sprout', 2, WALL)!.edu?.band).toBe('sprout');
+    expect(buildScenario('edu-reader', 2, WALL)!.edu?.band).toBe('reader');
+  });
+
+  it('storage-full is a big save', () => {
+    const w = buildScenario('storage-full', 2, WALL)!;
+    expect(w.memorials.length).toBe(120);
+    expect(serialize(w, WALL).length).toBeGreaterThan(
+      serialize(buildScenario('fresh', 2, WALL)!, WALL).length,
+    );
+  });
+});

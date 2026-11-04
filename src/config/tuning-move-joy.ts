@@ -16,6 +16,8 @@ export const JOYSTICK_TUNING = {
   zoneWidth: 0.45,
   /** navigator.vibrate pulse on landing, in ms. */
   hapticMs: 8,
+  /** R0510: the stick's length (0..1) at which the rim tick fires. */
+  edgeAt: 0.98,
   /** localStorage key for the one-time offer toast. */
   offerKey: 'grove.joystickOffered',
 } as const;

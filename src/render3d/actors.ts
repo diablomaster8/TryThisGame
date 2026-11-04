@@ -75,6 +75,7 @@ import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
+import { keeperFlight } from '../sim/flight-zones';
 import { poseRig } from './stage-pose3d';
 import {
   keeperDip,
@@ -92,6 +93,7 @@ import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
+import { companions } from '../sim/region-companion';
 import { noteDue, performClip, performLook } from '../render/perform-look';
 import { Perform3D } from './perform-3d';
 import { chatClip, chatHop } from '../render/chat-look';
@@ -889,6 +891,8 @@ export class Actors {
   /** The Nubbins drawn here: none on a visit, the party in the Hollow, else all. */
   private shownNubbins(world: World): World['nubbins'] {
     if (this.location.startsWith('visit:')) return [];
+    // R0121: in a drawn region only the partners that came along.
+    if (this.location.startsWith('region:')) return companions(world);
     const run = this.location === 'dungeon' ? world.dungeon : null;
     // Lane C r10 agent D (R0594): a line's Nubbin that stayed in its place is drawn only there.
     return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : nubbinsHere(world);
@@ -1482,7 +1486,12 @@ export class Actors {
     if (this.keeperHold) this.keeperLift = 0;
     else {
       const ky = lerp(this.keeperPrevY, keeper.y, this.keeperAlpha ?? alpha);
-      this.keeperFeet = runFloor(world) ? 0 : keeperFooting(world, kp.x, kp.z, ky).y;
+      // R11 d7: in a drawn region the feet stand on its own ground (its terraces), never the Grove's.
+      this.keeperFeet = runFloor(world)
+        ? 0
+        : world.location.startsWith('region:')
+          ? this.ground(kp.x, kp.z)
+          : keeperFooting(world, kp.x, kp.z, ky).y;
       this.keeperLift = Math.max(0, ky - this.keeperFeet);
       // MOVE-65: a pond dip sinks the rig under the water and back.
       const dip = keeperDip(world);
@@ -1530,7 +1539,8 @@ export class Actors {
     this.squashKeeper(keeper, nowMs, keeperMantle(world), keeperRoll(world));
     // MOVE-27: leaf wings while the Fly perk's glide holds the fall.
     const ky3 = this.keeperGround(kp.x, kp.z) + this.keeperLift;
-    this.wings.update(keeperGliding(world), kp.x, ky3, kp.z, this.keeperTurn, t, this.calm);
+    const flying = keeperGliding(world) || keeperFlight(world) !== null; // R0109
+    this.wings.update(flying, kp.x, ky3, kp.z, this.keeperTurn, t, this.calm);
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);
@@ -1549,7 +1559,8 @@ export class Actors {
     // places show only their notebooks, and the Hollow Below and visits show none.
     const liveItems = new Set<string>();
     const home = this.location === 'grove';
-    const story = !home && !away && this.location !== 'dungeon';
+    const story =
+      !home && !away && this.location !== 'dungeon' && !this.location.startsWith('region:');
     for (const i of world.items.filter((it) =>
       home ? it.kind !== 'notebook' : story && it.kind === 'notebook',
     )) {

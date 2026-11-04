@@ -16,7 +16,8 @@ import {
   type SimEvent,
   type World,
 } from '../sim/types';
-import { createWorld, newId, stepWorld, withRng } from '../sim/world';
+import { COURSES } from '../sim/race';
+import { applyCommand, createWorld, newId, stepWorld, withRng } from '../sim/world';
 
 type Band = 'sun' | 'moon' | 'neutral';
 const BANDS: readonly Band[] = ['sun', 'moon', 'neutral'];
@@ -85,6 +86,48 @@ const BUILDERS: Record<string, Builder> = {
     growAll(w, wallMs);
     return w;
   },
+};
+// Lane D r11 (TECH-46): races, the Expedition, the Learning Grove and a heavy save.
+BUILDERS['race-tier3'] = (seed, wallMs) => {
+  const w = createWorld(seed, wallMs);
+  growAll(w, wallMs);
+  // Tiers 1 and 2 won on every course: tier 3 is the next to run.
+  for (const c of COURSES) w.races[c.id] = 2;
+  return w;
+};
+BUILDERS['expedition-ready'] = (seed, wallMs) => {
+  const w = createWorld(seed, wallMs);
+  growAll(w, wallMs);
+  // A grown Nubbin to give things to, and some Shells to spend after the run.
+  w.inventory.shells = 200;
+  return w;
+};
+for (const [name, age, band] of [
+  ['edu-sprout', 4, 'sprout'],
+  ['edu-reader', 8, 'reader'],
+] as const) {
+  BUILDERS[name] = (seed, wallMs) => {
+    const w = createWorld(seed, wallMs);
+    applyCommand(w, { kind: 'eduStart', age: Math.min(6, age) as 3 | 4 | 5 | 6, band }, []);
+    return w;
+  };
+}
+/** A long-lived Grove: 120 memorial flowers, so the save is large and saving it is slow. */
+BUILDERS['storage-full'] = (seed, wallMs) => {
+  const w = createWorld(seed, wallMs);
+  fillTo(w, 8);
+  growAll(w, wallMs);
+  for (let i = 0; i < 120; i++) {
+    w.memorials.push({
+      id: newId(w, 'mem'),
+      name: `Old friend ${i + 1}`,
+      pos: { x: -20 + (i % 12) * 3, z: -20 + Math.floor(i / 12) * 3 },
+      species: 'chao',
+      ageMs: 5 * 3_600_000,
+      rebirths: i % 3,
+    });
+  }
+  return w;
 };
 for (const band of BANDS) {
   for (const type of NUBBIN_TYPES) {

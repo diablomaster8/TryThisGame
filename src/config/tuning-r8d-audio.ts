@@ -107,3 +107,14 @@ export const CHIRP_VOICE = {
   /** Wobble past this adds the trill's third, rising note. */
   trillAt: 0.12,
 } as const;
+
+/** R0507 (TECH-64): the loudness targets the `?audiolab` page checks the effects against. */
+export const SFX_TARGETS = {
+  /** Sound effect peaks, dBFS, within the tolerance. */
+  peakDb: -6,
+  /** The panel ticks sit quieter. */
+  tickPeakDb: -24,
+  tolerance: 6,
+  /** Names held to the tick target. */
+  ticks: ['tickOpen', 'tickClose', 'tap'] as readonly string[],
+} as const;

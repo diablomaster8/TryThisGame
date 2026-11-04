@@ -15,6 +15,7 @@ import {
   type InspectDetail,
 } from './press-kind';
 import { POINTER_INPUT } from '../config/tuning-r9d3';
+import { SURVEY_R11 } from '../config/tuning-r11d2';
 import { HoldWalk, isGroundHold } from './hold-walk';
 
 /** What a ground tap places while a panel is in placing mode. */
@@ -50,6 +51,8 @@ export interface InputHost {
   pickables(): Object3D[];
   /** Decorating: the piece a ground tap should place, if any. */
   placing?(): Placing;
+  /** R0073: the camera is at the survey zoom (a wider tap slack for tokens). */
+  survey?(): boolean;
   /** Hit-test the batched sprites at a screen point (NDC). */
   pickSprite(
     ndcX: number,
@@ -524,10 +527,17 @@ export class GameInput {
     if (rect.width <= 0 || rect.height <= 0) return hit;
     const ndcX = ((clientX - rect.left) / rect.width) * 2 - 1;
     const ndcY = -((clientY - rect.top) / rect.height) * 2 + 1;
-    const r = pickSlopPx(simpleTouchOn());
+    // R0073: at the survey zoom tokens are small, so the slack reaches 22 CSS px (a 44 px
+    // hit area) and finds people as well as Nubbins.
+    const survey = this.host.survey?.() ?? false;
+    const r = survey
+      ? Math.max(SURVEY_R11.pickRadiusCss, pickSlopPx(simpleTouchOn()))
+      : pickSlopPx(simpleTouchOn());
     for (const [ox, oy] of SLOP_RING) {
       const s = pickSprite(ndcX + (ox * r * 2) / rect.width, ndcY - (oy * r * 2) / rect.height);
       if (s?.kind === 'nubbin') return { kind: 'nubbin', id: s.id, ground: hit?.ground ?? null };
+      if (survey && s?.kind === 'npc')
+        return { kind: 'npc', id: s.id, ground: hit?.ground ?? null };
     }
     return hit;
   }

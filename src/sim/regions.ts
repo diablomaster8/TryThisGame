@@ -6,15 +6,27 @@
  * travel never touches them or the random stream, so leaving and coming back changes nothing
  * at home.
  */
+import { companionsArrive } from './region-companion';
 import { REGIONS, REGION_ORDER, type RegionDef, type RegionId } from '../config/regions';
 import { setLocation } from './campaign';
 import { visit } from './neighbourhood';
 import { TRAINERS } from './trainers';
+import { keeperPutDown } from './keeper';
+import {
+  drawnRegionOf,
+  regionLocation,
+  exitLocked,
+  REGION_SPECS,
+  resetCrossing,
+  seamlessOffset,
+} from './region-walk';
 import type { Location, SimEvent, World } from './types';
 
 /** The region a location belongs to. */
 export function regionOf(location: Location): RegionId {
   if (location === 'grove') return 'grove';
+  const drawn = drawnRegionOf(location);
+  if (drawn) return drawn;
   if (location === 'dungeon') return 'hollow';
   return 'lane';
 }
@@ -48,7 +60,7 @@ export function travelBlock(
   if (!exit) return 'no-exit';
   const to = regions[exit.to];
   if (!to.built) return 'unbuilt';
-  if (exit.unlock && !world.campaign?.flags[exit.unlock]) return 'locked';
+  if (exitLocked(world, exit)) return 'locked';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   if (exit.to === 'lane' && !(sub && TRAINERS.some((t) => `visit:${t.id}` === sub))) {
@@ -68,10 +80,29 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   const exit = REGIONS[from].exits.find((e) => e.id === exitId)!;
   // R0124: when this region was left, for its closed-form ageing on the way back.
   (world.regionLeftMs ??= {})[from] = world.timeMs;
+  const k = world.keeper;
+  // R11 lane D: a carried Nubbin is set down at the border; Nubbins stay home in the Grove.
+  if (k.carrying && exit.to !== 'grove') keeperPutDown(world, events);
+  // WORLD-39/56: a seamless edge keeps the Keeper's footing, re-based into the neighbour's
+  // own coordinates; every other kind arrives at the exit's spot.
+  const keep = exit.kind === 'seamless' ? seamlessOffset(exit) : null;
+  const was = { ...k.pos };
+  const target = k.moveTarget;
   if (exit.to === 'lane') visit(world, sub!.slice('visit:'.length), events);
+  else if (REGION_SPECS[exit.to]) setLocation(world, regionLocation(exit.to), events);
   else setLocation(world, 'grove', events);
-  world.keeper.pos = { x: exit.arrive.x, z: exit.arrive.z };
-  world.keeper.facing = exit.facing;
+  // R11 d7: a seamless way taken from afar (not walked over the line) lands on its arrival.
+  const size = REGIONS[exit.to].size;
+  const fits =
+    keep && Math.abs(was.x + keep.x) <= size.w / 2 && Math.abs(was.z + keep.z) <= size.h / 2;
+  if (keep && fits) {
+    k.pos = { x: was.x + keep.x, z: was.z + keep.z };
+    if (target) k.moveTarget = { x: target.x + keep.x, z: target.z + keep.z };
+  } else {
+    k.pos = { x: exit.arrive.x, z: exit.arrive.z };
+    k.facing = exit.facing;
+  }
+  resetCrossing(world);
   noteRegion(world, events);
   return true;
 }
@@ -80,6 +111,8 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
 export function noteRegion(world: World, events: SimEvent[]): void {
   const region = regionOf(world.location);
   events.push({ kind: 'regionEntered', region });
+  // R0121: the partners come along, react to the place and lean toward its kind.
+  companionsArrive(world, events);
   const found = (world.regionsFound ??= []);
   if (!found.includes(region)) {
     found.push(region);

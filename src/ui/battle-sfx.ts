@@ -15,12 +15,16 @@ import type { World } from '../sim/types';
 export function battleSfx(e: BattleEvent): SoundName | null {
   switch (e.k) {
     case 'hit': {
+      if (e.crit) return 'critHit';
+      if (e.guarded) return 'guardClunk';
       const type = e.move ? moveOf(e.move).type : 'normal';
       if (type === 'swim') return 'splash';
       if (type === 'fly') return 'swish';
       if (type === 'run') return 'patter';
       return 'woodblock';
     }
+    case 'guard':
+      return 'guardClunk';
     case 'boing':
       return 'boing';
     case 'tuckered':

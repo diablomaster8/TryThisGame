@@ -55,6 +55,9 @@ import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../confi
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
 import { OFFER_TEXT } from '../config/strings-camp';
+import { PROGRESS_TEXT } from '../config/strings-r11d4-progress';
+import { buildSettingsTabs } from './settings-tabs';
+import type { SettingsTabId } from '../config/strings-r11d4';
 import { playStats } from '../sim/quest-offers';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
@@ -127,12 +130,18 @@ export class SettingsMenu {
     private readonly toast: (text: string, ms?: number) => void,
   ) {
     this.dialog = modal(parent, UI_TEXT.settings, UI_TEXT.close);
-    const body = this.dialog.body;
+    const tabs = buildSettingsTabs(this.dialog.body);
+    let body: HTMLElement = tabs.panes.sound;
+    const at = (id: SettingsTabId): void => {
+      body = tabs.panes[id];
+    };
     // Settings in the Learning Grove open only past the grown-up gate (hud.ts).
+    at('story');
     this.eduBox = el('fieldset', 'settings-section');
     this.eduBox.hidden = true;
     body.appendChild(this.eduBox);
 
+    at('time');
     const section = el('fieldset', 'settings-section');
     section.appendChild(el('legend', undefined, UI_TEXT.offlineAgingTitle));
     section.appendChild(el('p', 'help', UI_TEXT.offlineAgingHelp));
@@ -185,6 +194,7 @@ export class SettingsMenu {
     body.appendChild(section);
 
     // Never shown in a Learning Grove save: that mode only ever offers `all` stories.
+    at('story');
     this.matureSection = el('fieldset', 'settings-section');
     this.matureSection.appendChild(el('legend', undefined, UI_TEXT.matureTitle));
     this.matureSection.appendChild(el('p', 'help', UI_TEXT.matureHelp));
@@ -208,6 +218,7 @@ export class SettingsMenu {
     }
     body.appendChild(this.matureSection);
 
+    at('sound');
     const musicRow = el('label', 'check-row');
     this.music = el('input');
     this.music.type = 'checkbox';
@@ -226,6 +237,7 @@ export class SettingsMenu {
     soundRow.append(this.sound, sText);
     body.appendChild(soundRow);
 
+    at('display');
     const joyRow = el('label', 'check-row');
     this.joystick = el('input');
     this.joystick.type = 'checkbox';
@@ -269,8 +281,10 @@ export class SettingsMenu {
       body.appendChild(row);
       return sel;
     };
+    at('sound');
     this.musicVol = slider(UI_TEXT.musicVolume);
     this.sfxVol = slider(UI_TEXT.sfxVolume);
+    at('display');
     this.textSpeed = select(UI_TEXT.textSpeed, UI_TEXT.textSpeeds);
     // TECH-27: text size.
     this.textSize = select(TEXT_SIZE_TEXT.label, TEXT_SIZE_TEXT.sizes);
@@ -348,6 +362,7 @@ export class SettingsMenu {
     handRow.append(this.leftHand, lText);
     body.appendChild(handRow);
     // R0302: the dialogue's voice blips.
+    at('sound');
     const blipRow = el('label', 'check-row');
     this.blips = el('input');
     this.blips.type = 'checkbox';
@@ -357,6 +372,7 @@ export class SettingsMenu {
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
     // TECH-15: vibration.
+    at('display');
     const hapRow = el('label', 'check-row');
     this.haptics = el('input');
     this.haptics.type = 'checkbox';
@@ -388,6 +404,7 @@ export class SettingsMenu {
     this.liveliness = select(LIVELINESS_TEXT.label, LIVELINESS_TEXT.levels);
     body.appendChild(el('div', 'help', LIVELINESS_TEXT.help));
     // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
+    at('story');
     const microRow = el('label', 'check-row');
     this.microSkip = el('input');
     this.microSkip.type = 'checkbox';
@@ -428,6 +445,7 @@ export class SettingsMenu {
     // R0670: telemetry-free play counts; they travel in an exported save.
     this.playLine = el('div', 'help');
     body.appendChild(this.playLine);
+    at('display');
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -437,6 +455,7 @@ export class SettingsMenu {
     this.syncQuality = mountQualitySetting(body, this.game);
     this.syncHudScheme = mountHudSchemeSetting(body, this.game); // R0519
     // Jukebox and ambience.
+    at('sound');
     const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
     for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
     this.jukebox = select(UI_TEXT.jukebox, songs);
@@ -451,6 +470,7 @@ export class SettingsMenu {
     );
     ambRow.append(this.ambience, aText);
     body.appendChild(ambRow);
+    at('story');
     // Local co-op.
     const coopRow = el('label', 'check-row');
     this.coop = el('input');
@@ -463,6 +483,7 @@ export class SettingsMenu {
     const trainers: Record<string, string> = {};
     for (const t of TRAINERS) trainers[t.id] = TRAINER_LABELS[t.id]?.name ?? t.id;
     this.coopTrainer = select(UI_TEXT.coopTrainer, trainers, () => this.applyCoop());
+    at('about');
     const screen = el('div', 'settings-actions');
     screen.append(
       button(UI_TEXT.fullscreen, () => {
@@ -478,6 +499,7 @@ export class SettingsMenu {
     );
     body.appendChild(screen);
 
+    at('saves');
     const slot = currentSlot();
     body.appendChild(
       el('p', 'help', SLOT_TEXT.current(SLOT_TEXT.modes[slot.mode] ?? slot.mode, slot.index)),
@@ -512,8 +534,17 @@ export class SettingsMenu {
     body.appendChild(this.storageLine);
     // R0461 (TECH-20): Story, Learning Grove and Story worlds packs kept for offline play.
     mountOfflinePacks(body);
+    at('about');
     const bug = el('div', 'settings-actions');
-    bug.append(button(BUG_TEXT.copy, () => void this.copyBugReport()));
+    bug.append(
+      button(BUG_TEXT.copy, () => void this.copyBugReport()),
+      // R0511 / R0474: the Progress page and the private diary, loaded on demand.
+      button(PROGRESS_TEXT.openFromSettings, () => {
+        void import('./progress-panel').then((m) =>
+          m.openProgress(this.parent, () => this.game()?.world ?? null),
+        );
+      }),
+    );
     body.appendChild(bug);
   }
 
@@ -552,6 +583,7 @@ export class SettingsMenu {
       renderer: readGraphicsPref(),
       settings: g.world.settings,
       save: g.exportJson(),
+      diary: g.world.diary ?? null,
     });
     try {
       await navigator.clipboard.writeText(text);

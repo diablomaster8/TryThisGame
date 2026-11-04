@@ -754,8 +754,10 @@ export class GroveScene {
     this.hollowGroup.visible = shown && location === 'hollow';
     this.corvinGroup.visible = shown && location === 'corvin';
     this.dungeonGroup.visible = location === 'dungeon';
-    if (this.ground) this.ground.visible = shown && location !== 'dungeon';
-    if (this.skirt) this.skirt.visible = shown && location !== 'dungeon';
+    // R11 lane D: a drawn region lays its own ground (`region-host-px.ts`).
+    const own = location !== 'dungeon' && !location.startsWith('region:');
+    if (this.ground) this.ground.visible = shown && own;
+    if (this.skirt) this.skirt.visible = shown && own;
   }
 
   /**

@@ -1,3 +1,4 @@
+import { cleanDiary } from './grove-diary';
 import { GROVE, OFFLINE, TREES, TRUST } from '../config/tuning';
 import { canonicalSpecies, SPECIES_ALIASES } from './species';
 import { repairLines } from './story-book';
@@ -434,6 +435,8 @@ export function validateWorld(w: World): World {
     if (label) w.slotLabel = label;
     else delete w.slotLabel;
   }
+  // R0474: the diary is optional; a file's copy is cleaned, an old save simply has none.
+  if (w.diary !== undefined) w.diary = cleanDiary(w.diary);
   w.selected ??= null;
   w.strays ??= [];
   w.npcs ??= [];

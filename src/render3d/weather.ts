@@ -69,6 +69,8 @@ export class GroveWeather {
   private readonly leaves: FallingLeaves;
   private wants = { rain: false, snow: false, flies: false, leaves: false };
   private particles: 'full' | 'light' | 'off' = 'full';
+  /** R0094: a drawn region's own rain share, in place of the Grove's (null at home). */
+  intensity: number | null = null;
 
   constructor(
     private readonly scene: THREE.Scene,
@@ -84,12 +86,13 @@ export class GroveWeather {
     weather: WeatherKind,
     d: Daylight,
     particles: 'full' | 'light' | 'off',
+    region = false,
   ): void {
     this.particles = particles;
     const on = particles !== 'off';
     this.wants = {
-      rain: grove && weather === 'rain' && on,
-      snow: grove && weather === 'snow' && on,
+      rain: (grove || region) && weather === 'rain' && on,
+      snow: (grove || region) && weather === 'snow' && on,
       flies: ((grove && d.fireflies) || place === 'hollow') && on,
       leaves: grove && weather === 'clear' && (d.phase === 'day' || d.phase === 'dawn') && on,
     };
@@ -145,7 +148,7 @@ export class GroveWeather {
     const still =
       s.reducedMotion === 'on' || (s.reducedMotion === 'system' && systemReducedMotion());
     const dens = this.particles === 'light' ? 0.4 : 1;
-    const share = dens * Math.min(1, Math.max(0, world.weather.intensity));
+    const share = dens * Math.min(1, Math.max(0, this.intensity ?? world.weather.intensity));
     // Snow falls at about two fifths of the rain's rate in the pixel view.
     for (const [p, want, rate] of [
       [this.rain, this.wants.rain, 1],

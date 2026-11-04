@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import * as EDU from '../../src/content/edu';
 import { HEBREW_COURSE } from '../../src/content/lang-hebrew';
 import { JAPANESE_COURSE } from '../../src/content/lang-japanese';
-import { clipFor, RECORDED } from '../../src/platform/lang-audio';
+import { existsSync } from 'node:fs';
+import { clipFor, missingClips, RECORDED } from '../../src/platform/lang-audio';
 import {
   gestureFor,
   isLangQuestCode,
@@ -102,6 +103,14 @@ describe('course words and clips (CV3)', () => {
     }
     const ids = new Set(vocab.map((w) => w.audio));
     for (const r of RECORDED) expect(ids.has(r), r).toBe(true);
+  });
+
+  it('lists words with no recording, and every claimed recording has a file (R0445)', () => {
+    const ids = vocab.map((w) => w.audio);
+    const missing = missingClips(ids);
+    expect(missing.length + RECORDED.size).toBe(ids.length);
+    for (const id of RECORDED) expect(existsSync(`public/audio/lang/${id}.mp3`), id).toBe(true);
+    for (const id of missing) expect(clipFor(id).placeholder, id).toBe(true);
   });
 
   it('every word is findable in its own native spelling', () => {
