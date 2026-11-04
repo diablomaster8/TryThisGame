@@ -45,6 +45,8 @@ const HOPPING: Record<string, number> = {
   copyHop: 0.2,
   puddleStomp: 0.12,
   leafPileJump: 0.3,
+  pondParty: 0.14,
+  ringDance: 0.16,
   followLine: 0.1,
   snowball: 0.08,
   waveHello: 0.06,
@@ -60,6 +62,11 @@ const EMOTES: Record<string, EmoteShape> = {
   snowBuild: 'star',
   puddleStomp: 'star',
   leafPileJump: 'star',
+  huddle: 'heart',
+  teach: 'star',
+  learnWatch: 'dots',
+  pondParty: 'star',
+  ringDance: 'heart',
   flowerSniff: 'heart',
   copyHop: 'star',
   lookUp: 'exclaim',
@@ -77,6 +84,9 @@ export function chaseClip(n: Nubbin): 'walk' | 'happy' | 'dizzy' | 'sit' | 'slee
   if (RUNNING.has(id) && id !== 'tagGloat') return 'walk';
   if (id === 'seekCount' || id === 'flowerSniff' || id === 'snowBuild') return 'sit';
   if (id === 'sunbathe') return 'sleep';
+  if (id === 'teach') return 'sit';
+  if (id === 'huddle' || id === 'learnWatch') return b.target ? 'walk' : 'sit';
+  if (id === 'pondParty' || id === 'ringDance') return b.target ? 'walk' : 'happy';
   if (id === 'lookUp' || id === 'guardKeeper') return 'idle';
   if (id === 'greetGate') return b.target ? 'walk' : 'happy';
   if (b.itemId === 'chaseFlutter') return b.target ? 'walk' : 'happy';

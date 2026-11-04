@@ -6,7 +6,9 @@ import { NAMES } from '../../config/strings';
 import { CLIPS, frameAt, frameKey } from '../../render/sprites/animations';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import { C, color } from '../../render/sprites/palette';
-import type { Nubbin } from '../../sim/types';
+import { startLook } from '../../sim/race-persona';
+import type { Nubbin, Personality } from '../../sim/types';
+import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from './art';
 import { skyBands } from '../race/pixel-track';
@@ -27,7 +29,8 @@ export class ExpeditionPixelView implements ExpeditionView {
   readonly ready = true;
   private readonly ctx: CanvasRenderingContext2D;
   private art: ExpeditionArt | null = null;
-  private runner: { sheet: SpriteSheet; name: string } | null = null;
+  private runner: { sheet: SpriteSheet; name: string; personality: Personality | null } | null =
+    null;
   /** R0324: no spin under reduced motion (the old blink instead). */
   private reduceMotion = false;
   private viewW: number = EXPEDITION.maxViewW;
@@ -49,7 +52,7 @@ export class ExpeditionPixelView implements ExpeditionView {
     this.reduceMotion = reducedMotion();
     this.theme = theme;
     this.art ??= buildExpeditionArt();
-    this.runner = { sheet, name: runner.name };
+    this.runner = { sheet, name: runner.name, personality: runner.personality };
   }
 
   resize(rect: DOMRect): void {
@@ -179,8 +182,27 @@ export class ExpeditionPixelView implements ExpeditionView {
           const image = sheet.texture.image as HTMLCanvasElement;
           const w = rect.w / PX;
           const h = rect.h / PX;
-          const dx = Math.round(EXPEDITION.runnerX - w / 2);
-          const dy = Math.round(run.runnerY - RUNNER_H - 4);
+          // R0583: the personality's start pose (looks only; the run never reads it).
+          const pose =
+            this.runner.personality && run.onGround
+              ? startLook(
+                  this.runner.personality,
+                  run.timeMs,
+                  this.reduceMotion,
+                  RACE_PERSONA.expeditionStartMs,
+                )
+              : null;
+          const dx = Math.round(EXPEDITION.runnerX - w / 2) + Math.round(pose?.dx ?? 0);
+          const dy = Math.round(run.runnerY - RUNNER_H - 4) + Math.round(pose?.dy ?? 0);
+          if (pose)
+            drawShadowText(
+              ctx,
+              pose.glyph,
+              dx + w - 6,
+              dy - 4,
+              color(C.sunYellow),
+              color(C.darkPlum),
+            );
           if (spin) {
             ctx.save();
             ctx.translate(dx + w / 2, dy + h / 2);

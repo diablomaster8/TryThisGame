@@ -77,6 +77,7 @@ import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepCrying } from './cry-soul';
 import { stepShadowSoul } from './shadow-soul';
 import { stepFavSpots } from './fav-spot';
+import { calmEternalReactions } from './old-soul';
 import { stepSoulGroups } from './soul-groups';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
@@ -1475,6 +1476,7 @@ export function stepWorld(
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
     sampleAll(world);
   }
+  calmEternalReactions(world, events);
   return events;
 }
 

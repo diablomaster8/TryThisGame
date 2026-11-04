@@ -33,6 +33,8 @@ export function snatchAct(n: Nubbin, world: World, now: number, dtMs: number): I
   if (Math.floor(now / 1000) === Math.floor((now - dtMs) / 1000)) return null;
   // Lane A r10: a snatch (and the grudge it leaves) is for watching, never in catch-up.
   if (!soulLive()) return null;
+  // R0567: the Learning Grove's Nubbins play, they never snatch.
+  if (world.edu) return null;
   const c = cheek(n);
   if (c <= 0 || n.stage === 'egg' || n.stage === 'cocoon') return null;
   if (roll(n, 'snatch', now) >= SNATCH.perSecond * c * liveliness(world)) return null;

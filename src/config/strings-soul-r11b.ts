@@ -92,6 +92,11 @@ export const ACTIVITY_CAPTIONS: Record<string, string> = {
   'perform:lead': '{n} is leading the way',
   'perform:splash': '{n} is splashing about',
   'perform:flex': '{n} is flexing',
+  'perform:huddle': '{n} is cuddling up for warmth',
+  'perform:pondParty': '{n} is at the pond party',
+  'perform:ringDance': '{n} is dancing in a ring',
+  'perform:teach': '{n} is teaching a little one',
+  'perform:learnWatch': '{n} is learning by watching',
 };
 
 export const WATCH_TEXT = {

@@ -11,6 +11,8 @@ import { C, color } from '../../render/sprites/palette';
 import type { SheetCache } from '../../render/sprites/sheets';
 import { sectionAt, type RaceState, type Racer } from '../../sim/race';
 import type { Nubbin } from '../../sim/types';
+import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { cheerVoice, liesFlat, racerPersonality, startLook } from '../../sim/race-persona';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from '../expedition/art';
 import {
@@ -284,7 +286,12 @@ export class RacePixelView implements RaceView {
       const rect = sheet.frames.get(frameKey(clip, 'side', f));
       if (!rect) continue;
       const image = sheet.texture.image as HTMLCanvasElement;
-      const sx = Math.round(pos * PX_PER_UNIT - camX - rect.w / (2 * PX));
+      // R0583: the personality shows at the start line and in the rest pause (looks only).
+      const persona = racerPersonality(r);
+      const startPose = done ? null : startLook(persona, race.timeMs, still);
+      const flat = resting && liesFlat(persona);
+      const sx =
+        Math.round(pos * PX_PER_UNIT - camX - rect.w / (2 * PX)) + Math.round(startPose?.dx ?? 0);
       // A clean hop clears the fence; a racer that stumbled stays low and goes dizzy.
       const hop = done || r.stumbleMs > 0 ? 0 : hopLift(race, pos);
       const lift = done
@@ -294,15 +301,14 @@ export class RacePixelView implements RaceView {
           : section.kind === 'climb'
             ? 6
             : hop;
-      const sy = Math.round(laneY[lane]! - rect.h / PX + 4 - lift);
-      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
+      const fullH = rect.h / PX;
+      const drawH = flat ? Math.round(fullH * 0.55) : fullH;
+      const sy =
+        Math.round(laneY[lane]! - fullH + 4 - lift + (fullH - drawH)) +
+        Math.round(startPose?.dy ?? 0);
+      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, drawH);
       if (RACE_LOOK.story && !r.isPlayer)
-        drawBib(
-          ctx,
-          Math.round(sx + rect.w / (2 * PX) - 4),
-          Math.round(sy + rect.h / PX - 14),
-          lane + 1,
-        );
+        drawBib(ctx, Math.round(sx + rect.w / (2 * PX) - 4), Math.round(sy + drawH - 14), lane + 1);
       // Name tag, the player's in yellow, with the place once they are home.
       tags.push({
         text: done ? `${place} ${r.name}` : r.name,
@@ -318,6 +324,28 @@ export class RacePixelView implements RaceView {
           sx + rect.w / PX - 8,
           sy - 4,
           color(C.sunYellow),
+          color(C.darkPlum),
+        );
+      if (startPose)
+        drawShadowText(
+          ctx,
+          startPose.glyph,
+          sx + rect.w / PX - 8,
+          sy - 6,
+          color(C.sunYellow),
+          color(C.darkPlum),
+        );
+      if (
+        r.isPlayer &&
+        race.lastCheerMs >= 0 &&
+        race.timeMs - race.lastCheerMs < RACE_PERSONA.voiceMs
+      )
+        drawShadowText(
+          ctx,
+          cheerVoice(persona),
+          sx + rect.w / PX - 4,
+          sy - 10,
+          color(C.cream),
           color(C.darkPlum),
         );
       if (resting)
@@ -342,7 +370,7 @@ export class RacePixelView implements RaceView {
           color(C.sunYellow),
           color(C.darkPlum),
         );
-      if (r.isPlayer) this.drawStamina(r, sx + 4, sy + rect.h / PX + 1);
+      if (r.isPlayer) this.drawStamina(r, sx + 4, sy + drawH + 1);
     }
     for (const t of placeTags(tags, W)) {
       const fg = color(t.player ? C.sunYellow : C.cream);

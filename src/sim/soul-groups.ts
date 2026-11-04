@@ -7,6 +7,8 @@ import { stepAmbient } from './ambient';
 import { stepGames } from './group-games';
 import { stepJams } from './jam';
 import { stepKin } from './kin-play';
+import { stepOldSouls } from './old-soul';
+import { stepSeasonMoods } from './season-moods';
 import { stepWeatherPlay } from './weather-play';
 import type { SimEvent, World } from './types';
 
@@ -20,5 +22,7 @@ export function stepSoulGroups(
   stepJams(world, dtMs, events, offline);
   stepGames(world, dtMs, events, offline);
   stepWeatherPlay(world, dtMs, events, offline);
+  stepSeasonMoods(world, dtMs, events, offline);
   stepKin(world, dtMs, events, offline);
+  stepOldSouls(world, dtMs, events, offline);
 }

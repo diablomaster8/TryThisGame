@@ -997,7 +997,11 @@ export class Grove3dScene {
         // FUN-09 (lane E): each pet action plays its own beat.
         this.actors.petBeat(e.nubbinId, e.action, e.ok, this.lastMs);
       } else if (e.kind === 'reaction') {
-        this.actors.react(e.nubbinId, bubbleFor(e.reaction), this.lastMs + UI.bubbleMs);
+        this.actors.react(
+          e.nubbinId,
+          e.calm ? 'star' : bubbleFor(e.reaction),
+          this.lastMs + UI.bubbleMs,
+        );
         const head = up(e.nubbinId, 1.05);
         if (!head) continue;
         if (e.reaction === 'love')

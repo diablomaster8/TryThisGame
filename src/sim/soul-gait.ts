@@ -6,6 +6,7 @@
  * and roll. Plain wandering only, in live play (`soulLive`); a child leans at half strength.
  */
 import { GAIT } from '../config/tuning-soul-r11';
+import { OLD_SOUL } from '../config/tuning-soul-r11h';
 import { soulLive } from './antics';
 import { leaningPersonality } from './personality';
 import type { Nubbin, Personality } from './types';
@@ -18,10 +19,21 @@ export interface Gait {
   meander: number;
 }
 
+/** R0592: an Eternal's slow, steady, even walk. */
+const OLD_GAIT: Gait = {
+  speed: OLD_SOUL.gait,
+  cadence: 0.6,
+  bob: 0.5,
+  waddle: 0.5,
+  meander: 0,
+};
 const PLAIN: Gait = { speed: 1, cadence: 1, bob: 1, waddle: 1, meander: 0 };
 
 /** This Nubbin's gait (a child's leaning at half strength; none yet: plain). */
-export function gaitOf(n: Pick<Nubbin, 'personality' | 'stage' | 'childCare' | 'stageMs'>): Gait {
+export function gaitOf(
+  n: Pick<Nubbin, 'personality' | 'stage' | 'childCare' | 'stageMs'> & { eternal?: unknown },
+): Gait {
+  if (n.eternal) return OLD_GAIT;
   const p: Personality | null =
     n.personality ?? (n.stage === 'child' ? leaningPersonality(n as Nubbin) : null);
   if (!p) return PLAIN;
@@ -48,6 +60,7 @@ export function gaitSpeed(n: Nubbin, now: number): number {
   const g = gaitOf(n);
   if (
     n.personality === 'mischievous' &&
+    !n.eternal &&
     (now - n.behavior.sinceMs) % GAIT.dartEveryMs < GAIT.dartMs
   )
     return g.speed * GAIT.dartSpeed;
