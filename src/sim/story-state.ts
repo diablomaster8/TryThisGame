@@ -1,5 +1,5 @@
-import { paced } from './story-pace';
-import { STORY } from '../config/tuning';
+import { paced, storyPaceOf } from './story-pace';
+import { PACE, STORY } from '../config/tuning';
 import { sceneById } from './story-scenes';
 import type { CampaignState, Nubbin, World } from './types';
 
@@ -65,14 +65,21 @@ export function sideResting(world: World, c: CampaignState, owners: readonly str
   return world.timeMs < r.atMs + gap;
 }
 
-/** Whether a scene that names a time of day ("Morning.", "Late afternoon.") may play now. */
-export function sceneTimeHolds(ms: number, id: string): boolean {
+/**
+ * Whether a scene that names a time of day ("Morning.", "Late afternoon.") may play now.
+ * R0614: with a `world` on Brisk or Story only the wait for the hour is scaled by `PACE.brisk`:
+ * the scene plays once the hour is at most `(1 - PACE.brisk)` of a day away.
+ */
+export function sceneTimeHolds(ms: number, id: string, world?: World): boolean {
   const want = STORY.sceneTime[id];
   if (!want) return true;
   const f = (ms % STORY.dayMs) / STORY.dayMs;
-  if (want === 'morning') return f < STORY.morningEndsAt;
-  if (want === 'afternoon') return f >= STORY.morningEndsAt && f < STORY.duskAt;
-  return f >= STORY.duskAt;
+  const start = want === 'morning' ? 0 : want === 'afternoon' ? STORY.morningEndsAt : STORY.duskAt;
+  const end = want === 'morning' ? STORY.morningEndsAt : want === 'afternoon' ? STORY.duskAt : 1;
+  if (f >= start && f < end) return true;
+  if (!world || storyPaceOf(world) === 'full') return false;
+  const away = (((start - f) % 1) + 1) % 1; // fraction of a day until the hour opens
+  return away <= 1 - PACE.brisk;
 }
 
 /** R0634: whether scene `id` may play in the world's season (no `season` gate: always). */

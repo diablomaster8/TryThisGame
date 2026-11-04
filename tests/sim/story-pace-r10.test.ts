@@ -58,10 +58,8 @@ describe('Story pace (R0614)', () => {
   it('Brisk runs chapter 2 to 3 in less story time than Full', () => {
     const full = chapterTwoSeconds('full');
     const brisk = chapterTwoSeconds('brisk');
-    // The hour a scene names is not shortened (Rest until covers it), so the ratio is
-    // held to 35% here rather than 25%.
-    // Measured 2026-10-30: full 210 s, brisk 66 s (31%); the rest is the closing's hour.
-    expect(brisk / full).toBeLessThan(0.35);
+    // R0614: the wait for a scene's named hour is scaled too, so Brisk is at most 25%.
+    expect(brisk / full).toBeLessThanOrEqual(0.25);
   });
 });
 
