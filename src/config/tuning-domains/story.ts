@@ -12,3 +12,7 @@ export * from '../tuning-camp10d';
 export * from '../tuning-camp9';
 export * from '../tuning-camp9r';
 export * from '../tuning-journal';
+export * from '../tuning-camp11-profiles';
+export * from '../tuning-camp11-save';
+export * from '../tuning-camp11c';
+export * from '../tuning-camp11ui';

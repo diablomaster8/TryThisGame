@@ -275,6 +275,7 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   creatorUnlocked: 'elsewhere',
   creatorApplied: 'elsewhere',
   keeperSwitchPrompt: 'elsewhere',
+  guardianHall: 'elsewhere',
   regionCritter: 'elsewhere',
   gateOpened: 'elsewhere',
   companionReacts: 'elsewhere',

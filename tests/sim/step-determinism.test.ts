@@ -30,7 +30,7 @@ function run(): number {
   return hash(worldFingerprint(w));
 }
 
-const EXPECTED = 2101816020;
+const EXPECTED = 912793809;
 
 describe('stepWorld determinism', () => {
   it('two runs agree', { timeout: 60_000 }, () => {

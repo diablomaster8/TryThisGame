@@ -8,3 +8,4 @@ export * from '../tuning-r10b1';
 export * from '../tuning-r10b2';
 export * from '../tuning-r10b3';
 export * from '../tuning-r10b4';
+export * from '../tuning-dungeon-tap';

@@ -9,3 +9,4 @@ export * from '../tuning-battle-r6';
 export * from '../tuning-battle-r9';
 export * from '../tuning-battle';
 export * from '../tuning-tactics';
+export * from '../tuning-battle-3d';
