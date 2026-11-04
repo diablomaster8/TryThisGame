@@ -367,6 +367,8 @@ export interface Item {
   flavor?: Flavor;
   /** R0537 (lane A r8): when a toy came to the Grove, for its novelty. Optional, no save bump. */
   bornMs?: number;
+  /** R0574: how many Nubbins are playing together on a pair toy (set by the sim). */
+  players?: number;
 }
 
 export interface Tree {
@@ -634,7 +636,16 @@ export interface Inventory {
 export type Flavor = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moon';
 export const FLAVORS: readonly Flavor[] = ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon'];
 
-export type ToyKind = 'ball' | 'radio' | 'blocks' | 'mirror' | 'tv';
+export type ToyKind =
+  | 'ball'
+  | 'radio'
+  | 'blocks'
+  | 'mirror'
+  | 'tv'
+  | 'seesaw'
+  | 'sandbox'
+  | 'drum'
+  | 'bubbleWand';
 export type DyeColor = 'rose' | 'sky' | 'mint' | 'gold' | 'violet' | 'ember';
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
@@ -1875,7 +1886,7 @@ export type SimEvent =
   | { kind: 'essenceGiven'; nubbinId: string; type: NubbinType }
   | { kind: 'reborn'; nubbinId: string }
   | { kind: 'departed'; nubbinId: string; name: string }
-  | { kind: 'reaction'; nubbinId: string; reaction: Reaction }
+  | { kind: 'reaction'; nubbinId: string; reaction: Reaction; calm?: boolean }
   | { kind: 'langReact'; nubbinId: string; word: string; gesture: LangGesture }
   | { kind: 'fruitDropped'; treeId: string; itemId: string }
   | { kind: 'ate'; nubbinId: string }

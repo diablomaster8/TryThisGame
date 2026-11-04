@@ -110,6 +110,7 @@ import { doodleAlpha } from '../sim/perform';
 import { ambientDraws, chaseClip, chaseLook, jamEmote } from './ambient-look';
 import { buildAmbientSheet, ambientKey } from './sprites/ambient-art';
 import { jamsOf } from '../sim/jam';
+import { rockTilt } from '../sim/toy-pair';
 import { drawKidBerries } from './hollow-kid-pixel';
 import { PixelHollowPoofs } from './hollow-poof-pixel';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
@@ -557,7 +558,7 @@ export class WorldView {
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
-      v.bubble = { shape: bubbleFor(e.reaction), untilMs: nowMs + UI.bubbleMs };
+      v.bubble = { shape: e.calm ? 'star' : bubbleFor(e.reaction), untilMs: nowMs + UI.bubbleMs };
     }
   }
 
@@ -1247,7 +1248,7 @@ export class WorldView {
       const z = lerp(prev.pos.z, item.pos.z, alpha);
       const frame =
         item.kind === 'toy' && item.toy && item.toy !== 'ball'
-          ? item.toy
+          ? seesawFrame(item, world.timeMs)
           : item.kind === 'fruit' && item.flavor
             ? `fruit-${item.flavor}`
             : item.kind;
@@ -2827,6 +2828,13 @@ export class WorldView {
  */
 function paintedGround(x: number, z: number): number {
   return deckY(x, z) ?? Math.max(groveHeight(x, z) - hillHeight(x, z), WATER_LEVEL);
+}
+
+/** R0574: a toy's sprite key; the seesaw swaps between three tilts while two play on it. */
+function seesawFrame(item: { toy?: string; players?: number }, timeMs: number): string {
+  if (item.toy !== 'seesaw') return item.toy ?? 'toy';
+  const t = rockTilt(item, timeMs);
+  return t > 0.33 ? 'seesaw-r' : t < -0.33 ? 'seesaw-l' : 'seesaw';
 }
 
 function lerp(a: number, b: number, t: number): number {

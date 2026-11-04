@@ -5,6 +5,7 @@ import { RasterAtlas } from './atlas';
 import { stamp } from './buildings';
 import { fbm, ridged, vnoise } from './noise';
 import { bush, LEAF, rock } from './props';
+import { PAIR_TOY_FRAMES } from './toys-pair';
 import { hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
 
 /**
@@ -809,6 +810,7 @@ export function buildPaintedProps(): SpriteSheet {
   add('blocks', blocks());
   add('mirror', mirror());
   add('tv', tv());
+  for (const [k, paint] of Object.entries(PAIR_TOY_FRAMES)) add(k, paint());
   add('tuft', tuft());
   add('daisy', daisy());
   add('bluebell', bluebell());

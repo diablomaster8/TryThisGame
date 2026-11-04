@@ -57,6 +57,8 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
+import { isPairToy } from './toy-pair';
+import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { peekAct } from './peek';
 import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
@@ -953,6 +955,8 @@ function stepBehavior(
     n.needs.hunger = 1;
     n.needs.energy = 1;
     if ((b.state === 'react' || b.state === 'pet') && now < b.untilMs) return;
+    // R0592: he sits still while a child watches him teach.
+    if (b.state === 'perform' && b.itemId === 'teach' && now < b.untilMs) return;
     const seat = mossSeat(world);
     if (dist(n.pos, seat) > BEHAVIOR.arriveRadius) {
       if (b.state !== 'wander') setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
@@ -1158,6 +1162,14 @@ function stepBehavior(
         if (kind === 'mirror') n.needs.affection = Math.min(100, n.needs.affection + 2);
         if (kind === 'tv') n.needs.energy = Math.min(1, n.needs.energy + 0.15);
         if (kind === 'blocks') n.typeLean.power += 1;
+        // R0574: the new toys.
+        if (kind === 'drum') {
+          addHappiness(n, BEHAVIOR.playHappiness * 0.5);
+          noteTraitCare(n, 'musical', events);
+        }
+        if (kind === 'bubbleWand') n.typeLean.run += 1;
+        if (isPairToy(kind) && (toy.players ?? 0) >= 2)
+          addHappiness(n, TOY_PAIR.togetherHappiness);
         if (kind === 'radio' && (n.lessons?.dance ?? 0) < 1)
           n.lessons = { ...(n.lessons ?? {}), dance: 1 };
         chooseIdle(n, world, rng, now);

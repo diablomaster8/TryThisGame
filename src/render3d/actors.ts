@@ -1,4 +1,5 @@
 import { memorialSpot } from '../render/memorial-spot';
+import { rockTilt } from '../sim/toy-pair';
 import { ridePose } from '../render/ride-pose';
 import { rideScale } from './ride-scale';
 import * as THREE from 'three';
@@ -1591,6 +1592,11 @@ export class Actors {
       const x = lerp(v.prev.pos.x, i.pos.x, alpha);
       const z = lerp(v.prev.pos.z, i.pos.z, alpha);
       v.mesh.position.set(x, this.ground(x, z) + v.lift + lerp(v.prev.y, i.y, alpha), z);
+      // R0574: the seesaw's plank rocks while two Nubbins play on it.
+      if (i.toy === 'seesaw') {
+        const plank = v.mesh.getObjectByName('plank');
+        if (plank) plank.rotation.z = rockTilt(i, world.timeMs) * 0.25;
+      }
     }
     for (const [id, v] of [...this.items]) {
       if (liveItems.has(id)) continue;
