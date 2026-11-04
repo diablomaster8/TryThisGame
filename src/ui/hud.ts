@@ -1959,7 +1959,10 @@ export function mountHud(
         } else if (e.kind === 'regionGag') {
           // R0137: a weather gag, shown only in the weather that opens it.
           toast(
-            e.first ? (REGION_GAG_TEXT[e.id]?.first ?? '') : (REGION_GAG_TEXT[e.id]?.again ?? ''),
+            SEASON_KEEPSAKE_TEXT[e.id] ??
+              (e.first
+                ? (REGION_GAG_TEXT[e.id]?.first ?? '')
+                : (REGION_GAG_TEXT[e.id]?.again ?? '')),
           );
         } else if (e.kind === 'wildNubbin') {
           // R0120: a region's shy wild Nubbin, noticed or befriended.
