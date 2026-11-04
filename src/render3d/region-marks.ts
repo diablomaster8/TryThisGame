@@ -198,6 +198,13 @@ export class RegionMarks3d {
           this.gem(m.x, y + 1.25, m.z, 0.16, '#f8d870', t);
         } else this.block(m.x, y + 0.01, m.z, 0.95, 0.06, 0.95, '#b0aca0');
         break;
+      case 'ghost': {
+        const bob = Math.sin(t * 1.2) * 0.15;
+        this.block(m.x, y + bob, m.z, 5, 0.7, 1.6, '#dfe8f4', 0.3);
+        this.block(m.x, y + 0.7 + bob, m.z, 0.14, 4, 0.14, '#dfe8f4');
+        this.block(m.x + 0.9, y + 1.3 + bob, m.z, 1.8, 2.4, 0.06, '#eef4fa', 0.3);
+        break;
+      }
       case 'plot': {
         const edge = '#f4ead0';
         this.block(m.x, y + 0.01, m.z - 4, 8, 0.04, 0.1, edge);

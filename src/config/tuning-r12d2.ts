@@ -77,3 +77,14 @@ export const GATE_PLAN = {
 
 /** R0136 (WORLD-70): how many pieces a region's build plot holds, and how close two may stand. */
 export const PLOT_RULES = { max: 12, spacing: 0.9, half: 4 } as const;
+
+/**
+ * R0137 (WORLD-71): weather you can use, each a small bonus and never required. Wind on the
+ * ridge lengthens a glide by `windGlide`; fog on the shore shows a ghost ship, out at sea, to
+ * anyone within `ghostSeen` units; rain turns a mill wheel `millRain` times as fast.
+ */
+export const WEATHER_PLAY = {
+  windGlide: 1.3,
+  millRain: 1.8,
+  ghost: { region: 'shore', x: 30, z: 18, seen: 34 },
+} as const;

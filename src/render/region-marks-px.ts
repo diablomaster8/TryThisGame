@@ -161,6 +161,21 @@ function pathTile(): Raster {
   return r;
 }
 
+/** R0137: the shore's ghost ship, pale and see-through, seen only in fog. */
+function ghostShip(): Raster {
+  const r = new Raster(48, 44, null);
+  r.tracking = true;
+  const c = hex('#dfe8f4');
+  r.rect(23, 2, 2, 28, c, 0.7);
+  r.tri(25, 4, 25, 26, 40, 24, c, 0.6);
+  r.tri(23, 8, 23, 26, 10, 25, c, 0.5);
+  r.ellipse(24, 32, 18, 5, c, 0.65);
+  r.rect(6, 28, 36, 4, c, 0.65);
+  r.ellipse(24, 38, 16, 2, hex('#bcd0e8'), 0.4);
+  r.tracking = false;
+  return r;
+}
+
 function paint(): SpriteSheet {
   if (sheet) return sheet;
   const atlas = new RasterAtlas(256);
@@ -171,6 +186,7 @@ function paint(): SpriteSheet {
   atlas.add('photo', frame());
   atlas.add('plot', plotOutline());
   atlas.add('post', post());
+  atlas.add('ghost', ghostShip());
   atlas.add('decor-bench', bench());
   atlas.add('decor-flowerbed', flowerbed());
   atlas.add('decor-lanternSmall', lantern());
@@ -267,6 +283,9 @@ function drawMark(
       else put(s, batch, name, m.x, y, m.z, m.decor === 'lanternSmall' ? 0.5 : 1.4, tint);
       break;
     }
+    case 'ghost':
+      put(s, batch, 'ghost', m.x, y + 0.1 + bob * 2, m.z, 7, tint, 'billboard');
+      break;
     case 'plot': {
       put(s, batch, 'plot', m.x, y + 0.02, m.z, 8, tint, 'flat', 8);
       for (const [dx, dz] of [

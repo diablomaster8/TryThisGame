@@ -2026,6 +2026,8 @@ export type SimEvent =
   /** R0120: a region's critter was taken. R0110: a gate gave way. R0121: a partner reacts to a new place. */
   | { kind: 'regionCritter'; region: string; species: string }
   // R0120 (R12 d2): a region's shy wild Nubbin noticed, or befriended with a fruit.
+  // R0137 (R12 d2): a small weather gag seen (the shore's ghost ship in fog).
+  | { kind: 'regionGag'; id: string; first: boolean }
   | { kind: 'wildNubbin'; region: string; name: string; state: 'met' | 'friend' }
   | { kind: 'gateOpened'; region: string; id: string }
   | { kind: 'companionReacts'; id: string; region: string; first: boolean }

@@ -11,10 +11,12 @@ import { photoSpotAt } from './photo-spots';
 import { drawnRegionOf } from './region-walk';
 import { roomNear } from './region-spots';
 import { plotPieces } from './region-plots';
+import { ghostShipHere } from './region-weather-play';
 import { openTraces } from './regions-trace';
 import type { World } from './types';
 
-export type MarkKind = 'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor';
+export type MarkKind =
+  'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor' | 'ghost';
 
 export interface Mark {
   kind: MarkKind;
@@ -47,6 +49,7 @@ let cache: {
   collected: unknown;
   plot: unknown;
   plotN: number;
+  ghost: boolean;
   rev: number;
   list: readonly Mark[];
 } | null = null;
@@ -58,12 +61,14 @@ export function regionMarks(world: World): readonly Mark[] {
   if (!region) return NONE;
   const c = cache;
   const plotN = plotPieces(world, region).length;
+  const ship = ghostShipHere(world);
   if (
     c &&
     c.loc === world.location &&
     c.collected === world.collected &&
     c.plot === world.plotDecor &&
     c.plotN === plotN &&
+    c.ghost === !!ship &&
     c.rev === rev
   )
     return c.list;
@@ -76,6 +81,7 @@ export function regionMarks(world: World): readonly Mark[] {
   if (plot) list.push({ kind: 'plot', id: `plot:${region}`, region, ...plot });
   for (const d of plotPieces(world, region))
     list.push({ kind: 'decor', id: d.id, decor: d.kind, region, x: d.pos.x, z: d.pos.z });
+  if (ship) list.push({ kind: 'ghost', id: 'ghost-ship', region, x: ship.x, z: ship.z });
   cache = {
     loc: world.location,
     collected: world.collected,
