@@ -9,7 +9,6 @@ import { setBiomeBed } from '../platform/biome-beds';
 import { REGIONS } from '../config/regions';
 import { regionOf } from '../sim/regions';
 import { hintToast, secretToasts, traceToasts } from './world-hints-ui';
-import { PHOTO_SPOT_TEXT } from '../config/strings-r11d6';
 import { REGION_LIFE_TEXT } from '../config/strings-r11d8';
 import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
@@ -151,6 +150,8 @@ import { clockText } from '../sim/dungeon-log';
 import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
+import { PhotoSpotButton } from './photo-spot-button';
+import { PHOTO_FRAME_TEXT } from '../config/strings-r12d2';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
 import { showCrashCard } from './gl-failure';
@@ -617,6 +618,8 @@ export function mountHud(
   const memorialCard = new MemorialCard(root, game);
   const decorate = new DecorateMenu(root, game, toast);
   const photo = new PhotoMode(root, game, () => sheet.selectedId);
+  // R0138: the "Take photo" button while the Keeper stands in a region's photo frame.
+  const photoSpotBtn = new PhotoSpotButton(root, game, () => photo);
   const pocket = new PocketMode(root, game);
   const quests = new QuestBoard(root, game);
   const profile = new ProfilePanel(root, game);
@@ -1227,6 +1230,7 @@ export function mountHud(
           g.world.location === 'hollow' ||
           g.world.location === 'corvin' ||
           g.world.location === 'dungeon';
+        photoSpotBtn.update(dialogue.isOpen || away.isOpen || photo.isOpen());
         holdRenderWhile(
           g,
           dialogue.isOpen || away.isOpen || photo.isOpen(),
@@ -1961,7 +1965,7 @@ export function mountHud(
             );
         } else if (e.kind === 'photoSpot') {
           // R0138: a framed vista; the camera is the Photo button.
-          toast(e.first ? PHOTO_SPOT_TEXT.first : PHOTO_SPOT_TEXT.again);
+          toast(e.first ? PHOTO_FRAME_TEXT.first(e.region) : PHOTO_FRAME_TEXT.again);
         } else if (e.kind === 'traceFound') {
           // R0090: a small remembered thing in the world.
           for (const line of traceToasts(e.id, game()?.world)) toast(line);

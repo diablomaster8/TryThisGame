@@ -211,7 +211,9 @@ export class PhotoMode {
     drawShadowText(ctx, shot.title, W / 2, y, color(C.darkPlum), color(C.cream), 1, 'center');
     drawText(
       ctx,
-      `${shot.campaign.replace(/[’‘]/g, "'")} · ${TITLE_CARD_TEXT.chapter(shot.chapter)}`,
+      shot.chapter > 0
+        ? `${shot.campaign.replace(/[’‘]/g, "'")} · ${TITLE_CARD_TEXT.chapter(shot.chapter)}`
+        : shot.campaign,
       W / 2,
       y + 9,
       color(C.plum),

@@ -8,6 +8,7 @@ import { WORLD_TRACES, type WorldTrace } from '../content/world-traces';
 import type { RegionId } from '../config/regions';
 import { drawnRegionOf } from './region-walk';
 import { spotNear } from './region-spots';
+import { bumpMarks } from './region-marks';
 import type { SimEvent, World } from './types';
 
 /** Note a look at trace `id`; true the first time it counts. */
@@ -65,6 +66,7 @@ export function stepTraces(world: World, events: SimEvent[]): void {
     if (Math.hypot(t.x - k.x, t.z - k.z) > TRACE_LOOK_RADIUS) continue;
     (world.collected ??= {})[`trace:${t.id}`] = world.timeMs;
     examineTrace(world, t.id);
+    bumpMarks();
     events.push({ kind: 'traceFound', id: t.id });
   }
 }

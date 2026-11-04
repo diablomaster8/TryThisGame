@@ -1,6 +1,6 @@
 import type { RegionId } from '../config/regions';
 import { hashSeed, Rng } from './rng';
-import { layoutOf, standsIn } from './region-walk';
+import { layoutOf, resolveRegion, standsIn } from './region-walk';
 import type { RegionLayout } from '../config/region-layout';
 
 /**
@@ -77,14 +77,11 @@ export function reachableCells(l: RegionLayout): Spot[] {
   return out;
 }
 
-/** True when (x, z) fits a spot: walkable all round and not on a solid piece. */
+/** True when (x, z) fits a spot: walkable all round and clear of every solid piece and trunk. */
 export function fits(l: RegionLayout, x: number, z: number): boolean {
   if (!standsIn(l, x, z, CLEAR)) return false;
-  for (const s of l.solids) {
-    const reachR = Math.max(s.r, (s.w ?? 0) / 2, (s.h ?? 0) / 2) + CLEAR;
-    if (Math.hypot(x - s.x, z - s.z) < reachR) return false;
-  }
-  return true;
+  // A walker pushed out of anything here would not stand where the spot says it does.
+  return !resolveRegion(l, { x, z }, CLEAR);
 }
 
 const memo = new Map<string, Spot[]>();
@@ -138,4 +135,27 @@ export function spotNear(region: RegionId, x: number, z: number): Spot | null {
     }
   }
   return best;
+}
+
+/**
+ * The nearest reachable spot to (x, z) with open ground all round it, out to `half` units each
+ * way (a build plot wants a square, not one standing place). Null if the region has none.
+ */
+export function roomNear(region: RegionId, x: number, z: number, half: number): Spot | null {
+  const l = layoutOf(region);
+  if (!l) return null;
+  const sorted = reachableCells(l)
+    .map((c) => ({ c, d: Math.hypot(c.x - x, c.z - z) }))
+    .sort((a, b) => a.d - b.d);
+  for (const { c } of sorted) {
+    let ok = true;
+    for (let dz = -half; dz <= half && ok; dz += half / 2)
+      for (let dx = -half; dx <= half; dx += half / 2)
+        if (!fits(l, c.x + dx, c.z + dz)) {
+          ok = false;
+          break;
+        }
+    if (ok) return { x: c.x, z: c.z };
+  }
+  return null;
 }

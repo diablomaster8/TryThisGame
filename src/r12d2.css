@@ -1,0 +1,18 @@
+/* Round 12, helper d2: small pieces of UI for the open world's content. */
+.photo-spot-btn {
+  position: fixed;
+  left: 50%;
+  bottom: calc(184px + env(safe-area-inset-bottom, 0px));
+  background: #f4c430;
+  color: #2a1a3a;
+  border: 2px solid #2a1a3a;
+  font-weight: 700;
+  transform: translateX(-50%);
+  min-height: 48px;
+  min-width: 48px;
+  padding: 0 20px;
+  z-index: 30;
+}
+.photo-spot-btn[hidden] {
+  display: none;
+}

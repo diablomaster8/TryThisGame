@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { COLLECT } from '../../src/config/region-collectibles';
 import { WORLD_TRACES } from '../../src/content/world-traces';
 import { collectiblesIn, openHere, stepCollectibles, tally } from '../../src/sim/collectibles';
-import { fits } from '../../src/sim/region-spots';
-import { layoutOf, REGION_SPECS, regionLocation } from '../../src/sim/region-walk';
+import { fits, spotNear } from '../../src/sim/region-spots';
+import { layoutOf, planRegionWalk, REGION_SPECS, regionLocation } from '../../src/sim/region-walk';
 import { openTraces, stepTraces, traceSpot } from '../../src/sim/regions-trace';
 import { createWorld } from '../../src/sim/world';
 import type { RegionId } from '../../src/config/regions';
@@ -41,6 +41,23 @@ describe('R0090/R0091: traces and collectibles in every drawn region', () => {
       const keys = new Set(set.map((c) => `${c.x},${c.z}`));
       expect(keys.size).toBe(set.length);
       expect(collectiblesIn(r)).toBe(set);
+    }
+  });
+
+  it('every collectible, trace and photo frame can be walked to from the region start', () => {
+    for (const r of DRAWN) {
+      const l = layoutOf(r)!;
+      const from = spotNear(r, l.spec.path[0]!.x, l.spec.path[0]!.z)!;
+      const targets = [
+        ...collectiblesIn(r).map((c) => ({ id: c.id, x: c.x, z: c.z })),
+        ...WORLD_TRACES.filter((t) => t.region === r).map((t) => ({ id: t.id, ...traceSpot(t)! })),
+      ];
+      for (const t of targets) {
+        const legs = planRegionWalk(l, from, t);
+        expect(legs.length, t.id).toBeGreaterThan(0);
+        const end = legs[legs.length - 1]!;
+        expect(Math.hypot(end.x - t.x, end.z - t.z), t.id).toBeLessThan(0.6);
+      }
     }
   });
 

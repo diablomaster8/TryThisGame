@@ -10,6 +10,7 @@ import { WORLD_TRACES } from '../content/world-traces';
 import { drawnRegionOf } from './region-walk';
 import { scatterSpots } from './region-spots';
 import { traceSpot } from './regions-trace';
+import { bumpMarks } from './region-marks';
 import type { SimEvent, World } from './types';
 
 /**
@@ -91,6 +92,7 @@ export function stepCollectibles(world: World, events: SimEvent[]): void {
     if (Math.hypot(c.x - k.x, c.z - k.z) > COLLECT.pickRadius) continue;
     const got = (world.collected ??= {});
     got[c.id] = world.timeMs;
+    bumpMarks();
     events.push({ kind: 'keepsakeFound', id: c.id, what: c.kind });
     const t = tally(world, c.region, c.kind);
     if (t.got < t.of) continue;
