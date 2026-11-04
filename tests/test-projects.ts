@@ -201,6 +201,7 @@ export const TOOL_FILES: readonly string[] = [
  */
 export const ISOLATED_FILES: readonly string[] = [
   'tests/render/pool-burst.test.ts',
+  'tests/render/pool-shed.test.ts',
   'tests/sim/expansions.test.ts',
   'tests/sim/fun-r5.test.ts',
   'tests/sim/read-aloud.test.ts',

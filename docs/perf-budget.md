@@ -44,3 +44,6 @@ and no memory), so they read as mid; Settings → Quality → High lifts them.
   tier.
 - `WORLD_MEM.phone.heapMB` (180, one region's target) sits above the mid tier's whole-page
   heap budget (160); the region budget should come down when the phone pass has numbers.
+- Production Full 3D heap after GC, phone viewport, new Hazel's Grove (2026-11-04, r12-d3):
+  154 MB, down from 188 once villagers' and the grandchild's marched surfaces are let go after
+  their rig is built (`POOL_SHED`); Pixel 38 MB. Measured with `recs-2026-10-27/tools/r12-d3-heap.cjs`.
