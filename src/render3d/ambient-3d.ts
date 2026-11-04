@@ -46,6 +46,7 @@ export class Ambient3D {
     const rows = inGrove ? ambientDraws(world, nowMs, reduce) : [];
     let used = 0;
     for (const r of rows) {
+      if (r.flat) continue;
       const mat = this.matFor(ambientKey(r.kind, r.frame, r.colour));
       if (!mat) continue;
       let s = this.slots[used];

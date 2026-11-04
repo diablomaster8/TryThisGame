@@ -2737,7 +2737,7 @@ export class WorldView {
           x: r.x,
           y: paintedGround(r.x, r.z) + r.y,
           z: r.z,
-          mode: 'billboard',
+          mode: r.flat ? 'flat' : 'billboard',
           w: r.size,
           h: r.size,
           opacity: r.opacity,

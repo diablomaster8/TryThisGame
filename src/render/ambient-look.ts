@@ -7,6 +7,7 @@
  * motion drops the jumps and the wing flutter keeps a slow beat.
  */
 import { inConcert } from '../sim/jam';
+import { puddlesOf, snowFigures } from '../sim/weather-play';
 import { ambientOf, type AmbientCritter } from '../sim/ambient';
 import type { Nubbin, World } from '../sim/types';
 import type { PerformLook } from './perform-look';
@@ -28,9 +29,56 @@ const look: PerformLook = {
 };
 
 /** The clip a chaser plays, or null when this Nubbin is not on a chase. */
-export function chaseClip(n: Nubbin): 'walk' | 'happy' | 'dizzy' | null {
+/** R0561, R0562, R0571 (lane A r11): the group acts' clips and hops, by act name. */
+const RUNNING = new Set([
+  'tagIt',
+  'tagRun',
+  'tagKeeper',
+  'tagKeeperRun',
+  'followLine',
+  'hideRun',
+  'seekFind',
+  'chaseKeeper',
+  'runToTree',
+]);
+const HOPPING: Record<string, number> = {
+  copyHop: 0.2,
+  puddleStomp: 0.12,
+  leafPileJump: 0.3,
+  followLine: 0.1,
+  snowball: 0.08,
+  waveHello: 0.06,
+};
+const EMOTES: Record<string, EmoteShape> = {
+  tagIt: 'exclaim',
+  tagKeeper: 'exclaim',
+  tagKeeperRun: 'smirk',
+  tagGloat: 'smirk',
+  seekCount: 'dots',
+  sunbathe: 'zz',
+  snowball: 'puff',
+  snowBuild: 'star',
+  puddleStomp: 'star',
+  leafPileJump: 'star',
+  flowerSniff: 'heart',
+  copyHop: 'star',
+  lookUp: 'exclaim',
+  greetGate: 'heart',
+  guardKeeper: 'spiky',
+  sniffNpc: 'question',
+  tugCoat: 'smirk',
+  waveHello: 'heart',
+};
+
+export function chaseClip(n: Nubbin): 'walk' | 'happy' | 'dizzy' | 'sit' | 'sleep' | 'idle' | null {
   const b = n.behavior;
   if (b.state !== 'perform') return null;
+  const id = b.itemId ?? '';
+  if (RUNNING.has(id) && id !== 'tagGloat') return 'walk';
+  if (id === 'seekCount' || id === 'flowerSniff' || id === 'snowBuild') return 'sit';
+  if (id === 'sunbathe') return 'sleep';
+  if (id === 'lookUp' || id === 'guardKeeper') return 'idle';
+  if (id === 'greetGate') return b.target ? 'walk' : 'happy';
   if (b.itemId === 'chaseFlutter') return b.target ? 'walk' : 'happy';
   if (b.itemId === 'catchFlutter') return 'happy';
   if (b.itemId === 'chaseTrip') return 'dizzy';
@@ -60,16 +108,24 @@ export function chaseLook(n: Nubbin, simMs: number, reduce: boolean): PerformLoo
     look.sw = 1.15;
     return look;
   }
+  const hop = HOPPING[b.itemId ?? ''];
+  if (hop !== undefined) {
+    if (!reduce) look.dy = Math.abs(Math.sin(t / 150)) * hop;
+    return look;
+  }
   return null;
 }
 
 /** A concert's note over every member's head, or null. */
 export function jamEmote(n: Nubbin, simMs: number): EmoteShape | null {
-  return inConcert(n, simMs) ? 'note' : null;
+  if (inConcert(n, simMs)) return 'note';
+  return n.behavior.state === 'perform' ? (EMOTES[n.behavior.itemId ?? ''] ?? null) : null;
 }
 
 export interface AmbientDraw {
-  kind: AmbientCritter['kind'];
+  kind: AmbientCritter['kind'] | 'snowman' | 'puddle';
+  /** A ground decal, laid flat. */
+  flat?: boolean;
   frame: number;
   colour: number;
   x: number;
@@ -111,5 +167,28 @@ export function ambientDraws(world: World, nowMs: number, reduce: boolean): read
           : 1,
     });
   }
+  for (const d of snowFigures(world))
+    rows.push({
+      kind: 'snowman',
+      frame: 0,
+      colour: 0,
+      x: d.x,
+      y: 0,
+      z: d.z,
+      size: 0.9,
+      opacity: 1,
+    });
+  for (const d of puddlesOf(world))
+    rows.push({
+      kind: 'puddle',
+      frame: 0,
+      colour: 0,
+      x: d.x,
+      y: 0.03,
+      z: d.z,
+      size: 1.3,
+      opacity: 0.8,
+      flat: true,
+    });
   return rows;
 }

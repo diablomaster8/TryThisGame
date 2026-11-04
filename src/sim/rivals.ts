@@ -12,6 +12,8 @@
  */
 import { FRIENDS } from '../config/tuning';
 import { FRIEND_COMPAT, RIVALS } from '../config/tuning-soul-r10';
+import { KIN } from '../config/tuning-soul-r11g';
+import { areSiblings } from './soul-kit';
 import { soulLive } from './antics';
 import { addHappiness } from './needs';
 import { isFree } from './nubbin';
@@ -25,7 +27,9 @@ const dist = (a: { x: number; z: number }, b: { x: number; z: number }): number 
 
 /** How well two Nubbins' personalities fit (a child by its leaning; none yet is 1). */
 export function compat(a: Nubbin, b: Nubbin): number {
-  return fitOf(a.personality ?? leaningPersonality(a), b.personality ?? leaningPersonality(b));
+  const fit = fitOf(a.personality ?? leaningPersonality(a), b.personality ?? leaningPersonality(b));
+  // R0572 (lane A r11): siblings are more compatible.
+  return areSiblings(a, b) ? fit * KIN.siblingCompat : fit;
 }
 
 /** The fit of two personalities (or leanings) already looked up; none yet is 1. */

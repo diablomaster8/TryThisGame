@@ -83,8 +83,33 @@ function dragonfly(blur: boolean): PixelCanvas {
 }
 
 /** The frame key for a critter: `colour` 0-2 for butterflies, `frame` 0 or 1. */
-export const ambientKey = (kind: AmbientKind, frame: number, colour = 0): string =>
+export type DecalKind = AmbientKind | 'snowman' | 'puddle';
+
+export const ambientKey = (kind: DecalKind, frame: number, colour = 0): string =>
   frameKey(kind === 'butterfly' ? `amb-butterfly${colour}` : `amb-${kind}`, 'front', frame);
+
+function snowman(): PixelCanvas {
+  const pc = new PixelCanvas(AMBIENT_CELL, AMBIENT_CELL);
+  pc.disc(8, 12, 3.6, C.white);
+  pc.disc(8, 7.5, 2.8, C.white);
+  pc.disc(8, 4, 2, C.white);
+  pc.px(7, 3, C.ink);
+  pc.px(9, 3, C.ink);
+  pc.px(8, 4, C.orange);
+  pc.px(8, 7, C.ink);
+  pc.px(8, 9, C.ink);
+  pc.line(4, 7, 2, 5, C.wood);
+  pc.line(12, 7, 14, 5, C.wood);
+  return pc;
+}
+
+function puddle(): PixelCanvas {
+  const pc = new PixelCanvas(AMBIENT_CELL, AMBIENT_CELL);
+  pc.ellipse(8, 8, 6.5, 4, C.water);
+  pc.ellipse(7, 7, 3, 1.5, C.skyDeep);
+  pc.px(10, 8, C.white);
+  return pc;
+}
 
 export function buildAmbientSheet(): SpriteSheet {
   const atlas = new AtlasBuilder(AMBIENT_CELL, AMBIENT_CELL, 8);
@@ -95,5 +120,7 @@ export function buildAmbientSheet(): SpriteSheet {
     atlas.add(ambientKey('frog', f), frog(f === 1));
     atlas.add(ambientKey('dragonfly', f), dragonfly(f === 1));
   }
+  atlas.add(ambientKey('snowman', 0), snowman());
+  atlas.add(ambientKey('puddle', 0), puddle());
   return atlas.build();
 }
