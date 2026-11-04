@@ -376,6 +376,11 @@ export class PetBeats {
   >();
   /** Lane A r8: when each Nubbin's idle look began (render clock) and its last burst. */
   private readonly looks = new Map<string, { key: string; at: number; bucket: number }>();
+  /** R0577 (lane A r11): each Nubbin's last state and when it changed (render clock). */
+  private readonly lastState = new Map<
+    string,
+    { state: string; from: string | null; at: number }
+  >();
   /** Reduced motion: the looks keep their frames and drop their shakes. */
   calm = false;
   /** R0533 (lane A r9): where the Keeper is, set by the renderer each frame (null: none). */
@@ -417,8 +422,32 @@ export class PetBeats {
       this.beats.set(n.id, { kind: seen, startMs: nowMs });
       fresh = true;
     }
+    // R0577 (lane A r11): a short move between states (a push up from a sit, a stretch
+    // out of a nap), ahead of the act's own look.
+    const tr = this.transition(n, nowMs);
     const pose = this.pose(n.id, nowMs);
-    return pose ? { ...pose, fresh } : this.look(n, nowMs);
+    return pose ? { ...pose, fresh } : tr ? { ...tr, fresh: false } : this.look(n, nowMs);
+  }
+
+  /**
+   * R0577 (lane A r11): the transition clip for a state change in the last moments, keyed
+   * by (previous state, state); none under reduced motion, and none for a Nubbin seen for
+   * the first time.
+   */
+  private transition(n: Nubbin, nowMs: number): PetBeatPose | null {
+    const cur = n.behavior.state;
+    let s = this.lastState.get(n.id);
+    if (!s || s.state !== cur) {
+      s = { state: cur, from: s?.state ?? null, at: nowMs };
+      this.lastState.set(n.id, s);
+    }
+    if (this.calm || !s.from) return null;
+    const kind = transitionKind(s.from, cur);
+    if (!kind) return null;
+    const ms = nowMs - s.at;
+    const dur = TRANSITION_MS[kind];
+    if (ms < 0 || ms >= dur) return null;
+    return soulPose(kind, ms, ms / dur, false);
   }
 
   /** Lane A r8: the idle look the sim's act calls for (render/soul-looks.ts), or null. */
@@ -468,6 +497,24 @@ export class PetBeats {
     }
     return beatPose(b.kind, t);
   }
+}
+
+/** R0577 (lane A r11): how long each transition plays (all at most 300 ms but the wake). */
+export const TRANSITION_MS = {
+  standUp: 280,
+  wakeStretch: 600,
+  crouch: 250,
+  shakeOff: 300,
+} as const;
+
+/** R0577: the transition between two states, or null for a plain cut. */
+export function transitionKind(from: string, to: string): keyof typeof TRANSITION_MS | null {
+  if (from === 'nap') return 'wakeStretch';
+  if (to === 'eat') return 'crouch';
+  if (from === 'sit' && (to === 'wander' || to === 'findFood' || to === 'greet' || to === 'fetch'))
+    return 'standUp';
+  if (from === 'react' && to !== 'react') return 'shakeOff';
+  return null;
 }
 
 /** R0551: how a pet lands, by personality (no personality yet: the cheerful bounce). */

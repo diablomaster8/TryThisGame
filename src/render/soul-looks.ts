@@ -64,7 +64,12 @@ export type SoulLookKind =
   | 'watchFar'
   | 'bondHug'
   // R0568 (lane A r11).
-  | 'tiltHead';
+  | 'tiltHead'
+  // R0577 (lane A r11): the transitions between states.
+  | 'standUp'
+  | 'wakeStretch'
+  | 'crouch'
+  | 'shakeOff';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
@@ -520,6 +525,43 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.clip = 'walk';
       out.pose3d = 'walk';
       out.sh = 0.95;
+      break;
+    // R0577 (lane A r11): the transitions (render/pet-reactions.ts picks and times them).
+    case 'standUp':
+      // Pushing up off the grass: from low and wide to standing.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = t < 0.5 ? 'sit' : 'idle';
+      out.sh = 0.88 + 0.12 * t;
+      out.sw = 1.06 - 0.06 * t;
+      break;
+    case 'wakeStretch':
+      // Rubbing its eyes, then a big stretch up on its toes.
+      if (t < 0.5) {
+        out.clip = 'sit';
+        out.frame = 0;
+        out.pose3d = 'sit';
+        out.sh = 0.95;
+        out.dx = 0.02 * Math.sin(t * Math.PI * 8);
+      } else {
+        const up = Math.sin(((t - 0.5) / 0.5) * Math.PI);
+        out.clip = 'happy';
+        out.frame = 0;
+        out.pose3d = 'happy';
+        out.sh = 1 + 0.12 * up;
+        out.sw = 1 - 0.06 * up;
+      }
+      break;
+    case 'crouch':
+      // Down to the fruit.
+      out.clip = 'eat';
+      out.frame = 0;
+      out.pose3d = 'eat';
+      out.sh = 1 - 0.1 * Math.sin(t * Math.PI);
+      break;
+    case 'shakeOff':
+      // A quick shake of the head, back to itself.
+      out.dx = 0.03 * Math.sin(t * Math.PI * 6) * (1 - t);
       break;
     // R0568 (lane A r11): the head tilt, a lean to one side and a puzzled look.
     case 'tiltHead':
