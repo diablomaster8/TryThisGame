@@ -1,7 +1,7 @@
 /** Lane C round 10, agent D (re-exported through tuning-camp10.ts). */
 import type { StoryRegionId } from './story-regions';
 
-type Shape = 'board' | 'signpost' | 'porchLight' | 'shrine' | 'lens';
+type Shape = 'board' | 'signpost' | 'porchLight' | 'shrine' | 'lens' | 'sundial' | 'terminal';
 
 interface GroveChange {
   shape: Shape;
@@ -43,7 +43,7 @@ export const CAMP10D = {
         glintAt: [0, 0, 0],
       },
       'grove-server-glow': {
-        shape: 'porchLight',
+        shape: 'terminal',
         mark: 'board',
         off: [-1.2, 0.3],
         lit: true,
@@ -60,9 +60,9 @@ export const CAMP10D = {
         glintAt: [0, 1.1, 0],
       },
       'grove-sundial': {
-        shape: 'lens',
-        mark: 'green',
-        off: [0, -1.8],
+        shape: 'sundial',
+        mark: 'green-centre',
+        off: [0, 0],
         lit: false,
         glint: true,
         glintAt: [0, 0.22, 0],

@@ -33,6 +33,11 @@ export function boardCards(world: World): number {
   return n;
 }
 
+/** The sundial's face reads the ending: 1 dawn, 2 dusk, 3 both lines walked. */
+export function sundialFace(keeps: readonly string[]): number {
+  return (keeps.includes('line-dawn') ? 1 : 0) + (keeps.includes('line-dusk') ? 2 : 0) || 1;
+}
+
 function item(
   key: string,
   shape: DressShape,
@@ -103,6 +108,7 @@ export function camp10dDressItems(world: World, stage: SceneStage): DressItem[] 
     if (!keeps.includes(id)) continue;
     const mark = g.region ? STORY_REGIONS[g.region].at : g.mark;
     push(`grove-change-${id}`, g.shape, at(mark, g.off), {
+      n: g.shape === 'sundial' ? sundialFace(keeps) : 0,
       lit: g.lit,
       glint: g.glint,
       glintAt: g.glintAt,

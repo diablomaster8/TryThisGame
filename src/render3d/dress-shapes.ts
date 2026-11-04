@@ -174,6 +174,49 @@ export function buildDressItem(tex: Tex, item: DressItem): THREE.Group | null {
       P.add('plain', box(0.3, 0.004, 0.012, 0.002), [0, 0.052, 0], '#2f333a', [0, 0.6, 0]);
       P.add('plain', box(0.18, 0.004, 0.01, 0.002), [0.03, 0.052, 0.03], '#2f333a', [0, -0.5, 0]);
       break;
+    case 'sundial': {
+      P.add('stone', cyl(0.5, 0.58, 0.14, 20), [0, 0.07, 0], STONE);
+      P.add('stone', cyl(0.4, 0.46, 0.18, 20), [0, 0.23, 0], '#a8a398');
+      P.add('plain', cyl(0.36, 0.36, 0.03, 20), [0, 0.33, 0], '#d8d2c4');
+      P.add('plain', box(0.02, 0.2, 0.3, 0.005), [0, 0.45, 0.02], BRASS, [0.5, 0, 0]);
+      P.add('plain', box(0.015, 0.004, 0.3, 0.002), [0.05, 0.352, 0.14], '#6a6458', [0, 0.35, 0]);
+      for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2;
+        P.add(
+          'plain',
+          box(0.02, 0.006, 0.07, 0.002),
+          [Math.sin(a) * 0.3, 0.352, Math.cos(a) * 0.3],
+          DARK,
+          [0, a, 0],
+        );
+      }
+      // The ending on the face: a sun for dawn, a moon for dusk, both when both lines are done.
+      if (item.n & 1)
+        P.add('glow', sph(0.06, 8, 6), [-0.2, 0.36, 0.1], '#f4c24a', [0, 0, 0], [1, 0.3, 1], 1.4);
+      if (item.n & 2) {
+        P.add('plain', sph(0.065, 8, 6), [0.2, 0.36, 0.1], '#b9c6f0', [0, 0, 0], [1, 0.3, 1]);
+        P.add('plain', sph(0.05, 8, 6), [0.225, 0.365, 0.09], '#d8d2c4', [0, 0, 0], [1, 0.3, 1]);
+      }
+      break;
+    }
+    case 'terminal':
+      P.add('wood', box(0.9, 0.05, 0.5, 0.015), [0, 0.5, 0], WOOD);
+      for (const x of [-0.4, 0.4]) P.add('wood', box(0.05, 0.5, 0.05, 0.012), [x, 0.25, 0], DARK);
+      P.add('plain', box(0.36, 0.3, 0.3, 0.03), [0, 0.68, 0], '#3a3f48');
+      if (item.lit) {
+        P.add(
+          'glow',
+          box(0.28, 0.2, 0.01, 0.003),
+          [0, 0.7, 0.155],
+          '#7ad8b0',
+          [0, 0, 0],
+          [1, 1, 1],
+          2,
+        );
+        P.add('plain', box(0.2, 0.012, 0.004, 0.002), [-0.02, 0.74, 0.162], '#e8fff4');
+      } else P.add('plain', box(0.28, 0.2, 0.01, 0.003), [0, 0.7, 0.155], '#1c2026');
+      P.add('plain', box(0.3, 0.02, 0.12, 0.006), [0, 0.54, 0.2], '#6a6f78');
+      break;
     case 'porchLight':
       P.add('wood', box(0.08, 1.1, 0.08, 0.025), [0, 0.55, 0], WOOD);
       P.add('wood', box(0.24, 0.05, 0.05, 0.015), [0.1, 1.08, 0], DARK);

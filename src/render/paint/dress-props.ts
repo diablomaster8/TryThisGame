@@ -144,6 +144,48 @@ function porchLight(lit: boolean): Raster {
   return fin(r);
 }
 
+/** R0639: the Grove's sundial; its face shows the ending: 1 dawn (sun), 2 dusk (moon), 3 both. */
+function sundial(face: number): Raster {
+  const r = begin(26, 22);
+  r.ellipse(13, 18, 12, 3.4, shade(STONE, 0.8));
+  slab(r, 4, 12, 18, 6, STONE);
+  r.ellipse(13, 12, 10, 3.6, mix(STONE, WHITE, 0.25));
+  r.ellipse(13, 12, 8, 2.6, hex('#d8d2c4'));
+  // The gnomon: a brass wedge casting a short shadow.
+  r.tri(13, 12, 13, 5, 17, 12, BRASS);
+  r.line(14, 12, 20, 13, hex('#8a8478'));
+  // Hour ticks round the rim.
+  for (const [x, y] of [
+    [7, 11],
+    [10, 9.5],
+    [16, 9.5],
+    [19, 11],
+  ] as const)
+    r.rect(x, y, 1, 1, DARK);
+  if (face & 1) r.disc(7, 14, 1.4, hex('#f4c24a'));
+  if (face & 2) {
+    r.disc(19, 14, 1.6, hex('#b9c6f0'));
+    r.disc(20, 13.5, 1.3, hex('#d8d2c4'));
+  }
+  return fin(r);
+}
+
+/** R0639: the old server terminal on Pixel's bench; lit, its screen glows. */
+function terminal(lit: boolean): Raster {
+  const r = begin(20, 20);
+  slab(r, 3, 15, 14, 4, hex('#6a6f78'));
+  slab(r, 2, 2, 16, 13, hex('#3a3f48'));
+  r.rect(4, 4, 12, 9, lit ? hex('#2a6a5a') : hex('#1c2026'));
+  if (lit) {
+    r.rect(5, 5, 6, 1, hex('#9af0c8'));
+    r.rect(5, 7, 9, 1, hex('#7ad8b0'));
+    r.rect(5, 9, 4, 1, hex('#9af0c8'));
+    r.rect(10, 9, 2, 1, WHITE);
+  }
+  r.rect(15, 14, 1, 1, lit ? hex('#ffe08a') : hex('#5a5f68'));
+  return fin(r);
+}
+
 function eggShelf(): Raster {
   const r = begin(32, 20);
   slab(r, 1, 13, 30, 3, WOOD);
@@ -371,6 +413,9 @@ export function buildDressSheet(): SpriteSheet {
   add('lever', lever());
   add('lens', lens());
   add('porchLight', porchLight(false));
+  for (let f = 1; f <= 3; f++) add(`sundial${f}`, sundial(f));
+  add('terminal', terminal(false));
+  add('terminal-lit', terminal(true));
   add('porchLight-lit', porchLight(true));
   add('eggShelf', eggShelf());
   add('signpost', signpost(false));

@@ -29,6 +29,8 @@ export type DressShape =
   | 'lever'
   | 'lens'
   | 'porchLight'
+  | 'sundial'
+  | 'terminal'
   | 'keepShelf'
   | 'chair'
   | 'bench'

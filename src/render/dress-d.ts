@@ -29,6 +29,10 @@ function frameFor(it: DressItem): string | null {
       return it.lit ? 'shrine-lit' : 'shrine';
     case 'bell':
       return it.n > 0 ? 'bell-new' : 'bell';
+    case 'sundial':
+      return `sundial${Math.min(3, Math.max(1, it.n))}`;
+    case 'terminal':
+      return it.lit ? 'terminal-lit' : 'terminal';
     case 'board':
       return `board${Math.min(6, it.n)}`;
     case 'porchLight':
