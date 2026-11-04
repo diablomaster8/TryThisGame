@@ -1,21 +1,20 @@
 {
-  "eagerKb": 570,
+  "eagerKb": 635,
   "eagerCeilingKb": 1000,
   "chunkCeilingKb": 1536,
   "chunks": {
     "edu-reader-worlds": 1290,
-    "atlas-catalogue": 913,
+    "atlas-catalogue": 914,
     "edu-reader": 662,
     "edu-sprout-worlds": 625,
-    "side-story-content": 425,
+    "side-story-content": 427,
     "edu-sprout": 331,
-    "save": 289,
-    "multiverse-catalogue": 252,
-    "hud": 209,
-    "grove-3d-scene": 165,
+    "save": 296,
+    "multiverse-catalogue": 253,
+    "hud": 197,
+    "grove-3d-scene": 172,
     "arcade-catalogue": 137,
-    "index": 132,
     "edu-lang": 126,
-    "governor": 102
+    "governor": 107
   }
 }
