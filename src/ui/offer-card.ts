@@ -1,13 +1,16 @@
 import { REGIONS } from '../config/regions';
 import { OFFER_TEXT, UI_TEXT } from '../config/strings';
+import { KID_FLOW_TEXT } from '../config/strings-camp12d';
 import { QUEST_OFFERS } from '../config/tuning';
+import { questPitch } from '../content/pitches';
 import type { Quest } from '../content/types';
 import type { Game } from '../game';
 import { isFunQuestCode } from '../sim/audience';
-import { activeQuests, declineRule, questSize } from '../sim/quest-offers';
+import { activeQuests, declineRule, kidFlow, openFlow, questSize } from '../sim/quest-offers';
 import { sideStory, storylines } from '../sim/story-scenes';
 import type { SimEvent } from '../sim/types';
 import { button, el } from './dom';
+import { speakLine } from './lesson';
 import { JOURNAL_TEXT } from '../config/strings-journal';
 import { portraitFrame } from './dialogue';
 import { SPEAKER_NOW } from '../render/stage-actors';
@@ -33,8 +36,10 @@ export function areaName(area: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1).replace(/-/g, ' ');
 }
 
-/** The card's one-line pitch: the first step's goal, kept to 100 characters. */
+/** The card's one-line pitch: the writer's (R0646), else the first step's goal, kept to 100 characters. */
 export function pitchOf(quest: Quest): string {
+  const written = questPitch(quest);
+  if (written) return written;
   const goal = quest.steps[0]?.goal ?? '';
   return goal.length <= 100 ? goal : `${goal.slice(0, 99).trimEnd()}…`;
 }
@@ -64,6 +69,8 @@ export class OfferCard {
   private wantFocus = false;
   /** The offer the card last moved focus to, so a keyboard player is not pulled back twice. */
   private focusedFor: string | null = null;
+  /** R0629: a reader's "Help me" on the tracked quest's stuck step. */
+  private readonly help: HTMLButtonElement;
 
   /** Back to where focus was, if the card had it (R0662). */
   private giveFocusBack(): void {
@@ -135,7 +142,10 @@ export class OfferCard {
     );
     this.chip = button('', () => this.unfold(), 'offer-chip');
     this.chip.hidden = true;
-    parent.append(this.root, this.chip);
+    this.help = button(KID_FLOW_TEXT.help, () => this.helpMe(), 'offer-help');
+    this.help.setAttribute('aria-label', KID_FLOW_TEXT.helpLabel);
+    this.help.hidden = true;
+    parent.append(this.root, this.chip, this.help);
     // Lane C r9 (R0594): the bring-home choice at a line's end shares the card's place and rules.
     this.cast = new LineCastPrompt(parent, game);
   }
@@ -159,6 +169,10 @@ export class OfferCard {
         this.shown = null;
       }
       if (e.kind === 'questOffered') this.folded = false;
+      if (e.kind === 'questHelped') {
+        const q = sideStory(e.quest);
+        if (q) this.toast(KID_FLOW_TEXT.mossHelps(q.title));
+      }
     }
   }
 
@@ -167,6 +181,7 @@ export class OfferCard {
     // The bring-home prompt goes first; the offer waits behind it.
     if (this.cast.refresh(busy)) busy = true;
     const g = this.game();
+    this.help.hidden = busy || !g || !this.helpTarget(g);
     if (g && this.pending && g.world.questBook?.entries[this.pending]?.state === 'active') {
       const q = sideStory(this.pending);
       if (q) this.toast(OFFER_TEXT.accepted(q.title));
@@ -175,11 +190,11 @@ export class OfferCard {
     const offer = g?.world.questBook?.offer ?? null;
     const id = this.capFor ?? offer?.quest ?? null;
     const quest = id ? sideStory(id) : undefined;
+    // R0651: the giver is still walking up; the card waits for them.
+    if (g?.world.questBook?.approach && !this.capFor) busy = true;
     if (!g || !id || !quest || busy) {
       this.root.hidden = true;
       this.chip.hidden = !quest || busy || !this.folded;
-    // R0651: the giver is still walking up; the card waits for them.
-    if (g?.world.questBook?.approach && !this.capFor) busy = true;
       if (!id) this.shown = null;
       return;
     }
@@ -217,6 +232,26 @@ export class OfferCard {
     }
   }
 
+  /** R0629: the quest a reader's Help me would carry on: the first tracked one still open. */
+  private helpTarget(g: Game): string | null {
+    if (!openFlow(g.world) || g.world.edu?.band !== 'reader') return null;
+    const c = g.world.campaign;
+    if (!c) return null;
+    return (
+      (g.world.questBook?.tracked ?? []).find(
+        (id) =>
+          g.world.questBook?.entries[id]?.state === 'active' &&
+          (c.side[id] ?? c.fun[id])?.status === 'open',
+      ) ?? null
+    );
+  }
+
+  private helpMe(): void {
+    const g = this.game();
+    const id = g ? this.helpTarget(g) : null;
+    if (g && id) g.send({ kind: 'questHelp', id });
+  }
+
   private unfold(): void {
     this.folded = false;
     this.shownAt = performance.now();
@@ -245,7 +280,12 @@ export class OfferCard {
       from.append(el('p', 'offer-from', OFFER_TEXT.from(who.name)));
       this.root.append(from);
     }
-    this.root.append(el('p', 'offer-pitch', pitchOf(quest)));
+    const kid = kidFlow(g.world);
+    this.root.classList.toggle('offer-kid', kid);
+    this.root.onclick = kid && !this.capFor ? () => this.answer('questAccept', quest.id) : null;
+    this.root.append(el('p', 'offer-pitch', pitchForProfile(quest, kid)));
+    // A sprout hears the invitation (the pitch is 14 words or fewer).
+    if (kid && g.world.edu?.readAloud) speakLine(pitchForProfile(quest, true));
     const gifts = quest.rewards.filter((r) => r.kind !== 'flag');
     if (gifts.length > 0) {
       const row = el('div', 'offer-rewards');
@@ -267,6 +307,16 @@ export class OfferCard {
       this.root.append(el('p', 'offer-lapse', OFFER_TEXT.lapse));
     if (this.capFor) {
       this.buildCap(g, quest);
+      return;
+    }
+    if (kid) {
+      // R0629: one big picture button; nothing to decline, and the whole card answers a tap.
+      const go = button(
+        KID_FLOW_TEXT.go,
+        () => this.answer('questAccept', quest.id),
+        'btn btn-primary offer-go',
+      );
+      this.root.append(go);
       return;
     }
     const buttons = el('div', 'offer-buttons');
