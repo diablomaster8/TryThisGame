@@ -20,6 +20,8 @@ import { isHungry } from '../sim/needs';
 import { FIRST_LOOP } from '../config/tuning-r11d4';
 import { firstLoopStep } from '../sim/first-loop';
 import { FIRST_LOOP_TEXT } from '../config/strings-r11d4';
+import { NAME_ROW_TEXT } from '../config/strings-r12d4';
+import { NUBBIN_NAMES } from '../config/strings';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { FIRST_FEED_TEXT } from '../config/strings-tech';
 import { journalView } from '../sim/storyline';
@@ -271,6 +273,9 @@ export class ObjectiveChip {
   private readonly rest: HTMLButtonElement;
   /** R0448: "I know how to play" ends the guided first loop; the nudge pulses after a quiet spell. */
   private readonly skip: HTMLButtonElement;
+  /** R0448: the first loop's name step: a field, a dice for a random name, and OK. */
+  private readonly nameRow: HTMLDivElement;
+  private readonly nameInput: HTMLInputElement;
   private nudgeKey = '';
   private nudgeSince = 0;
   private spokenKey = '';
@@ -323,6 +328,40 @@ export class ObjectiveChip {
     this.skip.hidden = true;
     this.skip.setAttribute('aria-label', FIRST_LOOP_TEXT.skipLabel);
     parent.appendChild(this.skip);
+    this.nameRow = el('div', 'objective-name-row');
+    this.nameRow.hidden = true;
+    this.nameInput = el('input', 'objective-name-input') as HTMLInputElement;
+    this.nameInput.maxLength = 16;
+    this.nameInput.placeholder = NAME_ROW_TEXT.placeholder;
+    this.nameInput.setAttribute('aria-label', NAME_ROW_TEXT.field);
+    const dice = button('🎲', () => this.rollName(), 'btn btn-small objective-name-dice');
+    dice.setAttribute('aria-label', NAME_ROW_TEXT.dice);
+    const ok = button(NAME_ROW_TEXT.saveGlyph, () => this.saveName(), 'btn btn-primary btn-small');
+    ok.setAttribute('aria-label', NAME_ROW_TEXT.save);
+    this.nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') this.saveName();
+    });
+    this.nameRow.append(this.nameInput, dice, ok);
+    parent.appendChild(this.nameRow);
+  }
+
+  /** The dice: a name from the list that no Nubbin here already has. */
+  private rollName(): void {
+    const g = this.game();
+    if (!g) return;
+    const taken = new Set(g.world.nubbins.map((n) => n.name));
+    const free = NUBBIN_NAMES.filter((n) => !taken.has(n));
+    const pool = free.length > 0 ? free : NUBBIN_NAMES;
+    this.nameInput.value = pool[Math.floor(Math.random() * pool.length)] ?? '';
+  }
+
+  private saveName(): void {
+    const g = this.game();
+    const step = g ? firstLoopStep(g.world) : null;
+    const name = this.nameInput.value.trim();
+    if (!g || !step || step.step !== 'name' || !name) return;
+    g.send({ kind: 'rename', nubbinId: step.nubbin.id, name });
+    this.nameInput.value = '';
   }
 
   /** R0661: walk (or, with Travel assist, run or hop) to where the shown goal is. */
@@ -413,6 +452,7 @@ export class ObjectiveChip {
     // R0448: the first loop's skip, a quiet-spell nudge, and a sprout hears each step.
     const loopOn = !hide && !!shown && shown.key.startsWith('grove:loop-');
     this.skip.hidden = !loopOn;
+    this.nameRow.hidden = !(loopOn && shown?.key === 'grove:loop-name');
     const stepKey = shown?.key.startsWith('grove:') ? shown.key : '';
     const nowMs = performance.now();
     if (stepKey !== this.nudgeKey) {

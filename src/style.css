@@ -5686,3 +5686,26 @@ html.story-resting canvas {
   object-fit: cover;
   image-rendering: pixelated;
 }
+
+/* R0448: the name step's field with a dice. */
+.objective-name-row {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 176px);
+  z-index: 12;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  pointer-events: auto;
+}
+.objective-name-input {
+  min-height: 44px;
+  width: min(46vw, 180px);
+  padding: 0 10px;
+  border-radius: 10px;
+  font: inherit;
+}
+.objective-name-row .btn {
+  min-width: 44px;
+  min-height: 44px;
+}
