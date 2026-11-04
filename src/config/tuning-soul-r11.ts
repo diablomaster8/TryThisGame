@@ -157,3 +157,15 @@ export const FAV_SPOT = {
   companyStay: 0.8,
   curiousDayMs: 24 * 60 * 60_000,
 } as const;
+
+/**
+ * R0580 (SOUL-63): glances. A Nubbin looks at the nearest other doing something worth a look
+ * (a quirk, an antic, a splash, a cry) within `otherRadius`, or a fruit falling within
+ * `fruitRadius`; it takes a new target at most every `everyMs`. In 3D the eyes and head turn
+ * (the rig clamps the head); in Pixel the whole body turns to the nearest of its angles.
+ */
+export const GLANCE = {
+  otherRadius: 4,
+  fruitRadius: 5,
+  everyMs: 2_000,
+} as const;

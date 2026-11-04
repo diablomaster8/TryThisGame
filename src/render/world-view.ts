@@ -60,6 +60,7 @@ import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
 import { noticeFace } from './notice';
+import { Glances } from './glances';
 import { soulEmote } from './soul-emotes';
 import { bigBubbles, emoteFocused, emoteScale } from './emote-size';
 import { CRY_CLIP, SWIM_CLIPS } from './sprites/chao';
@@ -179,6 +180,8 @@ export class WorldView {
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
   private readonly petBeats = new PetBeats();
+  /** R0580 (lane A r11): glances at what happens nearby. */
+  private readonly glances = new Glances();
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
   private darkness = 0;
@@ -2304,7 +2307,10 @@ export class WorldView {
       // R0525 (lane A r10): a dancer sways round or spins.
       if (perf) turn += perf.turn;
       // R0533 (lane A r9): a resting Nubbin turns to look at the Keeper close by.
-      const look = held ? null : noticeFace(n, world.keeper.pos);
+      // R0580 (lane A r11): or at something happening nearby (the whole body turns in Pixel).
+      const look = held
+        ? null
+        : (noticeFace(n, world.keeper.pos) ?? this.glances.face(n, world, nowMs));
       const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();

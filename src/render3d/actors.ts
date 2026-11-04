@@ -20,6 +20,7 @@ import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import { gaitOf } from '../sim/soul-gait';
+import { Glances } from '../render/glances';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
@@ -333,6 +334,9 @@ export class Actors {
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
   private readonly petBeats = new PetBeats();
+  /** R0580 (lane A r11): glances at what happens nearby, and a look point per Nubbin. */
+  private readonly glances = new Glances();
+  private readonly glanceAts = new Map<string, THREE.Vector3>();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
@@ -636,6 +640,15 @@ export class Actors {
       });
       this.emoteMats.set(`${shadow ? 'shadow:' : ''}${frameKey(shape, 'front', Number(f))}`, mat);
     }
+  }
+
+  /** R0580 (lane A r11): the point a Nubbin glances at (eyes and head), or null. */
+  private glanceOf(n: Nubbin, world: World, nowMs: number): THREE.Vector3 | null {
+    const p = this.glances.at(n, world, nowMs);
+    if (!p) return null;
+    let v = this.glanceAts.get(n.id);
+    if (!v) this.glanceAts.set(n.id, (v = new THREE.Vector3()));
+    return v.set(p.x, this.ground(p.x, p.z) + 0.5, p.z);
   }
 
   /** FUN-09: a pet action landed; its beat plays from the Nubbin's next frame. */
@@ -1291,7 +1304,7 @@ export class Actors {
             : GLANCE_POSES.has(pose) &&
                 Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
               ? this.glanceAt
-              : null;
+              : this.glanceOf(n, world, nowMs);
         if (n.behavior.state === 'pet' && near) petted = true;
         this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
