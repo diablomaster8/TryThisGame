@@ -1,5 +1,6 @@
 import { crackStage } from './egg-crack-stage';
 import { openSky } from './cave-bands';
+import { gaitOf } from '../sim/soul-gait';
 import { floorMarks } from './floor-features-r8';
 import { ridePose } from './ride-pose';
 import { STALL_SPOTS } from '../config/grove-layout';
@@ -2349,7 +2350,8 @@ export class WorldView {
             ? npose.frame
             : Math.floor((nowMs - v.clipStartMs) / 600) % 2
           : def
-            ? frameAt(def, nowMs - v.clipStartMs)
+            ? // R0570 (lane A r11): a personality's walk runs its own cycle (a skip, a shuffle).
+              frameAt(def, (nowMs - v.clipStartMs) * (clip === 'walk' ? gaitOf(n).cadence : 1))
             : 0;
       key = frameKey(clip, view.angle, frame);
       // LOOK-52: standing idle near the Keeper, the eyes glance its way across the screen

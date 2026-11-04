@@ -948,7 +948,8 @@ export const PERSONALITY = {
   /** Idle multipliers by personality: greet, play, sit, swim. */
   multipliers: {
     cheerful: { greet: 1.6, play: 1.4, sit: 0.7, swim: 1.1 },
-    shy: { greet: 0.3, play: 0.8, sit: 1.3, swim: 0.8 },
+    // R0582 (lane A r11): a shy one wades at the edge, and seldom (×0.5).
+    shy: { greet: 0.3, play: 0.8, sit: 1.3, swim: 0.5 },
     mischievous: { greet: 1.0, play: 1.6, sit: 0.5, swim: 1.5 },
     lazy: { greet: 0.8, play: 0.6, sit: 2.2, swim: 0.5 },
     // R0529 (SOUL-11): the second four.

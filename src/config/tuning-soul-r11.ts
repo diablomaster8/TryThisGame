@@ -63,3 +63,46 @@ export const CRY_SOUL = {
   sunBoost: 2,
   comfortMs: 2_000,
 } as const;
+
+/**
+ * R0570 (SOUL-53): a gait per personality. `speed` scales the wander walk (sim); `cadence`
+ * the Pixel walk cycle; `bob` the bounce of each step and `waddle` the 3D side-to-side roll;
+ * `meander` a sideways sine on the path (units per second at the peak), dreamy only.
+ * cheerful skips, shy takes small steps, mischievous tiptoes and darts, lazy shuffles, bold
+ * marches, dreamy meanders.
+ */
+export const GAIT = {
+  cheerful: { speed: 1.15, cadence: 1.25, bob: 1.8, waddle: 1.3, meander: 0 },
+  shy: { speed: 0.85, cadence: 1.15, bob: 0.5, waddle: 0.7, meander: 0 },
+  mischievous: { speed: 1.1, cadence: 1.4, bob: 0.4, waddle: 1.15, meander: 0 },
+  lazy: { speed: 0.7, cadence: 0.6, bob: 0.3, waddle: 1.45, meander: 0 },
+  curious: { speed: 1.05, cadence: 1.1, bob: 1, waddle: 1, meander: 0 },
+  gentle: { speed: 0.95, cadence: 0.95, bob: 0.8, waddle: 0.9, meander: 0 },
+  bold: { speed: 1.1, cadence: 0.9, bob: 1.4, waddle: 0.6, meander: 0 },
+  dreamy: { speed: 0.8, cadence: 0.8, bob: 0.7, waddle: 1.1, meander: 0.45 },
+  /** Mischievous darts: every `dartEveryMs` a burst at `dartSpeed` for `dartMs`. */
+  dartEveryMs: 2_400,
+  dartMs: 500,
+  dartSpeed: 1.6,
+  /** The meander's period. */
+  meanderMs: 2_600,
+  /** The plain step bounce, in body heights, before `bob`. */
+  stepBob: 0.025,
+} as const;
+
+/**
+ * R0582 (SOUL-65): the swim share by type and personality. The idle table's swim base is
+ * `IDLE_ACTIONS.swim` (0.026); a Swim form or a Swim lean over `leanAt` swims `typeBoost`
+ * times as often, on top of the personality's own swim multiplier (bold and mischievous
+ * ×1.5, shy ×0.5). A shy one wades at the edge only, within `edgeIn` of the rim.
+ */
+export const SWIM_SOUL = {
+  // ×3 in the recs; the time share saturates (long swim spells), so ×4 lands it at 25-40%.
+  typeBoost: 4,
+  leanAt: 40,
+  edgeIn: 0.7,
+  /** Pond play: splashing a friend swimming this near, at this chance per second. */
+  splashRadius: 3,
+  splashChance: 0.12,
+  splashMs: 1_500,
+} as const;

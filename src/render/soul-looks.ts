@@ -8,7 +8,8 @@
  * stomp puddles and the cheeky catch drops on their tongues (R0534). Dusk firefly chases are
  * a walk with sparkles round them. Render-only: it reads the Nubbin and never writes it.
  */
-import type { Nubbin } from '../sim/types';
+import type { Nubbin, Personality } from '../sim/types';
+import { GAIT } from '../config/tuning-soul-r11';
 import type { PetBeatPose } from './pet-reactions';
 
 export type SoulLookKind =
@@ -50,7 +51,14 @@ export type SoulLookKind =
   | 'floatBack'
   | 'sniffle'
   | 'cryStomp'
-  | 'cryWalk';
+  | 'cryWalk'
+  // R0570 (lane A r11): the wander gaits.
+  | 'skip'
+  | 'smallSteps'
+  | 'tiptoe'
+  | 'shuffle'
+  | 'march'
+  | 'meander';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
@@ -110,6 +118,8 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
     (b.state === 'wander' || b.state === 'sit' || b.state === 'greet' || b.state === 'findFood')
   )
     return 'full';
+  // R0570 (lane A r11): a plain wander walks its personality's gait.
+  if (b.state === 'wander' && !id && b.target) return GAIT_LOOK[n.personality ?? 'curious'];
   return null;
 }
 
@@ -120,6 +130,18 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
  * floats on its back, a mischievous one dives and pops up, the cheerful and the bold splash
  * and spin.
  */
+/** R0570: the gait each personality walks (curious and gentle stroll plainly). */
+const GAIT_LOOK: Record<Personality, SoulLookKind | null> = {
+  cheerful: 'skip',
+  shy: 'smallSteps',
+  mischievous: 'tiptoe',
+  lazy: 'shuffle',
+  curious: null,
+  gentle: null,
+  bold: 'march',
+  dreamy: 'meander',
+};
+
 function stateFlavourLook(n: Nubbin): SoulLookKind | null {
   const b = n.behavior;
   const id = b.itemId;
@@ -130,6 +152,8 @@ function stateFlavourLook(n: Nubbin): SoulLookKind | null {
       if (id === 'nodOff') return null;
       return n.personality === 'shy' ? 'curlUp' : n.personality === 'lazy' ? 'sprawl' : null;
     case 'swim':
+      // R0582 (lane A r11): splashing a friend in the water.
+      if (id?.startsWith('splashFriend:')) return 'splashSpin';
       switch (n.personality) {
         case 'shy':
           return 'wadeEdge';
@@ -484,6 +508,40 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.clip = 'walk';
       out.pose3d = 'walk';
       out.sh = 0.95;
+      break;
+    // R0570 (lane A r11): the gaits, laid over the walk clip (null keeps it).
+    case 'skip': {
+      // A skip: a big bounce every other step.
+      const hop = Math.abs(Math.sin((ms / 1000) * Math.PI * 2.4));
+      out.dy = GAIT.stepBob * GAIT.cheerful.bob * 2 * hop * m;
+      out.sh = 1 + 0.03 * hop * m;
+      break;
+    }
+    case 'smallSteps':
+      // Small careful steps, a little hunched.
+      out.sh = 0.97;
+      out.dy = GAIT.stepBob * GAIT.shy.bob * Math.abs(wave(2.2)) * m;
+      break;
+    case 'tiptoe':
+      // Up on its toes: tall and thin, hardly any bounce.
+      out.sh = 1.05;
+      out.sw = 0.96;
+      out.dy = 0.02 + GAIT.stepBob * GAIT.mischievous.bob * Math.abs(wave(2.8)) * m;
+      break;
+    case 'shuffle':
+      // A shuffle: low and wide, feet barely leaving the grass.
+      out.sh = 0.94;
+      out.sw = 1.05;
+      out.dy = GAIT.stepBob * GAIT.lazy.bob * Math.abs(wave(1.2)) * m;
+      break;
+    case 'march':
+      // A march: upright, chest out, a firm down-beat on every step.
+      out.sh = 1.04;
+      out.dy = GAIT.stepBob * GAIT.bold.bob * Math.max(0, wave(1.8)) * m;
+      break;
+    case 'meander':
+      // Meandering: a slow, floaty bob.
+      out.dy = GAIT.stepBob * GAIT.dreamy.bob * (1 + wave(0.8)) * m;
       break;
   }
   return out;

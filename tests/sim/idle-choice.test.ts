@@ -18,7 +18,8 @@ describe('R0524 idle choice table', () => {
     const o = idleOdds(open);
     expect(o.greet).toBeCloseTo(0.35, 2);
     expect(o.play).toBeCloseTo(0.195, 2);
-    expect(o.swim).toBeCloseTo(0.058, 2);
+    // R0582 (lane A r11): swim lowered from 0.058, its share given to wander.
+    expect(o.swim).toBeCloseTo(0.026, 2);
     expect(Object.values(o).reduce((a, b) => a + b, 0)).toBeCloseTo(1, 6);
   });
 

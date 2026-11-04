@@ -127,9 +127,12 @@ export const IDLE_ACTIONS: Record<
   greet: { base: 0.35, mult: 'greet' },
   play: { base: 0.195, mult: 'play' },
   shroom: { base: 0.0683, mult: 'play' },
-  swim: { base: 0.058, mult: 'swim' },
+  // R0582 (lane A r11): swim was 22-37% of the day for most; a non-swimmer now swims
+  // about a tenth of it and a Swim type about a third (×4, sim/swim-soul.ts).
+  swim: { base: 0.026, mult: 'swim' },
   sit: { base: 0.0986, mult: 'sit' },
-  wander: { base: 0.2301, mult: null },
+  // R0582: wander takes the swim weight given up, so the other shares hold.
+  wander: { base: 0.2621, mult: null },
 };
 
 /**

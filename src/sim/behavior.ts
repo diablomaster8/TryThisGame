@@ -109,6 +109,8 @@ import {
 } from './soul-idle';
 import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
 import { cryWalkSpeed, startCry } from './cry-soul';
+import { gaitSpeed, meanderStep } from './soul-gait';
+import { splashFriend, swimFactor, swimSpot } from './swim-soul';
 /* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
 import { eduYawnAct } from './edu-session';
 import type {
@@ -767,7 +769,8 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       toy: toyOk,
       shroom: shroomOk,
       canSwim: n.stage !== 'egg',
-      mult: keen ? { ...m, play: m.play * keen.keen } : m,
+      // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
+      mult: { ...m, play: m.play * (keen?.keen ?? 1), swim: m.swim * swimFactor(n) },
     }) as Record<string, number>,
   );
   if (pick === 'greet') {
@@ -795,7 +798,9 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   }
   if (pick === 'swim') {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
-    n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
+    // R0582 (lane A r11): a shy one wades at the edge only.
+    n.behavior.target =
+      swimSpot(n, now) ?? standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
     return;
   }
   // R0553 (lane A r10): a plain sit or wander is now and then its personality's own quirk
@@ -850,7 +855,8 @@ export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
     toy: !!toy && toy.id !== skipping(n, now),
     shroom: !!shroom && shroom.id !== skipping(n, now),
     canSwim: n.stage !== 'egg',
-    mult: keen ? { ...m, play: m.play * keen.keen } : m,
+    // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
+    mult: { ...m, play: m.play * (keen?.keen ?? 1), swim: m.swim * swimFactor(n) },
   });
 }
 
@@ -1004,7 +1010,13 @@ function stepBehavior(
       const speed =
         b.state === 'avoid'
           ? BEHAVIOR.walkSpeed * 1.6
-          : BEHAVIOR.walkSpeed * (fliesLeg(n) ? FLIGHT.speed : 1);
+          : BEHAVIOR.walkSpeed * (fliesLeg(n) ? FLIGHT.speed : 1) * gaitSpeed(n, now);
+      // R0570 (lane A r11): a dreamy one meanders a little to either side of its way.
+      if (b.target) {
+        const side = meanderStep(n, b.target, now, dtMs);
+        n.pos.x += side.x;
+        n.pos.z += side.z;
+      }
       if (!b.target || walkToward(world, n, b.target, speed, dtMs) || now >= b.untilMs) {
         // R0558 (lane A r10): at its nap spot (or as far as it got), it lies down.
         if (b.state === 'wander' && b.itemId === 'toNap') {
@@ -1020,8 +1032,11 @@ function stepBehavior(
       } else if (b.target) {
         // R0558 (lane A r10): a lazy one floats on its back, drifting slower.
         if (walkToward(world, n, b.target, BEHAVIOR.swimSpeed * swimPace(n), dtMs)) {
-          b.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
+          b.target =
+            swimSpot(n, now) ?? standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
         }
+        // R0582 (lane A r11): two in the water splash each other now and then.
+        splashFriend(n, world, now, dtMs);
         // Swimming is training: a little Swim and a little Swim lean.
         addPoints(n.stats.swim, (dtMs / 1000) * 0.5);
         n.typeLean.swim += (dtMs / 1000) * TYPE_LEAN.trainingPerSecond;

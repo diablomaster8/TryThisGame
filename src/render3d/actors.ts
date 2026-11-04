@@ -19,13 +19,13 @@ import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
-import { basePersonality } from '../sim/personality';
+import { gaitOf } from '../sim/soul-gait';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { EmoteSprings } from '../render/emote-spring';
-import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
+import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
 import { graceVeil } from '../render/grace-veil';
@@ -1242,7 +1242,8 @@ export class Actors {
         /* Lane E r10 */ if (!gag && act && act.emote !== 'none' && pose === act.pose3d)
           a.gagEmote = act.emote;
         a.rig.glide = fly?.phase === 'glide';
-        a.rig.waddleScale = n.personality ? PERSONA_WADDLE[basePersonality(n.personality)] : 1;
+        // R0570 (lane A r11): the walk's roll by personality (a march barely rolls).
+        a.rig.waddleScale = gaitOf(n).waddle;
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
