@@ -4,6 +4,8 @@ import { speciesById } from '../sim/critters';
 import { closedGates } from '../sim/region-gates';
 import { liveCritters } from '../sim/region-critters';
 import type { World } from '../sim/types';
+import { REGION_FLIGHTS, regionLedges } from '../sim/region-moves';
+import { drawnRegion, regionGround } from '../sim/region-walk';
 
 /**
  * R0120 and R0110 (R11 d8): a region's critters and shut gates in Full 3D. The critters are one
@@ -19,7 +21,8 @@ const TYPE_COLOUR: Record<string, string> = {
   power: '#c8583c',
   normal: '#d8c49c',
 };
-const MAX_GATES = 3;
+/** Shut gates, plus (R12 lane D) the built ledges and stones and the flying zones' marks. */
+const MAX_GATES = 16;
 
 function mergeSimple(parts: THREE.BufferGeometry[]): THREE.BufferGeometry {
   const pos: number[] = [];
@@ -43,6 +46,14 @@ function mergeSimple(parts: THREE.BufferGeometry[]): THREE.BufferGeometry {
   out.setIndex(idx);
   return out;
 }
+
+/** R12 lane D: the shut gates' colours by look. */
+const GATE_COLOUR = {
+  boulder: '#8d887e',
+  vines: '#4f8a34',
+  ledge: '#9a948a',
+  flight: '#dff1ff',
+} as const;
 
 export class RegionLife3d {
   private readonly critters: THREE.InstancedMesh;
@@ -74,9 +85,11 @@ export class RegionLife3d {
     rock.translate(0, 0.7, 0);
     this.rocks = new THREE.InstancedMesh(
       rock,
-      new THREE.MeshStandardMaterial({ color: '#8d887e', roughness: 1, flatShading: true }),
+      new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 1, flatShading: true }),
       MAX_GATES,
     );
+    // R12 lane D: a boulder grey, a vine wall green (WORLD-25).
+    this.rocks.setColorAt(0, this.c.set(GATE_COLOUR.boulder));
     this.rocks.count = 0;
     this.rocks.frustumCulled = false;
     this.rocks.castShadow = true;
@@ -108,12 +121,44 @@ export class RegionLife3d {
     for (const gate of gates) {
       if (g >= MAX_GATES) break;
       this.p.set(gate.x, 0, gate.z);
-      this.q.identity();
-      this.s.setScalar(gate.r);
+      this.q.setFromAxisAngle(THREE.Object3D.DEFAULT_UP, gate.yaw ?? 0);
+      // A vine wall is a long, thin curtain across the lane; a boulder a round rock.
+      if (gate.kind === 'vines') this.s.set(gate.r * 0.85, 1.5, 0.35);
+      else this.s.setScalar(gate.r);
       this.m.compose(this.p, this.q, this.s);
+      this.rocks.setColorAt(
+        g,
+        this.c.set(GATE_COLOUR[gate.kind === 'vines' ? 'vines' : 'boulder']),
+      );
       this.rocks.setMatrixAt(g++, this.m);
+    }
+    // R12 lane D: the region's built stones and ledges (a rock from the low ground up to the
+    // top), and a pale flat mark on each flying zone's spot.
+    const id = here ? drawnRegion(world) : null;
+    if (id) {
+      const ground = regionGround(world.location);
+      for (const l of regionLedges(id)) {
+        if (g >= MAX_GATES) break;
+        const low = Math.min(ground(l.x, l.z - l.h / 2), ground(l.x, l.z + l.h / 2)) - 0.3;
+        this.p.set(l.x, low, l.z);
+        this.q.identity();
+        this.s.set(l.w * 0.55, (l.y - low) / 1.45, l.h * 0.55);
+        this.m.compose(this.p, this.q, this.s);
+        this.rocks.setColorAt(g, this.c.set(GATE_COLOUR.ledge));
+        this.rocks.setMatrixAt(g++, this.m);
+      }
+      for (const f of REGION_FLIGHTS[id] ?? []) {
+        if (g >= MAX_GATES) break;
+        this.p.set(f.at.x, ground(f.at.x, f.at.z) - 0.6, f.at.z);
+        this.q.identity();
+        this.s.set(0.9, 0.45, 0.9);
+        this.m.compose(this.p, this.q, this.s);
+        this.rocks.setColorAt(g, this.c.set(GATE_COLOUR.flight));
+        this.rocks.setMatrixAt(g++, this.m);
+      }
     }
     this.rocks.count = g;
     this.rocks.instanceMatrix.needsUpdate = g > 0;
+    if (this.rocks.instanceColor) this.rocks.instanceColor.needsUpdate = g > 0;
   }
 }

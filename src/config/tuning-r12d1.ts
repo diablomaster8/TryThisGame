@@ -21,3 +21,18 @@ export const GROVE_BACK = {
   /** 3D: how deep into the Grove, from its south and east sides, its terrain is drawn. */
   depth: 40,
 } as const;
+
+/** WORLD-25/36: the Keeper's moves inside a drawn region (`sim/region-moves.ts`). */
+export const REGION_MOVES = {
+  /** Half the width of a built jump route's air lane, world units. */
+  laneHalf: 1.6,
+  /** A ledge counts as under the feet this far past its edge (the body's reach). */
+  ledgeGrace: 0.3,
+  /** An updraft's lift (ms) and a glide line's speed (units a second). */
+  liftMs: 1200,
+  glideSpeed: 8,
+  /** A glide line rides at least this high over the ground under it. */
+  glideClear: 0.6,
+  /** How near a flying zone's spot the Keeper must step to set it off. */
+  reach: 1.1,
+} as const;
