@@ -329,6 +329,15 @@ export interface Nubbin {
   recentCare?: Array<{ kind: import('../config/tuning-soul-r10').CareKind; atMs: number }>;
   /** R0527: hiding in the cottage (Learning Grove) until the Keeper taps the door. */
   cottageHide?: true;
+  // Lane A r11 (SOUL), optional with defaults, no save bump (R0576 documents them):
+  /** R0568: kind acts by each Keeper, toward a favourite. */
+  keeperFondness?: { sun: number; moon: number };
+  /** R0568: the Keeper it last tilted its head at (the less-loved one, once per switch). */
+  tiltFor?: KeeperAlignment;
+  /** R0569: the Keeper has seen it at its favourite spot (the sheet shows the spot). */
+  spotSeen?: true;
+  /** R0573: the personality of its last life, for the first greet after a rebirth. */
+  echo?: Personality;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -1973,6 +1982,8 @@ export type SimEvent =
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
   | { kind: 'shadowBonded'; nubbinId: string }
+  /** R0569 (lane A r11): the Keeper saw a Nubbin at its favourite spot. */
+  | { kind: 'spotFound'; nubbinId: string; spot: string }
   | { kind: 'ranAway'; nubbinId: string; name: string }
   | { kind: 'strayReturned'; nubbinId: string; name: string }
   | { kind: 'scene'; scene: string }

@@ -125,3 +125,30 @@ export const SHADOW_SOUL = {
   bondHugMs: 3_000,
   bondHesitate: 0.35,
 } as const;
+
+/**
+ * R0568 (SOUL-51): a favourite Keeper. Each kind act by a Keeper adds 1; one is the favourite
+ * once it leads the other by `lead`. The favourite gets the greet ×`greet` (and the fruit
+ * trailing); the other gets a head tilt on its first approach after a switch.
+ */
+export const FONDNESS = {
+  lead: 5,
+  greet: 1.5,
+  tiltMs: 2_000,
+  tiltRadius: 5,
+} as const;
+
+/**
+ * R0569 (SOUL-52): a favourite spot. Of plain wanders `share` head for it (lazy `lazyShare`);
+ * sitting within `radius` of it gives `happyPerMinute`. The Keeper within `seenRadius` of it
+ * sitting there discovers it. Curious picks a new one every `curiousDayMs` of sim time.
+ */
+export const FAV_SPOT = {
+  share: 0.35,
+  lazyShare: 0.7,
+  radius: 4,
+  around: 2,
+  happyPerMinute: 1,
+  seenRadius: 8,
+  curiousDayMs: 24 * 60 * 60_000,
+} as const;

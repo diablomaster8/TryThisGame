@@ -112,6 +112,9 @@ import { cryWalkSpeed, startCry } from './cry-soul';
 import { gaitSpeed, meanderStep } from './soul-gait';
 import { splashFriend, swimFactor, swimSpot } from './swim-soul';
 import { shadowAct } from './shadow-soul';
+import { fondGreet, tiltAct } from './keeper-fondness';
+import { spotWander } from './fav-spot';
+import { FAV_SPOT } from '../config/tuning-soul-r11';
 /* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
 import { eduYawnAct } from './edu-session';
 import type {
@@ -728,6 +731,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     clampToWorld(n.behavior.target);
     return;
   }
+  // R0568 (lane A r11): the other Keeper's first approach after a switch: a head tilt.
+  const tilt = tiltAct(n, world);
+  if (tilt) {
+    startAct(n, tilt, now);
+    return;
+  }
   // R0544: the hiccups after a quick second fruit, or a child's tail chase.
   const antic = idleAntic(n, world, now);
   if (antic) {
@@ -777,7 +786,13 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       shroom: shroomOk,
       canSwim: n.stage !== 'egg',
       // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
-      mult: { ...m, play: m.play * (keen?.keen ?? 1), swim: m.swim * swimFactor(n) },
+      // R0568 (lane A r11): its favourite Keeper is greeted half as often again.
+      mult: {
+        ...m,
+        greet: m.greet * fondGreet(n, world),
+        play: m.play * (keen?.keen ?? 1),
+        swim: m.swim * swimFactor(n),
+      },
     }) as Record<string, number>,
   );
   if (pick === 'greet') {
@@ -824,7 +839,10 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   setState(n, 'wander', now, rng.float(...BEHAVIOR.wanderMs));
-  n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
+  // R0569 (lane A r11): now and then (a lazy one mostly) it heads for its favourite spot.
+  const spot = spotWander(n, world, now);
+  n.behavior.target = standablePoint(rng, world, n, spot ?? n.pos, spot ? FAV_SPOT.around : 5);
+  if (spot) n.behavior.untilMs = now + (dist(n.pos, spot) / BEHAVIOR.walkSpeed) * 1500 + 3000;
 }
 
 /** R0544: start an antic where the Nubbin stands. */
@@ -863,7 +881,13 @@ export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
     shroom: !!shroom && shroom.id !== skipping(n, now),
     canSwim: n.stage !== 'egg',
     // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
-    mult: { ...m, play: m.play * (keen?.keen ?? 1), swim: m.swim * swimFactor(n) },
+    // R0568 (lane A r11): its favourite Keeper is greeted half as often again.
+    mult: {
+      ...m,
+      greet: m.greet * fondGreet(n, world),
+      play: m.play * (keen?.keen ?? 1),
+      swim: m.swim * swimFactor(n),
+    },
   });
 }
 

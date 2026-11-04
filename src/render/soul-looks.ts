@@ -62,7 +62,9 @@ export type SoulLookKind =
   // R0566 (lane A r11): a wary Shadow's sulk and watch, and the bond's walk-up hug.
   | 'sulk'
   | 'watchFar'
-  | 'bondHug';
+  | 'bondHug'
+  // R0568 (lane A r11).
+  | 'tiltHead';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
@@ -71,6 +73,7 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   const id = b.itemId;
   // R0566 (lane A r11).
   if (b.state === 'sit' && id === 'sulk') return 'sulk';
+  if (b.state === 'sit' && id === 'tiltHead') return 'tiltHead';
   if (b.state === 'perform' && id === 'watchFar' && !b.target) return 'watchFar';
   if (b.state === 'perform' && id === 'bondHug' && !b.target) return 'bondHug';
   const flavour = stateFlavourLook(n);
@@ -517,6 +520,14 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.clip = 'walk';
       out.pose3d = 'walk';
       out.sh = 0.95;
+      break;
+    // R0568 (lane A r11): the head tilt, a lean to one side and a puzzled look.
+    case 'tiltHead':
+      out.clip = 'surprised';
+      out.frame = 0;
+      out.pose3d = 'surprised';
+      out.dx = 0.04;
+      out.sw = 0.97;
       break;
     // R0566 (lane A r11).
     case 'sulk':

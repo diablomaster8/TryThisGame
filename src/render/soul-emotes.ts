@@ -63,6 +63,8 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       // R0553 (lane A r10): a shy one hiding its face shows nothing; a lazy doze, zz.
       if (id === 'hideFace') return 'none';
       if (id === 'doze') return 'zz';
+      // R0568 (lane A r11): a head tilt at the less-loved Keeper.
+      if (id === 'tiltHead') return 'question';
       // R0529 (lane A r11): peering at something, gazing at the clouds, daydreaming.
       if (id === 'peer') return 'question';
       if (id === 'cloudGaze' || id === 'daydream') return 'note';

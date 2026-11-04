@@ -19,6 +19,9 @@ import { topRival } from '../sim/rivals';
 import { BONDS_SHEET } from '../config/strings-soul-r10';
 import { recently } from '../sim/diary';
 import { likesOf } from '../sim/likes';
+import { favouriteKeeper } from '../sim/keeper-fondness';
+import { favSpot } from '../sim/fav-spot';
+import { FAVOURITES_SHEET } from '../config/strings-soul-r11';
 import type { Nubbin, World } from '../sim/types';
 import { el } from './dom';
 
@@ -86,7 +89,10 @@ export class RecentlyBox {
     // R0538 (lane A r10): the best friend and the rival, by name, under the list.
     const friend = bestFriend(world, n);
     const rival = topRival(world, n);
-    const key = `${n.id}:${items.map((e) => `${e.kind}${e.atMs}`).join(',')}:${friend?.name}:${rival?.name}`;
+    // R0568, R0569 (lane A r11): the favourite Keeper and, once seen, the favourite spot.
+    const fav = favouriteKeeper(n);
+    const spot = n.spotSeen ? favSpot(n, world).id : null;
+    const key = `${n.id}:${items.map((e) => `${e.kind}${e.atMs}`).join(',')}:${friend?.name}:${rival?.name}:${fav}:${spot}`;
     if (key === this.shown) return;
     this.shown = key;
     this.root.hidden = n.stage === 'egg';
@@ -110,5 +116,23 @@ export class RecentlyBox {
       el('strong', undefined, rival?.name ?? BONDS_SHEET.none),
     );
     this.root.appendChild(bonds);
+    const F = FAVOURITES_SHEET;
+    const favs = el('p', 'soul-bonds');
+    if (fav)
+      favs.append(
+        el('span', 'soul-icon', F.keeperIcons[fav]),
+        el('span', undefined, ` ${F.keeper}: `),
+        el('strong', undefined, F.keeperNames[fav]),
+        el('span', undefined, '  '),
+      );
+    const where = el('span');
+    where.title = spot ? '' : F.spotHelp;
+    where.append(
+      el('span', 'soul-icon', '📍'),
+      el('span', undefined, ` ${F.spot}: `),
+      el('strong', undefined, spot ? (F.spotNames[spot] ?? spot) : F.spotUnknown),
+    );
+    favs.append(where);
+    if (n.stage !== 'egg') this.root.appendChild(favs);
   }
 }
