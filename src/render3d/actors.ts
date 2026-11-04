@@ -1498,8 +1498,8 @@ export class Actors {
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
     this.perform3d.finish(world, this.location === 'grove', live, nowMs);
-
     this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm);
+
     // The Keeper.
     if (this.keeperSquash) {
       this.keeperSquash.o.scale.copy(this.keeperSquash.base);
@@ -1685,8 +1685,8 @@ export class Actors {
 
   dispose(): void {
     this.perform3d.dispose();
-    for (const id of [...this.nubbins.keys()]) this.drop(id);
     this.ambient3d.dispose();
+    for (const id of [...this.nubbins.keys()]) this.drop(id);
     this.keeper = this.dropKeeper(this.keeper);
     this.keeper2 = this.dropKeeper(this.keeper2);
     for (const v of this.items.values()) this.kit.release(v.mesh);
