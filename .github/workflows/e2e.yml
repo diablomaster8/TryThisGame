@@ -1,12 +1,11 @@
-# TECH-11: the browser smoke run (tests/e2e/run.cjs). Nightly and on demand, so the pull
+# TECH-11: the browser smoke run (tests/e2e/run.cjs). On demand only until it has run green
+# (the nightly schedule waits for that), so the pull
 # request checks in ci.yml stay fast; the headless sim harness (tests/sim/play-harness.test.ts)
 # already runs there on every PR.
 name: E2E
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '17 3 * * *'
 
 jobs:
   e2e:
