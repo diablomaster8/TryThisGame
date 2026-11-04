@@ -121,6 +121,8 @@ export function drawRegionLifePx(
   tint: number,
   tSec: number,
   still: boolean,
+  /** R12 lane D (WORLD-59): the occluder fade; a wall or ledge over the Keeper thins. */
+  fade?: (d: SpriteDraw) => number,
 ): void {
   if (!world.location.startsWith('region:')) return;
   const crit = liveCritters(world);
@@ -157,6 +159,7 @@ export function drawRegionLifePx(
     scratch.w = g.r * 2.4;
     scratch.h = (g.r * 2.4 * rect.h) / rect.w;
     scratch.tint = tint;
+    scratch.opacity = fade ? fade(scratch) : 1;
     batch.draw(scratch);
   }
   // R12 lane D: the built stones and ledges, standing from the low ground to their tops, and
@@ -176,7 +179,7 @@ export function drawRegionLifePx(
       scratch.w = l.w;
       scratch.h = Math.max(0.4, l.y - low + 0.1);
       scratch.tint = tint;
-      scratch.opacity = 1;
+      scratch.opacity = fade ? fade(scratch) : 1;
       batch.draw(scratch);
     }
   const mr = s.frames.get('mark');

@@ -112,9 +112,16 @@ export function createRegionPx(l: RegionLayout): RegionPx {
 }
 
 /** The tree tunnel's arch: at the Grove's north wood and at the Wood's south gate. */
-export function drawEntrance(batch: SpriteBatch, x: number, z: number, tint: number): void {
+export function drawEntrance(
+  batch: SpriteBatch,
+  x: number,
+  z: number,
+  tint: number,
+  fade?: ((d: SpriteDraw) => number) | null,
+): void {
   const d = sprite('arch', x, z, 7.4);
   if (!d) return;
   d.tint = tint;
+  d.opacity = fade ? fade(d) : 1;
   batch.draw(d);
 }

@@ -44,7 +44,14 @@ export interface RegionPx {
 export interface RegionPxModule {
   createRegionPx(l: RegionLayout): RegionPx;
   /** The arch over a loaded way in, drawn in whichever region it stands. */
-  drawEntrance(batch: SpriteBatch, x: number, z: number, tint: number): void;
+  drawEntrance(
+    batch: SpriteBatch,
+    x: number,
+    z: number,
+    tint: number,
+    /** R12 lane D: the occluder fade, so an arch over the Keeper thins (WORLD-59). */
+    fade?: ((d: SpriteDraw) => number) | null,
+  ): void;
   /** R11 d7: the few sprites that change with the world (a thawed door), drawn every frame. */
   drawDynamic?(batch: SpriteBatch, world: World, tint: number): void;
 }
@@ -70,6 +77,9 @@ interface Live {
 }
 
 const scratch: SpriteDraw = {} as SpriteDraw;
+
+/** R12 lane D: sprites further than this (each way) from the Keeper never cover it. */
+const FADE_REACH = 16;
 
 export class RegionHostPx {
   private readonly mods = new Map<RegionId, RegionPxModule>();
@@ -123,6 +133,7 @@ export class RegionHostPx {
    * Grove's coordinates plus this are the region's (null otherwise).
    */
   groveOff: Vec2 | null = null;
+  private fade: ((d: SpriteDraw) => number) | null = null;
 
   /** Draw what the Keeper's place needs; call once a frame from the pixel world view. */
   frame(
@@ -131,8 +142,15 @@ export class RegionHostPx {
     parent: THREE.Object3D | null,
     tint: number,
     keeper: Vec2,
+    /**
+     * R12 lane D (WORLD-59): how opaque a sprite may be drawn (the world view's occluder
+     * fade: a crown over the Keeper's head or feet thins), asked only of sprites near enough
+     * in front to cover the Keeper.
+     */
+    fade?: (d: SpriteDraw) => number,
   ): void {
     this.drawn = 0;
+    this.fade = fade ?? null;
     this.groveOff = null;
     const here = drawnRegion(world);
     const home = world.location === 'grove';
@@ -214,6 +232,7 @@ export class RegionHostPx {
         side ? ex + Math.sign(ex) * 1.2 : ex,
         side ? ez : ez + (ez < 0 ? -1.2 : 1.2),
         tint,
+        this.fade,
       );
     }
   }
@@ -245,9 +264,17 @@ export class RegionHostPx {
           continue;
         const hw = l.layout.spec.size.w / 2;
         const hh = l.layout.spec.size.h / 2;
+        const fade = off ? null : this.fade;
         for (const d of this.draws(l, key, c)) {
           d.tint = tint;
           l.px.restyle?.(d);
+          if (fade) {
+            const near =
+              d.mode === 'billboard' &&
+              Math.abs(d.x - centre.x) < FADE_REACH &&
+              Math.abs(d.z - centre.z) < FADE_REACH;
+            d.opacity = near ? fade(d) : 1;
+          }
           if (off) {
             // Across a seamless border only the neighbour's own ground is drawn, never its
             // forest margin, which would stand inside this region.

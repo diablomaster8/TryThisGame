@@ -833,6 +833,7 @@ export class WorldView {
         batch.mesh.parent,
         this.dim,
         this.keeperDrawPos(world, alpha),
+        hides,
       );
     // WORLD-39 (R12 lane D): the real Grove's scenery back across a seamless border.
     const groveOff = this.regions.groveOff;
@@ -852,7 +853,8 @@ export class WorldView {
     // R0137: the Grove's rain puddles.
     if (!bare) drawPuddles(world, batch, this.dim);
     // R0120/R0110: a region's critters and shut gates.
-    if (!bare) drawRegionLifePx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion);
+    if (!bare)
+      drawRegionLifePx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion, hides);
     // R0128: birds, butterflies and fish shadows from the chunk list, by day in the dry.
     if (!bare && this.particles.env.density !== 'off')
       drawAmbientPx(
