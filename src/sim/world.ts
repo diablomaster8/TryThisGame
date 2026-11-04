@@ -77,6 +77,7 @@ import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepCrying } from './cry-soul';
 import { stepShadowSoul } from './shadow-soul';
 import { stepFavSpots } from './fav-spot';
+import { stepFriendships } from './friendships';
 import { stepSoulGroups } from './soul-groups';
 import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
@@ -1449,11 +1450,9 @@ export function stepWorld(
   stepCrying(world, events, offline);
   // R0566 (lane A r11): a Shadow's bond hug, and a watcher's eyes on the Keeper.
   stepShadowSoul(world, events, offline);
-  stepDiary(world, events, offline);
   // R0569 (lane A r11): sitting at a favourite spot.
   if (!offline) stepFavSpots(world, dtMs, events);
-  // R0547, R0555 (lane A r11): critters to chase, jam sessions (sim/soul-groups.ts).
-  stepSoulGroups(world, dtMs, events, offline);
+  stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
   // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
