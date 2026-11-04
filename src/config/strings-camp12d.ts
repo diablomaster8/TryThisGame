@@ -9,3 +9,18 @@ export const KID_FLOW_TEXT = {
   /** What shows when Moss helps. */
   mossHelps: (title: string) => `Moss helps with ${title}.`,
 } as const;
+
+/** R0618 (CAMP-26): Watch again shows the choices, and branching over a full slot asks first. */
+export const REPLAY_TEXT = {
+  /** The narrator's line before the options of a choice, in a replay. */
+  options: (labels: string[]) => `The choices were: ${labels.join(' / ')}.`,
+  /** The narrator's line naming the one taken. */
+  chose: (label: string) => `You chose: ${label}`,
+  /** A choice nothing in the save can identify. */
+  choseUnknown: 'You made a choice here.',
+  overwriteTitle: 'Every slot is full',
+  overwriteBody: (slot: number, name: string) =>
+    `Put this checkpoint in Slot ${slot}${name ? ` (${name})` : ''}? What is saved there now will be replaced.`,
+  overwriteConfirm: (slot: number) => `Replace Slot ${slot}`,
+  overwriteCancel: 'Keep it',
+} as const;
