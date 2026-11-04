@@ -5,7 +5,8 @@
  * shows its exact spot; one not yet found is only counted, so finding it stays a surprise.
  * The completion ring is everything found over everything there is. Pure, never writes.
  */
-import { COLLECTIBLES } from '../config/region-collectibles';
+import { collectiblesIn } from './collectibles';
+import { traceSpot } from './regions-trace';
 import { LANDMARKS } from '../config/tuning';
 import type { RegionId } from '../config/regions';
 import { WORLD_TRACES } from '../content/world-traces';
@@ -35,7 +36,7 @@ export function mapOverlay(world: World, region: RegionId): MapOverlay {
   const quests = questsInArea(world, region);
   const collected = world.collected ?? {};
   const flags = world.campaign?.flags ?? {};
-  const keeps = COLLECTIBLES.filter((k) => k.region === region);
+  const keeps = collectiblesIn(region);
   const keepSpots = keeps
     .filter((k) => collected[k.id] !== undefined)
     .map((k) => ({ id: k.id, x: k.x, z: k.z }));
@@ -43,7 +44,10 @@ export function mapOverlay(world: World, region: RegionId): MapOverlay {
   const traceGot = traces.filter(
     (t) => flags[`trace:${t.id}`] || collected[`trace:${t.id}`] !== undefined,
   );
-  const traceSpots = traceGot.flatMap((t) => (t.at ? [{ id: t.id, ...t.at }] : []));
+  const traceSpots = traceGot.flatMap((t) => {
+    const at = traceSpot(t);
+    return at ? [{ id: t.id, ...at }] : [];
+  });
   const travel =
     region === 'grove'
       ? LANDMARKS.filter((l) => world.landmarks[l.id] !== undefined).map((l) => ({
