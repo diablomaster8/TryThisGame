@@ -13,8 +13,8 @@ import type { World } from '../sim/types';
  * scene (count 0 when empty) so the programs link with the rest. Same program as the region
  * critters (standard material, per-instance colour), so nothing new compiles.
  */
-const MAX_GEMS = 40;
-const MAX_BLOCKS = 56;
+const MAX_GEMS = 64;
+const MAX_BLOCKS = 96;
 const REACH = 60;
 
 export class RegionMarks3d {
@@ -183,6 +183,21 @@ export class RegionMarks3d {
         this.block(m.x, y + 1.85, m.z, 2.5, 0.18, 0.18, '#b07a44');
         break;
       }
+      case 'decor':
+        if (m.decor === 'bench') {
+          this.block(m.x, y + 0.35, m.z, 1.3, 0.1, 0.4, '#b07a44');
+          this.block(m.x - 0.5, y, m.z, 0.1, 0.35, 0.3, '#6a4a2a');
+          this.block(m.x + 0.5, y, m.z, 0.1, 0.35, 0.3, '#6a4a2a');
+        } else if (m.decor === 'flowerbed') {
+          this.block(m.x, y, m.z, 1.4, 0.16, 0.9, '#6a4a2a');
+          this.gem(m.x - 0.3, y + 0.35, m.z, 0.11, '#f2a6c4', t);
+          this.gem(m.x + 0.1, y + 0.4, m.z + 0.1, 0.11, '#f4c430', t);
+          this.gem(m.x + 0.4, y + 0.35, m.z - 0.1, 0.11, '#b87ad8', t);
+        } else if (m.decor === 'lanternSmall') {
+          this.block(m.x, y, m.z, 0.1, 1.1, 0.1, '#4a3a2a');
+          this.gem(m.x, y + 1.25, m.z, 0.16, '#f8d870', t);
+        } else this.block(m.x, y + 0.01, m.z, 0.95, 0.06, 0.95, '#b0aca0');
+        break;
       case 'plot': {
         const edge = '#f4ead0';
         this.block(m.x, y + 0.01, m.z - 4, 8, 0.04, 0.1, edge);

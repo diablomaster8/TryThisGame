@@ -78,6 +78,7 @@ import { stepRegionCritters } from './region-critters';
 import { stepRegionGates } from './region-gates';
 import { stepTraces } from './regions-trace';
 import { stepWildNubbin } from './region-wild-nubbin';
+import { placeOnPlot, removeFromPlot } from './region-plots';
 import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
@@ -701,10 +702,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       buyDecor(world, cmd.decor, events);
       return;
     case 'placeDecor':
-      placeDecor(world, cmd.decor, cmd.pos, events, cmd.yaw ?? 0);
+      // R0136: in a drawn region the piece goes on its build plot.
+      if (world.location.startsWith('region:'))
+        placeOnPlot(world, cmd.decor, cmd.pos, events, cmd.yaw ?? 0);
+      else placeDecor(world, cmd.decor, cmd.pos, events, cmd.yaw ?? 0);
       return;
     case 'removeDecor':
-      removeDecor(world, cmd.id);
+      if (!removeFromPlot(world, cmd.id)) removeDecor(world, cmd.id);
       return;
     case 'karateResult': {
       // Lane C: kept one release for old screens and story tests. The Shells come from the

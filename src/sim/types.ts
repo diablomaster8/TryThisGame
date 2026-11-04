@@ -1352,6 +1352,8 @@ export interface World {
   collected?: Record<string, number>;
   /** R0120 (R11 d8): how many times each region critter spot was taken (absent in older saves). */
   critterTakes?: Record<string, number>;
+  /** R0136 (R12 d2): the pieces on each drawn region's build plot, by region id. */
+  plotDecor?: Record<string, PlacedDecor[]>;
   /** R0110 (R11 d8): how long a partner has leaned on each closed gate, ms (absent in older saves). */
   gateTries?: Record<string, number>;
   /** R0127 (lane D r9): world hints already shown, hint id → sim time (absent in older saves). */

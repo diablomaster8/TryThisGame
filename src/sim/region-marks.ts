@@ -10,14 +10,17 @@ import { openHere } from './collectibles';
 import { photoSpotAt } from './photo-spots';
 import { drawnRegionOf } from './region-walk';
 import { roomNear } from './region-spots';
+import { plotPieces } from './region-plots';
 import { openTraces } from './regions-trace';
 import type { World } from './types';
 
-export type MarkKind = 'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot';
+export type MarkKind = 'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor';
 
 export interface Mark {
   kind: MarkKind;
   id: string;
+  /** For a plot piece, the decoration kind. */
+  decor?: string;
   region: RegionId;
   x: number;
   z: number;
@@ -39,7 +42,14 @@ export function plotAt(region: RegionId): { x: number; z: number } | null {
   return plots.get(region)!;
 }
 
-let cache: { loc: string; collected: unknown; rev: number; list: readonly Mark[] } | null = null;
+let cache: {
+  loc: string;
+  collected: unknown;
+  plot: unknown;
+  plotN: number;
+  rev: number;
+  list: readonly Mark[];
+} | null = null;
 const NONE: readonly Mark[] = [];
 
 /** The marks of the drawn region the Keeper is in (none in the Grove, whose props are its own). */
@@ -47,7 +57,15 @@ export function regionMarks(world: World): readonly Mark[] {
   const region = drawnRegionOf(world.location);
   if (!region) return NONE;
   const c = cache;
-  if (c && c.loc === world.location && c.collected === world.collected && c.rev === rev)
+  const plotN = plotPieces(world, region).length;
+  if (
+    c &&
+    c.loc === world.location &&
+    c.collected === world.collected &&
+    c.plot === world.plotDecor &&
+    c.plotN === plotN &&
+    c.rev === rev
+  )
     return c.list;
   const list: Mark[] = [];
   for (const k of openHere(world)) list.push({ kind: k.kind, id: k.id, region, x: k.x, z: k.z });
@@ -56,6 +74,15 @@ export function regionMarks(world: World): readonly Mark[] {
   if (photo) list.push({ kind: 'photo', id: `photo:${region}`, region, ...photo });
   const plot = plotAt(region);
   if (plot) list.push({ kind: 'plot', id: `plot:${region}`, region, ...plot });
-  cache = { loc: world.location, collected: world.collected, rev, list };
+  for (const d of plotPieces(world, region))
+    list.push({ kind: 'decor', id: d.id, decor: d.kind, region, x: d.pos.x, z: d.pos.z });
+  cache = {
+    loc: world.location,
+    collected: world.collected,
+    plot: world.plotDecor,
+    plotN,
+    rev,
+    list,
+  };
   return list;
 }

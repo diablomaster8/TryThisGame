@@ -74,3 +74,6 @@ export const GATE_PLAN = {
     | undefined
   >,
 } as const;
+
+/** R0136 (WORLD-70): how many pieces a region's build plot holds, and how close two may stand. */
+export const PLOT_RULES = { max: 12, spacing: 0.9, half: 4 } as const;

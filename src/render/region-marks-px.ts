@@ -113,6 +113,54 @@ function post(): Raster {
   return r;
 }
 
+/** R0136: stand-ins for the few decorations a plot takes (the Grove's own art is Grove-only). */
+function bench(): Raster {
+  const r = new Raster(24, 14, null);
+  r.tracking = true;
+  r.rect(1, 6, 22, 3, hex('#b07a44'));
+  r.rect(1, 3, 22, 2, hex('#9a6a3a'));
+  r.rect(3, 9, 2, 4, hex('#6a4a2a'));
+  r.rect(19, 9, 2, 4, hex('#6a4a2a'));
+  r.tracking = false;
+  return r;
+}
+
+function flowerbed(): Raster {
+  const r = new Raster(22, 16, null);
+  r.tracking = true;
+  r.ellipse(11, 10, 10, 5, hex('#6a4a2a'));
+  r.ellipse(11, 9, 8.5, 4, hex('#4a8a3a'));
+  for (const [x, y, c] of [
+    [6, 7, '#f2a6c4'],
+    [11, 6, '#f4c430'],
+    [16, 8, '#b87ad8'],
+    [9, 10, '#ffffff'],
+    [14, 11, '#f08fb0'],
+  ] as const)
+    r.disc(x, y, 1.6, hex(c));
+  r.tracking = false;
+  return r;
+}
+
+function lantern(): Raster {
+  const r = new Raster(10, 24, null);
+  r.tracking = true;
+  r.rect(4, 8, 2, 15, hex('#4a3a2a'));
+  r.rect(2, 2, 6, 7, hex('#3a3a44'));
+  r.rect(3, 3, 4, 5, hex('#f8d870'));
+  r.tracking = false;
+  return r;
+}
+
+function pathTile(): Raster {
+  const r = new Raster(20, 20, null);
+  r.tracking = true;
+  r.rect(1, 1, 18, 18, hex('#9a968c'));
+  r.rect(2, 2, 16, 16, hex('#b0aca0'));
+  r.tracking = false;
+  return r;
+}
+
 function paint(): SpriteSheet {
   if (sheet) return sheet;
   const atlas = new RasterAtlas(256);
@@ -123,6 +171,10 @@ function paint(): SpriteSheet {
   atlas.add('photo', frame());
   atlas.add('plot', plotOutline());
   atlas.add('post', post());
+  atlas.add('decor-bench', bench());
+  atlas.add('decor-flowerbed', flowerbed());
+  atlas.add('decor-lanternSmall', lantern());
+  atlas.add('decor-pathTile', pathTile());
   sheet = atlas.build();
   return sheet;
 }
@@ -209,6 +261,12 @@ function drawMark(
     case 'photo':
       put(s, batch, 'photo', m.x, y, m.z, 2.6, tint);
       break;
+    case 'decor': {
+      const name = `decor-${m.decor}`;
+      if (m.decor === 'pathTile') put(s, batch, name, m.x, y + 0.02, m.z, 1, tint, 'flat', 1);
+      else put(s, batch, name, m.x, y, m.z, m.decor === 'lanternSmall' ? 0.5 : 1.4, tint);
+      break;
+    }
     case 'plot': {
       put(s, batch, 'plot', m.x, y + 0.02, m.z, 8, tint, 'flat', 8);
       for (const [dx, dz] of [
