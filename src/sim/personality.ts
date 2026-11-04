@@ -215,3 +215,42 @@ export function leanShares(n: Nubbin): Record<Personality, number> {
   for (const p of PERSONALITIES) out[p] = total > 0 ? raw[p] / total : 0;
   return out;
 }
+
+/**
+ * R0573 (SOUL-56): a reborn child's care starts with an echo of its last life: a fifth of
+ * the care that would make the old personality (at least a few acts, so the forming meter
+ * shows it), and nothing for a shy one, whose care is being left be. It still locks by the
+ * care of this life at evolution.
+ */
+export function echoCare(p: Personality | null): Nubbin['childCare'] {
+  const care: Nubbin['childCare'] = { pets: 0, throws: 0, feeds: 0 };
+  if (!p) return care;
+  const fifth = (v: number): number => Math.max(PERSONALITY.shyTotal, Math.ceil(v * 0.2));
+  switch (p) {
+    case 'cheerful':
+      care.pets = fifth(PERSONALITY.cheerfulPets);
+      break;
+    case 'mischievous':
+      care.throws = fifth(PERSONALITY.mischievousThrows);
+      break;
+    case 'lazy':
+      care.feeds = fifth(PERSONALITY.lazyFeeds);
+      break;
+    case 'curious':
+      care.curious = fifth(PERSONALITY.curiousActs);
+      break;
+    case 'gentle':
+      care.gentle = fifth(PERSONALITY.gentleActs);
+      care.praises = PERSONALITY.gentlePraises;
+      break;
+    case 'bold':
+      care.bold = fifth(PERSONALITY.boldActs);
+      break;
+    case 'dreamy':
+      care.dreamMs = fifth(PERSONALITY.dreamyActs) * PERSONALITY.dreamyActMs;
+      break;
+    case 'shy':
+      break;
+  }
+  return care;
+}

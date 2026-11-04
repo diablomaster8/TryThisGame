@@ -731,6 +731,18 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     clampToWorld(n.behavior.target);
     return;
   }
+  // R0573 (lane A r11): a reborn child's first greet is its last life's quirk.
+  if (n.echo) {
+    if (n.stage !== 'child') delete n.echo;
+    else if (dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius && soulLive()) {
+      const echo = quirkAct(n, world, now, n.echo);
+      delete n.echo;
+      if (echo) {
+        startAct(n, echo, now);
+        return;
+      }
+    }
+  }
   // R0568 (lane A r11): the other Keeper's first approach after a switch: a head tilt.
   const tilt = tiltAct(n, world);
   if (tilt) {

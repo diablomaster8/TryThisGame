@@ -81,13 +81,16 @@ function personalityOf(n: Nubbin): { p: Personality; s: number } | null {
 const span = (n: Nubbin, now: number, [lo, hi]: readonly [number, number]): number =>
   lo + (hi - lo) * roll(n, 'quirkMs', now);
 
-/** The idle choice's personality quirk, or null. */
-export function quirkAct(n: Nubbin, world: World, now: number): IdleAct | null {
+/**
+ * The idle choice's personality quirk, or null. R0573: `echo` plays that personality's quirk
+ * at once (a reborn child's first greet, in the way of its last life).
+ */
+export function quirkAct(n: Nubbin, world: World, now: number, echo?: Personality): IdleAct | null {
   if (!soulLive() || n.stage === 'egg' || n.stage === 'cocoon') return null;
-  const who = personalityOf(n);
+  const who = echo ? { p: echo, s: 1 } : personalityOf(n);
   if (!who) return null;
   const chance = QUIRKS.chance[who.p] * who.s * liveliness(world);
-  if (roll(n, 'quirk', now) >= Math.min(1, chance)) return null;
+  if (!echo && roll(n, 'quirk', now) >= Math.min(1, chance)) return null;
   const k = world.keeper.pos;
   switch (who.p) {
     case 'cheerful':
