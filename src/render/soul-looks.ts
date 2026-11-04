@@ -9,7 +9,7 @@
  * a walk with sparkles round them. Render-only: it reads the Nubbin and never writes it.
  */
 import type { Nubbin, Personality } from '../sim/types';
-import { GAIT } from '../config/tuning-soul-r11';
+import { GAIT, SHADOW_SOUL } from '../config/tuning-soul-r11';
 import type { PetBeatPose } from './pet-reactions';
 
 export type SoulLookKind =
@@ -58,13 +58,21 @@ export type SoulLookKind =
   | 'tiptoe'
   | 'shuffle'
   | 'march'
-  | 'meander';
+  | 'meander'
+  // R0566 (lane A r11): a wary Shadow's sulk and watch, and the bond's walk-up hug.
+  | 'sulk'
+  | 'watchFar'
+  | 'bondHug';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
   const b = n.behavior;
   if (b.state === 'shelter') return b.target ? null : 'huddle';
   const id = b.itemId;
+  // R0566 (lane A r11).
+  if (b.state === 'sit' && id === 'sulk') return 'sulk';
+  if (b.state === 'perform' && id === 'watchFar' && !b.target) return 'watchFar';
+  if (b.state === 'perform' && id === 'bondHug' && !b.target) return 'bondHug';
   const flavour = stateFlavourLook(n);
   if (flavour) return flavour;
   // Lane A r9.
@@ -194,6 +202,7 @@ export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   splashSpin: 700,
   diveUp: 1800,
   cryStomp: 600,
+  bondHug: 1200,
 };
 
 /** The waddle's sway. */
@@ -508,6 +517,36 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.clip = 'walk';
       out.pose3d = 'walk';
       out.sh = 0.95;
+      break;
+    // R0566 (lane A r11).
+    case 'sulk':
+      // Sat with its back to the Grove, facing a tree, hunched small.
+      out.clip = 'sad';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sw = 0.94;
+      out.sh = 0.92;
+      break;
+    case 'watchFar':
+      // Sat a way off, watching the Keeper, very still.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sh = 0.97;
+      break;
+    case 'bondHug':
+      // Up to the Keeper: a hesitation (small, unsure), then the hug.
+      if (t < SHADOW_SOUL.bondHesitate) {
+        out.clip = 'surprised';
+        out.frame = 0;
+        out.pose3d = 'surprised';
+        out.sw = 0.94;
+        out.sh = 0.94;
+      } else {
+        out.clip = 'love';
+        out.pose3d = 'love';
+        out.sh = 1 + 0.03 * Math.max(0, wave(1.5)) * m;
+      }
       break;
     // R0570 (lane A r11): the gaits, laid over the walk clip (null keeps it).
     case 'skip': {

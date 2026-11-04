@@ -111,6 +111,7 @@ import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
 import { cryWalkSpeed, startCry } from './cry-soul';
 import { gaitSpeed, meanderStep } from './soul-gait';
 import { splashFriend, swimFactor, swimSpot } from './swim-soul';
+import { shadowAct } from './shadow-soul';
 /* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
 import { eduYawnAct } from './edu-session';
 import type {
@@ -709,6 +710,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     // R0538 (lane A r10): two show-offs at once rub each other up the wrong way.
     noteShowOff(world, n, now);
     addHappiness(n, 1);
+    return;
+  }
+  // R0566 (lane A r11): a wary Shadow sulks, watches from afar, or takes fruit and runs.
+  const shade = shadowAct(n, world, now);
+  if (shade) {
+    startAct(n, shade, now);
     return;
   }
   // A wary Shadow Nubbin never greets; it keeps its distance instead.

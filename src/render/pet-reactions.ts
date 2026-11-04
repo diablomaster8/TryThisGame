@@ -361,6 +361,7 @@ export const PET_BEAT_BURST: Partial<
   splashSpin: 'sparkle',
   diveUp: 'sparkle',
   cryStomp: 'dust',
+  bondHug: 'heart',
 };
 
 /** Per-Nubbin beats for one renderer (each keeps its own, on its own clock). */

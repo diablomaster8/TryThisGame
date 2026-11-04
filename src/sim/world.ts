@@ -75,6 +75,7 @@ import { stepLittleGrove } from './little-grove';
 import { rememberCare } from './care-memory';
 import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepCrying } from './cry-soul';
+import { stepShadowSoul } from './shadow-soul';
 import { stepFriendships } from './friendships';
 import { stepSoulGroups } from './soul-groups';
 import { stepKeeperIdle } from './keeper-idle';
@@ -1446,6 +1447,8 @@ export function stepWorld(
   stepFriendships(world, dtMs, events);
   // R0558, R0581 (lane A r11): brief cries and friends who come to comfort.
   stepCrying(world, events, offline);
+  // R0566 (lane A r11): a Shadow's bond hug, and a watcher's eyes on the Keeper.
+  stepShadowSoul(world, events, offline);
   stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);

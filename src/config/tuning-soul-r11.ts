@@ -106,3 +106,22 @@ export const SWIM_SOUL = {
   splashChance: 0.12,
   splashMs: 1_500,
 } as const;
+
+/**
+ * R0566 (SOUL-49): a wary Shadow's own ways. Chances per idle pick; the watch is from
+ * `watchFar` units, the fruit only one the Keeper is at least `fruitKeeperGap` from.
+ */
+export const SHADOW_SOUL = {
+  sulkChance: 0.3,
+  sulkMs: [6_000, 10_000] as const,
+  watchChance: 0.35,
+  watchFar: 5,
+  watchWithin: 12,
+  watchMs: [6_000, 10_000] as const,
+  fruitChance: 0.6,
+  fruitRadius: 8,
+  fruitKeeperGap: 3,
+  /** The bond: walk to the Keeper, hesitate, then hug (the look splits its time). */
+  bondHugMs: 3_000,
+  bondHesitate: 0.35,
+} as const;

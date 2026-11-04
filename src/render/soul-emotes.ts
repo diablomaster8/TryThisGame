@@ -34,6 +34,8 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       // R0541 (lane A r10): a flinch's sweat drop.
       if (id === 'flinch') return 'drop';
       if (id === 'sneak') return n.behavior.target ? 'none' : 'smirk';
+      // R0566 (lane A r11): the bond hug ends in a heart.
+      if (id === 'bondHug') return n.behavior.target ? 'none' : 'heart';
       // R0529 (lane A r11): the second four's quirks.
       if (id === 'poke') return 'bulb';
       if (id.startsWith('comfort:') || id === 'offerFruit') return 'heart';
