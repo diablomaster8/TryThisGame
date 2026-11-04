@@ -10,6 +10,8 @@ import '../world.css';
 import '../camp-r11.css';
 import type { StoryRegionId } from '../config/story-regions';
 import { regionLine, storyRegionHere } from '../sim/story-regions';
+import { CAMP12C_TEXT } from '../config/strings-camp12c';
+import { spineEnded } from '../sim/epilogue';
 import { hasStoryRegions, storyRegionPage, storyRegionTabs } from './map-regions';
 import { REGIONS, type RegionId } from '../config/regions';
 import { markAt } from '../config/stage-marks';
@@ -253,6 +255,9 @@ export class WorldMapPanel {
     if (!g) return;
     this.drawTabs(g.world);
     this.drawStoryTabs(g.world);
+    // R0657: after the spine's ending the map is called "After the Long Night".
+    const head = this.dialog.root.querySelector('.modal-head h2');
+    if (head) head.textContent = spineEnded(g.world) ? CAMP12C_TEXT.mapAfter : UI_TEXT.map;
     const grove = this.tab === 'grove' && this.storyTab === null;
     this.view.hidden = !grove;
     this.elsewhere.hidden = grove;

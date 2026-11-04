@@ -2094,6 +2094,11 @@ export function mountHud(
         }
       }
     },
+    // R0620: with Aging while closed off there is no away screen; the recap still follows a long break.
+    onBreak(elapsedMs: number) {
+      const g = game();
+      if (g?.world.campaign && recapDue(elapsedMs)) recap.show(g);
+    },
     onAway(report: AwayReport, closed: () => void) {
       const g = game();
       // Shown at once, so no story scene can start under it; the scene waits for it to close.

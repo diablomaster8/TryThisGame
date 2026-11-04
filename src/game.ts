@@ -92,6 +92,11 @@ export interface GameHooks {
    * call it once the player has closed the screen.
    */
   onAway(report: AwayReport, closed: () => void): void;
+  /**
+   * R0620: a long break with no away screen (Aging while closed is off): the story recap may
+   * still follow. Optional.
+   */
+  onBreak?(elapsedMs: number): void;
   onSelect(id: string | null): void;
   onStorageBlocked(): void;
   /** Another tab saved this same slot; this tab has stopped autosaving over it. */
@@ -756,6 +761,8 @@ export class Game {
             // player, not under this screen: the sim holds the checks until it closes.
             this.send({ kind: 'holdEndOfLife', hold: true });
             this.hooks.onAway(report, () => this.send({ kind: 'holdEndOfLife', hold: false }));
+          } else if (report.simulatedMs === 0) {
+            this.hooks.onBreak?.(elapsedMs);
           }
           break;
         }
