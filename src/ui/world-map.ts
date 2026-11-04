@@ -30,6 +30,8 @@ import { sideStory } from '../sim/story-scenes';
 import { areaName } from './offer-card';
 
 import { regionOf, regionsFound, travelBlock } from '../sim/regions';
+import { OVERVIEW_TEXT } from '../config/strings-r11d6';
+import { worldOverview } from './world-overview';
 import { travelMode } from '../sim/travel';
 import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
@@ -165,6 +167,10 @@ export class WorldMapPanel {
   /** Lane C r10 agent A (R0650): the questline region page shown, or null for `tab`. */
   private storyTab: StoryRegionId | null = null;
   private storyTabs: HTMLElement | null = null;
+  /** R0130: the World overview is showing, not a region's page. */
+  private overview = false;
+  private keepsakes: HTMLElement | null = null;
+  private centreBtn: HTMLElement | null = null;
   private zoom = 1;
   private panX = 0;
   private panY = 0;
@@ -199,6 +205,7 @@ export class WorldMapPanel {
     this.chipLayer = el('div', 'wm-chips');
     this.view.append(this.canvas, this.dotLayer, this.lines, this.keeper, this.chipLayer);
     const centre = button(WORLD_TEXT.centre, () => this.centre(), 'btn btn-small wm-centre');
+    this.centreBtn = centre;
     this.elsewhere = el('div', 'wm-elsewhere');
     this.sheet = el('div', 'wm-sheet');
     this.sheet.hidden = true;
@@ -222,6 +229,7 @@ export class WorldMapPanel {
   open(): void {
     // The Grove is the only region drawn so far, so the map always opens on it.
     this.tab = 'grove';
+    this.overview = false;
     // R0650: inside a questline's region the map opens on that region's page.
     const gw = this.game()?.world;
     this.storyTab = gw && hasStoryRegions(gw) ? storyRegionHere(gw) : null;
@@ -258,6 +266,29 @@ export class WorldMapPanel {
     // R0657: after the spine's ending the map is called "After the Long Night".
     const head = this.dialog.root.querySelector('.modal-head h2');
     if (head) head.textContent = spineEnded(g.world) ? CAMP12C_TEXT.mapAfter : UI_TEXT.map;
+    // R0130: the overview shows only itself; the layers, centre button and notes step aside.
+    this.layerRow.hidden = this.overview;
+    this.layerLine.hidden = this.overview || this.layerLine.textContent === '';
+    if (this.centreBtn) this.centreBtn.hidden = this.overview;
+    this.campaign.hidden = this.overview;
+    if (this.keepsakes) this.keepsakes.hidden = this.overview;
+    if (this.overview) {
+      this.view.hidden = true;
+      this.elsewhere.hidden = false;
+      this.elsewhere.replaceChildren(
+        worldOverview(
+          g.world,
+          (id) => {
+            this.tab = id;
+            this.storyTab = null;
+            this.overview = false;
+            this.refresh();
+          },
+          () => this.toast(WORLD_TEXT.unknownRegion),
+        ),
+      );
+      return;
+    }
     const grove = this.tab === 'grove' && this.storyTab === null;
     this.view.hidden = !grove;
     this.elsewhere.hidden = grove;
@@ -287,19 +318,32 @@ export class WorldMapPanel {
   private drawTabs(w: World): void {
     this.tabs.innerHTML = '';
     const found = regionsFound(w);
+    const all = button(
+      `🗺️ ${OVERVIEW_TEXT.tab}`,
+      () => {
+        this.overview = true;
+        this.sheet.hidden = true;
+        this.refresh();
+      },
+      `btn btn-small wm-tab${this.overview ? ' btn-primary' : ''}`,
+    );
+    all.setAttribute('role', 'tab');
+    all.setAttribute('aria-selected', String(this.overview));
+    this.tabs.appendChild(all);
     for (const id of found) {
       const b = button(
         WORLD_TEXT.regions[id],
         () => {
+          this.overview = false;
           this.tab = id;
           this.storyTab = null;
           this.sheet.hidden = true;
           this.refresh();
         },
-        `btn btn-small wm-tab${id === this.tab ? ' btn-primary' : ''}`,
+        `btn btn-small wm-tab${id === this.tab && !this.overview ? ' btn-primary' : ''}`,
       );
       b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', String(id === this.tab));
+      b.setAttribute('aria-selected', String(id === this.tab && !this.overview));
       // R0122: a completion ring on each found region's tab.
       const pct = Math.round(mapOverlay(w, id).completion * 100);
       const ring = el('span', 'wm-ring');
@@ -325,9 +369,9 @@ export class WorldMapPanel {
       this.tabs.appendChild(b);
     }
     // R0091: the shown region's one-time collectibles.
-    const old = this.tabs.nextElementSibling;
-    if (old?.classList.contains('wm-keepsakes')) old.remove();
-    this.tabs.after(el('p', 'wm-keepsakes', keepsakeLine(w, this.tab)));
+    this.keepsakes?.remove();
+    this.keepsakes = el('p', 'wm-keepsakes', keepsakeLine(w, this.tab));
+    this.tabs.after(this.keepsakes);
   }
 
   /** Lane C r10 agent A (R0650): the questline regions' tabs, under the map's own. */

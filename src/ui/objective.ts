@@ -17,6 +17,9 @@ import { EDU_PROMPT } from '../config/tuning-dlg';
 import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
 import { isHungry } from '../sim/needs';
+import { FIRST_LOOP } from '../config/tuning-r11d4';
+import { firstLoopStep } from '../sim/first-loop';
+import { FIRST_LOOP_TEXT } from '../config/strings-r11d4';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { FIRST_FEED_TEXT } from '../config/strings-tech';
 import { journalView } from '../sim/storyline';
@@ -141,7 +144,19 @@ export function groveSuggestion(world: World): Objective | null {
     return {
       key: 'grove:hatch',
       goal: OBJECTIVE_TEXT.hatch,
-      hint: OBJECTIVE_TEXT.hatchHint,
+      hint: world.diary?.loopSkipped ? OBJECTIVE_TEXT.hatchHint : FIRST_LOOP_TEXT.hatchHint,
+      story: false,
+    };
+  // R0448: the guided first loop's pat and name steps (sim/first-loop.ts).
+  const loop = firstLoopStep(world);
+  if (loop)
+    return {
+      key: `grove:loop-${loop.step}`,
+      goal: loop.step === 'pat' ? FIRST_LOOP_TEXT.pat(loop.nubbin.name) : FIRST_LOOP_TEXT.name(),
+      hint:
+        loop.step === 'pat'
+          ? FIRST_LOOP_TEXT.patHint(loop.nubbin.name)
+          : FIRST_LOOP_TEXT.nameHint(loop.nubbin.name),
       story: false,
     };
   const hungry = living.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && isHungry(n));
@@ -255,6 +270,11 @@ export class ObjectiveChip {
   /** R0661: "Go there" for the shown goal; R0616: "Rest until …" and the rest under way. */
   private readonly go: HTMLButtonElement;
   private readonly rest: HTMLButtonElement;
+  /** R0448: "I know how to play" ends the guided first loop; the nudge pulses after a quiet spell. */
+  private readonly skip: HTMLButtonElement;
+  private nudgeKey = '';
+  private nudgeSince = 0;
+  private spokenKey = '';
   private resting: { untilMs: number; scale: number; when: string } | null = null;
 
   constructor(
@@ -294,6 +314,16 @@ export class ObjectiveChip {
     this.rest.hidden = true;
     this.rest.title = REST_TEXT.help;
     parent.appendChild(this.rest);
+    this.skip = button(
+      FIRST_LOOP_TEXT.skip,
+      () => {
+        this.game()?.send({ kind: 'diaryNote', what: 'loopSkip' });
+      },
+      'btn btn-small objective-skip',
+    );
+    this.skip.hidden = true;
+    this.skip.setAttribute('aria-label', FIRST_LOOP_TEXT.skipLabel);
+    parent.appendChild(this.skip);
   }
 
   /** R0661: walk (or, with Travel assist, run or hop) to where the shown goal is. */
@@ -381,6 +411,23 @@ export class ObjectiveChip {
     CHIP_SHOWN.key = hide ? null : (shown?.key ?? null);
     this.root.hidden = hide || !shown;
     this.go.hidden = hide || !shown || !g || goalTarget(g.world, shown.key) === null;
+    // R0448: the first loop's skip, a quiet-spell nudge, and a sprout hears each step.
+    const loopOn = !hide && !!shown && shown.key.startsWith('grove:loop-');
+    this.skip.hidden = !loopOn;
+    const stepKey = shown?.key.startsWith('grove:') ? shown.key : '';
+    const nowMs = performance.now();
+    if (stepKey !== this.nudgeKey) {
+      this.nudgeKey = stepKey;
+      this.nudgeSince = nowMs;
+    }
+    this.root.classList.toggle(
+      'objective-nudge',
+      !!stepKey && nowMs - this.nudgeSince > FIRST_LOOP.idleNudgeMs,
+    );
+    if (loopOn && g && shown && shown.key !== this.spokenKey) {
+      this.spokenKey = shown.key;
+      if (g.world.edu?.band === 'sprout' && g.world.edu.readAloud) speakLine(shown.goal);
+    }
     if (!shown) return;
     o = shown;
     if (this.goal.textContent !== o.goal) this.goal.textContent = o.goal;

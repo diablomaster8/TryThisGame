@@ -34,6 +34,7 @@ import { renderBoard } from './journal-board';
 import { renderEndingShelf, renderErrands, renderQuestsPage } from './journal-quests';
 import { JOURNAL_TEXT } from '../config/strings-journal';
 import { LINE_REWARD_TEXT } from '../config/strings-camp9';
+import { PROGRESS_TEXT } from '../config/strings-r11d4-progress';
 import { phoneSheet, tabKeys } from './journal-sheet';
 import { storyBoutJournal } from './battle-scenes';
 import { spineControls, stepControls, storyActButton } from './journal-step';
@@ -94,7 +95,8 @@ export class Journal {
     | 'paths'
     | 'endings'
     | 'hollow'
-    | 'places' = 'now';
+    | 'places'
+    | 'progress' = 'now';
   /** R0666: plays a closing scene again from a copy (the HUD sets it to the dialogue's). */
   replay: ((scene: Scene) => void) | null = null;
   /** R0660: on a phone the tabs sit at the foot of the sheet, in thumb reach. */
@@ -195,6 +197,8 @@ export class Journal {
       ['lines', C11_TEXT.tabs.lines!],
       ['done', C11_TEXT.tabs.done!],
       ['more', JOURNAL_TEXT.moreTab],
+      // R0511 / R0474: ring meters and the private diary (`ui/progress-panel.ts`, on demand).
+      ['progress', PROGRESS_TEXT.tab],
     ] as const) {
       const b = button(
         label,
@@ -214,7 +218,11 @@ export class Journal {
     }
     tabKeys(tabs);
     this.body.appendChild(tabs);
-    if (this.page === 'now') renderNow(g, this.body, this.nowOptions(g));
+    if (this.page === 'progress') {
+      const holder = el('div', 'journal-progress');
+      this.body.appendChild(holder);
+      void import('./progress-panel').then((m) => m.renderProgress(g.world, holder));
+    } else if (this.page === 'now') renderNow(g, this.body, this.nowOptions(g));
     else if (this.page === 'areas') renderAreas(g, this.body, this.nowOptions(g));
     else if (this.page === 'lines') this.renderLinesPage(g);
     else if (this.page === 'done')

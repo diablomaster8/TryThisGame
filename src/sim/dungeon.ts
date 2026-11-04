@@ -1,4 +1,5 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
+import { caveReturn } from './cave-entrances';
 import { hashString } from './hash-string';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
@@ -1052,7 +1053,11 @@ export function enterDungeon(
     depth,
     daily: daily ? today.day : null,
     party,
-    returnKeeper: { x: world.keeper.pos.x, z: world.keeper.pos.z },
+    // R0115 (lane D): in by the cave mouth, out at the world's own spot by it.
+    returnKeeper: caveReturn('grove', world.keeper.pos)?.pos ?? {
+      x: world.keeper.pos.x,
+      z: world.keeper.pos.z,
+    },
     returnParty: Object.fromEntries(
       party.map((id) => {
         const n = world.nubbins.find((x) => x.id === id)!;
@@ -1130,6 +1135,9 @@ export function returnHome(world: World, run: DungeonRun): void {
   world.dungeon = null;
   const k = world.keeper;
   k.pos = { x: run.returnKeeper.x, z: run.returnKeeper.z };
+  // R0115 (lane D): back out by a mouth, facing away from it.
+  const out = caveReturn('grove', k.pos);
+  if (out) k.facing = out.facing;
   k.moveTarget = null;
   k.intent = null;
   run.party.forEach((id, i) => {

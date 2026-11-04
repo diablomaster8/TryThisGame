@@ -1,0 +1,57 @@
+/* Lane D round 11, helper 2 (R0126, WORLD-60): on a landscape phone the action bar is a
+   two-column rail on the left edge, in reach of the left thumb, instead of a bottom bar that
+   took a sixth of the short side. The HUD's left-anchored pieces move right of the rail
+   (`--safe-left` is overridden inside #hud only), and the bottom ones drop to the edge. */
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  html:not(.hollow-phone) {
+    --rail-w: calc(env(safe-area-inset-left, 0px) + 116px);
+    --hud-bottom: var(--safe-bottom);
+  }
+  html:not(.hollow-phone) #hud {
+    --safe-left: var(--rail-w);
+  }
+  html:not(.hollow-phone) #hud .actionbar {
+    left: 0;
+    right: auto;
+    top: auto;
+    bottom: 0;
+    width: var(--rail-w);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 52px;
+    gap: 2px;
+    padding: 4px 4px calc(var(--safe-bottom) + 4px) calc(env(safe-area-inset-left, 0px) + 4px);
+    border-top: 2px solid var(--px-edge);
+    border-right: 2px solid var(--px-edge);
+    border-top-right-radius: 10px;
+    box-sizing: border-box;
+  }
+  html:not(.hollow-phone) #hud .actionbar .btn {
+    max-width: none;
+    min-height: 50px;
+  }
+  /* The tucked rail slides out to the left (fades under reduced motion, world-hud.css) and
+     leaves a thin strip to tap along that edge. */
+  html:not(.hollow-phone) .walk-tucked {
+    --hud-bottom: var(--safe-bottom);
+  }
+  html:not(.hollow-phone):not(.reduce-motion) .walk-tucked .actionbar {
+    transform: translateX(calc(-100% + 12px));
+  }
+  html:not(.hollow-phone) .walk-tucked .walk-tuck-handle:not([hidden]) {
+    right: auto;
+    top: auto;
+    width: calc(env(safe-area-inset-left, 0px) + 44px);
+    height: 216px;
+    background: linear-gradient(
+      to right,
+      var(--px-bg) 0 calc(env(safe-area-inset-left, 0px) + 12px),
+      transparent 0
+    );
+  }
+}
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  html:not(.hollow-phone) .walk-tucked .actionbar {
+    transform: none;
+  }
+}

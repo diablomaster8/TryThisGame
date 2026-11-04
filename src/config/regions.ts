@@ -5,6 +5,10 @@
  * the rest are declared so quests, the map and streaming can name them before they exist.
  * A region with `built: false` can be named but never entered.
  */
+import { RIDGE_POIS } from './region-ridge';
+import { RUINS_POIS } from './region-ruins';
+import { SHORE_POIS } from './region-shore';
+import { MOON_POIS, SUN_POIS } from './region-sunmoon';
 import { WOOD_POIS } from './region-wood';
 import type { Audience } from '../content/types';
 import type { Season } from '../sim/types';
@@ -144,11 +148,28 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'stairs',
       },
       // WORLD-10: the ways out to the regions not built yet (taking one is refused until then).
-      way('grove-marsh', 'shore', [12, 46], [-66, 0], 'seamless', N / 2),
-      way('grove-wood', 'wood', [-28, -46], [0, 52], 'gate', N),
-      way('grove-ridge', 'ridge', [46, -24], [0, 44], 'seamless', N),
-      way('grove-sun', 'sunlands', [-46, -6], [0, 36], 'gate', N),
-      way('grove-moon', 'moonlands', [-46, 6], [0, 36], 'gate', N),
+      // R11 d7: the whole south marsh is the shore's border (16 u wide, walked straight over).
+      {
+        id: 'grove-marsh',
+        rect: { x: 4, z: 44, w: 16, h: 4 },
+        to: 'shore',
+        arrive: { x: -50, z: -20 },
+        facing: 0,
+        kind: 'seamless',
+      },
+      way('grove-wood', 'wood', [-31, -46], [0, 49], 'gate', N),
+      // R11 d7: the east ridge's border, 8 u wide, walked straight over (see `region-ridge.ts`).
+      {
+        id: 'grove-ridge',
+        rect: { x: 44, z: -28, w: 4, h: 8 },
+        to: 'ridge',
+        arrive: { x: -28, z: 66 },
+        facing: N / 2,
+        kind: 'seamless',
+      },
+      // R11 d7: the gates land the Keeper just inside each land, clear of its way back.
+      way('grove-sun', 'sunlands', [-46, -6], [0, 33], 'gate', N),
+      way('grove-moon', 'moonlands', [-46, 6], [0, 33], 'gate', N),
     ],
     pois: [
       { id: 'bridge', x: 9.6, z: -4.2, landmark: 'bridge', tier: 'major' },
@@ -239,8 +260,21 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'shore',
     'beach',
     [140, 48],
-    ['beach', 'rock-pools', 'stilt-village', 'lagoon', 'bay'],
-    [way('shore-marsh', 'grove', [-68, 0], [12, 43], 'seamless', N)],
+    [],
+    [
+      // WORLD-35 (R11 d7): the seamless edge back into the Grove's marsh (see `region-shore.ts`).
+      {
+        id: 'shore-marsh',
+        // Neither side's arrival lands in the other's box, so stopping just over never strands
+        // the Keeper inside a box that would only fire after leaving it.
+        rect: { x: -58, z: -24, w: 16, h: 1.6 },
+        to: 'grove',
+        arrive: { x: 12, z: 42.8 },
+        facing: N,
+        kind: 'seamless',
+      },
+    ],
+    { pois: SHORE_POIS, built: true },
   ),
   wood: future(
     'wood',
@@ -248,31 +282,39 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     [112, 112],
     ['clearing', 'deep-wood', 'old-oak', 'old-mill', 'woodcutter'],
     [
-      way('wood-trail', 'grove', [0, 54], [-28, -43], 'gate', 0),
-      way('wood-ruins', 'ruins', [54, 0], [-34, 0], 'gate', N / 2),
+      way('wood-trail', 'grove', [0, 54], [-31, -43], 'gate', 0),
+      way('wood-ruins', 'ruins', [54, 0], [-29, 0], 'gate', N / 2),
     ],
-    // WORLD-25: laid out (`region-wood.ts`), not drawn yet.
-    { pois: WOOD_POIS },
+    // WORLD-25: laid out (`region-wood.ts`) and drawn by the region engine (R11 lane D).
+    { pois: WOOD_POIS, built: true },
   ),
   ridge: future(
     'ridge',
     'alpine',
-    [64, 96],
-    ['track', 'lookout', 'hut'],
+    [64, 160],
+    [],
     [
-      way('ridge-stair', 'grove', [0, 46], [43, -24], 'seamless', -N / 2),
-      way('ridge-peaks', 'peaks', [0, -46], [0, 30], 'door', N),
+      // WORLD-36 (R11 d7): the seamless edge back to the Grove (arrivals clear of either box).
+      {
+        id: 'ridge-stair',
+        rect: { x: -32, z: 62, w: 1.6, h: 8 },
+        to: 'grove',
+        arrive: { x: 42.8, z: -24 },
+        facing: -N / 2,
+        kind: 'seamless',
+      },
+      way('ridge-peaks', 'peaks', [0, -78], [0, 30], 'door', N),
+      // R0115 (WORLD-38): the ice caves' mouth, DUNG's floors below (the caves are not built).
+      way('ridge-ice', 'caves', [22, -61], [0, 0], 'stairs', N),
     ],
+    { pois: RIDGE_POIS, built: true },
   ),
   peaks: future(
     'peaks',
     'alpine',
     [64, 64],
     ['summit', 'pass', 'snowfield'],
-    [
-      way('peaks-ridge', 'ridge', [0, 30], [0, -43], 'door', 0),
-      way('peaks-ice', 'caves', [20, -20], [0, 0], 'stairs', 0),
-    ],
+    [way('peaks-ridge', 'ridge', [0, 30], [0, -75], 'door', 0)],
     { clock: { offsetH: 2 } },
   ),
   caves: future(
@@ -280,32 +322,41 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'cave',
     [48, 48],
     ['mouth', 'lake', 'crystals'],
-    [way('caves-ice', 'peaks', [0, 0], [20, -17], 'stairs', 0)],
+    [
+      way('caves-ice', 'ridge', [0, 0], [22, -57.5], 'stairs', 0),
+      way('caves-door', 'ruins', [0, -20], [0, -27.5], 'stairs', 0),
+    ],
     { clock: 'fixed' },
   ),
   ruins: future(
     'ruins',
     'ruin',
     [72, 72],
-    ['temple', 'stones', 'archive'],
-    [way('ruins-wood', 'wood', [-34, 0], [51, 0], 'gate', -N / 2)],
-    { audience: 'main' },
+    [],
+    [
+      way('ruins-wood', 'wood', [-34, 0], [51, 0], 'gate', -N / 2),
+      // R0115 (WORLD-38): the sealed door, open once it thaws (`exitLocked`), to the caves.
+      way('ruins-door', 'caves', [0, -30.5], [0, -18], 'stairs', N),
+    ],
+    // WORLD-37 (R11 d7): laid out in `region-ruins.ts`, drawn by the region engine.
+    { audience: 'main', pois: RUINS_POIS, built: true },
   ),
   sunlands: future(
     'sunlands',
     'sun',
     [80, 80],
     ['dais'],
-    [way('sun-gate', 'grove', [0, 38], [-43, -6], 'gate', 0)],
-    { clock: { fixed: 12 } },
+    [way('sun-gate', 'grove', [0, 38], [-43, -6], 'gate', N / 2)],
+    // WORLD-34 (R11 d7): laid out in `region-sunmoon.ts`, drawn by the region engine.
+    { clock: { fixed: 12 }, pois: SUN_POIS, built: true },
   ),
   moonlands: future(
     'moonlands',
     'moon',
     [80, 80],
     ['dais'],
-    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', 0)],
-    { clock: { fixed: 22 } },
+    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', N / 2)],
+    { clock: { fixed: 22 }, pois: MOON_POIS, built: true },
   ),
   // Reached only from the Learning Grove, so it has no road to the rest of the world.
   'little-grove': future('little-grove', 'meadow', [40, 40], ['sandpit', 'swings'], [], {

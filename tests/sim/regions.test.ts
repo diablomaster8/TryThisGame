@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { REGIONS, REGION_ORDER } from '../../src/config/regions';
+import { REGIONS, REGION_ORDER, type RegionId } from '../../src/config/regions';
 import { LANDMARKS, SIM, WORLD_WALK } from '../../src/config/tuning';
 import { regionOf, regionsFound, travelBlock } from '../../src/sim/regions';
 import { deserialize, serialize } from '../../src/sim/save';
@@ -16,7 +16,19 @@ describe('region graph (WORLD-04)', () => {
       const r = REGIONS[id];
       expect(r.id).toBe(id);
       for (const e of r.exits) expect(REGIONS[e.to]).toBeDefined();
-      if (r.built && id !== 'grove') expect(r.exits.some((e) => e.to === 'grove')).toBe(true);
+      // R11 d7: a way home may lead through a built neighbour (the ruins through the Wood).
+      if (r.built && id !== 'grove') {
+        const seen = new Set<RegionId>([id]);
+        const queue: RegionId[] = [id];
+        while (queue.length) {
+          for (const e of REGIONS[queue.shift()!].exits)
+            if (!seen.has(e.to) && REGIONS[e.to].built) {
+              seen.add(e.to);
+              queue.push(e.to);
+            }
+        }
+        expect(seen.has('grove'), id).toBe(true);
+      }
     }
     expect(REGION_ORDER.length).toBe(Object.keys(REGIONS).length);
   });
@@ -65,7 +77,10 @@ describe('region graph (WORLD-04)', () => {
     expect(events).toContainEqual({ kind: 'travelRefused', exit: 'nowhere', reason: 'no-exit' });
     const shore = {
       ...REGIONS,
-      grove: { ...REGIONS.grove, exits: [{ ...REGIONS.grove.exits[0]!, to: 'shore' as const }] },
+      grove: {
+        ...REGIONS.grove,
+        exits: [{ ...REGIONS.grove.exits[0]!, to: 'little-grove' as const }],
+      },
     };
     expect(travelBlock(world, 'grove-gate', undefined, shore)).toBe('unbuilt');
   });

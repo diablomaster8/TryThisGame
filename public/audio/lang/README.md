@@ -10,5 +10,6 @@ To add a recording:
    (mono, 44.1 kHz, trimmed, peak around -3 dB).
 2. Add the clip id to `RECORDED` in `src/platform/lang-audio.ts`.
 
+`npx tsx tests/tools/lang-clips-check.ts --list` lists the words still missing a clip. In game, a tapped word without a clip says so on screen.
 `tests/sim/lang.test.ts` checks that every course word has a clip id and that every id in
 `RECORDED` belongs to a course word.

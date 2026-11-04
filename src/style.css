@@ -5276,6 +5276,124 @@ html.story-resting canvas {
   }
 }
 
+/* R0447: the title's first screen: one big Continue, New game, Load, and the new-game cards. */
+.title-continue {
+  min-height: 72px;
+  align-items: flex-start;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.title-continue small,
+.title-newcard small {
+  font-weight: 400;
+  opacity: 0.85;
+}
+.title-newcard {
+  width: min(360px, 100%);
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 2px;
+}
+.title-graphics-help {
+  margin: -6px auto 10px;
+  width: min(360px, 100%);
+  font-size: 0.8125rem;
+  opacity: 0.75;
+}
+
+/* R0468: Settings tabs. Rows keep 48 px targets; the tab strip scrolls sideways on a phone. */
+.settings-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+}
+.settings-tab {
+  flex: none;
+  min-height: 48px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.settings-tab[aria-selected='true'] {
+  background: rgba(242, 211, 76, 0.2);
+  border-color: #f2d34c;
+  font-weight: 700;
+}
+.settings-pane .check-row,
+.settings-pane .field-row {
+  min-height: 48px;
+}
+
+/* R0511: ring meters on the Progress page. The number and label carry it; the ring is a bonus. */
+.progress-rings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.progress-ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+.progress-dial {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background:
+    radial-gradient(closest-side, #1c1632 74%, transparent 76%),
+    conic-gradient(#f2d34c calc(var(--pct) * 1%), rgba(255, 255, 255, 0.18) 0);
+}
+.progress-bests,
+.progress-diary {
+  text-align: left;
+  padding-left: 18px;
+  margin: 4px 0 10px;
+}
+
+/* R0448: the first loop's skip button and the quiet-spell nudge (still when motion is reduced). */
+.objective-skip {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 124px);
+  z-index: 12;
+  min-height: 44px;
+  opacity: 0.9;
+  pointer-events: auto;
+}
+.objective-nudge {
+  outline: 3px solid #f2d34c;
+  animation: objective-pulse 1.2s ease-in-out infinite;
+}
+@keyframes objective-pulse {
+  50% {
+    outline-offset: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .objective-nudge {
+    animation: none;
+  }
+}
+
 /* ---------- Lane F r11 (EVO): stage row and creator picker ---------- */
 
 .sheet-stage {

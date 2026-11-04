@@ -481,6 +481,7 @@ export class BattleScreen {
       this.pop = { id: e.who, text: e.on ? FUSION_TEXT.pop : FUSION_TEXT.popOff, at: now };
       playSound(e.on ? 'slideUp' : 'boing');
     } else if (e.k === 'miss') playSound('tap');
+    else if (e.k === 'guard') playSound(battleSfx(e)!);
     // FIGHT-76: a Dizzy self-bonk boings, a tuckered-out Nubbin yawns.
     else if (e.k === 'boing' || e.k === 'tuckered') playSound(battleSfx(e)!);
     this.drawnSig = '';

@@ -40,7 +40,9 @@ export function mapOverlay(world: World, region: RegionId): MapOverlay {
     .filter((k) => collected[k.id] !== undefined)
     .map((k) => ({ id: k.id, x: k.x, z: k.z }));
   const traces = WORLD_TRACES.filter((t) => t.region === region);
-  const traceGot = traces.filter((t) => flags[`trace:${t.id}`]);
+  const traceGot = traces.filter(
+    (t) => flags[`trace:${t.id}`] || collected[`trace:${t.id}`] !== undefined,
+  );
   const traceSpots = traceGot.flatMap((t) => (t.at ? [{ id: t.id, ...t.at }] : []));
   const travel =
     region === 'grove'
