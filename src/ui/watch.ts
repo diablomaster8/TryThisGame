@@ -83,7 +83,12 @@ export function onLongPress(target: HTMLElement, ms: number, fn: () => void): vo
   );
 }
 
-export function mountWatch(parent: HTMLElement, game: () => Game | null): void {
+export function mountWatch(
+  parent: HTMLElement,
+  game: () => Game | null,
+  /** R0564: called for each Nubbin that is in view (the Antics album stamps what it does). */
+  onSeen?: (n: Nubbin) => void,
+): void {
   const layer = el('div', 'watch-layer');
   const caption = el('button', 'watch-caption') as HTMLButtonElement;
   caption.type = 'button';
@@ -122,14 +127,18 @@ export function mountWatch(parent: HTMLElement, game: () => Game | null): void {
     const h = window.innerHeight;
     const watching = g.watching;
     const wanted = new Map<string, { n: Nubbin; at: EdgePoint; d: number }>();
-    if (!watching && g.world.location === 'grove') {
+    if (g.world.location === 'grove') {
       for (const n of g.world.nubbins) {
         if (n.stage === 'egg' || !nubbinHere(g.world, n)) continue;
         const p = g.ndcOf(n.pos.x, 0.5, n.pos.z);
         if (!p || p.behind) continue;
         const px = ((p.x + 1) / 2) * w;
         const py = ((1 - p.y) / 2) * h;
-        if (!isOffScreen(px, py, w, h, WATCH.margin)) continue;
+        if (!isOffScreen(px, py, w, h, WATCH.margin)) {
+          onSeen?.(n);
+          continue;
+        }
+        if (watching) continue;
         wanted.set(n.id, {
           n,
           at: edgePoint(px, py, w, h, WATCH.chipPx / 2 + WATCH.edgePad),

@@ -13,6 +13,8 @@ import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
+import { chaseClip, chaseLook } from '../render/ambient-look';
+import { Ambient3D } from './ambient-3d';
 import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
@@ -179,6 +181,8 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
     case 'perform':
+      // R0547 (lane A r11): chasing a butterfly runs, a catch is a happy pose.
+      if (chaseClip(n)) return chaseClip(n)!;
       // R0525 (lane A r10): a lesson performed sits to draw, sings, dances or plays.
       if (performClip(n)) return performClip(n)!;
       // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
@@ -393,6 +397,7 @@ export class Actors {
 
   /** R0525 (lane A r10): performance props, rising notes and crayon doodles. */
   private readonly perform3d: Perform3D;
+  private readonly ambient3d: Ambient3D;
   private readonly performRight = new THREE.Vector3();
 
   constructor(scene: THREE.Scene) {
@@ -403,6 +408,7 @@ export class Actors {
       () => this.emoteMats.get(frameKey('note', 'front', 0)),
       (x, z) => this.ground(x, z),
     );
+    this.ambient3d = new Ambient3D(this.group, (x, z) => this.ground(x, z));
     this.crowd = new Crowd(
       this.group,
       this.pool,
@@ -1156,7 +1162,13 @@ export class Actors {
           ? idleActAt(n, nowMs, actMood === 'content' || actMood === 'happy', keeper.pos, this.calm)
           : null;
       if (act) noteActDoodle(n, act, world.timeMs, PERFORM.doodleKinds);
-      const perf = held || !a.rig ? null : (performLook(n, perfMs, this.calm) ?? act?.perf ?? null);
+      const perf =
+        held || !a.rig
+          ? null
+          : (performLook(n, perfMs, this.calm) ??
+            chaseLook(n, perfMs, this.calm) ??
+            act?.perf ??
+            null);
       if (perf) {
         // Camera-right on the ground, from the camera toward this Nubbin.
         const fx = x - cameraPos.x;
@@ -1473,6 +1485,7 @@ export class Actors {
     this.emoteSprings.keep(live);
     this.perform3d.finish(world, this.location === 'grove', live, nowMs);
 
+    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm);
     // The Keeper.
     if (this.keeperSquash) {
       this.keeperSquash.o.scale.copy(this.keeperSquash.base);
@@ -1659,6 +1672,7 @@ export class Actors {
   dispose(): void {
     this.perform3d.dispose();
     for (const id of [...this.nubbins.keys()]) this.drop(id);
+    this.ambient3d.dispose();
     this.keeper = this.dropKeeper(this.keeper);
     this.keeper2 = this.dropKeeper(this.keeper2);
     for (const v of this.items.values()) this.kit.release(v.mesh);

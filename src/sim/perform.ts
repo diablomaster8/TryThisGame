@@ -8,6 +8,7 @@
 import { PERFORM } from '../config/tuning';
 import { soulLive } from './antics';
 import { LESSON_IDS, lessonLevel } from './kindergarten';
+import { pinDoodle } from './antic-album';
 import { pickShow } from './lesson-variants';
 import { hashSeed } from './rng';
 import type { LessonId, Nubbin, SimEvent, World } from './types';
@@ -43,6 +44,7 @@ export function notePerformStart(world: World, n: Nubbin, events: SimEvent[]): v
     by: n.id,
   });
   world.doodles = kept.slice(-PERFORM.doodleMax);
+  pinDoodle(world, n, kind, now);
 }
 
 /** A doodle's opacity now: drawn in during the performance, fading out at the end. */

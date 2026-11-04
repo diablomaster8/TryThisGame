@@ -47,3 +47,11 @@ export const OLD_SOUL = {
   /** How long an old soul sits and watches the Grove. */
   sitMs: 9000,
 } as const;
+
+/** R0564 and R0588: the Antics album's prizes and the Fridge's size. */
+export const ALBUM = {
+  /** One-time Shells prizes at this many stamps. */
+  prizes: { 10: 20, 20: 50, 40: 120 } as Record<number, number>,
+  /** The Fridge keeps this many doodles, newest last. */
+  fridgeMax: 30,
+} as const;

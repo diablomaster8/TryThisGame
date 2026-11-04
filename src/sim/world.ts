@@ -50,6 +50,7 @@ import { addTrust, isWary, stepTrust } from './trust';
 import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
 import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
+import { sawAntic } from './antic-album';
 import { payService, startLesson, startVariantLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
 import { noteNubbin, stepCollection } from './collection';
@@ -75,6 +76,7 @@ import { rememberCare } from './care-memory';
 import { coaxOut, stepCottageHide } from './cottage-hide';
 import { stepCrying } from './cry-soul';
 import { stepFriendships } from './friendships';
+import { stepSoulGroups } from './soul-groups';
 import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -772,6 +774,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       events.push({ kind: 'fetching', nubbinId: n.id });
       return;
     }
+    case 'sawAntic': {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n) sawAntic(world, n, events);
+      return;
+    }
     case 'startLesson': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n && cmd.variant) startVariantLesson(world, n, cmd.variant, events);
@@ -1445,6 +1452,8 @@ export function stepWorld(
   // R0127/R0111 (lane D r9): teach each mechanic once in the world; the Grove's secret.
   stepWorldHints(world, events);
   stepLittleGrove(world);
+  // R0547, R0555 (lane A r11): critters to chase, jam sessions (sim/soul-groups.ts).
+  stepSoulGroups(world, dtMs, events, offline);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

@@ -2,8 +2,9 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
 import { hollowKidVoice } from './hollow-kid-voice';
-import { KINDER_R11 } from '../config/strings-soul-r11b';
+import { ALBUM_TEXT, KINDER_R11 } from '../config/strings-soul-r11b';
 import { mountWatch } from './watch';
+import { AnticAlbum } from './antic-album';
 import { R10B4_TEXT } from '../config/strings-r10b4';
 import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { setBiomeBed } from '../platform/biome-beds';
@@ -592,7 +593,8 @@ export function mountHud(
   const expedition = new ExpeditionScreen(root);
   const races = new RacesMenu(root, game, (t) => toast(t, UI.toastLongMs), pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
-  mountWatch(root, game); /* R0550 */
+  const anticAlbum = new AnticAlbum(root, game, UI_TEXT.close); /* R0564 */
+  mountWatch(root, game, (n) => anticAlbum.report(n.id, n.behavior.itemId)); /* R0550 */
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
   // Lane C round 6: battle scenes play in this box; a loaded bout asks to resume (FIGHT-64).
@@ -753,6 +755,7 @@ export function mountHud(
     [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
     [`🗺 ${UI_TEXT.map}`, () => map.open()],
+    [`📖 ${ALBUM_TEXT.button}`, () => anticAlbum.open()],
     [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
     [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
   ] as const) {
@@ -1708,6 +1711,10 @@ export function mountHud(
             );
           }
           playSound('win');
+        } else if (e.kind === 'albumStamp') {
+          toast(ALBUM_TEXT.stamped(ALBUM_TEXT.names[e.entry] ?? e.entry));
+        } else if (e.kind === 'albumPrize') {
+          toast(ALBUM_TEXT.prize(e.shells));
         } else if (e.kind === 'weather') {
           // No sky underground or inside a minigame (review 2026-10-21, bug 20).
           const loc = g.world.location;

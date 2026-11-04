@@ -1463,6 +1463,12 @@ export interface World {
   atlasFestivals: string[];
   /** R0525 (lane A r10): crayon doodles on the Grove's ground, fading after ten minutes. */
   doodles?: Array<{ x: number; z: number; kind: number; atMs: number; by: string }>;
+  /** R0564 (lane A r11): the Antics album, behaviour id to the sim time it was first seen. */
+  album?: Record<string, number>;
+  /** R0564: the stamp counts whose Shells prize has been paid. */
+  albumPaid?: number[];
+  /** R0588: the Fridge, the doodles the drawing lessons made, newest last (up to 30). */
+  fridge?: Array<{ nubbinId: string; doodleId: number; atMs: number }>;
 }
 
 // ---------- commands (input → sim) ----------
@@ -1597,6 +1603,7 @@ export type Command =
   /** A tap on a story prop (the old trowel, the flat stone...), by prop id. */
   | { kind: 'storyProp'; prop: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
+  | { kind: 'sawAntic'; nubbinId: string }
   | { kind: 'startLesson'; nubbinId: string; lesson: LessonId; variant?: string }
   | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
   | { kind: 'buyDecor'; decor: DecorKind }
@@ -1942,6 +1949,8 @@ export type SimEvent =
   /** R0539: a missed buddy came back and the two hugged. */
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
+  | { kind: 'albumStamp'; nubbinId: string; entry: string; count: number }
+  | { kind: 'albumPrize'; count: number; shells: number }
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
   | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
