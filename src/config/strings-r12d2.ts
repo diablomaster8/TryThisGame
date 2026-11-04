@@ -91,3 +91,14 @@ export const REGION_GAG_TEXT: Readonly<Record<string, { first: string; again: st
     again: '👻 The ghost ship is out again, as the fog likes it.',
   },
 };
+
+/** R0118 (WORLD-51): a season's keepsake, found by walking up to the first of its props. */
+export const SEASON_KEEPSAKE_TEXT: Readonly<Record<string, string>> = {
+  'season-spring':
+    '🌸 A blossom has dropped by the path, still fresh. You tuck it away. +20 Shells.',
+  'season-summer':
+    '☀️ Something warm and glittery is left from the long days. You pocket it. +20 Shells.',
+  'season-autumn': '🍂 A perfect leaf, red at the edge. Somebody planned that. +20 Shells.',
+  'season-winter':
+    '❄️ A snowflake that will not melt, for now. It goes in your pocket. +20 Shells.',
+};

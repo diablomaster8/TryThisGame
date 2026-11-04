@@ -88,3 +88,40 @@ export const WEATHER_PLAY = {
   millRain: 1.8,
   ghost: { region: 'shore', x: 30, z: 18, seen: 34 },
 } as const;
+
+/**
+ * R0118 (WORLD-51): what each drawn region sets out in each season, on seeded open ground: leaf
+ * piles in autumn, snowmen in winter, blossom in spring, fireflies and a sandcastle in summer.
+ * The first of a season's props in a region is that season's keepsake: walk up to it for a few
+ * Shells, once per region per season per save (never a streak, never a chore).
+ */
+export type SeasonProp = 'leafpile' | 'snowman' | 'blossom' | 'fireflies' | 'sandcastle' | 'frogs';
+export const SEASON_PROPS: Record<
+  string,
+  Partial<Record<'spring' | 'summer' | 'autumn' | 'winter', { kind: SeasonProp; n: number }>>
+> = {
+  wood: {
+    spring: { kind: 'blossom', n: 3 },
+    summer: { kind: 'fireflies', n: 3 },
+    autumn: { kind: 'leafpile', n: 4 },
+    winter: { kind: 'snowman', n: 2 },
+  },
+  shore: {
+    spring: { kind: 'frogs', n: 2 },
+    summer: { kind: 'sandcastle', n: 1 },
+    autumn: { kind: 'leafpile', n: 2 },
+    winter: { kind: 'snowman', n: 1 },
+  },
+  ridge: {
+    spring: { kind: 'blossom', n: 2 },
+    autumn: { kind: 'leafpile', n: 2 },
+    winter: { kind: 'snowman', n: 2 },
+  },
+  ruins: {
+    spring: { kind: 'blossom', n: 2 },
+    summer: { kind: 'fireflies', n: 2 },
+    autumn: { kind: 'leafpile', n: 3 },
+    winter: { kind: 'snowman', n: 2 },
+  },
+};
+export const SEASON_KEEPSAKE = { shells: 20, radius: 1.4, gap: 12 } as const;

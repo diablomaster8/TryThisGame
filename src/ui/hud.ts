@@ -151,7 +151,12 @@ import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PhotoSpotButton } from './photo-spot-button';
-import { PHOTO_FRAME_TEXT, REGION_GAG_TEXT, WILD_NUBBIN_TEXT } from '../config/strings-r12d2';
+import {
+  PHOTO_FRAME_TEXT,
+  REGION_GAG_TEXT,
+  SEASON_KEEPSAKE_TEXT,
+  WILD_NUBBIN_TEXT,
+} from '../config/strings-r12d2';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
 import { showCrashCard } from './gl-failure';

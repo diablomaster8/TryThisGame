@@ -198,6 +198,35 @@ export class RegionMarks3d {
           this.gem(m.x, y + 1.25, m.z, 0.16, '#f8d870', t);
         } else this.block(m.x, y + 0.01, m.z, 0.95, 0.06, 0.95, '#b0aca0');
         break;
+      case 'season':
+        if (m.decor === 'leafpile') {
+          this.block(m.x, y, m.z, 1.6, 0.4, 1.4, '#c4602a', m.x);
+          this.gem(m.x + 0.3, y + 0.5, m.z, 0.14, '#c0382a', t);
+        } else if (m.decor === 'snowman') {
+          this.block(m.x, y, m.z, 0.9, 0.7, 0.9, '#f4f8ff');
+          this.block(m.x, y + 0.7, m.z, 0.65, 0.55, 0.65, '#f4f8ff');
+          this.block(m.x, y + 1.25, m.z, 0.45, 0.4, 0.45, '#f4f8ff');
+        } else if (m.decor === 'blossom') {
+          this.block(m.x, y, m.z, 0.16, 1.1, 0.16, '#6a4a2a');
+          this.gem(m.x, y + 1.3, m.z, 0.55, '#f2a6c4', 0);
+        } else if (m.decor === 'fireflies') {
+          for (let i = 0; i < 4; i++)
+            this.gem(
+              m.x + Math.cos(t + i * 1.6) * 0.8,
+              y + 1 + i * 0.25,
+              m.z + Math.sin(t * 0.8 + i) * 0.8,
+              0.07,
+              '#f8f080',
+              0,
+            );
+        } else if (m.decor === 'sandcastle') {
+          this.block(m.x, y, m.z, 1.6, 0.8, 1.6, '#e8c888');
+          this.block(m.x, y + 0.8, m.z, 0.6, 0.6, 0.6, '#f0d498');
+        } else {
+          this.block(m.x - 0.3, y, m.z, 0.3, 0.2, 0.3, '#5aa83a');
+          this.block(m.x + 0.3, y, m.z + 0.1, 0.3, 0.2, 0.3, '#6ab84a');
+        }
+        break;
       case 'ghost': {
         const bob = Math.sin(t * 1.2) * 0.15;
         this.block(m.x, y + bob, m.z, 5, 0.7, 1.6, '#dfe8f4', 0.3);

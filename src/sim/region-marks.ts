@@ -12,11 +12,12 @@ import { drawnRegionOf } from './region-walk';
 import { roomNear } from './region-spots';
 import { plotPieces } from './region-plots';
 import { ghostShipHere } from './region-weather-play';
+import { seasonHere, seasonKeepsakeTaken, seasonSpots } from './region-season-props';
 import { openTraces } from './regions-trace';
 import type { World } from './types';
 
 export type MarkKind =
-  'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor' | 'ghost';
+  'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor' | 'ghost' | 'season';
 
 export interface Mark {
   kind: MarkKind;
@@ -50,6 +51,7 @@ let cache: {
   plot: unknown;
   plotN: number;
   ghost: boolean;
+  season: string;
   rev: number;
   list: readonly Mark[];
 } | null = null;
@@ -62,6 +64,8 @@ export function regionMarks(world: World): readonly Mark[] {
   const c = cache;
   const plotN = plotPieces(world, region).length;
   const ship = ghostShipHere(world);
+  const sn = seasonHere(world, region);
+  const season = sn + (seasonKeepsakeTaken(world, region, sn) ? '+' : '');
   if (
     c &&
     c.loc === world.location &&
@@ -69,6 +73,7 @@ export function regionMarks(world: World): readonly Mark[] {
     c.plot === world.plotDecor &&
     c.plotN === plotN &&
     c.ghost === !!ship &&
+    c.season === season &&
     c.rev === rev
   )
     return c.list;
@@ -81,12 +86,23 @@ export function regionMarks(world: World): readonly Mark[] {
   if (plot) list.push({ kind: 'plot', id: `plot:${region}`, region, ...plot });
   for (const d of plotPieces(world, region))
     list.push({ kind: 'decor', id: d.id, decor: d.kind, region, x: d.pos.x, z: d.pos.z });
+  for (const sp of seasonSpots(region, sn))
+    list.push({
+      kind: 'season',
+      id: 'season:' + region + ':' + sp.n,
+      decor: sp.kind,
+      region,
+      x: sp.x,
+      z: sp.z,
+    });
   if (ship) list.push({ kind: 'ghost', id: 'ghost-ship', region, x: ship.x, z: ship.z });
   cache = {
     loc: world.location,
     collected: world.collected,
     plot: world.plotDecor,
     plotN,
+    ghost: !!ship,
+    season,
     rev,
     list,
   };

@@ -79,6 +79,7 @@ import { stepRegionGates } from './region-gates';
 import { stepTraces } from './regions-trace';
 import { stepWildNubbin } from './region-wild-nubbin';
 import { stepWeatherPlay } from './region-weather-play';
+import { stepSeasonProps } from './region-season-props';
 import { placeOnPlot, removeFromPlot } from './region-plots';
 import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
@@ -1308,6 +1309,8 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
     stepWildNubbin(world, dtMs, events);
     // R0137 (R12 d2): the shore's ghost ship in fog.
     stepWeatherPlay(world, events);
+    // R0118 (R12 d2): a season keepsake in each region.
+    stepSeasonProps(world, events);
   }),
   plainSys('traces', 543, ALWAYS, ({ world, events }) => stepTraces(world, events)),
   plainSys('photo-spots', 546, ALWAYS, ({ world, events }) => stepPhotoSpots(world, events)),

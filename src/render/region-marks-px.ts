@@ -176,6 +176,86 @@ function ghostShip(): Raster {
   return r;
 }
 
+/** R0118: a season's small props. */
+function leafpile(): Raster {
+  const r = new Raster(24, 14, null);
+  r.tracking = true;
+  r.ellipse(12, 9, 11, 5, hex('#a8481c'));
+  r.ellipse(12, 7, 9, 4.5, hex('#d8722a'));
+  r.disc(8, 6, 2, hex('#e8a030'));
+  r.disc(15, 7, 2, hex('#c0382a'));
+  r.tracking = false;
+  return r;
+}
+
+function snowman(): Raster {
+  const r = new Raster(16, 24, null);
+  r.tracking = true;
+  const w = hex('#f4f8ff');
+  r.disc(8, 17, 5.5, shade(w, 0.9));
+  r.disc(8, 10, 4, w);
+  r.disc(8, 5, 3, w);
+  r.disc(7, 4.4, 0.7, hex('#201814'));
+  r.disc(9.2, 4.4, 0.7, hex('#201814'));
+  r.tri(8, 5.4, 8, 6.6, 12, 6, hex('#e8742a'));
+  r.rect(5, 1, 6, 1.6, hex('#4a3a6a'));
+  r.tracking = false;
+  return r;
+}
+
+function blossom(): Raster {
+  const r = new Raster(20, 20, null);
+  r.tracking = true;
+  r.rect(9, 10, 2, 9, hex('#6a4a2a'));
+  r.disc(10, 7, 6, hex('#f2a6c4'));
+  r.disc(6, 9, 3.5, hex('#f8c8dc'));
+  r.disc(14, 9, 3.5, hex('#f8c8dc'));
+  r.tracking = false;
+  return r;
+}
+
+function fireflies(): Raster {
+  const r = new Raster(24, 20, null);
+  r.tracking = true;
+  for (const [x, y] of [
+    [5, 12],
+    [12, 5],
+    [18, 13],
+    [10, 15],
+  ] as const) {
+    r.disc(x, y, 2.6, hex('#f8f080'), 0.35);
+    r.disc(x, y, 1, hex('#fffbd0'));
+  }
+  r.tracking = false;
+  return r;
+}
+
+function sandcastle(): Raster {
+  const r = new Raster(26, 22, null);
+  r.tracking = true;
+  const c = hex('#e8c888');
+  r.rect(3, 10, 20, 10, c);
+  r.rect(3, 6, 5, 5, c);
+  r.rect(18, 6, 5, 5, c);
+  r.rect(10, 3, 6, 8, shade(c, 1.1));
+  r.rect(11, 0, 1.4, 4, hex('#6a4a2a'));
+  r.tri(12.4, 0, 12.4, 2.4, 17, 1.2, hex('#d8584a'));
+  r.rect(11, 14, 4, 6, shade(c, 0.7));
+  r.tracking = false;
+  return r;
+}
+
+function frogs(): Raster {
+  const r = new Raster(18, 12, null);
+  r.tracking = true;
+  r.ellipse(5, 8, 3.5, 2.6, hex('#5aa83a'));
+  r.ellipse(13, 8, 3.5, 2.6, hex('#6ab84a'));
+  r.disc(4, 5, 1.2, hex('#f4f4d0'));
+  r.disc(14, 5, 1.2, hex('#f4f4d0'));
+  r.tracking = false;
+  return r;
+}
+
 function paint(): SpriteSheet {
   if (sheet) return sheet;
   const atlas = new RasterAtlas(256);
@@ -186,6 +266,15 @@ function paint(): SpriteSheet {
   atlas.add('photo', frame());
   atlas.add('plot', plotOutline());
   atlas.add('post', post());
+  for (const [id, f] of Object.entries({
+    leafpile,
+    snowman,
+    blossom,
+    fireflies,
+    sandcastle,
+    frogs,
+  }))
+    atlas.add('season-' + id, f());
   atlas.add('ghost', ghostShip());
   atlas.add('decor-bench', bench());
   atlas.add('decor-flowerbed', flowerbed());
@@ -283,6 +372,18 @@ function drawMark(
       else put(s, batch, name, m.x, y, m.z, m.decor === 'lanternSmall' ? 0.5 : 1.4, tint);
       break;
     }
+    case 'season':
+      put(
+        s,
+        batch,
+        'season-' + m.decor,
+        m.x,
+        y + (m.decor === 'fireflies' ? 0.8 + bob * 3 : 0),
+        m.z,
+        m.decor === 'sandcastle' ? 1.8 : m.decor === 'snowman' ? 1.1 : 1.5,
+        tint,
+      );
+      break;
     case 'ghost':
       put(s, batch, 'ghost', m.x, y + 0.1 + bob * 2, m.z, 7, tint, 'billboard');
       break;
