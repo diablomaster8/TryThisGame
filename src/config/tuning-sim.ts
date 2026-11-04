@@ -182,4 +182,11 @@ export const TIMING_BUDGET = {
   ciScale: 2,
   testTimeoutMs: 5000,
   ciTimeoutScale: 3,
+  /**
+   * HOT-CI (2ca30c30): the per-test timeout of the long scripted runs (a whole campaign, a
+   * side story or an expansion played to its end, hundreds of seeded taps). Each is 15-40 s on
+   * a loaded machine and failed the deploy on a timeout, not on a wrong result. Set per file
+   * with `vi.setConfig`; it is no speed budget (those are the PERF job's).
+   */
+  slowTestTimeoutMs: 120_000,
 } as const;

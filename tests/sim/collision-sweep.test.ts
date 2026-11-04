@@ -6,13 +6,17 @@
  * `dungeon-nav.test.ts`. About 3 s alone; the 20 s timeouts only keep it steady when the
  * machine is busy.
  */
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { SIM } from '../../src/config/tuning';
 import { keeperFooting, updateKeeper } from '../../src/sim/keeper';
 import { blocked } from '../../src/sim/obstacles';
 import { Rng } from '../../src/sim/rng';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 import type { Vec2, World } from '../../src/sim/types';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 const SUB = 1000 / 60;
 const EDGE = SIM.worldHalf - 2;
@@ -55,7 +59,7 @@ describe('collision sweep (MOVE-39)', () => {
         }
       }
     expect(inside).toEqual([]);
-  }, 20_000);
+  }, TIMING_BUDGET.slowTestTimeoutMs);
 
   it('99% of 200 seeded taps arrive', () => {
     const rng = new Rng(2710);
@@ -81,5 +85,5 @@ describe('collision sweep (MOVE-39)', () => {
         );
     }
     expect(arrived, stuck.join('; ')).toBeGreaterThanOrEqual(198);
-  }, 20_000);
+  }, TIMING_BUDGET.slowTestTimeoutMs);
 });

@@ -42,6 +42,8 @@ export const SHORE_POIS: readonly PoiDef[] = [
   { id: 'shore-sign', x: -40, z: -17, tier: 'minor' },
   { id: 'estuary', x: -47, z: -2, tier: 'minor' },
   { id: 'beach', x: -20, z: 4, tier: 'major' },
+  // The bay's edge between the beach and the pools (q55 and s6 meet here: where-map 'bay').
+  { id: 'bay', x: -2, z: 8, tier: 'minor' },
   { id: 'rock-pools', x: 20, z: 5, tier: 'major' },
   { id: 'stilt-village', x: 43, z: 6, tier: 'major' },
   { id: 'lagoon', x: 56, z: -10, tier: 'minor' },

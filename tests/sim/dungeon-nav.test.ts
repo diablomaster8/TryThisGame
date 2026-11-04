@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { DUNGEON, KEEPER, SIM } from '../../src/config/tuning';
 import { astar, gridLineOfSight, stringPull } from '../../src/sim/astar';
 import { cellAt, cellCentre, cellOf, FLOOR, runFloor, type Floor } from '../../src/sim/dungeon';
@@ -8,6 +8,10 @@ import { Rng } from '../../src/sim/rng';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 import { bfs } from './dungeon-measure';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /** The Keeper's body in the Hollow (keeper.ts resolves with this radius). */
 const KEEPER_RADIUS = 0.35;
@@ -154,5 +158,5 @@ describe('Hollow tap-to-move', () => {
     expect(arrived).toBe(taps);
     expect(worstStallMs).toBeLessThan(2000);
     // Version-3 floors are bigger and mazier: the walks take longer to simulate.
-  }, 30_000);
+  }, TIMING_BUDGET.slowTestTimeoutMs);
 });
