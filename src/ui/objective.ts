@@ -58,9 +58,9 @@ import { lineMinutesLeft } from './journal-search';
  * Lane C round 8 (R0609): the Open flow's pinned quests, each at its current step, for the chip
  * to cycle after the spine's goal. A quest between steps (a scene to come) shows its next goal.
  */
-export function trackedObjectives(world: World): Objective[] {
+export function trackedObjectives(world: World): GroveObjective[] {
   const c = world.campaign;
-  const out: Objective[] = [];
+  const out: GroveObjective[] = [];
   for (const id of world.questBook?.tracked ?? []) {
     const st = c?.side[id] ?? c?.fun[id];
     const quest = sideStory(id);
@@ -84,8 +84,8 @@ export function trackedObjectives(world: World): Objective[] {
  * Lane C r10 agent C (R0635): the questlines running beside Hazel's Grove, each at its chapter,
  * with its chapters left in rough minutes, for the chip to cycle with the tracked quests.
  */
-export function lineObjectives(world: World): Objective[] {
-  const out: Objective[] = [];
+export function lineObjectives(world: World): GroveObjective[] {
+  const out: GroveObjective[] = [];
   for (const line of activeLines(world)) {
     const id = line.storyline;
     const view = id ? journalView(world, line, false) : null;
@@ -115,7 +115,7 @@ export function lineObjectives(world: World): Objective[] {
  */
 export const CHIP_SHOWN: { key: string | null } = { key: null };
 
-export interface Objective {
+export interface GroveObjective {
   /** Changes when the goal does; a campaign key change is announced. */
   key: string;
   goal: string;
@@ -127,7 +127,7 @@ export interface Objective {
 }
 
 /** The Grove suggestion with no story goal: pure over the world. */
-export function groveSuggestion(world: World): Objective | null {
+export function groveSuggestion(world: World): GroveObjective | null {
   // The story's own Nubbins (Moss, Sable) are not the player's to raise.
   const c = world.campaign;
   const living = world.nubbins.filter((n) => n.id !== c?.mossId && n.id !== c?.sableId);
@@ -213,7 +213,7 @@ export function howToHint(c: CampaignState): string | null {
 }
 
 /** The goal to show now: the campaign's chapter goal, else a Grove suggestion. */
-export function objectiveOf(g: Game): Objective | null {
+export function objectiveOf(g: Game): GroveObjective | null {
   const c = g.world.campaign;
   const none = groveSuggestion(g.world);
   // No Nubbin of your own and no egg: the chapter goal cannot move until you buy one.
@@ -238,7 +238,7 @@ export function objectiveOf(g: Game): Objective | null {
 }
 
 /** R0657: after the Long Night, the chip suggests the Valley Fair or the nearest unfinished line. */
-export function afterStoryObjective(world: World): Objective | null {
+export function afterStoryObjective(world: World): GroveObjective | null {
   const next = afterStoryNext(
     world,
     storylines().map((s) => s.id),
@@ -258,7 +258,7 @@ export class ObjectiveChip {
   readonly root: HTMLButtonElement;
   private readonly goal: HTMLSpanElement;
   private readonly hint: HTMLSpanElement;
-  private current: Objective | null = null;
+  private current: GroveObjective | null = null;
   private lastStoryKey: string | null = null;
   /** R0609: which of the spine's goal and the tracked quests the chip shows, and its arrow. */
   private pick = 0;

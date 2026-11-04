@@ -14,7 +14,7 @@ import { CLIP_TEXT } from '../config/strings-r11d6';
  */
 export const RECORDED: ReadonlySet<string> = new Set<string>([]);
 
-export interface Clip {
+export interface LangClip {
   url: string;
   placeholder: boolean;
 }
@@ -28,7 +28,7 @@ const base = (): string => {
 };
 
 /** Where a word's clip lives: its recording, or the placeholder chime. */
-export function clipFor(id: string): Clip {
+export function clipFor(id: string): LangClip {
   return RECORDED.has(id)
     ? { url: `${base()}audio/lang/${id}.mp3`, placeholder: false }
     : { url: `${base()}audio/lang/placeholder.wav`, placeholder: true };

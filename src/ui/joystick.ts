@@ -2,7 +2,7 @@ import type { OrbitCamera } from '../render/camera';
 import type { Command } from '../sim/types';
 import { JOYSTICK_TUNING as J } from '../config/tuning-move-joy';
 import { el } from './dom';
-import { inPadZone, stickState, stickToWorld, type Pt } from './joystick-math';
+import { inPadZone, stickState, stickToWorld, type ScreenPt } from './joystick-math';
 import '../move-joy.css';
 
 /**
@@ -18,9 +18,9 @@ export class Joystick {
   private readonly zone: HTMLDivElement;
   private readonly knob: HTMLDivElement;
   private pointerId: number | null = null;
-  private centre: Pt = { x: 0, y: 0 };
+  private centre: ScreenPt = { x: 0, y: 0 };
   /** Stick vector in radius units, screen space (x right, y down). */
-  private stick: Pt = { x: 0, y: 0 };
+  private stick: ScreenPt = { x: 0, y: 0 };
   private sent = { x: 0, z: 0 };
   private rimSince = 0;
   private autoRun = false;
