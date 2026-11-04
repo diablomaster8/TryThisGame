@@ -16,6 +16,8 @@ import type { DailyQuest } from '../sim/types';
 import { button, el, modal } from './dom';
 import { ACHIEVEMENT_TEXT, BADGE_FILTER_TEXT } from '../config/strings-badges';
 import '../fun.css';
+import { storyFirstRows } from './journal-now';
+import { sideStory } from '../sim/story-scenes';
 /* Lane E r10, R0361 */
 import { CALLBACK_BADGE_TEXT } from '../config/strings-fun-r10';
 import { CALLBACK_BADGES, callbackBadges, callbackBadgesShown } from '../sim/callback-badges';
@@ -69,6 +71,9 @@ export class QuestBoard {
     const g = this.game();
     if (!g) return;
     this.list.innerHTML = '';
+    // R0663: where Hazel's story is, and the shortest quest to hand, above the requests.
+    const first = storyFirstRows(g, (id) => sideStory(id)?.title ?? id);
+    if (first) this.list.appendChild(first);
     if (g.world.quests.length === 0) this.list.appendChild(el('span', 'help', UI_TEXT.noQuests));
     for (const q of g.world.quests) {
       const row = el('div', 'shop-row');
