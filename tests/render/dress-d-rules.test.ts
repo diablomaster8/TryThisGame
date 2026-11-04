@@ -48,7 +48,8 @@ describe('package d dressing rules (campaign graphics M1, M2, M7, M17, H11)', ()
 
   it('puts nothing out away from the campaign', () => {
     const w = createWorld(1, 0);
-    expect(dressItems(w, {}, 0)).toEqual([]);
+    // Only the story worlds' doors (R0630) stand in a Free Grove.
+    expect(dressItems(w, {}, 0).filter((i) => !i.key.startsWith('door-'))).toEqual([]);
   });
 
   it('gives every look a shape and two colours', () => {

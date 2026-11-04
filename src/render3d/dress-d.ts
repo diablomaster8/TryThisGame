@@ -4,6 +4,7 @@ import type { Daylight } from '../render/daylight';
 import { dressItems, itemSignature, type DressItem } from '../render/dress-d-rules';
 import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
+import { isDoorKey } from '../render/story-doors';
 import { buildDressItem } from './dress-shapes';
 import { Glints, glintBob, type GlintPoint } from './glint-3d';
 import { groveHeight } from './terrain';
@@ -30,6 +31,11 @@ const shown = new Map<string, Shown>();
 
 function disposeGroup(g: THREE.Group): void {
   g.removeFromParent();
+  // R0630: a door's meshes leave the tappable list with it.
+  g.traverse((o) => {
+    const i = ctx ? ctx.pickables.indexOf(o) : -1;
+    if (i >= 0) ctx!.pickables.splice(i, 1);
+  });
   g.traverse((o) => {
     if ((o as THREE.Mesh).isMesh) (o as THREE.Mesh).geometry.dispose();
   });
@@ -71,6 +77,14 @@ export const dress3dD: Dressing3d = {
         if (s?.group) disposeGroup(s.group);
         const model = buildDressItem(c.tex, it);
         if (model) {
+          // R0630: a story world's door is tappable (the HUD opens its shelf from `building:door-*`).
+          if (isDoorKey(it.key)) {
+            model.traverse((o) => {
+              if (!(o as THREE.Mesh).isMesh) return;
+              o.userData.pick = { kind: 'building', id: it.key };
+              c.pickables.push(o);
+            });
+          }
           model.rotation.y = it.yaw;
           (it.place === 'grove' ? grove : corvin).add(model);
           void c.compile(model);

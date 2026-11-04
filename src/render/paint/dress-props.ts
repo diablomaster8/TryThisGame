@@ -144,6 +144,70 @@ function porchLight(lit: boolean): Raster {
   return fin(r);
 }
 
+/** R0630: the Atlas's door, a little bookshelf with a brass compass on top. */
+function doorAtlas(): Raster {
+  const r = begin(22, 30);
+  slab(r, 1, 6, 20, 24, hex('#7c5532'));
+  r.rect(3, 8, 16, 20, hex('#3a2616'));
+  const spines = ['#c8553d', '#3d7ac8', '#e0b13a', '#4aa27a', '#8a5ac8', '#d9d2c0'];
+  for (const y of [9, 17, 25]) {
+    r.rect(3, y + 3, 16, 1, WOOD);
+    for (let i = 0; i < 6; i++)
+      r.rect(4 + i * 2 + (i > 2 ? 1 : 0), y - (i % 3), 2, 4 + (i % 3), hex(spines[i]!));
+  }
+  r.disc(11, 4, 3, BRASS);
+  r.disc(11, 4, 1.6, hex('#fff3c8'));
+  r.rect(11, 2, 1, 4, DARK);
+  return fin(r);
+}
+
+/** R0630: Pixel's door, a small arcade cabinet with a glowing screen. */
+function doorCabinet(): Raster {
+  const r = begin(16, 30);
+  slab(r, 1, 2, 14, 28, hex('#3a3f68'));
+  r.rect(3, 4, 10, 9, hex('#10131f'));
+  r.rect(4, 5, 8, 7, hex('#4ad0b0'));
+  r.rect(5, 6, 2, 2, WHITE);
+  r.rect(9, 9, 2, 2, hex('#ffd84a'));
+  slab(r, 2, 15, 12, 4, hex('#2a2e4c'));
+  r.disc(5, 16, 1.2, hex('#e0503a'));
+  r.rect(9, 16, 2, 2, hex('#ffd84a'));
+  r.rect(12, 16, 1, 2, hex('#6ae0ff'));
+  r.rect(4, 22, 8, 6, hex('#2a2e4c'));
+  return fin(r);
+}
+
+/** R0630: the rift on the hill, a standing violet swirl with a dark core. */
+function doorRift(): Raster {
+  const r = begin(20, 30);
+  r.ellipse(10, 15, 9, 14, hex('#4a2a7a'));
+  r.ellipse(10, 15, 7, 12, hex('#7a4ad0'));
+  r.ellipse(10, 15, 5, 9, hex('#c8a0ff'));
+  r.ellipse(10, 15, 3, 6, hex('#1a1030'));
+  r.line(4, 8, 14, 20, hex('#e8d8ff'));
+  r.line(15, 7, 6, 22, hex('#e8d8ff'));
+  return fin(r);
+}
+
+/** R0630: Neopia's rainbow gate, two posts and a banded arch. */
+function doorGate(): Raster {
+  const r = begin(28, 30);
+  slab(r, 1, 14, 3, 16, STONE);
+  slab(r, 24, 14, 3, 16, STONE);
+  const bands = ['#e0503a', '#f0a030', '#f0e050', '#4aa27a', '#3d7ac8', '#8a5ac8'];
+  bands.forEach((c, i) => {
+    const rad = 12.5 - i * 1.3;
+    for (let a = 0; a <= 180; a += 2) {
+      const t = (a * Math.PI) / 180;
+      const x = Math.round(14 + Math.cos(t) * rad);
+      const y = Math.round(14 - Math.sin(t) * rad);
+      r.set(x, y, hex(c));
+      r.set(x, y + 1, hex(c));
+    }
+  });
+  return fin(r);
+}
+
 /** R0639: the Grove's sundial; its face shows the ending: 1 dawn (sun), 2 dusk (moon), 3 both. */
 function sundial(face: number): Raster {
   const r = begin(26, 22);
@@ -414,6 +478,10 @@ export function buildDressSheet(): SpriteSheet {
   add('lens', lens());
   add('porchLight', porchLight(false));
   for (let f = 1; f <= 3; f++) add(`sundial${f}`, sundial(f));
+  add('doorAtlas', doorAtlas());
+  add('doorCabinet', doorCabinet());
+  add('doorRift', doorRift());
+  add('doorGate', doorGate());
   add('terminal', terminal(false));
   add('terminal-lit', terminal(true));
   add('porchLight-lit', porchLight(true));

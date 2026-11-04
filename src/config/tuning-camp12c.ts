@@ -14,6 +14,20 @@ export const C12C = {
     /** No walk when another offer was made within this long (sim ms). */
     gapMs: 10_000,
   },
+  /** R0630: the doors to the story worlds, stood in the Grove (render/story-doors.ts). */
+  doors: {
+    /** Drawn only within this many units of the Keeper. */
+    near: 22,
+    atlas: { mark: 'step', off: [-2.2, -0.2] as const },
+    /** Pixel's cabinet stands beside a built workshop. */
+    cabinetOff: [3.4, 0.6] as const,
+    cabinetAfterChapter: 5,
+    rift: { mark: 'hill-top', off: [1.4, 1.0] as const },
+    /** The rift shows once the night is this dark (0 to 1). */
+    riftDarkness: 0.5,
+    gate: { mark: 'grass-lantern', off: [1.6, 0.4] as const },
+    gateAfterChapter: 2,
+  },
   /** R0608: the `!` and diamond billboards over the giver or board and the tracked step. */
   markers: {
     /** At most this many are drawn at once (one draw call each in Full 3D). */

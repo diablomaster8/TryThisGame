@@ -2,6 +2,7 @@ import { DRESS_D } from '../config/tuning-d';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
+import { isDoorKey } from './story-doors';
 import { dressItems, itemSignature, shelfKeepsakes, type DressItem } from './dress-d-rules';
 import { buildDressSheet, buildShelfSheet } from './paint/dress-props';
 import type { PixelDressCtx, PixelDressing } from './dressings';
@@ -125,17 +126,21 @@ export const dressD: PixelDressing = {
       }
       const key = frameFor(it);
       const rect = key ? sheet.frames.get(frameKey(key, 'front', 0)) : undefined;
+      // R0630: a story world's door is tappable (the HUD opens its shelf from `building:door-*`).
       if (rect)
-        batch.draw({
-          sheet,
-          rect,
-          flip: false,
-          x: it.x,
-          y: bob,
-          z: it.z + dz,
-          mode: 'billboard',
-          tint,
-        });
+        batch.draw(
+          {
+            sheet,
+            rect,
+            flip: false,
+            x: it.x,
+            y: bob,
+            z: it.z + dz,
+            mode: 'billboard',
+            tint,
+          },
+          isDoorKey(it.key) ? { id: it.key, kind: 'building' } : undefined,
+        );
       // The star is the cue, so it hangs over the item even where the item has no sprite of its own.
       // Keepsakes' star is painted into the shelf, where its row is.
       if (it.glint && star && it.shape !== 'none') {
