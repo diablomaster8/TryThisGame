@@ -747,16 +747,35 @@ export class GroveScene {
     this.applyPlace();
   }
 
+  /**
+   * WORLD-39 (R12 lane D): from inside a seamless neighbour (the shore, the ridge) the real
+   * Grove's ground, hills, pond and stream are drawn back across the border at `off` (Grove
+   * coordinates plus `off` are the neighbour's), a hair under the neighbour's own ground.
+   * Null puts them home.
+   */
+  private edgeOff: { x: number; z: number } | null = null;
+  setEdgeOffset(off: { x: number; z: number } | null): void {
+    const was = this.edgeOff;
+    if (was === off || (was && off && was.x === off.x && was.z === off.z)) return;
+    this.edgeOff = off ? { x: off.x, z: off.z } : null;
+    this.applyPlace();
+  }
+
   private applyPlace(): void {
     const location = this.location;
     const shown = !this.bare;
-    this.groveGroup.visible = shown && location === 'grove';
+    const edge = this.edgeOff !== null && location.startsWith('region:');
+    this.groveGroup.visible = shown && (location === 'grove' || edge);
     this.hollowGroup.visible = shown && location === 'hollow';
     this.corvinGroup.visible = shown && location === 'corvin';
     this.dungeonGroup.visible = location === 'dungeon';
+    const ox = edge ? this.edgeOff!.x : 0;
+    const oz = edge ? this.edgeOff!.z : 0;
+    this.groveGroup.position.set(ox, edge ? -0.03 : 0, oz);
+    this.ground?.position.set(ox, edge ? -0.03 : 0, oz);
     // R11 lane D: a drawn region lays its own ground (`region-host-px.ts`).
     const own = location !== 'dungeon' && !location.startsWith('region:');
-    if (this.ground) this.ground.visible = shown && own;
+    if (this.ground) this.ground.visible = shown && (own || edge);
     if (this.skirt) this.skirt.visible = shown && own;
   }
 

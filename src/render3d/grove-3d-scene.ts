@@ -62,6 +62,7 @@ import { CryTears } from './cry-tears';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
+import { setGroveBackSource } from './region-grove-source';
 import { RegionHost3d, snapShadow } from './region-host';
 import { nearestChild, occluders } from './occluders';
 import { Garden, useBuildingKit } from './garden';
@@ -587,6 +588,10 @@ export class Grove3dScene {
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
     this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };
+    setGroveBackSource({
+      mesh: this.terrain.mesh,
+      index: () => this.terrainChunks.fullIndex(this.terrain.mesh),
+    });
     this.pickables.push(this.terrain.mesh);
     this.props = buildGroveProps(this.world3d, this.tex, this.time);
     this.pickables.push(...this.props.pickables);
@@ -2290,6 +2295,7 @@ export class Grove3dScene {
   }
 
   dispose(): void {
+    setGroveBackSource(null);
     this.canvasSizer?.disconnect();
     this.dressings.dispose();
     document.removeEventListener('visibilitychange', this.onHidden);

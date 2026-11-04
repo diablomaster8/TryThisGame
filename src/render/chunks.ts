@@ -198,8 +198,11 @@ export class ChunkMask {
     this.on = new Uint8Array(index.size).fill(1);
   }
 
-  /** Mark the chunks the view can reach; `null` (no culler) keeps them all. */
-  update(culler: SpriteCuller | null): void {
+  /**
+   * Mark the chunks the view can reach; `null` (no culler) keeps them all. `ox`/`oz` shift
+   * the items into the view's coordinates (the Grove drawn back from a seamless neighbour).
+   */
+  update(culler: SpriteCuller | null, ox = 0, oz = 0): void {
     this.live = 0;
     const r = this.reach;
     for (let c = 0; c < this.on.length; c++) {
@@ -207,10 +210,10 @@ export class ChunkMask {
       const v =
         culler === null ||
         culler.boxVisible(
-          this.boxes[b]! - r,
-          this.boxes[b + 1]! + r,
-          this.boxes[b + 2]! - r,
-          this.boxes[b + 3]! + r,
+          this.boxes[b]! - r + ox,
+          this.boxes[b + 1]! + r + ox,
+          this.boxes[b + 2]! - r + oz,
+          this.boxes[b + 3]! + r + oz,
           this.height,
         );
       this.on[c] = v ? 1 : 0;

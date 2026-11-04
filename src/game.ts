@@ -1198,6 +1198,8 @@ export class Game {
         this.view.batch.cull = this.culler.visible;
         this.view.culler = this.culler;
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
+        // WORLD-39 (R12 lane D): the Grove's ground drawn back across a seamless border.
+        this.grove.setEdgeOffset(this.view.regions.groveOff);
         this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);
         this.spikes.lap('draw');

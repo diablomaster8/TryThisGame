@@ -118,6 +118,12 @@ export class RegionHostPx {
     return list;
   }
 
+  /**
+   * WORLD-39 (R12 lane D): set while the Keeper is within reach of a seamless way home: the
+   * Grove's coordinates plus this are the region's (null otherwise).
+   */
+  groveOff: Vec2 | null = null;
+
   /** Draw what the Keeper's place needs; call once a frame from the pixel world view. */
   frame(
     world: World,
@@ -127,6 +133,7 @@ export class RegionHostPx {
     keeper: Vec2,
   ): void {
     this.drawn = 0;
+    this.groveOff = null;
     const here = drawnRegion(world);
     const home = world.location === 'grove';
     const want = new Set<RegionId>();
@@ -139,6 +146,15 @@ export class RegionHostPx {
       const cz = e.rect.z + e.rect.h / 2;
       const d = Math.hypot(keeper.x - cx, keeper.z - cz);
       const seam = e.kind === 'seamless';
+      // WORLD-39 (R12 lane D): the real Grove is drawn back across the border by the world
+      // view and the Grove scene at this offset, not the stand-in strip.
+      if (seam && e.to === 'grove') {
+        if (d <= REGION_BORDER.neighbourReach) {
+          const o = seamlessOffset(e);
+          this.groveOff = { x: -o.x, z: -o.z };
+        }
+        continue;
+      }
       if (!REGION_SPECS[e.to] && !(seam && EDGE_SPECS[e.to])) continue;
       if (d <= REGION_BORDER.prewarmReach) this.load(e.to);
       if (d <= (seam ? REGION_BORDER.neighbourReach : REGION_BORDER.prebuildReach)) {

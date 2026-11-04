@@ -44,6 +44,7 @@ import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
 import { ChunkMask, type SpriteCuller } from './chunks';
+import { drawGroveBack } from './region-grove-back-px';
 import { GROVE_CHUNKS } from '../config/tuning-r12d1';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
@@ -832,6 +833,21 @@ export class WorldView {
         batch.mesh.parent,
         this.dim,
         this.keeperDrawPos(world, alpha),
+      );
+    // WORLD-39 (R12 lane D): the real Grove's scenery back across a seamless border.
+    const groveOff = this.regions.groveOff;
+    if (!bare && groveOff && this.location.startsWith('region:'))
+      drawGroveBack(
+        batch,
+        world,
+        { scenery: this.sheets.scenery(), props: this.sheets.props() },
+        this.groveChunks,
+        this.culler,
+        { fences: this.fences, decor: this.decor },
+        groveOff,
+        this.keeperDrawPos(world, alpha),
+        this.dim,
+        hides,
       );
     // R0137: the Grove's rain puddles.
     if (!bare) drawPuddles(world, batch, this.dim);

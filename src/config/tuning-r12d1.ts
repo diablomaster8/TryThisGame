@@ -15,3 +15,9 @@ export const GROVE_CHUNKS = {
   /** 3D: margin round a grass chunk's box when testing it against the frustum. */
   grassMargin: 1.5,
 } as const;
+
+/** WORLD-39: the real Grove drawn back across a seamless border from inside a neighbour. */
+export const GROVE_BACK = {
+  /** 3D: how deep into the Grove, from its south and east sides, its terrain is drawn. */
+  depth: 40,
+} as const;
