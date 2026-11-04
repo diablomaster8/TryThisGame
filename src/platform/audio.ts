@@ -1465,6 +1465,37 @@ export const PERFORM_MELODIES: readonly (readonly number[])[] = [
   [523, 784, 1319, 1047],
 ];
 
+/** R0589 (lane A r11): the pentatonic degrees (semitones above the root) a motif draws from. */
+const MOTIF_SCALE = [0, 2, 4, 7, 9, 12, 14] as const;
+
+/**
+ * A Nubbin's own four-note motif, from its seed: the same notes every time, different for
+ * different Nubbins. Frequencies in Hz before the voice pitch. Pure; no lyrics, no tune borrowed.
+ */
+export function motifOf(seed: number): number[] {
+  let h = (seed ^ 0x9e3779b9) >>> 0;
+  const out: number[] = [];
+  for (let i = 0; i < 4; i++) {
+    h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d) >>> 0;
+    const deg = MOTIF_SCALE[h % MOTIF_SCALE.length]!;
+    out.push(Math.round(392 * Math.pow(2, deg / 12)));
+  }
+  return out;
+}
+
+/** R0589: hum or sing the motif; `harmony` adds a friend a third above, singing alongside. */
+export function playMotif(seed: number, pitch = 1, harmony = false): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    motifOf(seed).forEach((f, i) => {
+      tone(f * pitch, i * 300, 260, 'sine', 0.035, f * pitch * 1.01);
+      if (harmony) tone(f * pitch * 1.26, i * 300, 260, 'sine', 0.02, f * pitch * 1.27);
+    });
+  } catch {
+    // Audio problems must never break the game.
+  }
+}
+
 /**
  * R0554 (lane A r11): the wider classes' own sounds, each a few quiet notes of its own shape.
  * Returns false for a variant that has no voice of its own (it then falls back to its family).
