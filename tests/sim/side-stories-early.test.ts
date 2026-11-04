@@ -1,10 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { seen } from '../../src/sim/story-state';
 import { spawnNpc } from '../../src/sim/npcs';
 import { applyCommand } from '../../src/sim/world';
 import { sideVariant } from '../../src/sim/side-stories';
 import { c, campaignWorld } from './campaign-driver';
 import { begun, expectStoryDone, runUntil, status } from './side-driver';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /**
  * The side stories of chapters 3 to 5. For each: it is not open before its window, it

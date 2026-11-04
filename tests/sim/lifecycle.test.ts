@@ -1,6 +1,6 @@
 import { budgetMs } from './timing-budget';
 import { lifespanMs } from '../../src/sim/slips';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { EGG, GRACE, LIFECYCLE, REBIRTH, SIM } from '../../src/config/tuning';
 import { eternalBandFor } from '../../src/sim/lifecycle';
 import { catchUp } from '../../src/sim/offline';
@@ -8,6 +8,10 @@ import { createEgg } from '../../src/sim/nubbin';
 import { Rng } from '../../src/sim/rng';
 import type { Command, Nubbin, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;

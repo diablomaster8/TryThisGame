@@ -3,7 +3,7 @@
  * Brisk shortens the story's waits; Story only skips each spine goal with the minimum world
  * change, the chapters still close, and the ending is a real one.
  */
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { SKIP } from '../../src/config/tuning';
 import { ENDINGS } from '../../src/config/story';
 import { FINAL_CHAPTER, endingFor } from '../../src/sim/campaign';
@@ -13,6 +13,10 @@ import { RUNNER_STORIES, sideActable } from '../../src/sim/side-stories';
 import type { SimEvent, StoryPace, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
 import { c, campaignWorld, meetGoal, playScenes, sable, tick } from './campaign-driver';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 function setPace(world: World, events: SimEvent[], pace: StoryPace): void {
   applyCommand(

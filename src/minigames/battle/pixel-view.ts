@@ -4,7 +4,7 @@ import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/an
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import { drawShadowText } from '../../render/sprites/font';
 import { C, color } from '../../render/sprites/palette';
-import type { BattleState } from '../../sim/battle';
+import { moveById, type BattleState } from '../../sim/battle';
 import { idleKind, idlePose, reducedMotion } from '../../ui/battle-idle';
 import { el } from '../../ui/dom';
 import type { BattleCast, BattleFrame, BattleView } from './view';
@@ -88,8 +88,21 @@ export class BattlePixelView implements BattleView {
         if (e.k === 'tuckered' && e.who === c.id && side === 1) dx = k * W * 0.4;
         if (e.k === 'befriend' && e.who === c.id) dx = -k * W * 0.3;
       }
-      if (e && e.k === 'hit' && e.to === c.id) clip = 'sad';
-      if (e && (e.k === 'befriend' || e.k === 'cuddle')) clip = 'happy';
+      // R0239: each beat plays its own verb; frames that a hand-drawn sheet lacks fall back to idle.
+      if (e && !out) {
+        const by = 'by' in e ? e.by : null;
+        const to = 'to' in e ? e.to : null;
+        if (e.k === 'hit' && to === c.id) clip = 'hit';
+        if (e.k === 'miss' && to === c.id) clip = 'dodge';
+        if (e.k === 'use' && by === c.id) {
+          const kind = moveById(e.move)?.kind;
+          clip = k < 0.35 ? 'windup' : kind === 'splash' ? 'splash' : 'bonk';
+        }
+        if (e.k === 'befriend' || e.k === 'cuddle' || e.k === 'play') clip = 'cheer';
+        if ((e.k === 'rally' && by === c.id) || (e.k === 'swing' && by === c.id && e.sweet))
+          clip = 'cheer';
+      }
+      if (e && e.k === 'tuckered' && e.who === c.id) clip = side === 0 ? 'tuckered' : 'wave';
       if (out && side === 1 && !(e && 'who' in e && e.who === c.id)) continue;
       const sheet = cast ? cast.sheet(c) : null;
       // FIGHT-78: a personality idle while the bout waits for the Keeper.

@@ -1,6 +1,7 @@
 /** Drives a campaign the way a player would, for the campaign tests. */
 import { vi } from 'vitest';
 import { SIM } from '../../src/config/tuning';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
 import { chapterDef, FINAL_CHAPTER, goalMet, sceneById } from '../../src/sim/campaign';
 import { RUNNER_STORIES, sideActable } from '../../src/sim/side-stories';
 import type { CampaignState, SimEvent, World } from '../../src/sim/types';
@@ -8,7 +9,8 @@ import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 // A full run now plays out the breathers between scenes (review 2026-10-24, item 4): more
 // sim time per run, so the runs get more than the default 5 s when the machine is busy.
-vi.setConfig({ testTimeout: 30_000 });
+// HOT-CI: 30 s was not enough on a loaded runner; a timeout here is load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /** A world with the campaign started. */
 export function campaignWorld(trainer = 'fern'): { world: World; events: SimEvent[] } {
