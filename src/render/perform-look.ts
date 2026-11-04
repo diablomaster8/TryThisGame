@@ -188,7 +188,7 @@ function variantLook(o: PerformLook, id: string, t: number, reduce: boolean): vo
       o.dx = Math.sin(t / 700) * 0.05 * k;
       break;
     case 'dance:twist':
-      o.turn = Math.sin(t / 170) * 1.4 * k;
+      o.turn = reduce ? 0 : Math.sin(t / 170) * 1.4;
       o.sw = 1 + Math.sin(t / 170) * 0.04 * k;
       break;
     case 'dance:ra-ra':
@@ -215,7 +215,7 @@ function variantLook(o: PerformLook, id: string, t: number, reduce: boolean): vo
     case 'song:silly':
       o.sw = 1 + Math.sin(t / 130) * 0.1 * k;
       o.sh = 1 - Math.sin(t / 130) * 0.1 * k;
-      o.turn = Math.sin(t / 400) * 0.5 * k;
+      o.turn = reduce ? 0 : Math.sin(t / 400) * 0.5;
       break;
     case 'exercise:stretch': {
       // Reach up slowly, then relax: tall and thin at the top.
