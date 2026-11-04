@@ -44,6 +44,7 @@ export const UNIT_FILES: readonly string[] = [
   'tests/render/pixel-poses.test.ts',
   'tests/render/pmrem-ggx.test.ts',
   'tests/render/pool-evict.test.ts',
+  'tests/render/governor-pin.test.ts',
   'tests/render/quad.test.ts',
   'tests/render/race-tags.test.ts',
   'tests/render/second-evolution-pixel.test.ts',

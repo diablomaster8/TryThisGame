@@ -411,6 +411,14 @@ function boot(
     (window as unknown as { grove: Game & { test?: unknown } }).grove = game;
   }
   if (params.has('e2e')) {
+    // R0454 (r12-d3): on an `?e2e&still` load the game clock stands still until a visual test
+    // runs it (`grove.test.frames`, `freeze`), and then moves exactly 1/60 s a frame, so its sim
+    // and animations come out the same however long the machine took to boot.
+    if (params.has('still')) {
+      let t = 0;
+      const clock = Object.assign(() => (clock.run ? (t += 1000 / 60) : t), { run: false });
+      game.frameClock = clock;
+    }
     // TECH-11: the browser specs' hooks (`grove.test`), only on a `?e2e` load.
     void import('./dev/e2e-api').then((m) => {
       (window as unknown as { grove: { test?: unknown } }).grove.test = m.installE2eApi(game);
