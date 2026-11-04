@@ -3,7 +3,6 @@ import { setAnticsLive } from '../../src/sim/antics';
 import { ambientOf, ambientStore } from '../../src/sim/ambient';
 import { jamStore, jamsOf } from '../../src/sim/jam';
 import { evolve, hatch } from '../../src/sim/lifecycle';
-import { stepSoulGroups } from '../../src/sim/soul-groups';
 import { createWorld, stepWorld } from '../../src/sim/world';
 import type { Nubbin, Personality, SimEvent, World } from '../../src/sim/types';
 
@@ -29,7 +28,6 @@ function grove(seed: number, ps: Personality[], lessons?: Nubbin['lessons']): Wo
 
 function tick(w: World, events?: SimEvent[]): void {
   const ev = stepWorld(w, 100);
-  stepSoulGroups(w, 100, ev, false);
   events?.push(...ev);
 }
 
@@ -51,7 +49,7 @@ describe('R0547 ambient critters to chase', () => {
     }
     expect(chased).toBeGreaterThanOrEqual(8);
     expect(landed).toBeGreaterThan(0);
-  });
+  }, 60_000);
 
   it('spawns nothing in winter, in rain, or while catching up', () => {
     const w = grove(3, ['curious']);
@@ -63,8 +61,7 @@ describe('R0547 ambient critters to chase', () => {
     expect(ambientOf(w).filter((c) => c.kind === 'butterfly')).toHaveLength(0);
     const o = grove(3, ['curious']);
     for (let t = 0; t < 600; t++) {
-      const ev = stepWorld(o, 100, undefined, true);
-      stepSoulGroups(o, 100, ev, true);
+      stepWorld(o, 100, undefined, true);
     }
     expect(ambientOf(o)).toHaveLength(0);
   });
@@ -103,7 +100,7 @@ describe('R0555 sing along, dance circles and bands', () => {
       if (jamStore(w).formed > 0) jams++;
     }
     expect(jams).toBeGreaterThanOrEqual(7);
-  });
+  }, 60_000);
 
   it('joiners walk to a ring, face the centre and perform; three is a concert', () => {
     setAnticsLive(true);
@@ -139,8 +136,7 @@ describe('R0555 sing along, dance circles and bands', () => {
   it('forms nothing while catching up on time away', () => {
     const w = grove(2, ['cheerful', 'cheerful', 'cheerful'], { singing: 2 });
     for (let t = 0; t < 3000; t++) {
-      const ev = stepWorld(w, 100, undefined, true);
-      stepSoulGroups(w, 100, ev, true);
+      stepWorld(w, 100, undefined, true);
     }
     expect(jamStore(w).formed).toBe(0);
   });

@@ -53,6 +53,13 @@ interface Store {
 
 const stores = new WeakMap<World, Store>();
 
+/** Members of a running concert, and until when: what the emote ball asks. */
+const concertMark = new WeakMap<Nubbin, number>();
+
+export function inConcert(n: Nubbin, simMs: number): boolean {
+  return (concertMark.get(n) ?? 0) > simMs && n.behavior.state === 'perform';
+}
+
 export function jamStore(world: World): Store {
   let s = stores.get(world);
   if (!s) {
@@ -163,6 +170,33 @@ function recruit(world: World, jam: Jam, now: number): void {
   }
 }
 
+/**
+ * Music-lovers drift together: an idle one that knows music and has another such Nubbin
+ * beyond the join radius but within hearing wanders over to stand beside it.
+ */
+function gather(world: World, now: number): void {
+  for (const n of world.nubbins) {
+    if (!joinable(n) || n.behavior.state === 'greet') continue;
+    const kinds = (['music', 'dance'] as const).filter((k) => jamLesson(n, k));
+    if (kinds.length === 0) continue;
+    if (h01(`gather:${n.id}:${now}`) >= JAM.gatherPerSecond) continue;
+    let best: Nubbin | null = null;
+    for (const o of world.nubbins) {
+      if (o === n || !awake(o) || !kinds.some((k) => jamLesson(o, k))) continue;
+      const d = dist(o.pos, n.pos);
+      if (d <= JAM.joinRadius * 0.7 || d > JAM.gatherRadius) continue;
+      if (!best || d < dist(best.pos, n.pos)) best = o;
+    }
+    if (!best) continue;
+    const b = n.behavior;
+    b.state = 'wander';
+    b.sinceMs = now;
+    b.untilMs = now + JAM.gatherMs;
+    b.itemId = 'gatherJam';
+    b.target = { x: best.pos.x + 1.8, z: best.pos.z + 0.6 };
+  }
+}
+
 /** A friendly Nubbin among music-knowers strikes up a tune on its own. */
 function spark(world: World, now: number): void {
   const lively = liveliness(world);
@@ -224,6 +258,11 @@ export function stepJams(world: World, dtMs: number, events: SimEvent[], offline
       if (b.untilMs > jam.endMs) b.untilMs = jam.endMs;
       if (!b.target && id !== jam.leader) n.facing = Math.atan2(c.x - n.pos.x, c.z - n.pos.z);
     }
+    if (jam.concert)
+      for (const id of jam.members) {
+        const m = world.nubbins.find((x) => x.id === id);
+        if (m) concertMark.set(m, jam.endMs);
+      }
     if (jam.members.length >= JAM.concertAt && !jam.concert) {
       jam.concert = true;
       store.concerts++;
@@ -255,5 +294,6 @@ export function stepJams(world: World, dtMs: number, events: SimEvent[], offline
     form(world, store, n, kind, now);
     if (store.jams.some((j) => j.leader === n.id)) return;
   }
+  gather(world, now);
   if (store.jams.length === 0) spark(world, now);
 }

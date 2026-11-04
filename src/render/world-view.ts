@@ -106,6 +106,9 @@ import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
 import { drawKidBerries } from './hollow-kid-pixel';
+import { ambientDraws, chaseClip, chaseLook, jamEmote } from './ambient-look';
+import { buildAmbientSheet, ambientKey } from './sprites/ambient-art';
+import { jamsOf } from '../sim/jam';
 import { PixelHollowPoofs } from './hollow-poof-pixel';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 import { PixelHollowR9a } from './hollow-r9a';
@@ -661,6 +664,7 @@ export class WorldView {
 
     this.drawDoodles(world);
     // TECH-02: under a held Nubbin, a ring that turns green when letting go would be a place.
+    this.drawSoulCritters(world, nowMs);
     this.heldRing.frame(world, nowMs, this.particles.reduceMotion);
     const hr = this.heldRing.spot;
     if (hr) {
@@ -2224,7 +2228,10 @@ export class WorldView {
     if (act) noteActDoodle(n, act, world.timeMs, PERFORM.doodleKinds);
     const perf = held
       ? null
-      : (performLook(n, perfMs, this.particles.reduceMotion) ?? act?.perf ?? null);
+      : (performLook(n, perfMs, this.particles.reduceMotion) ??
+        chaseLook(n, perfMs, this.particles.reduceMotion) ??
+        act?.perf ??
+        null);
     let key: string;
     let flip = false;
     let eggHop = 0;
@@ -2712,6 +2719,45 @@ export class WorldView {
 
   /** R0525 (lane A r10): crayon doodles left on the Grove's ground, fading after a while. */
   private drawDoodles(world: World): void {
+  /** R0547 and R0555 (lane A r11): the ambient critters, and the hearts a concert raises. */
+  private drawSoulCritters(world: World, nowMs: number): void {
+    if (world.location !== 'grove') return;
+    const rows = ambientDraws(world, nowMs, this.particles.reduceMotion);
+    if (rows.length) {
+      const sheet = this.sheets.get('soul:ambient', buildAmbientSheet);
+      for (const r of rows) {
+        const rect = sheet.frames.get(ambientKey(r.kind, r.frame, r.colour));
+        if (!rect) continue;
+        this.batch.draw({
+          sheet,
+          rect,
+          flip: false,
+          x: r.x,
+          y: paintedGround(r.x, r.z) + r.y,
+          z: r.z,
+          mode: 'billboard',
+          w: r.size,
+          h: r.size,
+          opacity: r.opacity,
+          tint: this.dim,
+        });
+      }
+    }
+    for (const j of jamsOf(world)) {
+      if (j.heartAtMs <= 0 || this.heartedJams.has(j)) continue;
+      this.heartedJams.add(j);
+      const k = world.keeper;
+      this.particles.burst('heart', k.pos.x, 1.6, k.pos.z, 6, {
+        spread: 0.5,
+        speed: 0.4,
+        rise: 0.8,
+        lifeMs: 1400,
+      });
+    }
+  }
+
+  private readonly heartedJams = new WeakSet<object>();
+
     // R0421 (LOOK-51, lane E r10): the idle acts' crayon scribbles, fading after 30 s.
     if (world.location === 'grove') {
       const sheet = this.sheets.get('soul:perform', buildPerformSheet);
@@ -2783,6 +2829,9 @@ function lerp(a: number, b: number, t: number): number {
 export function clipFor(n: Nubbin): string {
   // R0525 (lane A r10): a lesson performed sits to draw, sings open-mouthed, dances, plays.
   const pc = performClip(n);
+  // R0547 (lane A r11): chasing a butterfly runs; a catch is a happy pose.
+  const cc = chaseClip(n);
+  if (cc) return cc;
   if (pc) return pc;
   switch (n.behavior.state) {
     case 'wander':
@@ -2873,6 +2922,9 @@ export function emoteFor(
   if (talk) return talk;
   if (n.behavior.state === 'nap') return n.needs.energy < 0.3 ? 'zzbig' : 'zz';
   // Lane A r9: the new acts' own balls (render/soul-emotes.ts).
+  // R0555 (lane A r11): a concert turns every member's ball into a note.
+  const jamNote = world ? jamEmote(n, world.timeMs) : null;
+  if (jamNote) return jamNote;
   const own = soulEmote(n);
   if (own) return own;
   // TECH-01: a new hatchling asks for its first fruit.

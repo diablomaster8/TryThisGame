@@ -54,7 +54,11 @@ export const JAM = {
   concertTickMs: 10_000,
   concertHappiness: 1,
   /** A friend nearby who knows the music may start one by itself: chance per second. */
-  sparkPerSecond: 0.012,
+  sparkPerSecond: 0.03,
+  /** Music-lovers farther than the join radius but within this drift toward each other: chance per second. */
+  gatherRadius: 16,
+  gatherPerSecond: 0.03,
+  gatherMs: 7_000,
   /** After a jam ends, nobody starts another for this long. */
   cooldownMs: 20_000,
 } as const;
