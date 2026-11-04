@@ -165,3 +165,11 @@ export const ALBUM_TEXT = {
     flinch: 'Flinch',
   } as Record<string, string>,
 };
+
+/** R0586: the little thought bubble over a napping Nubbin. */
+export const DREAM_TEXT = {
+  fruit: '\u{1F34E}',
+  friend: (who: string) => `\u2665 ${who.slice(0, 1).toUpperCase()}`,
+  keeper: '\u263A',
+  label: (name: string) => `${name} is dreaming`,
+};

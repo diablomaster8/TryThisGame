@@ -69,3 +69,17 @@
 .watch-chip[hidden] {
   display: none;
 }
+.watch-dream {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  padding: 4px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2b2140;
+  font-size: 18px;
+  line-height: 1.2;
+  pointer-events: none;
+}
+.watch-dream[hidden] {
+  display: none;
+}

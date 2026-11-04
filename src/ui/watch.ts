@@ -6,9 +6,10 @@
  * chip names what it is doing, re-read every 400 ms; tapping the caption stops it. Reads the
  * sim only; the camera moves through `Game.panTo` and `Game.watch`.
  */
-import { ACTIVITY_CAPTIONS, WATCH_TEXT } from '../config/strings-soul-r11b';
+import { ACTIVITY_CAPTIONS, DREAM_TEXT, WATCH_TEXT } from '../config/strings-soul-r11b';
 import { WATCH } from '../config/tuning-soul-r11b';
 import type { Game } from '../game';
+import { dreamNow } from '../sim/dreams';
 import { nubbinHere } from '../sim/nubbin-home';
 import type { Nubbin } from '../sim/types';
 import { nubbinPortrait } from './battle-party-pick';
@@ -99,6 +100,7 @@ export function mountWatch(
   });
   layer.appendChild(caption);
   parent.appendChild(layer);
+  const dreams = new Map<string, HTMLElement>();
   const chips = new Map<string, HTMLButtonElement>();
   const glyphs = new Map<string, HTMLElement>();
   let lastCaption = 0;
@@ -126,6 +128,7 @@ export function mountWatch(
     const w = window.innerWidth;
     const h = window.innerHeight;
     const watching = g.watching;
+    const dreaming = new Set<string>();
     const wanted = new Map<string, { n: Nubbin; at: EdgePoint; d: number }>();
     if (g.world.location === 'grove') {
       for (const n of g.world.nubbins) {
@@ -136,6 +139,28 @@ export function mountWatch(
         const py = ((1 - p.y) / 2) * h;
         if (!isOffScreen(px, py, w, h, WATCH.margin)) {
           onSeen?.(n);
+          // R0586: a napping Nubbin in view shows what it is dreaming about.
+          const dream = dreamNow(g.world, n);
+          if (dream) {
+            dreaming.add(n.id);
+            let b = dreams.get(n.id);
+            if (!b) {
+              b = el('div', 'watch-dream');
+              b.setAttribute('role', 'img');
+              layer.appendChild(b);
+              dreams.set(n.id, b);
+            }
+            b.textContent =
+              dream.kind === 'fruit'
+                ? DREAM_TEXT.fruit
+                : dream.kind === 'friend'
+                  ? DREAM_TEXT.friend(dream.who ?? '?')
+                  : DREAM_TEXT.keeper;
+            b.setAttribute('aria-label', DREAM_TEXT.label(n.name));
+            b.hidden = false;
+            b.style.left = `${Math.round(px)}px`;
+            b.style.top = `${Math.round(py) - 56}px`;
+          }
           continue;
         }
         if (watching) continue;
@@ -146,6 +171,7 @@ export function mountWatch(
         });
       }
     }
+    for (const [id, b] of dreams) if (!dreaming.has(id)) b.hidden = true;
     const shown = [...wanted.values()].sort((a, b) => a.d - b.d).slice(0, WATCH.maxChips);
     const keep = new Set(shown.map((s) => s.n.id));
     for (const [id, c] of chips) c.hidden = !keep.has(id);

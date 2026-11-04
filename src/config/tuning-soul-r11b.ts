@@ -28,8 +28,10 @@ export const WATCH = {
 
 /** R0586: a napping Nubbin dreams of what it did or loves. */
 export const DREAMS = {
-  /** A bubble every this many ms of a nap. */
-  everyMs: 5200,
+  /** A bubble every this many ms of a nap (halved for lazy and dreamy ones). */
+  everyMs: 20_000,
+  /** The first bubble comes this long into the nap. */
+  firstMs: 4000,
   /** A bubble stays this long. */
   holdMs: 3600,
 } as const;
