@@ -47,6 +47,17 @@ export function favSpot(
 /** Where a plain wander goes: the favourite spot now and then (a lazy one mostly), or null. */
 export function spotWander(n: Nubbin, world: World, now: number): Vec2 | null {
   if (world.location !== 'grove' || n.stage === 'egg' || n.stage === 'cocoon') return null;
+  // With the Keeper close by it stays about, to be near them.
+  const k = world.keeper.pos;
+  if (Math.hypot(k.x - n.pos.x, k.z - n.pos.z) < FAV_SPOT.keeperStay) return null;
+  // And with company close by, it mostly stays with them.
+  const company = world.nubbins.some(
+    (o) =>
+      o !== n &&
+      o.stage !== 'egg' &&
+      Math.hypot(o.pos.x - n.pos.x, o.pos.z - n.pos.z) < FAV_SPOT.company,
+  );
+  if (company && roll(n, 'favSpotCompany', now) < FAV_SPOT.companyStay) return null;
   const share = n.personality === 'lazy' ? FAV_SPOT.lazyShare : FAV_SPOT.share;
   if (roll(n, 'favSpot', now) >= share) return null;
   return favSpot(n, world).at;

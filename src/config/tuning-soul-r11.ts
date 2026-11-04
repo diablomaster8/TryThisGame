@@ -150,5 +150,10 @@ export const FAV_SPOT = {
   around: 2,
   happyPerMinute: 1,
   seenRadius: 8,
+  /** No trip to the spot while the Keeper is this near (it stays with them). */
+  keeperStay: 10,
+  /** Another Nubbin this near: it stays with them this often instead. */
+  company: 6,
+  companyStay: 0.8,
   curiousDayMs: 24 * 60 * 60_000,
 } as const;
