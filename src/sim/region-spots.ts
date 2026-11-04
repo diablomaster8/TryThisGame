@@ -11,7 +11,7 @@ import type { RegionLayout } from '../config/region-layout';
  * path's first point), clear of the solid pieces, and a few units from its neighbours. Region
  * local, memoised per region, and the same for the same region every time (no `Math.random`).
  */
-export interface Spot {
+export interface PlaceSpot {
   x: number;
   z: number;
 }
@@ -20,9 +20,9 @@ export interface Spot {
 const CLEAR = 0.9;
 
 /** Walkable cells reachable on foot from the path's start, as cell centres in raster order. */
-const reach = new WeakMap<RegionLayout, Spot[]>();
+const reach = new WeakMap<RegionLayout, PlaceSpot[]>();
 
-export function reachableCells(l: RegionLayout): Spot[] {
+export function reachableCells(l: RegionLayout): PlaceSpot[] {
   const hit = reach.get(l);
   if (hit) return hit;
   const { gw, gh, grid, cell } = l;
@@ -69,7 +69,7 @@ export function reachableCells(l: RegionLayout): Spot[] {
       queue.push(n);
     }
   }
-  const out: Spot[] = [];
+  const out: PlaceSpot[] = [];
   for (let i = 0; i < seen.length; i++)
     if (seen[i])
       out.push({ x: ox + ((i % gw) + 0.5) * cell, z: oz + (((i / gw) | 0) + 0.5) * cell });
@@ -84,7 +84,7 @@ export function fits(l: RegionLayout, x: number, z: number): boolean {
   return !resolveRegion(l, { x, z }, CLEAR);
 }
 
-const memo = new Map<string, Spot[]>();
+const memo = new Map<string, PlaceSpot[]>();
 
 /**
  * `n` spots in `region`, at least `gap` units apart and `away` from every `avoid` point, picked
@@ -95,9 +95,9 @@ export function scatterSpots(
   tag: string,
   n: number,
   gap: number,
-  avoid: readonly Spot[] = [],
+  avoid: readonly PlaceSpot[] = [],
   away = 3,
-): Spot[] {
+): PlaceSpot[] {
   const key = `${region}:${tag}:${n}:${gap}`;
   const hit = memo.get(key);
   if (hit) return hit;
@@ -109,7 +109,7 @@ export function scatterSpots(
     const j = rng.int(0, i);
     [cells[i], cells[j]] = [cells[j]!, cells[i]!];
   }
-  const out: Spot[] = [];
+  const out: PlaceSpot[] = [];
   for (const c of cells) {
     if (out.length >= n) break;
     if (!fits(l, c.x, c.z)) continue;
@@ -122,10 +122,10 @@ export function scatterSpots(
 }
 
 /** The nearest fitting reachable spot to (x, z): where a hand-placed thing wants to stand. */
-export function spotNear(region: RegionId, x: number, z: number): Spot | null {
+export function spotNear(region: RegionId, x: number, z: number): PlaceSpot | null {
   const l = layoutOf(region);
   if (!l) return null;
-  let best: Spot | null = null;
+  let best: PlaceSpot | null = null;
   let bd = Infinity;
   for (const c of reachableCells(l)) {
     const d = Math.hypot(c.x - x, c.z - z);
@@ -141,7 +141,7 @@ export function spotNear(region: RegionId, x: number, z: number): Spot | null {
  * The nearest reachable spot to (x, z) with open ground all round it, out to `half` units each
  * way (a build plot wants a square, not one standing place). Null if the region has none.
  */
-export function roomNear(region: RegionId, x: number, z: number, half: number): Spot | null {
+export function roomNear(region: RegionId, x: number, z: number, half: number): PlaceSpot | null {
   const l = layoutOf(region);
   if (!l) return null;
   const sorted = reachableCells(l)

@@ -16,11 +16,11 @@ import { seasonHere, seasonKeepsakeTaken, seasonSpots } from './region-season-pr
 import { openTraces } from './regions-trace';
 import type { World } from './types';
 
-export type MarkKind =
+export type RegionMarkKind =
   'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor' | 'ghost' | 'season';
 
 export interface Mark {
-  kind: MarkKind;
+  kind: RegionMarkKind;
   id: string;
   /** For a plot piece, the decoration kind. */
   decor?: string;
