@@ -35,6 +35,7 @@ import { CHILD_NAME_TEXT } from '../config/strings-kids';
 import { TRACK_TEXT } from '../config/strings-camp';
 import { sideStory } from '../sim/story-scenes';
 import { questProgress } from '../sim/quest-offers';
+import { fitProgress } from '../sim/quest-minutes';
 import { OFFER_TEXT } from '../config/strings-camp';
 import { GO_TEXT, REST_TEXT } from '../config/strings';
 import { REST } from '../config/tuning';
@@ -69,7 +70,7 @@ export function trackedObjectives(world: World): Objective[] {
       // R0635: the step count rides with the hint.
       hint: ((p) =>
         p ? `${OFFER_TEXT.stepOf(p.step, p.of, p.minutesLeft)}. ${step.hint}` : step.hint)(
-        questProgress(world, id),
+        fitProgress(id, questProgress(world, id)),
       ),
       story: true,
     });

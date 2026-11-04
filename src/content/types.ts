@@ -106,6 +106,10 @@ export interface Quest {
    * aloud. Unset: the offer shows its picture only and the first step's goal is read.
    */
   pitchChild?: string;
+  /** R0646: the giver's one-line pitch (at most 160 characters); else `content/pitches.ts`. */
+  pitch?: string;
+  /** R0635: the whole quest's rough play time in minutes; unset, steps x the default per step. */
+  minutes?: number;
   /** Free-text notes for the implementer (staging, timing, art needs). */
   notes?: string;
 }
@@ -347,6 +351,8 @@ export interface StorylineChapter {
   goalText: string;
   hint: string;
   closing: Scene;
+  /** R0646: what happened in this chapter, in the past tense; else `content/pitches.ts`. */
+  recap?: string;
   beats?: StorylineBeat[];
 }
 
@@ -357,6 +363,8 @@ export interface Storyline {
   code: string;
   title: string;
   tagline: string;
+  /** R0646: the region pitch for the whole line; else `content/pitches.ts`. */
+  pitch?: string;
   /** Source work, for reference only. */
   source: string;
   audience: Audience;
