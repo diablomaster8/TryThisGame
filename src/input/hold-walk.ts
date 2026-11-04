@@ -36,10 +36,10 @@ export class HoldWalk {
   }
 
   /** The point under the finger this frame: the goal to send, or null to leave it be. */
-  follow(at: Vec2 | null, nowMs: number): Vec2 | null {
+  follow(at: Vec2 | null, nowMs: number, resendMs: number = HOLD_WALK.resendMs): Vec2 | null {
     if (!this.last || !at) return null;
     const moved = Math.hypot(at.x - this.last.x, at.z - this.last.z);
-    if (moved < HOLD_WALK.minStepU && nowMs - this.lastMs < HOLD_WALK.resendMs) return null;
+    if (moved < HOLD_WALK.minStepU && nowMs - this.lastMs < resendMs) return null;
     return this.start(at, nowMs);
   }
 

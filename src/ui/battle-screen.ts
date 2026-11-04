@@ -1,4 +1,3 @@
-import { reducedMotion } from '../platform/motion';
 import '../battle.css';
 import { HAT_LABELS, NAMES } from '../config/strings';
 import {
@@ -16,15 +15,14 @@ import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
 import { battleSfx } from './battle-sfx';
-import { idleKind, idlePose } from './battle-idle';
 import { postcardRow } from './battle-postcard';
 import { worldBoutAct, type WorldBout } from '../sim/battle/world-bout';
 import { battleForfeit } from '../sim/battle/core';
-import { PX } from '../render/sprites/pixel-canvas';
-import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
-import type { SpriteSheet } from '../render/sprites/atlas';
-import { drawShadowText } from '../render/sprites/font';
-import { C, color } from '../render/sprites/palette';
+import { BattlePixelView } from '../minigames/battle/pixel-view';
+import { rivalArt } from '../minigames/battle/cast';
+import type { BattleCast, BattleFrame, BattleView } from '../minigames/battle/view';
+import { selectMinigameView } from '../render3d/minigame-layout';
+import { showUpdateNotice } from './update-notice';
 import {
   BATTLE_ITEMS,
   bench,
@@ -94,7 +92,6 @@ import { currentReplay, recordAct, recordStart } from './battle-record';
  * effectiveness badges show once a pairing has been seen (always in Gentle bouts). Keyboard Tab
  * order is moves, then actions, then the top bar (the DOM order; CSS keeps the layout).
  */
-const VIEW_H = 160;
 type View = 'main' | 'swap' | 'item' | 'target' | 'who' | 'ring';
 
 let shared: BattleScreen | null = null;
@@ -105,12 +102,15 @@ export function battleScreen(parent: HTMLElement, game: () => Game | null): Batt
   return shared;
 }
 
-const reduced = reducedMotion;
-
 export class BattleScreen {
   readonly root: HTMLDivElement;
-  private readonly canvas: HTMLCanvasElement;
-  private readonly ctx: CanvasRenderingContext2D;
+  /** The stage's views (R0219): the pixel canvas, and in Full 3D the arena of rigs. */
+  private readonly pixel = new BattlePixelView();
+  private view3d: BattleView | null = null;
+  private use3d = false;
+  private loading3d = false;
+  private started3d = false;
+  private startedPixel = false;
   private readonly roundLabel: HTMLSpanElement;
   private readonly speedBtn: HTMLButtonElement;
   private readonly cards: [HTMLDivElement, HTMLDivElement];
@@ -128,7 +128,6 @@ export class BattleScreen {
   /** Pass-and-play: Keeper 2 has lifted the cover over their moves. */
   private passShown = false;
   private rafId = 0;
-  private viewW = 260;
   private onDone: ((s: BattleState | null) => void) | null = null;
   /** A story-world bout (FIGHT-98, FUN-51): played in its own Grove copy, never sent to the sim. */
   private external: WorldBout | null = null;
@@ -166,12 +165,8 @@ export class BattleScreen {
     const help = button(BATTLE_TEXT.help, () => openTypeHelp(document.body), 'btn bs-help');
     top.append(back, this.roundLabel, this.speedBtn, help);
     const stage = el('div', 'bs-stage');
-    this.canvas = el('canvas', 'bs-canvas');
-    const ctx = this.canvas.getContext('2d');
-    if (!ctx) throw new Error('2D canvas context unavailable');
-    this.ctx = ctx;
     this.cards = [el('div', 'bs-card ally'), el('div', 'bs-card foe')];
-    stage.append(this.canvas, this.cards[1], this.cards[0]);
+    stage.append(this.pixel.element, this.cards[1], this.cards[0]);
     stage.addEventListener('pointerdown', () => this.skip());
     // The foe's card opens "Inspect" (FIGHT-77); its own press never skips the playback.
     const foeCard = this.cards[1];
@@ -313,6 +308,8 @@ export class BattleScreen {
     this.root.hidden = false;
     this.root.classList.toggle('gentle-sprout', false);
     this.trap.opened();
+    this.stopViews();
+    this.want3d();
     this.resize();
     cancelAnimationFrame(this.rafId);
     this.rafId = requestAnimationFrame(this.frame);
@@ -348,6 +345,7 @@ export class BattleScreen {
   close(result?: BattleState | null): void {
     cancelAnimationFrame(this.rafId);
     const s = result === undefined ? this.bout() : result;
+    this.stopViews();
     closeInspect();
     if (!this.root.hidden) {
       this.root.hidden = true;
@@ -379,12 +377,9 @@ export class BattleScreen {
   }
 
   private resize(): void {
-    const stage = this.canvas.parentElement!;
-    const rect = stage.getBoundingClientRect();
-    const aspect = rect.width / Math.max(1, rect.height);
-    this.viewW = Math.round(Math.max(160, Math.min(420, VIEW_H * aspect)));
-    this.canvas.width = this.viewW * PX;
-    this.canvas.height = VIEW_H * PX;
+    const rect = this.stageBox();
+    this.pixel.resize(rect);
+    if (this.started3d) this.view3d?.resize(rect);
   }
 
   /** Shown HP and leads catch up with the bout. */
@@ -494,122 +489,102 @@ export class BattleScreen {
 
   // ---------- the stage ----------
 
-  private draw(s: BattleState, now: number, e: BattleEvent | null, k: number): void {
-    const ctx = this.ctx;
-    const W = this.viewW;
-    const H = VIEW_H;
-    ctx.setTransform(PX, 0, 0, PX, 0, 0);
-    ctx.imageSmoothingEnabled = false;
-    const sky =
-      s.context.kind === 'story' ? C.darkPlum : s.context.kind === 'circuit' ? C.skyLight : C.wood;
-    ctx.fillStyle = color(sky);
-    ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = color(s.context.kind === 'story' ? C.plum : C.sand);
-    ctx.fillRect(0, H * 0.55, W, H * 0.45);
-    // Two pads: ours lower left, theirs upper right.
-    ctx.fillStyle = color(C.sandDeep);
-    ctx.fillRect(Math.round(W * 0.1), Math.round(H * 0.86), Math.round(W * 0.36), 6);
-    ctx.fillRect(Math.round(W * 0.56), Math.round(H * 0.52), Math.round(W * 0.34), 5);
-    const still = reduced();
+  /** The frame the views draw: the playing event and what the playback has shown so far. */
+  private frameFor(s: BattleState, e: BattleEvent | null, k: number): BattleFrame {
+    return {
+      e,
+      k,
+      shown: [this.shown(s, 0), this.shown(s, 1)],
+      hp: (c) => this.shownHp.get(c.id) ?? c.hp,
+      busy: this.playback.busy(s.log),
+      pop: this.pop,
+    };
+  }
+
+  /** Who the combatants are, for the views: the game's Nubbins, sheets and foe looks. */
+  private readonly cast: BattleCast = {
+    nubbin: (c) => {
+      const g = this.game();
+      return (c.nubbinId && g?.world.nubbins.find((x) => x.id === c.nubbinId)) || null;
+    },
+    sheet: (c) => {
+      const g = this.game();
+      if (!g) return null;
+      try {
+        const n = this.cast.nubbin(c);
+        return n ? g.view.sheets.forNubbin(n) : g.view.sheets.species(this.cast.art(c));
+      } catch {
+        return null;
+      }
+    },
+    art: (c) => {
+      const g = this.game();
+      const s = this.bout();
+      return g && s ? rivalArt(g.world, s.context, c.species) : c.species;
+    },
+  };
+
+  /**
+   * In Full 3D (once the Grove's 3D scene has loaded) the bout gets the 3D arena; its chunk
+   * loads on first use. The pixel stage draws until the arena is ready, and stays if the
+   * chunk fails to load.
+   */
+  private want3d(): void {
+    this.use3d = false;
     const g = this.game();
-    for (const side of [1, 0] as const) {
-      const c = this.shown(s, side);
-      if (!c) continue;
-      const x = side === 0 ? W * 0.28 : W * 0.73;
-      const floor = side === 0 ? H * 0.88 : H * 0.54;
-      const hp = this.shownHp.get(c.id) ?? c.hp;
-      const out = hp <= 0 || (c.friend && !this.playback.busy(s.log));
-      let dx = 0;
-      let clip: ClipName = out ? (side === 0 ? 'sleep' : 'walk') : 'idle';
-      if (e && !still) {
-        const by = 'by' in e ? e.by : null;
-        if (e.k === 'use' && by === c.id) dx = (side === 0 ? 1 : -1) * Math.sin(k * Math.PI) * 10;
-        if (e.k === 'hit' && e.to === c.id) dx = Math.sin(k * Math.PI * 6) * 3 * (1 - k);
-        if (e.k === 'miss' && e.to === c.id) dx = Math.sin(k * Math.PI * 2) * 6;
-        if (e.k === 'tuckered' && e.who === c.id && side === 1) dx = k * W * 0.4;
-        if (e.k === 'befriend' && e.who === c.id) dx = -k * W * 0.3;
-      }
-      if (e && e.k === 'hit' && e.to === c.id) clip = 'sad';
-      if (e && (e.k === 'befriend' || e.k === 'cuddle')) clip = 'happy';
-      if (out && side === 1 && !(e && 'who' in e && e.who === c.id)) continue;
-      const sheet = g ? this.sheetFor(g, c) : null;
-      // FIGHT-78: a personality idle while the bout waits for the Keeper.
-      let dy = 0;
-      if (!e && !out && !s.result && s.phase === 'choose') {
-        const n = c.nubbinId ? g?.world.nubbins.find((x) => x.id === c.nubbinId) : null;
-        const idle = idlePose(
-          idleKind({ ...c, moody: n?.moody ?? null }),
-          c.id,
-          s.seed,
-          now,
-          still,
-        );
-        dx += idle.dx;
-        dy = idle.dy;
-        if (idle.glyph)
-          drawShadowText(ctx, idle.glyph, x + 10, floor - 34, color(C.cream), color(C.darkPlum));
-      }
-      if (sheet) this.drawSprite(sheet, clip, now, x + dx, floor + dy, side === 1);
-      if (out && side === 0) {
-        ctx.fillStyle = color(C.leaf);
-        ctx.fillRect(Math.round(x - 12), Math.round(floor - 14), 24, 4);
-        drawShadowText(ctx, BATTLE_TEXT.zzz, x + 14, floor - 30, color(C.cream), color(C.darkPlum));
-        // Slapstick (FUN-74): "too dizzy to continue", the spiral over a sat-down Nubbin.
-        drawShadowText(ctx, '💫', x - 14, floor - 30, color(C.cream), color(C.darkPlum));
-      }
-      if (this.pop?.id === c.id && now - this.pop.at < 700) {
-        const t = (now - this.pop.at) / 700;
-        const rise = still ? 0 : t * 10;
-        ctx.globalAlpha = still ? Math.min(1, t * 3) : 1 - t * 0.5;
-        drawShadowText(
-          ctx,
-          this.pop.text,
-          x,
-          floor - 44 - rise,
-          color(C.cream),
-          color(C.darkPlum),
-          1,
-          'center',
-        );
-        ctx.globalAlpha = 1;
-      }
-    }
+    const scene3d = g?.scene3d;
+    if (!g || !scene3d) return;
+    if (selectMinigameView(g.graphics, scene3d.loadState().done) !== '3d') return;
+    this.use3d = true;
+    if (this.view3d || this.loading3d) return;
+    this.loading3d = true;
+    void import('../render3d/battle-3d').then(
+      (m) => {
+        this.loading3d = false;
+        this.view3d ??= new m.Battle3dView(scene3d);
+      },
+      (err: unknown) => {
+        this.loading3d = false;
+        this.use3d = false;
+        showUpdateNotice(err);
+      },
+    );
   }
 
-  private sheetFor(g: Game, c: Combatant): SpriteSheet | null {
-    try {
-      const n = c.nubbinId ? g.world.nubbins.find((x) => x.id === c.nubbinId) : null;
-      return n ? g.view.sheets.forNubbin(n) : g.view.sheets.species(c.species);
-    } catch {
-      return null;
+  /** Draw the stage with the view in use, starting the 3D one once its chunk is here. */
+  private draw(s: BattleState, now: number, e: BattleEvent | null, k: number): void {
+    const f = this.frameFor(s, e, k);
+    if (!this.startedPixel) {
+      this.startedPixel = true;
+      this.pixel.start(s, this.cast);
     }
+    const v3 = this.use3d ? this.view3d : null;
+    if (v3 && !this.started3d) {
+      this.started3d = true;
+      v3.start(s, this.cast);
+      v3.resize(this.stageBox());
+    }
+    if (v3) v3.draw(s, f, now);
+    const three = !!v3 && v3.ready;
+    if (this.root.classList.contains('three') !== three) {
+      this.root.classList.toggle('three', three);
+      this.pixel.element.hidden = three;
+    }
+    if (!three) this.pixel.draw(s, f, now);
   }
 
-  private drawSprite(
-    sheet: SpriteSheet,
-    clip: ClipName,
-    now: number,
-    x: number,
-    floor: number,
-    flip: boolean,
-  ): void {
-    const f = frameAt(CLIPS[clip], now);
-    const rect =
-      sheet.frames.get(frameKey(clip, 'side', f)) ?? sheet.frames.get(frameKey('idle', 'side', 0));
-    if (!rect) return;
-    const image = sheet.texture.image as HTMLCanvasElement;
-    const w = rect.w / PX;
-    const h = rect.h / PX;
-    const dx = Math.round(x - w / 2);
-    const dy = Math.round(floor - h + 2);
-    const ctx = this.ctx;
-    ctx.save();
-    if (flip) {
-      ctx.translate(dx + w, dy);
-      ctx.scale(-1, 1);
-      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, 0, 0, w, h);
-    } else ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, w, h);
-    ctx.restore();
+  /** The 3D view lets go of the bout's arena and rigs; the pixel stage shows again. */
+  private stopViews(): void {
+    if (this.started3d) this.view3d?.stop();
+    this.started3d = false;
+    this.startedPixel = false;
+    this.root.classList.remove('three');
+    this.pixel.element.hidden = false;
+    this.pixel.stop();
+  }
+
+  private stageBox(): DOMRect {
+    return this.pixel.element.parentElement!.getBoundingClientRect();
   }
 
   // ---------- the HP cards ----------

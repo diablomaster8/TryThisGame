@@ -1,4 +1,5 @@
 import type * as THREE from 'three';
+import { HOLLOW_PERF } from '../config/tuning-dungeon-tap';
 import { FIELD_R10 } from '../config/tuning-r10b2';
 import { sectorWindow } from '../render/field-sectors';
 import { CELL, type HollowCtx, type HollowModule } from './hollow-ctx';
@@ -13,11 +14,20 @@ import type { Floor } from '../sim/dungeon';
  * Keeper. A crossing only flips `visible`: nothing is built, uploaded or compiled.
  */
 
+/**
+ * The sector width (cells) a floor is streamed in, or 0 when it draws whole: a field (R0147),
+ * or a big dungeon level (R0194, DUNG-51).
+ */
+export function sectorSizeOf(f: Floor): number {
+  if (!FIELD_R10.stream) return 0;
+  if (f.zone === 'field') return FIELD_R10.sector;
+  return !f.zone && f.cols * f.rows >= HOLLOW_PERF.minCells ? HOLLOW_PERF.levelSector : 0;
+}
+
 /** `list` split by sector column on a field (by each item's world x); one group elsewhere. */
 export function sectorGroups<T>(f: Floor, list: T[], x: (t: T) => number): Array<[number, T[]]> {
-  if (f.zone !== 'field' || !FIELD_R10.stream || list.length === 0)
-    return list.length ? [[-1, list]] : [];
-  const size = FIELD_R10.sector;
+  const size = sectorSizeOf(f);
+  if (!size || list.length === 0) return list.length ? [[-1, list]] : [];
   const n = Math.ceil(f.cols / size);
   const out: T[][] = Array.from({ length: n }, () => []);
   for (const t of list) {
@@ -33,7 +43,7 @@ export class HollowSectors implements HollowModule {
   private col = -1;
 
   build(f: Floor, ctx: HollowCtx): void {
-    this.floor = f.zone === 'field' ? f : null;
+    this.floor = sectorSizeOf(f) ? f : null;
     this.col = -1;
     this.meshes = this.floor
       ? ctx.group.children.filter((o) => typeof o.userData.sectorCol === 'number')
@@ -48,7 +58,7 @@ export class HollowSectors implements HollowModule {
   update(_t: number, keeper: { x: number; z: number }): void {
     const f = this.floor;
     if (!f || this.meshes.length === 0) return;
-    const size = FIELD_R10.sector;
+    const size = sectorSizeOf(f);
     const cx = Math.floor(keeper.x / CELL + f.cols / 2);
     const col = Math.floor(cx / size);
     if (col === this.col) return;

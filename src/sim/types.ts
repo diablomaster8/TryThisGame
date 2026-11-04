@@ -957,6 +957,8 @@ export interface DungeonRun {
    * step out of before it starts again (after a loss, or a start nobody could fight).
    */
   rumble?: { done: string[]; wait?: string };
+  /** R0260: the depth-5 guardian hall's calmed levels, and the one to step out of first. */
+  guardian?: { done: string[]; wait?: string };
   /** R0281: a stray that bumped the Keeper waits this long for Calm or a snack. */
   strayAsk?: { id: string; leftMs: number };
   /** R0281: the calm bout under way (`bout` is `world.battleRuns` when it began). */
@@ -2164,6 +2166,8 @@ export type SimEvent =
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
+  /** R0260: the floor-5 guardian's hall: the bout starts, is lost, or is won. */
+  | { kind: 'guardianHall'; phase: 'start' | 'lost' | 'won' }
   // Lane B round 4: act camps and fields (R0147, R0152).
   | { kind: 'stashMoved'; amount: number }
   | { kind: 'townBought'; item: 'fruit' }
