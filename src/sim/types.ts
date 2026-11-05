@@ -462,6 +462,9 @@ export interface Settings {
   cameraFollowsWalk?: boolean;
   /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
   leftHanded?: boolean;
+  /** R0096 (R13 d1): "the Grove dresses for you": the Grove takes its Sun or Moon colouring as
+   * the Keeper's alignment unlocks it (the old recolour). Unset: off; the lands are real places. */
+  groveDresses?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
   /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */

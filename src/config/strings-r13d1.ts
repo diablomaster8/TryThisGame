@@ -26,3 +26,17 @@ export const SHORE_PLAY_TEXT = {
   castleDown: (shells: number) => `Whump. The castle is a heap of sand. ${shells} shells wash out.`,
   rebuilt: 'Someone has been busy: a castle stands on the beach again.',
 } as const;
+
+/** WORLD-34: the Settings option that keeps the old Sun and Moon recolour of the Grove. */
+export const GROVE_DRESS_TEXT = {
+  label: 'The Grove dresses for you',
+  help: 'Your Grove takes on Sun or Moon colours once that side is unlocked. The lands stay real places.',
+} as const;
+
+/** WORLD-34: the Nubbin gardens of the Sun and Moon lands. */
+export const LANDS_TEXT = {
+  garden: (side: 'sun' | 'moon') =>
+    side === 'sun'
+      ? 'A Sun garden: your Sun adults come here to bask on the white stone.'
+      : 'A Moon garden: your Moon adults come here to watch the lantern lake.',
+} as const;

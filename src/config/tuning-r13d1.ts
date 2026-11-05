@@ -23,3 +23,27 @@ export const SHORE_PLAY = {
   strollR: 2.4,
   loopMs: 16_000,
 } as const;
+
+/** WORLD-34: the Nubbin gardens of the Sun and Moon lands (mirrors drawn there, sim stays home). */
+export const LAND_GARDENS = {
+  /** Most adults shown in one land. */
+  max: 5,
+  /** Alignment an adult must reach to count as Sun (above) or Moon (below minus). */
+  band: 0.5,
+  /** Where each land's adults roam: a ring round these centres. */
+  centres: {
+    sunlands: [
+      { x: 26, z: 2 },
+      { x: -26, z: 2 },
+      { x: 0, z: -22 },
+    ],
+    moonlands: [
+      { x: -28, z: 22 },
+      { x: 28, z: 22 },
+      { x: -26, z: -6 },
+    ],
+  },
+  /** The stroll's radius, and its period (ms) and per-Nubbin phase step. */
+  r: 3.2,
+  periodMs: 40_000,
+} as const;
