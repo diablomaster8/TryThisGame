@@ -69,7 +69,6 @@ export const NPC_LOOKS: Readonly<Record<string, NpcLook>> = {
   nova: { accessory: 'sling', main: '#2f8a86', trim: '#ffd166' },
   // R0651: the hooded Nubbins of the Holy Grail pack.
   'tall-hood': { accessory: 'cloak', main: '#6a4a2a', trim: '#3c2a18' },
-  'hooded-three': { accessory: 'cloak', main: '#8a6a42', trim: '#4a3420' },
 };
 
 /** A storyline speaker's look: the person's palette (a trainer look) and their accessory. */
