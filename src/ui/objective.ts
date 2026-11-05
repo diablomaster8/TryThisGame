@@ -154,11 +154,18 @@ export function groveSuggestion(world: World): GroveObjective | null {
   if (loop)
     return {
       key: `grove:loop-${loop.step}`,
-      goal: loop.step === 'pat' ? FIRST_LOOP_TEXT.pat(loop.nubbin.name) : FIRST_LOOP_TEXT.name(),
+      goal:
+        loop.step === 'pat'
+          ? FIRST_LOOP_TEXT.pat(loop.nubbin.name)
+          : loop.step === 'toss'
+            ? FIRST_LOOP_TEXT.toss(loop.nubbin.name)
+            : FIRST_LOOP_TEXT.name(),
       hint:
         loop.step === 'pat'
           ? FIRST_LOOP_TEXT.patHint(loop.nubbin.name)
-          : FIRST_LOOP_TEXT.nameHint(loop.nubbin.name),
+          : loop.step === 'toss'
+            ? FIRST_LOOP_TEXT.tossHint(loop.nubbin.name)
+            : FIRST_LOOP_TEXT.nameHint(loop.nubbin.name),
       story: false,
     };
   const hungry = living.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && isHungry(n));

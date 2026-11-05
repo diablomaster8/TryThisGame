@@ -2,7 +2,7 @@ import type { ReadonlyWorld } from './readonly-world';
 import { markAt } from '../config/stage-marks';
 import { C12C } from '../config/tuning-camp12c';
 import type { SceneStage } from '../config/story';
-import type { World } from '../sim/types';
+
 import type { DressItem, DressShape } from './dress-d-rules';
 
 /**

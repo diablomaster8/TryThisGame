@@ -2,7 +2,7 @@ import type { ReadonlyWorld } from './readonly-world';
 import { AMBIENT_LIFE } from '../config/tuning-r11d8';
 import { WORLD_STREAM } from '../config/tuning-world';
 import { regionOf } from '../sim/regions';
-import type { World } from '../sim/types';
+
 import {
   ambientAwake,
   ambientFor,

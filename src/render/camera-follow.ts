@@ -6,7 +6,6 @@
  */
 import type { ReadonlyWorld } from './readonly-world';
 import { CAMERA_FOLLOW_WALK } from '../config/tuning-move';
-import type { World } from '../sim/types';
 
 /** The camera's side of this: its yaw and its own snap turn. */
 export interface TurnableCamera {

@@ -7,7 +7,7 @@
  */
 import type { ReadonlyWorld } from './readonly-world';
 import { SIT_WITH } from '../config/tuning-fun-r7';
-import type { Nubbin, World } from '../sim/types';
+import type { Nubbin } from '../sim/types';
 
 export interface SitWithBeat {
   /** 0..1: how far it leans toward the Keeper. */

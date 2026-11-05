@@ -7,7 +7,7 @@
  */
 import type { ReadonlyWorld } from './readonly-world';
 import { HELD_RING, THROW } from '../config/tuning';
-import type { World } from '../sim/types';
+
 import { frameKey } from './sprites/animations';
 import { AtlasBuilder, type SpriteSheet } from './sprites/atlas';
 import { C } from './sprites/palette';

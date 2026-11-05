@@ -1,7 +1,7 @@
 import type { ReadonlyWorld } from './readonly-world';
 import { GROVE } from '../config/tuning';
 import { CG2_K } from '../config/tuning-k';
-import type { Memorial, World } from '../sim/types';
+import type { Memorial } from '../sim/types';
 import { ddLayout } from './story-b-layout';
 
 /**

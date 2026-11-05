@@ -6,7 +6,6 @@
  */
 import type { ReadonlyWorld } from './readonly-world';
 import { EMOTE_READ } from '../config/tuning';
-import type { World } from '../sim/types';
 
 /** Big mood bubbles: the setting, else on in the Learning Grove. */
 export function bigBubbles(world: ReadonlyWorld): boolean {
