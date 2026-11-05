@@ -2415,6 +2415,7 @@ export class WorldView {
           ? 'sit'
           : 'sleep'
         : clipFor(n);
+      const petted = clip === 'petted' && !held;
       clip = PIXEL_CLIP[clip] ?? clip;
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
       // R0540 (lane A r10): a chatter speaks with the happy clip and listens standing.
@@ -2427,6 +2428,14 @@ export class WorldView {
         const dir = towardKeeper(world, n);
         swDx = dir.x * 0.12 * sw.lean;
         swDz = dir.z * 0.12 * sw.lean;
+      }
+      // R0455 (r13-d4): the Pixel lean-in for a petted Nubbin, no new frames: it shifts a little
+      // toward the Keeper's hand and sways, the way the 3D rig leans (`pet`).
+      if (petted) {
+        const dir = towardKeeper(world, n);
+        const lean = 0.08 + 0.03 * Math.sin(nowMs / 140);
+        swDx = dir.x * lean;
+        swDz = dir.z * lean;
       }
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;

@@ -40,7 +40,39 @@ const SCENES = [
     scenario: 'fresh',
     prep: "g.send({ kind: 'debugWeather', weather: 'rain' });",
   },
+  // R0454 (r13-d4): six more looks, the type and alignment spread and the other weather and seasons.
+  { name: 'adult-neutral-fly', scenario: 'child-about-to-evolve:neutral:fly', wait: 15000 },
+  { name: 'adult-sun-swim', scenario: 'child-about-to-evolve:sun:swim', wait: 15000 },
+  { name: 'adult-moon-run', scenario: 'child-about-to-evolve:moon:run', wait: 15000 },
+  { name: 'adult-neutral-normal', scenario: 'child-about-to-evolve:neutral:normal', wait: 15000 },
+  {
+    name: 'grove-snow',
+    scenario: 'fresh',
+    prep: "g.send({ kind: 'debugSeason', season: 'winter' }); g.send({ kind: 'debugWeather', weather: 'snow' });",
+  },
+  {
+    name: 'grove-autumn',
+    scenario: 'fresh',
+    prep: "g.send({ kind: 'debugSeason', season: 'autumn' });",
+  },
 ];
+// The phone portrait view (375x812) is shot for the first six scenes the rest at
+// the desktop size only.
+const CORE = [
+  'grove-egg',
+  'grove-child',
+  'adult-sun-power',
+  'adult-moon-swim',
+  'eight-nubbins',
+  'grove-rain',
+];
+const VIEWS = {
+  desktop: { width: 800, height: 450, suffix: '' },
+  phone: { width: 375, height: 812, suffix: '-phone' },
+};
+const SHOTS = SCENES.flatMap((s) =>
+  (CORE.includes(s.name) ? ['desktop', 'phone'] : ['desktop']).map((v) => ({ ...s, view: v })),
+);
 
 (async () => {
   fs.mkdirSync(GOLD, { recursive: true });
@@ -53,14 +85,18 @@ const SCENES = [
   let failed = 0;
   for (const mode of process.env.E2E_MODE ? [process.env.E2E_MODE] : ['pixel', '3d']) {
     for (const [round, sc] of self
-      ? SCENES.flatMap((s) => [
+      ? SHOTS.flatMap((s) => [
           [0, s],
           [1, s],
         ])
-      : SCENES.map((s) => [1, s])) {
-      if (process.env.E2E_SCENE && !sc.name.includes(process.env.E2E_SCENE)) continue;
+      : SHOTS.map((s) => [1, s])) {
+      if (
+        process.env.E2E_SCENE &&
+        !(sc.name + VIEWS[sc.view].suffix).includes(process.env.E2E_SCENE)
+      )
+        continue;
       const ctx = await browser.newContext({
-        viewport: { width: 800, height: 450 },
+        viewport: { width: VIEWS[sc.view].width, height: VIEWS[sc.view].height },
         // R0454: one zone and (below) one wall-clock instant, so the sky, the season and any
         // dated festival are the same on every run.
         timezoneId: 'UTC',
@@ -73,7 +109,7 @@ const SCENES = [
           } catch {}
         });
       const page = await ctx.newPage();
-      const file = `${sc.name}-${mode}.png`;
+      const file = `${sc.name}-${mode}${VIEWS[sc.view].suffix}.png`;
       try {
         await page.clock.setFixedTime(new Date('2026-06-21T12:00:00Z'));
         // `still`: every frame is exactly 1/60 s of game time from the first (main.ts).
