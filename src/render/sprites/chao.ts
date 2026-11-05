@@ -1,6 +1,6 @@
 import type { AnyPartSlot, DyeColor, NubbinParts, NubbinType } from '../../sim/types';
 import { PART_SIZE } from '../../config/tuning-look';
-import { CLIPS, frameKey, type ClipName } from './animations';
+import { BATTLE_CLIP_ANGLES, CLIPS, frameKey, isBattleClip, type ClipName } from './animations';
 import { drawRadiantSign } from './radiant-sign';
 import { drawEternalSign } from './eternal-sign';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
@@ -630,6 +630,74 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
     case 'tumble':
       // Thrown: curled up, eyes wide, rolling a quarter turn a frame.
       return { ...BASE, eyes: 'wide', mouth: 'o', arms: 'out', legs: 'tucked', spin: frame % 4 };
+    // R0239: the battle verbs, each readable at a glance from the side.
+    case 'windup':
+      return {
+        ...BASE,
+        arms: 'up',
+        eyes: 'half',
+        legs: 'tucked',
+        squash: frame === 0 ? 0.92 : 1.04,
+        lift: frame === 0 ? 0 : -2,
+      };
+    case 'bonk':
+      return {
+        ...BASE,
+        arms: frame === 0 ? 'swingA' : 'swingB',
+        mouth: 'open',
+        squash: frame === 0 ? 1.06 : 0.93,
+        lift: frame === 0 ? -2 : 0,
+        rock: frame === 0 ? 1 : 0,
+      };
+    case 'splash':
+      return {
+        ...BASE,
+        arms: frame === 0 ? 'up' : 'out',
+        mouth: 'o',
+        wings: frame as 0 | 1,
+        lift: frame === 0 ? -1 : -3,
+      };
+    case 'hit':
+      return { ...BASE, eyes: 'closed', mouth: 'o', squash: 0.82, headDrop: 1, arms: 'out' };
+    case 'dodge':
+      return {
+        ...BASE,
+        legs: 'tucked',
+        eyes: 'wide',
+        arms: 'out',
+        lift: frame === 0 ? -4 : -1,
+        rock: frame === 0 ? -1 : 1,
+        squash: frame === 0 ? 1.08 : 0.96,
+      };
+    case 'cheer':
+      return {
+        ...BASE,
+        arms: 'up',
+        eyes: 'happy',
+        mouth: 'open',
+        wings: frame as 0 | 1,
+        lift: frame === 0 ? -3 : -1,
+        legs: 'tucked',
+      };
+    case 'tuckered':
+      // Flop, then lie breathing: the legs out, eyes shut, the body rising and falling.
+      return {
+        ...BASE,
+        legs: 'out',
+        arms: 'down',
+        eyes: frame === 0 ? 'dizzy' : 'closed',
+        mouth: frame === 0 ? 'o' : 'flat',
+        squash: frame === 0 ? 0.84 : 0.88,
+        headDrop: 2,
+      };
+    case 'wave':
+      return {
+        ...BASE,
+        arms: frame === 0 ? 'swingA' : 'swingB',
+        eyes: 'happy',
+        mouth: 'smile',
+        wings: frame as 0 | 1,
+      };
   }
 }
 
@@ -2037,7 +2105,7 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
   const atlas = new AtlasBuilder(CHAO_SIZE, CHAO_SIZE, 10);
   for (const clip of Object.keys(CLIPS) as ClipName[]) {
     const def = CLIPS[clip];
-    for (const angle of DRAWN_ANGLES) {
+    for (const angle of isBattleClip(clip) ? BATTLE_CLIP_ANGLES : DRAWN_ANGLES) {
       for (let f = 0; f < def.frames; f++) {
         atlas.add(frameKey(clip, angle, f), drawChao(angle, poseFor(clip, f), look));
       }

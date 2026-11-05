@@ -55,6 +55,7 @@ import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 import { noteBorderPush } from './border';
 import { noteCoopPet, noteCoopShake } from './coop-gags';
+import { drawnRegion, stepRegionWalk } from './region-walk';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -940,6 +941,11 @@ function tapRunning(world: World, target: Vec2): boolean {
 
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
+  // R11 lane D: in a drawn region beyond the Grove the region's own ground carries the Keeper.
+  if (drawnRegion(world)) {
+    stepRegionWalk(world, dtMs);
+    return;
+  }
   // A roll moves the Keeper itself until it ends or a jump cancels it (MOVE-64).
   if (rolls.has(world) && stepRoll(world, dtMs, events)) {
     rideCarried(world);

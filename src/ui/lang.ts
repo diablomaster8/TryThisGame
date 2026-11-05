@@ -13,7 +13,8 @@ import type { LanguageCourse, VocabItem } from '../content/types';
 import { langCourses } from '../sim/lang';
 import { dueFor, LangReview } from './lang-review';
 import type { LangCourseId } from '../sim/types';
-import { clipFor, playWord } from '../platform/lang-audio';
+import { clipFor, missingClips, playWord } from '../platform/lang-audio';
+import { CLIP_TEXT } from '../config/strings-r11d6';
 import { button, el, modal } from './dom';
 import { appendScriptText } from './lang-dom';
 import { topicIcon, wordIcon } from './lang-icons'; /* R0706 */
@@ -52,6 +53,7 @@ function wordRow(g: Game, w: VocabItem, extra?: string): HTMLElement {
   const t = el('div');
   t.append(native, el('small', undefined, `${w.roman} · ${w.english}`));
   if (extra) t.appendChild(el('small', 'help', extra));
+  if (clipFor(w.audio).placeholder) t.appendChild(el('small', 'help', CLIP_TEXT.rowHint));
   row.appendChild(t);
   row.addEventListener('click', () => {
     playWord(w.audio);
@@ -217,7 +219,13 @@ export function langProgress(body: HTMLElement, g: Game): void {
   const anyPlaceholder = langCourses().some((c) =>
     c.vocab.some((w) => clipFor(w.audio).placeholder),
   );
-  if (anyPlaceholder) body.appendChild(el('p', 'help', LANG_TEXT.placeholderClip));
+  if (anyPlaceholder) {
+    body.appendChild(el('p', 'help', LANG_TEXT.placeholderClip));
+    const all = langCourses().flatMap((c) => c.vocab.map((w) => w.audio));
+    body.appendChild(
+      el('p', 'help', CLIP_TEXT.grownUpMissing(missingClips(all).length, all.length)),
+    );
+  }
   for (const course of langCourses()) {
     body.appendChild(
       el('strong', undefined, `${course.title} (${LANG_TEXT.languages[course.id]})`),

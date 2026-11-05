@@ -1,0 +1,231 @@
+/**
+ * Lane C round 12 (R0646, CAMP-54): the writers' short lines for the open world. A `pitch` is
+ * what a giver says when offering a quest or a questline (present tense, at most 160 characters,
+ * no quotes from the originals); a `recap` is what happened in a chapter, in the past tense, for
+ * "The story so far". They sit in tables by id so that a writer can fill them without touching
+ * the scripts; a `pitch` or `recap` written on the quest or chapter itself wins over the table.
+ * The checker (`tests/tools/content-check.ts`) counts what is still missing.
+ */
+import type { Quest, Storyline } from './types';
+
+/** Spine recaps, by chapter number (past tense). */
+export const CHAPTER_RECAPS: Readonly<Record<number, string>> = {
+  1: 'A letter brought you to Hazel’s garden. You hatched your first egg and learned to pet it gently.',
+  2: 'You learned what shells are for, fed your Nubbin by hand, and had a first awkward visit from Corvin.',
+  3: 'Something shy kept to the edges of the Grove. You earned a little of Sable’s trust, slowly.',
+  4: 'Moss told you what he remembered of Hazel. You lit the four lanterns on the hill.',
+  5: 'The Circuit let you race. You won a ribbon, and the valley began to notice the Grove.',
+  6: 'Rain fell on the hill. You sat with Dusty beside the flower and said very little.',
+  7: 'Fear had taught Sable to hide. You stayed patient until the trust between you grew.',
+  8: 'You went down into the Hollow and found Hazel’s notebook, with its old cold.',
+  9: 'You walked up the valley to Corvin’s garden and had to decide what to do about him.',
+  10: 'The longest night came. You kept all four lanterns lit until the grey began to lift.',
+  11: 'Hazel’s story came out in pieces. You talked with the Keepers, then sat with Hazel.',
+  12: 'The Keepers waited on you. You decided what the Grove would be, and what it would keep.',
+};
+
+/** Line chapter recaps, by `<line>:<chapter>` (past tense). */
+export const LINE_CHAPTER_RECAPS: Readonly<Record<string, string>> = {
+  'hundred:1': 'You hatched your one egg, and with it the whole of the Hundred Days.',
+  'hundred:2': 'You won over a wild creature, and the Fold had its first neighbour.',
+  'hundred:3': 'Meadow days went by. A second creature moved into the Fold.',
+  'hundred:4': 'You went to the shore and won over a swimmer for the Fold.',
+  'hundred:5': 'You went down into the cave and came back up with something learned.',
+  'hundred:6': 'Your partner went through the cocoon and came out grown.',
+  'hundred:7': 'You crossed the mire and brought the Fold to five.',
+  'hundred:8': 'The Fold filled until the bathhouse steamed, and you walked to the mill.',
+  'hundred:9': 'You faced the Hush with your partner, and you won.',
+  'hundred:10': 'The hundredth day passed, and the Fold looked like a place that would last.',
+  'logged:1': 'You logged in and hatched your three starter eggs.',
+  'logged:2': 'You went to the lobby and won your first party bout.',
+  'logged:3': 'You won three bouts and ranked up, with no way to log out.',
+  'logged:4': 'You crossed to the Night Grove and won two bouts there.',
+  'logged:5': 'You read the whole thread on the message board, to the last post.',
+  'logged:6': 'You won three more bouts across both servers, against your own mirror.',
+  'logged:7': 'At the root node you were asked to choose a word, and you chose one.',
+  'logged:8': 'You won the final bouts and posted the word.',
+  'beetle:1': 'You joined a guard team, and the road began.',
+  'beetle:2': 'You took the Beetle through the cave once.',
+  'beetle:3': 'You reached the second floor of the Hollow Below.',
+  'beetle:4': 'You beat the keeper of the first door and heard what the door thought.',
+  'beetle:5': 'You decided about the fusion, whether two partners should become one.',
+  'beetle:6': 'You ran the Beetle three times and reached the fourth floor.',
+  'beetle:7': 'You decided what to do about the weather machine.',
+  'beetle:8': 'You beat the keeper of the last door and found the road home.',
+  'dawn:1': 'First light came, and you hatched an egg.',
+  'dawn:2': 'You filled one species’ scan in the Collection Book.',
+  'dawn:3': 'You won the dojo’s first rank test, and the reverting began.',
+  'dawn:4': 'You filled a second scan and turned one into an egg.',
+  'dawn:5': 'You won the dojo’s second rank test.',
+  'dawn:6': 'You named the cause.',
+  'dawn:7': 'You won the dojo’s last rank test and finished the whole day.',
+  'dusk:1': 'Last light came, and you hatched an egg.',
+  'dusk:2': 'You filled one species’ scan in the Collection Book.',
+  'dusk:3': 'You won the dojo’s first rank test, and the reverting began.',
+  'dusk:4': 'You filled a second scan and turned one into an egg.',
+  'dusk:5': 'You won the dojo’s second rank test.',
+  'dusk:6': 'You named the cause.',
+  'dusk:7': 'You won the dojo’s last rank test and finished the whole day.',
+};
+
+/** The questlines' pitches (Dawn & Dusk offer Dawn first), by line id. */
+export const LINE_PITCHES: Readonly<Record<string, string>> = {
+  hundred:
+    'One egg, one life and a village to fill. Take the lane beyond the gate and see what grows in a hundred days.',
+  logged:
+    'Three partners and two servers, and no way to log out. Pick up the controller and see how far you rank.',
+  beetle:
+    'A guard team needs a Keeper, a cart and a very patient beetle. The road runs through two doors and some weather.',
+  dawn: 'The Sun Keepers keep half of one long day. Come and learn which half, and what the morning is for.',
+  dusk: 'The Moon Keepers keep the other half of that long day. Come and see what the evening is for.',
+};
+
+/** Pitches for the side stories S1–S31 and the fun quests Q1–Q95, by quest id. */
+export const QUEST_PITCHES: Readonly<Record<string, string>> = {
+  s1: 'Moss wants to walk out to the stream lantern. He goes at his own pace, and you are welcome to keep it.',
+  s2: 'Something has been at Sable’s fruit after dark. Sit up and keep still, and see who it is.',
+  s3: 'The Sun Keepers and the Moon Keepers tell Midsummer differently. Ask one of each.',
+  s4: 'Hazel painted a water line on the rock by the falls. Someone should check it.',
+  s5: 'Fossil would like one more walk, up to the cliff where Dusty found her egg.',
+  s6: 'Ember has asked you over to see Ash, who has something to say about a name.',
+  s7: 'Byte is writing something down and would like to read it to someone who will listen.',
+  s8: 'Nova is following the fireflies into the Hollow, past Hazel’s old camp. Come along.',
+  s9: 'The gate sticks, and Hazel’s old trowel might be the answer. Take it up to her.',
+  s10: 'Hazel keeps a hatch register, and there is room in it for your Nubbins.',
+  s11: 'Fern’s plum trees next door look poorly. Come and see what is wrong.',
+  s12: 'A small hum has been coming from the old wall. Solo wants to go home to it.',
+  s13: 'The mill cellar has rats in the grain store, and a hatch to somewhere further down.',
+  s14: 'Tilly has set out a tabletop game and needs one more player to start.',
+  s15: 'Byte is counting what comes out of thirty Mystery Eggs, and wants a second pair of hands.',
+  s16: 'Sparks and Clover want to show you the Workyard, a short way upriver.',
+  s17: 'Something went missing from the nursery in the night. Look for clues by the fence.',
+  s18: 'Dusty is digging fossils from the cliff and needs help sorting them oldest to youngest.',
+  s19: 'Marina says the path up to the high pass is open, and Cinder’s last light is up there.',
+  s20: 'The snow is deep and the other fort is already going up. Gather and build.',
+  s21: 'A small clockwork visitor wants a tour of the Grove, with all its odd corners.',
+  s22: 'Nova wants a climbing partner for the Scree, and you are the nearest one.',
+  s23: 'Three visitors are coming to Corvin’s cottage at dusk, and he would like you there.',
+  s24: 'Nova is sitting by Hazel’s flower on the hill with a book to share.',
+  s25: 'Hazel left a parcel under the loft eaves. It is addressed to you.',
+  s26: 'A robin on the old wall post keeps looking at you as though it wants something.',
+  s27: 'Sparks needs a coil of wire from the Circuit’s old lantern shed.',
+  s28: 'A stray has come off the carrier’s cart and needs somewhere to go. Byte’s house is nearest.',
+  s29: 'Marina has mended her boat and needs hands to carry it down to the water.',
+  s30: 'Clover has put the kettle on, and her Nubbins would like to meet you.',
+  s31: 'Tam is writing a very important letter and needs help with the spelling.',
+  q01: 'Three hooded figures are standing very seriously in the lane. They would like a shrubbery.',
+  q02: 'There is a plank bridge, a very proper knight, and a rule that nobody crosses without a bout.',
+  q03: 'The gorge has a keeper who asks three questions, and he takes the answers seriously.',
+  q04: 'There is a horse sound with no horse. Find where the coconut shells came from.',
+  q05: 'A rabbit on the ledge is not as small as it looks. Ask Sparks what could win it over.',
+  q06: 'Sparks has a very large idea for the Workshop and it is made of wood.',
+  q07: 'The castle needs towers, and the towers need twelve stone. It is only a model.',
+  q08: 'The crops are thirsty and the falls are close. What would an aqueduct take?',
+  q09: 'You left a shoe behind in the gourd patch. It is worth going back for.',
+  q10: 'Harrow has a brass bell, and a price. Bargaining is expected.',
+  q11: 'Mr Crisp would like some fresh mint. He is very polite about it.',
+  q12: 'The shop’s Nubbin is very still. Collect some evidence before anyone decides anything.',
+  q13: 'Mr Strutt has a walk and would like to see yours.',
+  q14: 'Someone needs the comfy chair from the Workshop, and some peace in it.',
+  q15: 'Mr Dibble’s fruit stall has a short stock and a long conversation.',
+  q16: 'Byte has set up an argument booth. It costs five Shells and is quite good.',
+  q17: 'The dock dance has steps, and the steps are slippery.',
+  q18: 'A Nubbin is holding a banana and looks very sure of itself. Stay calm and take it.',
+  q19: 'The Grand Toffs’ Cup is in the meadow, and you have been entered.',
+  q20: 'Every kind of tree in the Grove would like to be tapped once. Can you find them all?',
+  q21: 'Mr. Tweed is pointing down towards the pond. Go and look for a clue.',
+  q22: 'Mr. Tweed has an armchair and a hand cart. Help him tie one to the other.',
+  q23: 'A pumpkin is wandering the Grove, bumping into things. Calm it down.',
+  q24: 'Buttons has an exam, and your Nubbin is sitting it. Shuffle the answers.',
+  q25: 'Mr. Tweed is on the ledge and needs coaxing down, or a brave swimmer to show him how.',
+  q26: 'Mr. Tweed is miming for a sandwich on a park bench. Hand him the right things in order.',
+  q27: 'The portrait in the hall has been ruined. Line your Nubbins up the way they were painted.',
+  q28: 'Mr. Tweed’s cottage needs everything precious carried out of it, and quickly.',
+  q29: 'Odette has handed you her egg and asked you to mind it. Put it down somewhere flat.',
+  q30: 'Rufus has a start line and a three-wheeler. The ridge race is waiting.',
+  q31: 'Corky needs dandelion fluff at Puddle’s Pub, and would rather not say why.',
+  q32: 'The rat cellar and the pond drain both need a Keeper with the right tool on every cue.',
+  q33: 'Corky has poured a very strange carton at the bar and is looking at you.',
+  q34: 'The race is starting and the crowd needs leading. Cheer five times.',
+  q35: 'Dabney and Mags have a game with many rules, and they would like you to play.',
+  q36: 'The rum ham has gone into the pond. A good swimmer could fetch it.',
+  q37: 'The cast are about to walk out of rehearsal. Talk them back in.',
+  q38: 'Your Nubbin has been accused of something. Find three pieces of evidence.',
+  q39: 'Corky wants to jump off the pub roof, and wants it filmed.',
+  q40: 'Mags has a waterslide plan, ten wood and six stone short of finished.',
+  q41: 'The dojo is holding a tag bout. Choose a partner and step into the ring.',
+  q42: 'Corky has red string up on the walls and three clues to follow.',
+  q43: 'Scene one is a wheelbarrow chase, and you are directing. Film it.',
+  q44: 'Corky has a reservation at The Gilded Pear. Come dressed for dinner.',
+  q45: 'Behind the pub there is room for a lane. Build it and knock down all twelve pins.',
+  q46: 'The cart’s wheel has come off and the cabbages are everywhere across the meadow.',
+  q47: 'Nomads are singing under the ridge, and there is a tunnel nobody mentioned.',
+  q48: 'Two clans are about to walk down the same canyon path. Keep the peace.',
+  q49: 'There is a party at school tonight, and the headmaster mustn’t find out.',
+  q50: 'Uncle Tenzo opens his tea shop in the morning and needs three perfect cups.',
+  q51: 'Tuk is waiting in the sun for Nalu. Find him some shade.',
+  q52: 'Puffin has been gone for days and left a trail across the Grove.',
+  q53: 'The fan-warriors drill at dawn. Keep your fan in hand to the end.',
+  q54: 'Master Pian has three lessons, and none of them is about swords.',
+  q55: 'The Ember Bay Players are putting on a show and have saved you a seat.',
+  q56: 'A flyer points to a hidden arena under the big boulder.',
+  q57: 'Five houses in the river village are waiting for food and medicine.',
+  q58: 'Aunt Wen reads the bones for you and your Nubbin, if you ask nicely.',
+  q59: 'Captain Hake likes to talk. Keep him at it while Nalu looks at the scroll.',
+  q60: 'A winged lemur is leading the way through the old temple ruins.',
+  q61: 'The Kettleby records hall holds the true story of Marshal Brag, if you can find it.',
+  q62: 'Pemba is stuck in the ice and wants out.',
+  q63: 'King Rumbold has set three challenges, and the first key is under the waterfall.',
+  q64: 'Kaito has a speech and needs a listener to practise on, three times.',
+  q65: 'Uncle Tenzo has a tile game to teach you. Start with the practice round.',
+  q66: 'A white rabbit is in a great hurry and has gone under the hedge.',
+  q67: 'The Dodo has laid out a course with no start and no finish. Run it.',
+  q68: 'A caterpillar on a mushroom has a question for you, and takes his time.',
+  q69: 'There is a table, a long one, and a cat in the tree who knows the way.',
+  q70: 'Three card-gardeners have painted the wrong roses. Help them hide it.',
+  q71: 'The Mock Turtle has lessons to share, and sorrows to go with them.',
+  q72: 'The mantelpiece mirror looks softer than it should. Alice has gone through it.',
+  q73: 'Two small men stand under a tree, and they would like to be argued with.',
+  q74: 'The White Queen’s shawl has come loose again. Pin it back, and mind the pin.',
+  q75: 'The White Knight is leaving. Walk him to the last brook.',
+  q76: 'Dr Warde has a room to share and needs showing to the right shop.',
+  q77: 'Mr Willet has a story about an office and a door. Come and look at it.',
+  q78: 'A battered hat and a cross goose want to go upstairs to Holmes.',
+  q79: 'Holmes is walking the hedge tonight, and has one question for Sparks.',
+  q80: 'Holmes needs a dog with a very good nose. Fetch Toby.',
+  q81: 'Chalk figures have appeared on the Workshop wall, the bridge and Fern’s gate. Copy them.',
+  q82: 'Holmes needs the length of a shadow. Measure the tree in the meadow.',
+  q83: 'A masked visitor needs help getting a photograph back.',
+  q84: 'Dusty has a story about the heath, and a walk to go with it.',
+  q85: 'Holmes has a plan involving bees and three hives. Help build them.',
+  q86: 'The Hodja has ended up on his donkey the wrong way round and would like a hand down.',
+  q87: 'The Hodja is at the Harvest Supper in his oldest coat, and people have noticed.',
+  q88: 'The Hodja’s donkey would carry your fruit, if you asked politely.',
+  q89: 'Byte’s big jam pan needs carrying to the Hodja, who has a story about it.',
+  q90: 'The Hodja thinks the moon has fallen into the well. Find him a rope and a hook.',
+  q91: 'A stall-keeper and a traveller have an argument about soup, and the Hodja is the judge.',
+  q92: 'The schoolhouse needs benches, and the Hodja is coming to speak.',
+  q93: 'The Hodja is counting his donkeys and keeps coming up one short.',
+  q94: 'The Hodja is up to something at the pond. Go and see.',
+  q95: 'Sparks and Pixel disagree, and both of them are right. Walk them to the Hodja.',
+};
+
+/** A quest's pitch: its own field, then the table, else null. */
+export function questPitch(quest: Quest): string | null {
+  return quest.pitch ?? QUEST_PITCHES[quest.id] ?? null;
+}
+
+/** A questline's pitch: its own field, then the table, else null. */
+export function linePitch(line: Storyline): string | null {
+  return line.pitch ?? LINE_PITCHES[line.id] ?? null;
+}
+
+/** The recap of spine chapter `n`, or null. */
+export function chapterRecap(n: number): string | null {
+  return CHAPTER_RECAPS[n] ?? null;
+}
+
+/** The recap of a line chapter, or null. */
+export function lineChapterRecap(lineId: string, n: number): string | null {
+  return LINE_CHAPTER_RECAPS[`${lineId}:${n}`] ?? null;
+}

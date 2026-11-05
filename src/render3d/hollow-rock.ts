@@ -9,8 +9,8 @@ import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
 import { tileLookOf } from '../render/paint/dungeon-tiles';
 import type { TileLook } from '../config/tuning-r10b1';
-import { FIELD_R10 } from '../config/tuning-r10b2';
 import { SectorIndex } from '../render/field-sectors';
+import { sectorSizeOf } from './hollow-sectors';
 import {
   CELL,
   WALL_H,
@@ -1089,7 +1089,12 @@ export class HollowRock implements HollowModule {
   }
 }
 
-/** A field is streamed by sector (R0147); dungeon floors and camps draw whole. */
+/**
+ * A field is streamed by sector (R0147, 32 cells); so is a big dungeon level (R0194, DUNG-51,
+ * 16 cells, `HOLLOW_PERF`): only the 3×3 sectors round the Keeper draw. Camps and small
+ * levels draw whole.
+ */
 function streamed(f: Floor): SectorIndex | null {
-  return f.zone === 'field' && FIELD_R10.stream ? new SectorIndex(f.cols, f.rows, FIELD_R10.sector) : null;
+  const size = sectorSizeOf(f);
+  return size ? new SectorIndex(f.cols, f.rows, size) : null;
 }

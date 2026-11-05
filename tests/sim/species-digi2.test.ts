@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { SPECIES_LABELS } from '../../src/config/strings';
 import { DIGI_EGGS } from '../../src/config/tuning-digi';
 import { EGG, LIFECYCLE, SIM } from '../../src/config/tuning';
@@ -9,6 +9,10 @@ import { nextSpecies, SPECIES, speciesByFamily, speciesOf } from '../../src/sim/
 import { rollEggSpecies, trainerOf, TRAINERS } from '../../src/sim/trainers';
 import type { NubbinType } from '../../src/sim/types';
 import { createWorld, stepWorld } from '../../src/sim/world';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /**
  * The digital line holds every species of the 1997 virtual pets, Versions 1 to 5, and

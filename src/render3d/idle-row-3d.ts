@@ -26,16 +26,25 @@ function tag(glyph: string): THREE.Sprite {
   c.width = c.height = 64;
   const ctx = c.getContext('2d');
   if (ctx) {
-    ctx.font = '48px sans-serif';
+    // A round cream bubble, so the emote reads on grass and sky alike.
+    ctx.fillStyle = '#fff6df';
+    ctx.strokeStyle = '#3b2a4a';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(32, 32, 29, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.font = '34px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(glyph, 32, 34);
+    ctx.fillStyle = '#000';
+    ctx.fillText(glyph, 32, 35);
   }
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
-  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }));
-  s.scale.setScalar(1);
-  s.position.set(0, 3.5, 0);
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, toneMapped: false }));
+  s.scale.setScalar(1.3);
+  s.position.set(0, 3.7, 0);
   s.visible = false;
   return s;
 }

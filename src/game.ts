@@ -1,12 +1,18 @@
+import { dungeonTapTarget } from './input/dungeon-tap';
+import { DUNGEON_TAP } from './config/tuning-dungeon-tap';
 import { setMotionPref } from './platform/motion';
 import { WalkFollow } from './render/camera-follow';
 import { easeShift, NO_SHIFT, type ViewShift } from './render/view-shift';
 import { VIEW_SHIFT } from './config/tuning';
 import { Vector3 } from 'three';
 import { REGIONS, regionHour } from './config/regions';
+import { regionLook } from './render/region-look';
+import { regionSky } from './sim/region-weather-live';
 import { regionOf } from './sim/regions';
+import { regionCameraFor } from './config/region-camera';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
+import { openTraces } from './sim/regions-trace';
 import { secretGlint } from './sim/world-hints';
 import { CAMERA, KEEPER, LANDMARK_HOLD, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
@@ -14,7 +20,9 @@ import { CameraControls } from './input/camera-controls';
 import {
   backupUnreadable,
   currentSlot,
+  noteSlotLoaded,
   readSave,
+  visitingProfile,
   watchOtherTabs,
   claimSlot,
   writeSave,
@@ -69,10 +77,18 @@ import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
 import { slotId } from './platform/storage';
+import { armPersistRequest } from './platform/persist';
 import { takeBackup, writeCheckpoint } from './platform/save-backups';
 import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
 import { currentChapterKeys } from './sim/chapter-select'; /* Lane C r11 (R0619) */
 import { playSoulSounds } from './ui/soul-sounds';
+import { playIris } from './ui/travel-iris';
+import { playSound } from './platform/audio';
+import { REGION_BORDER } from './config/tuning-r11d1';
+import { regionFar } from './render/region-host-px';
+
+/** R0094: the pale mist a fog spell greys the pixel picture toward. */
+const FOG_TINT = new Vector3(0.88, 0.92, 0.96);
 
 /** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
 function reduce0(reduce: boolean, dtMs: number, rate: number): number {
@@ -90,6 +106,11 @@ export interface GameHooks {
    * call it once the player has closed the screen.
    */
   onAway(report: AwayReport, closed: () => void): void;
+  /**
+   * R0620: a long break with no away screen (Aging while closed is off): the story recap may
+   * still follow. Optional.
+   */
+  onBreak?(elapsedMs: number): void;
   onSelect(id: string | null): void;
   onStorageBlocked(): void;
   /** Another tab saved this same slot; this tab has stopped autosaving over it. */
@@ -369,7 +390,16 @@ export class Game {
       this.weatherSid = sid;
       this.lastDaylightMs = -Infinity;
     }
-    const wk = resolveStage(this.world)?.stage.weather ? 'clear' : this.world.weather.kind;
+    // R0094/R0118: a drawn region has its own sky and season (sim/region-weather-live.ts).
+    const sky = regionSky(this.world, localHour());
+    regionLook.season = sky ? sky.season : null;
+    regionLook.fog = sky ? sky.fog : 0;
+    const wk = resolveStage(this.world)?.stage.weather
+      ? 'clear'
+      : sky
+        ? sky.draw
+        : this.world.weather.kind;
+    const wInt = sky ? sky.intensity : this.world.weather.intensity;
     const blending = this.hourBlend !== null;
     const clock =
       this.hourOverride ?? regionHour(REGIONS[regionOf(this.world.location)].clock, localHour());
@@ -382,6 +412,8 @@ export class Game {
     if (this.scene3d) {
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
+      this.scene3d.regionSky.fog = regionLook.fog;
+      this.scene3d.regionSky.intensity = wInt;
       this.scene3d.setDaylight(clock, d, this.world.location, wk, s.particles);
       return;
     }
@@ -397,14 +429,19 @@ export class Game {
     this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
       place === 'dungeon' || this.pixelGov?.sheds('weather') ? 'clear' : wk,
-      this.world.weather.intensity,
+      wInt,
       this.pixelGov ? this.pixelGov.particles(s.particles) : s.particles,
       reduce,
     );
     // Rain greys the grade a little; snow brightens and cools it.
     const w = wk;
-    const tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
-    const tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
+    let tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
+    let tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
+    if (regionLook.fog > 0) {
+      // A fog spell: the picture greys toward a pale mist.
+      tint = tint.clone().lerp(FOG_TINT, regionLook.fog);
+      tintAmount = Math.max(tintAmount, regionLook.fog * 0.6);
+    }
     this.lowRes.postPass?.apply({
       tint,
       tintAmount,
@@ -426,6 +463,11 @@ export class Game {
    * autosave then holds off, so the other copy survives until the player imports or resets.
    */
   private holdSaves = false;
+  /**
+   * R0669 (CAMP-77): another profile's Grove, open read-only. The world is frozen (no sim
+   * steps, no commands) and nothing is ever saved; a reload ends the visit.
+   */
+  readonly visiting = visitingProfile() !== null;
   /** A frame threw; nothing is saved until the player reloads, imports or resets. */
   private crashed = false;
   /** The save text that failed to load this session, for Settings to export. */
@@ -454,7 +496,9 @@ export class Game {
     const w = this.world;
     const k = w.keeper;
     const F = CAMERA_FOLLOW;
-    if (w.location !== 'grove' || runFloor(w)) this.groundY = 0;
+    // R11 d7: a drawn region's terraces carry the Keeper (its y is the ground there).
+    if (w.location.startsWith('region:') && !runFloor(w)) this.groundY = k.y;
+    else if (w.location !== 'grove' || runFloor(w)) this.groundY = 0;
     else {
       // The height Pixel draws the feet at; 3D keeps its own ground under the orbit target.
       const feet =
@@ -508,6 +552,18 @@ export class Game {
   private focus: { id: string; untilMs: number } | null = null;
   /** R0107: the camera holds still until this time after a landmark is found. */
   private landmarkHoldUntil = -Infinity;
+  /** R11 lane D: a loaded border's iris is playing. */
+  private exitPending = false;
+
+  private takeExit(exit: string): void {
+    if (this.exitPending) return;
+    this.exitPending = true;
+    playSound(REGION_BORDER.stepSound);
+    playIris(() => {
+      this.exitPending = false;
+      this.send({ kind: 'travel', exit });
+    });
+  }
   private hooks: GameHooks;
 
   constructor(
@@ -574,6 +630,7 @@ export class Game {
       },
       sparkle: (pos) => (s3 ?? this.view).sparkle(pos.x, pos.z),
       placing: () => this.placing,
+      survey: () => this.camera.survey,
       placeHover: (pos) => {
         this.placeHoverAt = pos;
       },
@@ -585,6 +642,9 @@ export class Game {
       haptic: (name) => void buzz(name, this.world.settings, this.reduceMotion),
       // HOT-3c: letting go of a hold-walk stops the Keeper where it stands.
       keeperPos: () => this.world.keeper.pos,
+      // R0192: underground a tap near a pack, shrine, stone or loot walks right to it.
+      dungeonSnap: (at) => dungeonTapTarget(this.world, at)?.pos ?? null,
+      holdReplanMs: () => (this.world.location === 'dungeon' ? DUNGEON_TAP.replanMs : null),
       // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
       pad: {
         coop: () => this.world.coop.active,
@@ -676,6 +736,13 @@ export class Game {
       try {
         const file = deserialize(json);
         const world = file.world;
+        // R0598 step 8: a unified slot counts its loads before its legacy key may go.
+        noteSlotLoaded();
+        if (visitingProfile() !== null) {
+          // A visit looks at the Grove as it was saved: no catch-up, nothing written.
+          this.pendingGapMs = 0;
+          return world;
+        }
         // A save with no timestamp has no gap to make up (review C, item 13); the catch-up
         // itself runs once the HUD is bound, so its indicator can paint (`catchUpOnLoad`).
         this.pendingGapMs = file.savedAtWallMs > 0 ? now - file.savedAtWallMs : 0;
@@ -751,6 +818,8 @@ export class Game {
             // player, not under this screen: the sim holds the checks until it closes.
             this.send({ kind: 'holdEndOfLife', hold: true });
             this.hooks.onAway(report, () => this.send({ kind: 'holdEndOfLife', hold: false }));
+          } else if (report.simulatedMs === 0) {
+            this.hooks.onBreak?.(elapsedMs);
           }
           break;
         }
@@ -778,7 +847,9 @@ export class Game {
    * Without IndexedDB nothing is kept and the game runs on.
    */
   private keepCheckpoints(events: SimEvent[], begun?: string[]): void {
-    if (this.holdSaves || this.crashed) return;
+    if (this.holdSaves || this.crashed || this.visiting) return;
+    // R0623 (CAMP-31): past the first chapter, ask the browser to keep the storage (once).
+    if (events.some((e) => e.kind === 'chapter' && e.chapter >= 2)) armPersistRequest();
     const keys = (begun ?? chapterKeysOf(events, this.world)).filter(
       (k) => !hasCheckpoint(this.world, k),
     );
@@ -793,7 +864,7 @@ export class Game {
   }
 
   save(): boolean {
-    if (this.holdSaves || this.catchingUp || this.crashed) {
+    if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
       this.lastSaveMs = performance.now();
       return false;
     }
@@ -828,6 +899,8 @@ export class Game {
   // ---------- commands ----------
 
   send(cmd: Command): void {
+    // R0669: a visit sends the sim nothing.
+    if (this.visiting) return;
     this.pending.push(cmd);
     for (const tap of commandTaps) tap(cmd); /* Lane E r9 */
   }
@@ -906,9 +979,10 @@ export class Game {
     const steps = this.clock.advance(dt);
     const events: SimEvent[] = [];
     const wall = Date.now();
-    if (this.catchingUp) {
-      // The world is mid catch-up: draw it, but hold steps and commands until it is done.
+    if (this.catchingUp || this.visiting) {
+      // The world is mid catch-up (or a visit, R0669): draw it, but hold steps and commands.
       this.clock.reset();
+      if (this.visiting) this.pending.length = 0;
     } else if (steps > 0 || this.pending.length > 0) {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
@@ -934,7 +1008,7 @@ export class Game {
     // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
     // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
     const kview = this.scene3d ?? this.view;
-    if (this.catchingUp || this.clock.timeScale !== 1) {
+    if (this.catchingUp || this.visiting || this.clock.timeScale !== 1) {
       this.keeperAccMs = 0;
       kview.keeperAlpha = null;
     } else {
@@ -968,7 +1042,17 @@ export class Game {
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
-        else if (e.kind === 'travelled') {
+        // R11 lane D (WORLD-39): a loaded border: a footstep and the iris, the trip at the
+        // dark moment; arriving anywhere cuts the follow to the Keeper's new spot.
+        else if (e.kind === 'exitReached') this.takeExit(e.exit);
+        else if (e.kind === 'regionEntered') {
+          this.camera.target.x = this.world.keeper.pos.x;
+          this.camera.target.z = this.world.keeper.pos.z;
+          // WORLD-56: the pixel camera's far plane reaches across the region's diagonal.
+          regionFar(this.camera.camera, e.region);
+          // R0094/R0118: the new place's sky and season show at once, not at the next 3 s check.
+          this.lastDaylightMs = -Infinity;
+        } else if (e.kind === 'travelled') {
           // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
           this.camera.target.x = e.to.x;
           this.camera.target.z = e.to.z;
@@ -1093,6 +1177,8 @@ export class Game {
       const on = phoneDefault(this.world.settings.surveyWhenRunning);
       this.camera.runTick(on && this.world.location === 'grove' && k.running && moving, nowMs);
     }
+    // R0125: the region's Pixel zoom steps (Full 3D reads its pitch and distance itself).
+    this.camera.setRegionZooms(regionCameraFor(regionOf(this.world.location)).zooms ?? null, nowMs);
     this.camera.update(nowMs);
     // MOVE-38: the collider, nav and ground-y overlays, only once a debug toggle was on.
     if (
@@ -1162,6 +1248,8 @@ export class Game {
       { kind: 'setTimeZone', offsetMin: -new Date().getTimezoneOffset() },
       [],
     );
+    // R0474: a load or a return from another tab is a new visit in the private diary.
+    applyCommand(this.world, { kind: 'diaryNote', what: 'session' }, []);
   }
 
   /** TECH-53: put the Pixel governor's shed level into the view: sway, daylight, frame height. */
@@ -1186,6 +1274,9 @@ export class Game {
       (c) => Math.hypot(c.x - k.x, c.z - k.z) <= COLLECT.sparkleRadius,
     );
     // R0111 (lane D r9): the Grove's secret nook twinkles while its Old Key is held.
+    for (const t of openTraces(this.world)) {
+      if (Math.hypot(t.x - k.x, t.z - k.z) <= COLLECT.sparkleRadius) near.push(t);
+    }
     const nook = secretGlint(this.world);
     if (nook) near.push(nook);
     if (!near.length) return;

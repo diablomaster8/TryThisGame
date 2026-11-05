@@ -62,7 +62,8 @@ export class BarkBubble {
     const npc =
       g.world.npcs.find((n) => n.id === this.npcId) ??
       g.world.nubbins.find((n) => n.id === this.npcId);
-    if (!npc || nowMs >= this.until) {
+    // R11 d7: nobody who stays home speaks over a drawn region (they are not there).
+    if (!npc || nowMs >= this.until || g.world.location.startsWith('region:')) {
       this.root.hidden = true;
       return;
     }

@@ -25,6 +25,9 @@ export class Joystick {
   private rimSince = 0;
   private autoRun = false;
   private enabled = false;
+  private atRim = false;
+  /** R0510: called once each time the thumb reaches the stick's edge (a haptic tick). */
+  onEdge: () => void = () => undefined;
 
   constructor(
     parent: HTMLElement,
@@ -64,6 +67,11 @@ export class Joystick {
   poll(): void {
     if (this.pointerId === null) return;
     const len = Math.hypot(this.stick.x, this.stick.y);
+    // R0510: one tick as the thumb reaches the rim; it re-arms once the thumb is well inside.
+    if (!this.atRim && len >= J.edgeAt) {
+      this.atRim = true;
+      this.onEdge();
+    } else if (this.atRim && len < J.edgeAt - 0.12) this.atRim = false;
     this.updateAutoRun(len);
     const w = stickToWorld(this.stick.x, this.stick.y, this.camera.currentYaw);
     if (Math.abs(w.x - this.sent.x) > 1e-4 || Math.abs(w.z - this.sent.z) > 1e-4) {
@@ -136,6 +144,7 @@ export class Joystick {
 
   private release(): void {
     this.pointerId = null;
+    this.atRim = false;
     this.stick = { x: 0, y: 0 };
     this.rimSince = 0;
     this.stopAutoRun();

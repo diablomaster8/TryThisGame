@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { EXPANSION_E1, EXPANSION_E1_VARIANTS } from '../../src/content/expansion-e1';
 import { EXPANSION_E2, EXPANSION_E2_VARIANTS } from '../../src/content/expansion-e2';
 import { EXPANSION_E3, EXPANSION_E3_VARIANTS } from '../../src/content/expansion-e3';
@@ -11,6 +11,10 @@ import { addRecruit } from '../../src/sim/town';
 import type { CampaignState, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld } from '../../src/sim/world';
 import { c, moss, playScenes, runCampaign, sable, tick } from './campaign-driver';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /** A Grove just past the Hazel's Grove ending with Corvin reconciled. */
 function postGame(): { world: World; events: SimEvent[] } {

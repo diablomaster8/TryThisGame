@@ -54,6 +54,7 @@ import { MicroScreen } from '../minigames/micro/micro-screen';
 import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
 import { DO_IT_BY, DOSSIER_TEXT } from '../config/strings-fun-r6';
 import { playLabel } from './journal-step';
+import { showSkipCard, stepSummary } from './skip-card';
 import { hashSeed } from '../sim/rng';
 
 /**
@@ -108,17 +109,17 @@ export class StoryShelf {
   private readonly micro: MicroScreen;
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly dialogue: Dialogue,
     private readonly toast: (text: string) => void,
     private readonly config: ShelfConfig,
   ) {
-    this.dialog = modal(parent, config.title, 'Close');
+    this.dialog = modal(this.parent, config.title, 'Close');
     this.body = el('div');
     this.dialog.body.appendChild(this.body);
     // R0294: the micro-games that stand in for a bare "Do it".
-    this.micro = new MicroScreen(parent);
+    this.micro = new MicroScreen(this.parent);
   }
 
   open(): void {
@@ -328,6 +329,8 @@ export class StoryShelf {
               const act = (): void => {
                 this.update(line, (pr, ctx) => lineAct(line, pr, ctx));
                 this.refresh();
+                // R0617: what the step did, once it is done (Play it or Imagine it).
+                if (step) showSkipCard(this.parent, next.quest.title, stepSummary(step));
               };
               // R0340 (FUN-51): a survive step is a real bout, fought by copies of the party.
               const survive = step ? parseSurvive(step.check) : null;

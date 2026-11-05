@@ -25,6 +25,7 @@ import { dress3dC4 } from './dress-c4';
 import { dress3dD4 } from './dress-d4';
 import { dress3dE4 } from './dress-e4';
 import { dress3dU4 } from './dress-u4';
+import { dress3dQuestMarkers } from './dress-quest-markers';
 
 /**
  * FULL 3D DRESSING REGISTRY (campaign graphics, wave 0). How a package adds story dressing
@@ -103,6 +104,7 @@ export const DRESSINGS_3D: readonly Dressing3d[] = [
   dress3dD4,
   dress3dE4,
   dress3dU4,
+  dress3dQuestMarkers,
 ];
 
 /** Runs the registry for one 3D scene: build once, update per frame, dispose at the end. */

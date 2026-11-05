@@ -33,6 +33,11 @@ export function boardCards(world: World): number {
   return n;
 }
 
+/** The sundial's face reads the ending: 1 dawn, 2 dusk, 3 both lines walked. */
+export function sundialFace(keeps: readonly string[]): number {
+  return (keeps.includes('line-dawn') ? 1 : 0) + (keeps.includes('line-dusk') ? 2 : 0) || 1;
+}
+
 function item(
   key: string,
   shape: DressShape,
@@ -64,6 +69,18 @@ function at(
 ): { x: number; z: number; yaw: number } | null {
   const m = typeof mark === 'string' ? markAt('grove', mark) : { ...mark, yaw: 0 };
   return m ? { x: m.x + off[0], z: m.z + off[1], yaw: m.yaw } : null;
+}
+
+/** Where the home Grove's notice board stands, or null when it is not up (before its chapter). */
+export function boardSpot(world: World): { x: number; z: number } | null {
+  const c = world.campaign;
+  const T = CAMP10D.props;
+  if (!c || c.chapter < T.boardFromChapter || world.location !== 'grove' || world.edu !== null)
+    return null;
+  const region = storyRegionHere(world);
+  if (region !== null && region !== 'fold') return null;
+  const p = at(T.groveBoard.mark, T.groveBoard.off);
+  return p && { x: p.x, z: p.z };
 }
 
 /** The notice board and Grove-change items standing now, in the home Grove only. */
@@ -103,6 +120,7 @@ export function camp10dDressItems(world: World, stage: SceneStage): DressItem[] 
     if (!keeps.includes(id)) continue;
     const mark = g.region ? STORY_REGIONS[g.region].at : g.mark;
     push(`grove-change-${id}`, g.shape, at(mark, g.off), {
+      n: g.shape === 'sundial' ? sundialFace(keeps) : 0,
       lit: g.lit,
       glint: g.glint,
       glintAt: g.glintAt,

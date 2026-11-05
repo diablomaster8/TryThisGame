@@ -17,6 +17,8 @@ import { journalView } from '../sim/storyline';
 import type { CampaignState, World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { eduJournal } from './journal';
+import { speakLine } from './lesson';
+import { CAMP12C_TEXT } from '../config/strings-camp12c';
 import { trackedObjectives } from './objective';
 
 const DAY_MS = 86_400_000;
@@ -89,6 +91,13 @@ export function lineRecap(line: CampaignState): string[] {
   return out;
 }
 
+/** What a sprout reader hears: the recap's blocks in order; nothing outside read-aloud sprout. */
+export function recapSpeech(g: Game, b: RecapBlocks): string[] {
+  const e = g.world.edu;
+  if (!e || e.band !== 'sprout' || !e.readAloud) return [];
+  return [...b.spine, ...b.lines, ...b.quests];
+}
+
 /** The recap card: three short blocks, Got it and Open journal. */
 export class RecapCard {
   private readonly dialog;
@@ -120,6 +129,12 @@ export class RecapCard {
     block(RECAP_TEXT.linesHead, b.lines);
     block(RECAP_TEXT.questsHead, b.quests);
     const row = el('div', 'journal-actions');
+    // R0620: in the Learning Grove's sprout band the recap is read aloud, and can be read again.
+    const speech = recapSpeech(g, b);
+    if (speech.length > 0) {
+      row.appendChild(button(CAMP12C_TEXT.recapRead, () => speakLine(speech.join(' ')), 'btn'));
+      speakLine(speech.join(' '));
+    }
     row.append(
       button(RECAP_TEXT.ok, () => this.dialog.hide(), 'btn btn-primary'),
       button(

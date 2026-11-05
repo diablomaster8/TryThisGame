@@ -8,6 +8,7 @@ import {
   questAreaKey,
   questProgress,
 } from '../sim/quest-offers';
+import { fitProgress } from '../sim/quest-minutes';
 import { regionOf } from '../sim/regions';
 import { sideStory } from '../sim/story-scenes';
 import { areaName } from './offer-card';
@@ -66,7 +67,7 @@ export function renderBoard(g: Game, body: HTMLElement, refresh: () => void): vo
     const tag = isFunQuestCode(quest.code) ? OFFER_TEXT.caper : OFFER_TEXT.story;
     row.appendChild(el('div', 'roster-line', `${quest.title} · ${tag}`));
     // R0635: how far along it is, or how long it is before it starts.
-    const prog = questProgress(g.world, id);
+    const prog = fitProgress(id, questProgress(g.world, id));
     const size = prog
       ? OFFER_TEXT.stepOf(prog.step, prog.of, prog.minutesLeft)
       : OFFER_TEXT.steps(quest.steps.length);

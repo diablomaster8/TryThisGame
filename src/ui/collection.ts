@@ -29,6 +29,7 @@ import { allKeys, BOOK_TABS, tabOf, tabProgress, type BookTab } from '../sim/col
 import { createEgg } from '../sim/nubbin';
 import { Rng } from '../sim/rng';
 import type { AlignmentBand, Memorial, Nubbin, NubbinType, World } from '../sim/types';
+import { POSTCARD_NOTES } from '../config/strings-r11d6';
 import type { CollectibleKind } from '../config/region-collectibles';
 import type { RegionId } from '../config/regions';
 import { WORLD_TEXT } from '../config/strings-world';
@@ -539,7 +540,11 @@ export function keepsakeToast(
   if (e.kind === 'collectionSetDone') return WORLD_TEXT.keepsakeSet[e.what];
   const region = e.id.split(':')[0] as RegionId;
   const t = world ? tally(world, region, e.what) : { got: 1, of: 1 };
-  return WORLD_TEXT.keepsakeFound(WORLD_TEXT.keepsake[e.what][0], t.got, t.of);
+  const found = WORLD_TEXT.keepsakeFound(WORLD_TEXT.keepsake[e.what][0], t.got, t.of);
+  // R0091: a lost postcard also shows what it says.
+  const note =
+    e.what === 'postcard' ? POSTCARD_NOTES[region]?.[Number(e.id.split(':')[2]) - 1] : undefined;
+  return note ? `${found} ${note}` : found;
 }
 
 /** R0091: a region's collectible counts as one line ("Petals 7/12 · Postcards 1/3 · Keys 0/1"). */

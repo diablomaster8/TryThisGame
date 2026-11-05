@@ -1,7 +1,34 @@
 // Animation clips shared by every sprite sheet. Frame keys are `${clip}:${angle}:${index}`.
 
 export type ClipName =
-  'idle' | 'walk' | 'happy' | 'sad' | 'sleep' | 'eat' | 'swim' | 'flap' | 'love' | 'tumble';
+  | 'idle'
+  | 'walk'
+  | 'happy'
+  | 'sad'
+  | 'sleep'
+  | 'eat'
+  | 'swim'
+  | 'flap'
+  | 'love'
+  | 'tumble'
+  | BattleClipName;
+
+/** R0239: the battle verbs, drawn for the front and side angles only (the stage shows the side). */
+export const BATTLE_CLIP_NAMES = [
+  'windup',
+  'bonk',
+  'splash',
+  'hit',
+  'dodge',
+  'cheer',
+  'tuckered',
+  'wave',
+] as const;
+export type BattleClipName = (typeof BATTLE_CLIP_NAMES)[number];
+export const BATTLE_CLIP_ANGLES = ['front', 'side'] as const;
+export function isBattleClip(c: string): c is BattleClipName {
+  return (BATTLE_CLIP_NAMES as readonly string[]).includes(c);
+}
 
 export interface Clip {
   frames: number;
@@ -22,6 +49,14 @@ export const CLIPS: Record<ClipName, Clip> = {
   // Parity with the 3D poses: a bashful sway with blushing cheeks, and a head-over-heels roll.
   love: { frames: 2, ms: 260, loop: true },
   tumble: { frames: 4, ms: 90, loop: true },
+  windup: { frames: 2, ms: 160, loop: false },
+  bonk: { frames: 2, ms: 110, loop: false },
+  splash: { frames: 2, ms: 140, loop: false },
+  hit: { frames: 1, ms: 300, loop: false },
+  dodge: { frames: 2, ms: 130, loop: false },
+  cheer: { frames: 2, ms: 220, loop: true },
+  tuckered: { frames: 2, ms: 600, loop: false },
+  wave: { frames: 2, ms: 240, loop: true },
 };
 
 export const CLIP_NAMES = Object.keys(CLIPS) as ClipName[];

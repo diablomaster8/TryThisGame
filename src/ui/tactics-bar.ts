@@ -85,11 +85,15 @@ export class TacticsBar {
     this.hint.hidden = !this.hint.textContent;
   }
 
+  /** Called every frame: writes only changes, since a rewritten `disabled` restyles the page. */
   state(o: { moved: boolean; acted: boolean; canUndo: boolean; goReady: boolean }): void {
-    this.buttons.move.disabled = o.moved;
-    this.buttons.act.disabled = o.acted;
-    this.buttons.undo.disabled = !o.canUndo;
-    this.buttons.go.disabled = !o.goReady;
+    const set = (b: HTMLButtonElement, off: boolean) => {
+      if (b.disabled !== off) b.disabled = off;
+    };
+    set(this.buttons.move, o.moved);
+    set(this.buttons.act, o.acted);
+    set(this.buttons.undo, !o.canUndo);
+    set(this.buttons.go, !o.goReady);
   }
 
   /** The 2×2 sheet of the unit's moves (up to four, plus a champion's fifth). */

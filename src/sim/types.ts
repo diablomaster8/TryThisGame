@@ -198,6 +198,8 @@ export interface Nubbin {
   /** Hidden -1..1. */
   alignment: number;
   personality: Personality | null;
+  /** R0121 (R11 d8): the regions it has been to as a partner, for the one-time first-visit lean. */
+  regionsSeen?: string[];
   /** How it was treated as a child; decides the personality at evolution. */
   childCare: {
     pets: number;
@@ -566,6 +568,8 @@ export interface QuestBook {
   areaOfferMs?: Record<string, number>;
   /** Lane C r11 (R0641): quests with a step skipped or imagined, with how many; no leaf mark. */
   skippedSteps?: Record<string, number>;
+  /** Lane C r12 (R0651): the giver walking up to the Keeper; the card waits for it. */
+  approach?: { quest: string; giver: string; startMs: number };
   /** Lane C r11 (R0651): sim ms of the last arrival beat, for its cap. */
   lastBeatMs?: number;
   /** Lane C r11 (R0640): lines whose region pitch card has been shown, once ever. */
@@ -890,7 +894,14 @@ export interface PlacedDecor {
 }
 
 /** The home Grove, the story places, or a neighbour's Grove (`visit:<trainer>`). */
-export type Location = 'grove' | 'hollow' | 'corvin' | 'dungeon' | `visit:${string}`;
+export type Location =
+  | 'grove'
+  | 'hollow'
+  | 'corvin'
+  | 'dungeon'
+  | `visit:${string}`
+  // R11 lane D: a drawn region beyond the Grove (`sim/region-walk.ts`), e.g. `region:wood`.
+  | `region:${string}`;
 
 /** What lies on a Hollow floor. */
 export type DungeonLootKind = 'shells' | 'stone' | 'seed' | 'essence' | 'critter' | 'egg';
@@ -1007,6 +1018,8 @@ export interface DungeonRun {
    * step out of before it starts again (after a loss, or a start nobody could fight).
    */
   rumble?: { done: string[]; wait?: string };
+  /** R0260: the depth-5 guardian hall's calmed levels, and the one to step out of first. */
+  guardian?: { done: string[]; wait?: string };
   /** R0281: a stray that bumped the Keeper waits this long for Calm or a snack. */
   strayAsk?: { id: string; leftMs: number };
   /** R0281: the calm bout under way (`bout` is `world.battleRuns` when it began). */
@@ -1263,6 +1276,8 @@ export interface World {
   tzOffsetMin?: number;
   /** Lane C r10 agent B (R0649): the slot's own name and colour tag, set on the title. */
   slotLabel?: SlotLabel;
+  /** R0474 (TECH-32): the private on-device play diary (sim/grove-diary.ts). Never sent anywhere. */
+  diary?: import('./grove-diary').Diary;
   rngState: number;
   /** Sim time in ms since the world was created. */
   timeMs: number;
@@ -1401,6 +1416,10 @@ export interface World {
   landmarks: Record<string, number>;
   /** R0091: one-time collectibles picked up, id → sim time (absent in older saves). */
   collected?: Record<string, number>;
+  /** R0120 (R11 d8): how many times each region critter spot was taken (absent in older saves). */
+  critterTakes?: Record<string, number>;
+  /** R0110 (R11 d8): how long a partner has leaned on each closed gate, ms (absent in older saves). */
+  gateTries?: Record<string, number>;
   /** R0127 (lane D r9): world hints already shown, hint id → sim time (absent in older saves). */
   hintsSeen?: Record<string, number>;
   /** R0111 (lane D r9): region secrets found, region → sim time (absent in older saves). */
@@ -1588,6 +1607,8 @@ export type Command =
   | { kind: 'setSettings'; settings: Settings }
   /** TECH-45: the device's time zone, minutes east of UTC. */
   | { kind: 'setTimeZone'; offsetMin: number }
+  /** R0474: the diary hears a new session start, a panel open or a skipped scene. */
+  | { kind: 'diaryNote'; what: 'session' | 'skip' | 'loopSkip' | { panel: string } }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   /** The UI holds waiting end-of-life checks while the away screen is open. */
@@ -1596,6 +1617,8 @@ export type Command =
   | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence' | 'egg'; amount: number }
   // R0118 (lane D r9): force a season for checks (null goes back to the calendar)
   | { kind: 'debugSeason'; season: Season | null }
+  /** TECH-47: the World editor sets one leaf by path (sim/debug-set.ts checks the type). */
+  | { kind: 'debugSet'; path: string[]; value: unknown }
   | { kind: 'debugFillNeeds'; nubbinId: string }
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }
@@ -1627,6 +1650,7 @@ export type Command =
   // Lane C round 8 (R0602): the Open quest flow. Accept may name an active quest to shelve.
   | { kind: 'questAccept'; id: string; shelve?: string }
   | { kind: 'questDecline'; id: string }
+  | { kind: 'questHelp'; id: string }
   | { kind: 'questShelve'; id: string }
   | { kind: 'questTrack'; id: string; on: boolean }
   // Lane C r11 (R0640): a line's region pitch card was shown; it is never pitched again.
@@ -2033,6 +2057,7 @@ export type SimEvent =
   // Lane C round 8 (R0602): an area entered, an offer made, and accepting at the cap.
   | { kind: 'areaEntered'; area: string }
   | { kind: 'questOffered'; quest: string; area: string }
+  | { kind: 'questHelped'; quest: string }
   | { kind: 'questAtCap'; quest: string; active: string[] }
   // Lane C r9: a windowed offer passed (R0652); a line's rewards (R0639); its cast's choice (R0594).
   | { kind: 'questExpired'; quest: string; lapsed: boolean }
@@ -2069,6 +2094,8 @@ export type SimEvent =
   | { kind: 'karate'; nubbinId: string; won: boolean; belt: number }
   | { kind: 'located'; location: Location }
   | { kind: 'regionEntered'; region: string }
+  // R11 lane D (WORLD-39): the Keeper walked into a loaded exit; the game irises, then travels.
+  | { kind: 'exitReached'; exit: string }
   | { kind: 'regionDiscovered'; region: string }
   | { kind: 'travelRefused'; exit: string; reason: string }
   /** Lane C r10 agent A (R0605, R0640): a questline region entered, left, refused or newly open. */
@@ -2080,6 +2107,14 @@ export type SimEvent =
   | { kind: 'storyRegionOpened'; region: string }
   /** R0091: a one-time collectible was picked up, and a region's set of a kind finished. */
   | { kind: 'keepsakeFound'; id: string; what: 'petal' | 'postcard' | 'key' }
+  /** R0090: the Keeper walked up to a world trace (a small remembered thing) for the first time. */
+  | { kind: 'traceFound'; id: string }
+  /** R0138: the Keeper stepped onto a photo spot (`first`: the first time ever). */
+  | { kind: 'photoSpot'; region: string; first: boolean }
+  /** R0120: a region's critter was taken. R0110: a gate gave way. R0121: a partner reacts to a new place. */
+  | { kind: 'regionCritter'; region: string; species: string }
+  | { kind: 'gateOpened'; region: string; id: string }
+  | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }
   | { kind: 'secretFound'; region: string }
@@ -2231,6 +2266,8 @@ export type SimEvent =
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
+  /** R0260: the floor-5 guardian's hall: the bout starts, is lost, or is won. */
+  | { kind: 'guardianHall'; phase: 'start' | 'lost' | 'won' }
   // Lane B round 4: act camps and fields (R0147, R0152).
   | { kind: 'stashMoved'; amount: number }
   | { kind: 'townBought'; item: 'fruit' }

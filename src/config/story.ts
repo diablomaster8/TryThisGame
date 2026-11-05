@@ -243,6 +243,8 @@ export interface Chapter {
    * and ticks it off when the step's event (a sim event kind) happens.
    */
   howTo?: readonly ChapterStep[];
+  /** R0646: what happened in this chapter, in the past tense; else `content/pitches.ts`. */
+  recap?: string;
   closing: string;
 }
 

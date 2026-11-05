@@ -988,6 +988,7 @@ function gasShell(at: THREE.Vector3, radius: number, tint: string): ExtrasHook {
     const gas = new THREE.Mesh(geo, mat);
     gas.renderOrder = 2;
     gas.frustumCulled = false;
+    gas.userData.ownWorld = true;
     head.add(gas);
     const centre = new THREE.Vector3();
     const scale = new THREE.Vector3();

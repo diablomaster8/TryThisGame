@@ -30,6 +30,8 @@ import {
   writeLive,
 } from './live-store';
 import { archiveAllUnreadable, archiveUnreadable, putWithRoom, warnIfBig } from './save-room';
+import { noteUnifiedLoad, readKey, unifiedActive, writeKey } from './unified-keys';
+import { lastProfile } from './profiles';
 
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
 
@@ -72,13 +74,78 @@ export interface SaveSlot {
 }
 
 /**
- * R0626 (CAMP-34): who is playing. Until profiles have a picker, the Learning Grove's
- * slots are the child profile `k1` and every other slot is the Keeper profile `p1`.
+ * R0626 (CAMP-34): who is playing. The Learning Grove's slots are the child profile `k1`;
+ * every other slot belongs to the Keeper profile picked on the title (R0653, `p1` until one
+ * is picked). Other Keeper profiles have slots only once the unified slots are on.
  */
 export type ProfileId = string;
 
+let keeper: ProfileId = 'p1';
+/** R0669: another profile's Grove open read-only, or null. */
+let visiting: ProfileId | null = null;
+
 export function profileOf(slot: SaveSlot): ProfileId {
-  return slot.mode === 'edu' ? 'k1' : 'p1';
+  return slot.mode === 'edu' ? 'k1' : keeper;
+}
+
+/** The Keeper profile whose slots the title and the game use. */
+export function keeperProfile(): ProfileId {
+  return keeper;
+}
+
+/**
+ * R0653: play as another Keeper profile. The slot index is rebuilt for it, so the title shows
+ * that profile's slots. Without the unified slots only `p1` exists.
+ */
+export function setKeeperProfile(id: ProfileId): void {
+  const next = /^p\d+$/.test(id) && (id === 'p1' || unifiedActive()) ? id : 'p1';
+  if (next === keeper && indexProfileMatches()) return;
+  keeper = next;
+  try {
+    rebuildSlotIndex();
+  } catch {
+    // Blocked storage: no index either.
+  }
+}
+
+/**
+ * R0669 (CAMP-77): open another profile's slots read-only. While a visit is on, slots read
+ * from that profile and every write (saves, erases, side saves) is refused, so neither save
+ * changes. A reload ends it (it is never stored).
+ */
+export function beginVisit(profile: ProfileId): boolean {
+  if (!unifiedActive() || !/^p\d+$/.test(profile) || profile === keeper) return false;
+  visiting = profile;
+  return true;
+}
+
+export function endVisit(): void {
+  visiting = null;
+}
+
+export function visitingProfile(): ProfileId | null {
+  return visiting;
+}
+
+/** The profile a slot is read from (a visit reads the visited Keeper's). */
+function readerOf(slot: SaveSlot): ProfileId {
+  return visiting && slot.mode !== 'edu' ? visiting : profileOf(slot);
+}
+
+/** R0598: a slot's key in a given profile, for reading or (claiming a free slot) writing. */
+export function slotKeyFor(profile: ProfileId, slot: SaveSlot, write = false): string {
+  const raw = legacySlotKey(slot);
+  return write ? writeKey(profile, raw) : readKey(profile, raw);
+}
+
+/** R0669: a slot's summary in another profile (the title's Visit list). */
+export function readSlotSummaryOf(profile: ProfileId, slot: SaveSlot): SaveSummary | null {
+  try {
+    const json = getSlotJson(slotKeyFor(profile, slot));
+    return json === null ? null : summarize(json);
+  } catch {
+    return null;
+  }
 }
 
 export function isChildProfile(profile: ProfileId): boolean {
@@ -112,6 +179,11 @@ export function readSlotJson(slot: SaveSlot): string | null {
 function putSlotJson(key: string, json: string): boolean {
   warnIfBig(key, json);
   if (belongsInIdb(json)) {
+    // R0668: the autosave on hide must survive the tab being killed before IndexedDB
+    // answers, so a hidden page also writes the full text now (a stall nobody sees); the
+    // pointer replaces it once IndexedDB holds the save.
+    if (typeof document !== 'undefined' && document.hidden)
+      putWithRoom(() => localStorage.setItem(key, json));
     void writeLive(key, json, (stub) => {
       putWithRoom(() => localStorage.setItem(key, stub));
     }).then((ok) => {
@@ -124,6 +196,24 @@ function putSlotJson(key: string, json: string): boolean {
   return putWithRoom(() => localStorage.setItem(key, json));
 }
 
+/** R0598: a save under any storage key, pointer resolved (null when empty or blocked). */
+export function readKeyJson(key: string): string | null {
+  try {
+    return getSlotJson(key);
+  } catch {
+    return null;
+  }
+}
+
+/** R0598: write a save under a storage key as a slot write does (room, big saves). */
+export function writeKeyJson(key: string, json: string): boolean {
+  try {
+    return putSlotJson(key, json);
+  } catch {
+    return false;
+  }
+}
+
 const LEGACY_KEYS: Record<SaveMode, string> = {
   free: 'grove.save.v1',
   campaign: 'grove.save.campaign',
@@ -134,18 +224,35 @@ const LEGACY_KEYS: Record<SaveMode, string> = {
   dawndusk: 'grove.save.dawndusk',
 };
 
-export function slotKey(slot: SaveSlot): string {
+/** A slot's own key, as before the unified slots (the migration and the archive use it). */
+export function legacySlotKey(slot: SaveSlot): string {
   const index = clampIndex(slot);
   return index === 1 ? LEGACY_KEYS[slot.mode] : `grove.save.${slot.mode}.${index}`;
 }
 
+/**
+ * The key a slot is read from: its legacy key, or (R0598, once the unified slots are on) the
+ * unified slot that holds it in the profile playing (or visited).
+ */
+export function slotKey(slot: SaveSlot): string {
+  return slotKeyFor(readerOf(slot), slot);
+}
+
+/** The key a write to `slot` goes to (an unmapped slot claims a free unified slot first). */
+function writeSlotKey(slot: SaveSlot): string {
+  return slotKeyFor(profileOf(slot), slot, true);
+}
+
 let current: SaveSlot = { mode: 'free', index: 1 };
-let SAVE_KEY = slotKey(current);
+
+/** The key of the slot in play, worked out each time: a first write may move it (R0598). */
+function saveKey(): string {
+  return slotKey(current);
+}
 
 /** Which save the game reads and writes. */
 export function setSaveSlot(slot: SaveSlot): void {
   current = { mode: slot.mode, index: slot.index };
-  SAVE_KEY = slotKey(current);
 }
 
 export function currentSlot(): SaveSlot {
@@ -160,8 +267,14 @@ export function hasSave(slot: SaveSlot): boolean {
   }
 }
 
-function mirrorKey(slot: SaveSlot): string {
-  return `${slot.mode}:${clampIndex(slot)}`;
+/**
+ * A slot's id for the mirror, the index, backups and checkpoints: `mode:index` for `p1` and
+ * `k1` (as always), `<profile>/mode:index` for any other profile (R0653), so two Keepers'
+ * Slot 1 never share a mirror or a checkpoint.
+ */
+function mirrorKey(slot: SaveSlot, profile: ProfileId = readerOf(slot)): string {
+  const id = `${slot.mode}:${clampIndex(slot)}`;
+  return profile === 'p1' || profile === 'k1' ? id : `${profile}/${id}`;
 }
 
 /**
@@ -170,18 +283,26 @@ function mirrorKey(slot: SaveSlot): string {
  */
 export async function restoreFromMirror(): Promise<number> {
   let restored = 0;
+  // R0598: the unified slots (if the move has run) are mapped before any slot is read.
+  const unified = await import('./migrate-unified').catch(() => null);
+  unified?.activateIfMoved();
+  setKeeperProfile(lastProfile());
   await bootStores();
   try {
     for (const { key, json } of await mirrorReadAll()) {
-      const [mode, idx] = key.split(':');
+      const [owner, id] = key.includes('/') ? key.split('/', 2) : [null, key];
+      const [mode, idx] = (id ?? '').split(':');
       const index = Number(idx);
       if (!mode || !(mode in LEGACY_KEYS) || !Number.isInteger(index)) continue;
+      const slot = { mode: mode as SaveMode, index };
+      const profile = owner ?? (mode === 'edu' ? 'k1' : 'p1');
+      // Another Keeper's mirror needs that Keeper's slots, which exist only when mapped.
+      if (owner && !unifiedActive()) continue;
       try {
-        const lsKey = slotKey({ mode: mode as SaveMode, index });
-        if (newerCopy(getSlotJson(lsKey), json) === 'mirror') {
-          localStorage.setItem(lsKey, json);
+        if (newerCopy(getSlotJson(slotKeyFor(profile, slot)), json) === 'mirror') {
+          localStorage.setItem(slotKeyFor(profile, slot, true), json);
           restored += 1;
-          indexWritten({ mode: mode as SaveMode, index }, json, false);
+          if (profile === profileOf(slot)) indexWritten(slot, json, false);
         }
       } catch {
         // Blocked localStorage: nothing to restore into.
@@ -190,10 +311,22 @@ export async function restoreFromMirror(): Promise<number> {
   } catch {
     // No mirror.
   }
+  // R0598 stage B: the move itself (once), then keeping the copies current and step 8.
+  if (unified) {
+    try {
+      if (await unified.bootUnified(Date.now())) {
+        await bootStores();
+        rebuildSlotIndex();
+      }
+    } catch {
+      // The legacy keys still hold every save; the game plays them.
+    }
+  }
   return restored;
 }
 
 export function clearSlot(slot: SaveSlot): boolean {
+  if (visiting) return false;
   mirrorDelete(mirrorKey(slot));
   dropLive(slotKey(slot));
   void dropSlotStores(mirrorKey(slot));
@@ -209,9 +342,10 @@ export function clearSlot(slot: SaveSlot): boolean {
 /** Copy one slot's save over another (same mode or not). */
 export function copySlot(from: SaveSlot, to: SaveSlot): boolean {
   try {
+    if (visiting) return false;
     const json = getSlotJson(slotKey(from));
     if (json === null) return false;
-    if (!putSlotJson(slotKey(to), json)) return false;
+    if (!putSlotJson(writeSlotKey(to), json)) return false;
     mirrorWrite(mirrorKey(to), json);
     indexWritten(to, json, false);
     return true;
@@ -226,7 +360,8 @@ export function copySlot(from: SaveSlot, to: SaveSlot): boolean {
  */
 export function writeSlotFrom(to: SaveSlot, json: string): boolean {
   try {
-    if (!putSlotJson(slotKey(to), json)) return false;
+    if (visiting) return false;
+    if (!putSlotJson(writeSlotKey(to), json)) return false;
     mirrorWrite(mirrorKey(to), json);
     indexWritten(to, json, false);
     return true;
@@ -369,15 +504,22 @@ export function storylineFinished(mode: SaveMode, id: string): boolean {
 
 export function readSave(): string | null {
   try {
-    return getSlotJson(SAVE_KEY);
+    return getSlotJson(saveKey());
   } catch {
     return null;
   }
 }
 
+/** R0598 step 8: the slot in play loaded into a game (counted only for a unified slot). */
+export function noteSlotLoaded(): number {
+  return visiting ? 0 : noteUnifiedLoad(saveKey());
+}
+
 export function writeSave(json: string): boolean {
   try {
-    if (!putSlotJson(SAVE_KEY, json)) return false;
+    // R0669: a visit never writes the Grove it looks at.
+    if (visiting) return false;
+    if (!putSlotJson(writeSlotKey(current), json)) return false;
     mirrorWrite(mirrorKey(current), json);
     indexWritten(current, json, true);
     backupOnWrite(mirrorKey(current), json, Date.now());
@@ -388,6 +530,8 @@ export function writeSave(json: string): boolean {
 }
 
 export function clearSave(): boolean {
+  if (visiting) return false;
+  const SAVE_KEY = saveKey();
   mirrorDelete(mirrorKey(current));
   dropLive(SAVE_KEY);
   // A reset keeps the backups (a mis-tap can be undone) but its chapters start over.
@@ -410,11 +554,15 @@ export function clearSave(): boolean {
  * reload of the same broken save does not push an older copy out.
  */
 export function unreadableKey(slot: SaveSlot, n: number): string {
-  return `${slotKey(slot)}.unreadable.${n}`;
+  // `p1` and `k1` keep their copies beside the legacy key, where older copies already are.
+  const profile = readerOf(slot);
+  const base = profile === 'p1' || profile === 'k1' ? legacySlotKey(slot) : slotKey(slot);
+  return `${base}.unreadable.${n}`;
 }
 
 /** Keep `json` as the newest unreadable copy for `slot`. False when storage refused it. */
 export function backupUnreadable(slot: SaveSlot, json: string): boolean {
+  if (visiting) return false;
   try {
     if (localStorage.getItem(unreadableKey(slot, 1)) === json) return true;
     for (let n = SAVE_SAFETY.unreadableKept; n > 1; n--) {
@@ -471,7 +619,7 @@ export function modeOfWorld(world: {
 export function watchOtherTabs(onChange: () => void): () => void {
   const listener = (e: StorageEvent): void => {
     // A null key means another tab cleared all of storage.
-    if (e.key === SAVE_KEY || e.key === null) onChange();
+    if (e.key === saveKey() || e.key === null) onChange();
   };
   window.addEventListener('storage', listener);
   return () => window.removeEventListener('storage', listener);
@@ -485,7 +633,8 @@ export function watchOtherTabs(onChange: () => void): () => void {
  * still covers it.
  */
 export function claimSlot(onTaken: () => void): () => void {
-  if (typeof BroadcastChannel === 'undefined') return () => undefined;
+  // A visit only looks: the owner's tab keeps its slot.
+  if (visiting || typeof BroadcastChannel === 'undefined') return () => undefined;
   let channel: BroadcastChannel;
   try {
     channel = new BroadcastChannel('grove-slots');
@@ -494,10 +643,10 @@ export function claimSlot(onTaken: () => void): () => void {
   }
   const me = `${Date.now()}-${Math.floor(performance.now() * 1000)}`;
   channel.onmessage = (e: MessageEvent<{ key?: string; from?: string }>) => {
-    if (e.data?.key === SAVE_KEY && e.data.from !== me) onTaken();
+    if (e.data?.key === saveKey() && e.data.from !== me) onTaken();
   };
   try {
-    channel.postMessage({ key: SAVE_KEY, from: me });
+    channel.postMessage({ key: saveKey(), from: me });
   } catch {
     // A closed or unavailable channel leaves the storage-event watch in charge.
   }
@@ -506,7 +655,7 @@ export function claimSlot(onTaken: () => void): () => void {
 
 export function storageAvailable(): boolean {
   try {
-    const probe = `${SAVE_KEY}.probe`;
+    const probe = `${saveKey()}.probe`;
     localStorage.setItem(probe, '1');
     localStorage.removeItem(probe);
     return true;
@@ -560,6 +709,8 @@ const RESUME_KEY = 'grove.resume';
  * to it instead of the title. Session storage: it never outlives the tab.
  */
 export function markResumeSlot(slot: SaveSlot): void {
+  // A visit is never resumed: the reload would land in the visitor's own slot.
+  if (visiting) return;
   try {
     sessionStorage.setItem(RESUME_KEY, JSON.stringify(slot));
   } catch {
@@ -654,6 +805,7 @@ export function readSide(which: SideSave): string | null {
 
 export function writeSide(which: SideSave, json: string): boolean {
   const profile = profileOf(current);
+  if (visiting) return false;
   if (!sideAllowed(which, profile)) return false;
   try {
     localStorage.setItem(profileSideKey(which, profile), json);
@@ -665,6 +817,7 @@ export function writeSide(which: SideSave, json: string): boolean {
 
 export function clearSide(which: SideSave): boolean {
   const profile = profileOf(current);
+  if (visiting) return false;
   try {
     localStorage.removeItem(profileSideKey(which, profile));
     // Else the old device-wide save would show through again.
@@ -741,7 +894,11 @@ const ALL_MODES = Object.keys(LEGACY_KEYS) as SaveMode[];
 /** At boot: big saves into memory (R0668), unreadable copies into IndexedDB (R0623). */
 async function bootStores(): Promise<void> {
   try {
-    const entries = slotKeysOf(ALL_MODES).map(({ key }) => {
+    // The legacy keys too: the unified move and its catch-up read them (R0598).
+    const keys = new Set(
+      slotKeysOf(ALL_MODES).flatMap(({ slot, key }) => [key, legacySlotKey(slot)]),
+    );
+    const entries = [...keys].map((key) => {
       try {
         return { key, raw: localStorage.getItem(key) };
       } catch {
@@ -790,9 +947,26 @@ function indexCleared(slot: SaveSlot): void {
   if (index) storeIndex(withEntry(index, slotId(slot), null));
 }
 
+const INDEX_PROFILE_KEY = 'grove.index.profile';
+
+/** Was the slot index built for the Keeper profile in play (none recorded means `p1`). */
+function indexProfileMatches(): boolean {
+  try {
+    return (localStorage.getItem(INDEX_PROFILE_KEY) ?? 'p1') === keeper;
+  } catch {
+    return true;
+  }
+}
+
 /** Scan every slot's save and write a fresh index (the index was missing or broken). */
 export function rebuildSlotIndex(): SlotIndex {
   let index = emptyIndex();
+  // R0653: the index holds the slots of one Keeper profile; this says which.
+  try {
+    localStorage.setItem(INDEX_PROFILE_KEY, keeper);
+  } catch {
+    // Blocked: the index cannot be written either.
+  }
   for (const mode of Object.keys(LEGACY_KEYS) as SaveMode[]) {
     for (let index_ = 1; index_ <= slotsFor(mode); index_++) {
       const slot = { mode, index: index_ };
@@ -821,6 +995,7 @@ export function readSlotIndex(): SlotIndex {
  */
 export function labelSlot(slot: SaveSlot, label: SlotLabel | null): boolean {
   try {
+    if (visiting) return false;
     const key = slotKey(slot);
     const json = getSlotJson(key);
     if (json === null) return false;

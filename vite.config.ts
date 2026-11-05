@@ -3,7 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from '
 import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
-import { TOOL_FILES, UNIT_FILES } from './tests/test-projects';
+import { ISOLATED_FILES, TOOL_FILES, UNIT_FILES } from './tests/test-projects';
 import { TIMING_BUDGET } from './src/config/tuning-sim';
 
 // BASE_PATH is set by the GitHub Pages workflow to "/<repo-name>/".
@@ -65,6 +65,42 @@ function woff2Only(): Plugin {
         css = css.replace(/\/\* klee-one-(?!\[\d+\])[^*]*\*\/\s*@font-face\s*\{[^}]*\}\s*/g, '');
       }
       return css;
+    },
+  };
+}
+
+/**
+ * R0446 (TECH-04, r11-d3): lists the source modules in the eager graph (the entry chunk and
+ * every chunk it imports statically) in `dist/.vite/eager-modules.json`, so
+ * `npm run check:bundle` can fail when a Full 3D module leaks into what every player loads.
+ */
+function eagerModules(): Plugin {
+  return {
+    name: 'eager-modules',
+    apply: 'build',
+    generateBundle(_options, bundle) {
+      const chunks = Object.values(bundle).filter((c) => c.type === 'chunk');
+      const byName = new Map(chunks.map((c) => [c.fileName, c]));
+      const seen = new Set<string>();
+      const todo = chunks.filter((c) => c.isEntry).map((c) => c.fileName);
+      while (todo.length) {
+        const f = todo.pop()!;
+        if (seen.has(f)) continue;
+        seen.add(f);
+        const c = byName.get(f);
+        if (c) todo.push(...c.imports);
+      }
+      const slash = (s: string): string => s.replace(/\\/g, '/');
+      const root = slash(resolve('.'));
+      const modules = [...seen]
+        .flatMap((f) => Object.keys(byName.get(f)?.modules ?? {}))
+        .map((id) => slash(id).replace(root + '/', ''))
+        .sort();
+      this.emitFile({
+        type: 'asset',
+        fileName: '.vite/eager-modules.json',
+        source: JSON.stringify(modules, null, 1),
+      });
     },
   };
 }
@@ -182,9 +218,16 @@ function offlineManifest(): Plugin {
   };
 }
 
+// R0484 (TECH-42, r11-d3): test files share a worker's module cache unless ISOLATE=1.
+// HOT-CI (r11/d): CI keeps every file isolated. A shared cache lets one file's module state leak
+// into the next, and which files share a worker depends on the runner's core count, so a leak
+// that never shows here failed the 2ca30c30 deploy. Local runs keep the faster shared cache.
+const shared =
+  process.env.ISOLATE || process.env.CI ? {} : { isolate: false, pool: 'threads' as const };
+
 export default defineConfig({
   base,
-  plugins: [swBuildId(), woff2Only(), offlineManifest()],
+  plugins: [swBuildId(), woff2Only(), offlineManifest(), eagerModules()],
   build: {
     target: 'es2022',
     sourcemap: false,
@@ -201,7 +244,11 @@ export default defineConfig({
   server: {
     // `npm run dev -- --host` exposes the dev server on the LAN for phone testing.
     port: 5173,
+    // R0512 (TECH-70, r11-d3): transform the boot path while the browser is still connecting.
+    warmup: { clientFiles: ['./src/main.ts', './src/game.ts', './src/ui/hud.ts'] },
   },
+  // R0512: pre-bundle three up front instead of on first import.
+  optimizeDeps: { include: ['three'] },
   test: {
     environment: 'node',
     // HOT-CI: CI runners are slower and noisier; long sim tests get the scaled timeout there.
@@ -209,18 +256,38 @@ export default defineConfig({
     // TECH-42: two projects. `unit` skips the story scripts (see tests/test-projects.ts);
     // `stories` registers them up front, as the app's boot does. The sample generators in
     // TOOL_FILES only run with TOOLS=1, so a plain run reports no skipped files.
+    // R0484 (TECH-42, r11-d3): one module cache per worker; see ISOLATED_FILES. ISOLATE=1 opts out.
     projects: [
       {
         extends: true,
-        test: { name: 'unit', include: [...UNIT_FILES], setupFiles: ['tests/setup-unit.ts'] },
+        test: {
+          name: 'unit',
+          include: [...UNIT_FILES],
+          setupFiles: ['tests/setup-unit.ts'],
+          ...shared,
+        },
       },
       {
         extends: true,
         test: {
           name: 'stories',
           include: ['tests/**/*.test.ts'],
-          exclude: [...UNIT_FILES, ...(process.env.TOOLS ? [] : TOOL_FILES), '**/node_modules/**'],
+          exclude: [
+            ...UNIT_FILES,
+            ...ISOLATED_FILES,
+            ...(process.env.TOOLS ? [] : TOOL_FILES),
+            '**/node_modules/**',
+          ],
           // The app loads the campaign and side-story scripts as chunks at boot; tests register them up front.
+          setupFiles: ['tests/setup-side-stories.ts'],
+          ...shared,
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'isolated',
+          include: [...ISOLATED_FILES],
           setupFiles: ['tests/setup-side-stories.ts'],
         },
       },

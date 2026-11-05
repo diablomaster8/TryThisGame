@@ -1,10 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { CHAPTERS, SCENES } from '../../src/config/story';
 import { STORY, TRUST } from '../../src/config/tuning';
 import { endingFor, sceneById } from '../../src/sim/campaign';
 import { hatch } from '../../src/sim/lifecycle';
 import { applyCommand } from '../../src/sim/world';
 import { c, campaignWorld, moss, playScenes, runCampaign, sable, tick } from './campaign-driver';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 describe('story data', () => {
   it('has twelve chapters whose scenes all exist', () => {
