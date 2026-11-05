@@ -21,6 +21,7 @@ export const CAMP_TEXT = {
     quiet: 'Waits while the valley is quiet.',
     running: '',
     cap: 'Finish or leave another road first.',
+    locked: 'Finish Dawn first.',
   } as Record<string, string>,
   lineChapter: (title: string, n: number, chapter: string) => `${title}, chapter ${n}: ${chapter}`,
   lineEnded: (title: string, ending: string) => `${title} is over: ${ending}.`,
@@ -93,7 +94,7 @@ export const OFFER_TEXT = {
     `Your play: ${o} offered, ${a} taken on, ${d} put off, ${s} put aside.${roads ? ` Roads: ${roads}.` : ''}`,
   roadMinutes: (id: string, min: number) => `${id} ${min} min`,
   flowHelp:
-    'Open: stories wait where they happen, to take on or put off. Guided: they come to you.',
+    'Open: stories wait where they happen, to take on or put off. Guided: they come to you. In the Learning Grove, Open means picture invitations a child taps to start.',
   flowOptions: {
     open: 'Open: offered where they happen',
     guided: 'Guided: they come to you',

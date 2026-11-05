@@ -634,8 +634,9 @@ export class SettingsMenu {
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
     this.questFlow.value = g.world.settings.questFlow ?? 'guided';
-    // A Learning Grove save always comes to you (R0629): the choice is not offered there.
-    this.questFlow.disabled = g.world.edu !== null;
+    // R0629: the Learning Grove's Settings sit behind the grown-up gate, so this is the switch
+    // that turns picture invitations on for a child (Guided, the default, is unchanged).
+    this.questFlow.disabled = false;
     const ps = playStats(g.world);
     this.playLine.textContent = OFFER_TEXT.yourPlay(
       ps.offered,

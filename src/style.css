@@ -5489,6 +5489,36 @@ html.story-resting canvas {
   min-height: 64px;
   font-size: 1.4rem;
 }
+/* R0629: a child's notice board: one big picture tile per story, tapped to start. */
+.journal-board.board-kid .kid-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.kid-tile {
+  min-height: 96px;
+  min-width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  border: 2px solid #7fd1ae;
+  border-radius: 16px;
+  background: #fff;
+  color: #1a1530;
+  font-weight: bold;
+  cursor: pointer;
+}
+.kid-tile.kid-tile-active {
+  border-color: #f2b723;
+  background: #fff6d0;
+}
+.kid-tile .kid-pic {
+  font-size: 2.4rem;
+  line-height: 1;
+}
 .offer-help {
   pointer-events: auto;
   position: absolute;

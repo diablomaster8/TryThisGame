@@ -1525,6 +1525,8 @@ export const QUESTS = {
   baseShells: 20,
   /** R0629: a child profile keeps at most this many quests active (a grown-up's is `activeCap`). */
   childCap: 2,
+  /** R0629: a child's picture pitch is at most this many words (the sprout band's line cap). */
+  maxPitchWords: 14,
 } as const;
 
 export const ACHIEVEMENTS = {
