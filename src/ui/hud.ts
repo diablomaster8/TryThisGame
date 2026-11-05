@@ -4,7 +4,7 @@ import { WORLD_TEXT } from '../config/strings-world';
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
 import { hollowKidVoice } from './hollow-kid-voice';
-import { ALBUM_TEXT, KINDER_R11 } from '../config/strings-soul-r11b';
+import { ALBUM_TEXT } from '../config/strings-soul-r11b';
 import { mountWatch } from './watch';
 import { AnticAlbum } from './antic-album';
 import { R10B4_TEXT } from '../config/strings-r10b4';
