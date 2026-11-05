@@ -113,6 +113,8 @@ export function hillOutingStep(n: Nubbin, dtMs: number, now: number): boolean {
   const o = parse(n.behavior.itemId);
   if (!o) return false;
   const b = n.behavior;
+  // A climb that has not finished by its time limit is over (a blocked step never freezes it).
+  if (o.phase !== 'top' && now >= b.untilMs) return false;
   const up = route(o.h, o.flutter);
   if (o.phase === 'go') {
     const p = up[0]!;
