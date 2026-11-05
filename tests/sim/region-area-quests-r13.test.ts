@@ -31,7 +31,7 @@ describe('region pages list quests per area (R0650)', () => {
 
   it('groups by area in the line order, marks the current chapter, and keeps "anywhere" last', () => {
     const hundred = storylines().find((s) => s.id === 'hundred')!;
-    const areas = storylineRule('hundred')!.areas;
+    const areas = storylineRule('hundred')!.areas ?? [];
     const groups = chapterAreaGroups(hundred.chapters, 4, areas);
     expect(groups.map((g) => g.area)).toEqual([
       'meadow',
@@ -51,7 +51,7 @@ describe('region pages list quests per area (R0650)', () => {
       'later',
     ]);
     const logged = storylines().find((s) => s.id === 'logged')!;
-    const lg = chapterAreaGroups(logged.chapters, 2, storylineRule('logged')!.areas);
+    const lg = chapterAreaGroups(logged.chapters, 2, storylineRule('logged')!.areas ?? []);
     expect(lg.at(-1)!.area).toBeNull();
     expect(lg.at(-1)!.rows.map((r) => r.n)).toEqual([6]);
   });
