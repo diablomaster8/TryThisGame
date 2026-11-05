@@ -254,7 +254,8 @@ export class RegionHost3d {
   private placeArches(exits: ReturnType<typeof walkExitsHere>, here: RegionId | null): void {
     const shown = new Set<string>();
     for (const e of exits) {
-      if (e.kind === 'seamless') continue;
+      // R12 lane D: a ride's jetty or cart stop has no arch.
+      if (e.kind === 'seamless' || e.kind === 'vehicle') continue;
       const mod = this.mods.get(here ?? e.to);
       if (!mod) {
         this.load(here ?? e.to);

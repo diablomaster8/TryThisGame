@@ -39,7 +39,12 @@ export interface RegionExit {
   /** Where the Keeper stands on arrival, and which way they face (radians). */
   arrive: { x: number; z: number };
   facing: number;
-  kind: 'seamless' | 'gate' | 'door' | 'stairs';
+  kind: 'seamless' | 'gate' | 'door' | 'stairs' | 'vehicle';
+  /**
+   * R12 lane D (WORLD-69): a `vehicle` way is a ride, a short side-on scene before arriving:
+   * the ferry over the night sea, the cart.
+   */
+  ride?: 'ferry' | 'cart';
   /** A flag that must be set before the exit opens (the storyline condition names). */
   unlock?: string;
   /**
@@ -282,6 +287,17 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         facing: N,
         kind: 'seamless',
       },
+      // R12 lane D (WORLD-69): the ferry from the boat jetty over the night sea to the Moon
+      // lands' jetty (shut, like the Moon gate, until the first Moon adult).
+      {
+        id: 'shore-ferry',
+        rect: { x: 56.8, z: 20.6, w: 2.4, h: 1.4 },
+        to: 'moonlands',
+        arrive: { x: 0, z: 9 },
+        facing: 0,
+        kind: 'vehicle',
+        ride: 'ferry',
+      },
     ],
     { pois: SHORE_POIS, built: true },
   ),
@@ -364,7 +380,19 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'moon',
     [80, 80],
     ['dais'],
-    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', N / 2)],
+    [
+      way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', N / 2),
+      // R12 lane D (WORLD-69): the ferry back from the jetty's end to the shore.
+      {
+        id: 'moon-ferry',
+        rect: { x: -1.2, z: 4.6, w: 2.4, h: 1.2 },
+        to: 'shore',
+        arrive: { x: 58, z: 18 },
+        facing: N,
+        kind: 'vehicle',
+        ride: 'ferry',
+      },
+    ],
     { clock: { fixed: 22 }, pois: MOON_POIS, built: true },
   ),
   // Reached only from the Learning Grove, so it has no road to the rest of the world.

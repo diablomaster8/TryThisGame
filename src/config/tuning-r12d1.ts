@@ -36,3 +36,11 @@ export const REGION_MOVES = {
   /** How near a flying zone's spot the Keeper must step to set it off. */
   reach: 1.1,
 } as const;
+
+/** WORLD-69: a ride's side-on scene (`render/vignette.ts`). */
+export const RIDE_SCENE = {
+  /** How long the scene plays (ms). */
+  ms: 6000,
+  /** Under reduced motion, how long the one still frame holds (ms). */
+  stillMs: 1500,
+} as const;

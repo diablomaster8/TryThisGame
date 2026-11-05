@@ -89,6 +89,9 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   // WORLD-39/56: a seamless edge keeps the Keeper's footing, re-based into the neighbour's
   // own coordinates; every other kind arrives at the exit's spot.
   const keep = exit.kind === 'seamless' ? seamlessOffset(exit) : null;
+  // R12 lane D (WORLD-69): a ride is played in full the first time, skippable after.
+  if (exit.kind === 'vehicle' && exit.ride)
+    (world.collected ??= {})[`ride:${exit.ride}`] ??= world.timeMs;
   const was = { ...k.pos };
   const target = k.moveTarget;
   const place = sub ?? exit.sub;
@@ -141,4 +144,9 @@ export function regionAwayMs(world: World, region: RegionId): number {
   if (regionOf(world.location) === region) return 0;
   const left = world.regionLeftMs?.[region];
   return left === undefined ? Infinity : world.timeMs - left;
+}
+
+/** R12 lane D (WORLD-69): whether this ride has been taken before (so its scene may be skipped). */
+export function rideSeen(world: Pick<World, 'collected'>, ride: string): boolean {
+  return (world.collected ?? {})[`ride:${ride}`] !== undefined;
 }

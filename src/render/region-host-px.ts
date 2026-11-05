@@ -219,7 +219,8 @@ export class RegionHostPx {
     }
     // The arch over each loaded way in, from the drawn region's own module.
     for (const e of exits) {
-      if (e.kind === 'seamless') continue;
+      // R12 lane D: a ride's jetty or cart stop has no arch.
+      if (e.kind === 'seamless' || e.kind === 'vehicle') continue;
       const art = this.mods.get(here ?? e.to);
       if (!art) {
         this.load(here ?? e.to);
