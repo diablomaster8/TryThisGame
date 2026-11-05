@@ -1,4 +1,6 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { SNOW_TEXT } from '../config/strings-r13d1';
+import { SNOWBALL } from '../config/tuning-r13d1';
 import { ALBUM_TEXT } from '../config/strings-soul-r11b';
 import { mountWatch } from './watch';
 import { AnticAlbum } from './antic-album';
@@ -351,6 +353,17 @@ export function mountHud(
   jumpBtn.addEventListener('pointerup', jumpUp);
   jumpBtn.addEventListener('pointercancel', jumpUp);
   root.appendChild(jumpBtn);
+  // R0113 (R13 d1): the snowball button, shown only on the ridge's snow.
+  const snowBtn = el('button', 'btn jump-btn snow-btn');
+  snowBtn.type = 'button';
+  snowBtn.textContent = SNOW_TEXT.glyph;
+  snowBtn.setAttribute('aria-label', SNOW_TEXT.button);
+  snowBtn.hidden = true;
+  snowBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    game()?.send({ kind: 'snowball' });
+  });
+  root.appendChild(snowBtn);
   // MOVE-58: the one-time hop lesson's chip.
   const hopLesson = new HopLessonChip(root);
   // MOVE-63: the hop course's chip, toasts and side save.
@@ -1072,6 +1085,9 @@ export function mountHud(
       document.documentElement.classList.toggle('left-handed', lefty);
       const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
       groveBtn.hidden = !anyUnlocked;
+      snowBtn.hidden = !(
+        g.world.location === 'region:ridge' && g.world.keeper.pos.z <= SNOWBALL.snowZ
+      );
       groveBtn.textContent = GROVE_LABELS[g.world.grove];
       const carrying = g.world.keeper.carrying;
       const shakes = !!carrying || g.world.nubbins.some((n) => n.behavior.state === 'held');

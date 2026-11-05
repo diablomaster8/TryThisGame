@@ -55,3 +55,18 @@ export const GARDEN_WALKOUT = {
   /** How near the Keeper must walk to it. */
   r: 2.2,
 } as const;
+
+/** WORLD-36: snowballs on the ridge's permanent snow (a throw arc like the Grove's `THROW`). */
+export const SNOWBALL = {
+  /** Most in the air at once, flight time (ms), launch speed along the facing, and the lob. */
+  max: 4,
+  flightMs: 900,
+  speed: 9,
+  lob: 4.2,
+  gravity: 9.8,
+  /** The ridge's snow starts here going north (z at or below; the terrace at `RIDGE_SNOW_Y`). */
+  snowZ: -12,
+  /** Gap between throws (ms), and the ball's start height. */
+  cooldownMs: 350,
+  startY: 1,
+} as const;

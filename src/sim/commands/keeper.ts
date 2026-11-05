@@ -26,6 +26,7 @@ import { TRAINERS, trainerOf } from '../trainers';
 import { fastTravel, travelAssist } from '../travel';
 import { addTrust } from '../trust';
 import { applyCommand, findNubbin, heldNubbin } from '../world';
+import { throwSnowball } from '../snowballs';
 import type { World } from '../types';
 import type { Handlers } from './types';
 
@@ -84,6 +85,11 @@ export const handlers: Handlers = {
     n.pos.z = cmd.pos.z;
     clampToWorld(n.pos);
     n.y = THROW.holdHeight;
+    return;
+  },
+  snowball(world) {
+    // R0113 (R13 d1): a snowball on the ridge's permanent snow.
+    throwSnowball(world);
     return;
   },
   jump(world, cmd, events) {

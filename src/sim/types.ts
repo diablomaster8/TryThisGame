@@ -1571,6 +1571,7 @@ export type Command =
   | { kind: 'shakeHeld' }
   /** The jump button pressed or let go (MOVE-10); with something held it shakes instead. */
   | { kind: 'jump'; down: boolean }
+  | { kind: 'snowball' }
   | { kind: 'release'; vel: Vec2 }
   | { kind: 'switchKeeper'; alignment: KeeperAlignment }
   | { kind: 'setTrainer'; id: string }

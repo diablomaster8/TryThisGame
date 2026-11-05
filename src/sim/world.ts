@@ -30,6 +30,7 @@ import { stepRegionCritters } from './region-critters';
 import { stepRegionGates } from './region-gates';
 import { stepShorePlay } from './shore-play';
 import { stepGardenWalkout } from './garden-walkout';
+import { stepSnowballs } from './snowballs';
 import { stepTraces } from './regions-trace';
 import { stepWildNubbin } from './region-wild-nubbin';
 import { stepWeatherPlay } from './region-weather-play';
@@ -472,6 +473,7 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
     // R0097 (R13 d1): the shore's castles and folk.
     stepShorePlay(world, dtMs, events);
     stepGardenWalkout(world, events);
+    stepSnowballs(world, dtMs);
     // R0120 (R12 d2): the region's shy wild Nubbin.
     stepWildNubbin(world, dtMs, events);
     // R0137 (R12 d2): the shore's ghost ship in fog.

@@ -40,3 +40,11 @@ export const LANDS_TEXT = {
       ? 'A Sun garden: your Sun adults come here to bask on the white stone.'
       : 'A Moon garden: your Moon adults come here to watch the lantern lake.',
 } as const;
+
+/** WORLD-36: the snowball button. */
+export const SNOW_TEXT = { button: 'Snowball', glyph: '❄' } as const;
+
+/** WORLD-35 / 69: the shore's island and the village cart. */
+export const TRIP_TEXT = {
+  island: 'A tiny island of sand, a driftwood bench and one very patient gull.',
+} as const;
