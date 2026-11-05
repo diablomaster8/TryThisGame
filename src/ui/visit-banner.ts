@@ -1,5 +1,5 @@
 import { SAVE_LAYOUT_TEXT } from '../config/strings-camp11-save';
-import { endVisit, visitingProfile } from '../platform/storage';
+import { endVisit, hasResumeSlot, visitingProfile } from '../platform/storage';
 import { profileById } from '../platform/profiles';
 import { button, el } from './dom';
 import '../profiles-r11.css';
@@ -7,7 +7,8 @@ import '../profiles-r11.css';
 /**
  * R0669 (CAMP-77, round 13): a strip over a visit to another profile's Grove. The world is
  * frozen and nothing is saved, so the one thing to do here is leave: a reload ends the visit
- * and lands on the title. Nothing to mount when no visit is on.
+ * and lands on the title, or back in the player's own Grove when the visit began from the
+ * More menu (its slot was marked). Nothing to mount when no visit is on.
  */
 export function mountVisitBanner(parent: HTMLElement): HTMLElement | null {
   const who = visitingProfile();
@@ -24,7 +25,10 @@ export function mountVisitBanner(parent: HTMLElement): HTMLElement | null {
     },
     'btn btn-small visit-banner-leave',
   );
-  leave.setAttribute('aria-label', SAVE_LAYOUT_TEXT.visitLeaveLabel);
+  leave.setAttribute(
+    'aria-label',
+    hasResumeSlot() ? SAVE_LAYOUT_TEXT.visitLeaveHome : SAVE_LAYOUT_TEXT.visitLeaveLabel,
+  );
   bar.appendChild(leave);
   parent.appendChild(bar);
   return bar;

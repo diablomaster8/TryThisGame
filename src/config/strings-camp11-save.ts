@@ -54,4 +54,9 @@ export const SAVE_LAYOUT_TEXT = {
   visitBanner: (keeper: string) => `Visiting ${keeper}'s Grove · look, don't touch`,
   visitLeave: 'Leave visit',
   visitLeaveLabel: 'Leave the visit and go back to the title',
+  /** Round 13: the picker in the More menu, and the way home when the visit began there. */
+  visitClose: 'Close',
+  visitNone: 'No other Keeper has a Grove saved on this device yet.',
+  visitMenu: "Visit a Keeper's Grove",
+  visitLeaveHome: 'Leave the visit and go back to your own Grove',
 } as const;

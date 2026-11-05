@@ -122,7 +122,8 @@ if (import.meta.env.DEV && params.has('editor')) {
   // R0141: the dev-only region editor (its code never ships).
   void import('./dev/region-editor').then((m) => {
     const box = document.createElement('div');
-    box.style.cssText = 'position:fixed;inset:0;overflow:auto;background:#fff;color:#000;z-index:999;padding:16px;font:13px sans-serif';
+    box.style.cssText =
+      'position:fixed;inset:0;overflow:auto;background:#fff;color:#000;z-index:999;padding:16px;font:13px sans-serif';
     document.body.appendChild(box);
     m.runRegionEditor(box);
   });
@@ -147,6 +148,11 @@ function dropSplash(): void {
 /** R0669: begin a visit to profile `id` and answer the first slot it has a save in, or null. */
 function visitSlotOf(id: string): SaveSlot | null {
   if (!beginVisit(id)) return null;
+  // `&vslot=free:2` (from the in-game picker) names the slot; without it, the first one saved.
+  const [vm, vi] = (params.get('vslot') ?? '').split(':');
+  const named = profileModes(id).find((m) => m === vm);
+  if (named && hasSave({ mode: named, index: Number(vi) }))
+    return { mode: named, index: Number(vi) };
   for (const mode of profileModes(id))
     for (let index = 1; index <= slotsFor(mode); index++)
       if (hasSave({ mode, index })) return { mode, index };
