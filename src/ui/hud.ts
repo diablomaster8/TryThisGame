@@ -53,7 +53,9 @@ import { holdRenderWhile } from './render-hold';
 import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
+import { SAVE_LAYOUT_TEXT } from '../config/strings-camp11-save';
 import { button, el } from './dom';
+import { mountVisitPicker } from './visit-picker';
 import { MOVE_R10_TEXT } from '../config/strings-move-r10';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
@@ -172,7 +174,12 @@ export function mountHud(
   // Lane E r8, R0680: a Learning Grove's ⋯ opens the Places picture menu instead.
   const moreBtn = button(
     '⋯',
-    () => (game()?.world.edu ? eduPlaces.open() : more.show()),
+    () => {
+      if (game()?.world.edu) return eduPlaces.open();
+      visitHas = visitPicker.hasChoices(); // R0669: profiles can change between opens
+      visitBtn.hidden = !visitHas;
+      more.show();
+    },
     'btn btn-icon',
   );
   moreBtn.setAttribute('aria-label', UI_TEXT.more);
@@ -728,6 +735,19 @@ export function mountHud(
       'btn btn-wide edu-only',
     ),
   );
+  // R0669: look round another Keeper's Grove, read-only; only when one exists on this device.
+  const visitPicker = mountVisitPicker(root, () => void game()?.save());
+  const visitBtn = button(
+    `👥 ${SAVE_LAYOUT_TEXT.visitMenu}`,
+    () => {
+      more.hide();
+      visitPicker.open();
+    },
+    'btn btn-wide not-edu visit-more',
+  );
+  let visitHas = visitPicker.hasChoices();
+  visitBtn.hidden = !visitHas;
+  moreList.appendChild(visitBtn);
   // TECH-60: the keys hint comes back from here, or from the "?" key.
   moreList.appendChild(
     button(
@@ -1204,6 +1224,7 @@ export function mountHud(
       );
       for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
+      visitBtn.hidden = isEdu || !visitHas;
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
       const keysHint = root.querySelector<HTMLElement>('.keys-hint');
       // TECH-60: gone for good once the keys have been used.

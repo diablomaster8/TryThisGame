@@ -27,6 +27,7 @@
  */
 import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
+import { LOGGED_CHAPTER_AREAS, placeChapters } from './chapter-areas';
 
 const say =
   (who: string) =>
@@ -718,7 +719,7 @@ export const STORYLINE_LOGGED: Storyline = {
   source: 'Digimon World 3 (2002): frame and mechanics only',
   audience: 'main',
   speakers: LOGGED_SPEAKERS,
-  chapters: LOGGED_CHAPTERS,
+  chapters: placeChapters(LOGGED_CHAPTERS, LOGGED_CHAPTER_AREAS),
   endings: LOGGED_ENDINGS,
   extra: LOGGED_EXTRA,
   notes:

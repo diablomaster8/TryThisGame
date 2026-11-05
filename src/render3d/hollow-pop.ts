@@ -3,6 +3,7 @@ import { GROVE3D } from '../config/tuning';
 import { cellCentre, exploredRooms, type Floor } from '../sim/dungeon';
 import { lootHeld } from '../sim/dungeon-secrets';
 import { caveShed } from './cave-shed';
+import { sectorSizeOf } from './hollow-sectors';
 import {
   CELL,
   disposeObjects,
@@ -166,7 +167,7 @@ export class HollowPop implements HollowModule {
     this.ctx = null;
   }
 
-  update(t: number, _keeper: { x: number; z: number }, fr: HollowFrame): void {
+  update(t: number, keeper: { x: number; z: number }, fr: HollowFrame): void {
     const f = this.floor;
     const run = fr.run;
     if (!f || !run || !this.loot || !this.rooms) return;
@@ -174,17 +175,23 @@ export class HollowPop implements HollowModule {
     const calm = this.ctx?.reduceMotion ?? false;
     const taken = run.taken;
     this.loot.visible = this.lootPos.length > 0;
-    this.lootPos.forEach((l, i) => {
+    // On a streamed floor only the halos within the sector window's reach draw (R0194);
+    // a taken find's halo is left out of the draw, not drawn at size 0.
+    const reach = sectorSizeOf(f) * 1.5 * CELL || Infinity;
+    let n = 0;
+    for (const l of this.lootPos) {
       const gone = taken.includes(l.id) || lootHeld(run, f, l.id);
+      if (gone || Math.max(Math.abs(l.x - keeper.x), Math.abs(l.z - keeper.z)) > reach) continue;
       const bob =
         calm || this.shed ? 0 : Math.sin(t * r.loot.bobHz * Math.PI * 2 + l.h) * r.loot.bob;
       this.m.compose(
         this.p.set(l.x, l.y + r.loot.lift + bob, l.z),
         this.q.identity(),
-        this.s.setScalar(gone ? 0 : 1),
+        this.s.setScalar(1),
       );
-      this.loot!.setMatrixAt(i, this.m);
-    });
+      this.loot.setMatrixAt(n++, this.m);
+    }
+    this.loot.count = n;
     this.loot.instanceMatrix.needsUpdate = true;
     // Rooms ease in as they are seen (re-read only when the explored string changed).
     if (run.explored !== this.seen) {

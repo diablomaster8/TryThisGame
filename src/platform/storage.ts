@@ -739,6 +739,15 @@ export function markResumeSlot(slot: SaveSlot): void {
   }
 }
 
+/** R0669: whether a slot is marked to come back to (a visit begun in the game left one). */
+export function hasResumeSlot(): boolean {
+  try {
+    return sessionStorage.getItem(RESUME_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
 /** The slot marked before a reload, once; null when there is none or it is not a real slot. */
 export function takeResumeSlot(): SaveSlot | null {
   try {
