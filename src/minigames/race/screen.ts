@@ -1,5 +1,7 @@
 import { playArea } from '../play-area';
 import { RACE, SIM } from '../../config/tuning';
+import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { countLabel, inCountdown } from '../../sim/race-persona';
 import { UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import type { SheetCache } from '../../render/sprites/sheets';
@@ -147,6 +149,10 @@ export class RaceScreen {
     this.cheerBtn.setAttribute('aria-label', kid ? FUN_RUN_TEXT.cheerAria : UI_TEXT.cheer);
     if (kid) this.cheerBtn.style.setProperty('--cheer-px', `${FUN_RUN.cheerPx}px`);
     this.onDone = onDone;
+    // R0583: hold the field at the line while the start poses play (once per race).
+    if (race.countdownTotalMs === undefined) {
+      race.countdownMs = race.countdownTotalMs = RACE_PERSONA.countdownMs;
+    }
     this.watch = new RaceWatch(race);
     this.outcome = null;
     this.hatRoll = hatRoll;
@@ -196,6 +202,7 @@ export class RaceScreen {
 
   private cheer(): void {
     if (!this.race || this.loading3d || !this.view.ready) return;
+    if (inCountdown(this.race)) return;
     if (cheer(this.race)) {
       playSound('cheer');
       if (this.race.friendly) this.friendlySpeak(FUN_RUN_TEXT.cheerSay);
@@ -297,11 +304,11 @@ export class RaceScreen {
       return;
     }
     this.hud.textContent = live
-      ? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`
+      ? (countLabel(race) ?? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`)
       : this.tip
         ? `${UI_TEXT.stageLoading} ${this.tip}`
         : UI_TEXT.stageLoading;
-    this.cheerBtn.disabled = !live || !cheerReady(race) || race.finished;
+    this.cheerBtn.disabled = !live || inCountdown(race) || !cheerReady(race) || race.finished;
   }
 
   private showResults(race: RaceState): void {

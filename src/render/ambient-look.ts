@@ -7,7 +7,7 @@
  * motion drops the jumps and the wing flutter keeps a slow beat.
  */
 import { inConcert } from '../sim/jam';
-import { puddlesOf, snowFigures } from '../sim/weather-play';
+import { ballAt, puddlesOf, snowballsOf, snowFigures } from '../sim/weather-play';
 import { ambientOf, type AmbientCritter } from '../sim/ambient';
 import type { Nubbin, World } from '../sim/types';
 import type { PerformLook } from './perform-look';
@@ -133,7 +133,7 @@ export function jamEmote(n: Nubbin, simMs: number): EmoteShape | null {
 }
 
 export interface AmbientDraw {
-  kind: AmbientCritter['kind'] | 'snowman' | 'puddle';
+  kind: AmbientCritter['kind'] | 'snowman' | 'puddle' | 'snowball';
   /** A ground decal, laid flat. */
   flat?: boolean;
   frame: number;
@@ -188,6 +188,21 @@ export function ambientDraws(world: World, nowMs: number, reduce: boolean): read
       size: 0.9,
       opacity: 1,
     });
+  // R0562: a snowball mid-lob (the sim's clock, so it steps at the sim rate).
+  for (const b of snowballsOf(world)) {
+    if (world.timeMs < b.startMs) continue;
+    const p = ballAt(b, world.timeMs);
+    rows.push({
+      kind: 'snowball',
+      frame: 0,
+      colour: 0,
+      x: p.x,
+      y: p.y,
+      z: p.z,
+      size: 0.35,
+      opacity: 1,
+    });
+  }
   for (const d of puddlesOf(world))
     rows.push({
       kind: 'puddle',

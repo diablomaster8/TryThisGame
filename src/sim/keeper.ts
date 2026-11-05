@@ -3,6 +3,7 @@ import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from
 import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
 import { CG_C } from '../config/tuning-c';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
+import { propStandAt } from './dungeon-props';
 import { holdAtShelves } from './dungeon-shelves';
 import { keeperWaypoint } from './dungeon-nav';
 import { hopWaypoint } from './dungeon-hops';
@@ -479,7 +480,7 @@ function stepRoll(world: World, dtMs: number, events: SimEvent[]): boolean {
   k.pos.z += r.dz * speed * dt;
   const floor = runFloor(world);
   if (floor) {
-    resolveDungeon(k.pos, floor, 0.35);
+    resolveDungeon(k.pos, floor, 0.35, 'rock', k.y);
     holdAtShelves(world, fromX, fromZ, events);
   } else {
     resolve(k.pos, world, 0.35, 'keeper', k.y);
@@ -695,7 +696,12 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
     if (dip.ms >= POND_DIP.ms || k.bufferMs > 0 || !k.grounded) dips.delete(world);
   }
   const tune = jumpTuning(world);
-  const ground = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
+  const floor = dungeon ? runFloor(world) : null;
+  const ground = dungeon
+    ? floor
+      ? propStandAt(floor, k.pos, k.y)
+      : 0
+    : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.grounded) {
     if (ground < k.y - JUMP.stepUp) {
       // Walked off a ledge: fall, with a moment's grace to still jump.
@@ -743,7 +749,11 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   k.y += k.vy * dt;
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
-  const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
+  const under = dungeon
+    ? floor
+      ? propStandAt(floor, k.pos, k.y)
+      : 0
+    : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (!dungeon && k.vy < 0 && poofOverWater(world, under, events)) return;
   if (k.y <= under) {
     // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
@@ -1162,7 +1172,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   // inside one is dropped.
   if (dungeonFloor) {
     if (
-      resolveDungeon(k.pos, dungeonFloor, 0.35) &&
+      resolveDungeon(k.pos, dungeonFloor, 0.35, 'rock', k.y) &&
       k.moveTarget &&
       dungeonBlocked(k.moveTarget, dungeonFloor, 0.3)
     ) {

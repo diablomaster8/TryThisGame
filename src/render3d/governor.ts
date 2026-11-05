@@ -227,6 +227,14 @@ export class FrameGovernor {
     return this.ratio > this.maxRatio ? this.set(this.maxRatio) : null;
   }
 
+  /**
+   * R0585: the ambient critters (butterflies, fireflies, a frog) are the first thing to go:
+   * as soon as the scale has dropped below the device's best or any saving is in force.
+   */
+  get shedAmbient(): boolean {
+    return this.ratio < this.maxRatio - 1e-6 || this.cpuLevel > 0 || this.geoLevel > 0;
+  }
+
   /** TECH-52: what to keep for the next boot on this device. */
   get settled(): GovernorLevel {
     return {

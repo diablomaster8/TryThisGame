@@ -1,4 +1,5 @@
 import { NAMES, UI_TEXT } from '../config/strings';
+import { ALBUM_TEXT } from '../config/strings-soul-r11b';
 import type { Game } from '../game';
 import { CLIPS, frameAt, frameKey } from '../render/sprites/animations';
 import { moodOf } from '../sim/needs';
@@ -23,6 +24,8 @@ export class PocketMode {
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
+    /** R0588: the cottage's Fridge, where the Nubbins' doodles are kept. */
+    private readonly onFridge: (() => void) | null = null,
   ) {
     this.root = el('div', 'pocket');
     this.root.hidden = true;
@@ -77,6 +80,18 @@ export class PocketMode {
       this.mood,
       needs,
       actions,
+      ...(this.onFridge
+        ? [
+            button(
+              ALBUM_TEXT.fridgeButton,
+              () => {
+                this.close();
+                this.onFridge?.();
+              },
+              'btn btn-small',
+            ),
+          ]
+        : []),
       button(UI_TEXT.close, () => this.close(), 'btn btn-primary'),
     );
     this.root.appendChild(card);

@@ -1,5 +1,5 @@
 import { RACE_PERSONA } from '../config/tuning-soul-r11h';
-import { racerPersonality, startKind, type StartKind } from '../sim/race-persona';
+import { lineClock, racerPersonality, startKind, type StartKind } from '../sim/race-persona';
 import * as THREE from 'three';
 import { RACE_LOOK } from '../config/campaign-look';
 import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
@@ -287,7 +287,7 @@ export class Race3dView implements RaceView {
     const tumbling = live && race.timeMs < (r.racer.tumbleUntilMs ?? -1);
     // R0583: the start-line pose by personality (looks only; the times never read it).
     const atLine =
-      live && !flying && race.timeMs < RACE_PERSONA.startLineMs
+      live && !flying && lineClock(race) < RACE_PERSONA.startLineMs
         ? START_POSE[startKind(racerPersonality(r.racer)) ?? 'wave']
         : null;
     const pose = resting

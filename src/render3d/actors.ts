@@ -497,8 +497,15 @@ export class Actors {
             : spot;
   }
 
+  /** R0585: ambient sprites and puddles the last frame drew (debug panel). */
+  get ambientDrawn(): number {
+    return this.ambient3d.drawn;
+  }
+
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** R0585: set by the frame governor; hides the ambient critters first. */
+  shedAmbient = false;
   /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
   sigFx: SignatureFx | null = null;
   /** LOOK-21 (lane E r10): the crying Nubbins' tear streams, set by the scene. */
@@ -1447,7 +1454,8 @@ export class Actors {
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
     this.perform3d.finish(world, this.location === 'grove', live, nowMs);
-    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm);
+    this.ambient3d.burst = this.beatBurst;
+    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm, this.shedAmbient);
 
     // The Keeper.
     if (this.keeperSquash) {
@@ -1547,6 +1555,11 @@ export class Actors {
       const x = lerp(v.prev.pos.x, i.pos.x, alpha);
       const z = lerp(v.prev.pos.z, i.pos.z, alpha);
       v.mesh.position.set(x, this.ground(x, z) + v.lift + lerp(v.prev.y, i.y, alpha), z);
+      // R0574: the rope turns while two skip.
+      if (i.toy === 'skippingRope') {
+        const rope = v.mesh.getObjectByName('rope');
+        if (rope) rope.rotation.x = (rockTilt(i, world.timeMs) + 1) * Math.PI * 0.5;
+      }
       // R0574: the seesaw's plank rocks while two Nubbins play on it.
       if (i.toy === 'seesaw') {
         const plank = v.mesh.getObjectByName('plank');

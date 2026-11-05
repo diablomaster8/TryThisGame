@@ -60,6 +60,7 @@ import {
   vistaCells,
 } from './paint/dungeon';
 import { FogField } from './paint/dungeon-fog';
+import { PixelLeafBridge } from './leaf-bridge-pixel';
 import {
   makeBarkTexture,
   makeLeafTexture,
@@ -190,6 +191,10 @@ export class GroveScene {
   private skirt: Mesh | null = null;
   /** The Hollow Below: its floor, walls and lights, rebuilt per floor. */
   private readonly dungeonGroup = new Group();
+  /** R0025 (round 12): the sprout leaf-bridge over a gap. */
+  private readonly leafBridge = new PixelLeafBridge(this.dungeonGroup, (m) =>
+    this.dungeonFog.patch(m),
+  );
   private readonly dungeonLights: PointLight[] = [];
   private dungeonTorches: Array<{ x: number; z: number }> = [];
   private dungeonParts: Array<{ dispose(): void }> = [];
@@ -922,6 +927,7 @@ export class GroveScene {
     const floor = input && sealDisplay(input);
     if (floor === this.dungeonShown.floor && depth === this.dungeonShown.depth) return;
     this.dungeonShown = { floor, depth };
+    this.leafBridge.clear();
     this.dungeonPlugs = [];
     for (const p of this.dungeonParts) p.dispose();
     this.dungeonParts = [];
@@ -1227,6 +1233,7 @@ export class GroveScene {
 
   /** The Keeper's lamp and the five torches nearest them, every frame underground. */
   updateDungeonLights(keeper: { x: number; z: number }, yaw = 0): void {
+    this.leafBridge.sync(this.dungeonShown.floor);
     this.caveCut.keeper.value.set(keeper.x, keeper.z);
     this.caveCut.dir.value.set(Math.sin(yaw), Math.cos(yaw));
     const lamp = this.dungeonLights[0];

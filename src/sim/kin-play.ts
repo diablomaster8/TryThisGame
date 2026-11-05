@@ -41,6 +41,13 @@ interface Store {
 
 const stores = new WeakMap<World, Store>();
 
+/** Expeditions finished this session (campaign or not): what the gate greeting watches. */
+const homeCount = new WeakMap<World, number>();
+
+export function noteExpeditionHome(world: World): void {
+  homeCount.set(world, (homeCount.get(world) ?? 0) + 1);
+}
+
 function store(world: World): Store {
   let s = stores.get(world);
   if (!s) {
@@ -175,7 +182,7 @@ function stepKeeperDoings(
   const k = world.keeper;
   const A = KEEPER_ACTS;
   const last = s.last;
-  const exp = world.campaign?.stats.expeditions ?? 0;
+  const exp = homeCount.get(world) ?? 0;
   s.last = { x: k.pos.x, z: k.pos.z, expeditions: exp };
   for (const e of events) {
     if (e.kind === 'keeperJumped') {

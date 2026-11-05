@@ -12,6 +12,7 @@ import { DUNGEON } from '../config/tuning';
 import { DUNGEON_NAV } from '../config/tuning-sim';
 import { astar, cellLine, stringPull } from './astar';
 import { FLOOR, WATER, cellOf, type Floor } from './dungeon';
+import { isBridged } from './dungeon-bridged';
 import { shelfAt } from './dungeon-shelves';
 import { propCells, propOnLine } from './dungeon-props';
 import { keeperPerks } from './perks';
@@ -30,6 +31,13 @@ interface Masks {
 const masks = new WeakMap<Floor, Masks>();
 const pathCache = new WeakMap<Floor, Map<string, Plan>>();
 
+/** Forget a floor's cached masks and paths: a leaf-bridge grew across a gap (R0025). */
+export function resetNav(f: Floor): void {
+  masks.delete(f);
+  pathCache.delete(f);
+  ledgeCache.delete(f);
+}
+
 /** The walkable mask of a floor: dry ground only, or water too. */
 export function navMask(f: Floor, wet: boolean, ledges = false): Uint8Array {
   if (ledges && f.shelves?.length) return ledgeMasks(f, wet).nav;
@@ -38,8 +46,9 @@ export function navMask(f: Floor, wet: boolean, ledges = false): Uint8Array {
     const dry = new Uint8Array(f.cells.length);
     const wetMask = new Uint8Array(f.cells.length);
     for (let i = 0; i < f.cells.length; i++) {
-      dry[i] = f.cells[i] === FLOOR ? 1 : 0;
-      wetMask[i] = f.cells[i] === FLOOR || f.cells[i] === WATER ? 1 : 0;
+      const leaf = isBridged(f, i) ? 1 : 0;
+      dry[i] = f.cells[i] === FLOOR ? 1 : leaf;
+      wetMask[i] = f.cells[i] === FLOOR || f.cells[i] === WATER ? 1 : leaf;
     }
     // Version 4 (R0031) makes a crossing's decks and stones real floor and its gaps deep water.
     if (f.version < 4)

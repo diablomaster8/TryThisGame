@@ -659,7 +659,19 @@ export type Flavor = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moo
 export const FLAVORS: readonly Flavor[] = ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon'];
 
 export type ToyKind =
-  'ball' | 'radio' | 'blocks' | 'mirror' | 'tv' | 'seesaw' | 'sandbox' | 'drum' | 'bubbleWand';
+  | 'ball'
+  | 'radio'
+  | 'blocks'
+  | 'mirror'
+  | 'tv'
+  | 'seesaw'
+  | 'sandbox'
+  | 'drum'
+  | 'bubbleWand'
+  | 'skippingRope'
+  | 'rubberDuck'
+  | 'kite'
+  | 'crayonBox';
 export type DyeColor =
   | 'rose'
   | 'sky'
@@ -2034,6 +2046,8 @@ export type SimEvent =
   | { kind: 'keeperDipped'; shells: number }
   // R0025 (lane A r10): a splash-down without the Swim perk puffed the Keeper back ashore.
   | { kind: 'keeperPoofed'; from: Vec2; to: Vec2 }
+  // R0048 (round 12): a lost Hollow partner pops to its slot behind the Keeper.
+  | { kind: 'partnerPopped'; nubbinId: string; from: Vec2; to: Vec2 }
   // R0026 item 4 (lane A r10): the hidden keepsake on the shelf behind the waterfall, found.
   | { kind: 'fallsKeepsake'; id: string }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
@@ -2074,6 +2088,8 @@ export type SimEvent =
   /** Lane A r10: a lesson performed (R0525); one bubble of a friend chat (R0540). */
   | { kind: 'performStart'; nubbinId: string; lesson: LessonId; level: number }
   | { kind: 'chatTurn'; nubbinId: string; turn: number; topic: string }
+  /** R0589: a content Nubbin near the Keeper hums its motif. */
+  | { kind: 'hum'; nubbinId: string }
   /** R0539: a missed buddy came back and the two hugged. */
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */

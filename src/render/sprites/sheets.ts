@@ -158,6 +158,18 @@ export class SheetCache {
     return this.overrides.has(key) || this.sheets.has(key);
   }
 
+  /** R0585: the soul sheets (perform, ambient) baked so far, for the debug panel. */
+  soulSheets(): { sheets: number; frames: number } {
+    let sheets = 0;
+    let frames = 0;
+    for (const [k, v] of this.sheets) {
+      if (!k.startsWith('soul:')) continue;
+      sheets++;
+      frames += v.sheet.frames.size;
+    }
+    return { sheets, frames };
+  }
+
   /** How many generated sheets are held (for tests and the debug panel). */
   get size(): number {
     return this.sheets.size;

@@ -12,6 +12,7 @@ import { neighbourGift } from '../neighbourhood';
 import { claimQuest } from '../quests';
 import { buyPlot } from '../roster';
 import { addRewards, buy } from '../shop';
+import { noteExpeditionHome } from '../kin-play';
 import { buySkill, hasSkill } from '../skills';
 import type { DyeColor } from '../types';
 import { findNubbin, withRng } from '../world';
@@ -29,6 +30,7 @@ export const handlers: Handlers = {
     }
     addRewards(world, r, events);
     noteCampaign(world, 'expedition');
+    noteExpeditionHome(world);
     // R0529: an expedition is a bold outing for every child at home.
     for (const c of world.nubbins) noteSecondCare(c, 'bold');
     return;

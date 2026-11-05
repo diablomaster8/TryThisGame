@@ -38,6 +38,8 @@ export const OLD_SOUL_TEACH = {
 export const RACE_PERSONA = {
   /** The start-line pose plays for this long from the gun. */
   startLineMs: 2_400,
+  /** R0583 (round 12): the hold before the gun, so the poses play before anyone moves. */
+  countdownMs: 2_400,
   /** A cheered racer's voice bubble lasts this long. */
   voiceMs: 1_100,
   /** The expedition's runner does its pose for this long at the start. */

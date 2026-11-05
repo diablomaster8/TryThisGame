@@ -32,6 +32,7 @@ import { stepPicnic } from './dungeon-picnic';
 import { noteSplit } from './dungeon-speed';
 import { fillRooms, quietScan } from './dungeon-rooms';
 import { forfeitBattleCmd } from './battle';
+import { isBridged } from './dungeon-bridged';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
 import { acornInFind, goToLevel, stepWaypoint } from './dungeon-travel';
@@ -829,11 +830,18 @@ function blocks(f: Floor, x: number, y: number, solid: Solid): boolean {
   const v = cellAt(f, x, y);
   if (v === WALL) return true;
   if (solid === 'rock') return false;
-  return v === CHASM || (solid === 'all' && v === WATER && f.version >= 4);
+  if (v === CHASM) return !isBridged(f, y * f.cols + x);
+  return (solid === 'all' && v === WATER && f.version >= 4);
 }
 
 /** Push a circle out of the wall cells around it. Returns true when it moved. */
-export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid = 'rock'): boolean {
+export function resolveDungeon(
+  p: Vec2,
+  f: Floor,
+  radius: number,
+  solid: Solid = 'rock',
+  feetY = 0,
+): boolean {
   let moved = false;
   const c = cellOf(f, p);
   if (blocks(f, c.x, c.y, solid)) {
@@ -843,7 +851,8 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid =
       const q = cellCentre(f, near);
       p.x = q.x;
       p.z = q.z;
-      if (resolveProps(p, f, radius)) escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+      if (resolveProps(p, f, radius, feetY))
+        escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius), feetY);
       return true;
     }
   }
@@ -878,9 +887,9 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid =
     }
   }
   // Solid set pieces (R0032), then the walls once more so a prop never pushes into rock.
-  if (resolveProps(p, f, radius)) {
+  if (resolveProps(p, f, radius, feetY)) {
     moved = true;
-    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius), feetY);
   }
   return moved;
 }
@@ -1568,7 +1577,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       continue;
     }
     // R0048: a follower left far behind and out of sight pops to its slot behind the Keeper.
-    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs);
+    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs, events);
     let target: Vec2 | null = null;
     let fetching = run.fetch[id] ? f.loot.find((l) => l.id === run.fetch[id]) : undefined;
     if (fetching && !available(fetching)) fetching = undefined;

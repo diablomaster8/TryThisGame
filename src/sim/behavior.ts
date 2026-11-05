@@ -58,7 +58,7 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
-import { isPairToy } from './toy-pair';
+import { isPairToy, isSocialToy } from './toy-pair';
 import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { peekAct } from './peek';
 import { callAct } from './calling';
@@ -69,7 +69,7 @@ import { cottageHideAct } from './cottage-hide';
 import { hiderFound, hideAct, rewardFound } from './hide';
 import { approachAct, followFruitAct } from './care-memory';
 import { quirkAct } from './quirks';
-import { eatFlavour, napSpot, swimPace } from './state-flavour';
+import { eatFlavour, napSpot, shyTurnAway, swimPace } from './state-flavour';
 import { STATE_FLAVOUR } from '../config/tuning-soul-r10';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
@@ -1192,7 +1192,10 @@ function stepBehavior(
           noteTraitCare(n, 'musical', events);
         }
         if (kind === 'bubbleWand') n.typeLean.run += 1;
-        if (isPairToy(kind) && (toy.players ?? 0) >= 2)
+        if (kind === 'rubberDuck') n.typeLean.swim += 1;
+        if (kind === 'kite') n.typeLean.fly += 1;
+        if (kind === 'crayonBox') n.needs.affection = Math.min(100, n.needs.affection + 2);
+        if ((isPairToy(kind) || isSocialToy(kind)) && (toy.players ?? 0) >= 2)
           addHappiness(n, TOY_PAIR.togetherHappiness);
         if (kind === 'radio' && (n.lessons?.dance ?? 0) < 1)
           n.lessons = { ...(n.lessons ?? {}), dance: 1 };
@@ -1333,6 +1336,10 @@ function stepBehavior(
       if (now >= b.untilMs) {
         b.reaction = null;
         chooseIdle(n, world, rng, now);
+      } else if (b.state === 'eat' && b.itemId === 'nibble') {
+        // R0558 (round 12): a shy nibbler turns its back on the others while it eats.
+        const away = shyTurnAway(n, world);
+        if (away !== null) n.facing = away;
       }
       break;
     }

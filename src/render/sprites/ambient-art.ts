@@ -83,7 +83,7 @@ function dragonfly(blur: boolean): PixelCanvas {
 }
 
 /** The frame key for a critter: `colour` 0-2 for butterflies, `frame` 0 or 1. */
-export type DecalKind = CritterKind | 'snowman' | 'puddle';
+export type DecalKind = CritterKind | 'snowman' | 'puddle' | 'snowball';
 
 export const ambientKey = (kind: DecalKind, frame: number, colour = 0): string =>
   frameKey(kind === 'butterfly' ? `amb-butterfly${colour}` : `amb-${kind}`, 'front', frame);
@@ -100,6 +100,13 @@ function snowman(): PixelCanvas {
   pc.px(8, 9, C.ink);
   pc.line(4, 7, 2, 5, C.wood);
   pc.line(12, 7, 14, 5, C.wood);
+  return pc;
+}
+
+function snowball(): PixelCanvas {
+  const pc = new PixelCanvas(AMBIENT_CELL, AMBIENT_CELL);
+  pc.disc(8, 8, 3, C.white);
+  pc.px(7, 7, C.skyDeep);
   return pc;
 }
 
@@ -122,5 +129,6 @@ export function buildAmbientSheet(): SpriteSheet {
   }
   atlas.add(ambientKey('snowman', 0), snowman());
   atlas.add(ambientKey('puddle', 0), puddle());
+  atlas.add(ambientKey('snowball', 0), snowball());
   return atlas.build();
 }

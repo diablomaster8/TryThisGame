@@ -2,6 +2,7 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { ALBUM_TEXT } from '../config/strings-soul-r11b';
 import { mountWatch } from './watch';
 import { AnticAlbum } from './antic-album';
+import { albumIdOf } from '../sim/antic-album';
 import { WORLD_TEXT } from '../config/strings-world';
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
@@ -566,7 +567,7 @@ export function mountHud(
   const races = new RacesMenu(root, game, (t) => toast(t, UI.toastLongMs), pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
   const anticAlbum = new AnticAlbum(root, game, UI_TEXT.close); /* R0564 */
-  mountWatch(root, game, (n) => anticAlbum.report(n.id, n.behavior.itemId)); /* R0550 */
+  mountWatch(root, game, (n) => anticAlbum.report(n.id, albumIdOf(game()!.world, n))); /* R0550 */
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
   // Lane C round 6: battle scenes play in this box; a loaded bout asks to resume (FIGHT-64).
@@ -591,7 +592,7 @@ export function mountHud(
   const photo = new PhotoMode(root, game, () => sheet.selectedId);
   // R0138: the "Take photo" button while the Keeper stands in a region's photo frame.
   const photoSpotBtn = new PhotoSpotButton(root, game, () => photo);
-  const pocket = new PocketMode(root, game);
+  const pocket = new PocketMode(root, game, () => anticAlbum.open('fridge'));
   const quests = new QuestBoard(root, game);
   const profile = new ProfilePanel(root, game);
   const neighbourhood = new NeighbourhoodPanel(root, game, toast);

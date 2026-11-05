@@ -33,6 +33,28 @@ export function eatFlavour(n: Nubbin): { itemId: string; scale: number } | null 
   }
 }
 
+/**
+ * R0558 (round 12): the facing a shy nibbler takes while it eats: straight away from the
+ * nearest other Nubbin or the Keeper within `nibbleShyRadius`, or null when nobody is near
+ * (it keeps whatever way it faces).
+ */
+export function shyTurnAway(n: Nubbin, world: World): number | null {
+  if (!soulLive()) return null;
+  let best: Vec2 | null = null;
+  let bestD: number = STATE_FLAVOUR.nibbleShyRadius;
+  const look = (p: Vec2): void => {
+    const d = dist(p, n.pos);
+    if (d < bestD) {
+      bestD = d;
+      best = p;
+    }
+  };
+  for (const o of world.nubbins) if (o !== n && o.stage !== 'egg') look(o.pos);
+  look(world.keeper.pos);
+  const b = best as Vec2 | null;
+  return b ? Math.atan2(n.pos.x - b.x, n.pos.z - b.z) : null;
+}
+
 /** Where a tired Nubbin goes to nap first, or null to nap where it is. */
 export function napSpot(n: Nubbin, world: World): Vec2 | null {
   if (!soulLive() || n.stage === 'egg' || n.stage === 'cocoon') return null;

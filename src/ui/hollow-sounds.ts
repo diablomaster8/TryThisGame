@@ -12,6 +12,8 @@ export function hollowCueFor(e: SimEvent, world: World): HollowCue | null {
       return 'notice';
     case 'packBeaten':
       return 'poof';
+    case 'partnerPopped':
+      return 'pop';
     case 'shrineUsed':
       return 'shrine';
     case 'waypointActivated':
