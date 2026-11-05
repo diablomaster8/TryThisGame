@@ -44,7 +44,7 @@ export function childrenList(body: HTMLElement, g: Game, rerender: () => void): 
   };
   for (const [i, slot] of slots.entries()) {
     const sum = readSlotSummary(slot);
-    const row = el('div', 'field-row children-row');
+    const row = el('label', 'field-row children-row');
     row.appendChild(el('span', undefined, sum?.eduIcon ?? '🌱'));
     const name = el('input');
     name.type = 'text';

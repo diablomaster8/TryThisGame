@@ -9,3 +9,4 @@ export * from '../tuning-digi';
 export * from '../tuning-pkb';
 export * from '../tuning-fx3d';
 export * from '../tuning-px';
+export * from '../tuning-photo3d';

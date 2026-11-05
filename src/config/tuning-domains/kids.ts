@@ -7,3 +7,4 @@ export * from '../tuning-dlg';
 export * from '../tuning-kids-r10';
 export * from '../tuning-kids';
 export * from '../tuning-look-r9e';
+export * from '../tuning-kids-r11e';
