@@ -1,3 +1,5 @@
+/* global require, process, console, window, document, setTimeout, Image, innerWidth, innerHeight */
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* R0019 (round 13): the Pixel x-ray sweep over every tree, building, rock, scenery piece and fence post.
  * Run with the dev server up: node tests/tools/xray-grid.cjs <port> <w> <h> <rows.json>  (375 812 and 1280 800).
  * The Keeper stands 0.9 and 1.7 u behind each footprint; 3 frames each (normal, x-ray off, Keeper not
