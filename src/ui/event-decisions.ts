@@ -116,6 +116,7 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   keeperJumped: 'table',
   keeperLanded: 'table',
   keeperPoofed: 'elsewhere',
+  partnerPopped: 'elsewhere',
   keeperRolled: 'elsewhere',
   keeperSat: 'elsewhere',
   keeperSkid: 'elsewhere',

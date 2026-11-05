@@ -2059,6 +2059,25 @@ export class WorldView {
         });
         break;
       }
+      case 'partnerPopped': {
+        // R0048: a small pop where the lost partner left, sparkles where it lands.
+        if (p.reduceMotion) break;
+        p.burst('dust', e.from.x, 0.2, e.from.z, 5, {
+          spread: 0.25,
+          speed: 0.5,
+          rise: 0.3,
+          lifeMs: 450,
+          size: 0.4,
+        });
+        p.burst('sparkle', e.to.x, 0.3, e.to.z, 4, {
+          spread: 0.2,
+          speed: 0.3,
+          rise: 0.3,
+          lifeMs: 450,
+          size: 0.35,
+        });
+        break;
+      }
       case 'keeperRolled':
       case 'keeperLanded':
       case 'keeperJumped': {

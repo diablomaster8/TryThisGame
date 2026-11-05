@@ -1096,6 +1096,7 @@ export function playPerform(
 export type HollowCue =
   | 'notice'
   | 'poof'
+  | 'pop'
   | 'shrine'
   | 'waypoint'
   | `drop:${'plain' | 'shiny' | 'fancy' | 'legendary' | 'set'}`
@@ -1110,6 +1111,10 @@ export function playHollowCue(cue: HollowCue): void {
     } else if (cue === 'poof') {
       tone(300, 0, 260, 'sine', 0.05, 1200);
       for (let i = 0; i < 3; i++) tone(1800 + i * 300, 200 + i * 60, 50, 'triangle', 0.025);
+    } else if (cue === 'pop') {
+      // R0048: a soft, short bubble-pop, quieter than the foe poof.
+      tone(520, 0, 70, 'sine', 0.03, 900);
+      tone(1300, 50, 40, 'triangle', 0.015);
     } else if (cue === 'shrine') {
       tone(220, 0, 700, 'sine', 0.04);
       tone(330, 80, 620, 'sine', 0.025);

@@ -1539,7 +1539,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       continue;
     }
     // R0048: a follower left far behind and out of sight pops to its slot behind the Keeper.
-    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs);
+    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs, events);
     let target: Vec2 | null = null;
     let fetching = run.fetch[id] ? f.loot.find((l) => l.id === run.fetch[id]) : undefined;
     if (fetching && !available(fetching)) fetching = undefined;

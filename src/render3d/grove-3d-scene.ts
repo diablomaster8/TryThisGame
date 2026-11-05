@@ -1012,6 +1012,15 @@ export class Grove3dScene {
         b.burst('sparkle', to, n, { spread: 0.3, speed: 0.5, rise: 0.3, lifeMs: life }, now);
         continue;
       }
+      if (e.kind === 'partnerPopped') {
+        // R0048: a small pop where the lost partner left, sparkles where it lands.
+        if (this.reduceMotion) continue;
+        const from = new THREE.Vector3(e.from.x, ground(e.from.x, e.from.z) + 0.3, e.from.z);
+        b.burst('dust', from, 5, { spread: 0.3, speed: 0.5, rise: 0.3, lifeMs: 450 }, now);
+        const to = new THREE.Vector3(e.to.x, ground(e.to.x, e.to.z) + 0.4, e.to.z);
+        b.burst('sparkle', to, 4, { spread: 0.2, speed: 0.3, rise: 0.3, lifeMs: 450 }, now);
+        continue;
+      }
       if (e.kind === 'gearFound') this.gearPop.push(e.item.rarity, now);
       if (e.kind === 'portalReturned') this.r9a.portalReturned(now);
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
@@ -2219,6 +2228,7 @@ export class Grove3dScene {
     // outlined part), then the second grass pass and the dusk bloom's passes, then most of
     // the shadow redraws. None of them changes a program, so a step never stalls.
     const level = this.governor.cpuLevel;
+    this.actors.shedAmbient = this.governor.shedAmbient;
     if (level !== this.cpuApplied) {
       this.cpuApplied = level;
       setOutlines(level < 1);

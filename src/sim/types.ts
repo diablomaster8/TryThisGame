@@ -1956,6 +1956,8 @@ export type SimEvent =
   | { kind: 'keeperDipped'; shells: number }
   // R0025 (lane A r10): a splash-down without the Swim perk puffed the Keeper back ashore.
   | { kind: 'keeperPoofed'; from: Vec2; to: Vec2 }
+  // R0048 (round 12): a lost Hollow partner pops to its slot behind the Keeper.
+  | { kind: 'partnerPopped'; nubbinId: string; from: Vec2; to: Vec2 }
   // R0026 item 4 (lane A r10): the hidden keepsake on the shelf behind the waterfall, found.
   | { kind: 'fallsKeepsake'; id: string }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).

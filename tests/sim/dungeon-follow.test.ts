@@ -5,7 +5,8 @@ import { slotTarget } from '../../src/sim/dungeon-follow';
 import { hatch } from '../../src/sim/lifecycle';
 import { createEgg } from '../../src/sim/nubbin';
 import { Rng } from '../../src/sim/rng';
-import type { World } from '../../src/sim/types';
+import { hollowCueFor } from '../../src/ui/hollow-sounds';
+import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 // R0048 (round 11): partners follow from slots behind the Keeper and pop back when lost.
@@ -101,7 +102,11 @@ describe('polite following in the Hollow (R0048)', () => {
     if (!far) return;
     const n = world.nubbins.find((x) => x.id === run.party[0])!;
     n.pos = { ...far };
-    for (let t = 0; t < 3600; t += SIM.stepMs) stepWorld(world, SIM.stepMs);
+    const popped: SimEvent[] = [];
+    for (let t = 0; t < 3600; t += SIM.stepMs)
+      popped.push(...stepWorld(world, SIM.stepMs).filter((e) => e.kind === 'partnerPopped'));
+    expect(popped.length).toBeGreaterThan(0);
+    expect(hollowCueFor(popped[0]!, world)).toBe('pop');
     const d = Math.hypot(n.pos.x - k.x, n.pos.z - k.z);
     expect(d).toBeLessThan(HOLLOW.follow.popDistance);
   });
