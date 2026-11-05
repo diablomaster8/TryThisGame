@@ -14,7 +14,7 @@
  *
  * Called from `stepRegionWalk`; transient state only (a reload lands the Keeper on the ground).
  */
-import { JUMP_ROUTES, type Ledge } from '../config/region-jumps';
+import { JUMP_ROUTES, type JumpLedge } from '../config/region-jumps';
 import { terraceHeight, type RegionLayout } from '../config/region-layout';
 import { RIDGE_FLIGHTS, type RegionFlightDef } from '../config/region-ridge';
 import type { RegionId } from '../config/regions';
@@ -44,9 +44,9 @@ interface Lane {
   to: Vec2;
 }
 
-const lanesBy = new Map<RegionId, { lanes: Lane[]; ledges: Ledge[] }>();
+const lanesBy = new Map<RegionId, { lanes: Lane[]; ledges: JumpLedge[] }>();
 
-function built(id: RegionId): { lanes: Lane[]; ledges: Ledge[] } {
+function built(id: RegionId): { lanes: Lane[]; ledges: JumpLedge[] } {
   let b = lanesBy.get(id);
   if (!b) {
     b = { lanes: [], ledges: [] };
@@ -61,7 +61,7 @@ function built(id: RegionId): { lanes: Lane[]; ledges: Ledge[] } {
 }
 
 /** The built ledges and stones of a region (the renderers draw them). */
-export function regionLedges(id: RegionId): readonly Ledge[] {
+export function regionLedges(id: RegionId): readonly JumpLedge[] {
   return built(id).ledges;
 }
 

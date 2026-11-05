@@ -53,11 +53,11 @@ export interface JumpRoute {
    * Keeper may pass over water or a cliff there while airborne, `sim/region-moves.ts`), and
    * these raised boxes (stepping stones, cliff ledges) stand in it, tops at `y`.
    */
-  ledges?: readonly Ledge[];
+  ledges?: readonly JumpLedge[];
 }
 
 /** R12 lane D: a raised box the Keeper can stand on (a stepping stone, a cliff ledge). */
-export interface Ledge {
+export interface JumpLedge {
   x: number;
   z: number;
   w: number;
