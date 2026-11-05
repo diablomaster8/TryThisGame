@@ -2361,6 +2361,7 @@ export class WorldView {
           ? 'sit'
           : 'sleep'
         : clipFor(n);
+      clip = PIXEL_CLIP[clip] ?? clip;
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
       // R0540 (lane A r10): a chatter speaks with the happy clip and listens standing.
       const cc = held ? null : chatClip(n, perfMs);
@@ -2873,6 +2874,9 @@ function lerp(a: number, b: number, t: number): number {
 }
 
 /** Which clip a free Nubbin plays. */
+/** R0455: states `clipFor` names that the sprite sheet draws with another clip's frames. */
+const PIXEL_CLIP: Record<string, string> = { petted: 'happy' };
+
 export function clipFor(n: Nubbin): string {
   // R0525 (lane A r10): a lesson performed sits to draw, sings open-mouthed, dances, plays.
   const pc = performClip(n);
@@ -2902,9 +2906,12 @@ export function clipFor(n: Nubbin): string {
     // LOOK-21: crying sits, rubs its eyes and wails (a sheet without the clip shows sad).
     case 'cry':
       return 'cry';
+    // R0455 (r12-d3): the petted state both renderers name (`render-common/visual-state.ts`);
+    // the sheet has no lean-in clip, so it draws with the happy frames (`PIXEL_CLIP`).
+    case 'pet':
+      return 'petted';
     case 'greet':
     case 'play':
-    case 'pet':
     case 'court':
     case 'perform':
       // R0539: a visit to a friend's flower is a quiet sit.

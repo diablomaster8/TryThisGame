@@ -226,6 +226,13 @@ export class GroveScene {
 
   private groundWorker: Worker | null = null;
   private groundJob = 0;
+  /** The last painting swapped in (R0454: a visual test waits for the worker's, `groundReady`). */
+  private groundLanded = 0;
+
+  /** R0454 (r12-d3): the full ground painting is on (not the quick one still waiting on it). */
+  get groundReady(): boolean {
+    return this.groundLanded === this.groundJob;
+  }
 
   /**
    * The full painting takes a couple of seconds for the 96-unit field, so it runs in a
@@ -234,7 +241,10 @@ export class GroveScene {
    */
   private requestGround(tiles: Record<string, TileKind>): void {
     const id = ++this.groundJob;
-    const inline = () => this.swapGround(makeGroundTexture(7, tiles));
+    const inline = () => {
+      this.groundLanded = id;
+      this.swapGround(makeGroundTexture(7, tiles));
+    };
     if (typeof Worker === 'undefined') {
       inline();
       return;
@@ -246,6 +256,7 @@ export class GroveScene {
         });
         this.groundWorker.onmessage = (e: MessageEvent<GroundResult>) => {
           if (e.data.id !== this.groundJob) return;
+          this.groundLanded = e.data.id;
           this.swapGround(groundTexture(e.data));
         };
         this.groundWorker.onerror = () => {

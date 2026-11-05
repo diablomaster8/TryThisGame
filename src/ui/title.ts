@@ -39,8 +39,6 @@ import {
   type SaveSummary,
 } from '../platform/storage';
 import type { KeeperAlignment } from '../sim/types';
-import { frameKey } from '../render/sprites/animations';
-import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
 import { askGrownUp } from './grown-up-gate';
@@ -48,7 +46,7 @@ import { EDU_AGES, type EduAge } from '../config/edu';
 import type { EduBand } from '../content/types';
 import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
 import { AGE_PICK_TEXT } from '../config/strings-kids';
-import { speakLine } from './lesson';
+import { speakLater } from './speak-lazy';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { SLOT_LABEL_TEXT } from '../config/strings';
 import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
@@ -617,7 +615,7 @@ export function showTitle(
         mainMenu();
       }),
     );
-    speakLine(EDU_TEXT.chooseAge);
+    speakLater(EDU_TEXT.chooseAge);
   };
 
   /** Dawn & Dusk: pick a half; the other opens once one half has reached an ending. */
@@ -719,29 +717,41 @@ export function showTitle(
   }
 }
 
+/**
+ * The Keeper's picture on the pick step. R0446 (r12-d3): the sprite painter brings Three.js
+ * with it, so the canvas goes in at its final size and is painted once that chunk is in (the
+ * boot prefetch has usually fetched it by the time a player reaches this step).
+ */
 function portrait(trainerId: string): HTMLCanvasElement {
-  const sheet = buildKeeperSheet(TRAINERS.find((t) => t.id === trainerId)!.look);
-  const rect = sheet.frames.get(frameKey('idle', 'front', 0));
   const canvas = document.createElement('canvas');
   const scale = 2;
-  canvas.width = (rect?.w ?? 32) * scale;
-  canvas.height = (rect?.h ?? 32) * scale;
-  const ctx = canvas.getContext('2d');
-  if (ctx && rect) {
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(
-      sheet.texture.image as HTMLCanvasElement,
-      rect.x,
-      rect.y,
-      rect.w,
-      rect.h,
-      0,
-      0,
-      canvas.width,
-      canvas.height,
-    );
-  }
-  sheet.dispose();
+  canvas.width = 64 * scale;
+  canvas.height = 64 * scale;
+  Promise.all([import('../render/sprites/keeper'), import('../render/sprites/animations')]).then(
+    ([{ buildKeeperSheet }, { frameKey }]) => {
+      const sheet = buildKeeperSheet(TRAINERS.find((t) => t.id === trainerId)!.look);
+      const rect = sheet.frames.get(frameKey('idle', 'front', 0));
+      canvas.width = (rect?.w ?? 32) * scale;
+      canvas.height = (rect?.h ?? 32) * scale;
+      const ctx = canvas.getContext('2d');
+      if (ctx && rect) {
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(
+          sheet.texture.image as HTMLCanvasElement,
+          rect.x,
+          rect.y,
+          rect.w,
+          rect.h,
+          0,
+          0,
+          canvas.width,
+          canvas.height,
+        );
+      }
+      sheet.dispose();
+    },
+    () => undefined,
+  );
   return canvas;
 }
 

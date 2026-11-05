@@ -71,7 +71,6 @@ import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
 import { ItemKit, placeStand, shellKey } from './item-kit';
-import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
@@ -94,7 +93,8 @@ import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
 import { companions } from '../sim/region-companion';
-import { noteDue, performClip, performLook } from '../render/perform-look';
+import { noteDue, performLook } from '../render/perform-look';
+import { poseOfState, visualStateFor } from '../render-common/visual-state';
 import { Perform3D } from './perform-3d';
 import { chatClip, chatHop } from '../render/chat-look';
 import { emoteMotion } from '../render/emote-mood';
@@ -159,70 +159,8 @@ const GROVE3D_WADE = 0.6;
  * (any other Nubbin in the pond wades, which is the walk).
  */
 export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
-  if (petted) return 'pet';
-  const walk = (): PoseName => (moving ? (flaps(n) ? 'flap' : 'walk') : 'idle');
-  switch (n.behavior.state) {
-    case 'held':
-    case 'carried':
-    case 'pet':
-      return 'pet';
-    case 'nap':
-      return 'sleep';
-    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never asleep.
-    case 'shelter':
-      return moving ? walk() : 'sit';
-    case 'eat':
-      return 'eat';
-    // LOOK-20: the Chao sit, legs out (the rig's stock `sit`); a low or hungry sitter is sad.
-    case 'sit': {
-      if (moving) return walk();
-      const mood = moodOf(n);
-      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
-    }
-    case 'perform':
-      // R0525 (lane A r10): a lesson performed sits to draw, sings, dances or plays.
-      if (performClip(n)) return performClip(n)!;
-      // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
-      if (n.behavior.itemId === 'visitFlower') return moving ? 'walk' : 'sit';
-      return 'happy';
-    case 'play':
-    case 'greet':
-    case 'court':
-    case 'fetch':
-      return 'happy';
-    // LOOK-21: crying sits, rubs its eyes in turn and wails, with tears (`cry-tears.ts`).
-    case 'cry':
-      return moving ? walk() : 'cry';
-    case 'swim':
-      // LOOK-23: everyone in the pond swims its own stroke (the stage sets the style).
-      return 'swim';
-    case 'thrown':
-      return 'tumble';
-    case 'react':
-      switch (n.behavior.reaction) {
-        case 'love':
-          return 'love';
-        case 'happy':
-          return 'happy';
-        case 'dizzy':
-          return 'dizzy';
-        case 'surprised':
-          return 'surprised';
-        case 'sad':
-          return 'sad';
-        default:
-          return walk();
-      }
-    case 'wander':
-    case 'findFood':
-    case 'avoid':
-      return walk();
-    default: {
-      if (moving) return walk();
-      const mood = moodOf(n);
-      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'idle';
-    }
-  }
+  // R0455 (TECH-13, r12-d3): through the state both renderers share (render-common).
+  return poseOfState(visualStateFor(n, moving, petted));
 }
 
 interface KeeperSlot {

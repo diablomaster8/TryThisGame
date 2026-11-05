@@ -171,6 +171,12 @@ export class Game {
   renderPaused = false;
   /** Debug: force an hour (0..24) instead of the real clock; null = real time. */
   hourOverride: number | null = null;
+  /**
+   * R0454 (TECH-12, r12-d3): the visual tests' frame clock. Given the browser's frame time, it
+   * returns the time the frame runs at, so wind, water and idle sways land on the same phase
+   * in every run (`dev/e2e-api.ts` `freeze`). Null in play.
+   */
+  frameClock: ((nowMs: number) => number) | null = null;
   private lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
   private readonly stager = new SceneStager();
@@ -970,7 +976,7 @@ export class Game {
     // keep the loop alive, stop saving and let the HUD offer a reload.
     this.spikes.begin();
     try {
-      this.tick(nowMs);
+      this.tick(this.frameClock ? this.frameClock(nowMs) : nowMs);
     } catch (err) {
       if (!this.crashed) {
         console.error('Grove: a frame failed; saving has stopped.', err);

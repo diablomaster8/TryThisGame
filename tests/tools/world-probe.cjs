@@ -182,6 +182,35 @@ async function settleAt(page, x, z) {
 }
 
 /**
+ * R0451 (r12-d3): before the first 3D spot, wait out the warm-up: the scene's load (rigs,
+ * textures, terrain, grass), the rigs the hatch just asked for, and the governor's geometry
+ * level, which a warm-up spike raises for a while (the first spot used to read lod 1 and
+ * 180 calls on one run and lod 0 on the next). Settled = the level, the rig counts and the
+ * looks unchanged across 3 checks a second apart, or 45 s, whichever comes first.
+ */
+async function settle3d(page) {
+  await page
+    .waitForFunction(() => !window.grove.scene3d || window.grove.scene3d.loadState().done, null, {
+      timeout: 120000,
+    })
+    .catch(() => {});
+  let last = '';
+  let same = 0;
+  for (let i = 0; i < 45 && same < 3; i++) {
+    await page.waitForTimeout(1000);
+    const now = await page.evaluate(() => {
+      const s = window.grove.scene3d;
+      if (!s) return '';
+      const c = s.actors.pool.counts;
+      return [s.lodBias, c.looks, c.spares, c.lent, s.actors.pool.compiling].join('|');
+    });
+    same = now === last ? same + 1 : 0;
+    last = now;
+  }
+  return last;
+}
+
+/**
  * R0131 (WORLD-65): PROBE_PARITY=1 also screenshots every Grove POI in both renderers into
  * docs/logs/parity/<poi>-px.png and <poi>-3d.png (git-ignored). The POIs are read from the
  * Grove's RegionDef so a new POI is shot without editing the probe.
@@ -251,6 +280,7 @@ async function probe(TAG) {
       (season) => window.grove.send({ kind: 'debugSeason', season }),
       process.env.PROBE_SEASON,
     );
+  if (TAG === '3d') await settle3d(page);
   const rows = [];
   for (const [name, x, z, region] of SPOTS) {
     await enterRegion(page, region ?? 'grove');

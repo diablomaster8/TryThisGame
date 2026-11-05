@@ -22,13 +22,13 @@ and no memory), so they read as mid; Settings → Quality → High lifts them.
 
 ## Shared budgets
 
-| What                        | Budget          | Checked by                                                                                                          |
-| --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Eager JS                    | ≤450 kB gzip    | `npm run check:bundle` asserts the baseline (845 kB today) +10% and a 1000 kB ceiling; 450 is the goal, not yet met |
-| First playable frame        | ≤3 s on Fast 4G | manual (`window.__groveLoadMs`)                                                                                     |
-| 7-day `indefinite` catch-up | ≤3 s            | `tests/sim/offline.test.ts`                                                                                         |
-| 30-day catch-up, full Grove | ≤1.5 s          | `tests/sim/offline-perf.test.ts` (8 adults, campaign, Hollow run; TECH-73: ~0.4 s, so no worker needed)             |
-| One autosave                | ≤2 ms           | `tests/sim/offline-perf.test.ts` (serialise, 8 adults, campaign, Hollow run; the write is manual)                   |
+| What                        | Budget          | Checked by                                                                                                                                                                |
+| --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Eager JS                    | ≤450 kB gzip    | `npm run check:bundle` asserts the baseline (107 kB, 2026-11-04) +10% and a 160 kB ceiling: the title paints before the sim, `Game` and the HUD load (`src/boot-late.ts`) |
+| First playable frame        | ≤3 s on Fast 4G | manual (`window.__groveLoadMs`)                                                                                                                                           |
+| 7-day `indefinite` catch-up | ≤3 s            | `tests/sim/offline.test.ts`                                                                                                                                               |
+| 30-day catch-up, full Grove | ≤1.5 s          | `tests/sim/offline-perf.test.ts` (8 adults, campaign, Hollow run; TECH-73: ~0.4 s, so no worker needed)                                                                   |
+| One autosave                | ≤2 ms           | `tests/sim/offline-perf.test.ts` (serialise, 8 adults, campaign, Hollow run; the write is manual)                                                                         |
 
 ## How the renderers hold it
 
@@ -44,4 +44,6 @@ and no memory), so they read as mid; Settings → Quality → High lifts them.
   tier.
 - `WORLD_MEM.phone.heapMB` (180, one region's target) sits above the mid tier's whole-page
   heap budget (160); the region budget should come down when the phone pass has numbers.
-- The eager bundle is about twice the goal.
+- Production Full 3D heap after GC, phone viewport, new Hazel's Grove (2026-11-04, r12-d3):
+  154 MB, down from 188 once villagers' and the grandchild's marched surfaces are let go after
+  their rig is built (`POOL_SHED`); Pixel 38 MB. Measured with `recs-2026-10-27/tools/r12-d3-heap.cjs`.

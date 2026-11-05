@@ -1,6 +1,6 @@
 {
-  "eagerKb": 635,
-  "eagerCeilingKb": 1000,
+  "eagerKb": 107,
+  "eagerCeilingKb": 160,
   "chunkCeilingKb": 1536,
   "chunks": {
     "edu-reader-worlds": 1290,
@@ -9,12 +9,12 @@
     "edu-sprout-worlds": 625,
     "side-story-content": 427,
     "edu-sprout": 331,
-    "save": 296,
+    "fun-quests": 304,
     "multiverse-catalogue": 253,
-    "hud": 197,
+    "hud": 198,
     "grove-3d-scene": 172,
     "arcade-catalogue": 137,
     "edu-lang": 126,
-    "governor": 107
+    "governor": 108
   }
 }

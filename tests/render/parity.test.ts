@@ -4,6 +4,8 @@ import { poseFor } from '../../src/render3d/actors';
 import { CLIP_NAMES } from '../../src/render/sprites/animations';
 import {
   VISUAL_STATES,
+  poseOfState,
+  visualStateFor,
   visualStateOfClip,
   visualStateOfPose,
 } from '../../src/render-common/visual-state';
@@ -45,10 +47,8 @@ function sample(seed: number): Nubbin {
 }
 
 /** States where Pixel and 3D still differ: `state/reaction` -> a note. Shrink only. */
-const KNOWN_GAPS = new Set<string>([
-  // Being petted: Pixel plays the happy clip, 3D leans into the hand (its `pet` pose).
-  ...['happy', 'surprised', 'dizzy', 'sad', 'confused', 'none'].map((r) => `pet/${r}`),
-]);
+// R0455 (r12-d3): empty. Being petted was the last gap; both now name the `petted` state.
+const KNOWN_GAPS = new Set<string>([]);
 
 describe('renderer parity: VisualState', () => {
   it('every Pixel clip name maps to a state', () => {
@@ -67,11 +67,24 @@ describe('renderer parity: VisualState', () => {
     for (let seed = 1; seed <= 200; seed++) {
       const n = sample(seed);
       const px = visualStateOfClip(clipFor(n));
-      const d3 = visualStateOfPose(poseFor(n, n.behavior.target !== null, false));
+      // 3D's pose is the routed state's pose (R0455), so the state is what 3D draws.
+      const d3 = visualStateFor(n, n.behavior.target !== null, false);
+      expect(poseFor(n, n.behavior.target !== null, false)).toBe(poseOfState(d3));
       if (px === d3) continue;
       const key = `${n.behavior.state}/${n.behavior.reaction ?? 'none'}`;
       if (!KNOWN_GAPS.has(key)) disagreements.push(`${key}: pixel ${px} vs 3d ${d3}`);
     }
     expect([...new Set(disagreements)]).toEqual([]);
+  });
+
+  it('names the petted state alike, whichever way the hand is on', () => {
+    const n = sample(3);
+    n.behavior.state = 'pet';
+    expect(visualStateOfClip(clipFor(n))).toBe('petted');
+    expect(visualStateFor(n, false, false)).toBe('petted');
+    n.behavior.state = 'wander';
+    expect(visualStateFor(n, true, true)).toBe('petted');
+    expect(poseFor(n, true, true)).toBe('pet');
+    expect(visualStateOfPose('pet')).toBe('held');
   });
 });

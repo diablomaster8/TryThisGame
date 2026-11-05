@@ -44,6 +44,7 @@ export const UNIT_FILES: readonly string[] = [
   'tests/render/pixel-poses.test.ts',
   'tests/render/pmrem-ggx.test.ts',
   'tests/render/pool-evict.test.ts',
+  'tests/render/governor-pin.test.ts',
   'tests/render/quad.test.ts',
   'tests/render/race-tags.test.ts',
   'tests/render/second-evolution-pixel.test.ts',
@@ -202,6 +203,7 @@ export const TOOL_FILES: readonly string[] = [
 export const ISOLATED_FILES: readonly string[] = [
   'tests/platform/storage.test.ts', // the slot index state leaks in from other save tests
   'tests/render/pool-burst.test.ts',
+  'tests/render/pool-shed.test.ts',
   'tests/sim/expansions.test.ts',
   'tests/sim/fun-r5.test.ts',
   'tests/sim/read-aloud.test.ts',
