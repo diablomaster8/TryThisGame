@@ -7,6 +7,7 @@ import type { Tex } from '../samples/aaa-kit';
 import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { HollowChasm } from './hollow-chasm';
+import { HollowLeafBridge } from './hollow-leaf';
 import { HollowTrail } from './hollow-trail';
 import { HollowPlates } from './hollow-plates';
 import { HollowShrines } from './hollow-shrines';
@@ -79,6 +80,8 @@ export class Hollow {
   private readonly kid = new HollowKid3D();
   /** Chasm pits (R0031). */
   private readonly chasm = new HollowChasm();
+  /** The sprout leaf-bridge over a gap (R0025, round 12). */
+  private readonly leafBridge = new HollowLeafBridge();
   /** Dropped stray Shells (R0162). */
   private readonly trail = new HollowTrail();
   /** Name plates over champion, elite and boss packs (R0155). */
@@ -134,6 +137,7 @@ export class Hollow {
       this.fog,
       this.rock,
       this.chasm,
+      this.leafBridge,
       this.dress,
       this.light_,
       this.atmos,

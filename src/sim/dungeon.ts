@@ -31,6 +31,7 @@ import { stepPicnic } from './dungeon-picnic';
 import { noteSplit } from './dungeon-speed';
 import { fillRooms, quietScan } from './dungeon-rooms';
 import { forfeitBattleCmd } from './battle';
+import { isBridged } from './dungeon-bridged';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
 import { acornInFind, goToLevel, stepWaypoint } from './dungeon-travel';
@@ -826,7 +827,8 @@ function blocks(f: Floor, x: number, y: number, solid: Solid): boolean {
   const v = cellAt(f, x, y);
   if (v === WALL) return true;
   if (solid === 'rock') return false;
-  return v === CHASM || (solid === 'all' && v === WATER && f.version >= 4);
+  if (v === CHASM) return !isBridged(f, y * f.cols + x);
+  return (solid === 'all' && v === WATER && f.version >= 4);
 }
 
 /** Push a circle out of the wall cells around it. Returns true when it moved. */
