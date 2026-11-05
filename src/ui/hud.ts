@@ -2,15 +2,23 @@ import { CAMERA, INPUT, UI } from '../config/tuning';
 import { ALBUM_TEXT } from '../config/strings-soul-r11b';
 import { mountWatch } from './watch';
 import { AnticAlbum } from './antic-album';
-import { WORLD_TEXT } from '../config/strings-world';
+
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
 
 import { UI_TEXT, DUNGEON_TEXT } from '../config/strings';
 import type { Game, GameHooks } from '../game';
-import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
+import type { AwayReport, SimEvent } from '../sim/types';
 import { refreshStep, type RefreshCtx, type RefreshState } from './hud-refresh';
 import { makeToaster } from './hud-toasts';
+import {
+  cycleGrove,
+  locationLabel,
+  startExpedition,
+  startTank,
+  type ActionCtx,
+} from './hud-actions';
+import { mountChips } from './hud-chips';
 import { mountRunJump } from './hud-moves';
 import { buildTopbar } from './hud-topbar';
 import { handleSelect, type SelectCtx } from './hud-select';
@@ -32,8 +40,7 @@ import { SproutTutorial } from './sprout-tutorial'; /* Lane E r10 */
 import { Guide } from './guide';
 import { kidToaster } from './kid-notice';
 import { BreakWarning } from './break-warning';
-import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
-import { JOYSTICK_TEXT } from '../config/strings-move-joy';
+
 import { RacesMenu } from './races';
 import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
@@ -48,7 +55,6 @@ import { AmbientBubbles, BarkBubble } from './bark-bubble';
 import { bandToaster } from './fun-toasts';
 import { dedupeToaster } from './event-dedupe';
 import { HatchCard } from './hatch-card';
-import { nextTip } from './tips';
 
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
@@ -61,7 +67,7 @@ import { boutTier, loggedPartyIds } from '../sim/storyline-rules-logged';
 import { KindergartenMenu } from './kindergarten';
 import { KarateMenu } from './karate';
 import { CollectionBook, MemorialCard } from './collection';
-import { snapYaw } from '../sim/decorate';
+
 import { DecorateMenu } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
@@ -97,7 +103,6 @@ import {
 } from '../platform/mature-recheck';
 import { MATURE_RECHECK } from '../config/tuning-tech';
 
-import { TRAINER_LABELS as TL } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
 import { OfferCard } from './offer-card';
 
@@ -140,10 +145,10 @@ export function mountHud(
     openSettings: () => settings.open(),
     kidSheet: () => kidSheet.open(),
     trainers: () => trainers.open(),
-    cycleGrove: () => cycleGrove(),
+    cycleGrove: () => cycleGrove(game),
     shop: () => shop.open(),
     edu: () => edu.open(),
-    expedition: () => startExpedition(),
+    expedition: () => startExpedition(actionCtx),
     eduNext: () => edu.showNext(),
     races: () => races.open(),
     journal: () => journal.open(),
@@ -188,54 +193,6 @@ export function mountHud(
       : null;
     if (selected && selected.stage !== 'egg' && selected.stage !== 'cocoon') return selected;
     return g.world.nubbins.find((n) => n.stage === 'child' || n.stage === 'adult') ?? null;
-  }
-
-  /** A place name, including a neighbour's Grove. */
-  function locationLabel(loc: string): string {
-    if (loc.startsWith('visit:')) {
-      const t = loc.slice('visit:'.length);
-      return `${TL[t]?.name ?? t}’s Grove`;
-    }
-    // R11 lane D: a drawn region says its own name.
-    if (loc.startsWith('region:'))
-      return (WORLD_TEXT.regions as Record<string, string>)[loc.slice(7)] ?? loc;
-    return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
-  }
-
-  function startExpedition(): void {
-    const g = game();
-    if (!g || expedition.isOpen) return;
-    const runner = pickRunner();
-    if (!runner) {
-      toast(UI_TEXT.expeditionNeedsNubbin, UI.toastLongMs);
-      return;
-    }
-    sheet.close();
-    g.renderPaused = true;
-    // R0318: a tip while the stage loads.
-    expedition.loadTip = nextTip(g.world);
-    expedition.start(
-      runner,
-      g.view.sheets.forNubbin(runner),
-      Date.now() % 2147483647,
-      (rewards) => {
-        g.renderPaused = false;
-        g.send({ kind: 'addRewards', rewards });
-      },
-      g.world.location === 'hollow' || g.world.campaign?.chapter === 8 ? 'hollow' : 'meadow',
-      g.graphics,
-      g.scene3d,
-    );
-  }
-
-  function cycleGrove(): void {
-    const g = game();
-    if (!g) return;
-    const order: GroveKind[] = ['main'];
-    if (g.world.unlocks.sunGrove) order.push('sun');
-    if (g.world.unlocks.moonGrove) order.push('moon');
-    const i = order.indexOf(g.world.grove);
-    g.send({ kind: 'setGrove', grove: order[(i + 1) % order.length] ?? 'main' });
   }
 
   // Carry chip.
@@ -424,6 +381,7 @@ export function mountHud(
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
   const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);
+  const actionCtx: ActionCtx = { game, pickRunner, toast, sheet, expedition, tank };
   const atlas = new StoryShelf(root, game, dialogue, toast, {
     which: 'atlas',
     title: ATLAS_TEXT.atlas,
@@ -458,22 +416,6 @@ export function mountHud(
     empty: ATLAS_TEXT.noGate,
     load: loadNeopia,
   });
-  function startTank(): void {
-    const g = game();
-    if (!g || tank.isOpen) return;
-    sheet.close();
-    g.renderPaused = true;
-    tank.start(Date.now() % 2147483647, (s) => {
-      g.renderPaused = false;
-      g.send({
-        kind: 'tankResult',
-        shells: s.cargo.shells,
-        wood: s.cargo.wood,
-        stone: s.cargo.stone,
-        won: s.won,
-      });
-    });
-  }
   // The "More" menu holds everything that does not fit the top bar.
   const more = modal(root, UI_TEXT.more, UI_TEXT.close);
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
@@ -489,7 +431,7 @@ export function mountHud(
       [`📷 ${UI_TEXT.photo}`, () => photo.open()],
       [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
       [`🏋 ${TEN_TEXT.gym}`, () => gym.open()],
-      [`🪲 ${TEN_TEXT.tank}`, () => startTank()],
+      [`🪲 ${TEN_TEXT.tank}`, () => startTank(actionCtx)],
       [`🕳 ${DUNGEON_TEXT.title}`, () => dungeon.open()],
       [`📕 ${ATLAS_TEXT.atlas}`, () => atlas.open()],
       [`🕹 ${ATLAS_TEXT.cabinet}`, () => cabinet.open()],
@@ -539,55 +481,11 @@ export function mountHud(
       playFight: () => karate.open(),
       kindergarten: () => kindergarten.open(),
       map: () => map.open(),
-      beetle: () => startTank(),
+      beetle: () => startTank(actionCtx),
     },
     () => grownUps.open(),
   );
-  // Placing chip while decorating.
-  const placingChip = el('div', 'placing-chip');
-  placingChip.hidden = true;
-  const placingText = el('span');
-  // Decor turns in eighths before it goes down, so fence runs can go any way (MOVE-04).
-  const rotateBtn = button(
-    `↻ ${UI_TEXT.rotatePiece}`,
-    () => {
-      const g = game();
-      const p = g?.placing;
-      if (g && p?.mode === 'decor') g.placing = { ...p, yaw: snapYaw((p.yaw ?? 0) + Math.PI / 4) };
-    },
-    'btn btn-small',
-  );
-  placingChip.append(
-    placingText,
-    rotateBtn,
-    button(
-      UI_TEXT.donePlacing,
-      () => {
-        const g = game();
-        if (g) g.placing = null;
-      },
-      'btn btn-small',
-    ),
-  );
-  root.appendChild(placingChip);
-  // Visiting a neighbour: the way home stays on screen, not three menus deep (bug 28).
-  const goHome = (): void => game()?.send({ kind: 'visit', trainer: null });
-  const homeBtn = button(`🏡 ${UI_TEXT.goHome}`, goHome, 'btn home-btn');
-  homeBtn.hidden = true;
-  root.appendChild(homeBtn);
-  // The first touch offers the floating joystick once, in a toast (R0028).
-  const offerJoystick = (e: PointerEvent): void => {
-    if (e.pointerType !== 'touch') return;
-    window.removeEventListener('pointerdown', offerJoystick, true);
-    try {
-      if (localStorage.getItem(JOYSTICK_TUNING.offerKey)) return;
-      localStorage.setItem(JOYSTICK_TUNING.offerKey, '1');
-    } catch {
-      /* storage blocked: offer it this session only */
-    }
-    if (!game()?.world.settings.joystick) toast(JOYSTICK_TEXT.offer, UI.toastLongMs);
-  };
-  window.addEventListener('pointerdown', offerJoystick, true);
+  const { placingChip, placingText, rotateBtn, homeBtn } = mountChips(root, game, toast);
   // The Grove whose festivals were last checked against the side saves.
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
@@ -758,7 +656,8 @@ export function mountHud(
       // Nothing open: Esc leaves a neighbour's Grove.
       else {
         const g = game();
-        if (g && visitingTrainer(g.world) && !dialogue.isOpen) goHome();
+        if (g && visitingTrainer(g.world) && !dialogue.isOpen)
+          game()?.send({ kind: 'visit', trainer: null });
       }
     }
   });
