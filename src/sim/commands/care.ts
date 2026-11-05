@@ -8,6 +8,7 @@ import { react } from '../behavior';
 import { noteNubbin } from '../collection';
 import { coaxOut } from '../cottage-hide';
 import { giveCritter, giveEssence } from '../critters';
+import { noteSecondCare } from '../personality';
 import { hasDerivedHat } from '../derived-unlocks';
 import { newDiary } from '../grove-diary';
 import { feedWild } from '../habitats';
@@ -81,6 +82,7 @@ export const handlers: Handlers = {
     const ok = withRng(world, (rng) => giveCritter(n, cmd.species, rng, events));
     if (!ok) return;
     world.inventory.critters[cmd.species] = (world.inventory.critters[cmd.species] ?? 0) - 1;
+    noteSecondCare(n, 'curious');
     nudgeAlignment(n, k.alignment);
     react(n, 'love', now, events);
     return;

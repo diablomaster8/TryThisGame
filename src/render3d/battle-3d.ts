@@ -278,11 +278,11 @@ export class Battle3dView implements BattleView {
       const by = 'by' in e ? e.by : null;
       const who = 'who' in e ? e.who : null;
       const to = 'to' in e ? e.to : null;
-      if (e.k === 'befriend' || e.k === 'cuddle') pose = 'happy';
+      if (e.k === 'befriend' || e.k === 'cuddle') pose = 'cheer';
       if (e.k === 'use' && by === c.id) {
         // The wind-up, then the lunge (R0239: windup, bonk, splash).
         const kind = moveById(e.move)?.kind;
-        pose = kind === 'splash' ? 'flap' : kind === 'bonk' ? 'throw' : 'happy';
+        pose = k < 0.35 ? 'windup' : kind === 'splash' ? 'splash' : 'bonk';
         if (!still) {
           const l = Math.sin(k * Math.PI) * B.lunge;
           x += (dirX / len) * l;
@@ -290,12 +290,12 @@ export class Battle3dView implements BattleView {
         }
       }
       if (e.k === 'hit' && to === c.id) {
-        pose = 'sad';
+        pose = 'hit';
         if (!still) x += Math.sin(k * Math.PI * 6) * B.shake * (1 - k);
       }
       if (e.k === 'miss' && to === c.id) {
         // The dodge: a hop to the side.
-        pose = 'surprised';
+        pose = 'dodge';
         if (!still) {
           const d = Math.sin(k * Math.PI * 2) * B.dodge;
           x += (-dirZ / len) * d;
@@ -305,12 +305,12 @@ export class Battle3dView implements BattleView {
       if ((e.k === 'boing' || e.k === 'fumble') && who === c.id) pose = 'dizzy';
       if (e.k === 'skip' && who === c.id) pose = e.why === 'drowsy' ? 'sleep' : 'happy';
       if ((e.k === 'rally' && by === c.id) || (e.k === 'swing' && by === c.id && e.sweet))
-        pose = 'happy';
-      if (e.k === 'play' && who === c.id) pose = 'happy';
+        pose = 'cheer';
+      if (e.k === 'play' && who === c.id) pose = 'cheer';
       if (e.k === 'yawny' && who === c.id) pose = 'sleep';
       if (e.k === 'tuckered' && who === c.id) {
         // R0239 tuckered: ours naps where it stands, theirs toddles home.
-        pose = side === 0 ? 'sleep' : 'walk';
+        pose = side === 0 ? 'tuckered' : 'wave';
         if (side === 1) {
           yaw = Math.atan2(1, -0.6);
           if (!still) {

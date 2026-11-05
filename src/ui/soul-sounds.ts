@@ -4,9 +4,10 @@
  * events come only from live play (the sim holds them back while catching up), and fast
  * time stays quiet so a ×100 Grove is not a wall of chirps.
  */
-import { playChirp, playPerform } from '../platform/audio';
+import { playChirp, playMotif, playPerform } from '../platform/audio';
 import { chirpVoice } from '../platform/chirp-voice';
 import { instrumentOf } from '../sim/kindergarten';
+import { shownVariant } from '../sim/lesson-variants';
 import { speciesOf } from '../sim/species';
 import type { SimEvent, World } from '../sim/types';
 
@@ -17,7 +18,18 @@ export function playSoulSounds(events: readonly SimEvent[], world: World, timeSc
       const n = world.nubbins.find((x) => x.id === e.nubbinId);
       if (!n) continue;
       const voice = chirpVoice(n.id, n.personality);
-      playPerform(e.lesson, e.level, instrumentOf(n), voice.pitch);
+      const sv = shownVariant(n)?.id;
+      // R0589: a plain song is the Nubbin's own motif; a friend near it sings a third above.
+      if (e.lesson === 'singing' && !sv) {
+        const mate = world.nubbins.some(
+          (o) =>
+            o !== n &&
+            o.behavior.state === 'perform' &&
+            o.behavior.itemId === 'singing' &&
+            Math.hypot(o.pos.x - n.pos.x, o.pos.z - n.pos.z) < 6,
+        );
+        playMotif(n.seed, voice.pitch, mate);
+      } else playPerform(e.lesson, e.level, instrumentOf(n), voice.pitch, sv);
     } else if (e.kind === 'chatTurn') {
       const n = world.nubbins.find((x) => x.id === e.nubbinId);
       if (!n) continue;

@@ -2,6 +2,7 @@
  * Command handlers: the shop and rewards (TECH-35, moved out of world.ts).
  */
 import { noteCampaign } from '../campaign';
+import { noteSecondCare } from '../personality';
 import { craft, gather } from '../craft';
 import type { RecipeId } from '../craft';
 import { townBuy } from '../dungeon-towns';
@@ -28,6 +29,8 @@ export const handlers: Handlers = {
     }
     addRewards(world, r, events);
     noteCampaign(world, 'expedition');
+    // R0529: an expedition is a bold outing for every child at home.
+    for (const c of world.nubbins) noteSecondCare(c, 'bold');
     return;
   },
   buy(world, cmd, events) {

@@ -40,10 +40,31 @@ export const PERSONALITY = {
   /** Idle multipliers by personality: greet, play, sit, swim. */
   multipliers: {
     cheerful: { greet: 1.6, play: 1.4, sit: 0.7, swim: 1.1 },
-    shy: { greet: 0.3, play: 0.8, sit: 1.3, swim: 0.8 },
+    // R0582 (lane A r11): a shy one wades at the edge, and seldom (x0.5).
+    shy: { greet: 0.3, play: 0.8, sit: 1.3, swim: 0.5 },
     mischievous: { greet: 1.0, play: 1.6, sit: 0.5, swim: 1.5 },
     lazy: { greet: 0.8, play: 0.6, sit: 2.2, swim: 0.5 },
+    // R0529 (SOUL-11): the second four.
+    curious: { greet: 0.9, play: 1.2, sit: 0.6, swim: 1.0 },
+    gentle: { greet: 1.4, play: 0.9, sit: 1.1, swim: 0.8 },
+    bold: { greet: 1.2, play: 1.5, sit: 0.5, swim: 1.5 },
+    dreamy: { greet: 0.8, play: 0.7, sit: 1.8, swim: 0.7 },
   } as const,
+  /**
+   * R0529: the second four are decided before the first four's fallbacks, each when its own
+   * care reaches this many acts and leads the care that would make the others:
+   * curious (critters given, things inspected), gentle (hugs, tuck-ins, praise), bold (high
+   * fives, games of catch, expeditions), dreamy (minutes sat near an idle Keeper, as acts).
+   */
+  curiousActs: 6,
+  gentleActs: 6,
+  /** Of those, at least this many must be praise (hugs alone grow cheerful, R0530). */
+  gentlePraises: 2,
+  boldActs: 6,
+  dreamyActs: 6,
+  /** Sim ms of sitting near an idle Keeper that count as one dreamy act, and how near. */
+  dreamyActMs: 30_000,
+  dreamyRadius: 4,
 } as const;
 
 export const CRITTERS = {

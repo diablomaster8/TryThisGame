@@ -1,7 +1,8 @@
 import { CRITTER_SPECIES } from '../critters';
 import { LESSON_IDS } from '../kindergarten';
 import { SPECIES, type Family } from '../species';
-import type { AlignmentBand, Nubbin, NubbinType, Personality, SimEvent } from '../types';
+import { basePersonality, type BasePersonality } from '../personality';
+import type { AlignmentBand, Nubbin, NubbinType, SimEvent } from '../types';
 import { moveOf } from './moves';
 import type { MoveDef, NubbinBattle } from './types';
 
@@ -122,7 +123,8 @@ export const FINAL_MOVE: Record<`${Exclude<Family, 'chao'>}:${NubbinType}`, stri
  * move; each dojo belt teaches one; and a good loser, after a few lost bouts, learns the
  * Dramatic Gasp. None of these is a grind: they arrive with things the Nubbin does anyway.
  */
-export const PERSONALITY_MOVE: Record<Personality, string> = {
+/** R0529: keyed by the first four; the second four take the move of the nearest of those. */
+export const PERSONALITY_MOVE: Record<BasePersonality, string> = {
   cheerful: 'belly-flop',
   shy: 'pillow-fort',
   mischievous: 'noogie',
@@ -151,7 +153,7 @@ export function sourcesOf(n: Nubbin): string[] {
   const sp = SPECIES.find((s) => s.id === n.species);
   if (sp && sp.stage === 'final' && sp.family !== 'chao')
     add(FINAL_MOVE[`${sp.family}:${sp.type}`]);
-  if (n.personality) add(PERSONALITY_MOVE[n.personality]);
+  if (n.personality) add(PERSONALITY_MOVE[basePersonality(n.personality)]);
   BELT_MOVES.slice(0, n.karate?.belt ?? 0).forEach(add);
   if ((n.battle?.losses ?? 0) >= GOOD_LOSER.losses) add(GOOD_LOSER.move);
   for (const id of FALLBACK_MOVES) add(id);

@@ -17,14 +17,20 @@ import type { EduAge } from './config/edu';
 import { isAudioUnlocked, resumeAudio, suspendAudio, unlockAudio } from './platform/audio';
 import type { EduBand } from './content/types';
 import {
+  beginVisit,
   clearSlot,
   currentSlot,
+  endVisit,
+  hasSave,
+  profileModes,
   readGraphicsPref,
   restoreFromMirror,
   setSaveSlot,
+  slotsFor,
   storylineFinished,
   takeResumeSlot,
   writeSave,
+  type SaveSlot,
 } from './platform/storage';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
@@ -35,6 +41,7 @@ import { showUpdateNotice } from './ui/update-notice';
 import { showBootError } from './ui/boot-error';
 import { refreshOfflinePacks } from './ui/offline-packs';
 import { continueSlot, listenForInstall, offerInstallLater } from './ui/install-hint';
+import { mountVisitBanner } from './ui/visit-banner';
 import { reloadOnceForUpdate } from './platform/boot-reload';
 import { watchForUpdate } from './ui/update-ready';
 import {
@@ -141,6 +148,16 @@ function dropSplash(): void {
   document.getElementById('splash')?.remove();
   if (document.querySelector('.title')) performance.mark?.('title-visible');
 }
+/** R0669: begin a visit to profile `id` and answer the first slot it has a save in, or null. */
+function visitSlotOf(id: string): SaveSlot | null {
+  if (!beginVisit(id)) return null;
+  for (const mode of profileModes(id))
+    for (let index = 1; index <= slotsFor(mode); index++)
+      if (hasSave({ mode, index })) return { mode, index };
+  endVisit();
+  return null;
+}
+
 function route(): void {
   // TECH-38: the art-direction sample galleries open in dev builds and under `?debug` only.
   const sampleRoutes = import.meta.env.DEV || params.has('debug');
@@ -179,6 +196,10 @@ function route(): void {
       age: Math.max(3, Math.min(6, age)) as EduAge,
       band: age >= 7 ? 'reader' : 'sprout',
     });
+  } else if (params.has('visit') && (resumeSlot = visitSlotOf(params.get('visit') ?? ''))) {
+    // R0669: `?visit=p2` looks round another Keeper's first Grove, read-only.
+    setSaveSlot(resumeSlot);
+    startGame(null);
   } else if (params.has('continue') && (resumeSlot = continueSlot())) {
     // R0463 (TECH-21): the home-screen "Continue" shortcut opens the slot played last.
     setSaveSlot(resumeSlot);
@@ -380,6 +401,7 @@ function boot(
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
   offerInstallLater(hudRoot); // R0463 (TECH-21)
+  mountVisitBanner(hudRoot); // R0669: the way out of a read-only visit
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
   // R0630: a hat a cleared side save used to give comes off (readCrossSaves sets the derived set).
   late.readCrossSaves();

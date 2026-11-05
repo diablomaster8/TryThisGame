@@ -31,7 +31,10 @@ function memoOf(world: World): Memo {
 const busy = (n: Nubbin): boolean =>
   n.stage === 'egg' ||
   n.stage === 'cocoon' ||
-  ['held', 'thrown', 'nap', 'swim', 'eat'].includes(n.behavior.state);
+  ['held', 'thrown', 'nap', 'swim', 'eat'].includes(n.behavior.state) ||
+  // Lane A r11: never jostle one carrying a fruit off (a snatch, a share, a hoard): the
+  // reaction cut its run short and the fruit it held was never set down.
+  (n.behavior.state === 'perform' && /^(snatch|share|hoard)/.test(n.behavior.itemId ?? ''));
 
 function roll(a: Nubbin, b: Nubbin, at: number, perMille: number): boolean {
   const friends = (a.friends?.[b.id] ?? 0) >= FRIENDS.buddyAt ? 2 : 1;

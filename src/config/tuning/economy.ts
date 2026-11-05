@@ -89,7 +89,17 @@ export const PLANTS = {
 } as const;
 
 export const TOYS = {
-  prices: { ball: 30, radio: 60, blocks: 45, mirror: 40, tv: 90 } as const,
+  prices: {
+    ball: 30,
+    radio: 60,
+    blocks: 45,
+    mirror: 40,
+    tv: 90,
+    seesaw: 120,
+    sandbox: 80,
+    drum: 55,
+    bubbleWand: 35,
+  } as const,
   maxPlaced: 6,
 } as const;
 

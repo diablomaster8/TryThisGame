@@ -34,6 +34,8 @@ export const C12C = {
   markers: {
     /** At most this many are drawn at once (one draw call each in Full 3D). */
     max: 2,
+    /** R0629: a child's markers are drawn this many times larger (about 64 px), and pulse. */
+    kidScale: 1.8,
     /** Pixel only: the sprite is drawn this many times its painted size. */
     pixelScale: 2,
     /** Only those within this many units of the Keeper are drawn. */

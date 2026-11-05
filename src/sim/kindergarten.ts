@@ -7,6 +7,7 @@ import { hasSkill } from './skills';
 import { traitsOf, type TraitId } from './traits';
 import { bandOf, childHint, winningType } from './alignment';
 import { addHappiness } from './needs';
+import { isVariantId, knowsVariant, variantById } from './lesson-variants';
 import type { LessonId, Nubbin, SimEvent, World } from './types';
 
 /** Lessons cost less with the Teacher's pet skill. */
@@ -50,10 +51,49 @@ export function startLesson(
   return true;
 }
 
+/** R0554: why a one-time class cannot be bought now, or null. Same price as a lesson. */
+export function canTakeVariant(world: World, n: Nubbin, variant: string): string | null {
+  if (!isVariantId(variant)) return 'unknown';
+  if (n.stage === 'egg' || n.stage === 'cocoon') return 'stage';
+  if (n.behavior.state === 'lesson') return 'busy';
+  if (knowsVariant(n, variant)) return 'max';
+  if (world.inventory.shells < lessonPrice(world)) return 'shells';
+  return null;
+}
+
+/** R0554: start a one-time class (the behaviour item is the variant id). */
+export function startVariantLesson(
+  world: World,
+  n: Nubbin,
+  variant: string,
+  events: SimEvent[],
+): boolean {
+  if (canTakeVariant(world, n, variant)) return false;
+  world.inventory.shells -= lessonPrice(world);
+  n.behavior.state = 'lesson';
+  n.behavior.sinceMs = world.timeMs;
+  n.behavior.untilMs = world.timeMs + LESSONS.durationMs;
+  n.behavior.target = null;
+  n.behavior.itemId = variant;
+  events.push({
+    kind: 'lessonStarted',
+    nubbinId: n.id,
+    lesson: variantById(variant)!.family,
+    variant,
+  });
+  return true;
+}
+
 /** Called by the behaviour loop when a lesson's time is up. */
 export function finishLesson(world: World, n: Nubbin, events: SimEvent[]): void {
-  const lesson = n.behavior.itemId as LessonId | null;
+  const item = n.behavior.itemId;
+  const variant = variantById(item);
+  const lesson = (variant ? variant.family : item) as LessonId | null;
   if (!lesson) return;
+  if (variant) {
+    n.lessons ??= {};
+    n.lessons[variant.id] = Object.keys(n.lessons).filter((k) => k.includes(':')).length + 1;
+  }
   const level = Math.min(LESSONS.maxLevel, lessonLevel(n, lesson) + 1);
   n.lessons ??= {};
   n.lessons[lesson] = level;
@@ -62,7 +102,13 @@ export function finishLesson(world: World, n: Nubbin, events: SimEvent[]): void 
     n.lessons.instrumentKind =
       hashSeed(`instrument:${n.seed}:${world.timeMs}`) % PERFORM.instruments.length;
   addHappiness(n, LESSONS.happiness);
-  events.push({ kind: 'lessonDone', nubbinId: n.id, lesson, level });
+  events.push({
+    kind: 'lessonDone',
+    nubbinId: n.id,
+    lesson,
+    level,
+    ...(variant ? { variant: variant.id } : {}),
+  });
 }
 
 /** The skill a Nubbin would show off: its best lesson, or null. */

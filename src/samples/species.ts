@@ -59,7 +59,16 @@ export type PoseName =
   | 'kneel'
   | 'itemGet'
   // LOOK-21: crying: seated, fists rubbing the eyes in turn, wailing.
-  | 'cry';
+  | 'cry'
+  // R0239: the battle verbs, as rig poses of their own (the pixel clips of the same names).
+  | 'windup'
+  | 'bonk'
+  | 'splash'
+  | 'hit'
+  | 'dodge'
+  | 'cheer'
+  | 'tuckered'
+  | 'wave';
 /** The creature cycle on the stage. `carry` and `throw` are the Keeper's: see `KEEPER_POSES`. */
 export const POSES: PoseName[] = ['idle', 'happy', 'pet', 'walk', 'eat', 'sleep'];
 /**
@@ -82,7 +91,25 @@ export const MOTION_POSES: PoseName[] = [
  * up overhead. Every rig has a stock form of each; the Keeper writes its own.
  */
 export const STAGE_POSES: PoseName[] = ['sit', 'kneel', 'itemGet'];
-export const ALL_POSES: PoseName[] = [...POSES, 'carry', 'throw', ...MOTION_POSES, ...STAGE_POSES];
+/** R0239: the battle view's verbs, each with a stock form on every rig. */
+export const BATTLE_POSES: PoseName[] = [
+  'windup',
+  'bonk',
+  'splash',
+  'hit',
+  'dodge',
+  'cheer',
+  'tuckered',
+  'wave',
+];
+export const ALL_POSES: PoseName[] = [
+  ...POSES,
+  'carry',
+  'throw',
+  ...MOTION_POSES,
+  ...STAGE_POSES,
+  ...BATTLE_POSES,
+];
 /** K7: the canned line gestures, played on top of whatever pose the body holds. */
 export type GestureName = 'nod' | 'shrug' | 'point' | 'down' | 'chest';
 
@@ -378,6 +405,15 @@ export const EXPRESSIONS: Record<PoseName, Expression> = {
   itemGet: { lid: 0, squint: 0, brow: 0.2, browLift: 0.2, arc: false, gape: 0.6 },
   // LOOK-21: eyes screwed shut, brows knitted up at the inner ends, the mouth a wailing 'O'.
   cry: { lid: 1, squint: 0.6, brow: -0.5, browLift: 0.08, arc: false, gape: 1 },
+  // R0239: set jaw and narrowed eyes, a shouted lunge, spray, a flinch, a dodge, a cheer, a nap.
+  windup: { lid: 0.25, squint: 0.4, brow: -0.35, browLift: 0, arc: false },
+  bonk: { lid: 0, squint: 0.5, brow: -0.4, browLift: 0.02, arc: false, gape: 0.5 },
+  splash: { lid: 0.1, squint: 0.25, brow: 0.2, browLift: 0.06, arc: false, gape: 0.6 },
+  hit: { lid: 0.8, squint: 0.6, brow: -0.5, browLift: 0.1, arc: false, frown: 1, gape: 0.8 },
+  dodge: { lid: 0, squint: 0, brow: 0.15, browLift: 0.25, arc: false, gape: 0.4 },
+  cheer: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true },
+  tuckered: { lid: 1, squint: 0, brow: -0.15, browLift: -0.1, arc: false, frown: 0.3 },
+  wave: { lid: 0.1, squint: 0.35, brow: 0.3, browLift: 0.1, arc: false },
 };
 
 export interface Rigged extends Creature {
@@ -1523,7 +1559,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     let earFold = pose === 'sleep' ? 0.3 : pose === 'pet' ? 0.18 : 0;
     // The motion poses set only the bones they move, so they start from the rest pose
     // (the stock ones set every limb they know).
-    if (!own && (MOTION_POSES.includes(pose) || STAGE_POSES.includes(pose)))
+    if (
+      !own &&
+      (MOTION_POSES.includes(pose) || STAGE_POSES.includes(pose) || BATTLE_POSES.includes(pose))
+    )
       for (const [k, b] of Object.entries(bones)) b.rotation.copy(rest[k]!);
     if (own) {
       poseCtx.t = t;
@@ -1786,8 +1825,9 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         mouthOpen = 0.6;
         break;
       }
+      case 'tuckered':
       case 'sleep': {
-        const ease = smooth(Math.min(1, dt / 1.2));
+        const ease = smooth(Math.min(1, dt / (pose === 'tuckered' ? 0.6 : 1.2)));
         // Lie down fully: the belly comes to the grass and the legs fold under it
         // (knees bent where there are knees); bipeds curl forward over their knees.
         const lie = Math.max(0, bellyY - footY - 0.03);
@@ -1822,8 +1862,200 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('armL', -0.5 * ease, 0, 0.35 * ease);
           set('armR', -0.5 * ease, 0, -0.35 * ease);
         }
+        if (pose === 'tuckered') {
+          // R0239: a flop, a wobble, then the legs stuck out in front, limp.
+          hips.rotation.z += dt < 0.7 ? s(dt * 18) * 0.14 * (1 - dt / 0.7) : 0;
+          if (!spider && !quad && !hover) {
+            set('legL', -1.45 * ease, 0, 0.3 * ease);
+            set('legR', -1.45 * ease, 0, -0.3 * ease);
+            for (const leg of legs) bendKnee(leg, 0.15 * ease);
+            set('armL', 0.15 * ease, 0, 0.3 * ease);
+            set('armR', 0.15 * ease, 0, -0.3 * ease);
+          }
+          earFold = 0.4 * ease;
+        }
         lidClose = ease;
         mouthOpen = 0.08;
+        break;
+      }
+      case 'windup': {
+        // Gathering for the lunge: sunk onto the hips, leaning back, arms drawn up and back.
+        const ease = smooth(Math.min(1, dt / 0.25));
+        hips.position.y = spec.hipY - 0.09 * ease + s(t * 30) * 0.012 * ease;
+        hips.rotation.x = -0.2 * ease;
+        set('head', 0.12 * ease, 0, 0);
+        set('tail', 0.5 * ease, s(t * 12) * 0.2, 0);
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, side * 0.25 * ease);
+        } else if (quad) {
+          set('legFL', 0.4 * ease, 0, 0);
+          set('legFR', 0.4 * ease, 0, 0);
+          set('legBL', -0.3 * ease, 0, 0);
+          set('legBR', -0.3 * ease, 0, 0);
+        } else {
+          set('armL', 0.7 * ease, 0, 1.5 * ease);
+          set('armR', 0.7 * ease, 0, -1.5 * ease);
+          set('legL', -0.2 * ease, 0, 0.1 * ease);
+          set('legR', -0.2 * ease, 0, -0.1 * ease);
+        }
+        for (const leg of legs) bendKnee(leg, 0.7 * ease);
+        earFold = 0.3 * ease;
+        mouthOpen = 0.1;
+        break;
+      }
+      case 'bonk': {
+        // The swing: the whole body pitches forward over its hands, the arms coming down and
+        // through, then easing off the follow-through.
+        const p = smooth(Math.min(1, dt / 0.3));
+        hips.rotation.x = 0.32 * p;
+        hips.position.y = spec.hipY + 0.03 * p;
+        hips.position.z = 0.1 * p;
+        set('head', -0.2 * p, 0, 0);
+        set('tail', 0.3 * p, 0, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(phase) * 0.2 * p, side * (0.1 + 0.4 * p));
+        } else if (quad) {
+          set('legFL', -0.9 * p, 0, 0);
+          set('legFR', -0.9 * p, 0, 0);
+          set('legBL', 0.3 * p, 0, 0);
+          set('legBR', 0.3 * p, 0, 0);
+        } else {
+          set('armL', 0.7 - 2.6 * p, 0, 1.5 - 1.2 * p);
+          set('armR', 0.7 - 2.6 * p, 0, -1.5 + 1.2 * p);
+          set('legL', -0.35 * p, 0, 0.05);
+          set('legR', 0.2 * p, 0, -0.05);
+        }
+        for (const leg of legs) bendKnee(leg, 0.3 * p);
+        mouthOpen = 0.55;
+        break;
+      }
+      case 'splash': {
+        // Spray: a high hop with both arms flung out and up, fingers flicking.
+        const hop = Math.abs(s(t * 7));
+        const fl = s(t * 16);
+        hips.position.y = spec.hipY + 0.12 + hop * 0.2;
+        hips.rotation.z = s(t * 7) * 0.05;
+        set('head', -0.25, 0, 0);
+        set('tail', 0.7, s(t * 9) * 0.5, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(t * 7 + phase) * 0.1, side * (0.2 + hop * 0.4));
+        } else if (quad) {
+          set('legFL', -0.8 * hop - 0.3, 0, 0);
+          set('legFR', -0.8 * hop - 0.3, 0, 0);
+          set('legBL', 0.3 * hop, 0, 0);
+          set('legBR', 0.3 * hop, 0, 0);
+        } else {
+          set('armL', -0.4 + fl * 0.3, 0, 1.9 + fl * 0.3);
+          set('armR', -0.4 - fl * 0.3, 0, -1.9 - fl * 0.3);
+          set('legL', -0.3 * hop, 0, 0.1);
+          set('legR', -0.3 * hop, 0, -0.1);
+        }
+        for (const leg of legs) bendKnee(leg, 0.8);
+        earFold = -0.2;
+        mouthOpen = 0.6;
+        break;
+      }
+      case 'hit': {
+        // A flinch: thrown back and squashed on the impact, then sagging as it fades.
+        const kick = Math.exp(-dt * 7);
+        const sq = 0.1 * kick;
+        hips.scale.set(1 + sq, 1 - sq, 1 + sq);
+        hips.position.y = spec.hipY - 0.05 - (spec.hipY - footY) * sq;
+        hips.position.z = -0.14 * kick;
+        hips.rotation.x = -0.4 * kick - 0.06;
+        set('head', -0.35 * kick + 0.2 * (1 - kick), 0, s(t * 40) * 0.05 * kick);
+        set('tail', 0.5 * kick - 0.2, 0, 0);
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, side * (0.3 * kick - 0.05));
+        } else if (quad) {
+          set('legFL', -0.4 * kick, 0, 0);
+          set('legFR', -0.4 * kick, 0, 0);
+        } else {
+          set('armL', -0.2, 0, 0.5 + 0.7 * kick);
+          set('armR', -0.2, 0, -0.5 - 0.7 * kick);
+        }
+        for (const leg of legs) bendKnee(leg, 0.4 * kick);
+        earFold = 0.4;
+        lidClose = Math.min(1, 0.4 + kick);
+        mouthOpen = 0.5 * kick;
+        break;
+      }
+      case 'dodge': {
+        // A hop clear of the blow: up and over to the side, knees tucked, arms out for balance.
+        const jump = s(Math.min(1, dt / 0.55) * Math.PI);
+        hips.position.y = spec.hipY + jump * 0.3;
+        hips.rotation.z = -0.35 * jump;
+        hips.rotation.x = -0.1 * jump;
+        set('head', -0.1, 0, 0.2 * jump);
+        set('tail', 0.4 * jump, s(t * 10) * 0.4, 0);
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, side * (0.1 + jump * 0.35));
+        } else if (quad) {
+          set('legFL', -0.6 * jump, 0, 0);
+          set('legFR', -0.6 * jump, 0, 0);
+          set('legBL', 0.5 * jump, 0, 0);
+          set('legBR', 0.5 * jump, 0, 0);
+        } else {
+          set('armL', -0.2, 0, 0.9 + 0.4 * jump);
+          set('armR', -0.2, 0, -0.9 - 0.4 * jump);
+          set('legL', -0.3 * jump, 0, 0.05);
+          set('legR', -0.3 * jump, 0, -0.05);
+        }
+        for (const leg of legs) bendKnee(leg, 1.0 * jump);
+        earFold = -0.2;
+        mouthOpen = 0.35;
+        break;
+      }
+      case 'cheer': {
+        // Hurrah: a bouncing hop, both arms straight up and pumping, head thrown back.
+        const hop = Math.abs(s(t * 7));
+        const sq = (hop * 2 - 1) * 0.06;
+        hips.scale.set(1 - sq, 1 + sq, 1 - sq);
+        hips.position.y = spec.hipY + hop * 0.2 + (spec.hipY - footY) * sq;
+        hips.rotation.z = s(t * 7) * 0.05;
+        set('head', -0.3, 0, s(t * 7) * 0.15);
+        set('tail', 0.85, s(t * 8) * 0.7, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(t * 7 + phase) * 0.1, side * hop * 0.4);
+        } else if (quad) {
+          set('legFL', -0.8 * hop - 0.4, 0, 0);
+          set('legFR', -0.8 * hop - 0.4, 0, 0);
+          set('legBL', 0.2 * hop, 0, 0);
+          set('legBR', 0.2 * hop, 0, 0);
+        } else {
+          set('armL', 0, 0, 2.5 + s(t * 9) * 0.3);
+          set('armR', 0, 0, -2.5 - s(t * 9 + 1) * 0.3);
+          set('legL', -0.3 * hop, 0, 0);
+          set('legR', -0.3 * hop, 0, 0);
+        }
+        for (const leg of legs) bendKnee(leg, 0.9 * hop);
+        mouthOpen = 0.8;
+        break;
+      }
+      case 'wave': {
+        // A hello: standing easy, one arm up and swinging side to side, the tail wagging.
+        hips.position.y = spec.hipY + s(t * 2.2) * 0.02;
+        hips.rotation.z = s(t * 3) * 0.04;
+        set('head', -0.05, 0, s(t * 3) * 0.12);
+        set('tail', 0.6, s(t * 8) * 0.6, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(t * 8 + phase) * 0.1, side * 0.15);
+        } else if (quad) {
+          set('legFL', 0, 0, 0);
+          set('legFR', -1.0 + s(t * 10) * 0.35, 0, 0);
+          set('legBL', 0, 0, 0);
+          set('legBR', 0, 0, 0);
+        } else {
+          set('armL', ar.pitch, 0, ar.roll + s(t * 1.6) * 0.08);
+          set('armR', -0.3, 0, -(2.3 + s(t * 10) * 0.35));
+          set('legL', 0, 0, 0);
+          set('legR', 0, 0, 0);
+        }
+        mouthOpen = 0.3;
         break;
       }
       case 'sad': {
@@ -2068,9 +2300,9 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const flap =
         pose === 'flap'
           ? 0.9
-          : pose === 'happy' || pose === 'love'
+          : pose === 'happy' || pose === 'love' || pose === 'cheer' || pose === 'splash'
             ? 0.7
-            : pose === 'sleep'
+            : pose === 'sleep' || pose === 'tuckered'
               ? 0.08
               : 0.35;
       const rate = pose === 'flap' ? 28 : 9;

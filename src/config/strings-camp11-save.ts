@@ -50,4 +50,8 @@ export const SAVE_LAYOUT_TEXT = {
   visitOthers: "Visit another Keeper's Grove",
   visitOthersHelp: 'Walk round and look. Nothing you see is changed or saved.',
   visitSlot: (keeper: string, where: string) => `Visit ${keeper}: ${where}`,
+  /** R0669 (round 13): the banner over a visit, and its way out. */
+  visitBanner: (keeper: string) => `Visiting ${keeper}'s Grove · look, don't touch`,
+  visitLeave: 'Leave visit',
+  visitLeaveLabel: 'Leave the visit and go back to the title',
 } as const;

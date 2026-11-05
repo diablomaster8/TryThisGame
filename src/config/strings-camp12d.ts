@@ -3,6 +3,11 @@
 export const KID_FLOW_TEXT = {
   /** The one big button on a child's invitation. */
   go: "Let's go!",
+  /** The notice board's picture tiles: under way is said in words, not by colour alone. */
+  boardActive: (title: string) => `${title}, under way`,
+  boardStart: (title: string) => `Start ${title}`,
+  /** The picture a story's tile shows when it has no reward icon. */
+  boardPicture: '⭐',
   /** A reader's help button on a stuck step. */
   help: 'Help me',
   helpLabel: 'Ask Moss to help with this step',

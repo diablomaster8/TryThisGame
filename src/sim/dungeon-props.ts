@@ -4,17 +4,21 @@
  * circle on the floor, made from the floor data both renderers draw from;
  * `resolveDungeon` pushes bodies out of them and the nav mask closes the landmark's cells.
  *
- * The parked cart and the timber arch posts are placed by the 3D dressing from the main
- * path (`render3d/hollow-dress-set.ts`); moving that placement into the sim is still to do.
+ * The timber arches and the parked cart are placed here from the main path (`setPieces`),
+ * and the 3D dressing draws them from the same list, so what is drawn is what is solid
+ * (R0032, round 11).
  *
  * Pure sim: no DOM.
  */
 import { DUNGEON, HOLLOW } from '../config/tuning';
 import { cellCentre, type Floor } from './dungeon';
+import { setPieces } from './dungeon-set-pieces';
 import type { Vec2 } from './types';
 
 export interface PropCollider {
-  kind: 'landmark';
+  kind: 'landmark' | 'post' | 'cart';
+  /** A soft-nav prop (a post at the rock, a cart on a path) leaves its cell open for routes. */
+  softNav?: boolean;
   x: number;
   z: number;
   /** World units. */
@@ -34,6 +38,26 @@ export function floorProps(f: Floor): PropCollider[] {
     const p = cellCentre(f, f.landmark.cell);
     out.push({ kind: 'landmark', x: p.x, z: p.z, r: f.landmark.radius * P.landmarkShare * cell });
   }
+  const sp = setPieces(f);
+  for (const a of sp.arches)
+    for (const sgn of [-1, 1])
+      out.push({
+        kind: 'post',
+        softNav: true,
+        x: a.cx + a.px * a.half * sgn,
+        z: a.cz + a.pz * a.half * sgn,
+        r: P.postRadius,
+      });
+  if (sp.cart)
+    // A box 0.62 x 0.95 as two circles along its axis, so the Keeper walks round it.
+    for (const k of [-0.2, 0.2])
+      out.push({
+        kind: 'cart',
+        softNav: true,
+        x: sp.cart.x + Math.sin(sp.cart.axis) * k,
+        z: sp.cart.z + Math.cos(sp.cart.axis) * k,
+        r: P.cartRadius,
+      });
   // Crystals stay soft: each sits at the back of a one-cell nook and chimes when brushed
   // (item 44); a collider there walled walkers out of the nook (R0032 assumption).
   cache.set(f, out);
@@ -114,6 +138,7 @@ export function propCells(f: Floor): number[] {
   const out: number[] = [];
   const pad = HOLLOW.props.navClearance;
   for (const c of floorProps(f)) {
+    if (c.softNav) continue;
     const span = Math.ceil((c.r + pad) / DUNGEON.cell) + 1;
     const mid = {
       x: Math.floor(c.x / DUNGEON.cell + f.cols / 2),

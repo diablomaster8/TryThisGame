@@ -115,7 +115,7 @@ describe('ATB Command bouts (recs FIGHT-40)', () => {
   });
 
   it('an ignored order gets the personality gag', () => {
-    const gags: Record<Personality, string> = {
+    const gags: Partial<Record<Personality, string>> = {
       lazy: 'sit',
       mischievous: 'raspberry',
       shy: 'hide',

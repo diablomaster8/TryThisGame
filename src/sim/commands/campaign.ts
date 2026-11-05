@@ -7,7 +7,8 @@ import { creatorGrant, creatorTransform, creatorUnlock } from '../creator';
 import { playFair } from '../epilogue';
 import { tapFernStone } from '../fern-stone';
 import { skipGoal } from '../goal-skips';
-import { startLesson } from '../kindergarten';
+import { sawAntic } from '../antic-album';
+import { startLesson, startVariantLesson } from '../kindergarten';
 import { helpQuest } from '../kid-flow';
 import { chooseCastHome } from '../line-rewards';
 import { visit } from '../neighbourhood';
@@ -44,7 +45,13 @@ function campaignGroup1(
 export const handlers: Handlers = {
   startLesson(world, cmd, events) {
     const n = findNubbin(world, cmd.nubbinId);
-    if (n) startLesson(world, n, cmd.lesson, events);
+    if (n && cmd.variant) startVariantLesson(world, n, cmd.variant, events);
+    else if (n) startLesson(world, n, cmd.lesson, events);
+    return;
+  },
+  sawAntic(world, cmd, events) {
+    const n = findNubbin(world, cmd.nubbinId);
+    if (n) sawAntic(world, n, events);
     return;
   },
   creatorUnlock(world, cmd, events) {

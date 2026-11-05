@@ -48,7 +48,22 @@ export type LifeStage = 'egg' | 'child' | 'cocoon' | 'adult';
 /** Why a Nubbin is in a cocoon: growing up, being reborn, or moving on. */
 export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
 
-export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
+/**
+ * R0529 (SOUL-11): the eight personalities, the first four from the original set. Code that only
+ * knows the first four can map the rest with `basePersonality` (sim/personality.ts).
+ */
+export const PERSONALITIES = [
+  'cheerful',
+  'shy',
+  'mischievous',
+  'lazy',
+  'curious',
+  'gentle',
+  'bold',
+  'dreamy',
+] as const;
+
+export type Personality = (typeof PERSONALITIES)[number];
 
 /** R0167: a Hollow party role. */
 export type HollowRole = 'fetch' | 'fight' | 'light' | 'scout' | 'swim';
@@ -203,6 +218,17 @@ export interface Nubbin {
     tucks?: number;
     /** R0530: sim time the last touch or tuck-in was counted. */
     lastCareMs?: number;
+    /**
+     * R0529 (SOUL-11), the second four's care; absent = 0, no save bump. `curious`: critters
+     * given and things inspected; `gentle`: hugs, tuck-ins and praise; `bold`: high fives,
+     * games of catch and expeditions; `dreamMs`: sim ms sat near an idle Keeper.
+     */
+    curious?: number;
+    gentle?: number;
+    /** R0529: praise among the gentle care; gentle needs kind words, not hugs alone (R0530). */
+    praises?: number;
+    bold?: number;
+    dreamMs?: number;
   };
   /** Set at evolution. */
   form: NubbinForm | null;
@@ -305,6 +331,15 @@ export interface Nubbin {
   recentCare?: Array<{ kind: import('../config/tuning-soul-r10').CareKind; atMs: number }>;
   /** R0527: hiding in the cottage (Learning Grove) until the Keeper taps the door. */
   cottageHide?: true;
+  // Lane A r11 (SOUL), optional with defaults, no save bump (R0576 documents them):
+  /** R0568: kind acts by each Keeper, toward a favourite. */
+  keeperFondness?: { sun: number; moon: number };
+  /** R0568: the Keeper it last tilted its head at (the less-loved one, once per switch). */
+  tiltFor?: KeeperAlignment;
+  /** R0569: the Keeper has seen it at its favourite spot (the sheet shows the spot). */
+  spotSeen?: true;
+  /** R0573: the personality of its last life, for the first greet after a rebirth. */
+  echo?: Personality;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -334,6 +369,8 @@ export interface Item {
   flavor?: Flavor;
   /** R0537 (lane A r8): when a toy came to the Grove, for its novelty. Optional, no save bump. */
   bornMs?: number;
+  /** R0574: how many Nubbins are playing together on a pair toy (set by the sim). */
+  players?: number;
 }
 
 export interface Tree {
@@ -603,7 +640,16 @@ export interface Inventory {
 export type Flavor = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moon';
 export const FLAVORS: readonly Flavor[] = ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon'];
 
-export type ToyKind = 'ball' | 'radio' | 'blocks' | 'mirror' | 'tv';
+export type ToyKind =
+  | 'ball'
+  | 'radio'
+  | 'blocks'
+  | 'mirror'
+  | 'tv'
+  | 'seesaw'
+  | 'sandbox'
+  | 'drum'
+  | 'bubbleWand';
 export type DyeColor = 'rose' | 'sky' | 'mint' | 'gold' | 'violet' | 'ember';
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
@@ -696,6 +742,8 @@ export interface EduState {
   lossHolds?: Record<string, LossHold>;
   /** Lane E r10 (R0718): whole minutes played per local day, the last 14 (sim/edu-report.ts). */
   daily?: Record<string, number>;
+  /** R0591: personalities whose reader-band card has been shown (once each). */
+  cardsSeen?: Personality[];
   /** Lane E r10 (R0745): per game, opens, finishes, mid-round quits and time (local only). */
   attention?: Partial<Record<EduGameId, EduAttention>>;
   /** Which games are switched on; starts as the recommended set for the age. */
@@ -1458,6 +1506,12 @@ export interface World {
   atlasFestivals: string[];
   /** R0525 (lane A r10): crayon doodles on the Grove's ground, fading after ten minutes. */
   doodles?: Array<{ x: number; z: number; kind: number; atMs: number; by: string }>;
+  /** R0564 (lane A r11): the Antics album, behaviour id to the sim time it was first seen. */
+  album?: Record<string, number>;
+  /** R0564: the stamp counts whose Shells prize has been paid. */
+  albumPaid?: number[];
+  /** R0588: the Fridge, the doodles the drawing lessons made, newest last (up to 30). */
+  fridge?: Array<{ nubbinId: string; doodleId: number; atMs: number }>;
 }
 
 // ---------- commands (input → sim) ----------
@@ -1597,7 +1651,8 @@ export type Command =
   /** A tap on a story prop (the old trowel, the flat stone...), by prop id. */
   | { kind: 'storyProp'; prop: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
-  | { kind: 'startLesson'; nubbinId: string; lesson: LessonId }
+  | { kind: 'sawAntic'; nubbinId: string }
+  | { kind: 'startLesson'; nubbinId: string; lesson: LessonId; variant?: string }
   | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
   | { kind: 'buyDecor'; decor: DecorKind }
   | { kind: 'placeDecor'; decor: DecorKind; pos: Vec2; yaw?: number }
@@ -1859,7 +1914,7 @@ export type SimEvent =
   | { kind: 'essenceGiven'; nubbinId: string; type: NubbinType }
   | { kind: 'reborn'; nubbinId: string }
   | { kind: 'departed'; nubbinId: string; name: string }
-  | { kind: 'reaction'; nubbinId: string; reaction: Reaction }
+  | { kind: 'reaction'; nubbinId: string; reaction: Reaction; calm?: boolean }
   | { kind: 'langReact'; nubbinId: string; word: string; gesture: LangGesture }
   | { kind: 'fruitDropped'; treeId: string; itemId: string }
   | { kind: 'ate'; nubbinId: string }
@@ -1925,6 +1980,8 @@ export type SimEvent =
       nubbinId: string;
       personality: Personality;
       cause: PersonalityCause;
+      /** R0591: the Learning Grove reader's personality card shows with this one. */
+      card?: true;
     }
   | { kind: 'sitBeside'; nubbinId: string }
   /** Lane A r8: a favourite or disliked fruit eaten (R0536); a moody look cleared (R0532). */
@@ -1942,6 +1999,8 @@ export type SimEvent =
   /** R0539: a missed buddy came back and the two hugged. */
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
+  | { kind: 'albumStamp'; nubbinId: string; entry: string; count: number }
+  | { kind: 'albumPrize'; count: number; shells: number }
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
   | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
@@ -1964,6 +2023,8 @@ export type SimEvent =
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
   | { kind: 'shadowBonded'; nubbinId: string }
+  /** R0569 (lane A r11): the Keeper saw a Nubbin at its favourite spot. */
+  | { kind: 'spotFound'; nubbinId: string; spot: string }
   | { kind: 'ranAway'; nubbinId: string; name: string }
   | { kind: 'strayReturned'; nubbinId: string; name: string }
   | { kind: 'scene'; scene: string }
@@ -1995,8 +2056,8 @@ export type SimEvent =
   | { kind: 'talked'; npcId: string; bark?: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }
-  | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId }
-  | { kind: 'lessonDone'; nubbinId: string; lesson: LessonId; level: number }
+  | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId; variant?: string }
+  | { kind: 'lessonDone'; nubbinId: string; lesson: LessonId; level: number; variant?: string }
   | { kind: 'service'; service: 'doctor' | 'fortune'; nubbinId: string; ok: boolean }
   | { kind: 'weather'; weather: WeatherKind }
   | { kind: 'visitor'; trainer: string; gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' | null }
@@ -2300,4 +2361,15 @@ export interface GearState {
 
 /** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
 export type PersonalityCause =
-  'pets' | 'touches' | 'throws' | 'feeds' | 'tucks' | 'quiet' | 'mixed';
+  | 'pets'
+  | 'touches'
+  | 'throws'
+  | 'feeds'
+  | 'tucks'
+  | 'quiet'
+  | 'mixed'
+  // R0529: the second four.
+  | 'critters'
+  | 'gentleCare'
+  | 'play'
+  | 'company';

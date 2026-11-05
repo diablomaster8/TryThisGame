@@ -1,6 +1,7 @@
 import { C12C } from '../config/tuning-camp12c';
 import { STORY } from '../config/tuning';
 import type { Quest } from '../content/types';
+import { EXTRA_LOOKS } from './extra-looks';
 import { spawnOfferGuest } from './scene-cast';
 import { sideStory } from './story-scenes';
 import type { Npc, QuestBook, Vec2, World } from './types';
@@ -19,8 +20,9 @@ const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 /** The speaker who gives `quest`: its first person speaker (not a crowd, a voice or a Nubbin). */
 export function offerGiver(quest: Quest): string | null {
   for (const s of quest.speakers) {
-    if (s.kind === 'nubbin' || STORY.guestSkip.includes(s.id) || s.id.startsWith('young-'))
-      continue;
+    if (STORY.guestSkip.includes(s.id) || s.id.startsWith('young-')) continue;
+    // A Nubbin speaker gives only with a body of its own (the hooded pair of Q1).
+    if (s.kind === 'nubbin' && !EXTRA_LOOKS[s.id]) continue;
     return s.id;
   }
   return null;

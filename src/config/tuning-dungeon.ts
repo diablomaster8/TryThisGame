@@ -21,6 +21,8 @@ export const HOLLOW = {
    * cell, the double jump `maxJump`. Stepping stones leave water gaps from `stonesFromDepth`.
    */
   gaps: {
+    /** Sprout band (R0025): falls into one gap before a leaf-bridge grows across it. */
+    bridgeAfter: 2,
     fromDepth: 2,
     nookFromDepth: 3,
     stonesFromDepth: 3,
@@ -194,7 +196,13 @@ export const HOLLOW = {
    * Solid set pieces (R0032): the landmark blocks this share of its clear radius (cells); nav
    * closes cells within the block plus `navClearance` (world units).
    */
-  props: { landmarkShare: 0.7, navClearance: 0.35 },
+  /**
+   * Polite following (R0048): partners head for a slot `slotRadius` u behind the Keeper, fanned
+   * `fan` radians apart by party index; one more than `popDistance` u off and out of sight for
+   * `popAfterMs` pops to its slot.
+   */
+  follow: { slotRadius: 0.9, fan: 0.8, popDistance: 12, popAfterMs: 3000, personal: 0.55 },
+  props: { landmarkShare: 0.7, navClearance: 0.35, postRadius: 0.12, cartRadius: 0.3 },
   /**
    * Rumble rooms (R0257, R0282): from `fromDepth`, about `share` of dungeon levels mark one
    * room (at least `minSide` cells each way, never the stairs', the chest's or a boss's) whose

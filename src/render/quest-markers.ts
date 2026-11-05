@@ -1,7 +1,7 @@
 import { C12C } from '../config/tuning-camp12c';
 import { goalTarget } from '../sim/goal-target';
 import { giverNpc } from '../sim/offer-approach';
-import { boardState } from '../sim/quest-offers';
+import { boardState, kidFlow } from '../sim/quest-offers';
 import { sideStory } from '../sim/story-scenes';
 import type { World } from '../sim/types';
 import { boardSpot } from './dress-camp10d';
@@ -23,16 +23,25 @@ export interface QuestMarker {
   z: number;
   /** Height above the ground (units). */
   lift: number;
+  /** R0629: a child profile's marker: larger, and it pulses unless reduced motion is on. */
+  big?: boolean;
 }
 
 export function questMarkers(world: World): QuestMarker[] {
   const c = world.campaign;
   const book = world.questBook;
-  if (!c || !book || world.location !== 'grove' || world.edu !== null || c.storyline !== null)
+  if (
+    !c ||
+    !book ||
+    world.location !== 'grove' ||
+    (world.edu !== null && !kidFlow(world)) ||
+    c.storyline !== null
+  )
     return [];
   const M = C12C.markers;
   const k = world.keeper.pos;
   const d = (m: { x: number; z: number }): number => Math.hypot(m.x - k.x, m.z - k.z);
+  const big = kidFlow(world);
   const offers: QuestMarker[] = [];
   const steps: QuestMarker[] = [];
   const board = boardSpot(world);
@@ -47,14 +56,22 @@ export function questMarkers(world: World): QuestMarker[] {
         : board
           ? { ...board, lift: M.overBoard }
           : null;
-      if (at) offers.push({ kind: 'offer', quest: id, ...at });
+      if (at) offers.push({ kind: 'offer', quest: id, ...at, ...(big ? { big } : {}) });
     }
   }
   for (const id of book.tracked) {
     const entry = c.side[id] ?? c.fun[id];
     if (!entry || entry.status === 'done' || entry.status === 'closed') continue;
     const at = goalTarget(world, `quest:${id}:${entry.step}`);
-    if (at) steps.push({ kind: 'step', quest: id, x: at.x, z: at.z, lift: M.overPlace });
+    if (at)
+      steps.push({
+        kind: 'step',
+        quest: id,
+        x: at.x,
+        z: at.z,
+        lift: M.overPlace,
+        ...(big ? { big } : {}),
+      });
   }
   const near = (m: QuestMarker): boolean => d(m) <= M.within;
   const byDist = (a: QuestMarker, b: QuestMarker): number => d(a) - d(b);

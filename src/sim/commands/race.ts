@@ -6,6 +6,7 @@ import { recordKarate } from '../battle/rewards';
 import { karatePrize } from '../battle';
 import { clampToWorld } from '../behavior';
 import { noteCampaign } from '../campaign';
+import { noteSecondCare } from '../personality';
 import { trainResult } from '../gym';
 import { isFree } from '../nubbin';
 import { noteQuest } from '../quests';
@@ -70,6 +71,7 @@ export const handlers: Handlers = {
     n.behavior.untilMs = now + 20_000;
     n.behavior.itemId = toy.id;
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
+    noteSecondCare(n, 'bold');
     events.push({ kind: 'fetching', nubbinId: n.id });
     return;
   },

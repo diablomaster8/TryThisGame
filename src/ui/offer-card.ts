@@ -1,8 +1,8 @@
 import { REGIONS } from '../config/regions';
 import { OFFER_TEXT, UI_TEXT } from '../config/strings';
 import { KID_FLOW_TEXT } from '../config/strings-camp12d';
-import { QUEST_OFFERS } from '../config/tuning';
-import { questPitch } from '../content/pitches';
+import { QUEST_OFFERS, QUESTS } from '../config/tuning';
+import { questPitch, questPitchChild } from '../content/pitches';
 import type { Quest } from '../content/types';
 import type { Game } from '../game';
 import { isFunQuestCode } from '../sim/audience';
@@ -49,7 +49,13 @@ export function pitchOf(quest: Quest): string {
  * one-line pitch. A child's offer is a picture the giver waves; tapping it starts the quest.
  */
 export function pitchForProfile(quest: Quest, child: boolean): string {
-  return child && quest.pitchChild ? quest.pitchChild : pitchOf(quest);
+  if (!child) return pitchOf(quest);
+  const written = questPitchChild(quest);
+  if (written) return written;
+  // No written pitchChild: the first goal, kept to the sprout band's 14 words.
+  const words = (quest.steps[0]?.goal ?? '').split(/\s+/).filter(Boolean);
+  const max = QUESTS.maxPitchWords;
+  return words.length <= max ? words.join(' ') : `${words.slice(0, max).join(' ')}…`;
 }
 
 export class OfferCard {

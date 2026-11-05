@@ -39,6 +39,8 @@ export const dressQuestMarkers: PixelDressing = {
       const rect = sheet.frames.get(frameKey(key, 'front', 0));
       if (!rect) continue;
       const bob = still ? 0 : Math.sin(clock * 3 + m.x) * DRESS_D.glint.bob;
+      // R0629: a child's markers are larger and pulse (still under reduced motion).
+      const grow = m.big ? C12C.markers.kidScale * (still ? 1 : 1 + 0.1 * Math.sin(clock * 4)) : 1;
       spr.batch.draw({
         sheet,
         rect,
@@ -48,8 +50,8 @@ export const dressQuestMarkers: PixelDressing = {
         z: m.z,
         mode: 'billboard',
         tint: 1,
-        w: (rect.w / NATIVE_PPU) * C12C.markers.pixelScale,
-        h: (rect.h / NATIVE_PPU) * C12C.markers.pixelScale,
+        w: (rect.w / NATIVE_PPU) * C12C.markers.pixelScale * grow,
+        h: (rect.h / NATIVE_PPU) * C12C.markers.pixelScale * grow,
       });
     }
   },

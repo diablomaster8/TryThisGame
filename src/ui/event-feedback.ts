@@ -21,6 +21,7 @@ import {
 import { MOVE_R10_TEXT } from '../config/strings-move-r10';
 import { BORDER_TEXT } from '../config/strings-r9d2';
 import { STORY_TEXT } from '../config/story';
+import { ALBUM_TEXT, KINDER_R11 } from '../config/strings-soul-r11b';
 import { KEEPER_JUMP_FX } from '../config/tuning-move';
 import type { SoundName } from '../platform/audio';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
@@ -127,9 +128,13 @@ export const FEEDBACK: FeedbackTable = {
   courting: (e, c) => ({ toast: UI_TEXT.courting(nameOf(c, e.nubbinId)) }),
   bred: () => ({ toast: UI_TEXT.bred, sfx: 'hatch' }),
   lessonDone: (e, c) => ({
-    toast: UI_TEXT.lessonDone(nameOf(c, e.nubbinId), UI_TEXT.lessonNames[e.lesson], e.level),
+    toast: e.variant
+      ? KINDER_R11.done(nameOf(c, e.nubbinId), KINDER_R11.names[e.variant] ?? e.variant)
+      : UI_TEXT.lessonDone(nameOf(c, e.nubbinId), UI_TEXT.lessonNames[e.lesson], e.level),
     sfx: 'win',
   }),
+  albumStamp: (e) => ({ toast: ALBUM_TEXT.stamped(ALBUM_TEXT.names[e.entry] ?? e.entry) }),
+  albumPrize: (e) => ({ toast: ALBUM_TEXT.prize(e.shells) }),
   crafted: (e) => {
     if (!e.ok) return { toast: UI_TEXT.needsMaterials };
     const name = (UI_TEXT.recipeNames as Record<string, string>)[e.recipe] ?? e.recipe;

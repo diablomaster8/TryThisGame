@@ -85,6 +85,101 @@ export function buildToy(kind: ToyKind | undefined): THREE.Group {
       }
       break;
     }
+    case 'seesaw': {
+      // The plank is its own child (named) so the renderer can rock it about the post.
+      const pivot = new THREE.Group();
+      pivot.name = 'plank';
+      pivot.position.y = 0.2;
+      pivot.add(
+        at(new THREE.Mesh(new THREE.BoxGeometry(1, 0.05, 0.22), mat('#d89a4a')), 0, 0.03, 0),
+      );
+      pivot.add(
+        at(new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.04, 0.2), mat('#e04a6a')), -0.42, 0.075, 0),
+      );
+      pivot.add(
+        at(new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.04, 0.2), mat('#3a6ea8')), 0.42, 0.075, 0),
+      );
+      g.add(pivot);
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.1, 0.2, 8), mat('#7a4f2d'));
+      g.add(at(post, 0, 0.1, 0));
+      break;
+    }
+    case 'sandbox': {
+      const wood = mat('#9a6a3a');
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.04, 0.9), mat('#e8cf8a')), 0, 0.05, 0));
+      for (const [x, z, w, d] of [
+        [0, -0.45, 0.96, 0.06],
+        [0, 0.45, 0.96, 0.06],
+        [-0.45, 0, 0.06, 0.9],
+        [0.45, 0, 0.06, 0.9],
+      ] as const)
+        g.add(at(new THREE.Mesh(new THREE.BoxGeometry(w, 0.14, d), wood), x, 0.07, z));
+      g.add(
+        at(
+          new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.14, 10), mat('#f0dba0')),
+          -0.1,
+          0.14,
+          0.05,
+        ),
+      );
+      g.add(
+        at(
+          new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.09, 8), mat('#e04a3a')),
+          0.22,
+          0.12,
+          -0.12,
+        ),
+      );
+      break;
+    }
+    case 'drum': {
+      g.add(
+        at(
+          new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.28, 18), mat('#c0503a')),
+          0,
+          0.14,
+          0,
+        ),
+      );
+      g.add(
+        at(
+          new THREE.Mesh(new THREE.CylinderGeometry(0.205, 0.205, 0.02, 18), mat('#f3e2b6')),
+          0,
+          0.29,
+          0,
+        ),
+      );
+      for (const s of [-1, 1]) {
+        const stick = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.008, 0.008, 0.26, 6),
+          mat('#7a4f2d'),
+        );
+        stick.rotation.z = s * 0.9;
+        g.add(at(stick, s * 0.07, 0.36, 0.0));
+      }
+      break;
+    }
+    case 'bubbleWand': {
+      g.add(
+        at(
+          new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.4, 6), mat('#7a4f2d')),
+          0,
+          0.2,
+          0,
+        ),
+      );
+      g.add(
+        at(new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.01, 6, 16), mat('#9ad0ff')), 0, 0.45, 0),
+      );
+      const bubble = mat('#cfeaff', { transparent: true, opacity: 0.45, roughness: 0.1 });
+      for (const [x, y, z, r] of [
+        [0.15, 0.6, 0.05, 0.06],
+        [-0.12, 0.72, -0.04, 0.045],
+        [0.05, 0.85, 0.08, 0.035],
+      ] as const)
+        g.add(at(new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), bubble), x, y, z));
+      break;
+    }
     default: {
       // The ball: red with a pale band, the classic beach ball.
       const ball = new THREE.Mesh(

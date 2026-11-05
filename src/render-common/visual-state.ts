@@ -10,6 +10,7 @@
  */
 import type { PoseName } from '../samples/species';
 import { performClip } from '../render/perform-look';
+import { chaseClip } from '../render/ambient-look';
 import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { Nubbin } from '../sim/types';
@@ -87,6 +88,15 @@ const POSE_STATE: Record<string, VisualState | null> = {
   throw: null,
   kneel: null,
   itemGet: null,
+  // R0239: the battle poses share the state of the clip of the same name.
+  windup: 'happy',
+  bonk: 'happy',
+  splash: 'flap',
+  hit: 'sad',
+  dodge: 'surprised',
+  cheer: 'happy',
+  tuckered: 'sleep',
+  wave: 'happy',
 };
 
 export function visualStateOfClip(clip: string): VisualState | null {
@@ -150,6 +160,9 @@ export function visualStateFor(n: Nubbin, moving: boolean, petted: boolean): Vis
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
     case 'perform': {
+      // R0547 (lane A r11): chasing a butterfly runs, a catch is a happy pose.
+      const cc = chaseClip(n);
+      if (cc) return cc;
       // R0525 (lane A r10): a lesson performed sits to draw, sings, dances or plays.
       const pc = performClip(n);
       if (pc) return pc;

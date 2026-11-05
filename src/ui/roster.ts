@@ -20,7 +20,7 @@ import { bandOf, childHint } from '../sim/alignment';
 import { rosterNubbins, storyNubbin } from '../sim/roster';
 import { nubbinsHere } from '../sim/nubbin-home';
 import { levelOf } from '../sim/stats';
-import { STAT_KEYS, type Nubbin, type Personality } from '../sim/types';
+import { PERSONALITIES, STAT_KEYS, type Nubbin, type Personality } from '../sim/types';
 import { button, el, modal } from './dom';
 import { Wardrobe } from './wardrobe';
 import { RARITY_TEXT, WARDROBE_TEXT } from '../config/strings-look';
@@ -38,8 +38,10 @@ import { speciesOf } from '../sim/species';
 import { isCreatorCode } from '../sim/creator';
 import { CREATOR_TEXT } from '../config/strings-evo';
 import { CreatorPicker } from './creator-picker';
+import { WATCH } from '../config/tuning-soul-r11b';
+import { onLongPress } from './watch';
 
-const PERSONALITIES: readonly Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
+// R0529: all eight, in their one order (sim/types.ts).
 
 /**
  * The roster: every Nubbin with a portrait, name (tap to rename), stats, age, rebirth
@@ -358,6 +360,11 @@ export class RosterMenu {
     c.addEventListener('click', () =>
       playChirp(speciesOf(n.species).family, true, chirpVoice(n.id, n.personality)),
     );
+    // R0550: hold the portrait to Watch this Nubbin; the roster closes so the Grove shows.
+    onLongPress(c, WATCH.longPressMs, () => {
+      g.watch(n.id);
+      this.close();
+    });
     return c;
   }
 

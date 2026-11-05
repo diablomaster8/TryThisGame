@@ -36,6 +36,11 @@ import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
 import { stepCottageHide } from './cottage-hide';
+import { stepCrying } from './cry-soul';
+import { stepShadowSoul } from './shadow-soul';
+import { stepFavSpots } from './fav-spot';
+import { calmEternalReactions } from './old-soul';
+import { stepSoulGroups } from './soul-groups';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, fruitIntervalMultiplier } from './seasons';
@@ -439,6 +444,22 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   plainSys('friendships', 510, ALWAYS, ({ world, dtMs, events }) =>
     stepFriendships(world, dtMs, events),
   ),
+  // R0558, R0581 (lane A r11): brief cries and friends who come to comfort.
+  plainSys('soul-crying', 511, ALWAYS, ({ world, offline, events }) =>
+    stepCrying(world, events, offline),
+  ),
+  // R0566 (lane A r11): a Shadow's bond hug, and a watcher's eyes on the Keeper.
+  plainSys('soul-shadow', 512, ALWAYS, ({ world, offline, events }) =>
+    stepShadowSoul(world, events, offline),
+  ),
+  // R0569 (lane A r11): sitting at a favourite spot.
+  plainSys('soul-fav-spots', 513, LIVE_ONLY, ({ world, dtMs, events }) =>
+    stepFavSpots(world, dtMs, events),
+  ),
+  // R0547, R0555 (lane A r11): critters to chase, jam sessions (sim/soul-groups.ts).
+  plainSys('soul-groups', 514, ALWAYS, ({ world, dtMs, events, offline }) =>
+    stepSoulGroups(world, dtMs, events, offline),
+  ),
   plainSys('diary', 520, ALWAYS, ({ world, offline, events }) => stepDiary(world, events, offline)),
   plainSys('landmarks', 530, ALWAYS, ({ world, events }) => stepLandmarks(world, events)),
   plainSys('collectibles', 540, ALWAYS, ({ world, events }) => stepCollectibles(world, events)),
@@ -472,6 +493,9 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   ),
   // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
   plainSys('battle-needs', 640, ALWAYS, ({ world }) => holdBattleNeeds(world)),
+  plainSys('old-soul-calm', 650, ALWAYS, ({ world, events }) =>
+    calmEternalReactions(world, events),
+  ),
 ]);
 
 /**

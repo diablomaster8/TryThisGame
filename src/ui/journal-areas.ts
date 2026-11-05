@@ -1,5 +1,10 @@
 import { ATLAS_TEXT, C11_TEXT, STORY_REGION_TEXT } from '../config/strings';
-import { atlasPagesDone } from '../sim/cross-saves';
+import { atlasPagesDone, worldProgress, type WorldProgress } from '../sim/cross-saves';
+import { audienceAllowed } from '../sim/audience';
+import { audienceContext } from '../sim/fun-quests';
+import { parseMultiverse } from '../sim/side-saves';
+import { readSide } from '../platform/storage';
+import { CAMP13C_TEXT } from '../config/strings-camp13c';
 import { readCrossSaves } from './atlas';
 import { REGIONS } from '../config/regions';
 import { STORY_REGION_IDS } from '../config/story-regions';
@@ -99,10 +104,40 @@ export function renderAreas(g: Game, body: HTMLElement, o: NowOptions): void {
     );
   }
   // R0630: the story worlds' progress, read from the side save and never written to the Grove.
-  const pages = atlasPagesDone(readCrossSaves());
+  const cross = readCrossSaves();
+  const pages = atlasPagesDone(cross);
   if (pages.length > 0) {
     body.appendChild(el('div', 'btn-name', ATLAS_TEXT.fromAtlas));
     body.appendChild(el('p', 'help', ATLAS_TEXT.fromAtlasHelp));
     for (const id of pages) body.appendChild(el('p', undefined, ATLAS_TEXT.pages[id] ?? id));
   }
+  worldShelf(body, CAMP13C_TEXT.fromCabinet, ATLAS_TEXT.carts, worldProgress(cross.arcade.carts));
+  // The rift is adult throughout: listed only at Mature content 18+ (never in a Learning Grove).
+  if (audienceAllowed('adult', audienceContext(g.world)))
+    worldShelf(
+      body,
+      CAMP13C_TEXT.fromRift,
+      ATLAS_TEXT.mvLines,
+      worldProgress(parseMultiverse(readSide('multiverse')).lines),
+    );
+}
+
+/** One story world's lines with their progress; nothing when the save has none. */
+function worldShelf(
+  body: HTMLElement,
+  title: string,
+  names: Record<string, string>,
+  lines: WorldProgress[],
+): void {
+  if (lines.length === 0) return;
+  body.appendChild(el('div', 'btn-name', title));
+  body.appendChild(el('p', 'help', CAMP13C_TEXT.worldHelp));
+  for (const l of lines)
+    body.appendChild(
+      el(
+        'p',
+        undefined,
+        `${names[l.id] ?? l.id} · ${CAMP13C_TEXT.lineState(l.done, l.finished, l.begun)}`,
+      ),
+    );
 }

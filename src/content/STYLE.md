@@ -83,3 +83,10 @@ short steps the chip reveals one at a time as each is done. The checker enforces
 - A step the Grove cannot see plays a micro-game from the Journal's Do it (`sim/micro.ts`):
   say "tap Do it in the Journal", and let the hint carry the joke ("Harrow will look
   wounded; he isn't.").
+
+## Reading the Nubbin that was raised (R0584)
+
+A storyline beat or goal may use `personality:<id>`, `trait:<id>`, `bestFriend:any` and `rival:any`
+(also as `partner:personality:<id>`). They read the story partner, never write, and a story
+still has to work for every Nubbin: a variant adds a line, it never gates the plot. Narration
+only: Nubbins do not speak.

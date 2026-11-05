@@ -36,7 +36,7 @@ import type { CampaignState, Command, SimEvent, World } from './types';
 
 /** Why a line can't begin now, or null if it can. */
 export type LineRefusal =
-  'unknown' | 'noSpine' | 'audience' | 'early' | 'quiet' | 'running' | 'cap';
+  'unknown' | 'noSpine' | 'audience' | 'early' | 'quiet' | 'running' | 'cap' | 'locked';
 
 /** The Nubbins each line brings with it (its rule's setup), for the cast cap (R0594). */
 const CAST_SIZE: Readonly<Record<string, number>> = { hundred: 1, logged: 3, dawn: 1, dusk: 1 };
@@ -82,6 +82,8 @@ export function lineRefusal(world: World, id: string): LineRefusal | null {
   // R0640 (lane C r10 agent A): the world opens one region at a time.
   if (!lineRegionOpen(world, id)) return 'early';
   if (quietSpine(world)) return 'quiet';
+  // R0611: Dusk opens once Dawn has an ending, read from the Grove's own lines.
+  if (id === 'dusk' && (world.lines.dawn?.ending ?? null) === null) return 'locked';
   if (world.lines[id] && world.lines[id].ending === null) return 'running';
   if (activeLines(world).length >= STORY_BOOK.lineCap) return 'cap';
   const living = [...lineCastIds(world)].filter((n) => world.nubbins.some((x) => x.id === n));

@@ -3,7 +3,7 @@ import { HURDLES } from '../config/tuning-move-race';
 import { RACE_GAGS } from '../config/tuning-fun';
 import { hashSeed, Rng } from './rng';
 import { levelOf } from './stats';
-import type { Nubbin, StatKey, World } from './types';
+import type { Nubbin, Personality, StatKey, World } from './types';
 import { STAT_KEYS } from './types';
 
 /**
@@ -159,6 +159,8 @@ export interface Racer {
   /** Visual hints for the screen. */
   look: { band: 'sun' | 'moon' | 'neutral'; type: StatKey | 'normal' };
   isPlayer: boolean;
+  /** R0583: the player's personality, for the presentation only (see race-persona.ts). */
+  personality?: Personality | null;
   /** Hurdles: how many are behind this racer, how many it cleared, and the stumble clock. */
   hurdleNext: number;
   hurdlesCleared: number;
@@ -244,6 +246,7 @@ export function createRace(
       finishedAtMs: null,
       look: { band: player.form?.band ?? 'neutral', type: player.form?.type ?? 'normal' },
       isPlayer: true,
+      personality: player.personality,
       hurdleNext: 0,
       hurdlesCleared: 0,
       stumbleMs: 0,

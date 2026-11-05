@@ -22,6 +22,13 @@ _Three banners. Dawn’s is gold and torn. Dusk’s is blue and mended. Dew’s 
 **Grist**: Marina’s lot shout. Luna’s lot brood. Fern’s lot knit. Any of them gets you down the road.  
 **Grist**: None of them gets you back up. That’s the Beetle’s job, and mine.  
 
+When `personality:shy`:
+
+#### <a id="b-c1-shy"></a>Beat `b-c1-shy`
+
+_Your partner hangs back behind your legs, the way shy ones do, and watches the banners._  
+**Grist**: Good. The ones who watch first are the ones who spot the loose strap.  
+
 When `days:>=3`:
 
 #### <a id="b-c1-ledger"></a>Beat `b-c1-ledger`
