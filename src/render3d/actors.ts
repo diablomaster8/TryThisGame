@@ -866,7 +866,11 @@ export class Actors {
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
     a.veil?.removeFromParent();
-    if (a.shell) this.kit.release(a.shell);
+    if (a.shell) {
+      // R0081 (R13 d1): the egg's crack line goes with it (its geometry was left undisposed).
+      updateCracks(a.shell, 0);
+      this.kit.release(a.shell);
+    }
     a.emote.removeFromParent();
     this.nubbins.delete(id);
   }
