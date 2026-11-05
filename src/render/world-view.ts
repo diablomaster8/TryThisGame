@@ -44,7 +44,6 @@ import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
 import { ChunkMask, type SpriteCuller } from './chunks';
-import { drawGroveBack } from './region-grove-back-px';
 import { GROVE_CHUNKS } from '../config/tuning-r12d1';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
@@ -837,8 +836,10 @@ export class WorldView {
       );
     // WORLD-39 (R12 lane D): the real Grove's scenery back across a seamless border.
     const groveOff = this.regions.groveOff;
-    if (!bare && groveOff && this.location.startsWith('region:'))
-      drawGroveBack(
+    if (!bare && groveOff && this.location.startsWith('region:') && !groveBack)
+      void import('./region-grove-back-px').then((m) => (groveBack = m.drawGroveBack));
+    if (!bare && groveOff && this.location.startsWith('region:') && groveBack)
+      groveBack(
         batch,
         world,
         { scenery: this.sheets.scenery(), props: this.sheets.props() },
@@ -3060,6 +3061,8 @@ const blankDraw = (): SpriteDraw => ({
   z: 0,
   mode: 'billboard',
 });
+/** WORLD-39 (R12 lane D): the Grove drawn back from a seamless neighbour, loaded on first use. */
+let groveBack: typeof import('./region-grove-back-px').drawGroveBack | null = null;
 const SHADOW_DRAW = blankDraw();
 const SCENERY_DRAW = blankDraw();
 function reuseDraw(
