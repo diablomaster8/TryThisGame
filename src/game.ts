@@ -8,7 +8,7 @@ import { Vector3 } from 'three';
 import { REGIONS, regionHour } from './config/regions';
 import { regionLook } from './render/region-look';
 import { regionSky } from './sim/region-weather-live';
-import { regionOf } from './sim/regions';
+import { regionOf, rideSeen } from './sim/regions';
 import { regionCameraFor } from './config/region-camera';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
@@ -565,6 +565,18 @@ export class Game {
   private takeExit(exit: string): void {
     if (this.exitPending) return;
     this.exitPending = true;
+    // R12 lane D (WORLD-69): a ride plays its side-on scene, then arrives (lazy module).
+    const def = REGIONS[regionOf(this.world.location)].exits.find((e) => e.id === exit);
+    if (def?.kind === 'vehicle' && def.ride) {
+      const ride = def.ride;
+      void import('./render/vignette').then(({ playRide }) =>
+        playRide(ride, rideSeen(this.world, ride), this.reduceMotion, () => {
+          this.exitPending = false;
+          this.send({ kind: 'travel', exit });
+        }),
+      );
+      return;
+    }
     playSound(REGION_BORDER.stepSound);
     playIris(() => {
       this.exitPending = false;
@@ -1246,7 +1258,10 @@ export class Game {
         this.updateDaylight(nowMs);
         this.culler.update(this.camera);
         this.view.batch.cull = this.culler.visible;
+        this.view.culler = this.culler;
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
+        // WORLD-39 (R12 lane D): the Grove's ground drawn back across a seamless border.
+        this.grove.setEdgeOffset(this.view.regions.groveOff);
         this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);
         this.spikes.lap('draw');

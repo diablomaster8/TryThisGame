@@ -38,6 +38,15 @@ export class TerrainChunks {
   /** WORLD-46: hold the current set (the debug panel's "Freeze streaming"). */
   frozen = false;
 
+  /**
+   * R12 lane D: the whole grid's index as poured (the live one holds only the chunks in
+   * view), for the Grove drawn back across a seamless border; null before the real grid lands.
+   */
+  fullIndex(mesh: THREE.Mesh): Uint16Array | Uint32Array | null {
+    if (mesh.geometry !== this.geo) this.adopt(mesh.geometry);
+    return this.full;
+  }
+
   /** Cut a freshly poured terrain geometry into chunks. */
   private adopt(geo: THREE.BufferGeometry): void {
     this.geo = geo;

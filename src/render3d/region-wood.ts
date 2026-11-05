@@ -27,7 +27,6 @@ const LEAVES = ['#2f6b3a', '#3d7d3c', '#24563c'].map((c) => new THREE.Color(c));
 const STONE = new THREE.Color('#9c968a');
 const ROOF = new THREE.Color('#7a3b2a');
 const PLANK = new THREE.Color('#a8743e');
-const VINE = new THREE.Color('#4f8a34');
 const TUFT = new THREE.Color('#5d9a3c');
 
 /** Paint a geometry one colour (as a vertex attribute) and make it non-indexed for merging. */
@@ -139,9 +138,7 @@ function landmarks(): THREE.BufferGeometry {
   parts.push(
     tinted(at(new THREE.IcosahedronGeometry(2, 1), hollow.x, 4, hollow.z), LEAVES[1]!, 0.2),
   );
-  const vines = poi('vine-wall');
-  parts.push(tinted(at(new THREE.BoxGeometry(4, 1.8, 0.8), vines.x, 0.9, vines.z), STONE));
-  parts.push(tinted(at(new THREE.BoxGeometry(4.1, 1.5, 0.9), vines.x, 1, vines.z), VINE, 0.3));
+  // R12 lane D: the vine wall is a gate now, drawn while shut by `region-life.ts`.
   const look = poi('lookout');
   for (const [dx, dz] of [
     [-1, -1],

@@ -21,7 +21,7 @@ const LANDMARKS: Record<string, { key: string; w: number; dx?: number; dz?: numb
   'old-oak': { key: 'oak', w: 9.4, dz: -1 },
   'hollow-tree': { key: 'hollow', w: 4.4 },
   'old-mill': { key: 'mill', w: 6.9, dx: -2, dz: -2 },
-  'vine-wall': { key: 'vines', w: 4.4 },
+  // R12 lane D: the vine wall is a gate now, drawn while shut by `region-life-px.ts`.
   lookout: { key: 'lookout', w: 3.8 },
   woodcutter: { key: 'prop-0', w: 2 },
   'mushroom-ring': { key: 'prop-1', w: 2.4 },
@@ -112,9 +112,16 @@ export function createRegionPx(l: RegionLayout): RegionPx {
 }
 
 /** The tree tunnel's arch: at the Grove's north wood and at the Wood's south gate. */
-export function drawEntrance(batch: SpriteBatch, x: number, z: number, tint: number): void {
+export function drawEntrance(
+  batch: SpriteBatch,
+  x: number,
+  z: number,
+  tint: number,
+  fade?: ((d: SpriteDraw) => number) | null,
+): void {
   const d = sprite('arch', x, z, 7.4);
   if (!d) return;
   d.tint = tint;
+  d.opacity = fade ? fade(d) : 1;
   batch.draw(d);
 }
