@@ -8,7 +8,7 @@ import { frameKey } from './animations';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
-import type { AmbientKind } from '../../sim/ambient';
+import type { CritterKind } from '../../sim/ambient';
 
 export const AMBIENT_CELL = 16;
 export const BUTTERFLY_COLOURS = 3;
@@ -83,7 +83,7 @@ function dragonfly(blur: boolean): PixelCanvas {
 }
 
 /** The frame key for a critter: `colour` 0-2 for butterflies, `frame` 0 or 1. */
-export type DecalKind = AmbientKind | 'snowman' | 'puddle';
+export type DecalKind = CritterKind | 'snowman' | 'puddle';
 
 export const ambientKey = (kind: DecalKind, frame: number, colour = 0): string =>
   frameKey(kind === 'butterfly' ? `amb-butterfly${colour}` : `amb-${kind}`, 'front', frame);

@@ -6,12 +6,12 @@
  * and roll. Plain wandering only, in live play (`soulLive`); a child leans at half strength.
  */
 import { GAIT } from '../config/tuning-soul-r11';
-import { OLD_SOUL } from '../config/tuning-soul-r11h';
+import { OLD_SOUL_TEACH } from '../config/tuning-soul-r11h';
 import { soulLive } from './antics';
 import { leaningPersonality } from './personality';
 import type { Nubbin, Personality } from './types';
 
-export interface Gait {
+export interface SoulGait {
   speed: number;
   cadence: number;
   bob: number;
@@ -20,19 +20,19 @@ export interface Gait {
 }
 
 /** R0592: an Eternal's slow, steady, even walk. */
-const OLD_GAIT: Gait = {
-  speed: OLD_SOUL.gait,
+const OLD_GAIT: SoulGait = {
+  speed: OLD_SOUL_TEACH.gait,
   cadence: 0.6,
   bob: 0.5,
   waddle: 0.5,
   meander: 0,
 };
-const PLAIN: Gait = { speed: 1, cadence: 1, bob: 1, waddle: 1, meander: 0 };
+const PLAIN: SoulGait = { speed: 1, cadence: 1, bob: 1, waddle: 1, meander: 0 };
 
 /** This Nubbin's gait (a child's leaning at half strength; none yet: plain). */
 export function gaitOf(
   n: Pick<Nubbin, 'personality' | 'stage' | 'childCare' | 'stageMs'> & { eternal?: unknown },
-): Gait {
+): SoulGait {
   if (n.eternal) return OLD_GAIT;
   const p: Personality | null =
     n.personality ?? (n.stage === 'child' ? leaningPersonality(n as Nubbin) : null);

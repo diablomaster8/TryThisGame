@@ -22,7 +22,7 @@ export const SEASON_MOODS = {
 } as const;
 
 /** R0592 (SOUL-75): Eternals and Moss, the old souls. */
-export const OLD_SOUL = {
+export const OLD_SOUL_TEACH = {
   /** Wander speed for an Eternal. */
   gait: 0.55,
   /** A child within this range of an idle Eternal may come and sit to learn. */

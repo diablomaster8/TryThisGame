@@ -6,7 +6,7 @@
  * Eternal sitting still and the child learning a little by watching. Live play only,
  * behaviour and looks only.
  */
-import { OLD_SOUL } from '../config/tuning-soul-r11h';
+import { OLD_SOUL_TEACH } from '../config/tuning-soul-r11h';
 import { soulLive } from './antics';
 import { react } from './behavior';
 import { act, dist, h01, idle, stillIn } from './soul-kit';
@@ -48,15 +48,15 @@ export function stepOldSouls(
       react(n, 'happy', now, events);
     if (!isOldSoul(n) || !idle(n)) continue;
     const kid = world.nubbins.find(
-      (o) => o.stage === 'child' && idle(o) && dist(o.pos, n.pos) < OLD_SOUL.teachRadius,
+      (o) => o.stage === 'child' && idle(o) && dist(o.pos, n.pos) < OLD_SOUL_TEACH.teachRadius,
     );
-    if (!kid || h01(`teach:${n.id}:${now}`) >= OLD_SOUL.teachPerSecond) continue;
-    act(n, now, 'teach', OLD_SOUL.teachActMs);
+    if (!kid || h01(`teach:${n.id}:${now}`) >= OLD_SOUL_TEACH.teachPerSecond) continue;
+    act(n, now, 'teach', OLD_SOUL_TEACH.teachActMs);
     const sit = {
       x: n.pos.x + Math.sin(n.facing) * 1.3,
       z: n.pos.z + Math.cos(n.facing) * 1.3,
     };
-    act(kid, now, 'learnWatch', OLD_SOUL.teachMs, sit);
+    act(kid, now, 'learnWatch', OLD_SOUL_TEACH.teachMs, sit);
     kid.facing = Math.atan2(n.pos.x - sit.x, n.pos.z - sit.z);
     taught.set(world, lessonsWatched(world) + 1);
   }

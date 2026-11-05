@@ -22,12 +22,12 @@ import { isNight } from './side-rule-kit';
 import { hasTrait } from './traits';
 import type { Nubbin, SimEvent, Vec2, World } from './types';
 
-export type AmbientKind = 'butterfly' | 'firefly' | 'frog' | 'dragonfly';
-const KINDS: readonly AmbientKind[] = ['butterfly', 'firefly', 'frog', 'dragonfly'];
+export type CritterKind = 'butterfly' | 'firefly' | 'frog' | 'dragonfly';
+const KINDS: readonly CritterKind[] = ['butterfly', 'firefly', 'frog', 'dragonfly'];
 
 export interface AmbientCritter {
   id: string;
-  kind: AmbientKind;
+  kind: CritterKind;
   pos: Vec2;
   /** Height above the ground. */
   y: number;
@@ -83,7 +83,7 @@ function butterflyTarget(world: World, now: number): number {
   return r < a ? 0 : r < b ? 1 : r < c ? 2 : 3;
 }
 
-function wanted(world: World, now: number): Record<AmbientKind, number> {
+function wanted(world: World, now: number): Record<CritterKind, number> {
   const night = isNight(now);
   const clear = world.weather.kind === 'clear';
   const warm = world.season !== 'winter';
@@ -105,7 +105,7 @@ function clampPos(p: Vec2): void {
 }
 
 /** Where a new critter appears: near a Nubbin (or the Keeper); the pond's edge for water ones. */
-function spawnPos(world: World, kind: AmbientKind, key: string): Vec2 {
+function spawnPos(world: World, kind: CritterKind, key: string): Vec2 {
   const a = h01(`${key}:a`) * Math.PI * 2;
   if (kind === 'frog' || kind === 'dragonfly') {
     const p = GROVE.pond;
@@ -123,7 +123,7 @@ function spawnPos(world: World, kind: AmbientKind, key: string): Vec2 {
   return p;
 }
 
-function spawn(world: World, store: Store, kind: AmbientKind, now: number): void {
+function spawn(world: World, store: Store, kind: CritterKind, now: number): void {
   const key = `amb:${world.seed}:${now}:${store.seq}`;
   store.list.push({
     id: `amb${store.seq++}`,
@@ -192,8 +192,10 @@ function drift(world: World, c: AmbientCritter, now: number, dt: number): void {
 }
 
 /** Whether this Nubbin could set off after something now. */
-function canChase(n: Nubbin): boolean {
+function canChase(world: World, n: Nubbin): boolean {
   if (!awake(n) || !isFree(n)) return false;
+  // Rule three: whoever sits beside the idle Keeper stays put.
+  if (world.keeper.sitWith === n.id) return false;
   const s = n.behavior.state;
   return s === 'wander' || s === 'sit';
 }
@@ -264,7 +266,7 @@ export function stepAmbient(
 
   if (second) {
     const want = wanted(world, now);
-    const have: Record<AmbientKind, number> = { butterfly: 0, firefly: 0, frog: 0, dragonfly: 0 };
+    const have: Record<CritterKind, number> = { butterfly: 0, firefly: 0, frog: 0, dragonfly: 0 };
     for (const c of store.list) {
       have[c.kind]++;
       // Too many for this window: the surplus drifts off soon (never mid-chase).
@@ -308,7 +310,7 @@ export function stepAmbient(
   if (second && store.list.length) {
     const lively = liveliness(world);
     for (const n of world.nubbins) {
-      if (!canChase(n)) continue;
+      if (!canChase(world, n)) continue;
       let best: AmbientCritter | null = null;
       for (const c of store.list) {
         if (c.chaser || c.landedOn) continue;
