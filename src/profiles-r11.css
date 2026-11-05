@@ -63,3 +63,28 @@
   display: flex;
   align-items: center;
 }
+
+/* R0669 (round 13): the strip over a visit to another profile's Grove. */
+.visit-banner {
+  position: fixed;
+  top: calc(var(--safe-top, 0px) + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 16px);
+  padding: 4px 6px 4px 12px;
+  border-radius: 999px;
+  background: rgba(30, 40, 30, 0.88);
+  color: #fff;
+  font-size: 14px;
+  pointer-events: auto;
+}
+
+.visit-banner-leave {
+  min-height: 44px;
+  min-width: 44px;
+  white-space: nowrap;
+}

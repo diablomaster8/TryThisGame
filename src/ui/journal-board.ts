@@ -1,9 +1,11 @@
 import { OFFER_TEXT } from '../config/strings';
+import { KID_FLOW_TEXT } from '../config/strings-camp12d';
 import type { Game } from '../game';
 import { isFunQuestCode } from '../sim/audience';
 import {
   boardState,
   declineRule,
+  kidFlow,
   openFlow,
   questAreaKey,
   questProgress,
@@ -25,6 +27,7 @@ export function renderBoard(g: Game, body: HTMLElement, refresh: () => void): vo
   const book = g.world.questBook;
   if (!c || c.storyline || !openFlow(g.world)) return;
   const region = regionOf(g.world.location);
+  if (kidFlow(g.world)) return renderKidBoard(g, body, region, refresh);
   const box = el('section', 'journal-board');
   box.setAttribute('aria-label', OFFER_TEXT.boardHead);
   box.appendChild(el('div', 'btn-name', OFFER_TEXT.boardHead));
@@ -108,5 +111,47 @@ export function renderBoard(g: Game, body: HTMLElement, refresh: () => void): vo
   }
   if (done > 0) box.appendChild(el('p', undefined, `${OFFER_TEXT.done}: ${done}`));
   if (!any && done === 0) box.appendChild(el('p', undefined, OFFER_TEXT.empty));
+  body.appendChild(box);
+}
+
+/**
+ * R0629 (CAMP-37): a child's notice board is picture tiles only: one big tile per story offered,
+ * put aside or under way, tapped to start (or to take up again). No Pin, no Put aside, no counts.
+ * A story under way says so in its label as well as by its border colour.
+ */
+function renderKidBoard(g: Game, body: HTMLElement, region: string, refresh: () => void): void {
+  const c = g.world.campaign;
+  const book = g.world.questBook;
+  if (!c) return;
+  const box = el('section', 'journal-board board-kid');
+  box.setAttribute('aria-label', OFFER_TEXT.boardHead);
+  const tiles = el('div', 'kid-tiles');
+  for (const id of Object.keys(book?.entries ?? {})) {
+    const quest = sideStory(id);
+    if (!quest) continue;
+    const key = questAreaKey(quest);
+    if (key !== null && !key.startsWith(`${region}/`)) continue;
+    const state = boardState(g.world, c, id);
+    if (state !== 'available' && state !== 'shelved' && state !== 'active') continue;
+    const gift = quest.rewards.find((r) => r.kind !== 'flag');
+    const pic = (gift && OFFER_TEXT.rewardIcon[gift.kind]) || KID_FLOW_TEXT.boardPicture;
+    const active = state === 'active';
+    const tile = button(
+      '',
+      () => {
+        if (!active) g.send({ kind: 'questAccept', id });
+        window.setTimeout(refresh, 300);
+      },
+      `kid-tile${active ? ' kid-tile-active' : ''}`,
+    );
+    tile.append(el('span', 'kid-pic', pic), el('span', undefined, quest.title));
+    tile.setAttribute(
+      'aria-label',
+      active ? KID_FLOW_TEXT.boardActive(quest.title) : KID_FLOW_TEXT.boardStart(quest.title),
+    );
+    tiles.append(tile);
+  }
+  if (tiles.childElementCount === 0) return;
+  box.append(tiles);
   body.appendChild(box);
 }

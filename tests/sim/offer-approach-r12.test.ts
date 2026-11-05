@@ -68,7 +68,7 @@ describe('arrival beat (R0651)', () => {
 });
 
 describe('quest markers (R0608)', () => {
-  it('puts the ! on the board when the giver has no body, at most two markers, read-only', () => {
+  it('puts the ! over the hooded three, who walk up; at most two markers, read-only', () => {
     const { world, events } = openAt(3);
     const p = REGIONS.grove.pois.find((q) => q.id === 'falls')!;
     world.keeper.pos = { x: p.x, z: p.z };
@@ -77,7 +77,19 @@ describe('quest markers (R0608)', () => {
     const before = JSON.stringify(world.questBook);
     const list = questMarkers(world);
     expect(list.length).toBeLessThanOrEqual(C12C.markers.max);
-    expect(list.some((m) => m.kind === 'offer' && m.lift === C12C.markers.overBoard)).toBe(true);
+    const offer = list.find((m) => m.kind === 'offer')!;
+    expect(sideStory(offer.quest)!.speakers[0]!.id).toBe('tall-hood');
+    const body = world.npcs.find((n) => n.id === 'offer-tall-hood')!;
+    expect(body.guest).toBe(true);
+    expect(offer.lift).not.toBe(C12C.markers.overBoard);
     expect(JSON.stringify(world.questBook)).toBe(before);
+  });
+
+  it('keeps the ! on the board when the giver is a Nubbin with no body', () => {
+    const { world } = openAt(3);
+    expect(offerGiver({ speakers: [{ id: 'nobody', name: 'N', kind: 'nubbin' }] } as never)).toBe(
+      null,
+    );
+    expect(world.npcs.some((n) => n.trainer === 'nobody')).toBe(false);
   });
 });

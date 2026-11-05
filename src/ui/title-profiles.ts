@@ -15,7 +15,7 @@ import { SLOT_TEXT } from '../config/strings';
 import { EDU_TAG } from '../config/tuning';
 import {
   hasSave,
-  readSlotSummary,
+  readSlotSummaryOf,
   slotsFor,
   type SaveSlot,
   type SaveSummary,
@@ -66,7 +66,7 @@ export function continueHeader(
 /** Does the title open on "Who's playing?" (a child's Grove, or more than the two profiles)? */
 export function pickerDue(): boolean {
   const kids = Array.from({ length: slotsFor('edu') }, (_, i) =>
-    hasSave({ mode: 'edu', index: i + 1 }),
+    readSlotSummaryOf('k1', { mode: 'edu', index: i + 1 }),
   ).some(Boolean);
   return kids || listProfiles().length > FIXED_PROFILES.length;
 }
@@ -74,21 +74,29 @@ export function pickerDue(): boolean {
 export interface WhoOptions {
   parent: HTMLElement;
   onKeeper: (p: Profile) => void;
-  onChild: (slot: SaveSlot) => void;
+  /** A child's Grove to open; `profile` is the child profile that owns it (`k1`, `k2`, ...). */
+  onChild: (slot: SaveSlot, profile: string) => void;
+  /** A child profile with no Grove yet: start one (the age and name steps). */
+  onNewChild?: (profile: string) => void;
   /** Redraw the picker (after a rename, delete or restore). */
   redraw: () => void;
 }
 
 /** A child's Grove tile: picture, colour and name, read aloud; one tap opens it. */
-function childTile(slot: SaveSlot, s: SaveSummary | null, onChild: (s: SaveSlot) => void) {
+function childTile(
+  profile: string,
+  slot: SaveSlot,
+  s: SaveSummary | null,
+  onChild: (s: SaveSlot, profile: string) => void,
+) {
   const name = s?.eduName ?? SLOT_TEXT.slot(slot.index);
-  const b = button('', () => onChild(slot), 'btn kids-pick-tile title-who-child');
+  const b = button('', () => onChild(slot, profile), 'btn kids-pick-tile title-who-child');
   b.style.setProperty('--tile', `${EDU_TAG.tilePx}px`);
   const css = tagCss(s?.eduColour);
   if (css) b.style.setProperty('--tag', css);
   const icon = el('span', 'kids-pick-icon', s?.eduIcon ?? '🌱');
   b.append(icon, el('strong', undefined, name));
-  showFirstNubbin(slot, icon);
+  showFirstNubbin(slot, icon, profile);
   b.setAttribute('aria-label', PROFILE_TEXT.childTileLabel(name));
   b.addEventListener('pointerenter', () => speakLine(name), { once: true });
   return b;
@@ -98,12 +106,32 @@ function childTile(slot: SaveSlot, s: SaveSummary | null, onChild: (s: SaveSlot)
 export function renderWho(menu: HTMLElement, o: WhoOptions): void {
   menu.replaceChildren();
   menu.appendChild(el('h2', 'title-who-head', PROFILE_TEXT.whoTitle));
-  const kids = el('div', 'kids-pick-row title-who-kids');
-  for (let index = 1; index <= slotsFor('edu'); index++) {
-    const slot: SaveSlot = { mode: 'edu', index };
-    if (hasSave(slot)) kids.appendChild(childTile(slot, readSlotSummary(slot), o.onChild));
+  // R0653: every child profile has its own row of Groves (k1's first, as before).
+  const kidRows: Array<{ p: Profile }> = [];
+  for (const p of listProfiles()) {
+    if (p.kind !== 'child') continue;
+    const row = el('div', 'kids-pick-row title-who-kids');
+    for (let index = 1; index <= slotsFor('edu'); index++) {
+      const slot: SaveSlot = { mode: 'edu', index };
+      const s = readSlotSummaryOf(p.id, slot);
+      if (s) row.appendChild(childTile(p.id, slot, s, o.onChild));
+    }
+    // A child profile with no Grove yet: one tile with its picture and name starts one.
+    if (row.childElementCount === 0 && p.id !== 'k1' && o.onNewChild) {
+      const onNew = o.onNewChild;
+      const b = button('', () => onNew(p.id), 'btn kids-pick-tile title-who-child');
+      b.style.setProperty('--tile', `${EDU_TAG.tilePx}px`);
+      b.append(el('span', 'kids-pick-icon', p.avatar), el('strong', undefined, p.name));
+      b.setAttribute('aria-label', PROFILE_TEXT.childNewLabel(p.name));
+      b.addEventListener('pointerenter', () => speakLine(p.name), { once: true });
+      row.appendChild(b);
+    }
+    if (row.childElementCount > 0) {
+      menu.appendChild(row);
+      kidRows.push({ p });
+    }
   }
-  if (kids.childElementCount > 0) menu.appendChild(kids);
+  const kids = { childElementCount: kidRows.length };
   const gate = (then: () => void): void => {
     void askGrownUp(o.parent, () => undefined).then((ok) => ok && then());
   };
@@ -132,8 +160,7 @@ export function renderWho(menu: HTMLElement, o: WhoOptions): void {
   }
   menu.appendChild(keepers);
   // The child profile's own name and ⋯ (rename), behind the gate like the rest.
-  const kid = listProfiles().find((p) => p.id === 'k1');
-  if (kid && kids.childElementCount > 0) {
+  for (const { p: kid } of kidRows) {
     const more = button(
       `${kid.avatar} ${kid.name} ${PROFILE_TEXT.more}`,
       () => gate(() => manage(o, kid)),

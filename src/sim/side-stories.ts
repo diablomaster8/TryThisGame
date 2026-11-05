@@ -707,7 +707,7 @@ function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void
     }
   }
   // Lane C r8 (R0602): in the Open flow capers start once accepted, never pushed.
-  if (world.settings.questFlow === 'open' && world.edu === null) {
+  if (world.settings.questFlow === 'open') {
     for (const [id, e] of Object.entries(world.questBook?.entries ?? {})) {
       const quest = sideStory(id);
       if (e.state !== 'active' || c.fun[id] || !quest || !isFunQuestCode(quest.code) || blocked)

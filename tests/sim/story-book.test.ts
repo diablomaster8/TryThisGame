@@ -102,6 +102,13 @@ describe('the story book runs lines beside Hazel', () => {
     expect(c(world).seen.indexOf('h-c1-open')).toBeGreaterThan(c(world).seen.indexOf('t-ran-away'));
   });
 
+  it('Dusk waits for the ending of Dawn, read from the Grove own lines (R0611)', () => {
+    const { world } = hazelAt(8);
+    expect(lineRefusal(world, 'dusk')).toBe('locked');
+    world.lines.dawn = { ...structuredClone(world.campaign!), storyline: 'dawn', ending: 'bright' };
+    expect(lineRefusal(world, 'dusk')).toBeNull();
+  });
+
   it('lines respect the spine: not before chapter 3, not in the quiet chapters, two at once', () => {
     expect(lineRefusal(hazelAt(2).world, 'hundred')).toBe('early');
     expect(lineRefusal(hazelAt(10).world, 'hundred')).toBe('quiet');
@@ -158,6 +165,9 @@ describe('every line keeps its hands off the Keeper', () => {
       const { world, events } = hazelAt(8);
       const before = snapshot(world);
       expect(world.nubbins.some((n) => n.id === c(world).mossId)).toBe(true);
+      // R0611: Dusk opens once Dawn has ended.
+      if (id === 'dusk')
+        world.lines.dawn = { ...structuredClone(world.campaign!), storyline: 'dawn', ending: 'x' };
       applyCommand(world, { kind: 'storylineStart', id }, events);
       expect(world.lines[id]).toBeDefined();
       for (const s of before) expect(snapshot(world)).toContain(s);

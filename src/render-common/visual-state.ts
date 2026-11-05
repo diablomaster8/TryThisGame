@@ -75,6 +75,15 @@ const POSE_STATE: Record<string, VisualState | null> = {
   throw: null,
   kneel: null,
   itemGet: null,
+  // R0239: the battle poses share the state of the clip of the same name.
+  windup: 'happy',
+  bonk: 'happy',
+  splash: 'flap',
+  hit: 'sad',
+  dodge: 'surprised',
+  cheer: 'happy',
+  tuckered: 'sleep',
+  wave: 'happy',
 };
 
 export function visualStateOfClip(clip: string): VisualState | null {

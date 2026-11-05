@@ -27,6 +27,8 @@ export const PROFILE_TEXT = {
   whoTitle: "Who's playing?",
   keeperTile: (name: string) => `${name}'s Groves`,
   childTileLabel: (name: string) => `Open ${name}'s Grove`,
+  childNewLabel: (name: string) => `Start ${name}'s Grove`,
+  childFull: "This child's Groves are all in use.",
   childSay: 'Tap your picture.',
   keeperDefault: 'Keeper 1',
   childDefault: 'Child 1',
