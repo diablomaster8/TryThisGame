@@ -4,7 +4,13 @@
  * own scenes. A `CrossSaves` is a frozen snapshot taken from storage by the platform
  * layer, so no lookup here can write anything, to any save.
  */
-import { parseArcade, parseAtlas, type ArcadeSave, type AtlasSave } from './side-saves';
+import {
+  parseArcade,
+  parseAtlas,
+  type ArcadeSave,
+  type AtlasSave,
+  type LineProgress,
+} from './side-saves';
 
 export interface CrossSaves {
   readonly atlas: Readonly<AtlasSave>;
@@ -80,4 +86,29 @@ export function longGrassLantern(x: CrossSaves): boolean {
 /** The finished Atlas pages, for the Grove's keepsake shelf. */
 export function atlasPagesDone(x: CrossSaves): string[] {
   return Object.keys(x.atlas.pages).filter((id) => x.atlas.pages[id]!.done);
+}
+
+/** One cartridge or rift line as the journal shows it: read from a side save, never written. */
+export interface WorldProgress {
+  id: string;
+  /** Quests finished in this line. */
+  finished: number;
+  /** Quests begun, finished or not. */
+  begun: number;
+  done: boolean;
+}
+
+/** Progress per line of a side save's `carts` or `lines`, in the key order the save holds. */
+export function worldProgress(
+  lines: Readonly<Record<string, Readonly<LineProgress>>>,
+): WorldProgress[] {
+  return Object.entries(lines).map(([id, line]) => {
+    const quests = Object.values(line.quests);
+    return {
+      id,
+      finished: quests.filter((q) => q.stage === 'finished').length,
+      begun: quests.length,
+      done: line.done,
+    };
+  });
 }
