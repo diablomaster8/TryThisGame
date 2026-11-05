@@ -11,3 +11,4 @@ export * from '../tuning-r11d8';
 export * from '../tuning-r11d7';
 export * from '../tuning-r12d2';
 export * from '../tuning-r12d1';
+export * from '../tuning-r13d1';

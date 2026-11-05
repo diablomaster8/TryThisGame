@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {
   SHORE_CASTLES,
+  SHORE_FOLK,
   SHORE_HOUSES,
   SHORE_LIGHT,
   SHORE_ROCKS,
@@ -12,6 +13,8 @@ import { SHORE_LOOK } from '../config/tuning-r11d7';
 import { deckMesh, disposeDecks } from '../render/region-kit-px';
 import { hourNow, paintShore, SHORE_GROUND } from '../render/region-shore';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
+import { castleStands } from '../sim/shore-play';
+import type { World } from '../sim/types';
 import type { RegionLayout } from '../config/region-layout';
 
 /**
@@ -120,15 +123,6 @@ function pieces(): THREE.BufferGeometry {
   parts.push(tinted(at(new THREE.CylinderGeometry(1.2, 1.2, 0.2, 12), L.x, 9.2, L.z), '#3a3a44'));
   parts.push(tinted(at(new THREE.CylinderGeometry(0.7, 0.7, 1, 8), L.x, 9.8, L.z), '#ffe9a0'));
   parts.push(tinted(at(new THREE.ConeGeometry(0.95, 0.9, 8), L.x, 10.75, L.z), '#3a3a44'));
-  for (const c of SHORE_CASTLES) {
-    parts.push(tinted(at(new THREE.BoxGeometry(1.4, 0.6, 1), c.x, 0.3, c.z), SAND, 0.15));
-    for (const dx of [-0.55, 0.55])
-      parts.push(
-        tinted(at(new THREE.CylinderGeometry(0.25, 0.3, 0.9, 6), c.x + dx, 0.45, c.z), SAND),
-      );
-    parts.push(tinted(at(new THREE.BoxGeometry(0.03, 0.6, 0.03), c.x, 0.9, c.z), PLANK));
-    parts.push(tinted(at(new THREE.BoxGeometry(0.3, 0.18, 0.02), c.x + 0.15, 1.1, c.z), RED));
-  }
   for (const r of SHORE_ROCKS) {
     const g = new THREE.DodecahedronGeometry(r.r, 0);
     g.scale(1, 0.6, 0.9);
@@ -176,7 +170,65 @@ function sign(): THREE.BufferGeometry {
 }
 
 /** The sea: one plane hung from the tide line out to the margin, and its foam strip. */
-function decorate(group: THREE.Group, l: RegionLayout): Kit3dDecor {
+/** A standing castle (local to its own origin): keep, two towers, a flag. */
+function castleUp(): THREE.BufferGeometry {
+  const parts = [tinted(new THREE.BoxGeometry(1.4, 0.6, 1).translate(0, 0.3, 0), SAND, 0.15)];
+  for (const dx of [-0.55, 0.55])
+    parts.push(tinted(new THREE.CylinderGeometry(0.25, 0.3, 0.9, 6).translate(dx, 0.45, 0), SAND));
+  parts.push(tinted(new THREE.BoxGeometry(0.03, 0.6, 0.03).translate(0, 0.9, 0), PLANK));
+  parts.push(tinted(new THREE.BoxGeometry(0.3, 0.18, 0.02).translate(0.15, 1.1, 0), RED));
+  return merged(parts);
+}
+
+/** What is left of one: a low heap with the flag down. */
+function castleDown(): THREE.BufferGeometry {
+  const heap = new THREE.SphereGeometry(0.7, 7, 4);
+  heap.scale(1.2, 0.3, 0.9);
+  return merged([
+    tinted(heap.translate(0, 0.08, 0), SAND, 0.2),
+    tinted(new THREE.BoxGeometry(0.5, 0.03, 0.03).translate(0.1, 0.25, 0.1), PLANK),
+    tinted(new THREE.BoxGeometry(0.3, 0.02, 0.18).translate(0.4, 0.26, 0.1), RED),
+  ]);
+}
+
+const FOLK_COAT = ['#4a6f8c', '#a85a4a', '#5a8a5a', '#c8a24a'] as const;
+
+/** The Kettleby folk: a coat, a head and a hat each, standing where they stand. */
+function folkGeo(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [];
+  for (const f of SHORE_FOLK) {
+    const coat = FOLK_COAT[f.tone % 4]!;
+    parts.push(tinted(at(new THREE.CylinderGeometry(0.28, 0.4, 0.9, 7), f.x, 0.45, f.z), coat));
+    parts.push(tinted(at(new THREE.SphereGeometry(0.24, 7, 6), f.x, 1.08, f.z), '#e8b98a'));
+    parts.push(
+      tinted(at(new THREE.CylinderGeometry(0.42, 0.42, 0.05, 8), f.x, 1.28, f.z), coat, 0.1),
+    );
+    parts.push(
+      tinted(at(new THREE.CylinderGeometry(0.2, 0.24, 0.22, 7), f.x, 1.38, f.z), coat, 0.1),
+    );
+  }
+  return merged(parts);
+}
+
+function decorate(group: THREE.Group, l: RegionLayout, mat: THREE.Material): Kit3dDecor {
+  const upG = castleUp();
+  const downG = castleDown();
+  const ups = SHORE_CASTLES.map((c) => {
+    const m = new THREE.Mesh(upG, mat);
+    m.position.set(c.x, 0, c.z);
+    group.add(m);
+    return m;
+  });
+  const downs = SHORE_CASTLES.map((c) => {
+    const m = new THREE.Mesh(downG, mat);
+    m.position.set(c.x, 0, c.z);
+    m.visible = false;
+    group.add(m);
+    return m;
+  });
+  const folk = new THREE.Mesh(folkGeo(), mat);
+  folk.name = 'shore-folk';
+  group.add(folk);
   const w = l.spec.size.w + 2 * l.margin;
   const deep = l.spec.size.h / 2 + l.margin - SHORE_LOOK.highTideZ + 4;
   const sg = new THREE.PlaneGeometry(w, deep);
@@ -206,6 +258,13 @@ function decorate(group: THREE.Group, l: RegionLayout): Kit3dDecor {
   let checked = -Infinity;
   let line = waterlineZ(tideAt(hourNow()));
   return {
+    sync(world: World) {
+      SHORE_CASTLES.forEach((_, i) => {
+        const up = castleStands(world, i);
+        ups[i]!.visible = up;
+        downs[i]!.visible = !up;
+      });
+    },
     tick(t, still) {
       const now = performance.now();
       if (now - checked > 1000) {
@@ -222,6 +281,10 @@ function decorate(group: THREE.Group, l: RegionLayout): Kit3dDecor {
       decks.visible = !on;
     },
     dispose() {
+      for (const m of [...ups, ...downs, folk]) m.removeFromParent();
+      upG.dispose();
+      downG.dispose();
+      folk.geometry.dispose();
       disposeDecks(decks);
       sea.removeFromParent();
       sg.dispose();

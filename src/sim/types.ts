@@ -2095,6 +2095,9 @@ export type SimEvent =
   | { kind: 'regionGag'; id: string; first: boolean }
   | { kind: 'wildNubbin'; region: string; name: string; state: 'met' | 'friend' }
   | { kind: 'gateOpened'; region: string; id: string }
+  | { kind: 'castleDown'; id: number; shells: number }
+  | { kind: 'castleRebuilt'; id: number }
+  | { kind: 'folkGreet'; id: string }
   | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }

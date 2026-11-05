@@ -152,3 +152,12 @@ export function tideAt(hour: number): number {
 export function waterlineZ(tide: number): number {
   return SHORE_LOOK.highTideZ + (SHORE_LOOK.tideRange * (1 - tide)) / 2;
 }
+
+/** WORLD-35 (R13 d1): the Kettleby folk, standing by their houses and the lamp. */
+export type ShoreFolkId = 'tam' | 'orla' | 'bett' | 'skerry';
+export const SHORE_FOLK: readonly { id: ShoreFolkId; x: number; z: number; tone: number }[] = [
+  { id: 'tam', x: 38.5, z: 8, tone: 0 },
+  { id: 'orla', x: 48.5, z: 8.4, tone: 1 },
+  { id: 'bett', x: -22, z: 9, tone: 2 },
+  { id: 'skerry', x: 61, z: 7.6, tone: 3 },
+];
