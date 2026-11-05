@@ -68,7 +68,7 @@ import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
 import { cottageHideAct } from './cottage-hide';
 import { approachAct, followFruitAct } from './care-memory';
 import { quirkAct } from './quirks';
-import { eatFlavour, napSpot, swimPace } from './state-flavour';
+import { eatFlavour, napSpot, shyTurnAway, swimPace } from './state-flavour';
 import { STATE_FLAVOUR } from '../config/tuning-soul-r10';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
@@ -1317,6 +1317,10 @@ function stepBehavior(
       if (now >= b.untilMs) {
         b.reaction = null;
         chooseIdle(n, world, rng, now);
+      } else if (b.state === 'eat' && b.itemId === 'nibble') {
+        // R0558 (round 12): a shy nibbler turns its back on the others while it eats.
+        const away = shyTurnAway(n, world);
+        if (away !== null) n.facing = away;
       }
       break;
     }
