@@ -1611,6 +1611,11 @@ export class Actors {
       const x = lerp(v.prev.pos.x, i.pos.x, alpha);
       const z = lerp(v.prev.pos.z, i.pos.z, alpha);
       v.mesh.position.set(x, this.ground(x, z) + v.lift + lerp(v.prev.y, i.y, alpha), z);
+      // R0574: the rope turns while two skip.
+      if (i.toy === 'skippingRope') {
+        const rope = v.mesh.getObjectByName('rope');
+        if (rope) rope.rotation.x = (rockTilt(i, world.timeMs) + 1) * Math.PI * 0.5;
+      }
       // R0574: the seesaw's plank rocks while two Nubbins play on it.
       if (i.toy === 'seesaw') {
         const plank = v.mesh.getObjectByName('plank');

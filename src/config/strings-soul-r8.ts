@@ -27,6 +27,10 @@ export const TOY_NAMES_SOUL: Record<ToyKind, string> = {
   sandbox: 'the sandbox',
   drum: 'the drum',
   bubbleWand: 'the bubble wand',
+  skippingRope: 'the skipping rope',
+  rubberDuck: 'the rubber duck',
+  kite: 'the kite',
+  crayonBox: 'the crayon box',
 };
 
 /** R0536: the first time the Keeper sees each reaction. `{n}` is the name, `{f}` the fruit. */

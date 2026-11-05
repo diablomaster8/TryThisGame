@@ -2944,6 +2944,8 @@ function paintedGround(x: number, z: number): number {
 
 /** R0574: a toy's sprite key; the seesaw swaps between three tilts while two play on it. */
 function seesawFrame(item: { toy?: string; players?: number }, timeMs: number): string {
+  if (item.toy === 'skippingRope')
+    return rockTilt(item, timeMs) > 0 ? 'skippingRope' : 'skippingRope-b';
   if (item.toy !== 'seesaw') return item.toy ?? 'toy';
   const t = rockTilt(item, timeMs);
   return t > 0.33 ? 'seesaw-r' : t < -0.33 ? 'seesaw-l' : 'seesaw';

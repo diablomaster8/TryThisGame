@@ -27,6 +27,10 @@ const TOY_KINDS: ToyKind[] = [
   'sandbox',
   'drum',
   'bubbleWand',
+  'skippingRope',
+  'rubberDuck',
+  'kite',
+  'crayonBox',
 ];
 const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 

@@ -649,7 +649,11 @@ export type ToyKind =
   | 'seesaw'
   | 'sandbox'
   | 'drum'
-  | 'bubbleWand';
+  | 'bubbleWand'
+  | 'skippingRope'
+  | 'rubberDuck'
+  | 'kite'
+  | 'crayonBox';
 export type DyeColor = 'rose' | 'sky' | 'mint' | 'gold' | 'violet' | 'ember';
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
@@ -1998,6 +2002,8 @@ export type SimEvent =
   /** Lane A r10: a lesson performed (R0525); one bubble of a friend chat (R0540). */
   | { kind: 'performStart'; nubbinId: string; lesson: LessonId; level: number }
   | { kind: 'chatTurn'; nubbinId: string; turn: number; topic: string }
+  /** R0589: a content Nubbin near the Keeper hums its motif. */
+  | { kind: 'hum'; nubbinId: string }
   /** R0539: a missed buddy came back and the two hugged. */
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */

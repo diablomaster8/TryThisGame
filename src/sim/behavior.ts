@@ -58,7 +58,7 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
-import { isPairToy } from './toy-pair';
+import { isPairToy, isSocialToy } from './toy-pair';
 import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { peekAct } from './peek';
 import { callAct } from './calling';
@@ -1185,7 +1185,10 @@ function stepBehavior(
           noteTraitCare(n, 'musical', events);
         }
         if (kind === 'bubbleWand') n.typeLean.run += 1;
-        if (isPairToy(kind) && (toy.players ?? 0) >= 2)
+        if (kind === 'rubberDuck') n.typeLean.swim += 1;
+        if (kind === 'kite') n.typeLean.fly += 1;
+        if (kind === 'crayonBox') n.needs.affection = Math.min(100, n.needs.affection + 2);
+        if ((isPairToy(kind) || isSocialToy(kind)) && (toy.players ?? 0) >= 2)
           addHappiness(n, TOY_PAIR.togetherHappiness);
         if (kind === 'radio' && (n.lessons?.dance ?? 0) < 1)
           n.lessons = { ...(n.lessons ?? {}), dance: 1 };

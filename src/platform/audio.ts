@@ -1085,6 +1085,33 @@ export function playPerform(
   }
 }
 
+/**
+ * R0555 (round 12): a Nubbin that joins a jam adds a quiet layer under the leader's tune, in
+ * its own instrument's voice: a bell's soft shimmer, a drum's low pulse, a trumpet's held
+ * fifth. `layer` is how many already play (1 or 2 are heard; more would only be noise).
+ */
+export function playJamLayer(
+  layer: number,
+  instrument: 'bell' | 'drum' | 'trumpet' = 'bell',
+  pitch = 1,
+): void {
+  if (!sfxEnabled || !unlocked || !ctx || layer < 1) return;
+  const up = layer > 1 ? 1.25 : 1;
+  try {
+    if (instrument === 'bell') {
+      tone(988 * pitch * up, 0, 900, 'triangle', 0.018);
+      tone(1480 * pitch * up, 200, 700, 'sine', 0.01);
+    } else if (instrument === 'drum') {
+      for (let i = 0; i < 3; i++) tone(110 * up, i * 330, 140, 'sine', 0.05, 60);
+    } else {
+      tone(262 * pitch * up, 0, 700, 'sawtooth', 0.01, 262 * pitch * up * 1.005);
+      tone(392 * pitch * up, 0, 700, 'sawtooth', 0.008, 392 * pitch * up * 1.005);
+    }
+  } catch {
+    // Audio problems must never break the game.
+  }
+}
+
 // ---------------------------------------------------------------- Hollow cues (lane B r7)
 
 /**

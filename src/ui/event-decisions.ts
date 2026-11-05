@@ -158,6 +158,7 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   partyGiggles: 'elsewhere',
   peekFound: 'elsewhere',
   performStart: 'elsewhere',
+  hum: 'elsewhere',
   personalityLocked: 'elsewhere',
   petted: 'elsewhere',
   pickedUp: 'elsewhere',

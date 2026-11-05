@@ -8,7 +8,7 @@
 import { TOY_SOUL } from '../config/tuning';
 import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { likesOf } from './likes';
-import { isPairToy, playersOn } from './toy-pair';
+import { isPairToy, isSocialToy, playersOn } from './toy-pair';
 import { hasTrait } from './traits';
 import type { Item, Nubbin, World } from './types';
 
@@ -36,6 +36,13 @@ function kindFactor(world: World, n: Nubbin, toy: Item): number {
     const others = playersOn(world, toy, true).filter((m) => m.id !== n.id).length;
     if (others >= 2) return TOY_PAIR.fullWeight;
     return others === 1 ? TOY_PAIR.partnerBoost : TOY_PAIR.aloneWeight;
+  }
+  if (isSocialToy(toy.toy)) {
+    const friend = playersOn(world, toy, true).some((m) => m.id !== n.id);
+    const typed =
+      (toy.toy === 'rubberDuck' && n.form?.type === 'swim') ||
+      (toy.toy === 'kite' && n.form?.type === 'fly');
+    return (friend ? TOY_PAIR.socialPartnerBoost : 1) * (typed ? TOY_PAIR.typeBoost : 1);
   }
   return toy.toy === 'drum' && hasTrait(n, 'musical') ? TOY_PAIR.musicalDrum : 1;
 }
