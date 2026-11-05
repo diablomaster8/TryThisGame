@@ -86,6 +86,7 @@ import {
   type World,
 } from './types';
 import { hatchInArms } from './hatch-arms';
+import { stepLevelWatch } from './level-watch';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
 import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
 
@@ -459,6 +460,10 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   // R0547, R0555 (lane A r11): critters to chase, jam sessions (sim/soul-groups.ts).
   plainSys('soul-groups', 514, ALWAYS, ({ world, dtMs, events, offline }) =>
     stepSoulGroups(world, dtMs, events, offline),
+  ),
+  // R0450: the level-up sound hangs on this event.
+  plainSys('level-watch', 515, ALWAYS, ({ world, events, offline }) =>
+    stepLevelWatch(world, events, offline),
   ),
   plainSys('diary', 520, ALWAYS, ({ world, offline, events }) => stepDiary(world, events, offline)),
   plainSys('landmarks', 530, ALWAYS, ({ world, events }) => stepLandmarks(world, events)),

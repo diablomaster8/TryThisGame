@@ -20,7 +20,7 @@ describe('step systems', () => {
       'hop-lesson',
     ]);
     expect(SYSTEMS.at(-1)!.id).toBe('old-soul-calm');
-    expect(SYSTEMS.length).toBe(51);
+    expect(SYSTEMS.length).toBe(52);
   });
 
   it('every system declares live, offline and coarse behaviour', () => {
