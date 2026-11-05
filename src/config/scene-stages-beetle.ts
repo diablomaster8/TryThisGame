@@ -133,6 +133,15 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     cast: [hob()],
     shot: { kind: 'wide', focus: ['banner-1', 'banner-2', 'banner-3'] },
   },
+  // R0584: the shy partner's variant of the banners beat, staged the same.
+  'b-c1-shy': {
+    place: 'guardhouse',
+    hour: 22.5,
+    lights: LIT,
+    props: { banners: 'show' },
+    cast: [hob()],
+    shot: { kind: 'wide', focus: ['banner-1', 'banner-2', 'banner-3'] },
+  },
   // Grist writes in his ledger behind the counter (indoors, K10).
   'b-c1-ledger': {
     ...INSIDE,

@@ -4,6 +4,8 @@ import { TRACE_TARGETS } from '../../src/sim/lang';
 import { doUnmapped } from '../../src/ui/do-plan'; /* Lane E r10, R0700 */
 import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
+import { personalityCardProblems } from '../../src/content/edu-personality-cards';
+import { PERSONALITIES } from '../../src/sim/types';
 import { OUTER_PROPS } from '../../src/config/outer-ring';
 import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
@@ -289,6 +291,8 @@ console.log(JSON.stringify({ campaignScenes: campIds.size, campLines, campWords 
   };
   problems.push(...lineFlagProblems(STORYLINE_CONTENT, rules, new Set(C.CAMPAIGN_FLAGS)));
 }
+// ---- R0591: the Learning Grove reader's personality cards, one per personality.
+problems.push(...personalityCardProblems(PERSONALITIES));
 // ---- educational versions (the Learning Grove language switch)
 const styleMd = readFileSync(
   new URL('../../src/content/EDU-STYLE.md', import.meta.url),

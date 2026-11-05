@@ -3,6 +3,7 @@ import { GROVE3D } from '../config/tuning';
 import { buildGrass, pourGrass, type Tex } from '../samples/aaa-kit';
 import { placeGrass, type GrassPlacement } from '../samples/grass-place';
 import { groveGrassField } from './grass-field';
+import { GrassChunks } from './grass-chunks';
 import type { GrassReply } from './grass-worker';
 
 /**
@@ -15,6 +16,8 @@ import type { GrassReply } from './grass-worker';
 export interface GroveGrass {
   readonly meshes: THREE.InstancedMesh[];
   readonly ready: boolean;
+  /** WORLD-09 (R12 lane D): the tufts by chunk, packed to what the camera sees. */
+  readonly chunks: GrassChunks;
 }
 
 export function buildGroveGrass(
@@ -23,11 +26,12 @@ export function buildGroveGrass(
   time: { value: number },
 ): GroveGrass {
   const meshes = buildGrass(scene, tex, time, GROVE3D.grassCount, GROVE3D.grassFade);
-  const state = { meshes, ready: false };
+  const state = { meshes, ready: false, chunks: new GrassChunks() };
   const pour = (p: GrassPlacement) => {
     if (state.ready) return;
     state.ready = true;
     pourGrass(meshes, p);
+    state.chunks.adopt(meshes);
   };
   const onPage = () => setTimeout(() => pour(placeGrass(groveGrassField())), 0);
   if (typeof Worker === 'undefined') onPage();

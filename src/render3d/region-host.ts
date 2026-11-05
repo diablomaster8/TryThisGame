@@ -60,6 +60,8 @@ export interface Region3dModule {
 /** Each drawn region's 3D module, loaded on first approach (a new region adds a line). */
 export const REGION_3D: Partial<Record<RegionId, () => Promise<Region3dModule>>> = {
   wood: () => import('./region-wood'),
+  // R12 lane D (WORLD-33): the neighbourhood lane.
+  lane: () => import('./region-lane'),
   shore: () => import('./region-shore'),
   sunlands: () => import('./region-sunmoon').then((m) => m.sun),
   moonlands: () => import('./region-sunmoon').then((m) => m.moon),
@@ -92,6 +94,11 @@ export class RegionHost3d {
   drawnChunks = 0;
   /** Disposals so far (the memory tour reads it). */
   released = 0;
+  /**
+   * WORLD-39 (R12 lane D): set while a seamless way home is within reach: the Grove's
+   * coordinates plus this are the region's. The scene keeps the shared terrain's chunks by it.
+   */
+  groveOff: Vec2 | null = null;
 
   /**
    * `compile` links an object's programs for the light set a drawn region is shown in
@@ -190,6 +197,7 @@ export class RegionHost3d {
     const here = drawnRegion(world);
     const home = world.location === 'grove';
     const want = new Map<RegionId, { at: Vec2; off: Vec2 | null; warm: boolean }>();
+    this.groveOff = null;
     if (here) want.set(here, { at: keeper, off: null, warm: true });
     const exits = here || home ? walkExitsHere(world) : [];
     for (const e of exits) {
@@ -201,6 +209,7 @@ export class RegionHost3d {
       if (d > (seam ? REGION_BORDER.neighbourReach : REGION_BORDER.prewarmReach)) continue;
       const off = seamlessOffset(e);
       want.set(e.to, { at: e.arrive, off: seam ? { x: -off.x, z: -off.z } : null, warm: true });
+      if (seam && e.to === 'grove') this.groveOff = { x: -off.x, z: -off.z };
     }
     for (const [id, l] of this.live) {
       if (want.has(id)) continue;
@@ -245,7 +254,8 @@ export class RegionHost3d {
   private placeArches(exits: ReturnType<typeof walkExitsHere>, here: RegionId | null): void {
     const shown = new Set<string>();
     for (const e of exits) {
-      if (e.kind === 'seamless') continue;
+      // R12 lane D: a ride's jetty or cart stop has no arch.
+      if (e.kind === 'seamless' || e.kind === 'vehicle') continue;
       const mod = this.mods.get(here ?? e.to);
       if (!mod) {
         this.load(here ?? e.to);

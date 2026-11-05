@@ -8,11 +8,21 @@
  */
 import { PERFORM } from '../config/tuning';
 import { instrumentOf, lessonLevel } from '../sim/kindergarten';
+import { shownVariant, type VariantProp } from '../sim/lesson-variants';
 import { isLesson } from '../sim/perform';
 import type { LessonId, Nubbin } from '../sim/types';
 
-export type PerformProp = 'crayon' | 'bell' | 'drum' | 'trumpet';
-export const PERFORM_PROPS: readonly PerformProp[] = ['crayon', 'bell', 'drum', 'trumpet'];
+export type PerformProp = VariantProp;
+export const PERFORM_PROPS: readonly PerformProp[] = [
+  'crayon',
+  'bell',
+  'drum',
+  'trumpet',
+  'maracas',
+  'tambourine',
+  'flute',
+  'pompom',
+];
 
 export interface PerformLook {
   lesson: LessonId;
@@ -119,7 +129,8 @@ export function performLook(n: Nubbin, simMs: number, reduce: boolean): PerformL
       break;
     }
     case 'instrument': {
-      const kind = instrumentOf(n);
+      const sp = shownVariant(n)?.prop;
+      const kind = sp === 'bell' || sp === 'drum' || sp === 'trumpet' ? sp : instrumentOf(n);
       o.prop = kind;
       o.clip = kind === 'trumpet' ? 'happy' : 'idle';
       o.notes = true;
@@ -141,7 +152,99 @@ export function performLook(n: Nubbin, simMs: number, reduce: boolean): PerformL
       break;
     }
   }
+  const sv = shownVariant(n);
+  if (sv) variantLook(o, sv.id, t, reduce);
   return o;
+}
+
+/**
+ * R0554: what makes each wider class look different from its family's default. Reduced motion
+ * keeps the prop and the pose but slows or drops the quick shakes and flips.
+ */
+function variantLook(o: PerformLook, id: string, t: number, reduce: boolean): void {
+  const k = reduce ? 0.3 : 1;
+  const beat = PERFORM.noteEveryMs;
+  const p = beatPulse(t, beat);
+  switch (id) {
+    case 'instrument:maracas':
+      o.prop = 'maracas';
+      o.clip = 'idle';
+      o.propDx = Math.sin(t / 55) * 0.07 * k;
+      o.propDy = Math.cos(t / 80) * 0.04 * k;
+      o.sw = 1 + 0.03 * p;
+      break;
+    case 'instrument:tambourine':
+      o.prop = 'tambourine';
+      o.clip = 'happy';
+      o.propDy = 0.06 + 0.1 * p * k;
+      o.propDx = Math.sin(t / 70) * 0.03 * k;
+      o.dy = 0.05 * p * k;
+      break;
+    case 'instrument:flute':
+      o.prop = 'flute';
+      o.clip = 'idle';
+      o.propDy = 0.04;
+      o.propDx = -0.08;
+      o.dx = Math.sin(t / 700) * 0.05 * k;
+      break;
+    case 'dance:twist':
+      o.turn = reduce ? 0 : Math.sin(t / 170) * 1.4;
+      o.sw = 1 + Math.sin(t / 170) * 0.04 * k;
+      break;
+    case 'dance:ra-ra':
+      o.prop = 'pompom';
+      o.propDy = 0.14 * p;
+      o.propDx = Math.sin(t / 90) * 0.06 * k;
+      o.dy = Math.abs(Math.sin((t / 380) * Math.PI)) * 0.18 * k;
+      o.turn = 0;
+      break;
+    case 'dance:shake':
+      o.dx = Math.sin(t / 45) * 0.06 * k;
+      o.sw = 1 + Math.sin(t / 45) * 0.06 * k;
+      o.turn = 0;
+      break;
+    case 'song:lullaby':
+      o.clip = 'sit';
+      o.dx = Math.sin(t / 1100) * 0.07 * k;
+      o.sh = 1 + 0.03 * Math.sin(t / 1100);
+      break;
+    case 'song:march':
+      o.dx = Math.sin((t / 480) * Math.PI) * 0.08 * k;
+      o.dy = Math.abs(Math.sin((t / 480) * Math.PI)) * 0.1 * k;
+      break;
+    case 'song:silly':
+      o.sw = 1 + Math.sin(t / 130) * 0.1 * k;
+      o.sh = 1 - Math.sin(t / 130) * 0.1 * k;
+      o.turn = reduce ? 0 : Math.sin(t / 400) * 0.5;
+      break;
+    case 'exercise:stretch': {
+      // Reach up slowly, then relax: tall and thin at the top.
+      o.clip = 'idle';
+      o.notes = false;
+      const f = 0.5 - 0.5 * Math.cos(t / 650);
+      o.sh = 1 + 0.16 * f;
+      o.sw = 1 - 0.08 * f;
+      o.turn = 0;
+      o.dx = 0;
+      o.dy = 0;
+      break;
+    }
+    case 'manners:bow': {
+      // A bow every 1.8 s: tip forward (short and wide), hold, rise.
+      o.clip = 'idle';
+      o.notes = false;
+      const c = (t % 1800) / 1800;
+      const f = c < 0.3 ? c / 0.3 : c < 0.6 ? 1 : Math.max(0, 1 - (c - 0.6) / 0.3);
+      o.sh = 1 - 0.2 * f;
+      o.sw = 1 + 0.08 * f;
+      o.turn = 0;
+      o.dx = 0;
+      o.dy = 0;
+      break;
+    }
+    default:
+      break;
+  }
 }
 
 /** Note particles: true once per note beat per Nubbin (render-side memory only). */
@@ -160,6 +263,13 @@ export function noteDue(id: string, look: PerformLook, simMs: number, sinceMs: n
 export function performClip(n: Nubbin): PerformLook['clip'] | null {
   const b = n.behavior;
   if (b.state !== 'perform' || !isLesson(b.itemId)) return null;
+  const sv = shownVariant(n);
+  if (sv) {
+    if (sv.id === 'song:lullaby') return 'sit';
+    if (sv.id === 'instrument:tambourine') return 'happy';
+    if (sv.group === 'exercise' || sv.group === 'manners' || sv.group === 'instrument')
+      return sv.id === 'instrument:trumpet' ? 'happy' : 'idle';
+  }
   if (b.itemId === 'drawing') return 'sit';
   if (b.itemId === 'instrument') return instrumentOf(n) === 'trumpet' ? 'happy' : 'idle';
   return 'happy';
@@ -169,6 +279,9 @@ export function performClip(n: Nubbin): PerformLook['clip'] | null {
 export function performEmote(n: Nubbin): 'note' | 'star' | 'heart' | null {
   const b = n.behavior;
   if (b.state !== 'perform' || !isLesson(b.itemId)) return null;
+  const sv = shownVariant(n);
+  if (sv?.group === 'manners') return 'heart';
+  if (sv?.group === 'exercise') return 'star';
   if (b.itemId === 'singing' || b.itemId === 'instrument') return 'note';
   return b.itemId === 'drawing' ? 'heart' : 'star';
 }

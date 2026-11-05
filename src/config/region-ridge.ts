@@ -7,6 +7,7 @@
  * summit and its telescope, and the mouth of the ice caves (lane B's dungeons attach there).
  * Region-local, centred, x east and z south; the summit is north (z -66).
  */
+import type { JumpRoute } from './region-jumps';
 import type { PoiDef } from './regions';
 import type { RegionSpec } from './region-layout';
 
@@ -69,6 +70,10 @@ export const RIDGE_SPEC: RegionSpec = {
     { x: -38, z: 66, w: 12, h: 40 },
     // Each terrace's open alp (pines stand along its sides and in front of the cliffs).
     ...RIDGE_TERRACES.map((t) => ({ x: 0, z: (t.z0 + t.z1) / 2, w: 40, h: t.z1 - t.z0 - 5 })),
+    // R12 lane D: the run-ups to the two double-jump shortcuts, out to each cliff's lip (the
+    // cliff itself stays unwalkable: only the ledge in it stands).
+    { x: 0, z: 47, w: 4, h: 12 },
+    { x: 0, z: -9, w: 4, h: 12 },
   ],
   water: [RIDGE_POOL],
   treeKeep: 0.7,
@@ -87,3 +92,63 @@ export const RIDGE_SPEC: RegionSpec = {
     { x: -16, z: -64 },
   ],
 };
+
+/**
+ * R12 lane D (WORLD-36): the two double-jump shortcuts, straight up a cliff between the
+ * switchbacks: a double jump onto a ledge half way up, a jump on to the terrace above. The
+ * ramps are the way round; no route is jump-only.
+ */
+export const RIDGE_JUMPS: readonly JumpRoute[] = [
+  {
+    id: 'foot-cliff',
+    kind: 'double',
+    gap: 1.2,
+    rise: 1.4,
+    run: false,
+    from: { x: 0, z: 51.5 },
+    to: { x: 0, z: 42.5 },
+    walkAround: 'track',
+    ledges: [{ x: 0, z: 47, w: 3.6, h: 3.6, y: 1.4 }],
+  },
+  {
+    id: 'hut-cliff',
+    kind: 'double',
+    gap: 1.2,
+    rise: 1.4,
+    run: false,
+    from: { x: 0, z: -4.5 },
+    to: { x: 0, z: -13.5 },
+    walkAround: 'lookout',
+    ledges: [{ x: 0, z: -9, w: 3.6, h: 3.6, y: 6.4 }],
+  },
+];
+
+/**
+ * R12 lane D (WORLD-36): the ridge's flying zones (a Fly partner in the party, as the Grove's):
+ * two updrafts at a cliff's foot that lift the Keeper one terrace, and the glide line from
+ * the summit's lookout down the whole ridge to its foot by the Grove.
+ */
+export interface RegionFlightDef {
+  id: string;
+  kind: 'updraft' | 'glide';
+  /** Where the Keeper steps to set it off. */
+  at: { x: number; z: number };
+  /** Where it goes, in order; the last point sets the Keeper down. */
+  path: readonly { x: number; z: number }[];
+}
+
+export const RIDGE_FLIGHTS: readonly RegionFlightDef[] = [
+  { id: 'updraft-hut', kind: 'updraft', at: { x: -6, z: 25 }, path: [{ x: -6, z: 13 }] },
+  { id: 'updraft-summit', kind: 'updraft', at: { x: 6, z: -31 }, path: [{ x: 6, z: -43 }] },
+  {
+    id: 'glide-home',
+    kind: 'glide',
+    at: { x: 8, z: -58 },
+    path: [
+      { x: 6, z: -20 },
+      { x: 2, z: 6 },
+      { x: -6, z: 34 },
+      { x: -16, z: 62 },
+    ],
+  },
+];

@@ -77,12 +77,14 @@ describe('catchUp', () => {
     }
   });
 
-  it('short gaps use fine steps and keep determinism with live stepping', () => {
+  it('short gaps use fine steps and keep determinism with stepping flagged offline', () => {
     const a = hatched();
     const b = hatched();
     a.settings.offlineAging.mode = 'indefinite';
     catchUp(a, 60_000, 0);
-    for (let i = 0; i < 600; i++) stepWorld(b, SIM.stepMs);
+    // Soul acts, antics and ambient critters run live only (R0544, R0575), so the live
+    // comparison is the same fine steps flagged as time away.
+    for (let i = 0; i < 600; i++) stepWorld(b, SIM.stepMs, undefined, true);
     expect(a.timeMs).toBe(b.timeMs);
     expect(a.rngState).toBe(b.rngState);
   });

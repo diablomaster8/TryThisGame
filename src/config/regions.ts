@@ -10,6 +10,7 @@ import { RUINS_POIS } from './region-ruins';
 import { SHORE_POIS } from './region-shore';
 import { MOON_POIS, SUN_POIS } from './region-sunmoon';
 import { WOOD_POIS } from './region-wood';
+import { LANE_ARRIVE, LANE_GATE_EXITS, LANE_POIS } from './region-lane';
 import type { Audience } from '../content/types';
 import type { Season } from '../sim/types';
 
@@ -38,9 +39,19 @@ export interface RegionExit {
   /** Where the Keeper stands on arrival, and which way they face (radians). */
   arrive: { x: number; z: number };
   facing: number;
-  kind: 'seamless' | 'gate' | 'door' | 'stairs';
+  kind: 'seamless' | 'gate' | 'door' | 'stairs' | 'vehicle';
+  /**
+   * R12 lane D (WORLD-69): a `vehicle` way is a ride, a short side-on scene before arriving:
+   * the ferry over the night sea, the cart.
+   */
+  ride?: 'ferry' | 'cart';
   /** A flag that must be set before the exit opens (the storyline condition names). */
   unlock?: string;
+  /**
+   * R12 lane D (WORLD-33): a sub-place of `to` the way leads into (a trainer's garden on the
+   * lane, `visit:<id>`), instead of the region itself.
+   */
+  sub?: string;
 }
 
 export type PoiTier = 'micro' | 'minor' | 'major';
@@ -135,7 +146,8 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         id: 'grove-gate',
         rect: { x: -2, z: 22, w: 4, h: 3 },
         to: 'lane',
-        arrive: { x: 0, z: 4 },
+        // R12 lane D: the lane's north end (a visit sent with a sub still goes straight in).
+        arrive: LANE_ARRIVE,
         facing: N,
         kind: 'gate',
       },
@@ -213,12 +225,14 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'gate',
       },
       way('lane-village', 'village', [0, 58], [0, -30], 'seamless', 0),
+      // R12 lane D (WORLD-33): the ten garden gates.
+      ...LANE_GATE_EXITS,
     ],
     pois: [
       { id: 'hazel-house', x: 0, z: 0 },
       { id: 'corvin-garden', x: 0, z: 0 },
       { id: 'neighbours', x: 0, z: 0 },
-      { id: 'milestone', x: 0, z: 0 },
+      ...LANE_POIS,
     ],
     kidsSafe: true,
     audience: 'all',
@@ -272,6 +286,17 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         arrive: { x: 12, z: 42.8 },
         facing: N,
         kind: 'seamless',
+      },
+      // R12 lane D (WORLD-69): the ferry from the boat jetty over the night sea to the Moon
+      // lands' jetty (shut, like the Moon gate, until the first Moon adult).
+      {
+        id: 'shore-ferry',
+        rect: { x: 56.8, z: 20.6, w: 2.4, h: 1.4 },
+        to: 'moonlands',
+        arrive: { x: 0, z: 9 },
+        facing: 0,
+        kind: 'vehicle',
+        ride: 'ferry',
       },
     ],
     { pois: SHORE_POIS, built: true },
@@ -355,7 +380,19 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     'moon',
     [80, 80],
     ['dais'],
-    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', N / 2)],
+    [
+      way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', N / 2),
+      // R12 lane D (WORLD-69): the ferry back from the jetty's end to the shore.
+      {
+        id: 'moon-ferry',
+        rect: { x: -1.2, z: 4.6, w: 2.4, h: 1.2 },
+        to: 'shore',
+        arrive: { x: 58, z: 18 },
+        facing: N,
+        kind: 'vehicle',
+        ride: 'ferry',
+      },
+    ],
     { clock: { fixed: 22 }, pois: MOON_POIS, built: true },
   ),
   // Reached only from the Learning Grove, so it has no road to the rest of the world.

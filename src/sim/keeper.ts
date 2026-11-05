@@ -943,7 +943,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   // R11 lane D: in a drawn region beyond the Grove the region's own ground carries the Keeper.
   if (drawnRegion(world)) {
-    stepRegionWalk(world, dtMs);
+    stepRegionWalk(world, dtMs, events);
     return;
   }
   // A roll moves the Keeper itself until it ends or a jump cancels it (MOVE-64).

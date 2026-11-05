@@ -1,6 +1,7 @@
 import { ALIGNMENT, TYPE_LEAN } from '../config/tuning';
 import type { AlignmentBand, KeeperAlignment, Nubbin, NubbinType } from './types';
 import { NUBBIN_TYPES } from './types';
+import { noteFondness } from './keeper-fondness';
 
 /**
  * Alignment moves in hundredths, so it is kept and compared as a whole number of
@@ -23,6 +24,8 @@ export function bandOf(alignment: number): AlignmentBand {
 
 /** Every kind action nudges alignment toward the active Keeper. */
 export function nudgeAlignment(nubbin: Nubbin, keeper: KeeperAlignment): void {
+  // R0568 (lane A r11): every kind act also counts toward a favourite Keeper.
+  noteFondness(nubbin, keeper);
   const delta = keeper === 'sun' ? ALIGNMENT.kindActionDelta : -ALIGNMENT.kindActionDelta;
   nubbin.alignment = roundAlignment(Math.max(-1, Math.min(1, nubbin.alignment + delta)));
 }

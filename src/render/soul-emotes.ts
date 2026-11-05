@@ -34,6 +34,13 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       // R0541 (lane A r10): a flinch's sweat drop.
       if (id === 'flinch') return 'drop';
       if (id === 'sneak') return n.behavior.target ? 'none' : 'smirk';
+      // R0566 (lane A r11): the bond hug ends in a heart.
+      if (id === 'bondHug') return n.behavior.target ? 'none' : 'heart';
+      // R0529 (lane A r11): the second four's quirks.
+      if (id === 'poke') return 'bulb';
+      if (id.startsWith('comfort:') || id === 'offerFruit') return 'heart';
+      if (id === 'tend') return 'note';
+      if (id === 'splash' || id === 'flex') return 'star';
       return null;
     case 'wander':
       if (id === 'hum') return 'note';
@@ -42,6 +49,10 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'callFruit') return 'exclaim';
       // R0541 (lane A r10): trailing after the Keeper's fruit bag.
       if (id === 'followFruit') return 'fruit';
+      // R0529 (lane A r11): roaming, leading a march, drifting after a butterfly.
+      if (id === 'roam') return 'question';
+      if (id === 'lead') return 'exclaim';
+      if (id === 'butterfly') return 'heart';
       return null;
     case 'sit':
       if (id === 'tug') return 'question';
@@ -52,7 +63,16 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       // R0553 (lane A r10): a shy one hiding its face shows nothing; a lazy doze, zz.
       if (id === 'hideFace') return 'none';
       if (id === 'doze') return 'zz';
+      // R0568 (lane A r11): a head tilt at the less-loved Keeper.
+      if (id === 'tiltHead') return 'question';
+      // R0529 (lane A r11): peering at something, gazing at the clouds, daydreaming.
+      if (id === 'peer') return 'question';
+      if (id === 'cloudGaze' || id === 'daydream') return 'note';
       return null;
+    // R0558 (lane A r11): a shy one's quiet sniffle and a gentle one's walk to the Keeper
+    // show a tear; the bold one's short cry keeps the plain ball.
+    case 'cry':
+      return id === 'sniffle' || id === 'cryToKeeper' ? 'drop' : null;
     default:
       return null;
   }

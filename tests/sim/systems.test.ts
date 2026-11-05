@@ -19,8 +19,8 @@ describe('step systems', () => {
       'prop-reach',
       'hop-lesson',
     ]);
-    expect(SYSTEMS.at(-1)!.id).toBe('battle-needs');
-    expect(SYSTEMS.length).toBe(46);
+    expect(SYSTEMS.at(-1)!.id).toBe('old-soul-calm');
+    expect(SYSTEMS.length).toBe(51);
   });
 
   it('every system declares live, offline and coarse behaviour', () => {
@@ -39,6 +39,7 @@ describe('step systems', () => {
       'hop-lesson',
       'hop-course',
       'keeper-idle',
+      'soul-fav-spots',
       'battle-moves',
     ]);
   });

@@ -55,6 +55,11 @@ export const PHASE_QUIRKS = {
     shy: { dawn: 0.8, dusk: 1, night: 1.4 },
     mischievous: { dawn: 0.6, dusk: 1.8, night: 0.8 },
     lazy: { dawn: 0.5, dusk: 0.6, night: 1.6 },
+    // R0529: the second four; a dreamy one stargazes most of all.
+    curious: { dawn: 1.2, dusk: 1.5, night: 1.0 },
+    gentle: { dawn: 1.2, dusk: 1.1, night: 1.0 },
+    bold: { dawn: 1.3, dusk: 1.2, night: 0.6 },
+    dreamy: { dawn: 0.8, dusk: 1.6, night: 2.2 },
   },
 } as const;
 
@@ -70,7 +75,16 @@ export const RAIN_SOUL = {
   /** How far from the Keeper the rain games are played. */
   playRadius: 4,
   /** Chance each personality picks its rain game over sheltering. */
-  play: { cheerful: 0.7, mischievous: 0.65, shy: 0.1, lazy: 0.15 },
+  play: {
+    cheerful: 0.7,
+    mischievous: 0.65,
+    shy: 0.1,
+    lazy: 0.15,
+    curious: 0.5,
+    gentle: 0.3,
+    bold: 0.8,
+    dreamy: 0.2,
+  },
 } as const;
 
 /** R0537 (SOUL-19): favourite toys, boredom and new-toy novelty. */

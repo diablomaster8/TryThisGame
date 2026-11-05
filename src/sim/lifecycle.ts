@@ -11,7 +11,7 @@ import {
 import { eggshellColour, eggshellId } from '../config/cosmetics';
 import { bandOf, roundAlignment, winningType } from './alignment';
 import { inGrace, lifetimeHappiness } from './needs';
-import { decidePersonality, personalityCause } from './personality';
+import { decidePersonality, echoCare, personalityCause } from './personality';
 import { nextSpecies, speciesOf } from './species';
 import { levelOf, nextGrade } from './stats';
 import { lifespanMs, noteEvolutionSlips } from './slips';
@@ -390,11 +390,16 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | 
   });
 
   // R0531: the moment the personality locks, and why.
+  // R0591: the Learning Grove reader band gets a card, once per personality.
+  const edu = world?.edu;
+  const card = !!edu && edu.band === 'reader' && !(edu.cardsSeen ?? []).includes(n.personality);
+  if (card && edu) edu.cardsSeen = [...(edu.cardsSeen ?? []), n.personality];
   events.push({
     kind: 'personalityLocked',
     nubbinId: n.id,
     personality: n.personality,
     cause: personalityCause(n.childCare, n.personality),
+    ...(card ? { card: true as const } : {}),
   });
 
   const eternal = eternalBandFor(n, type);
@@ -469,8 +474,11 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   n.moody = null;
   n.wellRaised = false;
   n.typeLean = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };
+  // R0573 (lane A r11): the new child leans a little toward its last life's personality,
+  // and its first greet is that life's quirk (`echo`); it re-locks at evolution as ever.
+  if (n.personality) n.echo = n.personality;
+  n.childCare = echoCare(n.personality);
   n.personality = null;
-  n.childCare = { pets: 0, throws: 0, feeds: 0 };
   for (const key of STAT_KEYS) {
     n.stats[key].points = Math.floor(n.stats[key].points * REBIRTH.keepPointsFraction);
   }

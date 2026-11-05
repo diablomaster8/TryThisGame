@@ -1,3 +1,4 @@
+import { personalityCardLines } from '../content/edu-personality-cards';
 /**
  * The HUD's reaction to sim events (TECH-24, R0466): the toasts, sounds, panels and chips each
  * SimEvent kind causes. It was the body of `hooks.onEvents` in `mountHud`; the HUD hands it
@@ -220,6 +221,10 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
       celebration.addLine(
         `${LOCKED_TEXT.grewUp(n?.name ?? NAMES.creature, PERSONALITY_LABELS[e.personality])} ${LOCKED_TEXT.cause[e.cause]}`,
       );
+      // R0591: the Learning Grove reader's personality card, once per personality.
+      if (e.card)
+        for (const l of personalityCardLines(e.personality, n?.name ?? NAMES.creature))
+          celebration.addLine(l);
     }
     // R0527: in the Learning Grove a throw gets a picture hint.
     if (e.kind === 'thrown' && g.world.edu) toast(GENTLE_HANDS);

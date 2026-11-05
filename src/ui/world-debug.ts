@@ -56,6 +56,9 @@ export function worldLine(g: Game): string {
       `region ${regionOf(g.world.location)} chunk (${c.cx},${c.cz})` +
       `  geo ${mem.geometries} tex ${mem.textures} heap ${heapMb ?? '?'}MB` +
       `  culled ${g.view.batch.culled}` +
+      // WORLD-09 (R12 lane D): the Grove's scenery chunks drawn and sprites they skipped.
+      `  grove chunks ${g.view.groveChunks.scenery.live}/${g.view.groveChunks.scenery.chunks}` +
+      ` skipped ${g.view.groveChunks.scenery.skipped + g.view.groveChunks.decor.skipped}` +
       `
 ${g.view.regions.debug()}`
     );
@@ -70,6 +73,7 @@ ${g.view.regions.debug()}`
   const cr = s.creatureLod;
   return (
     `region ${regionOf(g.world.location)} chunk (${c.cx},${c.cz}) ground ${t.drawn}/${t.total}` +
+    ` grass ${s.grassChunks.live} (${(s.grassChunks.kept / 1000).toFixed(1)}k)` +
     `${t.frozen ? ' frozen' : ''}  lod ${s.lodBias}${s.governor.forcedGeo !== null ? ' pinned' : ''}` +
     ` ${s.tier} budget ${s.perfBudget.calls}/${s.perfBudget.tris}` +
     `\ninst ${(inst / 1000).toFixed(1)}k  creatures ${cr.inView} in view, ${cr.casting} casting,` +

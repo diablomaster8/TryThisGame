@@ -1,4 +1,5 @@
 import { memorialSpot } from '../render/memorial-spot';
+import { rockTilt } from '../sim/toy-pair';
 import { ridePose } from '../render/ride-pose';
 import { rideScale } from './ride-scale';
 import * as THREE from 'three';
@@ -13,16 +14,20 @@ import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
+import { chaseLook } from '../render/ambient-look';
+import { Ambient3D } from './ambient-3d';
 import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
+import { gaitOf } from '../sim/soul-gait';
+import { Glances } from '../render/glances';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { EmoteSprings } from '../render/emote-spring';
-import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
+import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
 import { graceVeil } from '../render/grace-veil';
@@ -71,7 +76,6 @@ import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
 import { ItemKit, placeStand, shellKey } from './item-kit';
-import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
@@ -94,7 +98,8 @@ import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
 import { companions } from '../sim/region-companion';
-import { noteDue, performClip, performLook } from '../render/perform-look';
+import { noteDue, performLook } from '../render/perform-look';
+import { poseOfState, visualStateFor } from '../render-common/visual-state';
 import { Perform3D } from './perform-3d';
 import { chatClip, chatHop } from '../render/chat-look';
 import { emoteMotion } from '../render/emote-mood';
@@ -159,70 +164,8 @@ const GROVE3D_WADE = 0.6;
  * (any other Nubbin in the pond wades, which is the walk).
  */
 export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
-  if (petted) return 'pet';
-  const walk = (): PoseName => (moving ? (flaps(n) ? 'flap' : 'walk') : 'idle');
-  switch (n.behavior.state) {
-    case 'held':
-    case 'carried':
-    case 'pet':
-      return 'pet';
-    case 'nap':
-      return 'sleep';
-    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never asleep.
-    case 'shelter':
-      return moving ? walk() : 'sit';
-    case 'eat':
-      return 'eat';
-    // LOOK-20: the Chao sit, legs out (the rig's stock `sit`); a low or hungry sitter is sad.
-    case 'sit': {
-      if (moving) return walk();
-      const mood = moodOf(n);
-      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
-    }
-    case 'perform':
-      // R0525 (lane A r10): a lesson performed sits to draw, sings, dances or plays.
-      if (performClip(n)) return performClip(n)!;
-      // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
-      if (n.behavior.itemId === 'visitFlower') return moving ? 'walk' : 'sit';
-      return 'happy';
-    case 'play':
-    case 'greet':
-    case 'court':
-    case 'fetch':
-      return 'happy';
-    // LOOK-21: crying sits, rubs its eyes in turn and wails, with tears (`cry-tears.ts`).
-    case 'cry':
-      return moving ? walk() : 'cry';
-    case 'swim':
-      // LOOK-23: everyone in the pond swims its own stroke (the stage sets the style).
-      return 'swim';
-    case 'thrown':
-      return 'tumble';
-    case 'react':
-      switch (n.behavior.reaction) {
-        case 'love':
-          return 'love';
-        case 'happy':
-          return 'happy';
-        case 'dizzy':
-          return 'dizzy';
-        case 'surprised':
-          return 'surprised';
-        case 'sad':
-          return 'sad';
-        default:
-          return walk();
-      }
-    case 'wander':
-    case 'findFood':
-    case 'avoid':
-      return walk();
-    default: {
-      if (moving) return walk();
-      const mood = moodOf(n);
-      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'idle';
-    }
-  }
+  // R0455 (TECH-13, r12-d3): through the state both renderers share (render-common).
+  return poseOfState(visualStateFor(n, moving, petted));
 }
 
 interface KeeperSlot {
@@ -330,6 +273,9 @@ export class Actors {
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
   private readonly petBeats = new PetBeats();
+  /** R0580 (lane A r11): glances at what happens nearby, and a look point per Nubbin. */
+  private readonly glances = new Glances();
+  private readonly glanceAts = new Map<string, THREE.Vector3>();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
@@ -394,6 +340,7 @@ export class Actors {
 
   /** R0525 (lane A r10): performance props, rising notes and crayon doodles. */
   private readonly perform3d: Perform3D;
+  private readonly ambient3d: Ambient3D;
   private readonly performRight = new THREE.Vector3();
 
   constructor(scene: THREE.Scene) {
@@ -404,6 +351,7 @@ export class Actors {
       () => this.emoteMats.get(frameKey('note', 'front', 0)),
       (x, z) => this.ground(x, z),
     );
+    this.ambient3d = new Ambient3D(this.group, (x, z) => this.ground(x, z));
     this.crowd = new Crowd(
       this.group,
       this.pool,
@@ -631,6 +579,15 @@ export class Actors {
       });
       this.emoteMats.set(`${shadow ? 'shadow:' : ''}${frameKey(shape, 'front', Number(f))}`, mat);
     }
+  }
+
+  /** R0580 (lane A r11): the point a Nubbin glances at (eyes and head), or null. */
+  private glanceOf(n: Nubbin, world: World, nowMs: number): THREE.Vector3 | null {
+    const p = this.glances.at(n, world, nowMs);
+    if (!p) return null;
+    let v = this.glanceAts.get(n.id);
+    if (!v) this.glanceAts.set(n.id, (v = new THREE.Vector3()));
+    return v.set(p.x, this.ground(p.x, p.z) + 0.5, p.z);
   }
 
   /** FUN-09: a pet action landed; its beat plays from the Nubbin's next frame. */
@@ -1159,7 +1116,13 @@ export class Actors {
           ? idleActAt(n, nowMs, actMood === 'content' || actMood === 'happy', keeper.pos, this.calm)
           : null;
       if (act) noteActDoodle(n, act, world.timeMs, PERFORM.doodleKinds);
-      const perf = held || !a.rig ? null : (performLook(n, perfMs, this.calm) ?? act?.perf ?? null);
+      const perf =
+        held || !a.rig
+          ? null
+          : (performLook(n, perfMs, this.calm) ??
+            chaseLook(n, perfMs, this.calm) ??
+            act?.perf ??
+            null);
       if (perf) {
         // Camera-right on the ground, from the camera toward this Nubbin.
         const fx = x - cameraPos.x;
@@ -1233,7 +1196,8 @@ export class Actors {
         /* Lane E r10 */ if (!gag && act && act.emote !== 'none' && pose === act.pose3d)
           a.gagEmote = act.emote;
         a.rig.glide = fly?.phase === 'glide';
-        a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
+        // R0570 (lane A r11): the walk's roll by personality (a march barely rolls).
+        a.rig.waddleScale = gaitOf(n).waddle;
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
@@ -1281,7 +1245,7 @@ export class Actors {
             : GLANCE_POSES.has(pose) &&
                 Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
               ? this.glanceAt
-              : null;
+              : this.glanceOf(n, world, nowMs);
         if (n.behavior.state === 'pet' && near) petted = true;
         this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
@@ -1475,6 +1439,7 @@ export class Actors {
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
     this.perform3d.finish(world, this.location === 'grove', live, nowMs);
+    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm);
 
     // The Keeper.
     if (this.keeperSquash) {
@@ -1574,6 +1539,11 @@ export class Actors {
       const x = lerp(v.prev.pos.x, i.pos.x, alpha);
       const z = lerp(v.prev.pos.z, i.pos.z, alpha);
       v.mesh.position.set(x, this.ground(x, z) + v.lift + lerp(v.prev.y, i.y, alpha), z);
+      // R0574: the seesaw's plank rocks while two Nubbins play on it.
+      if (i.toy === 'seesaw') {
+        const plank = v.mesh.getObjectByName('plank');
+        if (plank) plank.rotation.z = rockTilt(i, world.timeMs) * 0.25;
+      }
     }
     for (const [id, v] of [...this.items]) {
       if (liveItems.has(id)) continue;
@@ -1668,6 +1638,7 @@ export class Actors {
 
   dispose(): void {
     this.perform3d.dispose();
+    this.ambient3d.dispose();
     for (const id of [...this.nubbins.keys()]) this.drop(id);
     this.keeper = this.dropKeeper(this.keeper);
     this.keeper2 = this.dropKeeper(this.keeper2);

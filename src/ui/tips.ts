@@ -5,14 +5,14 @@
  */
 import { TIPS, type Tip, type TipBand } from '../config/tips';
 import type { World } from '../sim/types';
-import { toastBand } from './fun-toasts';
 
 let last = '';
 let turn = 0;
 
 /** The tips this world may show. */
 export function tipsFor(world: World | null): Tip[] {
-  const band: TipBand = world ? toastBand(world) : 'main';
+  // `toastBand` inlined: fun-toasts.ts reaches the sim, and the first veil shows a tip (R0446).
+  const band: TipBand = world?.edu ? world.edu.band : 'main';
   const c = world?.campaign;
   const chapter = c && !c.storyline ? c.chapter : 0;
   const mature = world?.settings.matureContent ?? 'off';

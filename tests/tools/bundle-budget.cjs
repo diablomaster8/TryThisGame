@@ -47,8 +47,9 @@ if (process.argv.includes('--update')) {
   );
   const out = {
     eagerKb: Math.round(eagerKb),
-    // PERF (2026-11-01): back to 1000 once `Game` and the HUD became a lazy chunk (main.ts).
-    eagerCeilingKb: 1000,
+    // R0446 (r12-d3): the title paints before the sim loads (boot-late.ts, kids-portrait.ts);
+    // the first download is ~107 kB gzip, so the hard ceiling drops from 1000 to 160.
+    eagerCeilingKb: 160,
     chunkCeilingKb: 1536,
     chunks: big,
   };
@@ -74,7 +75,9 @@ for (const name of LAZY_ONLY) {
 // R0446 (TECH-04, r11-d3): no Full 3D module, debug panel or stage inspector in the eager graph
 // (the source list comes from the `eager-modules` plugin in vite.config.ts).
 const EAGER_3D_OK = ['src/render3d/minigame-layout.ts', 'src/render3d/terrain-shape.ts'];
-const NEVER_EAGER = /^src\/(render3d\/|ui\/debug-panel\.ts|ui\/stage-inspector\.ts)/;
+// R0446 (r12-d3): nor the sim's world, save codec or story registry: the title paints first.
+const NEVER_EAGER =
+  /^src\/(render3d\/|ui\/debug-panel\.ts|ui\/stage-inspector\.ts|sim\/(world|save|story-scenes)\.ts)/;
 const eagerListPath = path.join(dist, '.vite', 'eager-modules.json');
 if (fs.existsSync(eagerListPath)) {
   const mods = JSON.parse(fs.readFileSync(eagerListPath, 'utf8'));

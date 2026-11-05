@@ -6,7 +6,10 @@
  * row of the idle table, so toys no longer swallow the whole day. Deterministic: no rng.
  */
 import { TOY_SOUL } from '../config/tuning';
+import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { likesOf } from './likes';
+import { isPairToy, playersOn } from './toy-pair';
+import { hasTrait } from './traits';
 import type { Item, Nubbin, World } from './types';
 
 const dist = (a: { x: number; z: number }, b: { x: number; z: number }): number =>
@@ -27,6 +30,16 @@ export function toyWeight(n: Nubbin, toy: Item, now: number): number {
   return fav * bored * (novel ? TOY_SOUL.novelty : 1);
 }
 
+/** R0574: pair toys want a partner, the drum draws musical Nubbins. */
+function kindFactor(world: World, n: Nubbin, toy: Item): number {
+  if (isPairToy(toy.toy)) {
+    const others = playersOn(world, toy, true).filter((m) => m.id !== n.id).length;
+    if (others >= 2) return TOY_PAIR.fullWeight;
+    return others === 1 ? TOY_PAIR.partnerBoost : TOY_PAIR.aloneWeight;
+  }
+  return toy.toy === 'drum' && hasTrait(n, 'musical') ? TOY_PAIR.musicalDrum : 1;
+}
+
 /**
  * The toy it would go to, and how keen it is (1 is an ordinary toy it has never tired of,
  * scaled by `TOY_SOUL.keen`, so a fresh favourite is three times the old flat odds). Nearer
@@ -42,7 +55,7 @@ export function favouredToy(
   let keen = 0;
   for (const item of world.items) {
     if (item.kind !== 'toy') continue;
-    const w = toyWeight(n, item, now);
+    const w = toyWeight(n, item, now) * kindFactor(world, n, item);
     const score = w / Math.max(1, dist(n.pos, item.pos) / 6);
     if (score > bestScore) {
       bestScore = score;

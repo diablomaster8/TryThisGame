@@ -39,6 +39,7 @@ export const REGION_CRITTERS: Record<string, RegionCritters | undefined> = {
   },
   // R12 d2: the other drawn regions, each with the animals its biome would hold. A table with no
   // `spots` has them placed on open, reachable ground by `sim/region-critters.ts`, seeded per region.
+  lane: { types: ['normal', 'run'], species: ['sheep', 'rabbit', 'raccoon'], spots: [] },
   shore: { types: ['swim'], species: ['penguin', 'seal', 'turtle'], spots: [] },
   ridge: { types: ['fly'], species: ['condor', 'swallow', 'peacock'], spots: [] },
   ruins: { types: ['power', 'normal'], species: ['wolf', 'skunk', 'gorilla'], spots: [] },
@@ -82,12 +83,20 @@ const WOOD: Record<Personality, BiomeReaction> = {
   cheerful: { state: 'play', line: 'skips between the trunks' },
   shy: { state: 'sit', hide: true, line: 'hides behind your legs' },
   mischievous: { state: 'play', line: 'rustles every bush' },
+  curious: { state: 'play', line: 'sniffs every leaf' },
+  gentle: { state: 'sit', line: 'stays by your side' },
+  bold: { state: 'play', line: 'marches on ahead' },
+  dreamy: { state: 'sit', line: 'gazes at the light' },
   lazy: { state: 'sit', line: 'flops onto the moss' },
 };
 const OPEN: Record<Personality, BiomeReaction> = {
   cheerful: { state: 'play', line: 'runs ahead' },
   shy: { state: 'sit', hide: true, line: 'stays close' },
   mischievous: { state: 'play', line: 'digs a little hole' },
+  curious: { state: 'play', line: 'sniffs every leaf' },
+  gentle: { state: 'sit', line: 'stays by your side' },
+  bold: { state: 'play', line: 'marches on ahead' },
+  dreamy: { state: 'sit', line: 'gazes at the light' },
   lazy: { state: 'sit', line: 'flops down' },
 };
 
@@ -103,38 +112,60 @@ export const BIOME_REACTIONS: Partial<Record<Biome, Record<Personality, BiomeRea
     cheerful: { state: 'play', line: 'runs straight into the shallows' },
     shy: { state: 'sit', hide: true, line: 'hides behind your legs and peeks at the waves' },
     mischievous: { state: 'play', line: 'digs a hole in the sand' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
     lazy: { state: 'sit', line: 'flops onto the warm sand' },
   },
   alpine: {
     cheerful: { state: 'play', line: 'bounds up the slope' },
     shy: { state: 'sit', hide: true, line: 'tucks in tight against your leg' },
     mischievous: { state: 'play', line: 'rolls a lopsided snowball' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
     lazy: { state: 'sit', line: 'flops into the snow' },
   },
   ruin: {
     cheerful: { state: 'play', line: 'tiptoes between the columns' },
     shy: { state: 'sit', hide: true, line: 'stays very close, very quiet' },
     mischievous: { state: 'play', line: 'pokes every crack in the wall' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
     lazy: { state: 'sit', line: 'sits on a fallen column' },
   },
   sun: {
     cheerful: { state: 'play', line: 'dances in the warm light' },
     shy: { state: 'sit', hide: true, line: 'peeks out from behind you' },
     mischievous: { state: 'play', line: 'chases its own shadow' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
     lazy: { state: 'sit', line: 'melts into a sunny patch' },
   },
   moon: {
     cheerful: { state: 'play', line: 'chases the fireflies' },
     shy: { state: 'sit', hide: true, line: 'stays under your lantern' },
     mischievous: { state: 'play', line: 'bats at the glowing crystals' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
     lazy: { state: 'sit', line: 'curls up by the quiet lake' },
   },
 };
 
 /** The four kinds of gate (R0110): the stat that opens each, and the level it asks. */
-export type GateKind = 'boulder' | 'deepWater' | 'updraft' | 'longRun';
+export type GateKind = 'boulder' | 'vines' | 'deepWater' | 'updraft' | 'longRun';
 export const GATE_STAT: Record<GateKind, 'power' | 'swim' | 'fly' | 'run'> = {
   boulder: 'power',
+  // R12 lane D (WORLD-25): a wall of vines a Power partner pulls down.
+  vines: 'power',
   deepWater: 'swim',
   updraft: 'fly',
   longRun: 'run',
@@ -148,6 +179,8 @@ export interface RegionGate {
   z: number;
   /** The gate's own footprint, world units (the Keeper is kept out while it holds). */
   r: number;
+  /** R12 lane D: a wall's facing (radians about y, across the lane); a boulder has none. */
+  yaw?: number;
   /** The optional ground behind it: a circle that holds no story and no quest area. */
   behind: { x: number; z: number; r: number };
   /** What lies there, once: shells, an essence of a type. */
@@ -164,6 +197,18 @@ export const REGION_GATES: Record<string, readonly RegionGate[] | undefined> = {
       r: 1.6,
       behind: { x: -52, z: -20, r: 4 },
       reward: { shells: 120, essence: 'power' },
+    },
+    // R12 lane D (WORLD-25): the vine wall across the cross-cut; once down it is a shortcut
+    // from the hollow tree to the mill side of the loop. The far side holds nothing gated.
+    {
+      id: 'vine-wall',
+      kind: 'vines',
+      x: 14,
+      z: -14,
+      r: 2.8,
+      yaw: Math.atan2(-30, 16),
+      behind: { x: 2, z: -8, r: 2 },
+      reward: { shells: 60 },
     },
   ],
 };

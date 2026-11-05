@@ -128,10 +128,13 @@ describe('Nubbin hops (MOVE-30)', () => {
     w.keeper.vy = -1;
     w.keeper.grounded = false;
     let hopped = false;
+    // How far it got from the Keeper: a wander after the hop may bring it back (lane A r11).
+    let furthest = 0;
     for (let i = 0; i < 30; i++) {
       for (const e of stepWorld(w, SIM.stepMs)) if (e.kind === 'nubbinHop') hopped = true;
+      furthest = Math.max(furthest, Math.hypot(n.pos.x - w.keeper.pos.x, n.pos.z - w.keeper.pos.z));
     }
     expect(hopped).toBe(true);
-    expect(Math.hypot(n.pos.x - w.keeper.pos.x, n.pos.z - w.keeper.pos.z)).toBeGreaterThan(before);
+    expect(furthest).toBeGreaterThan(before);
   });
 });

@@ -92,7 +92,4 @@ export const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {})
 };
 
 /** A repeatable hash of a cell, 0..1, for placing stones. */
-export const cellHash = (x: number, y: number, k = 0): number => {
-  const v = Math.sin(x * 12.9898 + y * 78.233 + k * 37.719) * 43758.5453;
-  return v - Math.floor(v);
-};
+export { cellHash } from '../sim/dungeon-mainpath';

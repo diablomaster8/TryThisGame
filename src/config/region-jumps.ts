@@ -12,6 +12,7 @@
  * per unit dropped for at most 1.2 s. So a double jump climbs one terrace level and a half,
  * not two (two levels are 1.8 u), and a glide drop is a short hop down, not a long sail.
  */
+import { RIDGE_JUMPS } from './region-ridge';
 import { WOOD_JUMPS } from './region-wood';
 import type { RegionId } from './regions';
 
@@ -47,10 +48,29 @@ export interface JumpRoute {
   to: { x: number; z: number };
   /** The POI id, in the same region, a walking path reaches `to` by. */
   walkAround: string;
+  /**
+   * R12 lane D: a route built in the world. Its line from `from` to `to` is an air lane (the
+   * Keeper may pass over water or a cliff there while airborne, `sim/region-moves.ts`), and
+   * these raised boxes (stepping stones, cliff ledges) stand in it, tops at `y`.
+   */
+  ledges?: readonly JumpLedge[];
+}
+
+/** R12 lane D: a raised box the Keeper can stand on (a stepping stone, a cliff ledge). */
+export interface JumpLedge {
+  x: number;
+  z: number;
+  w: number;
+  h: number;
+  /** Its top, world units. */
+  y: number;
 }
 
 /**
  * The routes per region. The Grove has none (its terraces have ramps); the first are the
  * Wood's (WORLD-25), laid out with it in `region-wood.ts`.
  */
-export const JUMP_ROUTES: Partial<Record<RegionId, readonly JumpRoute[]>> = { wood: WOOD_JUMPS };
+export const JUMP_ROUTES: Partial<Record<RegionId, readonly JumpRoute[]>> = {
+  wood: WOOD_JUMPS,
+  ridge: RIDGE_JUMPS,
+};

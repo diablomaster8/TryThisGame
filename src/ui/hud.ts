@@ -1,4 +1,7 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { ALBUM_TEXT } from '../config/strings-soul-r11b';
+import { mountWatch } from './watch';
+import { AnticAlbum } from './antic-album';
 import { WORLD_TEXT } from '../config/strings-world';
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
@@ -534,6 +537,8 @@ export function mountHud(
   const expedition = new ExpeditionScreen(root);
   const races = new RacesMenu(root, game, (t) => toast(t, UI.toastLongMs), pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
+  const anticAlbum = new AnticAlbum(root, game, UI_TEXT.close); /* R0564 */
+  mountWatch(root, game, (n) => anticAlbum.report(n.id, n.behavior.itemId)); /* R0550 */
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
   // Lane C round 6: battle scenes play in this box; a loaded bout asks to resume (FIGHT-64).
@@ -696,6 +701,7 @@ export function mountHud(
     [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
     [`🗺 ${UI_TEXT.map}`, () => map.open()],
+    [`📖 ${ALBUM_TEXT.button}`, () => anticAlbum.open()],
     [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
     [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
   ] as const) {

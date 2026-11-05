@@ -13,6 +13,7 @@
  */
 import { TRAIT_IDS, TRAIT_TUNING, TRAITS, type TraitId } from '../config/tuning';
 import { liveliness } from './antics';
+import { noteSecondCare } from './personality';
 import { hashSeed } from './rng';
 import type { IdleAct } from './soul-idle';
 import type { Nubbin, SimEvent, World } from './types';
@@ -113,6 +114,8 @@ export function traitAct(n: Nubbin, world: World, now: number): IdleAct | null {
         )
         .sort((a, b) => (b.bornMs ?? 0) - (a.bornMs ?? 0))[0];
       if (!fresh) continue;
+      // R0529: every new thing inspected makes a child a little more curious.
+      noteSecondCare(n, 'curious');
       return {
         state: 'wander',
         ms: T.inspectMs + dist(fresh.pos, n.pos) * 700,

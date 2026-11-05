@@ -1,3 +1,5 @@
+import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { racerPersonality, startKind, type StartKind } from '../sim/race-persona';
 import * as THREE from 'three';
 import { RACE_LOOK } from '../config/campaign-look';
 import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
@@ -57,6 +59,14 @@ function hopHeight(race: RaceState, pos: number): number {
  * portrait, and a camera that follows the player and leans toward the leader. Reads the
  * race only; the screen keeps the cheer button, the HUD and the results.
  */
+/** R0583: the 3D rig's start-line pose for each personality kind (no sitting: they are running). */
+const START_POSE: Record<StartKind, 'happy' | 'surprised' | 'love' | 'idle'> = {
+  wave: 'happy',
+  hide: 'surprised',
+  tongue: 'love',
+  yawn: 'idle',
+};
+
 export class Race3dView implements RaceView {
   readonly element: HTMLDivElement;
   ready = false;
@@ -262,19 +272,26 @@ export class Race3dView implements RaceView {
     const live = !race.finished && r.racer.finishedAtMs === null;
     const gazing = live && race.timeMs < (r.racer.gazeUntilMs ?? -1);
     const perked = live && race.timeMs < (r.racer.perkUntilMs ?? -1);
+    // R0583: the start-line pose by personality (looks only; the times never read it).
+    const atLine =
+      live && !flying && race.timeMs < RACE_PERSONA.startLineMs
+        ? START_POSE[startKind(racerPersonality(r.racer)) ?? 'wave']
+        : null;
     const pose = resting
       ? 'sleep'
-      : stumbling
-        ? 'dizzy'
-        : gazing
-          ? 'idle'
-          : perked && !flying
-            ? 'surprised'
-            : flying
-              ? 'happy'
-              : race.finished || r.racer.finishedAtMs !== null
-                ? 'idle'
-                : 'walk';
+      : atLine
+        ? atLine
+        : stumbling
+          ? 'dizzy'
+          : gazing
+            ? 'idle'
+            : perked && !flying
+              ? 'surprised'
+              : flying
+                ? 'happy'
+                : race.finished || r.racer.finishedAtMs !== null
+                  ? 'idle'
+                  : 'walk';
     if (r.racer.isPlayer && this.butterfly) {
       const face = gazing ? this.gaze.set(x + 0.45, y + r.look.height * 0.85, z + 0.2) : null;
       const at = this.butterfly.update(face, nowMs, this.stage?.reduceMotion ?? false);

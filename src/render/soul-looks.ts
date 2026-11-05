@@ -8,7 +8,8 @@
  * stomp puddles and the cheeky catch drops on their tongues (R0534). Dusk firefly chases are
  * a walk with sparkles round them. Render-only: it reads the Nubbin and never writes it.
  */
-import type { Nubbin } from '../sim/types';
+import type { Nubbin, Personality } from '../sim/types';
+import { GAIT, SHADOW_SOUL } from '../config/tuning-soul-r11';
 import type { PetBeatPose } from './pet-reactions';
 
 export type SoulLookKind =
@@ -37,13 +38,51 @@ export type SoulLookKind =
   | 'smugRun'
   | 'tug'
   | 'callFruit'
-  | 'rubEyes';
+  | 'rubEyes'
+  // R0558 (lane A r11): eating, napping, swimming and crying by personality.
+  | 'gulp'
+  | 'nibble'
+  | 'chomp'
+  | 'curlUp'
+  | 'sprawl'
+  | 'splashSpin'
+  | 'wadeEdge'
+  | 'diveUp'
+  | 'floatBack'
+  | 'sniffle'
+  | 'cryStomp'
+  | 'cryWalk'
+  // R0570 (lane A r11): the wander gaits.
+  | 'skip'
+  | 'smallSteps'
+  | 'tiptoe'
+  | 'shuffle'
+  | 'march'
+  | 'meander'
+  // R0566 (lane A r11): a wary Shadow's sulk and watch, and the bond's walk-up hug.
+  | 'sulk'
+  | 'watchFar'
+  | 'bondHug'
+  // R0568 (lane A r11).
+  | 'tiltHead'
+  // R0577 (lane A r11): the transitions between states.
+  | 'standUp'
+  | 'wakeStretch'
+  | 'crouch'
+  | 'shakeOff';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
   const b = n.behavior;
   if (b.state === 'shelter') return b.target ? null : 'huddle';
   const id = b.itemId;
+  // R0566 (lane A r11).
+  if (b.state === 'sit' && id === 'sulk') return 'sulk';
+  if (b.state === 'sit' && id === 'tiltHead') return 'tiltHead';
+  if (b.state === 'perform' && id === 'watchFar' && !b.target) return 'watchFar';
+  if (b.state === 'perform' && id === 'bondHug' && !b.target) return 'bondHug';
+  const flavour = stateFlavourLook(n);
+  if (flavour) return flavour;
   // Lane A r9.
   if (b.state === 'sit' && id === 'groomSelf') return 'groomSelf';
   if (b.state === 'wander' && (id === 'hum' || id === 'inspect')) return id;
@@ -61,6 +100,19 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   if (b.state === 'perform' && id === 'flinch' && !b.target) return 'huddle';
   if (b.state === 'perform' && id === 'twirl') return 'chaseTail';
   if (b.state === 'sit' && id === 'doze') return 'stargaze';
+  // R0529 (lane A r11): the second four's quirks borrow the bodies above: a poke or a peer
+  // leans in, a pat or a tended tree reaches up, a fruit offered is held high, a splash
+  // stomps, a flex stretches tall, cloud gazing and daydreams lie back, a butterfly chase
+  // sparkles.
+  if ((b.state === 'perform' && id === 'poke') || (b.state === 'sit' && id === 'peer'))
+    return 'inspect';
+  if (b.state === 'perform' && (id?.startsWith('comfort:') || id === 'tend') && !b.target)
+    return 'tug';
+  if (b.state === 'perform' && id === 'offerFruit') return 'smugRun';
+  if (b.state === 'perform' && id === 'splash' && !b.target) return 'stomp';
+  if (b.state === 'perform' && id === 'flex') return 'stretch';
+  if (b.state === 'sit' && (id === 'cloudGaze' || id === 'daydream')) return 'stargaze';
+  if (b.state === 'wander' && id === 'butterfly') return 'fireflies';
   // R0558 (lane A r10): a lazy one lies back to eat.
   if (b.state === 'eat' && id === 'lieEat') return 'stargaze';
   // R0560: asking to be picked up too, arms up beside the Keeper (R0541: asking for more).
@@ -82,7 +134,61 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
     (b.state === 'wander' || b.state === 'sit' || b.state === 'greet' || b.state === 'findFood')
   )
     return 'full';
+  // R0570 (lane A r11): a plain wander walks its personality's gait.
+  if (b.state === 'wander' && !id && b.target) return GAIT_LOOK[n.personality ?? 'curious'];
   return null;
+}
+
+/**
+ * R0558 (lane A r11): the clip variants for eating, napping, swimming and crying, from the
+ * act's name (sim/state-flavour.ts, sim/cry-soul.ts) or, where the sim needs none, the
+ * personality: a shy one curls up to nap and wades at the edge, a lazy one sprawls and
+ * floats on its back, a mischievous one dives and pops up, the cheerful and the bold splash
+ * and spin.
+ */
+/** R0570: the gait each personality walks (curious and gentle stroll plainly). */
+const GAIT_LOOK: Record<Personality, SoulLookKind | null> = {
+  cheerful: 'skip',
+  shy: 'smallSteps',
+  mischievous: 'tiptoe',
+  lazy: 'shuffle',
+  curious: null,
+  gentle: null,
+  bold: 'march',
+  dreamy: 'meander',
+};
+
+function stateFlavourLook(n: Nubbin): SoulLookKind | null {
+  const b = n.behavior;
+  const id = b.itemId;
+  switch (b.state) {
+    case 'eat':
+      return id === 'gulp' || id === 'nibble' || id === 'chomp' ? id : null;
+    case 'nap':
+      if (id === 'nodOff') return null;
+      return n.personality === 'shy' ? 'curlUp' : n.personality === 'lazy' ? 'sprawl' : null;
+    case 'swim':
+      // R0582 (lane A r11): splashing a friend in the water.
+      if (id?.startsWith('splashFriend:')) return 'splashSpin';
+      switch (n.personality) {
+        case 'shy':
+          return 'wadeEdge';
+        case 'lazy':
+          return 'floatBack';
+        case 'mischievous':
+          return 'diveUp';
+        case 'cheerful':
+        case 'bold':
+          return 'splashSpin';
+        default:
+          return null;
+      }
+    case 'cry':
+      if (id === 'sniffle' || id === 'cryStomp') return id;
+      return id === 'cryToKeeper' && b.target ? 'cryWalk' : null;
+    default:
+      return null;
+  }
 }
 
 /** How often each look throws up its particles, in ms (none: never). */
@@ -99,6 +205,12 @@ export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   giggleFit: 450,
   burp: 5000,
   smugRun: 500,
+  // R0558 (lane A r11).
+  chomp: 900,
+  splashSpin: 700,
+  diveUp: 1800,
+  cryStomp: 600,
+  bondHug: 1200,
 };
 
 /** The waddle's sway. */
@@ -320,6 +432,208 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.pose3d = 'walk';
       out.dx = 0.06 * Math.sin((ms / 1000) * Math.PI * 2 * 1.2) * m;
       out.dy = 0.02 * Math.abs(Math.cos((ms / 1000) * Math.PI * 2 * 1.2)) * m;
+      break;
+    // R0558 (lane A r11): the state flavours.
+    case 'gulp':
+      // Down in one: quick, deep bobs, puffed out wide.
+      out.clip = 'eat';
+      out.pose3d = 'eat';
+      out.frame = Math.floor(ms / 90) % 2;
+      out.sw = 1.06;
+      out.sh = 1 - 0.06 * Math.abs(wave(4)) * m;
+      break;
+    case 'nibble':
+      // Small, careful nibbles, drawn in on itself.
+      out.clip = 'eat';
+      out.pose3d = 'eat';
+      out.frame = Math.floor(ms / 420) % 2;
+      out.sw = 0.92;
+      out.sh = 0.93;
+      break;
+    case 'chomp':
+      // Happy chomps, bouncing on the spot between bites.
+      out.clip = 'eat';
+      out.pose3d = 'eat';
+      out.dy = 0.05 * Math.abs(wave(1.6)) * m;
+      out.sh = 1.03;
+      break;
+    case 'curlUp':
+      // Curled up small and round, asleep.
+      out.clip = 'sleep';
+      out.pose3d = 'sleep';
+      out.sw = 0.84;
+      out.sh = 0.8;
+      out.dy = -0.02;
+      break;
+    case 'sprawl':
+      // Sprawled on its back, wide and flat, wherever it dropped.
+      out.clip = 'sleep';
+      out.pose3d = 'sleep';
+      out.sw = 1.22;
+      out.sh = 0.76;
+      out.dy = -0.03;
+      break;
+    case 'splashSpin':
+      // Splashing and spinning: the body turns side-on and back (narrow, wide) as it goes.
+      out.sw = 1 - 0.25 * Math.abs(Math.sin((ms / 1000) * Math.PI * 1.4)) * m;
+      out.dy = 0.03 * Math.abs(wave(1.4)) * m;
+      break;
+    case 'wadeEdge':
+      // Only up to its tummy at the edge, a slow cautious bob.
+      out.sh = 0.96;
+      out.dy = 0.015 * wave(0.5) * m;
+      break;
+    case 'diveUp': {
+      // Under for a moment (squashed low in the water), then pops up.
+      const c = (ms % 1800) / 1800;
+      const under = c > 0.45 && c < 0.75 ? 1 : 0;
+      out.sh = 1 - 0.55 * under * (calm ? 0 : 1);
+      out.dy = (under ? -0.2 : 0.04 * Math.max(0, Math.sin(c * Math.PI * 4))) * m;
+      break;
+    }
+    case 'floatBack':
+      // Floating on its back, drifting: the lie-back body on the water.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sw = 1.14;
+      out.sh = 0.8;
+      out.dy = -0.04 + 0.01 * wave(0.4) * m;
+      break;
+    case 'sniffle':
+      // Quiet sniffles: the sad frame, hunched, a small catch of the shoulders.
+      out.clip = 'sad';
+      out.frame = 0;
+      out.pose3d = 'sad';
+      out.sw = 0.95;
+      out.sh = 0.94 + 0.02 * Math.max(0, wave(1.1)) * m;
+      break;
+    case 'cryStomp':
+      // A short loud cry, then a cross little stomp.
+      if (t < 0.6) {
+        out.clip = 'cry';
+        out.pose3d = 'sad';
+      } else {
+        out.clip = 'surprised';
+        out.frame = 0;
+        out.pose3d = 'surprised';
+        out.dy = 0.08 * Math.abs(Math.sin((ms / 300) * Math.PI)) * m;
+      }
+      break;
+    case 'cryWalk':
+      // On its way to the Keeper, sniffling: a slow, drooping walk.
+      out.clip = 'walk';
+      out.pose3d = 'walk';
+      out.sh = 0.95;
+      break;
+    // R0577 (lane A r11): the transitions (render/pet-reactions.ts picks and times them).
+    case 'standUp':
+      // Pushing up off the grass: from low and wide to standing.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = t < 0.5 ? 'sit' : 'idle';
+      out.sh = 0.88 + 0.12 * t;
+      out.sw = 1.06 - 0.06 * t;
+      break;
+    case 'wakeStretch':
+      // Rubbing its eyes, then a big stretch up on its toes.
+      if (t < 0.5) {
+        out.clip = 'sit';
+        out.frame = 0;
+        out.pose3d = 'sit';
+        out.sh = 0.95;
+        out.dx = 0.02 * Math.sin(t * Math.PI * 8);
+      } else {
+        const up = Math.sin(((t - 0.5) / 0.5) * Math.PI);
+        out.clip = 'happy';
+        out.frame = 0;
+        out.pose3d = 'happy';
+        out.sh = 1 + 0.12 * up;
+        out.sw = 1 - 0.06 * up;
+      }
+      break;
+    case 'crouch':
+      // Down to the fruit.
+      out.clip = 'eat';
+      out.frame = 0;
+      out.pose3d = 'eat';
+      out.sh = 1 - 0.1 * Math.sin(t * Math.PI);
+      break;
+    case 'shakeOff':
+      // A quick shake of the head, back to itself.
+      out.dx = 0.03 * Math.sin(t * Math.PI * 6) * (1 - t);
+      break;
+    // R0568 (lane A r11): the head tilt, a lean to one side and a puzzled look.
+    case 'tiltHead':
+      out.clip = 'surprised';
+      out.frame = 0;
+      out.pose3d = 'surprised';
+      out.dx = 0.04;
+      out.sw = 0.97;
+      break;
+    // R0566 (lane A r11).
+    case 'sulk':
+      // Sat with its back to the Grove, facing a tree, hunched small.
+      out.clip = 'sad';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sw = 0.94;
+      out.sh = 0.92;
+      break;
+    case 'watchFar':
+      // Sat a way off, watching the Keeper, very still.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      out.sh = 0.97;
+      break;
+    case 'bondHug':
+      // Up to the Keeper: a hesitation (small, unsure), then the hug.
+      if (t < SHADOW_SOUL.bondHesitate) {
+        out.clip = 'surprised';
+        out.frame = 0;
+        out.pose3d = 'surprised';
+        out.sw = 0.94;
+        out.sh = 0.94;
+      } else {
+        out.clip = 'love';
+        out.pose3d = 'love';
+        out.sh = 1 + 0.03 * Math.max(0, wave(1.5)) * m;
+      }
+      break;
+    // R0570 (lane A r11): the gaits, laid over the walk clip (null keeps it).
+    case 'skip': {
+      // A skip: a big bounce every other step.
+      const hop = Math.abs(Math.sin((ms / 1000) * Math.PI * 2.4));
+      out.dy = GAIT.stepBob * GAIT.cheerful.bob * 2 * hop * m;
+      out.sh = 1 + 0.03 * hop * m;
+      break;
+    }
+    case 'smallSteps':
+      // Small careful steps, a little hunched.
+      out.sh = 0.97;
+      out.dy = GAIT.stepBob * GAIT.shy.bob * Math.abs(wave(2.2)) * m;
+      break;
+    case 'tiptoe':
+      // Up on its toes: tall and thin, hardly any bounce.
+      out.sh = 1.05;
+      out.sw = 0.96;
+      out.dy = 0.02 + GAIT.stepBob * GAIT.mischievous.bob * Math.abs(wave(2.8)) * m;
+      break;
+    case 'shuffle':
+      // A shuffle: low and wide, feet barely leaving the grass.
+      out.sh = 0.94;
+      out.sw = 1.05;
+      out.dy = GAIT.stepBob * GAIT.lazy.bob * Math.abs(wave(1.2)) * m;
+      break;
+    case 'march':
+      // A march: upright, chest out, a firm down-beat on every step.
+      out.sh = 1.04;
+      out.dy = GAIT.stepBob * GAIT.bold.bob * Math.max(0, wave(1.8)) * m;
+      break;
+    case 'meander':
+      // Meandering: a slow, floaty bob.
+      out.dy = GAIT.stepBob * GAIT.dreamy.bob * (1 + wave(0.8)) * m;
       break;
   }
   return out;

@@ -12,6 +12,8 @@
  */
 import { FRIENDS } from '../config/tuning';
 import { FRIEND_COMPAT, RIVALS } from '../config/tuning-soul-r10';
+import { KIN } from '../config/tuning-soul-r11g';
+import { areSiblings } from './soul-kit';
 import { soulLive } from './antics';
 import { addHappiness } from './needs';
 import { isFree } from './nubbin';
@@ -25,7 +27,9 @@ const dist = (a: { x: number; z: number }, b: { x: number; z: number }): number 
 
 /** How well two Nubbins' personalities fit (a child by its leaning; none yet is 1). */
 export function compat(a: Nubbin, b: Nubbin): number {
-  return fitOf(a.personality ?? leaningPersonality(a), b.personality ?? leaningPersonality(b));
+  const fit = fitOf(a.personality ?? leaningPersonality(a), b.personality ?? leaningPersonality(b));
+  // R0572 (lane A r11): siblings are more compatible.
+  return areSiblings(a, b) ? fit * KIN.siblingCompat : fit;
 }
 
 /** The fit of two personalities (or leanings) already looked up; none yet is 1. */
@@ -72,7 +76,7 @@ export function addRivalry(from: Nubbin, to: Nubbin, amount: number, events: Sim
 
 /** R0538: the one that reached a fruit first ate it; the others walking to it lost the race. */
 export function noteFruitWon(world: World, winner: Nubbin, fruitId: string, events: SimEvent[]) {
-  if (!soulLive()) return;
+  if (!soulLive() || world.edu) return; // R0567: no rivalry in the Learning Grove
   for (const o of world.nubbins)
     if (o.id !== winner.id && o.behavior.state === 'findFood' && o.behavior.itemId === fruitId)
       addRivalry(o, winner, RIVALS.fruitContest, events);
@@ -90,7 +94,7 @@ export function flushRivalEvents(events: SimEvent[]): void {
 
 /** R0538: a show-off performing as another near it did, inside the window: both +3. */
 export function noteShowOff(world: World, n: Nubbin, now: number, events = pending): void {
-  if (!soulLive()) return;
+  if (!soulLive() || world.edu) return;
   showedAt.set(n, now);
   for (const o of world.nubbins) {
     const at = showedAt.get(o);
@@ -159,7 +163,7 @@ export function stepRivals(
   events: SimEvent[],
   fit = compat(a, b),
 ): void {
-  if (!soulLive()) return;
+  if (!soulLive() || world.edu) return;
   const now = world.timeMs;
   // The rub of a poor fit simmers up to a rivalry and no further; making up can cool it.
   if (near && fit < RIVALS.frictionBelow && !areRivals(a, b)) {

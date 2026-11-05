@@ -20,6 +20,12 @@ let drawUntil = 0;
  */
 const RESTAGE_MS = 2400;
 
+/**
+ * R0454 (r12-d3): a visual test's frozen frame (`dev/e2e-api.ts`) draws on under a story box;
+ * the hold runs on the real clock, so it would freeze a different frame on a slower machine.
+ */
+export const RENDER_HOLD = { off: false };
+
 export function holdRenderWhile(
   g: Game,
   covered: boolean,
@@ -32,7 +38,8 @@ export function holdRenderWhile(
   }
   // Not while the 3D Grove is still loading: its build advances on frames, and the away
   // screen often opens at boot, over the loading bar.
-  const want = covered && nowMs >= drawUntil && !!g.scene3d && g.scene3d.loadState().done;
+  const want =
+    !RENDER_HOLD.off && covered && nowMs >= drawUntil && !!g.scene3d && g.scene3d.loadState().done;
   if (want && !held && !g.renderPaused) {
     g.renderPaused = true;
     held = true;

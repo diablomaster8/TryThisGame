@@ -1,3 +1,4 @@
+import { KINDER_R11 } from '../config/strings-soul-r11b';
 import {
   DOCTOR_TEXT,
   FORTUNE_TEXT,
@@ -8,8 +9,10 @@ import {
 } from '../config/strings';
 import { DOCTOR, LESSONS, SERVICES } from '../config/tuning';
 import type { Game } from '../game';
+import { LESSON_VARIANTS } from '../sim/lesson-variants';
 import {
   canTakeLesson,
+  canTakeVariant,
   doctorNotes,
   doctorReport,
   fortune,
@@ -100,6 +103,7 @@ export class KindergartenMenu {
       lessons.appendChild(row);
     }
     this.body.appendChild(lessons);
+    this.body.appendChild(this.variantList(g, n));
 
     const services = el('div', 'shop-list');
     const doctorRow = el('div', 'shop-row');
@@ -131,6 +135,41 @@ export class KindergartenMenu {
     services.append(doctorRow, fortuneRow);
     this.body.appendChild(services);
     this.body.appendChild(el('div', 'reading'));
+  }
+
+  /** R0554: the one-time classes, grouped; each is bought once per Nubbin. */
+  private variantList(g: Game, n: Nubbin): HTMLElement {
+    const box = el('div', 'shop-list');
+    box.appendChild(el('div', 'sheet-give-title', KINDER_R11.moreClasses));
+    box.appendChild(el('p', 'help', KINDER_R11.moreHelp));
+    let group = '';
+    for (const v of LESSON_VARIANTS) {
+      if (v.group !== group) {
+        group = v.group;
+        box.appendChild(el('small', undefined, KINDER_R11.groups[group] ?? group));
+      }
+      const name = KINDER_R11.names[v.id] ?? v.id;
+      const row = el('div', 'shop-row');
+      row.appendChild(el('strong', undefined, name));
+      const why = canTakeVariant(g.world, n, v.id);
+      const b = button(
+        why === 'max'
+          ? KINDER_R11.learned
+          : why === 'busy'
+            ? UI_TEXT.lessonBusy
+            : `${LESSONS.price} ${NAMES.currency}`,
+        () => {
+          g.send({ kind: 'startLesson', nubbinId: n.id, lesson: v.family, variant: v.id });
+          this.toast(KINDER_R11.started(n.name, name));
+          setTimeout(() => this.refresh(), 150);
+        },
+        'btn btn-small',
+      );
+      b.disabled = why !== null;
+      row.appendChild(b);
+      box.appendChild(row);
+    }
+    return box;
   }
 
   private service(kind: 'doctor' | 'fortune', n: Nubbin): void {

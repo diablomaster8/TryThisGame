@@ -2,9 +2,10 @@ import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import type { CaveBand } from '../render/cave-bands';
 import { cellAt, cellCentre, FLOOR, WALL, WATER, type Cell, type Floor } from '../sim/dungeon';
+import { setPieces } from '../sim/dungeon-set-pieces';
 import { CELL, cellHash } from './hollow-ctx';
 import { BOX, CONE, CYL, DISC, Kit, OCT, PRISM, ROCK, SPHERE, TORUS } from './hollow-dress-kit';
-import { across, cellPoint, cellTop, deckHeight, mainPath, STONE_TOP } from './hollow-dress-path';
+import { cellPoint, cellTop, deckHeight, STONE_TOP } from './hollow-dress-path';
 import {
   DIRS,
   glow,
@@ -36,49 +37,22 @@ export type { GlowSpot, GlyphSpot, SetOut } from './hollow-dress-parts';
 
 // ---------------------------------------------------------------- item 23: arches, rails, cart
 
-function pathDir(path: Cell[], i: number): readonly [number, number] {
-  const a = path[Math.max(0, i - 2)]!;
-  const b = path[Math.min(path.length - 1, i + 2)]!;
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  return Math.abs(dx) >= Math.abs(dy) ? [Math.sign(dx) || 1, 0] : [0, Math.sign(dy) || 1];
-}
-
 function arches(f: Floor, kit: Kit, out: SetOut): void {
   const A = GROVE3D.cave.dress.arch;
-  const path = mainPath(f);
-  let last = -99;
-  let wasNarrow = false;
-  let gap = A.spacing[0];
-  for (let i = 2; i < path.length - 2; i++) {
-    const c = path[i]!;
-    const [dx, dy] = pathDir(path, i);
-    const { left, right } = across(f, c, dx, dy);
-    const narrow = left < 4 && right < 4 && left + right + 1 <= A.maxWidth;
-    const mouth = narrow && !wasNarrow;
-    wasNarrow = narrow;
-    if (!narrow || out.busy.has(key(c)) || cellAt(f, c.x, c.y) !== FLOOR) continue;
-    if (!(mouth ? i - last >= 3 : i - last >= gap)) continue;
-    last = i;
-    gap = A.spacing[0] + Math.round(cellHash(c.x, c.y, 3) * (A.spacing[1] - A.spacing[0]));
-    const p = cellCentre(f, c);
+  // The placement is the sim's (`setPieces`): what is drawn here is what is solid.
+  for (const a of setPieces(f).arches) {
+    const c = a.cell;
     const y0 = cellTop(f, c);
-    const px = -dy;
-    const pz = dx;
-    const mid = (right - left) / 2;
-    const half = ((left + right + 1) / 2) * CELL - 0.16;
-    const cx = p.x + px * mid * CELL;
-    const cz = p.z + pz * mid * CELL;
-    const ry = Math.atan2(px, pz);
+    const { px, pz, cx, cz, half, ry } = a;
     const H = A.height;
     for (const s of [-1, 1]) {
       const x = cx + px * half * s;
       const z = cz + pz * half * s;
       kit.part(BOX(), x, y0 + H / 2, z, 0.2, H, 0.2, TIMBER, 0, ry);
       // A brace from post to beam.
-      const a = new THREE.Vector3(x, y0 + H - 0.55, z);
-      const b = new THREE.Vector3(x - px * s * 0.5, y0 + H - 0.05, z - pz * s * 0.5);
-      kit.rod(a, b, 0.05, TIMBER_DK);
+      const p0 = new THREE.Vector3(x, y0 + H - 0.55, z);
+      const p1 = new THREE.Vector3(x - px * s * 0.5, y0 + H - 0.05, z - pz * s * 0.5);
+      kit.rod(p0, p1, 0.05, TIMBER_DK);
     }
     kit.part(BOX(), cx, y0 + H + 0.06, cz, 0.24, 0.2, half * 2 + 0.5, TIMBER_DK, 0, ry);
     if (cellHash(c.x, c.y, 5) < A.lanternShare) {
@@ -97,27 +71,9 @@ function arches(f: Floor, kit: Kit, out: SetOut): void {
 
 function rails(f: Floor, kit: Kit, out: SetOut): void {
   const R = GROVE3D.cave.dress.rails;
-  const path = mainPath(f);
-  // The longest run of dry, narrow, free path cells.
-  let best: [number, number] = [0, 0];
-  let start = -1;
-  for (let i = 0; i <= path.length; i++) {
-    const c = path[i];
-    let ok = false;
-    if (c && i > 0 && i < path.length - 1) {
-      const [dx, dy] = pathDir(path, i);
-      const { left, right } = across(f, c, dx, dy);
-      ok = cellAt(f, c.x, c.y) === FLOOR && left + right <= 2 && !out.busy.has(key(c));
-      ok &&= ![f.stairsUp, f.stairsDown, f.chest].some((s) => s && s.x === c.x && s.y === c.y);
-    }
-    if (ok && start < 0) start = i;
-    if (!ok && start >= 0) {
-      if (i - start > best[1] - best[0]) best = [start, i];
-      start = -1;
-    }
-  }
-  if (best[1] - best[0] < R.minLen) return;
-  const run = path.slice(best[0], Math.min(best[1], best[0] + R.maxLen));
+  // The run is the sim's (`setPieces`), so the cart drawn here is the cart that is solid.
+  const run = setPieces(f).rails;
+  if (!run.length) return;
   // Smoothed centre line, two points a cell, at the ground's height.
   const pts: THREE.Vector3[] = [];
   for (let i = 0; i < run.length; i++) {

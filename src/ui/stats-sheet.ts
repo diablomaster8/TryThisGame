@@ -21,6 +21,8 @@ import {
   type SheetTab,
 } from './sheet-tabs';
 import { toastBand } from './fun-toasts';
+import { speakLine } from './lesson';
+import { activityCaption } from './watch';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
 import { sheetCaption } from './sheet-caption';
@@ -106,6 +108,9 @@ export class StatsSheet {
     private readonly toast: (text: string) => void = () => undefined,
   ) {
     this.host = parent;
+    this.personality.onSay = (t) => {
+      if (this.game()?.world.edu?.readAloud) speakLine(t);
+    };
     this.root = el('div', 'sheet');
     this.root.hidden = true;
 
@@ -487,6 +492,8 @@ export class StatsSheet {
     this.caption.textContent = (g && n && sheetCaption(g.world, n)) || '';
     this.caption.hidden = !this.caption.textContent;
     this.refresh();
+    // R0567: in a read-aloud Learning Grove a tap on a Nubbin says what it is doing.
+    if (g && n && g.world.edu?.readAloud) speakLine(activityCaption(n));
   }
 
   close(): void {
@@ -532,7 +539,7 @@ export class StatsSheet {
     this.name.textContent = n.name;
     this.subtitle.textContent = subtitleFor(n, world);
     this.refreshStage(n);
-    this.personality.update(n);
+    this.personality.update(n, !!world.edu && toastBand(world) === 'sprout');
     this.personality.meter(n, toastBand(world) === 'sprout');
     this.soul.update(n);
     this.recent.update(world, n);
