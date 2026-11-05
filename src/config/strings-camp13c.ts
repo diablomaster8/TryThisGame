@@ -6,6 +6,7 @@ export const CAMP13C_TEXT = {
   fromCabinet: 'From Pixel’s cabinet',
   fromRift: 'From the rift',
   worldHelp: 'Read from that world’s own save. Nothing here is copied into the Grove.',
+  regionChapters: (n: number, of: number) => `Chapters · ${n} of ${of}`,
   lineState: (done: boolean, finished: number, begun: number) =>
     done ? '✓ Finished' : begun === 0 ? 'Not started' : `${finished}/${begun} quests`,
 } as const;

@@ -7,6 +7,8 @@
  * 375 px wide without sideways scrolling, and every button is a 44 px target.
  */
 import { STORYLINE_TEXT, STORY_REGION_TEXT } from '../config/strings';
+import { STORY_TEXT } from '../config/story';
+import { CAMP13C_TEXT } from '../config/strings-camp13c';
 import { STORY_REGIONS, type StoryRegionId } from '../config/story-regions';
 import type { Game } from '../game';
 import { journalView } from '../sim/storyline';
@@ -105,6 +107,18 @@ export function storyRegionPage(
       areas.appendChild(b);
     }
     if (areas.childElementCount > 0) card.appendChild(areas);
+    // R0650: the line's quests (its chapters), so the page says what happens here and what is next.
+    if (view) {
+      const fold = el('details', 'c11-row wm-story-chapters');
+      fold.appendChild(
+        el('summary', 'c11-row-sum', CAMP13C_TEXT.regionChapters(view.n, view.final)),
+      );
+      for (const ch of view.chapters) {
+        const mark = ch.n < line.chapter ? '✓' : ch.n === line.chapter ? '▶' : '·';
+        fold.appendChild(el('p', undefined, `${mark} ${STORY_TEXT.chapter(ch.n, ch.title)}`));
+      }
+      card.appendChild(fold);
+    }
     page.appendChild(card);
   }
   const why = here ? null : storyRegionBlock(w, r);
