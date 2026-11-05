@@ -832,9 +832,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: LightMood): () =
     const wanted = new URLSearchParams(location.search).get('pose') as PoseName | null;
     const cycle = keeperStage ? KEEPER_POSES : POSES;
     const poseNow =
-      wanted && (keeperStage ? ALL_POSES : POSES).includes(wanted)
-        ? wanted
-        : cycle[Math.floor(t / 3.5) % cycle.length]!;
+      wanted && ALL_POSES.includes(wanted) ? wanted : cycle[Math.floor(t / 3.5) % cycle.length]!;
     for (const p of PUSHERS) p.set(0, 0, 0, 0);
     const pushers = lineup ? cast : keeper && nub ? [keeper, nub] : creature ? [creature] : [];
     pushers.forEach((c, i) => {
