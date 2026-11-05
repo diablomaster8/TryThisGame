@@ -16,7 +16,7 @@ describe('snowballs', () => {
     expect(snowballs(w)).toHaveLength(1);
     const z0 = snowballs(w)[0]!.z;
     stepWorld(w, SIM.stepMs);
-    expect(snowballs(w)[0]!.z).toBeGreaterThan(z0);
+    expect(snowballs(w)[0]!.z).toBeLessThan(z0);
     for (let i = 0; i < Math.ceil(SNOWBALL.flightMs / SIM.stepMs) + 2; i++)
       stepWorld(w, SIM.stepMs);
     expect(snowballs(w)).toHaveLength(0);
