@@ -48,6 +48,8 @@ export const SHORE_POIS: readonly PoiDef[] = [
   { id: 'stilt-village', x: 43, z: 6, tier: 'major' },
   { id: 'lagoon', x: 56, z: -10, tier: 'minor' },
   { id: 'lighthouse', x: 64, z: 6, tier: 'minor' },
+  // R13 d1 (WORLD-69): the island out in the bay, a plank raft-island reached by the rowing ferry.
+  { id: 'island', x: -10, z: 19, tier: 'minor' },
 ];
 
 /** The stilt houses, standing on the boardwalk over the water (solid, drawn by the shore). */
@@ -110,6 +112,9 @@ export const SHORE_SPEC: RegionSpec = {
     { x: 51, z: 12.4, w: 2.4, h: 5 },
     { x: 46, z: 15.6, w: 26, h: 3 },
     { x: 58, z: 19.4, w: 2.4, h: 5 },
+    // R13 d1: the west jetty by the rowing boat, and the island out in the bay.
+    { x: -26, z: 11.9, w: 2.4, h: 5 },
+    { x: -10, z: 19, w: 6, h: 4 },
   ],
   treeKeep: 0.35,
   spurs: [

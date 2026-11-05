@@ -8,6 +8,7 @@ import { hatch } from '../../src/sim/lifecycle';
 import { setPartner } from '../../src/sim/partners';
 import { keeperArea, offeredAt } from '../../src/sim/quest-offers';
 import { castleStands } from '../../src/sim/shore-play';
+import { layoutOf, standsIn } from '../../src/sim/region-walk';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
@@ -82,5 +83,33 @@ describe('the shore play (WORLD-35)', () => {
     ).toBe(true);
     w.keeper.pos = { x: 20, z: -12 };
     expect(keeperArea(w)).toBeNull();
+  });
+});
+
+describe('the island ferry (WORLD-69)', () => {
+  it('the west jetty rows out to the island and back, free', () => {
+    const w = shore();
+    const before = w.inventory.shells;
+    applyCommand(w, { kind: 'travel', exit: 'shore-island' }, []);
+    expect(Math.abs(w.keeper.pos.x + 10)).toBeLessThan(1);
+    expect(w.keeper.pos.z).toBeGreaterThan(19);
+    applyCommand(w, { kind: 'travel', exit: 'island-back' }, []);
+    expect(w.keeper.pos.z).toBeLessThan(12);
+    expect(w.inventory.shells).toBe(before);
+  });
+});
+
+describe('the cart (WORLD-69)', () => {
+  it('runs between the lane end and the ridge foot, both landings on walkable ground', () => {
+    const w = createWorld(41, 0);
+    applyCommand(w, { kind: 'travel', exit: 'grove-gate' }, []);
+    applyCommand(w, { kind: 'travel', exit: 'lane-cart' }, []);
+    expect(w.location).toBe('region:ridge');
+    expect(w.keeper.pos).toEqual({ x: -18, z: 68 });
+    const l = layoutOf('ridge')!;
+    expect(standsIn(l, -18, 68, 0.4)).toBe(true);
+    applyCommand(w, { kind: 'travel', exit: 'ridge-cart' }, []);
+    expect(w.location).toBe('region:lane');
+    expect(standsIn(layoutOf('lane')!, 6, 50, 0.4)).toBe(true);
   });
 });
