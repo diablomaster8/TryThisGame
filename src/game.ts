@@ -26,6 +26,7 @@ import {
   watchOtherTabs,
   claimSlot,
   writeSave,
+  writeThumb,
 } from './platform/storage';
 import { OrbitCamera, walkLead, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
@@ -865,6 +866,21 @@ export class Game {
       });
   }
 
+  /** R0447: a 160x90 picture of the Grove for the title's slot list, at most every 2 minutes. */
+  private saveThumb(): void {
+    const now = performance.now();
+    if (document.hidden || now < this.nextThumbMs || this.world.dungeon) return;
+    this.nextThumbMs = now + 120_000;
+    try {
+      const c = this.captureFrame(160, 90);
+      if (c) writeThumb(currentSlot(), c.toDataURL('image/jpeg', 0.5));
+    } catch {
+      // A tainted or lost canvas: the slot just has no picture.
+    }
+  }
+
+  private nextThumbMs = 15_000;
+
   save(): boolean {
     if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
       this.lastSaveMs = performance.now();
@@ -875,6 +891,7 @@ export class Game {
     // Storage that recovers (space freed, a setting changed) warns again if it fails later.
     this.storageOk = ok;
     this.lastSaveMs = performance.now();
+    if (ok) this.saveThumb();
     return ok;
   }
 

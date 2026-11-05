@@ -1402,6 +1402,8 @@ export interface World {
   collected?: Record<string, number>;
   /** R0120 (R11 d8): how many times each region critter spot was taken (absent in older saves). */
   critterTakes?: Record<string, number>;
+  /** R0136 (R12 d2): the pieces on each drawn region's build plot, by region id. */
+  plotDecor?: Record<string, PlacedDecor[]>;
   /** R0110 (R11 d8): how long a partner has leaned on each closed gate, ms (absent in older saves). */
   gateTries?: Record<string, number>;
   /** R0127 (lane D r9): world hints already shown, hint id → sim time (absent in older saves). */
@@ -2088,6 +2090,10 @@ export type SimEvent =
   | { kind: 'photoSpot'; region: string; first: boolean }
   /** R0120: a region's critter was taken. R0110: a gate gave way. R0121: a partner reacts to a new place. */
   | { kind: 'regionCritter'; region: string; species: string }
+  // R0120 (R12 d2): a region's shy wild Nubbin noticed, or befriended with a fruit.
+  // R0137 (R12 d2): a small weather gag seen (the shore's ghost ship in fog).
+  | { kind: 'regionGag'; id: string; first: boolean }
+  | { kind: 'wildNubbin'; region: string; name: string; state: 'met' | 'friend' }
   | { kind: 'gateOpened'; region: string; id: string }
   | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found

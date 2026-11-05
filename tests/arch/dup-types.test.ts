@@ -11,9 +11,7 @@ import { describe, expect, it } from 'vitest';
  * fails, and so does a listed name that stops being duplicated, so the list only shrinks.
  */
 const LEGACY = [
-  'Band',
   'Cell',
-  'Clip',
   'Crest',
   'Expression',
   'KeeperColors',
@@ -21,10 +19,8 @@ const LEGACY = [
   'Look',
   'Mark',
   'Mood',
-  'Objective',
   'Piece',
   'Placement',
-  'Pt',
   'RecipeId',
   'SceneryKind',
   'Side',

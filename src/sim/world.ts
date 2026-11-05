@@ -1,88 +1,41 @@
-import { diaryPanel, diarySession, newDiary, shakeBonusMs, stepGroveDiary } from './grove-diary';
-import { BATTLE } from '../config/tuning-battle';
+import { stepGroveDiary } from './grove-diary';
 import { runHandler } from './commands';
 import { orderSystems, runSystems, type SimSystem, type StepCtx, type SystemRuns } from './systems';
-import { hasDerivedHat } from './derived-unlocks';
-import { playFair } from './epilogue';
-import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
-import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
+import { isRidden, stepRide } from './ride';
 import { stepSwimTow } from './swim-tow';
-import { festivalGagSeen } from './festival-gags';
-import {
-  actBattleCmd,
-  forfeitBattleCmd,
-  karatePrize,
-  partyPrize,
-  setBattlePrefsCmd,
-  setSlotsCmd,
-  startBattleCmd,
-  stepBattleMoves,
-} from './battle';
-import { recordKarate } from './battle/rewards';
-import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
-import { startGuardian, storyBoutChoice } from './battle/story-bouts';
-import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume';
-import { trialClear } from './battle/tactics/trials';
-import { grantKeepsake } from './battle/rewards';
+import { stepBattleMoves } from './battle';
+import { holdBattleNeeds } from './battle/resume';
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, EGG_ANTICS, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
-import { nudgeAlignment } from './alignment';
-import { confirmRift, sanitizeOfflineAging } from './audience';
-import { applyDrop, decayNeeds } from './needs';
-import {
-  clampToWorld,
-  fruitOnHead,
-  putDown,
-  react,
-  sampleAll,
-  startThrow,
-  updateBehavior,
-} from './behavior';
-import { giveCritter, giveEssence } from './critters';
-import {
-  createKeeper,
-  keeperJump,
-  keeperPutDown,
-  keeperStartRoll,
-  rollAsked,
-  updateKeeper,
-} from './keeper';
-import { noteCare, noteSecondCare } from './personality';
-import { addTrust, isWary, stepTrust } from './trust';
+import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES } from '../config/tuning';
+import { decayNeeds } from './needs';
+import { fruitOnHead, sampleAll, updateBehavior } from './behavior';
+import { createKeeper, updateKeeper } from './keeper';
+import { stepTrust } from './trust';
 import { createWeather, seasonAt, stepWeather } from './weather';
 import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
-import { sawAntic } from './antic-album';
-import { payService, startLesson, startVariantLesson } from './kindergarten';
-import { buyDecor, placeDecor, removeDecor } from './decorate';
-import { noteNubbin, stepCollection } from './collection';
+import { stepCollection } from './collection';
 import { stepDaily } from './daily';
-import { receiveNubbin, tradeAway } from './share';
-import { creatorGrant, creatorTransform, creatorUnlock } from './creator';
-import { harvest, plant, stepPlants, waterPlant } from './plants';
-import { buyToy, craft, gather, placeToy, type RecipeId } from './craft';
-import { paintTile } from './tiles';
-import { buyPlot } from './roster';
-import { claimQuest, noteQuest, queueQuestEvents, stepQuests } from './quests';
-import { feedWild, stepHabitats } from './habitats';
-import { neighbourGift, visit } from './neighbourhood';
-import { dye, wearGlasses } from './accessories';
-import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
-import { stepLandmarks, teleport } from './landmarks';
+import { stepPlants } from './plants';
+import { queueQuestEvents, stepQuests } from './quests';
+import { stepHabitats } from './habitats';
+import { stepKeeper2 } from './coop';
+import { stepLandmarks } from './landmarks';
 import { travel } from './regions';
-import { clampToRegion, crossExits } from './region-walk';
-import { fastTravel, travelAssist } from './travel';
+import { crossExits } from './region-walk';
 import { stepCollectibles } from './collectibles';
 import { stepRegionCompanion } from './region-companion';
 import { stepRegionCritters } from './region-critters';
 import { stepRegionGates } from './region-gates';
 import { stepTraces } from './regions-trace';
+import { stepWildNubbin } from './region-wild-nubbin';
+import { stepWeatherPlay } from './region-weather-play';
+import { stepSeasonProps } from './region-season-props';
 import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
 import { stepLittleGrove } from './little-grove';
-import { rememberCare } from './care-memory';
-import { coaxOut, stepCottageHide } from './cottage-hide';
+import { stepCottageHide } from './cottage-hide';
 import { stepCrying } from './cry-soul';
 import { stepShadowSoul } from './shadow-soul';
 import { stepFavSpots } from './fav-spot';
@@ -90,76 +43,40 @@ import { calmEternalReactions } from './old-soul';
 import { stepSoulGroups } from './soul-groups';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
-import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
+import { stepSeasons, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
-import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
+import { stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
-import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
-import { helpQuest } from './kid-flow';
-import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
-import { chooseCastHome } from './line-rewards';
+import { noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
-import { lookAround } from './lookout';
 import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
 import { stepHopCourse } from './hop-course';
-import { addRewards, buy } from './shop';
-import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
-import { advanceStage, hatch, holdEndOfLife, keepEggshell } from './lifecycle';
-import { createEgg, isFree, isHeld } from './nubbin';
+import { DEFAULT_TRAINER, rollEggSpecies, trainerOf } from './trainers';
+import { advanceStage, hatch, keepEggshell } from './lifecycle';
+import { createEgg, isHeld } from './nubbin';
 import { Rng } from './rng';
-import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
-import { holdSlips, stepSlips } from './slips';
+import { stepTown } from './town';
+import { stepSlips } from './slips';
 import { stepMoody } from './soul-idle';
 import { setAnticsLive } from './antics';
 import { stepDiary } from './diary';
-import { tapFernStone } from './fern-stone';
-import { trainResult } from './gym';
-import { merge, setPartner, stepPartners } from './partners';
-import { fuse } from './fusion';
+import { stepPartners } from './partners';
 import { stepCurfew } from './curfew';
-import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from './dungeon-travel';
-import { enterMouth, enterTown } from './dungeon-zones';
-import { townBuy, townQuest, useStash } from './dungeon-towns';
-import { setHollowParty } from './dungeon-party';
-import { setHollowRole } from './dungeon-roles';
-import { setGuide, setHollowKid } from './dungeon-kid';
-import {
-  dungeonGo,
-  encounterDone,
-  enterDungeon,
-  hollowBattleEnded,
-  feedStray,
-  inParty,
-  leaveDungeon,
-  setDungeonLoading,
-  stepDungeon,
-} from './dungeon';
-import { calmStray } from './dungeon-strays';
-import { sneakPast } from './dungeon-sleepy';
-import { gambleBasket } from './dungeon-gamble';
-import { takeFromStash } from './dungeon-sack';
-import { setHollowTier } from './dungeon-tiers';
-import { equipGear, unequipGear } from './gear';
+import { hollowBattleEnded, inParty, stepDungeon } from './dungeon';
 import { stepGearNeeds } from './dungeon-gear-effects';
-import { dismissFriend, hireFriend } from './dungeon-friends';
-import { takeActQuest } from './dungeon-quests';
-import { itemsCommand } from './dungeon-items';
-import { setMemory } from './inheritance';
-import { buySkill, hasSkill, stepSkillPoints } from './skills';
-import { convertScan, stepScans } from './scans';
-import { joinTeam, stepTeams } from './teams';
+import { hasSkill, stepSkillPoints } from './skills';
+import { stepScans } from './scans';
+import { stepTeams } from './teams';
 import { resolve } from './obstacles';
 import { resolveNubbin } from './nubbin-hop';
-import { courseById, prizeFor } from './race';
 import { collideThrown } from './throw-collide';
 import { stepEdu } from './edu';
 /* Lane E r9 */
 import {
   type Command,
-  type DyeColor,
   type Item,
   type Nubbin,
   type Settings,
@@ -168,12 +85,7 @@ import {
   type Vec2,
   type World,
 } from './types';
-import { findCuriosity } from './curiosities';
-import { mayWear } from './remembrance'; /* Lane E r9 */
 import { hatchInArms } from './hatch-arms';
-import { noteCheckpoint } from './story-marks';
-import { enterStoryRegion, leaveStoryRegion } from './story-regions';
-import { tapCare } from './access';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
 import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
 
@@ -375,787 +287,8 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
 }
 
 function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void {
-  // TECH-35: the moved domains (sim/commands/) answer first.
-  if (runHandler(world, cmd, events)) return;
-  const k = world.keeper;
-  const now = world.timeMs;
-  switch (cmd.kind) {
-    // Lane C r10 agent B (R0619): the game wrote this chapter's checkpoint.
-    case 'checkpointKept':
-      noteCheckpoint(world, cmd.key, cmd.id);
-      return;
-    case 'moveKeeperTo':
-      k.moveTarget = { x: cmd.pos.x, z: cmd.pos.z };
-      // R11 lane D: a drawn region has its own bounds.
-      if (!clampToRegion(world, k.moveTarget)) clampToWorld(k.moveTarget);
-      k.intent = null;
-      return;
-    case 'keeperInput':
-      k.input = { x: cmd.input.x, z: cmd.input.z };
-      return;
-    case 'select':
-      world.selected = cmd.id;
-      return;
-    // Lane E r10 (R0710): Simple touch's one-tap care.
-    case 'tapCare':
-      tapCare(world, cmd.nubbinId, events);
-      return;
-    case 'pet':
-      k.intent = { kind: 'pet', nubbinId: cmd.nubbinId };
-      k.moveTarget = null;
-      return;
-    case 'pickUp':
-      if (k.carrying) return;
-      k.intent = { kind: 'pickUp', nubbinId: cmd.nubbinId };
-      k.moveTarget = null;
-      return;
-    case 'putDown':
-      keeperPutDown(world, events);
-      return;
-    case 'feed':
-      if (world.inventory.fruit <= 0) return;
-      k.intent = { kind: 'feed', nubbinId: cmd.nubbinId };
-      k.moveTarget = null;
-      return;
-    case 'coaxOut':
-      coaxOut(world, events);
-      return;
-    case 'shakeTree':
-      k.intent = { kind: 'shakeTree', treeId: cmd.treeId };
-      k.moveTarget = null;
-      return;
-    case 'collect':
-      k.intent = { kind: 'collect', itemId: cmd.itemId };
-      k.moveTarget = null;
-      return;
-    case 'grab': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.behavior.state === 'thrown') return;
-      if (k.carrying === n.id) k.carrying = null;
-      n.behavior.state = 'held';
-      n.behavior.sinceMs = now;
-      n.behavior.target = null;
-      n.behavior.itemId = null;
-      n.y = THROW.holdHeight;
-      events.push({ kind: 'pickedUp', nubbinId: n.id });
-      return;
-    }
-    case 'drag': {
-      const n = heldNubbin(world);
-      if (!n) return;
-      n.pos.x = cmd.pos.x;
-      n.pos.z = cmd.pos.z;
-      clampToWorld(n.pos);
-      n.y = THROW.holdHeight;
-      return;
-    }
-    case 'jump':
-      // With an egg or a Nubbin in hand the jump button shakes it (MOVE-22).
-      if (cmd.down && (heldNubbin(world) || k.carrying)) {
-        applyCommand(world, { kind: 'shakeHeld' }, events);
-        return;
-      }
-      // MOVE-64: a running jump with the stick pulled toward the camera is a roll.
-      if (cmd.down && rollAsked(world) && keeperStartRoll(world, events)) return;
-      keeperJump(world, cmd.down);
-      return;
-    case 'shakeHeld': {
-      const n = heldNubbin(world) ?? (k.carrying ? findNubbin(world, k.carrying) : undefined);
-      if (!n) return;
-      if (now - n.lastShakeMs < EGG.shakeCooldownMs) return;
-      n.lastShakeMs = now;
-      if (n.stage === 'egg') {
-        n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - shakeBonusMs(world));
-        // R0351: every third shake, a tiny foot pokes out of the bottom.
-        n.eggShakes = (n.eggShakes ?? 0) + 1;
-        const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
-        events.push({
-          kind: 'eggShaken',
-          nubbinId: n.id,
-          ...(foot ? { foot: true as const } : {}),
-        });
-      } else {
-        react(n, 'dizzy', now, events);
-      }
-      return;
-    }
-    case 'release': {
-      const n = heldNubbin(world);
-      if (!n) return;
-      const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
-      if (speed >= THROW.minSpeed) {
-        noteCare(n, 'throws');
-        // R0541 (lane A r10): it remembers the throw (a flinch when the Keeper next walks up);
-        // not a Learning Grove toss and catch, which it lands laughing.
-        if (!world.edu) rememberCare(n, 'throw', now);
-        // R0527: in the Learning Grove a throw is a toss and catch: no trust is lost.
-        if (!world.edu) addTrust(n, TRUST.throw, events);
-        noteCampaign(world, 'throw', n.id);
-        startThrow(n, cmd.vel, now, events);
-      } else if (speed < THROW.placeMaxSpeed) {
-        // A gentle place costs nothing: moving a Nubbin somewhere nicer must not hurt it.
-        putDown(n, now, events, 'happy');
-      } else {
-        if (n.stage !== 'egg') applyDrop(n, THROW.dropScale);
-        rememberCare(n, 'drop', now);
-        addTrust(n, TRUST.drop * THROW.dropScale, events, !!world.edu);
-        putDown(n, now, events);
-      }
-      return;
-    }
-    case 'switchKeeper': {
-      // Legacy toggle: the first trainer of the other side.
-      const t = TRAINERS.find((x) => x.band === cmd.alignment);
-      if (t) {
-        world.trainer = t.id;
-        k.alignment = t.band;
-      }
-      return;
-    }
-    case 'setTrainer': {
-      const t = trainerOf(cmd.id);
-      world.trainer = t.id;
-      k.alignment = t.band;
-      return;
-    }
-    case 'setGrove':
-      if (cmd.grove === 'sun' && !world.unlocks.sunGrove) return;
-      if (cmd.grove === 'moon' && !world.unlocks.moonGrove) return;
-      world.grove = cmd.grove;
-      return;
-    case 'giveCritter': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
-      if ((world.inventory.critters[cmd.species] ?? 0) <= 0) return;
-      const ok = withRng(world, (rng) => giveCritter(n, cmd.species, rng, events));
-      if (!ok) return;
-      world.inventory.critters[cmd.species] = (world.inventory.critters[cmd.species] ?? 0) - 1;
-      noteSecondCare(n, 'curious');
-      nudgeAlignment(n, k.alignment);
-      react(n, 'love', now, events);
-      return;
-    }
-    case 'giveEssence': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
-      if ((world.inventory.essences[cmd.type] ?? 0) <= 0) return;
-      giveEssence(n, cmd.type, events);
-      world.inventory.essences[cmd.type] = (world.inventory.essences[cmd.type] ?? 0) - 1;
-      nudgeAlignment(n, k.alignment);
-      react(n, 'happy', now, events);
-      return;
-    }
-    case 'addRewards': {
-      const r = {
-        ...cmd.rewards,
-        shells: Math.round(cmd.rewards.shells * (hasSkill(world, 'lightFeet') ? 1.1 : 1)),
-      };
-      if (hasSkill(world, 'seedPocket')) {
-        r.seeds = { ...(r.seeds ?? {}) };
-        r.seeds.sun = (r.seeds.sun ?? 0) + 1;
-      }
-      addRewards(world, r, events);
-      noteCampaign(world, 'expedition');
-      // R0529: an expedition is a bold outing for every child at home.
-      for (const c of world.nubbins) noteSecondCare(c, 'bold');
-      return;
-    }
-    case 'buy':
-      withRng(world, (rng) => buy(world, cmd.item, rng, events, cmd.pick));
-      return;
-    case 'raceResult': {
-      // The UI reports the result, so the sim checks it: a known course, a tier that is open,
-      // no more shells than the placement pays, and a hat only for a win (review C, 28).
-      const course = courseById(cmd.course);
-      const won = world.races[cmd.course] ?? 0;
-      if (!course || !Number.isInteger(cmd.tier) || cmd.tier < 1 || cmd.tier > Math.min(3, won + 1))
-        return;
-      world.raceRuns += 1;
-      const shells = Math.min(Math.max(0, cmd.shells), prizeFor(cmd.placement, cmd.tier));
-      const prize =
-        racePrizeMultiplier(world) *
-        festivalPrizeMultiplier(world) *
-        (hasSkill(world, 'cheerLeader') ? 1.1 : 1);
-      world.inventory.shells += Math.round(shells * prize);
-      if (cmd.placement === 1) {
-        noteQuest(world, 'race', events);
-        events.push({
-          kind: 'raceWon',
-          nubbinId: cmd.nubbinId,
-          course: cmd.course,
-          tier: cmd.tier,
-        });
-        if (cmd.rival) addRecruit(world, cmd.rival.name, cmd.rival.species, events);
-      }
-      noteCampaign(world, 'raceEntered');
-      if (cmd.hat && cmd.placement === 1 && !world.inventory.hats.includes(cmd.hat))
-        world.inventory.hats.push(cmd.hat);
-      if (cmd.placement === 1) {
-        world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
-        noteCampaign(world, 'raceWin');
-      }
-      return;
-    }
-    case 'wearHat': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (!n) return;
-      if (cmd.hat && !world.inventory.hats.includes(cmd.hat) && !hasDerivedHat(cmd.hat)) return;
-      if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
-      n.hat = cmd.hat;
-      // Lane E, R0411: the book notes the hat or look.
-      noteNubbin(world, n, events);
-      return;
-    }
-    case 'diaryNote':
-      // R0474: the private diary (sim/diary.ts).
-      if (cmd.what === 'session') diarySession(world);
-      else if (cmd.what === 'skip') (world.diary ??= newDiary()).scenesSkipped += 1;
-      else if (cmd.what === 'loopSkip') (world.diary ??= newDiary()).loopSkipped = true;
-      else diaryPanel(world, cmd.what.panel);
-      return;
-    case 'setTimeZone': {
-      // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
-      const m = Math.round(cmd.offsetMin);
-      if (Number.isFinite(m) && m >= -720 && m <= 840) world.tzOffsetMin = m;
-      return;
-    }
-    case 'setSettings': {
-      // The menu validates the cap, but a NaN or out-of-range one must never reach catch-up.
-      const next = { ...cmd.settings, offlineAging: { ...cmd.settings.offlineAging } };
-      sanitizeOfflineAging(next.offlineAging, world.settings.offlineAging.capHours);
-      // Lane C r8: a settings copy taken before the story began (a phone's first-launch
-      // defaults) must not drop the quest flow it set; the menu always names one.
-      if (next.questFlow === undefined && world.settings.questFlow !== undefined)
-        next.questFlow = world.settings.questFlow;
-      world.settings = next;
-      return;
-    }
-    case 'confirmRift':
-      confirmRift(world.settings);
-      return;
-    // Lane E (R0332): a curiosity the UI spotted, logged once.
-    case 'curiosity':
-      findCuriosity(world, cmd.id, events);
-      return;
-    case 'rename': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
-      // R0448: the first rename ends the guided loop's last step.
-      if (n) (world.diary ??= newDiary()).firstNameMs ??= world.timeMs;
-      return;
-    }
-    case 'holdEndOfLife':
-      holdEndOfLife(world, cmd.hold);
-      return;
-    case 'giveHeartFruit':
-      if (world.inventory.heartFruit <= 0) return;
-      k.intent = { kind: 'heartFruit', nubbinId: cmd.nubbinId };
-      k.moveTarget = null;
-      return;
-    case 'interact':
-      k.intent = { kind: 'interact', nubbinId: cmd.nubbinId, action: cmd.action };
-      k.moveTarget = null;
-      return;
-    case 'call': {
-      let count = 0;
-      for (const n of world.nubbins) {
-        if (cmd.nubbinId && n.id !== cmd.nubbinId) continue;
-        if (!isFree(n) || isWary(n)) continue;
-        if (n.behavior.state === 'lesson' || n.behavior.state === 'nap') continue;
-        n.behavior.state = 'wander';
-        n.behavior.sinceMs = now;
-        n.behavior.untilMs = now + 8000;
-        n.behavior.itemId = null;
-        n.behavior.target = {
-          x: k.pos.x + Math.sin(k.facing) * 1.2 + (count % 2 ? 0.8 : -0.8),
-          z: k.pos.z + Math.cos(k.facing) * 1.2,
-        };
-        addTrust(n, 0.5, events);
-        count += 1;
-      }
-      events.push({ kind: 'called', count });
-      return;
-    }
-    case 'playCatch': {
-      const n = findNubbin(world, cmd.nubbinId);
-      const toy = world.items.find((i) => i.kind === 'toy');
-      if (!n || !toy || !isFree(n) || isWary(n)) return;
-      // The ball flies from the Keeper's hands; the Nubbin runs after it.
-      withRng(world, (rng) => {
-        const a = k.facing + rng.float(-0.5, 0.5);
-        toy.pos.x = k.pos.x + Math.sin(a) * rng.float(3, 5);
-        toy.pos.z = k.pos.z + Math.cos(a) * rng.float(3, 5);
-        clampToWorld(toy.pos);
-      });
-      n.behavior.state = 'fetch';
-      n.behavior.sinceMs = now;
-      delete n.behavior.progress;
-      n.behavior.untilMs = now + 20_000;
-      n.behavior.itemId = toy.id;
-      n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
-      noteSecondCare(n, 'bold');
-      events.push({ kind: 'fetching', nubbinId: n.id });
-      return;
-    }
-    case 'sawAntic': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n) sawAntic(world, n, events);
-      return;
-    }
-    case 'startLesson': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n && cmd.variant) startVariantLesson(world, n, cmd.variant, events);
-      else if (n) startLesson(world, n, cmd.lesson, events);
-      return;
-    }
-    case 'payService': {
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n) payService(world, cmd.service, n, events);
-      return;
-    }
-    case 'buyDecor':
-      buyDecor(world, cmd.decor, events);
-      return;
-    case 'placeDecor':
-      placeDecor(world, cmd.decor, cmd.pos, events, cmd.yaw ?? 0);
-      return;
-    case 'removeDecor':
-      removeDecor(world, cmd.id);
-      return;
-    case 'karateResult': {
-      // Lane C: kept one release for old screens and story tests. The Shells come from the
-      // tier, never the screen (recs FIGHT-02); `battleStart` also checks the belt.
-      if (!Number.isInteger(cmd.tier) || cmd.tier < 1 || cmd.tier > BATTLE.karate.tiers) return;
-      world.battleRuns = (world.battleRuns ?? 0) + 1;
-      world.inventory.shells += karatePrize(cmd.tier, cmd.won);
-      recordKarate(world, cmd.nubbinId, cmd.won, cmd.tier, cmd.rival ?? null, events);
-      return;
-    }
-    // Lane C: the battle core keeps the live bout in world.battle.
-    case 'battleStart':
-      startBattleCmd(world, cmd.context, events);
-      return;
-    case 'battleAct':
-      actBattleCmd(world, cmd.action, events);
-      return;
-    case 'battleSlots':
-      setSlotsCmd(world, cmd.nubbinId, cmd.slots);
-      return;
-    case 'battleForfeit':
-      forfeitBattleCmd(world, events);
-      return;
-    case 'battlePrefs':
-      setBattlePrefsCmd(world, cmd.prefs);
-      return;
-    // Lane C: the grid-tactics rumble (recs FIGHT-65), kept in world.tactics.
-    case 'tacticsStart':
-      startRumble(world, events, {
-        ...(cmd.depth !== undefined ? { depth: cmd.depth } : {}),
-        ...(cmd.ids ? { ids: cmd.ids } : {}),
-      });
-      return;
-    case 'tacticsAct':
-      rumbleAct(world, cmd.action, events);
-      return;
-    case 'tacticsForfeit':
-      rumbleForfeit(world, events);
-      return;
-    case 'tacticsClose':
-      rumbleClose(world);
-      return;
-    case 'trialClear':
-      trialClear(world, cmd.id, cmd.steps, events);
-      return;
-    case 'battleKeepsake':
-      if (cmd.id === 'playday-seen') grantKeepsake(world, cmd.id);
-      return;
-    case 'battleResume':
-      resumeBattleCmd(world);
-      return;
-    case 'battleDraw':
-      drawBattleCmd(world, events);
-      return;
-    case 'storyBout':
-      storyBoutChoice(world, cmd.id, cmd.fight, cmd.ids ?? [], events);
-      return;
-    case 'guardianStart':
-      startGuardian(world, events, {
-        depth: cmd.depth,
-        key: cmd.key,
-        ...(cmd.ids ? { ids: cmd.ids } : {}),
-      });
-      return;
-    case 'fuse': {
-      const [a, b] = world.partners;
-      if (a && b) fuse(world, a, b, events);
-      return;
-    }
-    case 'partyBoutResult': {
-      // Lane C: the prize comes from the tier, never the screen (recs FIGHT-02).
-      if (!Number.isInteger(cmd.tier) || cmd.tier < 1 || cmd.tier > BATTLE.prizes.party.length)
-        return;
-      const shells = cmd.won ? partyPrize(cmd.tier, true) : 0;
-      world.inventory.shells += shells;
-      events.push({ kind: 'partyBout', won: cmd.won, tier: cmd.tier, shells });
-      return;
-    }
-    case 'creatorUnlock':
-      creatorUnlock(world, cmd.code, events);
-      break;
-    case 'creatorGrant':
-      creatorGrant(world, cmd.pick, events);
-      break;
-    case 'creatorTransform':
-      creatorTransform(world, cmd.nubbinId, cmd.pick, events);
-      break;
-    case 'receiveNubbin':
-      receiveNubbin(world, cmd.nubbin, events);
-      return;
-    case 'tradeAway':
-      tradeAway(world, cmd.nubbinId, events);
-      return;
-    case 'enterDungeon':
-      withRng(world, (rng) => enterDungeon(world, cmd.daily, rng, events));
-      return;
-    case 'leaveDungeon':
-      leaveDungeon(world, events);
-      return;
-    case 'dungeonGo':
-      dungeonGo(world, cmd.to, events);
-      return;
-    case 'setLoading':
-      setDungeonLoading(world, cmd.on);
-      return;
-    case 'enterAct':
-      withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
-      return;
-    // Lane B round 4: act camps and fields (R0147, R0152).
-    case 'enterTown':
-      withRng(world, (rng) => enterTown(world, cmd.act, rng, events));
-      return;
-    case 'enterMouth':
-      enterMouth(world, events);
-      return;
-    // Lane B round 5: the stray's choice (R0281).
-    case 'strayCalm':
-      calmStray(world, cmd.id, events);
-      return;
-    case 'equipGear':
-      equipGear(world, cmd.itemId, cmd.nubbinId);
-      return;
-    case 'unequipGear':
-      unequipGear(world, cmd.itemId);
-      return;
-    case 'stash':
-      useStash(world, cmd.amount, events);
-      return;
-    case 'townBuy':
-      townBuy(world, cmd.item, events);
-      return;
-    case 'townQuest':
-      townQuest(world, events);
-      return;
-    case 'setHollowParty':
-      setHollowParty(world, cmd.ids);
-      return;
-    // Lane B round 6: sneak past (R0180), the Mystery Basket (R0176), the stash (R0174).
-    case 'packSneak':
-      sneakPast(world, cmd.packId, events);
-      return;
-    case 'gambleBasket':
-      withRng(world, (rng) => gambleBasket(world, cmd.slot, rng, events));
-      return;
-    case 'stashTake':
-      takeFromStash(world, cmd.itemId);
-      return;
-    // Lane B round 8, items: stash tabs (R0174), sockets (R0173), the wheelbarrow (R0177).
-    case 'stashPut':
-    case 'stashMove':
-    case 'socketCharm':
-    case 'unsocketCharms':
-    case 'wheelbarrowMix':
-    case 'enterHollowSecret':
-      itemsCommand(world, cmd, events);
-      return;
-    // Lane B round 7: difficulty tiers (R0179).
-    case 'hollowTier':
-      setHollowTier(world, cmd.tier, events);
-      return;
-    case 'hollowSpeedRun':
-      // R0187: the speed-run toggle; off drops nothing.
-      if (cmd.on) world.hollow.speedRun = true;
-      else delete world.hollow.speedRun;
-      return;
-    // Lane B round 8: party roles (R0167) and the Hollow guide (R0208).
-    case 'setHollowRole':
-      setHollowRole(world, cmd.id, cmd.role);
-      return;
-    case 'hollowGuide':
-      setGuide(world, cmd.on);
-      return;
-    case 'hollowKid':
-      setHollowKid(world, cmd.on);
-      return;
-    // Lane B round 9 (helper c): act quests (R0166) and friends for hire (R0181).
-    case 'hollowR9':
-      if (cmd.what === 'quest') takeActQuest(world, cmd.id, events);
-      else if (cmd.what === 'hire') hireFriend(world, cmd.id, events);
-      else dismissFriend(world, events);
-      return;
-    // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
-    case 'waypointTravel':
-      withRng(world, (rng) => waypointTravel(world, cmd.id, rng, events));
-      return;
-    case 'rerollActs':
-      rerollActs(world, events);
-      return;
-    case 'buyAcorns':
-      buyAcorns(world, events);
-      return;
-    case 'useAcorn':
-      useAcorn(world, events);
-      return;
-    case 'portalReturn':
-      portalReturn(world, events);
-      return;
-    case 'encounterDone':
-      encounterDone(world, cmd.outcome, events);
-      return;
-    case 'feedStray':
-      feedStray(world, cmd.id, events);
-      return;
-    case 'atlasFestival':
-      // The festival itself reads the Atlas; the Grove only remembers it was announced.
-      if (!world.atlasFestivals.includes(cmd.id)) world.atlasFestivals.push(cmd.id);
-      return;
-    case 'setLocation':
-      if (world.location !== cmd.location) {
-        world.location = cmd.location;
-        k.pos = { x: GROVE.keeperStart.x, z: GROVE.keeperStart.z };
-        k.moveTarget = null;
-        k.intent = null;
-        events.push({ kind: 'located', location: cmd.location });
-      }
-      return;
-    case 'setRunning':
-      k.running = cmd.running;
-      return;
-    case 'playingWith':
-      holdSlips(world, cmd.nubbinId);
-      return;
-    case 'plant':
-      plant(world, cmd.plantKind, cmd.flavor, cmd.pos, events);
-      return;
-    case 'waterPlant':
-      waterPlant(world, cmd.id, events);
-      return;
-    case 'harvest':
-      withRng(world, (rng) => harvest(world, cmd.id, rng, events));
-      return;
-    case 'buyToy':
-      buyToy(world, cmd.toy, events);
-      return;
-    case 'placeToy':
-      placeToy(world, cmd.toy, cmd.pos, events);
-      return;
-    case 'paintTile':
-      paintTile(world, cmd.pos, cmd.tile, events);
-      return;
-    case 'craft': {
-      const [recipe, dyeColor] = cmd.recipe.split(':');
-      craft(world, recipe as RecipeId, events, dyeColor as DyeColor | undefined);
-      return;
-    }
-    case 'gather':
-      gather(world, cmd.what, events);
-      return;
-    case 'buyPlot':
-      buyPlot(world, events);
-      return;
-    case 'setTitle':
-      world.title = cmd.title;
-      return;
-    case 'claimQuest':
-      withRng(world, (rng) => claimQuest(world, cmd.id, rng, events));
-      return;
-    case 'visit':
-      visit(world, cmd.trainer, events);
-      return;
-    case 'neighbourGift':
-      neighbourGift(world, events);
-      return;
-    case 'feedWild':
-      feedWild(world, cmd.id, events);
-      return;
-    case 'dye':
-      dye(world, cmd.nubbinId, cmd.slot, cmd.color, events);
-      return;
-    case 'wearGlasses':
-      wearGlasses(world, cmd.nubbinId, cmd.on);
-      return;
-    case 'wearBelt': {
-      // Lane E r7, R0437: the belt is worn unless taken off; the field only exists when off.
-      const n = world.nubbins.find((x) => x.id === cmd.nubbinId);
-      if (!n) return;
-      if (cmd.on) delete n.hideBelt;
-      else n.hideBelt = true;
-      return;
-    }
-    case 'setPartner':
-      setPartner(world, cmd.slot, cmd.nubbinId);
-      return;
-    case 'merge':
-      merge(world, events);
-      return;
-    case 'trainResult':
-      trainResult(world, cmd.nubbinId, cmd.stat, cmd.hits, events);
-      return;
-    case 'setMemory':
-      setMemory(world, cmd.nubbinId, cmd.memory);
-      return;
-    case 'buySkill':
-      buySkill(world, cmd.id, events);
-      return;
-    case 'convertScan':
-      withRng(world, (rng) => convertScan(world, cmd.species, rng, events));
-      return;
-    case 'joinTeam':
-      joinTeam(world, cmd.team, events);
-      return;
-    case 'tankResult': {
-      world.inventory.shells += Math.max(0, cmd.shells);
-      world.inventory.wood += Math.max(0, cmd.wood);
-      world.inventory.stone += Math.max(0, cmd.stone);
-      world.tank.runs += 1;
-      world.tank.best = Math.max(world.tank.best, cmd.shells);
-      events.push({
-        kind: 'tankDone',
-        shells: cmd.shells,
-        wood: cmd.wood,
-        stone: cmd.stone,
-        won: cmd.won,
-      });
-      return;
-    }
-    case 'recruit':
-      addRecruit(world, cmd.name, cmd.species, events);
-      return;
-    case 'setCoop':
-      setCoop(world, cmd.active, cmd.trainer, events);
-      return;
-    case 'keeper2Input':
-      if (world.keeper2) world.keeper2.input = { x: cmd.input.x, z: cmd.input.z };
-      return;
-    case 'keeper2Act':
-      keeper2Act(world, cmd.action, events);
-      return;
-    case 'keeper2Jump':
-      keeper2Jump(world, cmd.down);
-      return;
-    case 'lookAround':
-      lookAround(world, events);
-      return;
-    case 'roll':
-      keeperStartRoll(world, events, cmd.dir);
-      return;
-    case 'viewYaw':
-      if (Number.isFinite(cmd.yaw)) world.viewYaw = cmd.yaw;
-      return;
-    case 'travel':
-      travel(world, cmd.exit, events, cmd.sub);
-      return;
-    // Lane C r10 agent A (R0605): a questline region's entrance, or back to the Grove.
-    case 'storyRegion':
-      if (cmd.region === null) leaveStoryRegion(world, events);
-      else enterStoryRegion(world, cmd.region, events);
-      return;
-    case 'fastTravel':
-      fastTravel(world, cmd, events);
-      break;
-    case 'travelAssist':
-      travelAssist(world, cmd.pos);
-      return;
-    case 'ride':
-      // R0085: climb on (or get down off) a Nubbin.
-      if (cmd.nubbinId) startRide(world, cmd.nubbinId, events);
-      else endRide(world, events, 'down');
-      return;
-    case 'rideCheer':
-      cheerRide(world);
-      return;
-    case 'festivalGagSeen':
-      festivalGagSeen(world, cmd.season);
-      return;
-    case 'teleport':
-      teleport(world, cmd.pos);
-      return;
-    case 'photoTaken':
-      noteQuest(world, 'photo', events, cmd.species);
-      return;
-    case 'campaignStart':
-    case 'sceneDone':
-    case 'lineAct':
-    case 'talk':
-    case 'lightLantern':
-    case 'debugChapter':
-    case 'sideAct':
-    case 'storylineStart':
-    case 'storyArea':
-    case 'storyAct':
-      applyCampaignCommand(world, cmd, events);
-      return;
-    // Lane C r10 agent C (R0614, R0615): Story only pace skips the spine's goal.
-    case 'skipGoal':
-      skipGoal(world, events, cmd.line);
-      return;
-    case 'playFair':
-      playFair(world);
-      return;
-    case 'lineAbandon':
-      // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
-      abandonLine(world, cmd.line);
-      return;
-    // Lane C r8 (R0602): the Open quest flow's answers (sim/quest-offers.ts).
-    case 'questAccept':
-      if (world.campaign) acceptQuest(world, world.campaign, cmd.id, cmd.shelve, events);
-      return;
-    case 'questHelp':
-      helpQuest(world, cmd.id, events);
-      return;
-    case 'questDecline':
-      if (world.campaign) declineQuest(world, world.campaign, cmd.id);
-      return;
-    case 'questShelve':
-      shelveQuest(world, cmd.id);
-      return;
-    case 'questTrack':
-      trackQuest(world, cmd.id, cmd.on);
-      return;
-    case 'linePitched': {
-      const book = world.questBook;
-      if (book && !(book.pitched ?? []).includes(cmd.id)) (book.pitched ??= []).push(cmd.id);
-      return;
-    }
-    case 'debugQuestOffer':
-      debugOffer(world, cmd.id, events);
-      return;
-    // Lane C r9 (R0594): an ended line's Nubbin comes home or stays where the line lives.
-    case 'lineCastHome':
-      chooseCastHome(world, cmd.line, cmd.nubbinId, cmd.home, events);
-      return;
-    case 'storyProp':
-      // Nothing to change in the world: the side-story runner reads it in applyCommand.
-      // R0313: except Fern's stone, a running gag of its own.
-      tapFernStone(world, cmd.prop, events);
-      return;
-    case 'tapToy': {
-      // R0322: a face only; the tap toy never touches needs or stats.
-      const n = findNubbin(world, cmd.nubbinId);
-      if (n && n.stage !== 'egg' && n.stage !== 'cocoon')
-        react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
-      return;
-    }
-  }
+  // TECH-35: every command kind is answered by a handler in sim/commands/.
+  runHandler(world, cmd, events);
 }
 
 export function heldNubbin(world: World): Nubbin | undefined {
@@ -1334,6 +467,12 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
     // R0120/R0110 (R11 d8): a region's critter spots and its stat gates.
     stepRegionCritters(world, events);
     stepRegionGates(world, dtMs, events);
+    // R0120 (R12 d2): the region's shy wild Nubbin.
+    stepWildNubbin(world, dtMs, events);
+    // R0137 (R12 d2): the shore's ghost ship in fog.
+    stepWeatherPlay(world, events);
+    // R0118 (R12 d2): a season keepsake in each region.
+    stepSeasonProps(world, events);
   }),
   plainSys('traces', 543, ALWAYS, ({ world, events }) => stepTraces(world, events)),
   plainSys('photo-spots', 546, ALWAYS, ({ world, events }) => stepPhotoSpots(world, events)),

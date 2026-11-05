@@ -6,7 +6,7 @@
  * toward (-sin yaw, -cos yaw), which is "up" on screen. Angles here are clockwise from up.
  */
 
-export interface Pt {
+export interface XZPoint {
   x: number;
   z: number;
 }
@@ -26,7 +26,7 @@ export function screenBearing(dx: number, dz: number, yaw: number): number {
 }
 
 /** Where `to` lies from `from` on the rose, clockwise from up, in radians. */
-export function bearingOnRose(from: Pt, to: Pt, yaw: number): number {
+export function bearingOnRose(from: XZPoint, to: XZPoint, yaw: number): number {
   return screenBearing(to.x - from.x, to.z - from.z, yaw);
 }
 
@@ -45,7 +45,7 @@ export interface Tick {
 
 /** The nearest of `landmarks` not yet found and within `range`, or null. */
 export function nearestUnfound(
-  from: Pt,
+  from: XZPoint,
   landmarks: readonly { id: string; x: number; z: number }[],
   found: Readonly<Record<string, number | undefined>>,
   range: number,
@@ -65,14 +65,14 @@ export function nearestUnfound(
 
 export interface TickInput {
   inGrove: boolean;
-  keeper: Pt;
+  keeper: XZPoint;
   yaw: number;
   landmarks: readonly { id: string; x: number; z: number }[];
   found: Readonly<Record<string, number | undefined>>;
   range: number;
   maxTicks: number;
   /** A tracked objective's place, when something exposes one (none does yet). */
-  objective?: Pt | null;
+  objective?: XZPoint | null;
 }
 
 /** The rim ticks to draw, at most `maxTicks`. */

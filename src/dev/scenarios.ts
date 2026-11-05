@@ -17,6 +17,7 @@ import {
   type World,
 } from '../sim/types';
 import { COURSES } from '../sim/race';
+import { enterDungeon } from '../sim/dungeon';
 import { applyCommand, createWorld, newId, stepWorld, withRng } from '../sim/world';
 
 type Band = 'sun' | 'moon' | 'neutral';
@@ -138,6 +139,26 @@ for (const band of BANDS) {
       return w;
     };
   }
+}
+
+// Lane D r12 (TECH-46): Hazel's story at chapter N, and the Hollow at floor N.
+for (let ch = 1; ch <= 12; ch++) {
+  BUILDERS[`campaign-ch:${ch}`] = (seed, wallMs) => {
+    const w = createWorld(seed, wallMs);
+    hatchAll(w);
+    applyCommand(w, { kind: 'campaignStart', flow: 'open' }, []);
+    if (ch > 1) applyCommand(w, { kind: 'debugChapter', chapter: ch }, []);
+    return w;
+  };
+}
+for (const depth of [1, 6, 12]) {
+  BUILDERS[`hollow-floor:${depth}`] = (seed, wallMs) => {
+    const w = createWorld(seed, wallMs);
+    fillTo(w, 8);
+    growAll(w, wallMs);
+    withRng(w, (rng) => enterDungeon(w, false, rng, [], { seed: seed * 7 + depth, depth }));
+    return w;
+  };
 }
 
 /** Every scenario name, in the order the debug panel lists them. */

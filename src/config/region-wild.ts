@@ -37,6 +37,13 @@ export const REGION_CRITTERS: Record<string, RegionCritters | undefined> = {
       { id: 'w5', x: 24, z: 24 },
     ],
   },
+  // R12 d2: the other drawn regions, each with the animals its biome would hold. A table with no
+  // `spots` has them placed on open, reachable ground by `sim/region-critters.ts`, seeded per region.
+  shore: { types: ['swim'], species: ['penguin', 'seal', 'turtle'], spots: [] },
+  ridge: { types: ['fly'], species: ['condor', 'swallow', 'peacock'], spots: [] },
+  ruins: { types: ['power', 'normal'], species: ['wolf', 'skunk', 'gorilla'], spots: [] },
+  sunlands: { types: ['run'], species: ['cheetah', 'rabbit', 'deer'], spots: [] },
+  moonlands: { types: ['fly', 'normal'], species: ['bat', 'raccoon', 'koala'], spots: [] },
 };
 
 export const CRITTER_RULES = {
@@ -65,6 +72,9 @@ export const BIOME_LEAN: Partial<Record<Biome, NubbinType>> = {
   beach: 'swim',
   alpine: 'fly',
   meadow: 'run',
+  ruin: 'power',
+  sun: 'run',
+  moon: 'normal',
 };
 export const BIOME_LEAN_AMOUNT = 0.5;
 
@@ -89,12 +99,64 @@ const OPEN: Record<Personality, BiomeReaction> = {
   lazy: { state: 'sit', line: 'flops down' },
 };
 
-/** Reactions by biome and personality; a biome with no entry uses the open one. */
+/**
+ * Reactions by biome and personality (R12 d2: the 4 x 4 table, one distinct line each, reusing
+ * the states the sprites already have: play, sit, greet, wander). A biome with no entry uses the
+ * open one.
+ */
 export const BIOME_REACTIONS: Partial<Record<Biome, Record<Personality, BiomeReaction>>> = {
   forest: WOOD,
   meadow: OPEN,
-  beach: OPEN,
-  alpine: OPEN,
+  beach: {
+    cheerful: { state: 'play', line: 'runs straight into the shallows' },
+    shy: { state: 'sit', hide: true, line: 'hides behind your legs and peeks at the waves' },
+    mischievous: { state: 'play', line: 'digs a hole in the sand' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
+    lazy: { state: 'sit', line: 'flops onto the warm sand' },
+  },
+  alpine: {
+    cheerful: { state: 'play', line: 'bounds up the slope' },
+    shy: { state: 'sit', hide: true, line: 'tucks in tight against your leg' },
+    mischievous: { state: 'play', line: 'rolls a lopsided snowball' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
+    lazy: { state: 'sit', line: 'flops into the snow' },
+  },
+  ruin: {
+    cheerful: { state: 'play', line: 'tiptoes between the columns' },
+    shy: { state: 'sit', hide: true, line: 'stays very close, very quiet' },
+    mischievous: { state: 'play', line: 'pokes every crack in the wall' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
+    lazy: { state: 'sit', line: 'sits on a fallen column' },
+  },
+  sun: {
+    cheerful: { state: 'play', line: 'dances in the warm light' },
+    shy: { state: 'sit', hide: true, line: 'peeks out from behind you' },
+    mischievous: { state: 'play', line: 'chases its own shadow' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
+    lazy: { state: 'sit', line: 'melts into a sunny patch' },
+  },
+  moon: {
+    cheerful: { state: 'play', line: 'chases the fireflies' },
+    shy: { state: 'sit', hide: true, line: 'stays under your lantern' },
+    mischievous: { state: 'play', line: 'bats at the glowing crystals' },
+    curious: { state: 'play', line: 'sniffs at everything new' },
+    gentle: { state: 'sit', line: 'stays close and takes it in' },
+    bold: { state: 'play', line: 'marches on ahead' },
+    dreamy: { state: 'sit', line: 'gazes off and smiles' },
+    lazy: { state: 'sit', line: 'curls up by the quiet lake' },
+  },
 };
 
 /** The four kinds of gate (R0110): the stat that opens each, and the level it asks. */

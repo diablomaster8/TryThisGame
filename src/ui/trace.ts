@@ -21,14 +21,14 @@ import {
   rightStart,
   strokeMet,
   traceRadius,
-  type Pt,
+  type ScreenPt,
 } from './trace-check';
 import { EDU_TRACE } from '../config/tuning-kids';
 import { TRACE_KID_TEXT } from '../config/strings';
 import { speakLine } from './lesson';
 
 /** Stroke guides by glyph, kana and Hebrew alike. A glyph without guides is judged by ink. */
-const STROKES: Readonly<Record<string, Pt[][]>> = { ...KANA_STROKES, ...HEBREW_STROKES };
+const STROKES: Readonly<Record<string, ScreenPt[][]>> = { ...KANA_STROKES, ...HEBREW_STROKES };
 
 const FONT = { he: '"Noto Sans Hebrew", sans-serif', ja: '"Klee One", "Noto Sans JP", sans-serif' };
 
@@ -42,13 +42,13 @@ export class TraceGame {
   private quest = '';
   private glyph = 0;
   private stroke = 0;
-  private drags: Pt[][] = [];
-  private drag: Pt[] | null = null;
-  private ink: Pt[] = [];
+  private drags: ScreenPt[][] = [];
+  private drag: ScreenPt[] | null = null;
+  private ink: ScreenPt[] = [];
   private done: (() => void) | null = null;
   /** R0703: misses on the current stroke, the last rejected drag, and the ghost finger. */
   private misses = 0;
-  private rejected: { pts: Pt[]; at: number } | null = null;
+  private rejected: { pts: ScreenPt[]; at: number } | null = null;
   private demo: { at: number; stroke: number } | null = null;
   private raf = 0;
 
@@ -186,7 +186,7 @@ export class TraceGame {
   }
 
   /** The letter's ink as board points, from an offscreen render of the glyph. */
-  private measureInk(): Pt[] {
+  private measureInk(): ScreenPt[] {
     const size = 100;
     const c = document.createElement('canvas');
     c.width = size;
@@ -195,7 +195,7 @@ export class TraceGame {
     if (!x) return [];
     this.glyphAt(x, size, '#000');
     const data = x.getImageData(0, 0, size, size).data;
-    const out: Pt[] = [];
+    const out: ScreenPt[] = [];
     for (let y = 0; y < size; y += 3)
       for (let i = 0; i < size; i += 3)
         if (data[(y * size + i) * 4 + 3]! > 128) out.push({ x: i, y });
@@ -263,12 +263,12 @@ export class TraceGame {
     return fit;
   }
 
-  private pt(e: PointerEvent): Pt {
+  private pt(e: PointerEvent): ScreenPt {
     const r = this.canvas.getBoundingClientRect();
     return { x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 };
   }
 
-  private judge(d: Pt[]): void {
+  private judge(d: ScreenPt[]): void {
     const t = this.target;
     if (!t) return;
     const strokes = STROKES[this.current()];
@@ -305,7 +305,7 @@ export class TraceGame {
   }
 
   /** A stroke done (traced, or finished with the ghost finger): on to the next one. */
-  private acceptStroke(d: Pt[], count: number): void {
+  private acceptStroke(d: ScreenPt[], count: number): void {
     const t = this.target;
     if (!t) return;
     this.drags.push(d);
@@ -352,7 +352,7 @@ export class TraceGame {
     this.glyphAt(x, 100, 'rgba(120,110,100,0.28)');
     x.lineCap = 'round';
     x.lineJoin = 'round';
-    const path = (pts: readonly Pt[]) => {
+    const path = (pts: readonly ScreenPt[]) => {
       x.beginPath();
       pts.forEach((p, i) => (i ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y)));
       x.stroke();

@@ -101,6 +101,7 @@ import { StaticFreezer, freezeWanted } from './static-freeze';
 import { GrovePuddles } from './puddles';
 import { AmbientLife3d } from './ambient';
 import { RegionLife3d } from './region-life';
+import { RegionMarks3d } from './region-marks';
 import { ambientAwake } from '../render/ambient-life';
 
 /** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
@@ -286,6 +287,7 @@ export class Grove3dScene {
   private readonly puddles: GrovePuddles;
   private readonly ambient: AmbientLife3d;
   private readonly regionLife: RegionLife3d;
+  private readonly regionMarks: RegionMarks3d;
 
   /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
   private updateAmbient(world: World): void {
@@ -593,6 +595,7 @@ export class Grove3dScene {
     this.puddles = new GrovePuddles(this.world3d, groveHeight);
     this.ambient = new AmbientLife3d(this.scene);
     this.regionLife = new RegionLife3d(this.scene);
+    this.regionMarks = new RegionMarks3d(this.scene);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     this.freezer = freezeWanted()
@@ -1952,6 +1955,7 @@ export class Grove3dScene {
     this.puddles.update(world);
     this.updateAmbient(world);
     this.regionLife.update(world, this.time.value, this.reduceMotion);
+    this.regionMarks.update(world, this.time.value, this.reduceMotion);
   }
 
   render(): void {

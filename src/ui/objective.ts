@@ -20,6 +20,8 @@ import { isHungry } from '../sim/needs';
 import { FIRST_LOOP } from '../config/tuning-r11d4';
 import { firstLoopStep } from '../sim/first-loop';
 import { FIRST_LOOP_TEXT } from '../config/strings-r11d4';
+import { NAME_ROW_TEXT } from '../config/strings-r12d4';
+import { NUBBIN_NAMES } from '../config/strings';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { FIRST_FEED_TEXT } from '../config/strings-tech';
 import { journalView } from '../sim/storyline';
@@ -59,9 +61,9 @@ import { lineMinutesLeft } from './journal-search';
  * Lane C round 8 (R0609): the Open flow's pinned quests, each at its current step, for the chip
  * to cycle after the spine's goal. A quest between steps (a scene to come) shows its next goal.
  */
-export function trackedObjectives(world: World): Objective[] {
+export function trackedObjectives(world: World): GroveObjective[] {
   const c = world.campaign;
-  const out: Objective[] = [];
+  const out: GroveObjective[] = [];
   for (const id of world.questBook?.tracked ?? []) {
     const st = c?.side[id] ?? c?.fun[id];
     const quest = sideStory(id);
@@ -85,8 +87,8 @@ export function trackedObjectives(world: World): Objective[] {
  * Lane C r10 agent C (R0635): the questlines running beside Hazel's Grove, each at its chapter,
  * with its chapters left in rough minutes, for the chip to cycle with the tracked quests.
  */
-export function lineObjectives(world: World): Objective[] {
-  const out: Objective[] = [];
+export function lineObjectives(world: World): GroveObjective[] {
+  const out: GroveObjective[] = [];
   for (const line of activeLines(world)) {
     const id = line.storyline;
     const view = id ? journalView(world, line, false) : null;
@@ -116,7 +118,7 @@ export function lineObjectives(world: World): Objective[] {
  */
 export const CHIP_SHOWN: { key: string | null } = { key: null };
 
-export interface Objective {
+export interface GroveObjective {
   /** Changes when the goal does; a campaign key change is announced. */
   key: string;
   goal: string;
@@ -128,7 +130,7 @@ export interface Objective {
 }
 
 /** The Grove suggestion with no story goal: pure over the world. */
-export function groveSuggestion(world: World): Objective | null {
+export function groveSuggestion(world: World): GroveObjective | null {
   // The story's own Nubbins (Moss, Sable) are not the player's to raise.
   const c = world.campaign;
   const living = world.nubbins.filter((n) => n.id !== c?.mossId && n.id !== c?.sableId);
@@ -214,7 +216,7 @@ export function howToHint(c: CampaignState): string | null {
 }
 
 /** The goal to show now: the campaign's chapter goal, else a Grove suggestion. */
-export function objectiveOf(g: Game): Objective | null {
+export function objectiveOf(g: Game): GroveObjective | null {
   const c = g.world.campaign;
   const none = groveSuggestion(g.world);
   // No Nubbin of your own and no egg: the chapter goal cannot move until you buy one.
@@ -239,7 +241,7 @@ export function objectiveOf(g: Game): Objective | null {
 }
 
 /** R0657: after the Long Night, the chip suggests the Valley Fair or the nearest unfinished line. */
-export function afterStoryObjective(world: World): Objective | null {
+export function afterStoryObjective(world: World): GroveObjective | null {
   const next = afterStoryNext(
     world,
     storylines().map((s) => s.id),
@@ -259,7 +261,7 @@ export class ObjectiveChip {
   readonly root: HTMLButtonElement;
   private readonly goal: HTMLSpanElement;
   private readonly hint: HTMLSpanElement;
-  private current: Objective | null = null;
+  private current: GroveObjective | null = null;
   private lastStoryKey: string | null = null;
   /** R0609: which of the spine's goal and the tracked quests the chip shows, and its arrow. */
   private pick = 0;
@@ -272,6 +274,9 @@ export class ObjectiveChip {
   private readonly rest: HTMLButtonElement;
   /** R0448: "I know how to play" ends the guided first loop; the nudge pulses after a quiet spell. */
   private readonly skip: HTMLButtonElement;
+  /** R0448: the first loop's name step: a field, a dice for a random name, and OK. */
+  private readonly nameRow: HTMLDivElement;
+  private readonly nameInput: HTMLInputElement;
   private nudgeKey = '';
   private nudgeSince = 0;
   private spokenKey = '';
@@ -324,6 +329,40 @@ export class ObjectiveChip {
     this.skip.hidden = true;
     this.skip.setAttribute('aria-label', FIRST_LOOP_TEXT.skipLabel);
     parent.appendChild(this.skip);
+    this.nameRow = el('div', 'objective-name-row');
+    this.nameRow.hidden = true;
+    this.nameInput = el('input', 'objective-name-input') as HTMLInputElement;
+    this.nameInput.maxLength = 16;
+    this.nameInput.placeholder = NAME_ROW_TEXT.placeholder;
+    this.nameInput.setAttribute('aria-label', NAME_ROW_TEXT.field);
+    const dice = button('🎲', () => this.rollName(), 'btn btn-small objective-name-dice');
+    dice.setAttribute('aria-label', NAME_ROW_TEXT.dice);
+    const ok = button(NAME_ROW_TEXT.saveGlyph, () => this.saveName(), 'btn btn-primary btn-small');
+    ok.setAttribute('aria-label', NAME_ROW_TEXT.save);
+    this.nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') this.saveName();
+    });
+    this.nameRow.append(this.nameInput, dice, ok);
+    parent.appendChild(this.nameRow);
+  }
+
+  /** The dice: a name from the list that no Nubbin here already has. */
+  private rollName(): void {
+    const g = this.game();
+    if (!g) return;
+    const taken = new Set(g.world.nubbins.map((n) => n.name));
+    const free = NUBBIN_NAMES.filter((n) => !taken.has(n));
+    const pool = free.length > 0 ? free : NUBBIN_NAMES;
+    this.nameInput.value = pool[Math.floor(Math.random() * pool.length)] ?? '';
+  }
+
+  private saveName(): void {
+    const g = this.game();
+    const step = g ? firstLoopStep(g.world) : null;
+    const name = this.nameInput.value.trim();
+    if (!g || !step || step.step !== 'name' || !name) return;
+    g.send({ kind: 'rename', nubbinId: step.nubbin.id, name });
+    this.nameInput.value = '';
   }
 
   /** R0661: walk (or, with Travel assist, run or hop) to where the shown goal is. */
@@ -414,6 +453,7 @@ export class ObjectiveChip {
     // R0448: the first loop's skip, a quiet-spell nudge, and a sprout hears each step.
     const loopOn = !hide && !!shown && shown.key.startsWith('grove:loop-');
     this.skip.hidden = !loopOn;
+    this.nameRow.hidden = !(loopOn && shown?.key === 'grove:loop-name');
     const stepKey = shown?.key.startsWith('grove:') ? shown.key : '';
     const nowMs = performance.now();
     if (stepKey !== this.nudgeKey) {
