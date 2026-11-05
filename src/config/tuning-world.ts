@@ -225,7 +225,17 @@ export const WORLD_BEACON = {
  */
 export const WORLD_QUESTS = {
   // R11 d8 (R0101): the Wood is drawn and walkable now, so its six quests are offered there.
-  ownOffers: ['grove', 'hollow', 'wood'] as readonly string[],
+  ownOffers: [
+    'grove',
+    'hollow',
+    'wood',
+    // R12 d2: the shore, ridge, ruins and the Sun and Moon lands are drawn and walkable now too.
+    'shore',
+    'ridge',
+    'ruins',
+    'sunlands',
+    'moonlands',
+  ] as readonly string[],
 } as const;
 
 /**

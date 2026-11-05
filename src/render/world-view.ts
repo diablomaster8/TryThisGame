@@ -120,6 +120,7 @@ import { ambientAwake } from './ambient-life';
 import { WORLD_LOD } from '../config/tuning-world';
 import { drawAmbientPx } from './ambient-px';
 import { drawRegionLifePx } from './region-life-px';
+import { drawRegionMarksPx } from './region-marks-px';
 
 interface Snapshot {
   pos: Vec2;
@@ -825,6 +826,8 @@ export class WorldView {
     if (!bare) drawPuddles(world, batch, this.dim);
     // R0120/R0110: a region's critters and shut gates.
     if (!bare) drawRegionLifePx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion);
+    // R12 d2: traces, collectibles, the photo frame and the build plot of a region.
+    if (!bare) drawRegionMarksPx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion);
     // R0128: birds, butterflies and fish shadows from the chunk list, by day in the dry.
     if (!bare && this.particles.env.density !== 'off')
       drawAmbientPx(

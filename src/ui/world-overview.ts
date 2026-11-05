@@ -32,6 +32,33 @@ export function overviewLinks(): Array<[Id, Id]> {
   return out;
 }
 
+/**
+ * R12 d2 (R0130): a painted island, not a plain oval: eight points round an ellipse, each pushed
+ * a little by the place's own hash (so a place always has the same shore), joined by curves.
+ */
+export function blobPath(id: string, cx: number, cy: number, rx: number, ry: number): string {
+  let h = 2166136261;
+  for (let i = 0; i < id.length; i++) h = Math.imul(h ^ id.charCodeAt(i), 16777619) >>> 0;
+  const pts: Array<[number, number]> = [];
+  for (let i = 0; i < 8; i++) {
+    h = Math.imul(h ^ (h >>> 13), 0x5bd1e995) >>> 0;
+    const wob = 0.82 + ((h % 1000) / 1000) * 0.36;
+    const a = (i / 8) * Math.PI * 2;
+    pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob]);
+  }
+  const mid = (a: [number, number], b: [number, number]): [number, number] => [
+    (a[0] + b[0]) / 2,
+    (a[1] + b[1]) / 2,
+  ];
+  const start = mid(pts[7]!, pts[0]!);
+  let d = `M${start[0].toFixed(2)} ${start[1].toFixed(2)}`;
+  for (let i = 0; i < 8; i++) {
+    const m = mid(pts[i]!, pts[(i + 1) % 8]!);
+    d += ` Q${pts[i]![0].toFixed(2)} ${pts[i]![1].toFixed(2)} ${m[0].toFixed(2)} ${m[1].toFixed(2)}`;
+  }
+  return d + 'Z';
+}
+
 function svg(tag: string, attrs: Record<string, string>): SVGElement {
   const n = document.createElementNS(NS, tag);
   for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
@@ -63,7 +90,8 @@ export function worldOverview(
         stroke: '#a06a3b',
         'stroke-width': '1.4',
         'stroke-linecap': 'round',
-        'stroke-dasharray': both ? 'none' : '1.5 2',
+        // The way down to the Hollow is always a dotted line: a stair, not a road.
+        'stroke-dasharray': a === 'hollow' || b === 'hollow' ? '0.6 1.6' : both ? 'none' : '1.5 2',
         opacity: both ? '1' : '0.5',
       }),
     );
@@ -77,18 +105,32 @@ export function worldOverview(
       known ? OVERVIEW_TEXT.open(WORLD_TEXT.regions[id]) : OVERVIEW_TEXT.fogged,
     );
     g.setAttribute('style', 'cursor:pointer');
+    // The island: a soft shadow, the painted blob, and a paler patch of light on it.
     g.appendChild(
-      svg('ellipse', {
-        cx: String(n.x),
-        cy: String(n.y),
-        rx: '9',
-        ry: '7',
+      svg('path', {
+        d: blobPath(id + 's', n.x + 0.8, n.y + 1.4, 9.4, 7.2),
+        fill: '#2b2440',
+        opacity: known ? '0.18' : '0.08',
+      }),
+    );
+    g.appendChild(
+      svg('path', {
+        d: blobPath(id, n.x, n.y, 9, 7),
         fill: known ? n.fill : '#cdb1f0',
         opacity: known ? '1' : '0.45',
         stroke: id === here ? '#e0562e' : '#2b2440',
         'stroke-width': id === here ? '1.6' : '0.6',
+        'stroke-linejoin': 'round',
       }),
     );
+    if (known)
+      g.appendChild(
+        svg('path', {
+          d: blobPath(id + 'l', n.x - 1.6, n.y - 1.6, 5, 3.4),
+          fill: '#ffffff',
+          opacity: '0.22',
+        }),
+      );
     const icon = svg('text', {
       x: String(n.x),
       y: String(n.y + 2),

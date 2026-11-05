@@ -5,7 +5,7 @@
  */
 import { JOYSTICK_TUNING as J } from '../config/tuning-move-joy';
 
-export interface Pt {
+export interface ScreenPt {
   x: number;
   y: number;
 }
@@ -43,7 +43,10 @@ export function stickToWorld(sx: number, sy: number, yaw: number): { x: number; 
  * vector in radius units, and the centre, which follows the thumb once it is dragged past
  * `recentreAt` radii so the pad never ends up far from it.
  */
-export function stickState(centre: Pt, thumb: Pt): { centre: Pt; knob: Pt; vec: Pt; len: number } {
+export function stickState(
+  centre: ScreenPt,
+  thumb: ScreenPt,
+): { centre: ScreenPt; knob: ScreenPt; vec: ScreenPt; len: number } {
   let dx = thumb.x - centre.x;
   let dy = thumb.y - centre.y;
   const dist = Math.hypot(dx, dy);

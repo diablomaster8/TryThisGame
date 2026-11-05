@@ -21,6 +21,7 @@ import {
   readGraphicsPref,
   readSlotIndex,
   slotId,
+  readThumb,
   storageAvailable,
   writeGraphicsPref,
   isStorylineMode,
@@ -80,6 +81,16 @@ function continueHeader(
 ): HTMLElement | null {
   if (!slot || !hasSave(slot)) return null;
   const b = button('', onContinue, 'btn btn-primary title-continue');
+  const thumb = slot.mode === 'edu' ? null : readThumb(slot);
+  if (thumb) {
+    const img = el('img', 'title-slot-thumb') as HTMLImageElement;
+    img.src = thumb;
+    img.alt = '';
+    img.width = 80;
+    img.height = 45;
+    b.classList.add('title-slot-has-thumb');
+    b.append(img);
+  }
   b.append(
     el('strong', undefined, PROFILE_TEXT.continueBig),
     el('small', undefined, PROFILE_TEXT.continueWhere(SLOT_TEXT.slot(slot.index), what)),
@@ -321,6 +332,17 @@ export function showTitle(
             main.classList.add('title-slot-has-pic');
             main.prepend(pic);
             showFirstNubbin(slot, pic);
+          }
+          // R0447: the picture the last autosave took, when there is one.
+          const thumb = mode === 'edu' ? null : readThumb(slot);
+          if (thumb) {
+            const img = el('img', 'title-slot-thumb') as HTMLImageElement;
+            img.src = thumb;
+            img.alt = '';
+            img.width = 80;
+            img.height = 45;
+            main.classList.add('title-slot-has-thumb');
+            main.prepend(img);
           }
           main.setAttribute('aria-label', SLOT_TEXT.continueLabel(modeName, index, said));
           // A Learning Grove slot is a child's: erasing it, or starting over it, asks the

@@ -10,6 +10,7 @@ import { createWorld } from '../../src/sim/world';
 registerSideStories(SIDE_STORY_CONTENT);
 const REGION_IDS = Object.keys(REGIONS) as RegionId[];
 const allOpen = (): boolean => true;
+const DRAWN: string[] = ['wood', 'shore', 'ridge', 'ruins'];
 
 /** R0101: fun quests are offered only in their own region (WORLD-05 tags). */
 describe('quest gating by area', () => {
@@ -35,14 +36,15 @@ describe('quest gating by area', () => {
   it('until a region can be walked to, its quests are offered from the Grove', () => {
     for (const q of funQuests()) {
       const region = areaOf(q)!.region;
-      // The Wood is drawn now (R11 d8): its own quests are offered there and no longer at home.
-      if (region === 'wood') {
-        expect(offeredIn(q, 'wood'), q.id).toBe(true);
+      // The drawn regions (the Wood R11 d8; shore, ridge, ruins R12 d2): their own quests are
+      // offered there and no longer at home.
+      if (DRAWN.includes(region)) {
+        expect(offeredIn(q, region as RegionId), q.id).toBe(true);
         expect(offeredIn(q, 'grove'), q.id).toBe(false);
         continue;
       }
       expect(offeredIn(q, 'grove'), q.id).toBe(true);
-      if (region !== 'shore' && region !== 'anywhere' && region !== 'story-world')
+      if (region !== 'anywhere' && region !== 'story-world')
         expect(offeredIn(q, 'shore'), q.id).toBe(false);
     }
   });
@@ -63,7 +65,8 @@ describe('quest gating by area', () => {
     const grove = questsInArea(w, 'grove');
     const total = grove.available.length + grove.active.length + grove.done.length;
     expect(total).toBeGreaterThanOrEqual(90);
-    expect(questsInArea(w, 'shore').available).toEqual([]);
+    // R12 d2: the shore is walkable, so its own quests are listed there.
+    expect(questsInArea(w, 'shore').available).toEqual(expect.arrayContaining(['q55']));
   });
 });
 

@@ -4,6 +4,8 @@ export const CLIP_TEXT = {
   tapNote: 'No recording of this word yet. That chime is a stand-in, not the word.',
   /** Under a word row in the word list while it has no recording. */
   rowHint: 'Chime only for now: no recording yet',
+  /** Summary of the folded list of clip ids with no recording. */
+  listTitle: 'Clips still to record',
   noteEveryMs: 6000,
   noteMs: 3200,
   /** The grown-up area, with a count. */

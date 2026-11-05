@@ -113,6 +113,13 @@ function play(): Run {
       world.location = 'region:wood';
       world.keeper.pos = { x: p.x, z: p.z };
     }),
+    // R12 d2 (R0101): the shore, ridge and ruins are walkable too.
+    ...(['shore', 'ridge', 'ruins'] as const).flatMap((r) =>
+      REGIONS[r].pois.map((p) => () => {
+        world.location = `region:${r}`;
+        world.keeper.pos = { x: p.x, z: p.z };
+      }),
+    ),
     () => (world.location = 'dungeon'),
     () => (world.location = 'corvin'),
   ];

@@ -351,6 +351,7 @@ export function clearSlot(slot: SaveSlot): boolean {
   dropLive(slotKey(slot));
   void dropSlotStores(mirrorKey(slot));
   indexCleared(slot);
+  clearThumb(slot);
   try {
     localStorage.removeItem(slotKey(slot));
     return true;
@@ -1036,5 +1037,41 @@ export function labelSlot(slot: SaveSlot, label: SlotLabel | null): boolean {
     return true;
   } catch {
     return false;
+  }
+}
+
+// ---------- slot thumbnails (R0447) ----------
+
+/** Largest thumbnail kept, as characters of the data URL (about 12 kB). */
+export const THUMB_MAX_CHARS = 12000;
+
+const thumbKey = (slot: SaveSlot): string => `grove.thumb.${slotId(slot)}`;
+
+/** Keep a small picture of the Grove with a slot; false when too big or storage is blocked. */
+export function writeThumb(slot: SaveSlot, dataUrl: string): boolean {
+  if (dataUrl.length > THUMB_MAX_CHARS) return false;
+  try {
+    localStorage.setItem(thumbKey(slot), dataUrl);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** The slot's thumbnail, or null when it has none (only an image data URL is returned). */
+export function readThumb(slot: SaveSlot): string | null {
+  try {
+    const v = localStorage.getItem(thumbKey(slot));
+    return v && v.startsWith('data:image/') && v.length <= THUMB_MAX_CHARS ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+export function clearThumb(slot: SaveSlot): void {
+  try {
+    localStorage.removeItem(thumbKey(slot));
+  } catch {
+    // Blocked storage: nothing to remove.
   }
 }

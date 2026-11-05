@@ -118,6 +118,15 @@ if (import.meta.env.DEV && params.has('audiolab')) {
     return m.runAudioLab(box);
   });
 }
+if (import.meta.env.DEV && params.has('editor')) {
+  // R0141: the dev-only region editor (its code never ships).
+  void import('./dev/region-editor').then((m) => {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:fixed;inset:0;overflow:auto;background:#fff;color:#000;z-index:999;padding:16px;font:13px sans-serif';
+    document.body.appendChild(box);
+    m.runRegionEditor(box);
+  });
+}
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
 let kidsLock: number | null;
 /** Lane C r11 (R0627): the new Hazel's Grove slot is a Sandbox: a Keeper, no story yet. */

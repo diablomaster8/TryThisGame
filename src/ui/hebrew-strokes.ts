@@ -5,15 +5,15 @@
  * guides for a finger, not font outlines; the letter itself shows underneath in Noto Sans
  * Hebrew. Stroke counts: א 3, ב 2, ג 2, ד 2, ה 2, ו 1, י 1, ל 1, מ 2, ם 2, ר 1, ש 3.
  */
-import type { Pt } from './trace-check';
+import type { ScreenPt } from './trace-check';
 
-const P = (...xy: number[]): Pt[] => {
-  const out: Pt[] = [];
+const P = (...xy: number[]): ScreenPt[] => {
+  const out: ScreenPt[] = [];
   for (let i = 0; i + 1 < xy.length; i += 2) out.push({ x: xy[i]!, y: xy[i + 1]! });
   return out;
 };
 
-export const HEBREW_STROKES: Readonly<Record<string, Pt[][]>> = {
+export const HEBREW_STROKES: Readonly<Record<string, ScreenPt[][]>> = {
   // Alef: the small right arm, the long slant, then the left foot.
   א: [P(76, 14, 74, 30, 66, 46), P(24, 14, 52, 50, 80, 86), P(40, 54, 34, 70, 26, 86)],
   // Bet: roof and right side, then the base, drawn right to left past the corner.
