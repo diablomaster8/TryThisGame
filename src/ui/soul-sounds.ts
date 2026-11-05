@@ -4,12 +4,14 @@
  * events come only from live play (the sim holds them back while catching up), and fast
  * time stays quiet so a ×100 Grove is not a wall of chirps.
  */
-import { playChirp, playMotif, playPerform } from '../platform/audio';
+import { playChirp, playJamLayer, playMotif, playPerform } from '../platform/audio';
 import { chirpVoice } from '../platform/chirp-voice';
 import { instrumentOf } from '../sim/kindergarten';
 import { shownVariant } from '../sim/lesson-variants';
 import { speciesOf } from '../sim/species';
 import type { SimEvent, World } from '../sim/types';
+
+const jamLessonIds = new Set(['singing', 'instrument', 'dance']);
 
 export function playSoulSounds(events: readonly SimEvent[], world: World, timeScale: number): void {
   if (timeScale > 10) return;
@@ -30,8 +32,6 @@ export function playSoulSounds(events: readonly SimEvent[], world: World, timeSc
         );
         playMotif(n.seed, voice.pitch, mate);
       } else playPerform(e.lesson, e.level, instrumentOf(n), voice.pitch, sv);
-    } else if (e.kind === 'chatTurn') {
-      const n = world.nubbins.find((x) => x.id === e.nubbinId);
       // R0555: a joiner layers its own instrument under whoever already plays.
       const playing = world.nubbins.filter(
         (o) =>
@@ -44,6 +44,8 @@ export function playSoulSounds(events: readonly SimEvent[], world: World, timeSc
     } else if (e.kind === 'hum') {
       const n = world.nubbins.find((x) => x.id === e.nubbinId);
       if (n) playMotif(n.seed, chirpVoice(n.id, n.personality).pitch, false);
+    } else if (e.kind === 'chatTurn') {
+      const n = world.nubbins.find((x) => x.id === e.nubbinId);
       if (!n) continue;
       const voice = chirpVoice(n.id, n.personality);
       // Turn about: the first voice a little high, the answer a little low.
