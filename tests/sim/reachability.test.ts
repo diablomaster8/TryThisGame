@@ -244,6 +244,15 @@ describe('reachability from one world (R0604)', () => {
       for (const l of Object.keys(world.lines ?? {}))
         if (world.lines[l]!.ending === null)
           applyCommand(world, { kind: 'lineAbandon', line: l }, events);
+      // R0611: Dusk opens once Dawn has an ending (an abandoned Dawn has none).
+      if (id === 'dusk' && world.lines.dawn?.ending == null) {
+        expect(lineRefusal(world, id)).toBe('locked');
+        world.lines.dawn = {
+          ...structuredClone(world.campaign!),
+          storyline: 'dawn',
+          ending: 'test',
+        };
+      }
       expect(lineRefusal(world, id), id).toBeNull();
       // R0633: Dawn is a Sun Keeper's line and Dusk a Moon Keeper's.
       if (id === 'dawn' || id === 'dusk')

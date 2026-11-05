@@ -9,7 +9,7 @@ import { frameKey } from '../render/sprites/animations';
 import { SheetCache } from '../render/sprites/sheets';
 import { deserialize } from '../sim/save';
 import type { Nubbin } from '../sim/types';
-import { slotKey, type SaveSlot } from '../platform/storage';
+import { slotKey, slotKeyFor, type SaveSlot } from '../platform/storage';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 import { el } from './dom';
 
@@ -21,13 +21,17 @@ export function firstNubbinOf<T extends Pick<Nubbin, 'stage'>>(nubbins: readonly
 /** Drawn pictures by slot and save time, so going back to the title doesn't redraw them. */
 const drawn = new Map<string, HTMLCanvasElement | null>();
 
-function readFirst(slot: SaveSlot): { key: string; nubbin: Nubbin | null } | null {
+function readFirst(
+  slot: SaveSlot,
+  profile?: string,
+): { key: string; nubbin: Nubbin | null } | null {
   try {
-    const json = localStorage.getItem(slotKey(slot));
+    const key = profile ? slotKeyFor(profile, slot) : slotKey(slot);
+    const json = localStorage.getItem(key);
     if (json === null) return null;
     const file = deserialize(json);
     return {
-      key: `${slotKey(slot)}:${file.savedAtWallMs}:${json.length}`,
+      key: `${key}:${file.savedAtWallMs}:${json.length}`,
       nubbin: firstNubbinOf(file.world.nubbins),
     };
   } catch {
@@ -80,10 +84,10 @@ function copyOf(src: HTMLCanvasElement): HTMLCanvasElement {
  * When idle, put the slot's first Nubbin in place of `icon` (an emoji span on the tile).
  * Leaves the icon alone when there is no Nubbin to show or the tile has left the page.
  */
-export function showFirstNubbin(slot: SaveSlot, icon: HTMLElement): void {
+export function showFirstNubbin(slot: SaveSlot, icon: HTMLElement, profile?: string): void {
   whenIdle(() => {
     if (!icon.isConnected) return;
-    const first = readFirst(slot);
+    const first = readFirst(slot, profile);
     if (!first?.nubbin) return;
     let pic = drawn.get(first.key);
     if (pic === undefined) {

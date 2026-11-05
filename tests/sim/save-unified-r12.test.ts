@@ -322,6 +322,59 @@ describe('a read-only visit (R0669)', () => {
   });
 });
 
+describe('child profiles beyond k1 (R0653, round 13)', () => {
+  it('keeps each child profile Learning Grove apart, and reloads onto the one played last', async () => {
+    store.set('grove.save.edu', SEVEN['grove.save.edu']!);
+    let s = await boot();
+    const kid = s.profiles.addProfile('child', 'Wren', '🦊')!;
+    expect(kid.id).toBe('k2');
+    const slot = { mode: 'edu' as const, index: 1 };
+    // k1 plays its own slot; k2 starts empty and gets its own save in a free unified slot.
+    expect(s.storage.childProfile()).toBe('k1');
+    expect(s.storage.hasSave(slot)).toBe(true);
+    s.storage.setChildProfile('k2');
+    expect(s.storage.childProfile()).toBe('k2');
+    expect(s.storage.hasSave(slot)).toBe(false);
+    s.storage.setSaveSlot(slot);
+    const mine = fixture('v15-fresh.json').replace(/\s+$/, '');
+    expect(s.storage.writeSave(mine)).toBe(true);
+    expect(s.storage.hasSave(slot)).toBe(true);
+    expect(s.storage.readSlotSummaryOf('k2', slot)).not.toBeNull();
+    // k1's save is untouched.
+    expect(s.storage.readSlotJson({ mode: 'edu', index: 1 })).toBe(mine);
+    s.storage.setChildProfile('k1');
+    expect(s.storage.readSlotJson(slot)).toBe(SEVEN['grove.save.edu']);
+    // The slot index follows the child in play.
+    expect(s.storage.readSlotIndex().slots['edu:1']).toBeDefined();
+    // A reload with k2 played last plays k2.
+    s.profiles.markLastProfile('k2');
+    s = await boot();
+    expect(s.storage.childProfile()).toBe('k2');
+    expect(s.storage.readSlotJson(slot)).toBe(mine);
+  });
+
+  it('refuses another child before the unified slots are on', async () => {
+    const s = await boot(false);
+    s.storage.setChildProfile('k2');
+    expect(s.storage.childProfile()).toBe('k1');
+  });
+
+  it('deletes and restores a child profile with its Groves', async () => {
+    store.set('grove.save.edu', SEVEN['grove.save.edu']!);
+    const s = await boot();
+    s.profiles.addProfile('child', 'Wren', '🦊');
+    s.storage.setChildProfile('k2');
+    s.storage.setSaveSlot({ mode: 'edu', index: 1 });
+    const mine = fixture('v15-fresh.json').replace(/\s+$/, '');
+    s.storage.writeSave(mine);
+    s.storage.setChildProfile('k1');
+    expect(await s.profiles.deleteProfile('k2', 1000)).toBe(true);
+    expect(s.profiles.listProfiles().map((p) => p.id)).toEqual(['p1', 'k1']);
+    expect(await s.profiles.restoreProfile('k2', 2000)).toBe(true);
+    expect(s.storage.readSlotSummaryOf('k2', { mode: 'edu', index: 1 })).not.toBeNull();
+  });
+});
+
 describe('storage filled to quota (R0623)', () => {
   it('frees archived unreadable copies, then saves; when truly full says so without throwing', async () => {
     const s = await boot();

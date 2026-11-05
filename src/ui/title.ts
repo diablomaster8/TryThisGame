@@ -33,6 +33,8 @@ import {
   keeperProfile,
   readSlotSummaryOf,
   setKeeperProfile,
+  childProfile,
+  setChildProfile,
   type SaveMode,
   type SaveSlot,
   type SaveSummary,
@@ -61,7 +63,14 @@ import '../camp-r11.css';
 /* Lane C r11 helper "profiles" (R0598, R0621, R0627, R0628, R0653) */
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
 import { continueSlot } from './install-hint';
-import { FIXED_PROFILES, listProfiles, markLastProfile, purgeDeleted } from '../platform/profiles';
+import { unifiedActive } from '../platform/unified-keys';
+import {
+  FIXED_PROFILES,
+  listProfiles,
+  markLastProfile,
+  profileById,
+  purgeDeleted,
+} from '../platform/profiles';
 
 /** R0621: the big Continue, or nothing when no slot was played yet. */
 function continueHeader(
@@ -81,7 +90,7 @@ function continueHeader(
 /** Does the title open on "Who's playing?" (a child's Grove, or more than the two profiles)? */
 function pickerDue(): boolean {
   const kids = Array.from({ length: slotsFor('edu') }, (_, i) =>
-    hasSave({ mode: 'edu', index: i + 1 }),
+    readSlotSummaryOf('k1', { mode: 'edu', index: i + 1 }),
   ).some(Boolean);
   return kids || listProfiles().length > FIXED_PROFILES.length;
 }
@@ -257,10 +266,23 @@ export function showTitle(
     // Lane C r11 (R0611): the four questline saves sit in one fold, since the Grove offers
     // those lines in its own regions; the fold opens when any of them already has a save.
     const ROADS: SaveMode[] = ['hundred', 'logged', 'beetle', 'dawndusk'];
+    // R0611 (round 13): with the unified slots the lines are begun in their regions, so only a
+    // road that already has a separate save is listed here (no empty "new" cards for them).
+    const inWorld = unifiedActive();
     const roads = el('details', 'title-roads');
     roads.appendChild(el('summary', 'title-roads-sum', C11_TEXT.roadsHead));
     roads.appendChild(el('p', 'help', C11_TEXT.roadsHelp));
     for (const mode of order) {
+      const isRoad = ROADS.includes(mode);
+      if (
+        inWorld &&
+        isRoad &&
+        !Array.from(
+          { length: slotsFor(mode) },
+          (_, i) => slotIndex.slots[slotId({ mode, index: i + 1 })],
+        ).some(Boolean)
+      )
+        continue;
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
       section.appendChild(el('div', 'title-mode-name', modeName));
@@ -273,6 +295,7 @@ export function showTitle(
         const row = el('div', 'title-slot');
         const entry = slotIndex.slots[slotId(slot)];
         const filled = entry !== undefined;
+        if (inWorld && isRoad && !filled) continue;
         const summary = entry?.summary ?? null;
         if (filled) {
           const main = button(
@@ -670,16 +693,31 @@ export function showTitle(
         parent,
         onKeeper: (p) => {
           // R0653: that Keeper's own slots (only p1 has any before the unified slots).
+          setChildProfile('k1');
           setKeeperProfile(p.id);
           markLastProfile(keeperProfile());
           mainMenu();
         },
-        onChild: (slot) => finish({ slot, fresh: false, trainer: null }),
+        onChild: (slot, profile) => {
+          setChildProfile(profile);
+          finish({ slot, fresh: false, trainer: null });
+        },
+        onNewChild: (profile) => {
+          // R0653: a child profile with no Grove yet starts one in its first free slot.
+          setChildProfile(profile);
+          const free = Array.from({ length: slotsFor('edu') }, (_, i) => i + 1).find(
+            (index) => !hasSave({ mode: 'edu', index }),
+          );
+          if (free === undefined) return say(PROFILE_TEXT.childFull);
+          ageMenu({ mode: 'edu', index: free });
+        },
         redraw: () => whoMenu(),
       }),
     );
   };
 
+  // A child profile deleted in a past visit does not stay in play.
+  if (!profileById(childProfile())) setChildProfile('k1');
   if (pickerDue() && !focusMode) whoMenu();
   else mainMenu();
   // R0598 stage B: the one-time move (off until SAVE_LAYOUT.unifiedSlots), then its card.
