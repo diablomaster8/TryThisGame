@@ -22,6 +22,15 @@ export interface Decal {
   atMs: number;
 }
 
+export interface Ball {
+  fromX: number;
+  fromZ: number;
+  toX: number;
+  toZ: number;
+  startMs: number;
+  endMs: number;
+}
+
 interface Later {
   id: string;
   atMs: number;
@@ -32,6 +41,8 @@ interface Later {
 
 interface Store {
   snow: Decal[];
+  /** R0562: snowballs in the air (a lob, drawn by the renderers from `snowballsOf`). */
+  balls: Ball[];
   puddles: Decal[];
   later: Later[];
   snowEndedMs: number;
@@ -46,7 +57,16 @@ const stores = new WeakMap<World, Store>();
 function store(world: World): Store {
   let s = stores.get(world);
   if (!s) {
-    s = { snow: [], puddles: [], later: [], snowEndedMs: 0, rainEndedMs: 0, acts: {}, seq: 0 };
+    s = {
+      snow: [],
+      balls: [],
+      puddles: [],
+      later: [],
+      snowEndedMs: 0,
+      rainEndedMs: 0,
+      acts: {},
+      seq: 0,
+    };
     stores.set(world, s);
   }
   return s;
@@ -55,6 +75,16 @@ function store(world: World): Store {
 export const weatherPlayActs = (world: World): Readonly<Record<string, number>> =>
   store(world).acts;
 export const snowFigures = (world: World): readonly Decal[] => stores.get(world)?.snow ?? [];
+/** A snowball's place on its lob at `timeMs`, for the renderers. y is the height above the ground. */
+export function ballAt(b: Ball, timeMs: number): { x: number; y: number; z: number } {
+  const k = Math.max(0, Math.min(1, (timeMs - b.startMs) / (b.endMs - b.startMs)));
+  return {
+    x: b.fromX + (b.toX - b.fromX) * k,
+    y: 0.5 + Math.sin(k * Math.PI) * WEATHER_PLAY.lobHeight,
+    z: b.fromZ + (b.toZ - b.fromZ) * k,
+  };
+}
+export const snowballsOf = (world: World): readonly Ball[] => stores.get(world)?.balls ?? [];
 export const puddlesOf = (world: World): readonly Decal[] => stores.get(world)?.puddles ?? [];
 
 const PLAY = [
@@ -170,6 +200,14 @@ function choose(world: World, s: Store, n: Nubbin, now: number): boolean {
       act(n, now, 'snowball', W.snowballMs);
       n.facing = Math.atan2(friend.pos.x - n.pos.x, friend.pos.z - n.pos.z);
       s.later.push({ id: n.id, atMs: now + 900, what: 'snowHit', other: friend.id });
+      s.balls.push({
+        fromX: n.pos.x,
+        fromZ: n.pos.z,
+        toX: friend.pos.x,
+        toZ: friend.pos.z,
+        startMs: now + 250,
+        endMs: now + 900,
+      });
       count(s, 'snowball');
     }
     return true;
@@ -216,11 +254,13 @@ export function stepWeatherPlay(
   const s = store(world);
   if (offline || !soulLive() || world.location !== 'grove') {
     s.later = [];
+    s.balls = [];
     return;
   }
   const now = world.timeMs;
   const second = Math.floor(now / 1000) !== Math.floor((now - dtMs) / 1000);
   stepDecals(world, s, now, second);
+  if (s.balls.length) s.balls = s.balls.filter((b) => b.endMs + 200 > now);
   runLater(world, s, now, events);
   if (!second) return;
   const lively = liveliness(world);

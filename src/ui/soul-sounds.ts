@@ -32,6 +32,18 @@ export function playSoulSounds(events: readonly SimEvent[], world: World, timeSc
       } else playPerform(e.lesson, e.level, instrumentOf(n), voice.pitch, sv);
     } else if (e.kind === 'chatTurn') {
       const n = world.nubbins.find((x) => x.id === e.nubbinId);
+      // R0555: a joiner layers its own instrument under whoever already plays.
+      const playing = world.nubbins.filter(
+        (o) =>
+          o !== n &&
+          o.behavior.state === 'perform' &&
+          jamLessonIds.has(o.behavior.itemId ?? '') &&
+          Math.hypot(o.pos.x - n.pos.x, o.pos.z - n.pos.z) < 6,
+      ).length;
+      if (playing > 0) playJamLayer(playing, instrumentOf(n), voice.pitch);
+    } else if (e.kind === 'hum') {
+      const n = world.nubbins.find((x) => x.id === e.nubbinId);
+      if (n) playMotif(n.seed, chirpVoice(n.id, n.personality).pitch, false);
       if (!n) continue;
       const voice = chirpVoice(n.id, n.personality);
       // Turn about: the first voice a little high, the answer a little low.

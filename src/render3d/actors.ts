@@ -558,8 +558,15 @@ export class Actors {
             : spot;
   }
 
+  /** R0585: ambient sprites and puddles the last frame drew (debug panel). */
+  get ambientDrawn(): number {
+    return this.ambient3d.drawn;
+  }
+
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** R0585: set by the frame governor; hides the ambient critters first. */
+  shedAmbient = false;
   /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
   sigFx: SignatureFx | null = null;
   /** LOOK-21 (lane E r10): the crying Nubbins' tear streams, set by the scene. */
@@ -1503,7 +1510,8 @@ export class Actors {
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
     this.perform3d.finish(world, this.location === 'grove', live, nowMs);
-    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm);
+    this.ambient3d.burst = this.beatBurst;
+    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm, this.shedAmbient);
 
     // The Keeper.
     if (this.keeperSquash) {

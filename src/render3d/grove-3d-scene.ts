@@ -2206,6 +2206,11 @@ export class Grove3dScene {
     return p;
   }
 
+  /** R0585: ambient critters and puddles drawn last frame (debug panel). */
+  get ambientDrawn(): number {
+    return this.actors.ambientDrawn;
+  }
+
   /**
    * Feed the governor one frame interval and apply its render scale to the renderer and to
    * `composer` (the Grove's, or a minigame stage's on the same renderer).

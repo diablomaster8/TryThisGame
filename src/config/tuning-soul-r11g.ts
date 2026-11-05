@@ -109,6 +109,8 @@ export const WEATHER_PLAY = {
   snowballMs: 2_200,
   snowBuildMs: 8_000,
   snowmanMax: 4,
+  /** A thrown snowball peaks this high above its 0.5 start (R0562). */
+  lobHeight: 1.6,
   /** Snow figures and puddles go this long after the weather that made them ends. */
   meltMs: 25_000,
   puddleMax: 6,
