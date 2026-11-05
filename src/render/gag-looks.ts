@@ -8,7 +8,7 @@
  */
 
 import type { EmoteShape } from './sprites/emote';
-import type { PoseName } from '../samples/species';
+import type { PoseName } from '../render3d/art/species';
 
 export type GagPersonality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 

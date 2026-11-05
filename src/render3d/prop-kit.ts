@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { StoryPropKind } from '../sim/story-props';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { bevelBox, buildingMaterial } from './building-kit';
 import { KIT_SHARED } from './kit-buildings';
 

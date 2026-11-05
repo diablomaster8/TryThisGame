@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { keepsakeLook, type KeepsakeLook } from '../config/keepsake-looks';
 import type { DressItem } from '../render/dress-d-rules';
 import { shelfSlot } from '../render/dress-d-rules';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { Parts, arc, box, buildStoryProp, cyl, shellRow, sph } from './prop-kit';
 
 /**
