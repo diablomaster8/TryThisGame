@@ -84,6 +84,8 @@ const POSE_STATE: Record<string, VisualState | null> = {
   surprised: 'surprised',
   tumble: 'tumble',
   pet: 'held',
+  // R0583: the start-line yawn reads as an idle body.
+  yawn: 'idle',
   carry: null,
   throw: null,
   kneel: null,

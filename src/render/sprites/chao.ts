@@ -483,7 +483,7 @@ export type EyeState = 'open' | 'closed' | 'happy' | 'half' | 'dizzy' | 'wide';
  * a wide wail when crying, a munch while eating, a pout (Mischievous), flat asleep.
  */
 export type MouthState =
-  'smile' | 'flat' | 'open' | 'o' | 'wail' | 'munch' | 'pout' | 'sad' | 'none';
+  'smile' | 'flat' | 'open' | 'o' | 'wail' | 'munch' | 'pout' | 'sad' | 'tongue' | 'none';
 /** `rubA`/`rubB`: both fists at the eyes, crying (LOOK-21); the A hand presses higher. */
 export type ArmPose = 'down' | 'up' | 'out' | 'swingA' | 'swingB' | 'rubA' | 'rubB';
 
@@ -1702,6 +1702,18 @@ function drawFace(
       pc.px(mouthX, my, col.eye);
       pc.px(mouthX + 1, my + 1, col.eye);
       break;
+    case 'tongue':
+      // R0583: a cheeky grin with the tongue stuck out (the mischievous start-line tease).
+      if (angle === 'side') {
+        pc.rect(mouthX - 1, my, 3, 1, col.eye);
+        pc.rect(mouthX, my + 1, 2, 2, C.rose);
+        pc.px(mouthX + 1, my + 2, C.berry);
+      } else {
+        pc.thinLine(mouthX - 2, my, mouthX + 2, my, col.eye);
+        pc.rect(mouthX - 1, my + 1, 3, 2, C.rose);
+        pc.px(mouthX, my + 2, C.berry);
+      }
+      break;
     case 'none':
       break;
   }
@@ -2188,6 +2200,16 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
         ),
       );
     }
+    // R0583: the mischievous start-line tease: grinning with the tongue out, a head wag.
+    for (let f = 0; f < 2; f++)
+      atlas.add(
+        frameKey('tease', angle, f),
+        drawChao(
+          angle,
+          { ...BASE, eyes: f ? 'open' : 'happy', mouth: 'tongue', headDrop: f, lift: -f },
+          look,
+        ),
+      );
     atlas.add(
       frameKey('glide', angle, 0),
       drawChao(angle, { ...BASE, wings: 2, legs: 'tucked', arms: 'out', lift: -2 }, look),
