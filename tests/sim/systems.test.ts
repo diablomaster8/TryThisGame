@@ -63,6 +63,6 @@ describe('step systems', () => {
     const w = createWorld(1, 0);
     const ctx = { world: w, dtMs: 100, wallMs: 0, offline: false, countPlay: true, events: [] };
     for (let i = 0; i < 25; i++) runSystems([slow], ctx, (_w, fn) => fn(null as never));
-    expect(seen).toEqual([1000, 1000]);
+    expect(seen).toEqual([100, 1000, 1000]);
   });
 });

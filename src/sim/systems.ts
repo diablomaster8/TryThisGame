@@ -78,8 +78,10 @@ function due(s: SimSystem, ctx: StepCtx): StepCtx | null {
   if (s.everyMs === undefined) return ctx;
   let map = waited.get(ctx.world);
   if (!map) waited.set(ctx.world, (map = new Map()));
-  const total = (map.get(s.id) ?? 0) + ctx.dtMs;
-  if (total < s.everyMs) {
+  // The first call for a world runs at once, so a fresh world is scanned on its first step.
+  const prior = map.get(s.id);
+  const total = (prior ?? 0) + ctx.dtMs;
+  if (prior !== undefined && total < s.everyMs) {
     map.set(s.id, total);
     return null;
   }

@@ -86,6 +86,7 @@ import {
   type World,
 } from './types';
 import { hatchInArms } from './hatch-arms';
+import { SYSTEM_THROTTLE } from '../config/tuning-r13d3';
 import { stepLevelWatch } from './level-watch';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
 import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
@@ -377,7 +378,7 @@ const plainSys = (
  * Every step system, in the order the step has always run them. The numbers leave room to
  * slot a new one in: pick a gap, and mind that rng systems (inside `withRng`) come first.
  */
-export const SYSTEMS: readonly SimSystem[] = orderSystems([
+const SYSTEM_LIST: readonly SimSystem[] = [
   rngSys('trees', 10, ALWAYS, ({ world, dtMs, events }, rng) =>
     updateTrees(world, dtMs, rng, events),
   ),
@@ -501,7 +502,17 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   plainSys('old-soul-calm', 650, ALWAYS, ({ world, events }) =>
     calmEternalReactions(world, events),
   ),
-]);
+];
+
+/**
+ * R0476: systems that only scan state (where is the Keeper, what is in reach, which season)
+ * and never read this step's events run twice a second, not ten times. Their results do not
+ * depend on how often they run; the runner hands each the time it waited.
+ */
+const THROTTLED = new Set<string>(SYSTEM_THROTTLE.ids);
+export const SYSTEMS: readonly SimSystem[] = orderSystems(
+  SYSTEM_LIST.map((s) => (THROTTLED.has(s.id) ? { ...s, everyMs: SYSTEM_THROTTLE.everyMs } : s)),
+);
 
 /**
  * One fixed step with full fidelity. Returns the events that happened. `offline` is set by
