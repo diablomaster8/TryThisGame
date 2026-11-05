@@ -39,6 +39,7 @@ export const REGION_CRITTERS: Record<string, RegionCritters | undefined> = {
   },
   // R12 d2: the other drawn regions, each with the animals its biome would hold. A table with no
   // `spots` has them placed on open, reachable ground by `sim/region-critters.ts`, seeded per region.
+  lane: { types: ['normal', 'run'], species: ['sheep', 'rabbit', 'raccoon'], spots: [] },
   shore: { types: ['swim'], species: ['penguin', 'seal', 'turtle'], spots: [] },
   ridge: { types: ['fly'], species: ['condor', 'swallow', 'peacock'], spots: [] },
   ruins: { types: ['power', 'normal'], species: ['wolf', 'skunk', 'gorilla'], spots: [] },

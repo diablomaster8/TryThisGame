@@ -9,6 +9,7 @@ import type { RegionId } from './regions';
  * - `KEEPSAKE_SPOTS`: how far apart a region's seeded collectibles stand.
  */
 export const SET_REWARDS: Partial<Record<RegionId, { decor: DecorKind; hat: string }>> = {
+  lane: { decor: 'flowerbed', hat: 'flower' },
   wood: { decor: 'springShroom', hat: 'beanie' },
   shore: { decor: 'rockPile', hat: 'straw' },
   ruins: { decor: 'statue', hat: 'bucket' },
@@ -40,6 +41,7 @@ export const WILD_NUBBIN = {
   /** Fruit it takes. */
   fruit: 1,
   regions: {
+    lane: { types: ['normal', 'run'], names: ['Latch', 'Hedge', 'Biscuit'] },
     wood: { types: ['power', 'normal'], names: ['Burl', 'Tansy', 'Moss'] },
     shore: { types: ['swim'], names: ['Skerry', 'Pebble', 'Brine'] },
     ridge: { types: ['fly'], names: ['Gust', 'Fell', 'Pip'] },

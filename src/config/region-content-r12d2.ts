@@ -6,10 +6,11 @@ import type { RegionId } from './regions';
  * nearest open, reachable ground, so a later change to a region's layout cannot strand one.
  * Keyed by region id, so a new drawn region adds a row.
  */
-export type DrawnId = 'wood' | 'shore' | 'ridge' | 'ruins' | 'sunlands' | 'moonlands';
+export type DrawnId = 'lane' | 'wood' | 'shore' | 'ridge' | 'ruins' | 'sunlands' | 'moonlands';
 
 /** R0138 (WORLD-72): the photo frame, set where the region's beacon stands in view. */
 export const PHOTO_NEAR: Readonly<Record<DrawnId, { x: number; z: number }>> = {
+  lane: { x: 0, z: -40 },
   wood: { x: -12, z: -24 },
   shore: { x: 50, z: 9 },
   ridge: { x: 0, z: -50 },
@@ -20,6 +21,7 @@ export const PHOTO_NEAR: Readonly<Record<DrawnId, { x: number; z: number }>> = {
 
 /** R0136 (WORLD-70): where each region's 8 x 8 build plot wants to sit (open ground, off the path). */
 export const PLOT_NEAR: Readonly<Record<DrawnId, { x: number; z: number }>> = {
+  lane: { x: 0, z: 14 },
   wood: { x: 20, z: 24 },
   shore: { x: -26, z: -12 },
   ridge: { x: 14, z: 40 },
@@ -32,7 +34,7 @@ export const PLOT_NEAR: Readonly<Record<DrawnId, { x: number; z: number }>> = {
 export const PETALS: Readonly<Record<RegionId, { name: string; colour: string } | undefined>> = {
   'little-grove': undefined,
   grove: { name: 'clover petal', colour: '#f2a6c4' },
-  lane: undefined,
+  lane: { name: 'hedge-rose petal', colour: '#e8738f' },
   village: undefined,
   shore: { name: 'sea-thrift petal', colour: '#f08fb0' },
   wood: { name: 'foxglove petal', colour: '#b87ad8' },

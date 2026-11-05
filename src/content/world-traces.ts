@@ -137,6 +137,37 @@ export const WORLD_TRACES: WorldTrace[] = [
     ],
     childLines: {},
   },
+  // The Lane
+  {
+    id: 'lane-squeaky-gate',
+    region: 'lane',
+    at: { x: 0, z: -34 },
+    lines: [
+      { who: 'narrator', text: 'A garden gate hangs open and squeaks in the breeze, always on the same note.' },
+      { who: 'narrator', text: 'Nobody oils it. The neighbours say it tells them who is home.', mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'lane-postbox',
+    region: 'lane',
+    at: { x: 0, z: -4 },
+    lines: [
+      { who: 'narrator', text: 'A postbox leans against the hedge, its flag stuck halfway up.' },
+      { who: 'narrator', text: 'Inside is one letter, addressed to "Whoever is next". It is not yours, yet.' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'lane-clipped-hedge',
+    region: 'lane',
+    at: { x: 0, z: 22 },
+    lines: [
+      { who: 'narrator', text: 'Somebody has clipped the hedge into a round, lopsided Nubbin.' },
+      { who: 'narrator', text: 'One ear is longer than the other. It looks very pleased with itself.', mood: 'happy' },
+    ],
+    childLines: {},
+  },
   // The Shore
   {
     id: 'shore-bottle',
