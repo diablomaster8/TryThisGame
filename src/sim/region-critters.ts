@@ -1,5 +1,7 @@
+import type { RegionId } from '../config/regions';
 import { CRITTER_RULES, REGION_CRITTERS, type CritterSpot } from '../config/region-wild';
 import { regionOf } from './regions';
+import { scatterSpots } from './region-spots';
 import { hashSeed } from './rng';
 import { speciesById } from './critters';
 import type { SimEvent, World } from './types';
@@ -19,6 +21,18 @@ export interface LiveCritter {
 }
 
 const key = (region: string, id: string) => `cspot:${region}:${id}`;
+
+/** A region's critter spots: its table's own, or five seeded ones on open ground (R12 d2). */
+export function spotsOf(region: string): readonly CritterSpot[] {
+  const table = REGION_CRITTERS[region];
+  if (!table) return [];
+  if (table.spots.length > 0) return table.spots;
+  return scatterSpots(region as RegionId, 'critters', 5, 14).map((p, i) => ({
+    id: `s${i + 1}`,
+    x: p.x,
+    z: p.z,
+  }));
+}
 
 /** How many times a spot has been taken (kept in `world.collected` as `cspot:<region>:<id>`). */
 function takenAt(world: Pick<World, 'collected'>, region: string, id: string): number | undefined {
@@ -43,7 +57,7 @@ export function liveCritters(world: World): LiveCritter[] {
   const table = REGION_CRITTERS[region];
   if (!table) return [];
   const out: LiveCritter[] = [];
-  for (const s of table.spots) {
+  for (const s of spotsOf(region)) {
     const at = takenAt(world, region, s.id);
     if (at !== undefined && world.timeMs - at < CRITTER_RULES.respawnMs) continue;
     const takes = (world.critterTakes ??= {})[key(region, s.id)] ?? 0;

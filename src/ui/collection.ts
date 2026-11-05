@@ -29,7 +29,7 @@ import { allKeys, BOOK_TABS, tabOf, tabProgress, type BookTab } from '../sim/col
 import { createEgg } from '../sim/nubbin';
 import { Rng } from '../sim/rng';
 import type { AlignmentBand, Memorial, Nubbin, NubbinType, World } from '../sim/types';
-import { POSTCARD_NOTES } from '../config/strings-r11d6';
+import { POSTCARD_NOTES_ALL as POSTCARD_NOTES } from '../config/strings-r12d2';
 import type { CollectibleKind } from '../config/region-collectibles';
 import type { RegionId } from '../config/regions';
 import { WORLD_TEXT } from '../config/strings-world';

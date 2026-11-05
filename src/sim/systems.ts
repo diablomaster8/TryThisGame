@@ -36,7 +36,11 @@ interface SystemBase {
   id: string;
   order: number;
   runs: SystemRuns;
-  /** Run at most once per this many sim ms (not used yet: every system still runs each step). */
+  /**
+   * Run at most once per this many sim ms, with `dtMs` set to the time since it last ran.
+   * Only for systems whose result does not depend on how often they run; the runner keeps
+   * the wait outside the World, so saves and the step hash never see it.
+   */
   everyMs?: number;
 }
 export interface RngSystem extends SystemBase {
@@ -65,15 +69,40 @@ export function orderSystems(list: readonly SimSystem[]): SimSystem[] {
   return sorted;
 }
 
+/** Time each throttled system has waited, per world (outside the save). */
+const waited = new WeakMap<World, Map<string, number>>();
+
+/** Whether `s` runs this step; a throttled system also gets its accumulated dt. */
+function due(s: SimSystem, ctx: StepCtx): StepCtx | null {
+  if (!(ctx.offline ? s.runs.offline : s.runs.live)) return null;
+  if (s.everyMs === undefined) return ctx;
+  let map = waited.get(ctx.world);
+  if (!map) waited.set(ctx.world, (map = new Map()));
+  const total = (map.get(s.id) ?? 0) + ctx.dtMs;
+  if (total < s.everyMs) {
+    map.set(s.id, total);
+    return null;
+  }
+  map.set(s.id, 0);
+  return { ...ctx, dtMs: total };
+}
+
 /** Run the ordered systems for one step. */
 export function runSystems(
   sorted: readonly SimSystem[],
   ctx: StepCtx,
   withRng: (world: World, fn: (rng: Rng) => void) => void,
 ): void {
-  const on = (s: SimSystem): boolean => (ctx.offline ? s.runs.offline : s.runs.live);
   withRng(ctx.world, (rng) => {
-    for (const s of sorted) if (s.rng && on(s)) s.step(ctx, rng);
+    for (const s of sorted) {
+      if (!s.rng) continue;
+      const c = due(s, ctx);
+      if (c) s.step(c, rng);
+    }
   });
-  for (const s of sorted) if (!s.rng && on(s)) s.step(ctx);
+  for (const s of sorted) {
+    if (s.rng) continue;
+    const c = due(s, ctx);
+    if (c) s.step(c);
+  }
 }

@@ -10,10 +10,23 @@ import type { Personality } from '../sim/types';
  * rivalry on top. Symmetric; a child with no leaning yet counts as 1.
  */
 export const FRIEND_COMPAT: Record<Personality, Record<Personality, number>> = {
-  cheerful: { cheerful: 1.0, shy: 1.6, mischievous: 1.3, lazy: 0.7 },
-  shy: { cheerful: 1.6, shy: 0.8, mischievous: 0.5, lazy: 1.3 },
-  mischievous: { cheerful: 1.3, shy: 0.5, mischievous: 1.1, lazy: 0.5 },
-  lazy: { cheerful: 0.7, shy: 1.3, mischievous: 0.5, lazy: 1.4 },
+  // prettier-ignore
+  cheerful: { cheerful: 1.0, shy: 1.6, mischievous: 1.3, lazy: 0.7, curious: 1.3, gentle: 1.2, bold: 1.1, dreamy: 0.9 },
+  // prettier-ignore
+  shy: { cheerful: 1.6, shy: 0.8, mischievous: 0.5, lazy: 1.3, curious: 0.9, gentle: 1.6, bold: 0.5, dreamy: 1.3 },
+  // prettier-ignore
+  mischievous: { cheerful: 1.3, shy: 0.5, mischievous: 1.1, lazy: 0.5, curious: 1.4, gentle: 0.9, bold: 1.2, dreamy: 0.6 },
+  // prettier-ignore
+  lazy: { cheerful: 0.7, shy: 1.3, mischievous: 0.5, lazy: 1.4, curious: 0.6, gentle: 1.2, bold: 0.5, dreamy: 1.5 },
+  // R0529: the second four (kept symmetric with the rows above).
+  // prettier-ignore
+  curious: { cheerful: 1.3, shy: 0.9, mischievous: 1.4, lazy: 0.6, curious: 1.1, gentle: 1.0, bold: 1.2, dreamy: 1.2 },
+  // prettier-ignore
+  gentle: { cheerful: 1.2, shy: 1.6, mischievous: 0.9, lazy: 1.2, curious: 1.0, gentle: 1.1, bold: 0.8, dreamy: 1.4 },
+  // prettier-ignore
+  bold: { cheerful: 1.1, shy: 0.5, mischievous: 1.2, lazy: 0.5, curious: 1.2, gentle: 0.8, bold: 0.9, dreamy: 0.6 },
+  // prettier-ignore
+  dreamy: { cheerful: 0.9, shy: 1.3, mischievous: 0.6, lazy: 1.5, curious: 1.2, gentle: 1.4, bold: 0.6, dreamy: 1.0 },
 };
 
 export const RIVALS = {
@@ -101,7 +114,17 @@ export const COTTAGE_HIDE = {
  * lazy doze). Chance per plain sit or wander pick for an adult; a leaning child at half.
  */
 export const QUIRKS = {
-  chance: { cheerful: 0.6, mischievous: 0.7, shy: 0.4, lazy: 0.4 },
+  // R0529: the second four's quirks are in sim/quirks.ts with their spans in tuning-soul-r11.
+  chance: {
+    cheerful: 0.6,
+    mischievous: 0.7,
+    shy: 0.4,
+    lazy: 0.4,
+    curious: 0.6,
+    gentle: 0.5,
+    bold: 0.6,
+    dreamy: 0.5,
+  },
   childStrength: 0.5,
   /** Cheerful: a happy twirl on the spot. */
   twirlMs: [2_500, 4_000] as const,

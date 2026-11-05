@@ -4,15 +4,15 @@
  * not as font outlines: the glyph itself shows underneath in Klee One. Stroke counts:
  * あ 3, い 2, う 2, え 2, お 3, か 3, き 4, く 1, け 3, こ 2, は 3, な 4.
  */
-import type { Pt } from './trace-check';
+import type { ScreenPt } from './trace-check';
 
-const P = (...xy: number[]): Pt[] => {
-  const out: Pt[] = [];
+const P = (...xy: number[]): ScreenPt[] => {
+  const out: ScreenPt[] = [];
   for (let i = 0; i + 1 < xy.length; i += 2) out.push({ x: xy[i]!, y: xy[i + 1]! });
   return out;
 };
 
-export const KANA_STROKES: Readonly<Record<string, Pt[][]>> = {
+export const KANA_STROKES: Readonly<Record<string, ScreenPt[][]>> = {
   // The five vowels (LJ2 step 1).
   あ: [
     P(20, 30, 44, 29, 70, 26),

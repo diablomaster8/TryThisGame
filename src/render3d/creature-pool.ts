@@ -28,6 +28,7 @@ import { costumeOf } from '../sim/wear';
 import { SculptFarm } from './sculpt-farm';
 import { qualityForRes } from './sculpt-res';
 import { stubOnce } from './stubs';
+import { POOL_SHED } from '../config/tuning-r12d3';
 import { glbFor, glbRig } from './glb-art';
 
 /**
@@ -135,6 +136,22 @@ export function grandchildLookKey(trainerId: string, side: Keeper['alignment']):
   return `grandchild-${side}~outfit:${trainerId}`;
 }
 
+/** R0456 (r12-d3): what `lowSurface` reads from a full-grid surface. */
+interface SurfaceShape {
+  count: number;
+  x: number;
+  y: number;
+  z: number;
+  box: Box3;
+}
+
+function shapeOf(g: BufferGeometry): SurfaceShape | null {
+  const p = g.attributes.position;
+  if (!p) return null;
+  g.computeBoundingBox();
+  return { count: p.count, x: p.getX(0), y: p.getY(0), z: p.getZ(0), box: g.boundingBox!.clone() };
+}
+
 /** Triangles in a mesh's geometry. */
 function triangles(m: Mesh): number {
   const g = m.geometry;
@@ -146,6 +163,11 @@ export class CreaturePool {
   private readonly farm = new SculptFarm();
   /** Marched surfaces by look key, once the workers have them. */
   private readonly ready = new Map<string, BufferGeometry[]>();
+  /**
+   * R0456 (r12-d3): each surface's vertex count, first vertex and bounds, kept after a shed
+   * look (`POOL_SHED`) lets go of `ready`, so `lowSurface` can still place its coarse copy.
+   */
+  private readonly shapes = new Map<string, Array<SurfaceShape | null>>();
   private readonly asked = new Set<string>();
   /** R0079: coarse-grid surfaces by look key, for the stand-ins, and the looks asked for. */
   private readonly low = new Map<string, BufferGeometry[]>();
@@ -340,6 +362,7 @@ export class CreaturePool {
   private evict(): void {
     // Never while the loading veil is up: every warm look is about to be needed.
     if (this.burst) return;
+    this.shed();
     const spares = [...this.free.entries()].map(([k, l]) => [k, l.length] as const);
     for (const key of evictionOrder(spares, this.used, this.spareCap)) this.discard(key);
     const looks = [...this.ready.keys()]
@@ -354,6 +377,27 @@ export class CreaturePool {
       this.dropLow(key);
       this.asked.delete(key);
       this.used.delete(key);
+    }
+  }
+
+  /**
+   * R0456 (r12-d3): drop the CPU surfaces of a person's look (`POOL_SHED`) once its rig is
+   * built and none is still compiling; `shapes` keeps what the stand-in
+   * needs. A later rig of the look reads them back from the sculpt cache.
+   */
+  private shed(): void {
+    for (const key of [...this.ready.keys()]) {
+      if (!POOL_SHED.prefixes.some((p) => key.startsWith(p))) continue;
+      if (this.compilingKey.has(key)) continue;
+      let built = (this.free.get(key)?.length ?? 0) > 0;
+      for (const rig of this.lent) built ||= rig.group.userData.lookKey === key;
+      if (!built) continue;
+      const geos = this.ready.get(key) ?? [];
+      this.shapes.set(key, geos.map(shapeOf));
+      for (const g of geos) g.dispose();
+      this.farm.forget(key, this.quality);
+      this.ready.delete(key);
+      this.asked.delete(key);
     }
   }
 
@@ -427,20 +471,19 @@ export class CreaturePool {
     const i = part.userData.surf as number | undefined;
     const low = this.low.get(key);
     if (i === undefined || !low) return null;
-    const full = this.ready.get(key)?.[i];
+    const g = this.ready.get(key)?.[i];
+    const full = g ? shapeOf(g) : this.shapes.get(key)?.[i];
     const src = low[i];
     if (!full || !src) return null;
     // The part is its surface moved to the pivot (`buildSpecies`): find the move from the first
     // vertex and check it against the bounds, so a part built any other way keeps its own.
     const a = part.attributes.position!;
-    const b = full.attributes.position!;
-    if (a.count !== b.count) return null;
-    const dx = a.getX(0) - b.getX(0);
-    const dy = a.getY(0) - b.getY(0);
-    const dz = a.getZ(0) - b.getZ(0);
+    if (a.count !== full.count) return null;
+    const dx = a.getX(0) - full.x;
+    const dy = a.getY(0) - full.y;
+    const dz = a.getZ(0) - full.z;
     part.computeBoundingBox();
-    full.computeBoundingBox();
-    const moved = full.boundingBox!.clone().translate(new Vector3(dx, dy, dz));
+    const moved = full.box.clone().translate(new Vector3(dx, dy, dz));
     const off =
       moved.min.distanceTo(part.boundingBox!.min) + moved.max.distanceTo(part.boundingBox!.max);
     if (off > 1e-3) return null;

@@ -354,6 +354,8 @@ export interface StorylineChapter {
   /** R0646: what happened in this chapter, in the past tense; else `content/pitches.ts`. */
   recap?: string;
   beats?: StorylineBeat[];
+  /** R0650: the line area where this chapter happens (see `chapter-areas.ts`); none = anywhere. */
+  area?: string;
 }
 
 export interface Storyline {

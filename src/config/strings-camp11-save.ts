@@ -50,4 +50,13 @@ export const SAVE_LAYOUT_TEXT = {
   visitOthers: "Visit another Keeper's Grove",
   visitOthersHelp: 'Walk round and look. Nothing you see is changed or saved.',
   visitSlot: (keeper: string, where: string) => `Visit ${keeper}: ${where}`,
+  /** R0669 (round 13): the banner over a visit, and its way out. */
+  visitBanner: (keeper: string) => `Visiting ${keeper}'s Grove · look, don't touch`,
+  visitLeave: 'Leave visit',
+  visitLeaveLabel: 'Leave the visit and go back to the title',
+  /** Round 13: the picker in the More menu, and the way home when the visit began there. */
+  visitClose: 'Close',
+  visitNone: 'No other Keeper has a Grove saved on this device yet.',
+  visitMenu: "Visit a Keeper's Grove",
+  visitLeaveHome: 'Leave the visit and go back to your own Grove',
 } as const;

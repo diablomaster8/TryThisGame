@@ -4,16 +4,15 @@
  * stroke and ends near its end. Hebrew: no stroke order beyond right to left, so a letter
  * counts once the finger has covered enough of its ink. Pure geometry, no DOM.
  */
-export interface Pt {
-  x: number;
-  y: number;
-}
+import type { ScreenPt } from './joystick-math';
 
-const dist = (a: Pt, b: Pt): number => Math.hypot(a.x - b.x, a.y - b.y);
+export type { ScreenPt } from './joystick-math';
+
+const dist = (a: ScreenPt, b: ScreenPt): number => Math.hypot(a.x - b.x, a.y - b.y);
 
 /** Points every `step` units along a polyline, ends included. */
-export function resample(line: readonly Pt[], step = 4): Pt[] {
-  const out: Pt[] = [];
+export function resample(line: readonly ScreenPt[], step = 4): ScreenPt[] {
+  const out: ScreenPt[] = [];
   if (line.length === 0) return out;
   out.push(line[0]!);
   for (let i = 1; i < line.length; i++) {
@@ -26,14 +25,14 @@ export function resample(line: readonly Pt[], step = 4): Pt[] {
   return out;
 }
 
-function near(p: Pt, pts: readonly Pt[], radius: number): boolean {
+function near(p: ScreenPt, pts: readonly ScreenPt[], radius: number): boolean {
   return pts.some((q) => dist(p, q) <= radius);
 }
 
 /** Did this drag trace this stroke, in its direction? */
 export function strokeMet(
-  stroke: readonly Pt[],
-  drag: readonly Pt[],
+  stroke: readonly ScreenPt[],
+  drag: readonly ScreenPt[],
   radius: number,
   cover: number,
 ): boolean {
@@ -49,15 +48,19 @@ export function strokeMet(
 }
 
 /** Share of a letter's ink points the drags have passed over. */
-export function inkCovered(ink: readonly Pt[], drags: readonly Pt[][], radius: number): number {
+export function inkCovered(
+  ink: readonly ScreenPt[],
+  drags: readonly ScreenPt[][],
+  radius: number,
+): number {
   if (ink.length === 0) return 1;
   const path = drags.flatMap((d) => resample(d, 3));
   return ink.filter((p) => near(p, path, radius)).length / ink.length;
 }
 
 /** Where a right-to-left letter starts: its rightmost ink, topmost of those. */
-export function rightStart(ink: readonly Pt[]): Pt | null {
-  let best: Pt | null = null;
+export function rightStart(ink: readonly ScreenPt[]): ScreenPt | null {
+  let best: ScreenPt | null = null;
   for (const p of ink) if (!best || p.x > best.x || (p.x === best.x && p.y < best.y)) best = p;
   return best;
 }

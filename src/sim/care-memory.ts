@@ -11,6 +11,7 @@
  * there. Chances are hashed (`roll`), so no world rng is drawn.
  */
 import { CARE_MEMORY, type CareKind } from '../config/tuning-soul-r10';
+import { followsOther } from './keeper-fondness';
 import { soulLive } from './antics';
 import type { IdleAct } from './soul-idle';
 import { roll } from './traits';
@@ -81,6 +82,8 @@ export function approachAct(n: Nubbin, world: World, now: number): IdleAct | nul
 export function followFruitAct(n: Nubbin, world: World, now: number): IdleAct | null {
   if (!soulLive() || n.stage === 'egg' || n.stage === 'cocoon') return null;
   if (world.inventory.fruit <= 0) return null;
+  // R0568 (lane A r11): it trails only its favourite Keeper (or either, with none yet).
+  if (followsOther(n, world)) return null;
   const k = world.keeper;
   if (dist(n.pos, k.pos) > CARE_MEMORY.followRadius) return null;
   if (recalls(n, ['feed'], CARE_MEMORY.followWithinMs, now) === 0) return null;

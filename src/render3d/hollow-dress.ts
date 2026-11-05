@@ -33,6 +33,7 @@ import {
   LID_KIND,
   LOOT,
   LOOT_KIND,
+  lootRanges,
   PLANE,
   poolGeometry,
   STALAG,
@@ -41,7 +42,7 @@ import {
 import { buildSet, type GlowSpot, type GlyphSpot } from './hollow-dress-set';
 import { paintedWater, type PaintedWater } from './water';
 import { fogged } from './hollow-fog';
-import { sectorGroups } from './hollow-sectors';
+import { sectorGroups, sectorParts, tagSector } from './hollow-sectors';
 import { lootShown } from '../sim/dungeon-sight';
 import type { DungeonRun } from '../sim/types';
 
@@ -134,7 +135,13 @@ export class HollowDress implements HollowModule {
   private ctx: HollowCtx | null = null;
   private lastT = 0;
   // Per-floor state the frame reads.
-  private loot: THREE.InstancedMesh | null = null;
+  /**
+   * One instanced mesh per loot kind, keyed by kind, each drawing only its kind's part of
+   * `LOOT` and only the finds showing now, packed at the front (R0194: a find under the fog
+   * or already taken costs nothing). The lid has its own.
+   */
+  private loot = new Map<number, THREE.InstancedMesh>();
+  private lidMesh: THREE.InstancedMesh | null = null;
   private floor: Floor | null = null;
   private lootAt: Array<{
     id: string;
@@ -143,6 +150,7 @@ export class HollowDress implements HollowModule {
     y0: number;
     seed: number;
     bubble: number;
+    kind: number;
   }> = [];
   private bubbles: THREE.InstancedMesh | null = null;
   private lid: { x: number; y: number; z: number; ry: number } | null = null;
@@ -165,6 +173,8 @@ export class HollowDress implements HollowModule {
   private readonly v = new THREE.Vector3();
   private readonly s = new THREE.Vector3();
   private readonly c = new THREE.Color();
+  /** Slots filled per loot kind this frame (`placeLoot`). */
+  private readonly used = new Map<number, number>();
 
   constructor(tex: Tex) {
     // Every material here is fog-aware (R0153), so unseen props stay dark.
@@ -268,7 +278,9 @@ export class HollowDress implements HollowModule {
       m.castShadow = true;
       m.receiveShadow = true;
       m.name = 'hollow-set';
-      this.put(m);
+      // One mesh per sector on a big floor (R0194), sharing the one geometry.
+      this.own.push(geo);
+      for (const part of sectorParts(f, m)) this.put(part, false);
     }
     this.buildGlows(f, set.glows);
     this.buildGlyphs(set.glyphs);
@@ -415,43 +427,45 @@ export class HollowDress implements HollowModule {
           tile,
         ]);
       }
-    if (stones.length) {
-      const im = new THREE.InstancedMesh(ROCK(), this.stone, stones.length);
-      stones.forEach((m, i) => im.setMatrixAt(i, m));
+    // On a streamed floor every scatter is one mesh per sector (R0147, R0194,
+    // `hollow-sectors.ts`), each with its own bounds so the renderer culls it by view too.
+    const at = (m: THREE.Matrix4) => ({ x: m.elements[12]!, z: m.elements[14]! });
+    for (const [key, part] of sectorGroups(f, stones, at)) {
+      const im = new THREE.InstancedMesh(ROCK(), this.stone, part.length);
+      part.forEach((m, i) => im.setMatrixAt(i, m));
       im.receiveShadow = true;
+      tagSector(im, key, true);
       this.put(im, false);
     }
-    // On a field, the big scatters are one mesh per sector column (R0147, `hollow-sectors.ts`).
-    const tag = (im: THREE.Object3D, col: number): void => {
-      if (col >= 0) im.userData.sectorCol = col;
-    };
-
-    if (stalag.length) {
-      const im = new THREE.InstancedMesh(STALAG(), this.stone, stalag.length);
+    for (const [key, part] of sectorGroups(f, stalag, (r) => r[0])) {
+      const im = new THREE.InstancedMesh(STALAG(), this.stone, part.length);
       im.castShadow = true;
       im.receiveShadow = true;
+      tagSector(im, key, true);
       this.put(im, false);
-      this.shrinkable(im, stalag);
+      this.shrinkable(im, part);
+      // Shrinking only ever makes them smaller, so the full-size bounds stay true.
+      im.computeBoundingSphere();
     }
-    for (const [col, part] of sectorGroups(f, roots, (r) => r[0].x)) {
+    for (const [key, part] of sectorGroups(f, roots, (r) => r[0])) {
       const im = new THREE.InstancedMesh(STRAND(), this.kitInst, part.length);
-      tag(im, col);
+      tagSector(im, key, true);
       part.forEach((_, i) => {
         const t = 0.9 + cellHash(i, 3, 5) * 0.2;
         im.setColorAt(i, this.c.setRGB(t, t * 0.97, t * 0.94));
       });
-      im.frustumCulled = false;
       this.put(im, false);
       this.shrinkable(im, part);
+      im.computeBoundingSphere();
     }
-    for (const [col, part] of sectorGroups(f, decals, ([m]) => m.elements[12]!)) {
+    for (const [key, part] of sectorGroups(f, decals, ([m]) => at(m))) {
       const geo = FLAT().clone();
       geo.setAttribute(
         'iTile',
         new THREE.InstancedBufferAttribute(new Float32Array(part.map(([, t]) => t)), 1),
       );
       const im = new THREE.InstancedMesh(geo, this.decalMat, part.length);
-      tag(im, col);
+      tagSector(im, key, true);
       part.forEach(([m], i) => im.setMatrixAt(i, m));
       im.receiveShadow = true;
       im.renderOrder = 1;
@@ -506,6 +520,8 @@ export class HollowDress implements HollowModule {
     });
     im.frustumCulled = false;
     im.renderOrder = 3;
+    // The crystal flashes sit after the glows and are black until rung: drawn only then.
+    im.count = spots.length;
     this.glows = im;
     this.glowSpots = spots;
     this.put(im, false);
@@ -535,17 +551,36 @@ export class HollowDress implements HollowModule {
     this.put(im);
   }
 
-  /** Every find on the floor, and the chest lid, in one instanced mesh; bubbles for critters. */
+  /**
+   * Every find on the floor, one instanced mesh per kind (R0194: each draws only its own
+   * kind's part of the shared `LOOT` geometry), the chest lid, and bubbles for critters.
+   */
   private buildLoot(f: Floor): void {
-    const n = f.loot.length + (this.lid ? 1 : 0);
-    if (!n) return;
-    const geo = LOOT().clone();
-    const kinds = new Float32Array(n);
-    f.loot.forEach((l, i) => (kinds[i] = LOOT_KIND[l.kind]));
-    if (this.lid) kinds[n - 1] = LID_KIND;
-    geo.setAttribute('iKind', new THREE.InstancedBufferAttribute(kinds, 1));
-    const im = new THREE.InstancedMesh(geo, this.lootMat, n);
-    im.frustumCulled = false;
+    if (!f.loot.length && !this.lid) return;
+    const base = LOOT().clone();
+    this.own.push(base);
+    const ranges = lootRanges(base);
+    const count = new Map<number, number>();
+    for (const l of f.loot) count.set(LOOT_KIND[l.kind], (count.get(LOOT_KIND[l.kind]) ?? 0) + 1);
+    if (this.lid) count.set(LID_KIND, 1);
+    for (const [kind, n] of count) {
+      const r = ranges.get(kind);
+      if (!r) continue;
+      const geo = new THREE.BufferGeometry();
+      for (const [name, a] of Object.entries(base.attributes)) geo.setAttribute(name, a);
+      geo.setIndex(base.index);
+      geo.setDrawRange(r[0], r[1] - r[0]);
+      geo.boundingSphere = base.boundingSphere;
+      geo.setAttribute(
+        'iKind',
+        new THREE.InstancedBufferAttribute(new Float32Array(n).fill(kind), 1),
+      );
+      const im = new THREE.InstancedMesh(geo, this.lootMat, n);
+      im.frustumCulled = false;
+      if (kind === LID_KIND) this.lidMesh = im;
+      else this.loot.set(kind, im);
+      this.put(im);
+    }
     let bubble = 0;
     this.lootAt = f.loot.map((l) => {
       const p = cellCentre(f, l.cell);
@@ -557,10 +592,9 @@ export class HollowDress implements HollowModule {
         y0: cellTop(f, l.cell) + 0.25,
         seed: p.x,
         bubble: crit ? bubble++ : -1,
+        kind: LOOT_KIND[l.kind],
       };
     });
-    this.loot = im;
-    this.put(im);
     if (bubble) {
       const b = new THREE.InstancedMesh(SPHERE(), this.bubbleMat, bubble);
       b.frustumCulled = false;
@@ -623,7 +657,8 @@ export class HollowDress implements HollowModule {
     this.objs.length = 0;
     this.own.length = 0;
     this.picks.length = 0;
-    this.loot = this.bubbles = this.glows = this.glyphs = null;
+    this.loot.clear();
+    this.lidMesh = this.bubbles = this.glows = this.glyphs = null;
     this.lootAt = [];
     this.lid = null;
     this.glowSpots = [];
@@ -652,12 +687,13 @@ export class HollowDress implements HollowModule {
 
   /** `run` is null while building: nothing taken, the chest shut, the fog not read yet. */
   private placeLoot(t: number, run: DungeonRun | null, still: boolean): void {
-    const im = this.loot;
-    if (!im) return;
     const open = run?.chestOpen ?? false;
     const f = this.floor;
     const L = GROVE3D.cave.dress.loot;
-    this.lootAt.forEach((l, i) => {
+    const used = this.used;
+    used.clear();
+    let bubbles = 0;
+    this.lootAt.forEach((l) => {
       // Taken, or still under the fog of war (R0153): a find shows once its cell is seen.
       // Or kept back by a shut secret or an unsolved puzzle (lane B r8, `sealDisplay`).
       const gone =
@@ -666,31 +702,42 @@ export class HollowDress implements HollowModule {
       const bob = still ? 0 : Math.sin(t * 2 + l.seed) * L.bob;
       // The pick follows the bob (the tap sphere is this same vector).
       l.p.y = l.y0 + bob;
-      const y = l.p.y;
+      const im = this.loot.get(l.kind);
+      // A find not showing is left out of the draw, not drawn at size 0 (R0194).
+      if (gone || !im) return;
+      const slot = used.get(l.kind) ?? 0;
+      used.set(l.kind, slot + 1);
       this.q.setFromEuler(this.e.set(0, still ? 0 : t * L.spin, 0));
       im.setMatrixAt(
-        i,
-        this.m4.compose(this.v.set(l.p.x, y, l.p.z), this.q, this.s.setScalar(gone ? 0 : 1)),
+        slot,
+        this.m4.compose(this.v.set(l.p.x, l.p.y, l.p.z), this.q, this.s.setScalar(1)),
       );
       if (this.bubbles && l.bubble >= 0)
         this.bubbles.setMatrixAt(
-          l.bubble,
-          this.m4.compose(this.v, this.q.identity(), this.s.setScalar(gone ? 0 : 0.4)),
+          bubbles++,
+          this.m4.compose(this.v, this.q.identity(), this.s.setScalar(0.4)),
         );
     });
-    im.instanceMatrix.needsUpdate = true;
-    if (this.bubbles) this.bubbles.instanceMatrix.needsUpdate = true;
-    if (this.lid && open !== this.lidOpen) {
+    for (const [kind, im] of this.loot) {
+      im.count = used.get(kind) ?? 0;
+      im.instanceMatrix.needsUpdate = true;
+    }
+    if (this.bubbles) {
+      this.bubbles.count = bubbles;
+      this.bubbles.instanceMatrix.needsUpdate = true;
+    }
+    if (this.lid && this.lidMesh && open !== this.lidOpen) {
       this.lidOpen = open;
       this.q.setFromEuler(this.e.set(open ? -1.9 : 0, this.lid.ry, 0, 'YXZ'));
-      im.setMatrixAt(
-        this.lootAt.length,
+      this.lidMesh.setMatrixAt(
+        0,
         this.m4.compose(
           this.v.set(this.lid.x, this.lid.y, this.lid.z),
           this.q,
           this.s.setScalar(1),
         ),
       );
+      this.lidMesh.instanceMatrix.needsUpdate = true;
     }
   }
 
@@ -709,13 +756,17 @@ export class HollowDress implements HollowModule {
         dirty = true;
       });
     const flash = new THREE.Color(this.ctx?.band.crystal ?? '#9ae8ff');
+    let lit = false;
     for (const c of this.crystalFlash) {
       const k = Math.max(0, 1 - (t - c.at) / T.flashSec);
       if (k <= 0 && c.at < -1) continue;
       im.setColorAt(c.slot, this.c.copy(flash).multiplyScalar(k * 0.8));
       if (k <= 0) c.at = -99;
+      else lit = true;
       dirty = true;
     }
+    // Only while a crystal is flashing are its (otherwise black) slots drawn (R0194).
+    im.count = lit ? this.glowSpots.length + this.crystalFlash.length : this.glowSpots.length;
     if (dirty && im.instanceColor) im.instanceColor.needsUpdate = true;
   }
 

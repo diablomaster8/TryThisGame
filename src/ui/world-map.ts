@@ -37,6 +37,8 @@ import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { playIris } from './travel-iris';
 import { keepsakeLine } from './collection';
+import { postcardAlbum } from './postcard-album';
+import '../r12d2.css';
 import { MAP_LAYER_TEXT } from '../config/strings-world';
 import { MAP_LAYERS, mapOverlay, type MapLayer } from '../sim/map-overlays';
 
@@ -170,6 +172,8 @@ export class WorldMapPanel {
   /** R0130: the World overview is showing, not a region's page. */
   private overview = false;
   private keepsakes: HTMLElement | null = null;
+  /** R0091: the postcard album page under the keepsake line. */
+  private album: HTMLElement | null = null;
   private centreBtn: HTMLElement | null = null;
   private zoom = 1;
   private panX = 0;
@@ -272,6 +276,7 @@ export class WorldMapPanel {
     if (this.centreBtn) this.centreBtn.hidden = this.overview;
     this.campaign.hidden = this.overview;
     if (this.keepsakes) this.keepsakes.hidden = this.overview;
+    if (this.album) this.album.hidden = this.overview;
     if (this.overview) {
       this.view.hidden = true;
       this.elsewhere.hidden = false;
@@ -370,8 +375,11 @@ export class WorldMapPanel {
     }
     // R0091: the shown region's one-time collectibles.
     this.keepsakes?.remove();
+    this.album?.remove();
     this.keepsakes = el('p', 'wm-keepsakes', keepsakeLine(w, this.tab));
     this.tabs.after(this.keepsakes);
+    this.album = postcardAlbum(w, this.tab);
+    if (this.album) this.keepsakes.after(this.album);
   }
 
   /** Lane C r10 agent A (R0650): the questline regions' tabs, under the map's own. */

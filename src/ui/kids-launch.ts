@@ -14,7 +14,7 @@ import {
   type SaveSummary,
 } from '../platform/storage';
 import { button, el } from './dom';
-import { speakLine } from './lesson';
+import { speakLater } from './speak-lazy';
 import { showFirstNubbin } from './kids-portrait'; /* Lane E r10 */
 
 /** What the name-and-icon step chose; empty fields were skipped. */
@@ -98,7 +98,7 @@ export function tagStep(menu: HTMLElement, onDone: (tag: EduTag) => void, back: 
     ),
   );
   menu.appendChild(back);
-  speakLine(KIDS_TAG_TEXT.say);
+  speakLater(KIDS_TAG_TEXT.say);
 }
 
 /**
@@ -152,5 +152,5 @@ export function showKidsPicker(
   );
   root.appendChild(card);
   parent.appendChild(root);
-  if (any) speakLine(KIDS_PICK_TEXT.say);
+  if (any) speakLater(KIDS_PICK_TEXT.say);
 }

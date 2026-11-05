@@ -58,6 +58,8 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
+import { isPairToy } from './toy-pair';
+import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { peekAct } from './peek';
 import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
@@ -110,6 +112,13 @@ import {
   type IdleAct,
 } from './soul-idle';
 import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
+import { cryWalkSpeed, startCry } from './cry-soul';
+import { gaitSpeed, meanderStep } from './soul-gait';
+import { splashFriend, swimFactor, swimSpot } from './swim-soul';
+import { shadowAct } from './shadow-soul';
+import { fondGreet, tiltAct } from './keeper-fondness';
+import { spotWander } from './fav-spot';
+import { FAV_SPOT } from '../config/tuning-soul-r11';
 /* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
 import { eduYawnAct } from './edu-session';
 import type {
@@ -732,6 +741,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     addHappiness(n, 1);
     return;
   }
+  // R0566 (lane A r11): a wary Shadow sulks, watches from afar, or takes fruit and runs.
+  const shade = shadowAct(n, world, now);
+  if (shade) {
+    startAct(n, shade, now);
+    return;
+  }
   // A wary Shadow Nubbin never greets; it keeps its distance instead.
   if (isWary(n) && dist(n.pos, world.keeper.pos) < TRUST.avoidRadius) {
     setState(n, 'avoid', now, 2500);
@@ -740,6 +755,24 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     const len = Math.hypot(dx, dz) || 1;
     n.behavior.target = { x: n.pos.x + (dx / len) * 4, z: n.pos.z + (dz / len) * 4 };
     clampToWorld(n.behavior.target);
+    return;
+  }
+  // R0573 (lane A r11): a reborn child's first greet is its last life's quirk.
+  if (n.echo) {
+    if (n.stage !== 'child') delete n.echo;
+    else if (dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius && soulLive()) {
+      const echo = quirkAct(n, world, now, n.echo);
+      delete n.echo;
+      if (echo) {
+        startAct(n, echo, now);
+        return;
+      }
+    }
+  }
+  // R0568 (lane A r11): the other Keeper's first approach after a switch: a head tilt.
+  const tilt = tiltAct(n, world);
+  if (tilt) {
+    startAct(n, tilt, now);
     return;
   }
   // R0544: the hiccups after a quick second fruit, or a child's tail chase.
@@ -790,7 +823,14 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       toy: toyOk,
       shroom: shroomOk,
       canSwim: n.stage !== 'egg',
-      mult: keen ? { ...m, play: m.play * keen.keen } : m,
+      // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
+      // R0568 (lane A r11): its favourite Keeper is greeted half as often again.
+      mult: {
+        ...m,
+        greet: m.greet * fondGreet(n, world),
+        play: m.play * (keen?.keen ?? 1),
+        swim: m.swim * swimFactor(n),
+      },
     }) as Record<string, number>,
   );
   if (pick === 'greet') {
@@ -818,7 +858,9 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   }
   if (pick === 'swim') {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
-    n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
+    // R0582 (lane A r11): a shy one wades at the edge only.
+    n.behavior.target =
+      swimSpot(n, now) ?? standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
     return;
   }
   // R0553 (lane A r10): a plain sit or wander is now and then its personality's own quirk
@@ -835,7 +877,10 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   setState(n, 'wander', now, rng.float(...BEHAVIOR.wanderMs));
-  n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
+  // R0569 (lane A r11): now and then (a lazy one mostly) it heads for its favourite spot.
+  const spot = spotWander(n, world, now);
+  n.behavior.target = standablePoint(rng, world, n, spot ?? n.pos, spot ? FAV_SPOT.around : 5);
+  if (spot) n.behavior.untilMs = now + (dist(n.pos, spot) / BEHAVIOR.walkSpeed) * 1500 + 3000;
 }
 
 /** R0544: start an antic where the Nubbin stands. */
@@ -873,7 +918,14 @@ export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
     toy: !!toy && toy.id !== skipping(n, now),
     shroom: !!shroom && shroom.id !== skipping(n, now),
     canSwim: n.stage !== 'egg',
-    mult: keen ? { ...m, play: m.play * keen.keen } : m,
+    // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
+    // R0568 (lane A r11): its favourite Keeper is greeted half as often again.
+    mult: {
+      ...m,
+      greet: m.greet * fondGreet(n, world),
+      play: m.play * (keen?.keen ?? 1),
+      swim: m.swim * swimFactor(n),
+    },
   });
 }
 
@@ -927,6 +979,8 @@ function stepBehavior(
     n.needs.hunger = 1;
     n.needs.energy = 1;
     if ((b.state === 'react' || b.state === 'pet') && now < b.untilMs) return;
+    // R0592: he sits still while a child watches him teach.
+    if (b.state === 'perform' && b.itemId === 'teach' && now < b.untilMs) return;
     const seat = mossSeat(world);
     if (dist(n.pos, seat) > BEHAVIOR.arriveRadius) {
       if (b.state !== 'wander') setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
@@ -965,7 +1019,8 @@ function stepBehavior(
       setState(n, 'findFood', now, Infinity);
       b.itemId = fruit;
     } else if (b.state !== 'cry' && n.needs.hunger < NEEDS.starvingThreshold) {
-      setState(n, 'cry', now, BEHAVIOR.cryMs);
+      // R0558 (lane A r11): each cries in its own way (cry-soul.ts).
+      startCry(n, world, now, BEHAVIOR.cryMs);
     }
   }
   // R0543 (lane A r9): a shy one slips behind a tree as the Keeper comes near.
@@ -1026,7 +1081,13 @@ function stepBehavior(
       const speed =
         b.state === 'avoid'
           ? BEHAVIOR.walkSpeed * 1.6
-          : BEHAVIOR.walkSpeed * (fliesLeg(n) ? FLIGHT.speed : 1);
+          : BEHAVIOR.walkSpeed * (fliesLeg(n) ? FLIGHT.speed : 1) * gaitSpeed(n, now);
+      // R0570 (lane A r11): a dreamy one meanders a little to either side of its way.
+      if (b.target) {
+        const side = meanderStep(n, b.target, now, dtMs);
+        n.pos.x += side.x;
+        n.pos.z += side.z;
+      }
       if (!b.target || walkToward(world, n, b.target, speed, dtMs) || now >= b.untilMs) {
         // R0558 (lane A r10): at its nap spot (or as far as it got), it lies down.
         if (b.state === 'wander' && b.itemId === 'toNap') {
@@ -1042,8 +1103,11 @@ function stepBehavior(
       } else if (b.target) {
         // R0558 (lane A r10): a lazy one floats on its back, drifting slower.
         if (walkToward(world, n, b.target, BEHAVIOR.swimSpeed * swimPace(n), dtMs)) {
-          b.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
+          b.target =
+            swimSpot(n, now) ?? standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
         }
+        // R0582 (lane A r11): two in the water splash each other now and then.
+        splashFriend(n, world, now, dtMs);
         // Swimming is training: a little Swim and a little Swim lean.
         addPoints(n.stats.swim, (dtMs / 1000) * 0.5);
         n.typeLean.swim += (dtMs / 1000) * TYPE_LEAN.trainingPerSecond;
@@ -1122,6 +1186,14 @@ function stepBehavior(
         if (kind === 'mirror') n.needs.affection = Math.min(100, n.needs.affection + 2);
         if (kind === 'tv') n.needs.energy = Math.min(1, n.needs.energy + 0.15);
         if (kind === 'blocks') n.typeLean.power += 1;
+        // R0574: the new toys.
+        if (kind === 'drum') {
+          addHappiness(n, BEHAVIOR.playHappiness * 0.5);
+          noteTraitCare(n, 'musical', events);
+        }
+        if (kind === 'bubbleWand') n.typeLean.run += 1;
+        if (isPairToy(kind) && (toy.players ?? 0) >= 2)
+          addHappiness(n, TOY_PAIR.togetherHappiness);
         if (kind === 'radio' && (n.lessons?.dance ?? 0) < 1)
           n.lessons = { ...(n.lessons ?? {}), dance: 1 };
         chooseIdle(n, world, rng, now);
@@ -1231,7 +1303,23 @@ function stepBehavior(
       }
       // R0086: the climb itself, once the walk to the hill's foot is over.
       if (b.itemId?.startsWith('hill:')) {
-        if (!hillOutingStep(n, dtMs, now)) chooseIdle(n, world, rng, now);
+        // A climb past its time limit is over (a blocked step never freezes it); the top's
+        // own wait is timed inside hillOutingStep.
+        const late = now >= b.untilMs && !b.itemId.includes(':top:');
+        if (late || !hillOutingStep(n, dtMs, now)) chooseIdle(n, world, rng, now);
+        break;
+      }
+      if (now >= b.untilMs) chooseIdle(n, world, rng, now);
+      break;
+    }
+    // R0558 (lane A r11): a gentle one walks to the Keeper to cry; its cry starts there.
+    case 'cry': {
+      if (b.target) {
+        const there = walkToward(world, n, b.target, cryWalkSpeed(), dtMs);
+        if (there || walkStalled(n, b.target, now)) {
+          b.untilMs = now + (b.untilMs - b.sinceMs);
+          b.target = null;
+        }
         break;
       }
       if (now >= b.untilMs) chooseIdle(n, world, rng, now);
@@ -1240,7 +1328,6 @@ function stepBehavior(
     case 'eat':
     case 'sit':
     case 'greet':
-    case 'cry':
     case 'pet':
     case 'react': {
       if (now >= b.untilMs) {

@@ -35,7 +35,7 @@ import {
   replySpeech,
   roundSpeech,
   spoken,
-  type Band,
+  type VoiceBand,
 } from './edu-voice';
 import { BREAK_KID_TEXT } from '../config/strings-kids';
 import { frameKey } from '../render/sprites/animations';
@@ -425,7 +425,7 @@ export class EduScreen {
     return e ? eduRounds(e) : EDU.roundsPerGame;
   }
 
-  private band(): Band {
+  private band(): VoiceBand {
     return this.game_()?.world.edu?.band === 'reader' ? 'reader' : 'sprout';
   }
 

@@ -9,6 +9,7 @@ import { hopWaypoint } from './dungeon-hops';
 import { R10B4 } from '../config/tuning-r10b4';
 import { springBounce, springShroomAt } from './decorate';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
+import { windGlideMul } from './region-weather-play';
 import {
   AUTO_HOP,
   GLIDE,
@@ -943,7 +944,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   // R11 lane D: in a drawn region beyond the Grove the region's own ground carries the Keeper.
   if (drawnRegion(world)) {
-    stepRegionWalk(world, dtMs);
+    stepRegionWalk(world, dtMs, events);
     return;
   }
   // A roll moves the Keeper itself until it ends or a jump cancels it (MOVE-64).
@@ -972,7 +973,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     (wet ? waterPace(world, k.pos.x, k.pos.z, KEEPER_WADE.speed) : 1) *
     // R0119: a path or a deck is a little quicker than grass.
     (going && k.grounded && !wet ? surfacePace(world, k.pos.x, k.pos.z) : 1) *
-    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1) *
+    // R0137: a windy ridge carries a glide a third further.
+    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed * windGlideMul(world) : 1) *
     // A running jump carries further (MOVE-42).
     (going && !k.grounded && k.running ? RUN_MODE.airCarry : 1);
 

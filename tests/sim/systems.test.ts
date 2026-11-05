@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { orderSystems, type SimSystem } from '../../src/sim/systems';
-import { SYSTEMS } from '../../src/sim/world';
+import { orderSystems, runSystems, type SimSystem } from '../../src/sim/systems';
+import { SYSTEMS, createWorld } from '../../src/sim/world';
 
 /** TECH-34: the step's system registry. */
 const ALWAYS = { live: true, offline: true, coarse: true };
@@ -19,8 +19,8 @@ describe('step systems', () => {
       'prop-reach',
       'hop-lesson',
     ]);
-    expect(SYSTEMS.at(-1)!.id).toBe('battle-needs');
-    expect(SYSTEMS.length).toBe(46);
+    expect(SYSTEMS.at(-1)!.id).toBe('old-soul-calm');
+    expect(SYSTEMS.length).toBe(51);
   });
 
   it('every system declares live, offline and coarse behaviour', () => {
@@ -39,6 +39,7 @@ describe('step systems', () => {
       'hop-lesson',
       'hop-course',
       'keeper-idle',
+      'soul-fav-spots',
       'battle-moves',
     ]);
   });
@@ -47,5 +48,21 @@ describe('step systems', () => {
     expect(() => orderSystems([sys('a', 1, true), sys('a', 2, true)])).toThrow(/Duplicate system/);
     expect(() => orderSystems([sys('a', 1, true), sys('b', 1, true)])).toThrow(/Duplicate order/);
     expect(() => orderSystems([sys('a', 1, false), sys('b', 2, true)])).toThrow(/rng/);
+  });
+
+  it('everyMs runs a system once per interval with the dt it waited', () => {
+    const seen: number[] = [];
+    const slow: SimSystem = {
+      id: 'slow',
+      order: 1,
+      runs: ALWAYS,
+      rng: false,
+      everyMs: 1000,
+      step: (c) => seen.push(c.dtMs),
+    };
+    const w = createWorld(1, 0);
+    const ctx = { world: w, dtMs: 100, wallMs: 0, offline: false, countPlay: true, events: [] };
+    for (let i = 0; i < 25; i++) runSystems([slow], ctx, (_w, fn) => fn(null as never));
+    expect(seen).toEqual([1000, 1000]);
   });
 });

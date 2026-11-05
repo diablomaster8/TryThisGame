@@ -14,7 +14,7 @@ import { CLIP_TEXT } from '../config/strings-r11d6';
  */
 export const RECORDED: ReadonlySet<string> = new Set<string>([]);
 
-export interface Clip {
+export interface LangClip {
   url: string;
   placeholder: boolean;
 }
@@ -28,7 +28,7 @@ const base = (): string => {
 };
 
 /** Where a word's clip lives: its recording, or the placeholder chime. */
-export function clipFor(id: string): Clip {
+export function clipFor(id: string): LangClip {
   return RECORDED.has(id)
     ? { url: `${base()}audio/lang/${id}.mp3`, placeholder: false }
     : { url: `${base()}audio/lang/placeholder.wav`, placeholder: true };
@@ -77,11 +77,12 @@ export function missingClips(ids: Iterable<string>): string[] {
 
 /** Play a word's clip, cutting off the one before. Silent until sound is on. */
 export function playWord(id: string): void {
+  const clip = clipFor(id);
+  /* R0445: say it is missing even when sound is off, so a silent tap is not a mystery. */
+  if (clip.placeholder) sayMissing();
   if (!isAudioUnlocked() || !isSoundEnabled()) return;
   try {
     current?.pause();
-    const clip = clipFor(id);
-    if (clip.placeholder) sayMissing();
     current = new Audio(clip.url);
     void current.play().catch(() => undefined);
   } catch {

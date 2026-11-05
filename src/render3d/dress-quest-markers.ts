@@ -84,6 +84,10 @@ export const dress3dQuestMarkers: Dressing3d = {
       const bob = still ? 0 : Math.sin(clock * 3 + i) * 0.06;
       mesh.position.set(m.x, groveHeight(m.x, m.z) + m.lift + bob, m.z);
       mesh.rotation.y = still ? 0 : clock * 1.4;
+      // R0629: a child's markers are larger and pulse (still under reduced motion).
+      mesh.scale.setScalar(
+        m.big ? C12C.markers.kidScale * (still ? 1 : 1 + 0.1 * Math.sin(clock * 4)) : 1,
+      );
     });
   },
   dispose() {

@@ -21,4 +21,10 @@ export const HOLLOW_PERF = {
   /** Dungeon levels with at least this many cells are cut into sectors this many cells wide. */
   minCells: 80 * 60,
   levelSector: 16,
+  /**
+   * On such a level, small props (rubble, stalagmites, roots, decals) draw only in the sectors
+   * within this many cells of the Keeper, each way: a far stone is a few pixels on a phone.
+   * At half a sector it is at most 2×2 sectors (the nearest ones), not the rock's 3×3.
+   */
+  propReach: 8,
 } as const;

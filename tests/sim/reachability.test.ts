@@ -113,6 +113,13 @@ function play(): Run {
       world.location = 'region:wood';
       world.keeper.pos = { x: p.x, z: p.z };
     }),
+    // R12 d2 (R0101): the shore, ridge and ruins are walkable too.
+    ...(['shore', 'ridge', 'ruins'] as const).flatMap((r) =>
+      REGIONS[r].pois.map((p) => () => {
+        world.location = `region:${r}`;
+        world.keeper.pos = { x: p.x, z: p.z };
+      }),
+    ),
     () => (world.location = 'dungeon'),
     () => (world.location = 'corvin'),
   ];
@@ -244,6 +251,15 @@ describe('reachability from one world (R0604)', () => {
       for (const l of Object.keys(world.lines ?? {}))
         if (world.lines[l]!.ending === null)
           applyCommand(world, { kind: 'lineAbandon', line: l }, events);
+      // R0611: Dusk opens once Dawn has an ending (an abandoned Dawn has none).
+      if (id === 'dusk' && world.lines.dawn?.ending == null) {
+        expect(lineRefusal(world, id)).toBe('locked');
+        world.lines.dawn = {
+          ...structuredClone(world.campaign!),
+          storyline: 'dawn',
+          ending: 'test',
+        };
+      }
       expect(lineRefusal(world, id), id).toBeNull();
       // R0633: Dawn is a Sun Keeper's line and Dusk a Moon Keeper's.
       if (id === 'dawn' || id === 'dusk')

@@ -64,6 +64,7 @@ import { CryTears } from './cry-tears';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
+import { setGroveBackSource } from './region-grove-source';
 import { RegionHost3d, snapShadow } from './region-host';
 import { nearestChild, occluders } from './occluders';
 import { Garden, useBuildingKit } from './garden';
@@ -103,6 +104,7 @@ import { StaticFreezer, freezeWanted } from './static-freeze';
 import { GrovePuddles } from './puddles';
 import { AmbientLife3d } from './ambient';
 import { RegionLife3d } from './region-life';
+import { RegionMarks3d } from './region-marks';
 import { ambientAwake } from '../render/ambient-life';
 
 /** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
@@ -288,6 +290,7 @@ export class Grove3dScene {
   private readonly puddles: GrovePuddles;
   private readonly ambient: AmbientLife3d;
   private readonly regionLife: RegionLife3d;
+  private readonly regionMarks: RegionMarks3d;
 
   /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
   private updateAmbient(world: World): void {
@@ -455,6 +458,10 @@ export class Grove3dScene {
   }
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
+  /** WORLD-09 (R12 lane D): the grass chunks, for the debug panel's World line. */
+  get grassChunks(): { live: number; kept: number } {
+    return this.props.grass.chunks;
+  }
   /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
   readonly frameGeo: Array<[number, number]> = [];
   /** Frames drawn since boot, so the probe can wait for fresh ones after a teleport. */
@@ -585,6 +592,10 @@ export class Grove3dScene {
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
     this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };
+    setGroveBackSource({
+      mesh: this.terrain.mesh,
+      index: () => this.terrainChunks.fullIndex(this.terrain.mesh),
+    });
     this.pickables.push(this.terrain.mesh);
     this.props = buildGroveProps(this.world3d, this.tex, this.time);
     this.pickables.push(...this.props.pickables);
@@ -595,6 +606,7 @@ export class Grove3dScene {
     this.puddles = new GrovePuddles(this.world3d, groveHeight);
     this.ambient = new AmbientLife3d(this.scene);
     this.regionLife = new RegionLife3d(this.scene);
+    this.regionMarks = new RegionMarks3d(this.scene);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     this.freezer = freezeWanted()
@@ -1101,7 +1113,11 @@ export class Grove3dScene {
         // FUN-09 (lane E): each pet action plays its own beat.
         this.actors.petBeat(e.nubbinId, e.action, e.ok, this.lastMs);
       } else if (e.kind === 'reaction') {
-        this.actors.react(e.nubbinId, bubbleFor(e.reaction), this.lastMs + UI.bubbleMs);
+        this.actors.react(
+          e.nubbinId,
+          e.calm ? 'star' : bubbleFor(e.reaction),
+          this.lastMs + UI.bubbleMs,
+        );
         const head = up(e.nubbinId, 1.05);
         if (!head) continue;
         if (e.reaction === 'love')
@@ -2047,6 +2063,7 @@ export class Grove3dScene {
     this.puddles.update(world);
     this.updateAmbient(world);
     this.regionLife.update(world, this.time.value, this.reduceMotion);
+    this.regionMarks.update(world, this.time.value, this.reduceMotion);
   }
 
   render(): void {
@@ -2077,6 +2094,16 @@ export class Grove3dScene {
     this.dof.tick(interval);
     if (!NO_LOD) {
       this.terrainChunks.update(this.terrain.mesh, this.camera);
+      // WORLD-09 (R12 lane D): the grass packed to its chunks in view; a repack is a new
+      // full count for the governor's thinning.
+      this.props.grass.chunks.frozen = this.terrainChunks.frozen;
+      if (this.props.grass.chunks.update(this.camera, GROVE3D.grassFade.to)) {
+        for (const m of this.props.grass.meshes) {
+          const d = m.userData as { full?: number; geoCount?: number };
+          d.full = m.count;
+          d.geoCount = -1;
+        }
+      }
       this.creatureLod.update(
         this.actors.group.children.filter((c) => !(c as THREE.Mesh).isMesh),
         this.camera,
@@ -2375,6 +2402,7 @@ export class Grove3dScene {
   }
 
   dispose(): void {
+    setGroveBackSource(null);
     this.canvasSizer?.disconnect();
     this.dressings.dispose();
     document.removeEventListener('visibilitychange', this.onHidden);

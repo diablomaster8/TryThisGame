@@ -7,6 +7,8 @@
  * 375 px wide without sideways scrolling, and every button is a 44 px target.
  */
 import { STORYLINE_TEXT, STORY_REGION_TEXT } from '../config/strings';
+import { STORY_TEXT } from '../config/story';
+import { CAMP13C_TEXT } from '../config/strings-camp13c';
 import { STORY_REGIONS, type StoryRegionId } from '../config/story-regions';
 import type { Game } from '../game';
 import { journalView } from '../sim/storyline';
@@ -69,6 +71,63 @@ export function storyRegionTabs(
   return row;
 }
 
+export type ChapterState = 'done' | 'now' | 'later';
+export const CHAPTER_GLYPH: Readonly<Record<ChapterState, string>> = {
+  done: '✓',
+  now: '◆',
+  later: '○',
+};
+
+export interface AreaQuests {
+  /** The line area, or null for chapters with no single place. */
+  area: string | null;
+  rows: Array<{ n: number; title: string; state: ChapterState }>;
+}
+
+/**
+ * R0650: a line's chapters grouped by the area they happen in: the line's areas in their order
+ * (those with a chapter), then "anywhere" (area null). Reads only; nothing is written.
+ */
+export function chapterAreaGroups(
+  chapters: ReadonlyArray<{ n: number; title: string; area?: string }>,
+  current: number,
+  areas: readonly string[],
+): AreaQuests[] {
+  const out = new Map<string | null, AreaQuests>();
+  const known = new Set(areas);
+  for (const ch of chapters) {
+    const key = ch.area && known.has(ch.area) ? ch.area : null;
+    const g = out.get(key) ?? { area: key, rows: [] };
+    g.rows.push({
+      n: ch.n,
+      title: ch.title,
+      state: ch.n < current ? 'done' : ch.n === current ? 'now' : 'later',
+    });
+    out.set(key, g);
+  }
+  const ordered = areas.flatMap((a) => (out.has(a) ? [out.get(a)!] : []));
+  return out.has(null) ? [...ordered, out.get(null)!] : ordered;
+}
+
+/** One group as a fold: counts in the summary (a glyph and a word each), the chapters inside. */
+function areaQuestFold(grp: AreaQuests, open: boolean, title?: string): HTMLElement {
+  const fold = el('details', 'c11-row wm-story-chapters');
+  if (open && grp.rows.some((r) => r.state === 'now')) fold.setAttribute('open', '');
+  const count = (s: ChapterState) => grp.rows.filter((r) => r.state === s).length;
+  fold.appendChild(
+    el(
+      'summary',
+      'c11-row-sum',
+      title ?? CAMP13C_TEXT.areaCounts(count('now'), count('done'), count('later')),
+    ),
+  );
+  for (const r of grp.rows)
+    fold.appendChild(
+      el('p', undefined, `${CHAPTER_GLYPH[r.state]} ${STORY_TEXT.chapter(r.n, r.title)}`),
+    );
+  return fold;
+}
+
 /** An open region's page: its line's goal, its areas with Go there, and the way in or out. */
 export function storyRegionPage(
   g: Game,
@@ -91,8 +150,11 @@ export function storyRegionPage(
     const card = el('div', 'wm-story-line');
     card.appendChild(el('h4', '', storylineById(id)?.title ?? id));
     if (view) card.appendChild(el('p', '', view.goalText));
+    const groups = view ? chapterAreaGroups(view.chapters, line.chapter, view.areas) : [];
+    const grouped = groups.some((x) => x.area !== null);
     const areas = el('div', 'wm-story-areas');
     for (const area of view?.areas ?? []) {
+      const sec = el('div', 'wm-story-area');
       const b = button(
         `➜ ${STORYLINE_TEXT.areas[area] ?? area}`,
         () => {
@@ -102,9 +164,22 @@ export function storyRegionPage(
         'btn btn-small',
       );
       if (view?.area === area) b.classList.add('active');
-      areas.appendChild(b);
+      sec.appendChild(b);
+      const grp = groups.find((x) => x.area === area);
+      if (grp) sec.appendChild(areaQuestFold(grp, true));
+      areas.appendChild(sec);
     }
     if (areas.childElementCount > 0) card.appendChild(areas);
+    // R0650: the line's quests (its chapters), so the page says what happens here and what is next.
+    // Chapters with no single place, or all of them for a line with no areas, sit in one fold.
+    const rest = groups.find((x) => x.area === null);
+    if (view && (rest || !grouped)) {
+      const all = rest ?? chapterAreaGroups(view.chapters, line.chapter, [])[0];
+      if (all)
+        card.appendChild(
+          areaQuestFold(all, false, CAMP13C_TEXT.regionChapters(view.n, view.final)),
+        );
+    }
     page.appendChild(card);
   }
   const why = here ? null : storyRegionBlock(w, r);

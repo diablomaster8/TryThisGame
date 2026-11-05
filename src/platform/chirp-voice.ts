@@ -4,6 +4,7 @@
  * audio, no randomness, just a hash of the id into the tuning ranges.
  */
 import { CHIRP_VOICE } from '../config/tuning-r8d-audio';
+import { basePersonality } from '../sim/personality';
 import type { Personality } from '../sim/types';
 
 export interface ChirpVoice {
@@ -39,7 +40,8 @@ const lerp = ([lo, hi]: readonly [number, number], t: number) => lo + (hi - lo) 
 
 export function chirpVoice(id: string, personality: Personality | null): ChirpVoice {
   const [a, b, c] = shares(id);
-  const p = personality ? CHIRP_VOICE.personality[personality] : null;
+  // R0529: the second four speak in the voice of the first four they stand nearest to.
+  const p = personality ? CHIRP_VOICE.personality[basePersonality(personality)] : null;
   return {
     pitch: lerp(CHIRP_VOICE.pitch, a) * (p?.pitch ?? 1),
     speed: lerp(CHIRP_VOICE.speed, b) * (p?.speed ?? 1),

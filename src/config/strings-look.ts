@@ -63,6 +63,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} curls up, giggling into both hands.',
     mischievous: '{n} giggles, then tries to tickle you back.',
     lazy: '{n} lets out one slow, sleepy giggle.',
+    curious: '{n} giggles, then checks where the tickle came from.',
+    gentle: '{n} giggles softly and pats your hand.',
+    bold: '{n} roars with laughter and tickles back, hard.',
+    dreamy: '{n} giggles at something far away, then at you.',
   },
   hiccup: {
     any: '{n} giggles so hard it turns into hiccups.',
@@ -70,6 +74,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} hiccups, and looks very embarrassed about it.',
     mischievous: '{n} hiccups, then pretends it was you.',
     lazy: '{n} hiccups three times without opening an eye.',
+    curious: '{n} hiccups, then listens to its own tummy with interest.',
+    gentle: '{n} hiccups politely, a paw over its mouth.',
+    bold: '{n} hiccups so loudly it startles itself. Then does it again.',
+    dreamy: '{n} hiccups in a slow, floaty rhythm.',
   },
   hug: {
     any: '{n} squishes into the hug.',
@@ -77,6 +85,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} goes still, then leans in.',
     mischievous: '{n} hugs back and steals a crumb from your pocket.',
     lazy: '{n} melts into the hug like warm dough.',
+    curious: '{n} hugs back, then inspects your sleeve.',
+    gentle: '{n} hugs back softly and pats your back twice.',
+    bold: '{n} hugs back hard enough to squeak.',
+    dreamy: '{n} sighs into the hug and drifts off somewhere nice.',
   },
   groom: {
     any: '{n} fluffs up, very pleased.',
@@ -84,6 +96,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} fluffs up and peeks at you sideways.',
     mischievous: '{n} shakes off the brushing all over you.',
     lazy: '{n} fluffs up and nearly falls asleep mid-brush.',
+    curious: '{n} fluffs up, then tries to see its own back.',
+    gentle: '{n} fluffs up and smooths your hair in return.',
+    bold: '{n} fluffs up and strikes a pose.',
+    dreamy: '{n} fluffs up and gazes at the shine on its paws.',
   },
   praise: {
     any: '{n} stands up a little taller.',
@@ -91,6 +107,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} goes pink and looks at the grass.',
     mischievous: '{n} bows to an imaginary crowd.',
     lazy: '{n} accepts the praise from a lying-down position.',
+    curious: '{n} looks round to see what it did so well.',
+    gentle: '{n} goes warm all over and pats your knee.',
+    bold: '{n} thumps its chest. It knew it.',
+    dreamy: '{n} smiles a slow, faraway smile.',
   },
   highFive: {
     any: '{n} slaps your palm with a tiny paw.',
@@ -98,6 +118,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} misses, bonks its own head and stares at its paw.',
     mischievous: '{n} pulls the paw away at the last second. Too slow!',
     lazy: '{n} lifts one paw and lets you do the rest.',
+    curious: '{n} studies your palm closely, then high-fives it.',
+    gentle: '{n} gives the gentlest high five in the Grove.',
+    bold: '{n} high-fives you so hard you both wobble.',
+    dreamy: '{n} high-fives the air just beside your hand.',
   },
   tuckIn: {
     any: '{n} snuggles down for a nap.',
@@ -105,6 +129,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} burrows in until only the crown shows.',
     mischievous: '{n} pretends to sleep, one eye open.',
     lazy: '{n} was halfway asleep already.',
+    curious: '{n} settles, but keeps one ear up for anything new.',
+    gentle: '{n} settles down and tucks your hand in too.',
+    bold: '{n} flops down like it won the nap.',
+    dreamy: '{n} drifts off before you finish.',
   },
   wideAwake: {
     any: '{n} sits bolt upright, eyes wide. Not sleepy at all.',
@@ -112,6 +140,10 @@ export const PET_TOASTS: Record<string, Record<'any' | Personality, string>> = {
     shy: '{n} sits up straight and blinks at you.',
     mischievous: '{n} pops right back up, grinning.',
     lazy: '{n} is not tired. Shockingly.',
+    curious: '{n} sits up. There is too much to look at.',
+    gentle: '{n} sits up and blinks at you kindly.',
+    bold: '{n} springs up, ready for anything.',
+    dreamy: '{n} sits up, still half in a dream.',
   },
 };
 

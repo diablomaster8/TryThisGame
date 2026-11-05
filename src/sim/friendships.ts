@@ -1,6 +1,7 @@
 import { FRIENDS } from '../config/tuning';
 import { FRIENDS_AWAY } from '../config/tuning-fun-r7';
 import { stepPairPlay } from './pair-play';
+import { stepToyPairs } from './toy-pair';
 import { addHappiness } from './needs';
 import { isFree } from './nubbin';
 import { leaningPersonality } from './personality';
@@ -35,6 +36,8 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
   flushRivalEvents(events);
   // R0330 (FUN-41): Nubbins near each other play together now and then.
   stepPairPlay(world, events);
+  // R0574: two on a seesaw or in a sandbox.
+  stepToyPairs(world, dtMs);
   const minutes = dtMs / 60_000;
   const live = world.nubbins.filter((n) => n.stage !== 'egg' && n.stage !== 'cocoon');
   // HOT-CI: each one's personality (or leaning) once a step, not once per pair.

@@ -23,6 +23,22 @@ export const AMBIENT_LIFE = {
   regions: {
     grove: { birds: true, butterflies: true, water: [{ x: 7, z: 6, r: 4.2 }] },
     wood: { birds: true, butterflies: true, water: [] },
+    // R12 d2: the other drawn regions: gulls and fish off the shore, a pool on the ridge, the
+    // Moon lands' lake and the Sun lands' fountain. The ruins keep only birds.
+    shore: {
+      birds: true,
+      butterflies: false,
+      water: [
+        { x: -20, z: 20, r: 9 },
+        { x: 10, z: 21, r: 9 },
+        { x: 40, z: 21, r: 9 },
+        { x: 56, z: -10, r: 4 },
+      ],
+    },
+    ridge: { birds: true, butterflies: false, water: [{ x: -24, z: 53, r: 3 }] },
+    ruins: { birds: true, butterflies: false, water: [] },
+    sunlands: { birds: true, butterflies: true, water: [{ x: 0, z: 2, r: 2 }] },
+    moonlands: { birds: false, butterflies: true, water: [{ x: 0, z: -4, r: 8 }] },
   } as Record<
     string,
     | { birds: boolean; butterflies: boolean; water: { x: number; z: number; r: number }[] }

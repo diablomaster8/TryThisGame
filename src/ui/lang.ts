@@ -225,6 +225,11 @@ export function langProgress(body: HTMLElement, g: Game): void {
     body.appendChild(
       el('p', 'help', CLIP_TEXT.grownUpMissing(missingClips(all).length, all.length)),
     );
+    /* R0445: list the missing clip ids so a recorder knows what to make. */
+    const fold = el('details', 'lang-topic');
+    fold.appendChild(el('summary', undefined, CLIP_TEXT.listTitle));
+    fold.appendChild(el('p', 'help', missingClips(all).join(', ')));
+    body.appendChild(fold);
   }
   for (const course of langCourses()) {
     body.appendChild(

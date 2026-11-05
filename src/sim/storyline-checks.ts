@@ -1,5 +1,9 @@
 import { SCANS, STORY } from '../config/tuning';
 import { audienceAllowed } from './audience';
+import { bestFriend } from './friendships';
+import { basePersonality } from './personality';
+import { areRivals } from './rivals';
+import { hasTrait, type TraitId } from './traits';
 import { levelOf } from './stats';
 import type { CampaignState, Nubbin, StatKey, World } from './types';
 
@@ -39,6 +43,30 @@ export function storyPartner(world: World, c: CampaignState): Nubbin | undefined
   return id ? world.nubbins.find((n) => n.id === id) : undefined;
 }
 
+/**
+ * R0584 (lane A r11): story content may read how a Nubbin was raised, never write it.
+ * `personality:<id>` matches the exact personality or its base one (so `shy` also matches a
+ * gentle-leaning shy), `trait:<id>`, `bestFriend:any` (it has a best friend) and `rival:any`
+ * (it has a rival). Read-only: nothing here changes the world.
+ */
+function nubbinTerm(world: World, n: Nubbin, t: string[], key: string): boolean {
+  const arg = t[1] ?? 'any';
+  switch (key) {
+    case 'personality':
+      return n.personality
+        ? arg === 'any' || n.personality === arg || basePersonality(n.personality) === arg
+        : false;
+    case 'trait':
+      return arg === 'any' ? true : hasTrait(n, arg as TraitId);
+    case 'bestFriend':
+      return bestFriend(world, n) !== null;
+    case 'rival':
+      return world.nubbins.some((o) => o !== n && o.stage !== 'egg' && areRivals(n, o));
+    default:
+      return false;
+  }
+}
+
 function partnerTerm(world: World, c: CampaignState, t: string[]): boolean {
   const p = storyPartner(world, c);
   if (!p) return false;
@@ -61,6 +89,11 @@ function partnerTerm(world: World, c: CampaignState, t: string[]): boolean {
       return cmp(p.slipCount, t[2]);
     case 'wellRaised':
       return p.wellRaised;
+    case 'personality':
+    case 'trait':
+    case 'bestFriend':
+    case 'rival':
+      return nubbinTerm(world, p, t.slice(1), t[1] ?? '');
     case 'moody':
       return p.moody !== null;
     case 'level': {
@@ -109,6 +142,13 @@ function term(world: World, c: CampaignState, text: string): boolean {
       return cmp(world.nubbins.filter((n) => n.stage === 'egg').length, t[1]);
     case 'partner':
       return partnerTerm(world, c, t);
+    case 'personality':
+    case 'trait':
+    case 'bestFriend':
+    case 'rival': {
+      const p = storyPartner(world, c);
+      return p ? nubbinTerm(world, p, t, t[0]!) : false;
+    }
     case 'days':
       return cmp(Math.floor((world.timeMs - c.chapterStartMs) / STORY.dayMs), t[1]);
     case 'area':

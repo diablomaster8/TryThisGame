@@ -7,7 +7,8 @@ import { progressOf, type RunState, type ThingKind } from '../minigames/expediti
 import { buildGrass } from '../samples/aaa-kit';
 import type { Rigged } from '../samples/species';
 import type { SpriteSheet } from '../render/sprites/atlas';
-import type { Nubbin, NubbinType } from '../sim/types';
+import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import type { Nubbin, NubbinType, Personality } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
 import { gaitTime } from './gait';
@@ -35,6 +36,7 @@ export class Expedition3dView implements ExpeditionView {
   private readonly progress: HTMLElement;
   private stage: MiniStage | null = null;
   private look: Look | null = null;
+  private personality: Personality | null = null;
   private rig: Rigged | null = null;
   private stand: THREE.Mesh | null = null;
   private compilingRig = false;
@@ -67,6 +69,7 @@ export class Expedition3dView implements ExpeditionView {
     this.stage = stage;
     this.nameTag.textContent = runner.name || NAMES.creature;
     this.look = nubbinLook(runner);
+    this.personality = runner.personality;
     this.openedMs = performance.now();
     this.lastEventAt = -1;
     this.lastMs = 0;
@@ -193,7 +196,12 @@ export class Expedition3dView implements ExpeditionView {
     rig.group.rotation.z =
       since < 450 && !this.stage?.reduceMotion ? (since / 450) * Math.PI * 2 : 0;
     rig.lift = at.y;
-    rig.setPose(run.onGround ? 'walk' : 'happy');
+    // R0583: a cheerful runner waves its start with a happy hop (looks only).
+    const atStart =
+      this.personality === 'cheerful' &&
+      run.onGround &&
+      run.timeMs < RACE_PERSONA.expeditionStartMs;
+    rig.setPose(run.onGround && !atStart ? 'walk' : 'happy');
     rig.animate(gaitTime(rig, at.x, 0, nowMs / 1000, dt, run.onGround));
   }
 

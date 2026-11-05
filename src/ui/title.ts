@@ -21,6 +21,7 @@ import {
   readGraphicsPref,
   readSlotIndex,
   slotId,
+  readThumb,
   storageAvailable,
   writeGraphicsPref,
   isStorylineMode,
@@ -33,13 +34,13 @@ import {
   keeperProfile,
   readSlotSummaryOf,
   setKeeperProfile,
+  childProfile,
+  setChildProfile,
   type SaveMode,
   type SaveSlot,
   type SaveSummary,
 } from '../platform/storage';
 import type { KeeperAlignment } from '../sim/types';
-import { frameKey } from '../render/sprites/animations';
-import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
 import { askGrownUp } from './grown-up-gate';
@@ -47,7 +48,7 @@ import { EDU_AGES, type EduAge } from '../config/edu';
 import type { EduBand } from '../content/types';
 import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
 import { AGE_PICK_TEXT } from '../config/strings-kids';
-import { speakLine } from './lesson';
+import { speakLater } from './speak-lazy';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { SLOT_LABEL_TEXT } from '../config/strings';
 import { openSlotLabel, slotName, slotTagText, tagRow } from './title-slots';
@@ -61,7 +62,14 @@ import '../camp-r11.css';
 /* Lane C r11 helper "profiles" (R0598, R0621, R0627, R0628, R0653) */
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
 import { continueSlot } from './install-hint';
-import { FIXED_PROFILES, listProfiles, markLastProfile, purgeDeleted } from '../platform/profiles';
+import { unifiedActive } from '../platform/unified-keys';
+import {
+  FIXED_PROFILES,
+  listProfiles,
+  markLastProfile,
+  profileById,
+  purgeDeleted,
+} from '../platform/profiles';
 
 /** R0621: the big Continue, or nothing when no slot was played yet. */
 function continueHeader(
@@ -71,6 +79,16 @@ function continueHeader(
 ): HTMLElement | null {
   if (!slot || !hasSave(slot)) return null;
   const b = button('', onContinue, 'btn btn-primary title-continue');
+  const thumb = slot.mode === 'edu' ? null : readThumb(slot);
+  if (thumb) {
+    const img = el('img', 'title-slot-thumb') as HTMLImageElement;
+    img.src = thumb;
+    img.alt = '';
+    img.width = 80;
+    img.height = 45;
+    b.classList.add('title-slot-has-thumb');
+    b.append(img);
+  }
   b.append(
     el('strong', undefined, PROFILE_TEXT.continueBig),
     el('small', undefined, PROFILE_TEXT.continueWhere(SLOT_TEXT.slot(slot.index), what)),
@@ -81,7 +99,7 @@ function continueHeader(
 /** Does the title open on "Who's playing?" (a child's Grove, or more than the two profiles)? */
 function pickerDue(): boolean {
   const kids = Array.from({ length: slotsFor('edu') }, (_, i) =>
-    hasSave({ mode: 'edu', index: i + 1 }),
+    readSlotSummaryOf('k1', { mode: 'edu', index: i + 1 }),
   ).some(Boolean);
   return kids || listProfiles().length > FIXED_PROFILES.length;
 }
@@ -257,10 +275,23 @@ export function showTitle(
     // Lane C r11 (R0611): the four questline saves sit in one fold, since the Grove offers
     // those lines in its own regions; the fold opens when any of them already has a save.
     const ROADS: SaveMode[] = ['hundred', 'logged', 'beetle', 'dawndusk'];
+    // R0611 (round 13): with the unified slots the lines are begun in their regions, so only a
+    // road that already has a separate save is listed here (no empty "new" cards for them).
+    const inWorld = unifiedActive();
     const roads = el('details', 'title-roads');
     roads.appendChild(el('summary', 'title-roads-sum', C11_TEXT.roadsHead));
     roads.appendChild(el('p', 'help', C11_TEXT.roadsHelp));
     for (const mode of order) {
+      const isRoad = ROADS.includes(mode);
+      if (
+        inWorld &&
+        isRoad &&
+        !Array.from(
+          { length: slotsFor(mode) },
+          (_, i) => slotIndex.slots[slotId({ mode, index: i + 1 })],
+        ).some(Boolean)
+      )
+        continue;
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
       section.appendChild(el('div', 'title-mode-name', modeName));
@@ -273,6 +304,7 @@ export function showTitle(
         const row = el('div', 'title-slot');
         const entry = slotIndex.slots[slotId(slot)];
         const filled = entry !== undefined;
+        if (inWorld && isRoad && !filled) continue;
         const summary = entry?.summary ?? null;
         if (filled) {
           const main = button(
@@ -298,6 +330,17 @@ export function showTitle(
             main.classList.add('title-slot-has-pic');
             main.prepend(pic);
             showFirstNubbin(slot, pic);
+          }
+          // R0447: the picture the last autosave took, when there is one.
+          const thumb = mode === 'edu' ? null : readThumb(slot);
+          if (thumb) {
+            const img = el('img', 'title-slot-thumb') as HTMLImageElement;
+            img.src = thumb;
+            img.alt = '';
+            img.width = 80;
+            img.height = 45;
+            main.classList.add('title-slot-has-thumb');
+            main.prepend(img);
           }
           main.setAttribute('aria-label', SLOT_TEXT.continueLabel(modeName, index, said));
           // A Learning Grove slot is a child's: erasing it, or starting over it, asks the
@@ -595,7 +638,7 @@ export function showTitle(
         mainMenu();
       }, true),
     );
-    speakLine(EDU_TEXT.chooseAge);
+    speakLater(EDU_TEXT.chooseAge);
   };
 
   /** Dawn & Dusk: pick a half; the other opens once one half has reached an ending. */
@@ -670,16 +713,31 @@ export function showTitle(
         parent,
         onKeeper: (p) => {
           // R0653: that Keeper's own slots (only p1 has any before the unified slots).
+          setChildProfile('k1');
           setKeeperProfile(p.id);
           markLastProfile(keeperProfile());
           mainMenu();
         },
-        onChild: (slot) => finish({ slot, fresh: false, trainer: null }),
+        onChild: (slot, profile) => {
+          setChildProfile(profile);
+          finish({ slot, fresh: false, trainer: null });
+        },
+        onNewChild: (profile) => {
+          // R0653: a child profile with no Grove yet starts one in its first free slot.
+          setChildProfile(profile);
+          const free = Array.from({ length: slotsFor('edu') }, (_, i) => i + 1).find(
+            (index) => !hasSave({ mode: 'edu', index }),
+          );
+          if (free === undefined) return say(PROFILE_TEXT.childFull);
+          ageMenu({ mode: 'edu', index: free });
+        },
         redraw: () => whoMenu(),
       }),
     );
   };
 
+  // A child profile deleted in a past visit does not stay in play.
+  if (!profileById(childProfile())) setChildProfile('k1');
   if (pickerDue() && !focusMode) whoMenu();
   else mainMenu();
   // R0598 stage B: the one-time move (off until SAVE_LAYOUT.unifiedSlots), then its card.
@@ -697,29 +755,41 @@ export function showTitle(
   }
 }
 
+/**
+ * The Keeper's picture on the pick step. R0446 (r12-d3): the sprite painter brings Three.js
+ * with it, so the canvas goes in at its final size and is painted once that chunk is in (the
+ * boot prefetch has usually fetched it by the time a player reaches this step).
+ */
 function portrait(trainerId: string): HTMLCanvasElement {
-  const sheet = buildKeeperSheet(TRAINERS.find((t) => t.id === trainerId)!.look);
-  const rect = sheet.frames.get(frameKey('idle', 'front', 0));
   const canvas = document.createElement('canvas');
   const scale = 2;
-  canvas.width = (rect?.w ?? 32) * scale;
-  canvas.height = (rect?.h ?? 32) * scale;
-  const ctx = canvas.getContext('2d');
-  if (ctx && rect) {
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(
-      sheet.texture.image as HTMLCanvasElement,
-      rect.x,
-      rect.y,
-      rect.w,
-      rect.h,
-      0,
-      0,
-      canvas.width,
-      canvas.height,
-    );
-  }
-  sheet.dispose();
+  canvas.width = 64 * scale;
+  canvas.height = 64 * scale;
+  Promise.all([import('../render/sprites/keeper'), import('../render/sprites/animations')]).then(
+    ([{ buildKeeperSheet }, { frameKey }]) => {
+      const sheet = buildKeeperSheet(TRAINERS.find((t) => t.id === trainerId)!.look);
+      const rect = sheet.frames.get(frameKey('idle', 'front', 0));
+      canvas.width = (rect?.w ?? 32) * scale;
+      canvas.height = (rect?.h ?? 32) * scale;
+      const ctx = canvas.getContext('2d');
+      if (ctx && rect) {
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(
+          sheet.texture.image as HTMLCanvasElement,
+          rect.x,
+          rect.y,
+          rect.w,
+          rect.h,
+          0,
+          0,
+          canvas.width,
+          canvas.height,
+        );
+      }
+      sheet.dispose();
+    },
+    () => undefined,
+  );
   return canvas;
 }
 

@@ -6,7 +6,7 @@
  * letters reaching y 10 and tails y 94. Guides for a finger, not font outlines; the glyph
  * itself shows underneath.
  */
-import type { Pt } from './trace-check';
+import type { ScreenPt as Pt } from './trace-check';
 
 const P = (...xy: number[]): Pt[] => {
   const out: Pt[] = [];

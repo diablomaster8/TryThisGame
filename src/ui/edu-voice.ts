@@ -61,15 +61,15 @@ export function optionSay(o: EduOption): string {
   }
 }
 
-export type Band = 'sprout' | 'reader';
+export type VoiceBand = 'sprout' | 'reader';
 
 /** The lines a round says as it opens: the prompt, for a sprout with read-aloud on. */
-export function roundSpeech(r: EduRound, band: Band, readAloud: boolean): string[] {
+export function roundSpeech(r: EduRound, band: VoiceBand, readAloud: boolean): string[] {
   return band === 'sprout' && readAloud ? [spoken(r.prompt)] : [];
 }
 
 /** The line said after an answer (praise, try again, the answer shown), same rule. */
-export function replySpeech(shown: string, band: Band, readAloud: boolean): string[] {
+export function replySpeech(shown: string, band: VoiceBand, readAloud: boolean): string[] {
   return band === 'sprout' && readAloud ? [spoken(shown)] : [];
 }
 

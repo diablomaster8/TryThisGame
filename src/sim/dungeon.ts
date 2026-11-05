@@ -67,6 +67,7 @@ import {
   onDailyChain,
 } from './dungeon-daily';
 import { followDistanceOf, moodTarget } from './dungeon-moods';
+import { popIfLost, slotTarget } from './dungeon-follow';
 import { friendSight } from './dungeon-friends';
 import { stepRoundNineC } from './dungeon-r9-c';
 import { Rng } from './rng';
@@ -1566,6 +1567,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       // Too tired: it naps where it stands; the needs system wakes it.
       continue;
     }
+    // R0048: a follower left far behind and out of sight pops to its slot behind the Keeper.
+    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs);
     let target: Vec2 | null = null;
     let fetching = run.fetch[id] ? f.loot.find((l) => l.id === run.fetch[id]) : undefined;
     if (fetching && !available(fetching)) fetching = undefined;
@@ -1594,7 +1597,11 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       const mood = moodTarget(world, run, n, events);
       if (mood === 'hold') continue;
       if (mood) target = mood;
-      else if (dist(n.pos, k.pos) > followDistanceOf(n)) target = k.pos;
+      else if (
+        dist(n.pos, k.pos) > followDistanceOf(n) ||
+        dist(n.pos, k.pos) < HOLLOW.follow.personal
+      )
+        target = slotTarget(world, f, Math.max(0, run.party.indexOf(id)));
     }
     if (target) {
       // Round the rock by a path, not a straight line that snags on corners (R0009).

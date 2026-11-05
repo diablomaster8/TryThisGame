@@ -5,6 +5,8 @@ import { doUnmapped } from '../../src/ui/do-plan'; /* Lane E r10, R0700 */
 import { resolveChoiceIcons } from '../../src/config/choice-icons'; /* R0677 */
 import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
+import { personalityCardProblems } from '../../src/content/edu-personality-cards';
+import { PERSONALITIES } from '../../src/sim/types';
 import { OUTER_PROPS } from '../../src/config/outer-ring';
 import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
@@ -22,7 +24,13 @@ import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 import { comedyReport } from './comedy-report';
 import { lineFlagProblems, ruleFlags } from './line-flags';
 import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
-import { chapterRecap, lineChapterRecap, linePitch, questPitch } from '../../src/content/pitches';
+import {
+  chapterRecap,
+  lineChapterRecap,
+  linePitch,
+  questPitch,
+  questPitchChild,
+} from '../../src/content/pitches';
 import { openWorldChecks } from './open-world-check'; /* Lane C r11, R0645 */
 import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
 import { STANDARD_LABELS } from '../../src/config/strings-access-r10';
@@ -285,6 +293,8 @@ console.log(JSON.stringify({ campaignScenes: campIds.size, campLines, campWords 
   };
   problems.push(...lineFlagProblems(STORYLINE_CONTENT, rules, new Set(C.CAMPAIGN_FLAGS)));
 }
+// ---- R0591: the Learning Grove reader's personality cards, one per personality.
+problems.push(...personalityCardProblems(PERSONALITIES));
 // ---- educational versions (the Learning Grove language switch)
 const styleMd = readFileSync(
   new URL('../../src/content/EDU-STYLE.md', import.meta.url),
@@ -1124,6 +1134,11 @@ const pitchQuests = allQuests.filter(
   (q) => /^(Q|S)\d+$/.test(q.code) && !seenPitch.has(q.id) && seenPitch.add(q.id),
 );
 for (const q of pitchQuests) tooLong(`pitch ${q.id}`, questPitch(q));
+// R0646: a child pitch is at most 14 words (the sprout band's line cap), for every `all` quest.
+for (const q of pitchQuests) {
+  const kid = questPitchChild(q);
+  if (kid && kid.split(/\s+/).length > 14) problems.push(`pitchChild ${q.id}: over 14 words`);
+}
 for (const sl of STORYLINE_CONTENT) {
   tooLong(`pitch line ${sl.id}`, linePitch(sl));
   for (const ch of sl.chapters)
@@ -1136,6 +1151,9 @@ console.log(
     missingPitches: {
       quests: pitchQuests.filter((q) => !questPitch(q)).map((q) => q.code),
       lines: STORYLINE_CONTENT.filter((sl) => !linePitch(sl)).map((sl) => sl.id),
+      child: pitchQuests
+        .filter((q) => q.audience === 'all' && !questPitchChild(q))
+        .map((q) => q.code),
     },
     missingRecaps: {
       spine: C.CAMPAIGN_CHAPTERS.filter((ch) => !(ch.recap ?? chapterRecap(ch.n))).map(

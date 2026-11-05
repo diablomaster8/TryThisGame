@@ -105,6 +105,7 @@ export const WORLD_TRACES: WorldTrace[] = [
   {
     id: 'ruins-long-night',
     region: 'ruins',
+    at: { x: -4, z: -24 },
     lines: [
       { who: 'narrator', text: 'Carvings run along the old wall: people, then lanterns, then a great dark shape.' },
       { who: 'narrator', text: 'After the dark, the carver went back to people. Fewer of them, holding hands.', mood: 'soft' },
@@ -117,6 +118,7 @@ export const WORLD_TRACES: WorldTrace[] = [
   {
     id: 'ruins-cracked-lanterns',
     region: 'ruins',
+    at: { x: -26, z: -4 },
     lines: [
       { who: 'narrator', text: 'A row of lanterns stands in the grass, every glass split by frost.' },
       { who: 'narrator', text: 'Someone set a candle stub in each one anyway. They are all burnt down.' },
@@ -128,9 +130,41 @@ export const WORLD_TRACES: WorldTrace[] = [
   {
     id: 'ruins-small-boots',
     region: 'ruins',
+    at: { x: 3, z: -3 },
     lines: [
       { who: 'narrator', text: 'A pair of small boots waits on a step, laces tied together.' },
       { who: 'narrator', text: 'They are dry inside. Somebody comes back for them, sometimes.' },
+    ],
+    childLines: {},
+  },
+  // The Lane
+  {
+    id: 'lane-squeaky-gate',
+    region: 'lane',
+    at: { x: 0, z: -34 },
+    lines: [
+      { who: 'narrator', text: 'A garden gate hangs open and squeaks in the breeze, always on the same note.' },
+      { who: 'narrator', text: 'Nobody oils it. The neighbours say it tells them who is home.', mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'lane-postbox',
+    region: 'lane',
+    at: { x: 0, z: -4 },
+    lines: [
+      { who: 'narrator', text: 'A postbox leans against the hedge, its flag stuck halfway up.' },
+      { who: 'narrator', text: 'Inside is one letter, addressed to "Whoever is next". It is not yours, yet.' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'lane-clipped-hedge',
+    region: 'lane',
+    at: { x: 0, z: 22 },
+    lines: [
+      { who: 'narrator', text: 'Somebody has clipped the hedge into a round, lopsided Nubbin.' },
+      { who: 'narrator', text: 'One ear is longer than the other. It looks very pleased with itself.', mood: 'happy' },
     ],
     childLines: {},
   },
@@ -138,6 +172,7 @@ export const WORLD_TRACES: WorldTrace[] = [
   {
     id: 'shore-bottle',
     region: 'shore',
+    at: { x: -44, z: -1 },
     lines: [
       { who: 'narrator', text: 'A bottle in the wrack holds a child\'s drawing: a round blue friend with a yellow tip.' },
       { who: 'narrator', text: 'Under it, in crayon: "PIP\'S. DO NOT TAKE."', mood: 'happy' },
@@ -147,6 +182,7 @@ export const WORLD_TRACES: WorldTrace[] = [
   {
     id: 'shore-boat-name',
     region: 'shore',
+    at: { x: -22, z: 6 },
     lines: [
       { who: 'narrator', text: 'An upturned boat rests above the tide line. Its name has been painted over twice.' },
       { who: 'narrator', text: 'The first name has faded to nothing. The newest is a painted Nubbin, grinning.', mood: 'happy' },
@@ -156,9 +192,103 @@ export const WORLD_TRACES: WorldTrace[] = [
   {
     id: 'shore-shell-path',
     region: 'shore',
+    at: { x: 18, z: 6 },
     lines: [
       { who: 'narrator', text: 'Shells are pressed into the path in a spiral, the big ones at the middle.' },
       { who: 'narrator', text: 'Someone patient did this. Someone with small hands helped, badly.', mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  // The Ridge
+  {
+    id: 'ridge-hut-latch',
+    region: 'ridge',
+    at: { x: -15, z: 5 },
+    lines: [
+      { who: 'narrator', text: "The hut latch is polished bright by hands, though the hut is always empty." },
+      { who: 'narrator', text: "A stack of dry kindling waits by the door. Someone expects you to need it.", mood: 'soft' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'ridge-falls-notches',
+    region: 'ridge',
+    at: { x: -20, z: 52 },
+    lines: [
+      { who: 'narrator', text: "Notches climb a flat rock by the pool, one for every brave swimmer." },
+      { who: 'narrator', text: "The newest has a tiny crown scratched beside it. Somebody was very proud.", mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'ridge-summit-log',
+    region: 'ridge',
+    at: { x: 1, z: -64 },
+    lines: [
+      { who: 'narrator', text: "A tin box under the cairn holds a notebook. Every entry is a date and \"Still there.\"" },
+      { who: 'narrator', text: "The first, in Hazel's hand: \"Still here. Cold. Worth it.\"", mood: 'soft' },
+    ],
+    childLines: {},
+  },
+  // The Sun lands
+  {
+    id: 'sun-fountain-coins',
+    region: 'sunlands',
+    at: { x: 4, z: 6 },
+    lines: [
+      { who: 'narrator', text: "Coins glint in the fountain, each worn smooth by wishing." },
+      { who: 'narrator', text: "One of them is a button. It is, on balance, the happiest wish in there.", mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'sun-dial-rim',
+    region: 'sunlands',
+    at: { x: 4, z: -26 },
+    lines: [
+      { who: 'narrator', text: "The dial rim reads: \"I count only the bright hours.\"" },
+      { who: 'narrator', text: "Someone has added, very small: \"Lazy.\" The carving looks fond.", mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'sun-two-initials',
+    region: 'sunlands',
+    at: { x: 26, z: 5 },
+    lines: [
+      { who: 'narrator', text: "Two sets of initials share the bench: one neat and faded, one large and keen." },
+      { who: 'narrator', text: "Between them sits a small heart. Someone tried to scratch it out, then thought better.", mood: 'happy' },
+    ],
+    childLines: {},
+  },
+  // The Moon lands
+  {
+    id: 'moon-paper-boat',
+    region: 'moonlands',
+    at: { x: 0, z: 18 },
+    lines: [
+      { who: 'narrator', text: "A paper boat rests on the lake rim, folded from a page of tiny writing." },
+      { who: 'narrator', text: "The ink has run. One word is left, and it is \"Remember.\"", mood: 'soft' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'moon-moss-names',
+    region: 'moonlands',
+    at: { x: -28, z: 22 },
+    lines: [
+      { who: 'narrator', text: "Small names are traced in the moss in a ring, where the fireflies settle." },
+      { who: 'narrator', text: "The fireflies keep the ring bright. Nobody asked them to.", mood: 'soft' },
+    ],
+    childLines: {},
+  },
+  {
+    id: 'moon-crystal-hum',
+    region: 'moonlands',
+    at: { x: 28, z: -22 },
+    lines: [
+      { who: 'narrator', text: "A crystal hums when you stand near, on a note too low to name." },
+      { who: 'narrator', text: "It stops when you step away, as if listening for someone.", mood: 'soft' },
     ],
     childLines: {},
   },

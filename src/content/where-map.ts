@@ -37,7 +37,7 @@ const ROWS: readonly Row[] = [
   [
     'Ember’s house; then the cottage bookshelf and the pond; ends in Ember’s kitchen',
     'shore',
-    'bay',
+    'beach',
   ],
   ['Faerieland, Jhudora’s Cloud', 'story-world'],
   ['Faerieland, the Faerie Quest grotto below Queen Fyora’s castle', 'story-world'],
@@ -155,7 +155,7 @@ const ROWS: readonly Row[] = [
   ],
   ['The Workshop wall, then the bridge, then Fern’s gate', 'grove', 'bridge'],
   ['The bathhouse', 'grove'],
-  ['The beach stage at Ember Bay', 'shore', 'bay'],
+  ['The beach stage at Ember Bay', 'shore', 'beach'],
   ['The bench by the pond', 'grove', 'pond'],
   ['The big boulder in the rocky section', 'grove', 'east-ridge'],
   ['The big tree by the pond, when you are carrying a heavy load of fruit', 'grove', 'old-tree'],

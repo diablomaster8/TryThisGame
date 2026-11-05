@@ -81,11 +81,33 @@ export interface SaveSlot {
 export type ProfileId = string;
 
 let keeper: ProfileId = 'p1';
+/** R0653: the child profile whose Learning Grove slots are in play (`k1` until one is picked). */
+let child: ProfileId = 'k1';
 /** R0669: another profile's Grove open read-only, or null. */
 let visiting: ProfileId | null = null;
 
 export function profileOf(slot: SaveSlot): ProfileId {
-  return slot.mode === 'edu' ? 'k1' : keeper;
+  return slot.mode === 'edu' ? child : keeper;
+}
+
+/** The child profile whose Learning Grove slots the title and the game use. */
+export function childProfile(): ProfileId {
+  return child;
+}
+
+/**
+ * R0653: play as another child profile. Its Learning Grove slots are unified slots like a
+ * second Keeper's, so only `k1` exists before they are on. The slot index is rebuilt for it.
+ */
+export function setChildProfile(id: ProfileId): void {
+  const next = /^k\d+$/.test(id) && (id === 'k1' || unifiedActive()) ? id : 'k1';
+  if (next === child && indexProfileMatches()) return;
+  child = next;
+  try {
+    rebuildSlotIndex();
+  } catch {
+    // Blocked storage: no index either.
+  }
 }
 
 /** The Keeper profile whose slots the title and the game use. */
@@ -287,6 +309,8 @@ export async function restoreFromMirror(): Promise<number> {
   const unified = await import('./migrate-unified').catch(() => null);
   unified?.activateIfMoved();
   setKeeperProfile(lastProfile());
+  // R0653: a child played last: their Learning Grove slots are the ones in play.
+  setChildProfile(lastProfile());
   await bootStores();
   try {
     for (const { key, json } of await mirrorReadAll()) {
@@ -331,6 +355,7 @@ export function clearSlot(slot: SaveSlot): boolean {
   dropLive(slotKey(slot));
   void dropSlotStores(mirrorKey(slot));
   indexCleared(slot);
+  clearThumb(slot);
   try {
     localStorage.removeItem(slotKey(slot));
     return true;
@@ -718,6 +743,15 @@ export function markResumeSlot(slot: SaveSlot): void {
   }
 }
 
+/** R0669: whether a slot is marked to come back to (a visit begun in the game left one). */
+export function hasResumeSlot(): boolean {
+  try {
+    return sessionStorage.getItem(RESUME_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
 /** The slot marked before a reload, once; null when there is none or it is not a real slot. */
 export function takeResumeSlot(): SaveSlot | null {
   try {
@@ -949,10 +983,15 @@ function indexCleared(slot: SaveSlot): void {
 
 const INDEX_PROFILE_KEY = 'grove.index.profile';
 
+/** What the index is built for: the Keeper alone while the child is `k1` (as before), else both. */
+function indexOwner(): string {
+  return child === 'k1' ? keeper : `${keeper}|${child}`;
+}
+
 /** Was the slot index built for the Keeper profile in play (none recorded means `p1`). */
 function indexProfileMatches(): boolean {
   try {
-    return (localStorage.getItem(INDEX_PROFILE_KEY) ?? 'p1') === keeper;
+    return (localStorage.getItem(INDEX_PROFILE_KEY) ?? 'p1') === indexOwner();
   } catch {
     return true;
   }
@@ -963,7 +1002,7 @@ export function rebuildSlotIndex(): SlotIndex {
   let index = emptyIndex();
   // R0653: the index holds the slots of one Keeper profile; this says which.
   try {
-    localStorage.setItem(INDEX_PROFILE_KEY, keeper);
+    localStorage.setItem(INDEX_PROFILE_KEY, indexOwner());
   } catch {
     // Blocked: the index cannot be written either.
   }
@@ -1011,5 +1050,41 @@ export function labelSlot(slot: SaveSlot, label: SlotLabel | null): boolean {
     return true;
   } catch {
     return false;
+  }
+}
+
+// ---------- slot thumbnails (R0447) ----------
+
+/** Largest thumbnail kept, as characters of the data URL (about 12 kB). */
+export const THUMB_MAX_CHARS = 12000;
+
+const thumbKey = (slot: SaveSlot): string => `grove.thumb.${slotId(slot)}`;
+
+/** Keep a small picture of the Grove with a slot; false when too big or storage is blocked. */
+export function writeThumb(slot: SaveSlot, dataUrl: string): boolean {
+  if (dataUrl.length > THUMB_MAX_CHARS) return false;
+  try {
+    localStorage.setItem(thumbKey(slot), dataUrl);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** The slot's thumbnail, or null when it has none (only an image data URL is returned). */
+export function readThumb(slot: SaveSlot): string | null {
+  try {
+    const v = localStorage.getItem(thumbKey(slot));
+    return v && v.startsWith('data:image/') && v.length <= THUMB_MAX_CHARS ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+export function clearThumb(slot: SaveSlot): void {
+  try {
+    localStorage.removeItem(thumbKey(slot));
+  } catch {
+    // Blocked storage: nothing to remove.
   }
 }

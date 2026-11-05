@@ -8,7 +8,7 @@
  * pond, floating down the stream) wait for a sim state.
  */
 import { GAG_TIMING } from '../config/tuning';
-import { decidePersonality } from '../sim/personality';
+import { basePersonality, decidePersonality } from '../sim/personality';
 import { rollWalk, streamFloating } from '../sim/travel-gags';
 import type { Nubbin } from '../sim/types';
 import { gagLook, type GagId, type GagLook, type GagPersonality } from './gag-looks';
@@ -42,8 +42,9 @@ function hash(s: string): number {
 export function gagPersonality(
   n: Pick<Nubbin, 'stage' | 'personality' | 'childCare'>,
 ): GagPersonality | null {
-  if (n.personality) return n.personality;
-  return n.stage === 'child' ? decidePersonality(n.childCare) : null;
+  // R0529: the second four play the gags of the first four they stand nearest to.
+  if (n.personality) return basePersonality(n.personality);
+  return n.stage === 'child' ? basePersonality(decidePersonality(n.childCare)) : null;
 }
 
 /** The gag frame at wall time `nowMs`, or null between gags (or when not `content`). */

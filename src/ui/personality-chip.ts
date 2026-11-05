@@ -5,6 +5,7 @@
  * signal: every chip has its icon and its word. Reads the world only.
  */
 import { PERSONALITY_LABELS } from '../config/strings';
+import { SPROUT_TEXT } from '../config/strings-soul-r11h';
 import {
   PERSONALITY_BLURBS,
   PERSONALITY_CHIP_TEXT,
@@ -12,7 +13,7 @@ import {
   FORMING_TEXT,
 } from '../config/strings-fun-r7';
 import { PALETTE } from '../render/sprites/palette';
-import { leanShares, leaningPersonality } from '../sim/personality';
+import { PERSONALITIES, leanShares, leaningPersonality } from '../sim/personality';
 import { LIFECYCLE } from '../config/tuning';
 import type { Nubbin, Personality } from '../sim/types';
 import { el } from './dom';
@@ -75,6 +76,62 @@ const ICONS: Record<Personality, { rows: string[]; ink: Record<string, number> }
     ],
     ink: { l: 28, K: 0, Z: 6 },
   },
+  // R0529: the second four. Curious: wide eyes and a question mark.
+  curious: {
+    rows: [
+      '.....tt.',
+      '..ccc..t',
+      '.ccccct.',
+      'cKKccKKc',
+      'cKKccKKc',
+      'ccccccct',
+      'cccKKccc',
+      '.cccccc.',
+    ],
+    ink: { c: 30, K: 0, t: 0 },
+  },
+  // Gentle: closed, smiling eyes and a heart.
+  gentle: {
+    rows: [
+      '..bbbb..',
+      '.bbbbbb.',
+      'bKKbbKKb',
+      'bbbbbbbb',
+      'bbbbbbbb',
+      'bbKbbKbb',
+      '.bbKKbr.',
+      '..bbbrrr',
+    ],
+    ink: { b: 34, K: 0, r: 24 },
+  },
+  // Bold: a stern brow and a big grin.
+  bold: {
+    rows: [
+      '..oooo..',
+      '.oooooo.',
+      'oKKooKKo',
+      'ooKooKoo',
+      'oooooooo',
+      'oKKKKKKo',
+      '.oK66Ko.',
+      '..oooo..',
+    ],
+    ink: { o: 21, K: 0, '6': 6 },
+  },
+  // Dreamy: half-shut eyes and a little star.
+  dreamy: {
+    rows: [
+      's.vvvv..',
+      '.vvvvvv.',
+      'vvvvvvvv',
+      'vKKvvKKv',
+      'vvvvvvvv',
+      'vvvKKvvv',
+      '.vvvvvv.',
+      '..vvvv..',
+    ],
+    ink: { v: 19, K: 0, s: 20 },
+  },
 };
 
 /** The icon as a small pixelated canvas. */
@@ -111,15 +168,23 @@ export class PersonalityChip {
     this.details = el('div', 'personality-card');
     this.details.hidden = true;
     this.root.addEventListener('click', () => {
+      if (this.say) {
+        this.onSay?.(this.say);
+        return;
+      }
       this.details.hidden = !this.details.hidden;
       this.root.setAttribute('aria-expanded', String(!this.details.hidden));
     });
   }
 
-  update(n: Nubbin): void {
+  /**
+   * `sprout` (R0567): the Learning Grove's youngest band sees the face icon alone, with a
+   * read-aloud line ("Pip feels shy today") and no word or blurb.
+   */
+  update(n: Nubbin, sprout = false): void {
     const p = leaningPersonality(n);
     const forming = !n.personality;
-    const key = `${n.id}:${n.stage}:${p}:${forming}`;
+    const key = `${n.id}:${n.stage}:${p}:${forming}:${sprout}`;
     if (key === this.shown) return;
     this.shown = key;
     this.details.hidden = true;
@@ -127,6 +192,7 @@ export class PersonalityChip {
     this.details.innerHTML = '';
     this.root.classList.toggle('forming', forming);
     this.root.hidden = n.stage === 'egg' || n.stage === 'cocoon';
+    this.say = '';
     if (!p) {
       this.root.append(el('span', 'personality-word', PERSONALITY_CHIP_TEXT.none));
       this.root.disabled = true;
@@ -134,6 +200,15 @@ export class PersonalityChip {
     }
     this.root.disabled = false;
     const word = PERSONALITY_LABELS[p];
+    if (sprout) {
+      const icon = personalityIcon(p);
+      this.root.setAttribute('aria-label', SPROUT_TEXT.chipLabel(word));
+      this.root.append(icon);
+      this.say = SPROUT_TEXT.feels(n.name, word);
+      return;
+    }
+    this.root.removeAttribute('aria-label');
+    this.say = '';
     this.root.append(
       personalityIcon(p),
       el('span', 'personality-word', forming ? PERSONALITY_CHIP_TEXT.leaning(word) : word),
@@ -166,7 +241,10 @@ export class PersonalityChip {
     const shares = leanShares(n);
     this.forming.innerHTML = '';
     const row = el('div', 'forming-bars');
-    for (const p of ['cheerful', 'shy', 'mischievous', 'lazy'] as const) {
+    // R0529: the first four always; the second four once their own care has begun, so a
+    // phone sheet is not eight thin bars from the start.
+    const shown = PERSONALITIES.filter((p, i) => i < 4 || shares[p] > 0);
+    for (const p of shown) {
       const bar = el('div', 'forming-bar');
       bar.setAttribute('role', 'img'); // TECH-28: an aria-label needs a role to be read.
       bar.setAttribute('aria-label', `${PERSONALITY_LABELS[p]} ${Math.round(shares[p] * 100)}%`);
@@ -188,6 +266,11 @@ export class PersonalityChip {
       ),
     );
   }
+
+  /** The read-aloud line for the sprout band's icon chip (empty elsewhere). */
+  say = '';
+  /** Set by the sheet: speaks a line when a read-aloud world is on. */
+  onSay: ((text: string) => void) | null = null;
 
   /** The forming meter's box, shown under the chip for a child. */
   readonly forming: HTMLDivElement = el('div', 'personality-forming');

@@ -97,7 +97,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | --- | --- |
 | Storyline SL1: The Hundred Days | [hundred.md](storylines/hundred.md) (439) |
 | Storyline SL2: Logged In | [logged.md](storylines/logged.md) (363) |
-| Storyline SL3: The Beetle Road | [beetle.md](storylines/beetle.md) (385) |
+| Storyline SL3: The Beetle Road | [beetle.md](storylines/beetle.md) (392) |
 | Storyline SL4: Dawn & Dusk | [dawndusk.md](storylines/dawndusk.md) (517) |
 
 ## Atlas

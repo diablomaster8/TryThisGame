@@ -18,7 +18,17 @@ import { button, el, modal } from './dom';
 type Tab = 'decor' | 'paint' | 'plant' | 'toys' | 'workshop';
 
 const TILES: TileKind[] = ['grass', 'dirt', 'water', 'flowers', 'stone'];
-const TOY_KINDS: ToyKind[] = ['ball', 'radio', 'blocks', 'mirror', 'tv'];
+const TOY_KINDS: ToyKind[] = [
+  'ball',
+  'radio',
+  'blocks',
+  'mirror',
+  'tv',
+  'seesaw',
+  'sandbox',
+  'drum',
+  'bubbleWand',
+];
 const DYES: readonly DyeColor[] = DYE_COLORS_ALL;
 
 /**

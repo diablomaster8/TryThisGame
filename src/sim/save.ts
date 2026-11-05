@@ -11,6 +11,7 @@ import { defaultSettings } from './world';
 import { footing } from './terrain';
 import { normaliseWear } from './wear';
 import { cleanSlotLabel } from './slot-label';
+import { isPersonality } from './personality';
 
 export const SAVE_VERSION = 15;
 
@@ -476,7 +477,10 @@ export function validateWorld(w: World): World {
     n.species = canonicalSpecies(n.species ?? 'chao');
     n.lineage = canonicalSpecies(n.lineage ?? n.species);
     n.tone ??= null;
-    n.personality ??= null;
+    // Lane A r11 (R0529, R0576): one of the eight, or none (a hand-edited save cannot slip a
+    // ninth in); the soul fields are all optional and default where they are read.
+    if (!isPersonality(n.personality)) n.personality = null;
+    if (n.echo !== undefined && !isPersonality(n.echo)) delete n.echo;
     n.hat ??= null;
     n.eternal ??= null;
     n.awaitingKeeper ??= false;

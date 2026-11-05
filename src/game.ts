@@ -8,7 +8,7 @@ import { Vector3 } from 'three';
 import { REGIONS, regionHour } from './config/regions';
 import { regionLook } from './render/region-look';
 import { regionSky } from './sim/region-weather-live';
-import { regionOf } from './sim/regions';
+import { regionOf, rideSeen } from './sim/regions';
 import { regionCameraFor } from './config/region-camera';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
@@ -26,6 +26,7 @@ import {
   watchOtherTabs,
   claimSlot,
   writeSave,
+  writeThumb,
 } from './platform/storage';
 import { OrbitCamera, walkLead, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
@@ -170,6 +171,12 @@ export class Game {
   renderPaused = false;
   /** Debug: force an hour (0..24) instead of the real clock; null = real time. */
   hourOverride: number | null = null;
+  /**
+   * R0454 (TECH-12, r12-d3): the visual tests' frame clock. Given the browser's frame time, it
+   * returns the time the frame runs at, so wind, water and idle sways land on the same phase
+   * in every run (`dev/e2e-api.ts` `freeze`). Null in play.
+   */
+  frameClock: ((nowMs: number) => number) | null = null;
   private lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
   private readonly stager = new SceneStager();
@@ -550,6 +557,8 @@ export class Game {
   private talkerKey: string | null = null;
   /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
   private focus: { id: string; untilMs: number } | null = null;
+  /** R0550: set while "Watch" follows one Nubbin with no time limit. */
+  private watchId: string | null = null;
   /** R0107: the camera holds still until this time after a landmark is found. */
   private landmarkHoldUntil = -Infinity;
   /** R11 lane D: a loaded border's iris is playing. */
@@ -558,6 +567,18 @@ export class Game {
   private takeExit(exit: string): void {
     if (this.exitPending) return;
     this.exitPending = true;
+    // R12 lane D (WORLD-69): a ride plays its side-on scene, then arrives (lazy module).
+    const def = REGIONS[regionOf(this.world.location)].exits.find((e) => e.id === exit);
+    if (def?.kind === 'vehicle' && def.ride) {
+      const ride = def.ride;
+      void import('./render/vignette').then(({ playRide }) =>
+        playRide(ride, rideSeen(this.world, ride), this.reduceMotion, () => {
+          this.exitPending = false;
+          this.send({ kind: 'travel', exit });
+        }),
+      );
+      return;
+    }
     playSound(REGION_BORDER.stepSound);
     playIris(() => {
       this.exitPending = false;
@@ -863,6 +884,21 @@ export class Game {
       });
   }
 
+  /** R0447: a 160x90 picture of the Grove for the title's slot list, at most every 2 minutes. */
+  private saveThumb(): void {
+    const now = performance.now();
+    if (document.hidden || now < this.nextThumbMs || this.world.dungeon) return;
+    this.nextThumbMs = now + 120_000;
+    try {
+      const c = this.captureFrame(160, 90);
+      if (c) writeThumb(currentSlot(), c.toDataURL('image/jpeg', 0.5));
+    } catch {
+      // A tainted or lost canvas: the slot just has no picture.
+    }
+  }
+
+  private nextThumbMs = 15_000;
+
   save(): boolean {
     if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
       this.lastSaveMs = performance.now();
@@ -873,6 +909,7 @@ export class Game {
     // Storage that recovers (space freed, a setting changed) warns again if it fails later.
     this.storageOk = ok;
     this.lastSaveMs = performance.now();
+    if (ok) this.saveThumb();
     return ok;
   }
 
@@ -897,6 +934,33 @@ export class Game {
   }
 
   // ---------- commands ----------
+
+  /** R0550: the Nubbin the Watch camera follows, or null. */
+  get watching(): string | null {
+    return this.watchId && this.focus?.id === this.watchId ? this.watchId : null;
+  }
+
+  /** R0550: follow one Nubbin until `watch(null)`; a null id ends it. */
+  watch(id: string | null): void {
+    this.watchId = id;
+    this.focus = id ? { id, untilMs: Infinity } : null;
+  }
+
+  /** R0550: glide the camera to a Nubbin for a moment (an edge chip was tapped). */
+  panTo(id: string, ms = 2500): void {
+    if (!this.watching) this.focus = { id, untilMs: performance.now() + ms };
+  }
+
+  /**
+   * R0550: where a world point is on screen, in NDC (-1..1, y up), or null before the first
+   * frame. `behind` is true when it is behind the camera (never in the ortho pixel view).
+   */
+  ndcOf(x: number, y: number, z: number): { x: number; y: number; behind: boolean } | null {
+    const cam = this.scene3d ? this.scene3d.cameraRig(this.camera).camera : this.camera.camera;
+    const v = new Vector3(x, y, z).project(cam);
+    if (!Number.isFinite(v.x) || !Number.isFinite(v.y)) return null;
+    return { x: v.x, y: v.y, behind: v.z > 1 };
+  }
 
   send(cmd: Command): void {
     // R0669: a visit sends the sim nothing.
@@ -953,7 +1017,7 @@ export class Game {
     // keep the loop alive, stop saving and let the HUD offer a reload.
     this.spikes.begin();
     try {
-      this.tick(nowMs);
+      this.tick(this.frameClock ? this.frameClock(nowMs) : nowMs);
     } catch (err) {
       if (!this.crashed) {
         console.error('Grove: a frame failed; saving has stopped.', err);
@@ -1223,7 +1287,10 @@ export class Game {
         this.updateDaylight(nowMs);
         this.culler.update(this.camera);
         this.view.batch.cull = this.culler.visible;
+        this.view.culler = this.culler;
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
+        // WORLD-39 (R12 lane D): the Grove's ground drawn back across a seamless border.
+        this.grove.setEdgeOffset(this.view.regions.groveOff);
         this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);
         this.spikes.lap('draw');
