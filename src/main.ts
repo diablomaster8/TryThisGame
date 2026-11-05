@@ -132,6 +132,10 @@ if (import.meta.env.DEV && params.has('editor')) {
     m.runRegionEditor(box);
   });
 }
+if (import.meta.env.DEV && params.has('reactions')) {
+  // R13 d2 (R0121): the dev-only reaction gallery.
+  void import('./dev/reaction-gallery').then((m) => m.mountReactionGallery());
+}
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
 let kidsLock: number | null;
 /** Lane C r11 (R0627): the new Hazel's Grove slot is a Sandbox: a Keeper, no story yet. */

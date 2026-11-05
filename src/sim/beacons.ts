@@ -37,5 +37,5 @@ export function neighbourBeacons(world: Pick<World, 'location'>): BeaconBearing[
       distance: Math.hypot(e.rect.x, e.rect.z),
     });
   }
-  return out;
+  return out.sort((a, b) => a.distance - b.distance);
 }

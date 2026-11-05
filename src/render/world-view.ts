@@ -123,7 +123,7 @@ import { PixelHollowPoofs } from './hollow-poof-pixel';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 import { PixelHollowR9a } from './hollow-r9a';
 import { drawPuddles } from './puddles';
-import { companions } from '../sim/region-companion';
+import { regionShown } from '../sim/region-companion';
 import { ambientAwake } from './ambient-life';
 import { WORLD_LOD } from '../config/tuning-world';
 import { drawAmbientPx } from './ambient-px';
@@ -1402,7 +1402,7 @@ export class WorldView {
       : run
         ? world.nubbins.filter((x) => run.party.includes(x.id))
         : world.location.startsWith('region:')
-          ? companions(world) /* R0121: the partners that came along */
+          ? regionShown(world) /* R0121: the partners that came along */
           : [];
     for (const n of shown) {
       seen.add(n.id);

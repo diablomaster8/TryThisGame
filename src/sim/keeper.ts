@@ -954,6 +954,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   // R11 lane D: in a drawn region beyond the Grove the region's own ground carries the Keeper.
   if (drawnRegion(world)) {
     stepRegionWalk(world, dtMs, events);
+    rideCarried(world); // R13 d2 (R0121): a carried Nubbin rides along in drawn regions
     return;
   }
   // A roll moves the Keeper itself until it ends or a jump cancels it (MOVE-64).
