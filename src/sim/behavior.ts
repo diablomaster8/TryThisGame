@@ -1284,7 +1284,10 @@ function stepBehavior(
       }
       // R0086: the climb itself, once the walk to the hill's foot is over.
       if (b.itemId?.startsWith('hill:')) {
-        if (!hillOutingStep(n, dtMs, now)) chooseIdle(n, world, rng, now);
+        // A climb past its time limit is over (a blocked step never freezes it); the top's
+        // own wait is timed inside hillOutingStep.
+        const late = now >= b.untilMs && !b.itemId.includes(':top:');
+        if (late || !hillOutingStep(n, dtMs, now)) chooseIdle(n, world, rng, now);
         break;
       }
       if (now >= b.untilMs) chooseIdle(n, world, rng, now);
