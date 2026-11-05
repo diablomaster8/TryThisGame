@@ -75,7 +75,7 @@ export type ChapterState = 'done' | 'now' | 'later';
 export const CHAPTER_GLYPH: Readonly<Record<ChapterState, string>> = {
   done: '✓',
   now: '◆',
-  later: '·',
+  later: '○',
 };
 
 export interface AreaQuests {

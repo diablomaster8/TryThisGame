@@ -11,7 +11,7 @@ export const CAMP13C_TEXT = {
     [
       now > 0 ? `◆ ${now} now` : '',
       done > 0 ? `✓ ${done} done` : '',
-      later > 0 ? `· ${later} later` : '',
+      later > 0 ? `○ ${later} later` : '',
     ]
       .filter(Boolean)
       .join(' · '),
