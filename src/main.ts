@@ -32,9 +32,6 @@ import {
   writeSave,
   type SaveSlot,
 } from './platform/storage';
-import { serialize } from './sim/save';
-import { loadStoryScripts } from './sim/story-scenes';
-import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 /* Lane E r9, R0696 */
@@ -55,15 +52,9 @@ import {
   showGlFailure,
 } from './ui/gl-failure';
 import { watchErrors } from './platform/error-watch';
-import { mountCameraButtons } from './ui/camera-buttons';
-import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
-import { nextTip } from './ui/tips';
 import { HOLLOW_TEXT } from './config/strings';
-import { mountSpriteGallery } from './ui/sprite-gallery';
 import { installHiddenGuard } from './platform/dom-guards';
-import { readCrossSaves } from './ui/atlas';
-import { unequipMissingHats } from './sim/derived-unlocks';
 
 function mustGet<T extends Element>(selector: string): T {
   const el = document.querySelector<T>(selector);
@@ -86,13 +77,26 @@ const hudRoot = mustGet<HTMLDivElement>('#hud');
  * up and awaited in `startGame`, which already waits for the story chunks. A failed fetch is
  * forgotten so "Try again" fetches afresh.
  */
-type BootMods = [typeof import('./game'), typeof import('./ui/hud')];
+type BootMods = [typeof import('./game'), typeof import('./ui/hud'), typeof import('./boot-late')];
 let bootMods: Promise<BootMods> | undefined;
 function loadBoot(): Promise<BootMods> {
-  return (bootMods ??= Promise.all([import('./game'), import('./ui/hud')]).catch((err) => {
+  return (bootMods ??= Promise.all([
+    import('./game'),
+    import('./ui/hud'),
+    import('./boot-late'),
+  ]).catch((err) => {
     bootMods = undefined;
     throw err;
   }));
+}
+
+/**
+ * Fetch the campaign and side-story chunks while the title is up (the story registry is part of
+ * the sim, so it is not in the first download either). A failure is retried, and reported,
+ * when the game starts.
+ */
+function loadStories(): void {
+  import('./sim/story-scenes').then((m) => m.loadStoryScripts()).catch(() => undefined);
 }
 
 // Sound starts muted and unlocks on a tap, click or key, the title screen's included.
@@ -158,7 +162,7 @@ function route(): void {
   // TECH-38: the art-direction sample galleries open in dev builds and under `?debug` only.
   const sampleRoutes = import.meta.env.DEV || params.has('debug');
   if (params.has('sprites')) {
-    mountSpriteGallery(app);
+    void import('./ui/sprite-gallery').then((m) => m.mountSpriteGallery(app), showUpdateNotice);
   } else if (params.has('style3d') && sampleRoutes) {
     // Art-direction samples for a full-3D Grove (`?style3d=1..5`).
     const i = Math.max(1, Math.min(5, Number(params.get('style3d')) || 1));
@@ -217,7 +221,7 @@ function route(): void {
     startGame(null);
   } else if (params.has('kids')) {
     /* Lane E r9, R0696: the "Learning Grove" home-screen shortcut: the children's Groves only. */
-    loadStoryScripts().catch(() => undefined);
+    loadStories();
     loadBoot().catch(() => undefined);
     showKidsPicker(
       hudRoot,
@@ -230,7 +234,7 @@ function route(): void {
   } else {
     // Fetch the campaign and side-story chunks while the title is up.
     // A failure here is retried, and reported, when the game starts.
-    loadStoryScripts().catch(() => undefined);
+    loadStories();
     loadBoot().catch(() => undefined);
     // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
     const focus = params.has('edu') ? ('edu' as const) : undefined;
@@ -269,7 +273,10 @@ interface NewEdu {
 
 /** TECH-46: build a dev scenario, store it as Free Grove slot 3 and start on it. */
 async function loadScenario(name: string): Promise<void> {
-  const { buildScenario } = await import('./dev/scenarios');
+  const [{ buildScenario }, { serialize }] = await Promise.all([
+    import('./dev/scenarios'),
+    import('./sim/save'),
+  ]);
   const seed = Number(params.get('seed')) || 1;
   const world = buildScenario(name, seed, Date.now());
   if (world) {
@@ -310,7 +317,10 @@ function startGame(
   // Learning Grove save also needs its own band's educational scenes (CV2) before the
   // first scene plays. A Free Grove with no story boots without them (story-chunks.ts).
   // The loaders forget a failed fetch, so "Try again" fetches afresh.
-  const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null, sandboxStart);
+  const slot = currentSlot();
+  const sideStories = import('./story-chunks').then((m) =>
+    m.storyChunksBeforePlay(slot, eduAge?.band ?? null, sandboxStart),
+  );
   const ready = Promise.all([sideStories, loadBoot()]);
   ready.then(
     () => loading.step(mode === '3d' ? 0.15 : 0.8),
@@ -380,28 +390,28 @@ function bootOrReport(
 }
 
 function boot(
-  [{ Game }, { mountHud }]: BootMods,
+  [{ Game }, { mountHud }, late]: BootMods,
   newCampaignTrainer: string | null,
   eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,
   storyline: string | null,
   loading: LoadingBar,
 ): void {
-  const fps = new FpsCounter(hudRoot);
+  const fps = new late.FpsCounter(hudRoot);
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
   offerInstallLater(hudRoot); // R0463 (TECH-21)
   mountVisitBanner(hudRoot); // R0669: the way out of a read-only visit
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
   // R0630: a hat a cleared side save used to give comes off (readCrossSaves sets the derived set).
-  readCrossSaves();
-  unequipMissingHats(game.world);
+  late.readCrossSaves();
+  late.unequipMissingHats(game.world);
   // A save that opens underground holds the floor still behind the veil (R0142).
   if (!loading.done) {
     game.send({ kind: 'setLoading', on: true });
     if (game.world.location === 'dungeon') loading.setLabel(HOLLOW_TEXT.loading);
     // R0318: a tip that suits this save.
-    loading.showTip(nextTip(game.world));
+    loading.showTip(late.nextTip(game.world));
   }
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
@@ -432,12 +442,20 @@ function boot(
     (window as unknown as { grove: Game & { test?: unknown } }).grove = game;
   }
   if (params.has('e2e')) {
+    // R0454 (r12-d3): on an `?e2e&still` load the game clock stands still until a visual test
+    // runs it (`grove.test.frames`, `freeze`), and then moves exactly 1/60 s a frame, so its sim
+    // and animations come out the same however long the machine took to boot.
+    if (params.has('still')) {
+      let t = 0;
+      const clock = Object.assign(() => (clock.run ? (t += 1000 / 60) : t), { run: false });
+      game.frameClock = clock;
+    }
     // TECH-11: the browser specs' hooks (`grove.test`), only on a `?e2e` load.
     void import('./dev/e2e-api').then((m) => {
       (window as unknown as { grove: { test?: unknown } }).grove.test = m.installE2eApi(game);
     });
   }
-  mountCameraButtons(hudRoot, game.camera);
+  late.mountCameraButtons(hudRoot, game.camera);
 
   // A context the browser takes away (GPU reset, memory pressure) leaves a frozen canvas:
   // save, and say so with a way back, rather than keep drawing nothing.

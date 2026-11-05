@@ -1,4 +1,6 @@
 import { closedGates } from '../sim/region-gates';
+import { REGION_FLIGHTS, regionLedges } from '../sim/region-moves';
+import { drawnRegion, regionGround } from '../sim/region-walk';
 import { liveCritters } from '../sim/region-critters';
 import { wildNubbinHere } from '../sim/region-wild-nubbin';
 import { speciesById } from '../sim/critters';
@@ -128,6 +130,49 @@ function boulder(): Raster {
   return r;
 }
 
+/** R12 lane D (WORLD-25): the vine wall, a curtain of leaves over old stones. */
+function vines(): Raster {
+  const r = new Raster(64, 40, null);
+  r.tracking = true;
+  r.rect(4, 20, 56, 18, hex('#7c776c'));
+  r.rect(4, 20, 56, 2, hex('#9a958a'));
+  const leaf = [hex('#3f7a2c'), hex('#4f8a34'), hex('#6aa647')];
+  for (let i = 0; i < 9; i++) {
+    const x = 6 + i * 6.4;
+    r.rect(x, 4 + (i % 3) * 2, 2, 32 - (i % 3) * 2, leaf[i % 3]!);
+    r.disc(x + 1, 8 + (i % 4) * 6, 3, leaf[(i + 1) % 3]!);
+    r.disc(x + 2, 22 + (i % 3) * 4, 2.5, leaf[(i + 2) % 3]!);
+  }
+  r.tracking = false;
+  return r;
+}
+
+/** R12 lane D: a built stone or cliff ledge, a block of grey rock with a mossy top. */
+function ledge(): Raster {
+  const r = new Raster(32, 32, null);
+  r.tracking = true;
+  const g = hex('#9a948a');
+  r.rect(2, 6, 28, 26, shade(g, 0.78));
+  r.rect(2, 6, 28, 5, g);
+  r.rect(2, 4, 28, 3, hex('#6f9e4a'));
+  r.rect(8, 16, 1, 10, shade(g, 0.6));
+  r.rect(20, 12, 1, 12, shade(g, 0.6));
+  r.tracking = false;
+  return r;
+}
+
+/** R12 lane D: a flying zone's spot, a pale ring of swirling leaves on the ground. */
+function mark(): Raster {
+  const r = new Raster(24, 24, null);
+  r.tracking = true;
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    r.disc(12 + Math.cos(a) * 8, 12 + Math.sin(a) * 8, 1.6, hex(i % 2 ? '#dff1ff' : '#b8e0a0'));
+  }
+  r.tracking = false;
+  return r;
+}
+
 function paint(): SpriteSheet {
   if (sheet) return sheet;
   const atlas = new RasterAtlas(128);
@@ -137,6 +182,9 @@ function paint(): SpriteSheet {
   atlas.add('draft', draft());
   atlas.add('planks', planks());
   atlas.add('wild', wild());
+  atlas.add('vines', vines());
+  atlas.add('ledge', ledge());
+  atlas.add('mark', mark());
   sheet = atlas.build();
   return sheet;
 }
@@ -157,12 +205,24 @@ export function drawRegionLifePx(
   tint: number,
   tSec: number,
   still: boolean,
+  /** R12 lane D (WORLD-59): the occluder fade; a wall or ledge over the Keeper thins. */
+  fade?: (d: SpriteDraw) => number,
 ): void {
   if (!world.location.startsWith('region:')) return;
   const crit = liveCritters(world);
   const gates = closedGates(world);
   const wn = wildNubbinHere(world);
-  if (crit.length === 0 && gates.length === 0 && !wn) return;
+  const id = drawnRegion(world);
+  const ledges = id ? regionLedges(id) : [];
+  const zones = id ? (REGION_FLIGHTS[id] ?? []) : [];
+  if (
+    crit.length === 0 &&
+    gates.length === 0 &&
+    !wn &&
+    ledges.length === 0 &&
+    zones.length === 0
+  )
+    return;
   const s = paint();
   for (const c of crit) {
     const t = speciesById(c.species)?.type ?? 'normal';
@@ -202,7 +262,7 @@ export function drawRegionLifePx(
     }
   }
   for (const g of gates) {
-    const name = GATE_SPRITE[g.kind];
+    const name = g.kind === 'vines' ? 'vines' : GATE_SPRITE[g.kind];
     const rect = s.frames.get(name);
     if (!rect) continue;
     const flat = name === 'whirl' || name === 'planks';
@@ -215,9 +275,46 @@ export function drawRegionLifePx(
     scratch.w = g.r * (flat ? 2.6 : name === 'draft' ? 1.6 : 2.4);
     scratch.h = flat ? scratch.w * (rect.h / rect.w) : (scratch.w * rect.h) / rect.w;
     scratch.tint = tint;
+    scratch.opacity = fade ? fade(scratch) : 1;
     batch.draw(scratch);
     scratch.mode = 'billboard';
   }
+  // R12 lane D: the built stones and ledges, standing from the low ground to their tops, and
+  // each flying zone's spot.
+  if (!id) return;
+  const ground = regionGround(world.location);
+  const lr = s.frames.get('ledge');
+  if (lr)
+    for (const l of ledges) {
+      const low = Math.min(ground(l.x, l.z - l.h / 2), ground(l.x, l.z + l.h / 2));
+      scratch.sheet = s;
+      scratch.rect = lr;
+      scratch.mode = 'billboard';
+      scratch.x = l.x;
+      scratch.z = l.z + l.h / 2;
+      scratch.y = low;
+      scratch.w = l.w;
+      scratch.h = Math.max(0.4, l.y - low + 0.1);
+      scratch.tint = tint;
+      scratch.opacity = fade ? fade(scratch) : 1;
+      batch.draw(scratch);
+    }
+  const mr = s.frames.get('mark');
+  if (mr)
+    for (const f of zones) {
+      scratch.sheet = s;
+      scratch.rect = mr;
+      scratch.mode = 'flat';
+      scratch.x = f.at.x;
+      scratch.z = f.at.z;
+      scratch.y = ground(f.at.x, f.at.z) + 0.03;
+      scratch.w = 1.6;
+      scratch.h = 1.6;
+      scratch.tint = tint;
+      scratch.opacity = still ? 1 : 0.75 + 0.25 * Math.sin(tSec * 2);
+      batch.draw(scratch);
+    }
+  scratch.mode = 'billboard';
 }
 
 // Dev only: the checking drivers find the wild Nubbin and the critters the way the view does.

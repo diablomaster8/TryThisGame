@@ -63,9 +63,12 @@ export function travelBlock(
   if (exitLocked(world, exit)) return 'locked';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
-  if (exit.to === 'lane' && !(sub && TRAINERS.some((t) => `visit:${t.id}` === sub))) {
+  // R12 lane D (WORLD-33): a garden gate on the lane names its own sub-place; without one
+  // the Grove's gate opens onto the drawn lane.
+  const place = sub ?? exit.sub;
+  if (exit.to === 'lane' && place && !TRAINERS.some((t) => `visit:${t.id}` === place))
     return 'no-place';
-  }
+  if (exit.to === 'lane' && !place && !REGION_SPECS.lane) return 'no-place';
   return null;
 }
 
@@ -86,9 +89,19 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   // WORLD-39/56: a seamless edge keeps the Keeper's footing, re-based into the neighbour's
   // own coordinates; every other kind arrives at the exit's spot.
   const keep = exit.kind === 'seamless' ? seamlessOffset(exit) : null;
+  // R12 lane D (WORLD-69): a ride is played in full the first time, skippable after.
+  if (exit.kind === 'vehicle' && exit.ride)
+    (world.collected ??= {})[`ride:${exit.ride}`] ??= world.timeMs;
   const was = { ...k.pos };
   const target = k.moveTarget;
-  if (exit.to === 'lane') visit(world, sub!.slice('visit:'.length), events);
+  const place = sub ?? exit.sub;
+  if (exit.to === 'lane' && place) {
+    visit(world, place.slice('visit:'.length), events);
+    resetCrossing(world);
+    noteRegion(world, events);
+    return true;
+  }
+  if (exit.to === 'lane') setLocation(world, regionLocation('lane'), events);
   else if (REGION_SPECS[exit.to]) setLocation(world, regionLocation(exit.to), events);
   else setLocation(world, 'grove', events);
   // R11 d7: a seamless way taken from afar (not walked over the line) lands on its arrival.
@@ -131,4 +144,9 @@ export function regionAwayMs(world: World, region: RegionId): number {
   if (regionOf(world.location) === region) return 0;
   const left = world.regionLeftMs?.[region];
   return left === undefined ? Infinity : world.timeMs - left;
+}
+
+/** R12 lane D (WORLD-69): whether this ride has been taken before (so its scene may be skipped). */
+export function rideSeen(world: Pick<World, 'collected'>, ride: string): boolean {
+  return (world.collected ?? {})[`ride:${ride}`] !== undefined;
 }

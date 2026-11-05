@@ -155,10 +155,11 @@ export function kitModule(s: KitPxStyle): RegionPxModule & {
   const dyn = new Map<KitPiece, SpriteDraw | null>();
   return {
     createRegionPx: (l) => new KitPx(l, s),
-    drawEntrance(batch, x, z, tint) {
+    drawEntrance(batch, x, z, tint, fade) {
       const d = sprite(s.sheet(), s.arch.key, x, z, s.arch.w);
       if (!d) return;
       d.tint = tint;
+      d.opacity = fade ? fade(d) : 1;
       batch.draw(d);
     },
     drawDynamic(batch, world, tint) {

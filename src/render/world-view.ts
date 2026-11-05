@@ -44,6 +44,8 @@ import { GROVE, GROVE3D, SIM } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
+import { ChunkMask, type SpriteCuller } from './chunks';
+import { GROVE_CHUNKS } from '../config/tuning-r12d1';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
 import { windSway } from './wind-px';
@@ -199,6 +201,16 @@ export class WorldView {
   private readonly glances = new Glances();
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
+  /**
+   * WORLD-09 (R12 lane D): the Grove's scenery, fence posts and ground dressing by 16 u
+   * chunk; a chunk off screen skips all its sprites at once. `culler` is the game's.
+   */
+  culler: SpriteCuller | null = null;
+  readonly groveChunks = {
+    scenery: new ChunkMask(SCENERY, GROVE_CHUNKS.pxReach, GROVE_CHUNKS.pxHeight),
+    fences: new ChunkMask(this.fences, 1, 2),
+    decor: new ChunkMask(this.decor, 1.5, 2),
+  };
   private darkness = 0;
   /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
   private cave: Floor | null = null;
@@ -830,11 +842,30 @@ export class WorldView {
         batch.mesh.parent,
         this.dim,
         this.keeperDrawPos(world, alpha),
+        hides,
+      );
+    // WORLD-39 (R12 lane D): the real Grove's scenery back across a seamless border.
+    const groveOff = this.regions.groveOff;
+    if (!bare && groveOff && this.location.startsWith('region:') && !groveBack)
+      void import('./region-grove-back-px').then((m) => (groveBack = m.drawGroveBack));
+    if (!bare && groveOff && this.location.startsWith('region:') && groveBack)
+      groveBack(
+        batch,
+        world,
+        { scenery: this.sheets.scenery(), props: this.sheets.props() },
+        this.groveChunks,
+        this.culler,
+        { fences: this.fences, decor: this.decor },
+        groveOff,
+        this.keeperDrawPos(world, alpha),
+        this.dim,
+        hides,
       );
     // R0137: the Grove's rain puddles.
     if (!bare) drawPuddles(world, batch, this.dim);
     // R0120/R0110: a region's critters and shut gates.
-    if (!bare) drawRegionLifePx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion);
+    if (!bare)
+      drawRegionLifePx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion, hides);
     // R12 d2: traces, collectibles, the photo frame and the build plot of a region.
     if (!bare) drawRegionMarksPx(world, batch, this.dim, nowMs / 1000, this.particles.reduceMotion);
     // R0128: birds, butterflies and fish shadows from the chunk list, by day in the dry.
@@ -853,7 +884,13 @@ export class WorldView {
     if (inGrove) {
       const scenery = this.sheets.scenery();
       const lampsOn = this.lights.length > 0;
-      for (const s of SCENERY) {
+      const gc = this.groveChunks;
+      gc.scenery.update(this.culler);
+      gc.fences.update(this.culler);
+      gc.decor.update(this.culler);
+      for (let si = 0; si < SCENERY.length; si++) {
+        const s = SCENERY[si]!;
+        if (!gc.scenery.has(si)) continue;
         if (isSceneryHidden(s.kind)) continue;
         const litKey =
           lampsOn && !(Y_STATE.windowsOut && s.pick?.kind === 'building')
@@ -974,7 +1011,9 @@ export class WorldView {
       }
       const fence = scenery.frames.get(frameKey('fencePost', 'front', 0));
       if (fence) {
-        for (const f of this.fences) {
+        for (let fi = 0; fi < this.fences.length; fi++) {
+          const f = this.fences[fi]!;
+          if (!this.groveChunks.fences.has(fi)) continue;
           batch.draw(
             reuseDraw(
               SCENERY_DRAW,
@@ -995,7 +1034,10 @@ export class WorldView {
       }
     }
     // Ground dressing, then memorial flowers.
-    for (const d of inGrove ? this.decor : []) {
+    const decor = inGrove ? this.decor : [];
+    for (let di = 0; di < decor.length; di++) {
+      const d = decor[di]!;
+      if (!this.groveChunks.decor.has(di)) continue;
       const rect = props.frames.get(frameKey(d.frame, 'front', 0));
       if (!rect) continue;
       batch.draw(
@@ -2392,6 +2434,7 @@ export class WorldView {
           ? 'sit'
           : 'sleep'
         : clipFor(n);
+      clip = PIXEL_CLIP[clip] ?? clip;
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
       // R0540 (lane A r10): a chatter speaks with the happy clip and listens standing.
       const cc = held ? null : chatClip(n, perfMs);
@@ -2956,6 +2999,9 @@ function lerp(a: number, b: number, t: number): number {
 }
 
 /** Which clip a free Nubbin plays. */
+/** R0455: states `clipFor` names that the sprite sheet draws with another clip's frames. */
+const PIXEL_CLIP: Record<string, string> = { petted: 'happy' };
+
 export function clipFor(n: Nubbin): string {
   // R0547 (lane A r11): chasing a butterfly runs; a catch is a happy pose.
   const cc = chaseClip(n);
@@ -2988,9 +3034,12 @@ export function clipFor(n: Nubbin): string {
     // LOOK-21: crying sits, rubs its eyes and wails (a sheet without the clip shows sad).
     case 'cry':
       return 'cry';
+    // R0455 (r12-d3): the petted state both renderers name (`render-common/visual-state.ts`);
+    // the sheet has no lean-in clip, so it draws with the happy frames (`PIXEL_CLIP`).
+    case 'pet':
+      return 'petted';
     case 'greet':
     case 'play':
-    case 'pet':
     case 'court':
     case 'perform':
       // R0539: a visit to a friend's flower is a quiet sit.
@@ -3111,6 +3160,8 @@ const blankDraw = (): SpriteDraw => ({
   z: 0,
   mode: 'billboard',
 });
+/** WORLD-39 (R12 lane D): the Grove drawn back from a seamless neighbour, loaded on first use. */
+let groveBack: typeof import('./region-grove-back-px').drawGroveBack | null = null;
 const SHADOW_DRAW = blankDraw();
 const SCENERY_DRAW = blankDraw();
 function reuseDraw(

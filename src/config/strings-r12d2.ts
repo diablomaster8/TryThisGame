@@ -33,6 +33,11 @@ function cap(s: string): string {
 
 /** R0091 (WORLD-27): the lost postcards of the other drawn regions, by their number in the set. */
 const MORE_POSTCARDS: Readonly<Record<string, readonly string[]>> = {
+  lane: [
+    '✉️ A postcard wedged in a hedge: "Wrong gate again. Lovely tea, though."',
+    '✉️ A postcard under a milestone: "Post comes at noon. The postbox sighs at one."',
+    '✉️ A postcard, thumbed soft: "Every gate on this lane squeaks in a different key."',
+  ],
   wood: [
     '✉️ A postcard, folded small: "The oak kept the rain off us. We kept it company."',
     '✉️ A postcard in a hollow stump: "Gone to count mushrooms. Back by tea. Possibly."',

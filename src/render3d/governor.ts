@@ -78,9 +78,30 @@ export class FrameGovernor {
     this.floor = g.minRatio;
   }
 
+  /** R0454 (TECH-12, r12-d3): held at full quality for a visual test (`pin`). */
+  private pinned: 'off' | 'apply' | 'held' = 'off';
+
+  /**
+   * R0454 (r12-d3): every saving off and the render scale back at its most, and kept there
+   * whatever the frame times: a visual golden must not depend on how slow the machine was.
+   */
+  pin(): void {
+    this.pinned = 'apply';
+    this.ratio = this.maxRatio;
+    this.cpuLevel = 0;
+    this.shedLevel = 0;
+    this.trial = null;
+    this.forcedGeo = 0;
+  }
+
   /** Feed one frame's interval; returns the new ratio when it changes, else null. */
   sample(frameMs: number): number | null {
     const g = GROVE3D.governor;
+    if (this.pinned !== 'off') {
+      if (this.pinned === 'held') return null;
+      this.pinned = 'held';
+      return this.ratio;
+    }
     // A hidden tab, a stall on a shader link or a debugger pause is not the frame rate.
     if (!(frameMs > 0) || frameMs > 250) return null;
     this.avgMs = this.samples === 0 ? frameMs : this.avgMs + (frameMs - this.avgMs) * g.smoothing;

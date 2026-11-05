@@ -23,6 +23,7 @@ import {
 } from '../config/region-layout';
 import { WOOD_SPEC } from '../config/region-wood';
 import { RIDGE_SPEC } from '../config/region-ridge';
+import { LANE_SPEC } from '../config/region-lane';
 import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
@@ -32,6 +33,14 @@ import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
 import { keeperSpeedMultiplier } from './perks';
 import type { Location, SimEvent, Vec2, World } from './types';
+import {
+  inAirLane,
+  ledgeAt,
+  regionFlightStep,
+  regionFlightTrigger,
+  regionPassable,
+  stepRegionVertical,
+} from './region-moves';
 
 /** Every drawn region beyond the Grove. A new region joins here with its spec (see the report). */
 export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
@@ -41,6 +50,7 @@ export const REGION_SPECS: Partial<Record<RegionId, RegionSpec>> = {
   moonlands: MOON_SPEC,
   ruins: RUINS_SPEC,
   ridge: RIDGE_SPEC,
+  lane: LANE_SPEC,
 };
 
 /**
@@ -263,13 +273,17 @@ function nearestOpen(l: RegionLayout, i: number): number {
 
 /**
  * One substep of the Keeper in a drawn region. Called from the Keeper's substep in place of
- * the Grove's walk; the Keeper stays on the ground here (no hills to jump yet).
+ * the Grove's walk. R12 lane D: the Keeper jumps here too, onto stones and ledges and over
+ * the air lanes of built jump routes, and rides a region's flying zones (`region-moves.ts`).
  */
-export function stepRegionWalk(world: World, dtMs: number): void {
+export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = []): void {
   const id = drawnRegion(world);
   const l = id ? layoutOf(id) : null;
-  if (!l) return;
+  if (!l || !id) return;
+  if (regionFlightStep(world, l, id, dtMs)) return;
   const k = world.keeper;
+  const walk = (x: number, z: number) => standsIn(l, x, z, r);
+  const pass = (x: number, z: number) => regionPassable(world, l, id, x, z, walk);
   const dt = dtMs / 1000;
   const r = REGION_WALK.radius;
   let dx = 0;
@@ -334,23 +348,29 @@ export function stepRegionWalk(world: World, dtMs: number): void {
       );
     }
   }
+  const fx = k.pos.x;
+  const fz = k.pos.z;
   if (speed > 0) {
     const step = speed * dt;
     const nx = k.pos.x + dx * step;
     const nz = k.pos.z + dz * step;
     // Slide along the edge of open ground: the whole step, else either axis alone.
-    if (standsIn(l, nx, nz, r)) {
+    if (pass(nx, nz)) {
       k.pos.x = nx;
       k.pos.z = nz;
-    } else if (standsIn(l, nx, k.pos.z, r)) k.pos.x = nx;
-    else if (standsIn(l, k.pos.x, nz, r)) k.pos.z = nz;
+    } else if (pass(nx, k.pos.z)) k.pos.x = nx;
+    else if (pass(k.pos.x, nz)) k.pos.z = nz;
     k.facing = Math.atan2(dx, dz);
   }
   const bx = k.pos.x;
   const bz = k.pos.z;
   resolveRegion(l, k.pos, r);
   // Never pushed out of a solid into the trees.
-  if (!standsIn(l, k.pos.x, k.pos.z, r * 0.5)) {
+  if (
+    !standsIn(l, k.pos.x, k.pos.z, r * 0.5) &&
+    ledgeAt(id, k.pos.x, k.pos.z) === null &&
+    !inAirLane(id, k.pos.x, k.pos.z)
+  ) {
     k.pos.x = bx;
     k.pos.z = bz;
   }
@@ -358,10 +378,9 @@ export function stepRegionWalk(world: World, dtMs: number): void {
   const hh = l.spec.size.h / 2 - r;
   k.pos.x = Math.max(-hw, Math.min(hw, k.pos.x));
   k.pos.z = Math.max(-hh, Math.min(hh, k.pos.z));
-  // R11 d7 (WORLD-36): a terraced region carries the Keeper up its ramps.
-  k.y = terraceHeight(l.spec, k.pos.z);
-  k.vy = 0;
-  k.grounded = true;
+  // R11 d7 (WORLD-36): a terraced region carries the Keeper up its ramps; R12: and jumps.
+  stepRegionVertical(world, l, id, dt, events, walk);
+  regionFlightTrigger(world, id, fx, fz);
 }
 
 // ---------------------------------------------------------------- borders

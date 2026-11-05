@@ -52,7 +52,9 @@ export const WOOD_POIS: readonly PoiDef[] = [
   { id: 'old-mill', x: 38, z: 2, tier: 'major' },
   { id: 'lookout', x: 28, z: -30, tier: 'minor' },
   { id: 'hollow-tree', x: -16, z: 2, tier: 'minor' },
-  { id: 'vine-wall', x: 14, z: -14, tier: 'minor' },
+  // R12 lane D: the vine wall is a Power gate across the cross-cut from the hollow tree
+  // (`REGION_GATES`), on the lane itself, so no clearing lets the Keeper round it.
+  { id: 'vine-wall', x: 14, z: -14, tier: 'micro' },
   { id: 'deep-wood', x: -42, z: -42, tier: 'minor' },
   { id: 'woodcutter', x: 20, z: 40, tier: 'minor' },
   { id: 'mill-bridge', x: 41, z: 6, tier: 'micro' },
@@ -94,15 +96,21 @@ export const WOOD_MICRO: readonly { x: number; z: number }[] = [
  * lookout back to the path.
  */
 export const WOOD_JUMPS: readonly JumpRoute[] = [
+  // R12 lane D: built. Two stones across the stream south of the mill, from the loop to the
+  // ruins lane's bank; the mill bridge just north is the way round.
   {
     id: 'stream-stones',
     kind: 'stones',
-    gap: 1.6,
-    rise: 0,
+    gap: 1.2,
+    rise: 0.25,
     run: false,
-    from: { x: 38, z: 20 },
-    to: { x: 47, z: 22 },
+    from: { x: 36.6, z: -3 },
+    to: { x: 43, z: -2 },
     walkAround: 'mill-bridge',
+    ledges: [
+      { x: 39.2, z: -2.8, w: 1.1, h: 1.1, y: 0.25 },
+      { x: 40.9, z: -2.5, w: 1.1, h: 1.1, y: 0.25 },
+    ],
   },
   {
     id: 'lookout-ledges',
@@ -175,12 +183,18 @@ export const WOOD_SPEC: RegionSpec = {
       { x: 43, z: 6 },
       { x: 56, z: 0 },
     ],
+    // R12 lane D (WORLD-25): the cross-cut from the hollow tree to the vine wall, shut by the
+    // wall until a Power partner pulls it down; the east side runs on to the loop by the mill.
+    [
+      { x: -16, z: 2 },
+      { x: 14, z: -14 },
+      { x: 30, z: -18 },
+    ],
   ],
   solids: [
     { x: 36, z: 0, r: 2.4, w: 4.4, h: 4 },
     { x: -20, z: -35, r: 1.6 },
     { x: -16, z: 2, r: 1.2 },
-    { x: 14, z: -14, r: 2, w: 4, h: 0.8 },
   ],
   micro: WOOD_MICRO,
 };
