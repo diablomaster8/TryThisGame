@@ -129,6 +129,7 @@ import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
+import { mountEduSignposts } from './edu-signposts';
 import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
 import { buzz } from '../platform/haptics';
@@ -565,6 +566,7 @@ export function mountHud(
   mountMinimap(root, game, () => map.open());
   mountWalkTuck(root, game);
   mountBeacon(root, game, () => map.open());
+  mountEduSignposts(root, game);
   // R0107: the landmark name card.
   const landmarkCard = mountLandmarkCard(root);
   // TECH-03: a week in with no export, offer a backup file once.

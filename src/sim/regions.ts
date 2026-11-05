@@ -61,6 +61,8 @@ export function travelBlock(
   const to = regions[exit.to];
   if (!to.built) return 'unbuilt';
   if (exitLocked(world, exit)) return 'locked';
+  // R13 d2 (R0099): the Learning Grove only goes to kid-safe places.
+  if (world.edu && !to.kidsSafe) return 'not-for-kids';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   // R12 lane D (WORLD-33): a garden gate on the lane names its own sub-place; without one
