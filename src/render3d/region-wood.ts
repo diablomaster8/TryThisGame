@@ -6,7 +6,8 @@ import type { ChunkLRU } from '../render/chunks';
 import { dappleMarks } from '../render/paint/wood';
 import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from '../render/region-ground';
 import type { Region3d } from './region-host';
-import type { Season, Vec2 } from '../sim/types';
+import type { Season, Vec2, World } from '../sim/types';
+import { millWheelMul } from '../sim/region-weather-play';
 import { regionLook } from '../render/region-look';
 import { SEASON_LOOK } from '../config/region-season-look';
 
@@ -27,6 +28,8 @@ const LEAVES = ['#2f6b3a', '#3d7d3c', '#24563c'].map((c) => new THREE.Color(c));
 const STONE = new THREE.Color('#9c968a');
 const ROOF = new THREE.Color('#7a3b2a');
 const PLANK = new THREE.Color('#a8743e');
+/** The wheel's turn, radians a second, dry. */
+const WHEEL_TURN = 0.6;
 const TUFT = new THREE.Color('#5d9a3c');
 
 /** Paint a geometry one colour (as a vertex attribute) and make it non-indexed for merging. */
@@ -106,6 +109,22 @@ function prop(): THREE.BufferGeometry {
 }
 
 /** The landmarks the Wood stands on its points of interest, merged into one mesh. */
+/** R0089 (R13 d1): the mill's wheel, about its own axis (x) at its own origin: a disc and paddles. */
+function wheelGeo(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [];
+  const disc = new THREE.CylinderGeometry(1.6, 1.6, 0.4, 12);
+  disc.rotateZ(Math.PI / 2);
+  parts.push(tinted(disc, PLANK));
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    const p = new THREE.BoxGeometry(0.7, 0.3, 0.7);
+    p.translate(0, Math.cos(a) * 1.75, Math.sin(a) * 1.75);
+    p.rotateX(0);
+    parts.push(tinted(p, BARK));
+  }
+  return merged(parts);
+}
+
 function landmarks(): THREE.BufferGeometry {
   const parts: THREE.BufferGeometry[] = [];
   const poi = (id: string) => WOOD_POIS.find((p) => p.id === id)!;
@@ -130,9 +149,7 @@ function landmarks(): THREE.BufferGeometry {
   const roof = new THREE.ConeGeometry(3.4, 2.2, 4);
   roof.rotateY(Math.PI / 4);
   parts.push(tinted(at(roof, mx, 4.1, mz), ROOF));
-  const wheel = new THREE.CylinderGeometry(1.6, 1.6, 0.4, 12);
-  wheel.rotateZ(Math.PI / 2);
-  parts.push(tinted(at(wheel, mx + 2.5, 1.6, mz), PLANK));
+  // The wheel itself is its own mesh (`wheelGeo`), turned by `tick`.
   const hollow = poi('hollow-tree');
   parts.push(tinted(at(new THREE.CylinderGeometry(0.9, 1.2, 3, 8), hollow.x, 1.5, hollow.z), BARK));
   parts.push(
@@ -201,6 +218,10 @@ class Wood3d implements Region3d {
   readonly group = new THREE.Group();
   private readonly batches: THREE.InstancedMesh[] = [];
   private readonly dapple: THREE.Mesh;
+  private readonly wheel: THREE.Mesh;
+  /** How fast the wheel turns now (1 dry, more in rain), and the last tick's time. */
+  private wheelMul = 1;
+  private lastT = 0;
   private readonly dappleTex: THREE.CanvasTexture;
   private readonly groundTex: THREE.CanvasTexture;
   private readonly owned: THREE.BufferGeometry[] = [];
@@ -271,6 +292,18 @@ class Wood3d implements Region3d {
     lm.name = 'wood-landmarks';
     this.group.add(lm);
     this.owned.push(lm.geometry);
+    const mill = WOOD_POIS.find((p) => p.id === 'old-mill')!;
+    this.wheel = new THREE.Mesh(wheelGeo(), mat);
+    this.wheel.position.set(mill.x - 2 + 2.5, 1.6, mill.z - 2);
+    this.wheel.castShadow = true;
+    this.wheel.name = 'wood-mill-wheel';
+    this.group.add(this.wheel);
+    this.owned.push(this.wheel.geometry);
+  }
+
+  /** R0089: rain turns the wheel faster (the sim's `millWheelMul`). */
+  sync(world: World): void {
+    this.wheelMul = millWheelMul(world);
   }
 
   /** One chunk's instance matrices per batch (cached by the host). */
@@ -362,7 +395,10 @@ class Wood3d implements Region3d {
     const season = regionLook.season ?? 'summer';
     if (season !== this.season) this.wear(season);
     this.clearView(cam, keeper);
+    const dt = Math.min(0.1, Math.max(0, t - this.lastT));
+    this.lastT = t;
     if (still) return;
+    this.wheel.rotation.x += dt * WHEEL_TURN * this.wheelMul;
     this.dappleTex.offset.set((t * 0.004) % 1, (t * 0.0025) % 1);
   }
 

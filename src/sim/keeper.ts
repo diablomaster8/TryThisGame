@@ -55,6 +55,7 @@ import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 import { noteBorderPush } from './border';
+import { glided, keeperGliding } from './glide-state';
 import { drawnRegion, stepRegionWalk } from './region-walk';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
@@ -389,23 +390,7 @@ function autoPress(world: World): void {
   autoPressed.add(world);
 }
 
-/** How long the Keeper has glided this time in the air (MOVE-27), transient. */
-const glided = new WeakMap<World, number>();
-
-/**
- * MOVE-27: whether the Keeper is gliding now: in the air, falling, jump held, with the
- * Fly perk, and within the glide's time. The renderers read it for the wing overlay.
- */
-export function keeperGliding(world: World): boolean {
-  const k = world.keeper;
-  return (
-    !k.grounded &&
-    k.vy <= 0 &&
-    k.jumpHeld &&
-    (glided.get(world) ?? 0) < GLIDE.maxMs &&
-    keeperPerks(world).glide
-  );
-}
+export { keeperGliding };
 
 /** MOVE-64: a roll under way (its heading and time), and when the last one ended. */
 const rolls = new WeakMap<World, { dx: number; dz: number; ms: number }>();
