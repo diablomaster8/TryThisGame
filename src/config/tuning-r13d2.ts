@@ -18,3 +18,6 @@ export const KEEPER2_PULL = {
   /** Stick strength the pull uses (0..1). */
   strength: 0.7,
 } as const;
+
+/** R0118: jumping into a leaf pile (autumn): reach, the airborne height, the mood it gives. */
+export const LEAF_JUMP = { radius: 1.6, minY: 0.25, happiness: 3, cooldownMs: 60000 } as const;
