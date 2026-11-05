@@ -5,6 +5,7 @@
  * input reads a release from (`THROW.placeStillMs`), so the colour matches the outcome.
  * Drawn only; it never changes the sim.
  */
+import type { ReadonlyWorld } from './readonly-world';
 import { HELD_RING, THROW } from '../config/tuning';
 import type { World } from '../sim/types';
 import { frameKey } from './sprites/animations';
@@ -26,7 +27,7 @@ export class HeldRing {
   spot: HeldRingSpot | null = null;
 
   /** Once a frame, before the Nubbins are drawn. */
-  frame(world: World, nowMs: number, calm: boolean): void {
+  frame(world: ReadonlyWorld, nowMs: number, calm: boolean): void {
     const n = world.nubbins.find((m) => m.behavior.state === 'held');
     if (this.heldId && (!n || n.id !== this.heldId)) {
       const was = world.nubbins.find((m) => m.id === this.heldId);

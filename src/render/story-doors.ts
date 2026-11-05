@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { markAt } from '../config/stage-marks';
 import { C12C } from '../config/tuning-camp12c';
 import type { SceneStage } from '../config/story';
@@ -27,7 +28,11 @@ export function isDoorKey(key: string): boolean {
   return key.startsWith('door-');
 }
 
-export function storyDoorItems(world: World, stage: SceneStage, darkness: number): DressItem[] {
+export function storyDoorItems(
+  world: ReadonlyWorld,
+  stage: SceneStage,
+  darkness: number,
+): DressItem[] {
   const out: DressItem[] = [];
   if (world.location !== 'grove' || world.edu !== null) return out;
   const sp = stage.props ?? {};

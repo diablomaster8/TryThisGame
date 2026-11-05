@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { AMBIENT_LIFE } from '../config/tuning-r11d8';
 import { WORLD_STREAM } from '../config/tuning-world';
 import { regionOf } from '../sim/regions';
@@ -90,7 +91,7 @@ const scratch: SpriteDraw = {
 export let ambientDrawn = 0;
 
 export function drawAmbientPx(
-  world: World,
+  world: ReadonlyWorld,
   batch: SpriteBatch,
   tint: number,
   tSec: number,

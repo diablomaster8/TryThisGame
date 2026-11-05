@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { PUDDLES } from '../config/tuning-r11d6';
 import { Raster, hex } from './paint/raster';
 import { RasterAtlas } from './paint/atlas';
@@ -32,7 +33,7 @@ export function puddleFill(world: Pick<World, 'weather' | 'location'>): number {
   return Math.min(1, 0.4 + world.weather.intensity * 0.6);
 }
 
-export function drawPuddles(world: World, batch: SpriteBatch, tint: number): void {
+export function drawPuddles(world: ReadonlyWorld, batch: SpriteBatch, tint: number): void {
   const fill = puddleFill(world);
   if (fill <= 0) return;
   const s = puddleSheet();
