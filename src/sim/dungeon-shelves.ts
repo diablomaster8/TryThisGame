@@ -20,11 +20,14 @@ import { levelOf } from './stats';
 import { NUBBIN_TYPES, type Nubbin, type SimEvent, type World } from './types';
 
 const S = HOLLOW_R9D.shelves;
+const L = HOLLOW_R9D.ledges;
 
 export interface Shelf {
   cells: Cell[];
-  /** The id of the find on top (in `Floor.loot`). */
+  /** The id of the find on top (in `Floor.loot`); empty on a terrace ledge. */
   find: string;
+  /** R0031: set on a terrace ledge, a lower plateau with no find (`terraceLedges`). */
+  ledge?: boolean;
 }
 
 const masks = new WeakMap<Floor, Int16Array>();
@@ -61,7 +64,7 @@ function countOf(m: Uint8Array): number {
  */
 export function raiseShelves(f: Floor, seed: number, depth: number): Floor {
   // Lane B r10: then the hop spots, shortcuts over a pit (dungeon-hops.ts).
-  return cutHops(liftShelves(f, seed, depth), seed, depth);
+  return terraceLedges(cutHops(liftShelves(f, seed, depth), seed, depth), seed, depth);
 }
 
 function liftShelves(f: Floor, seed: number, depth: number): Floor {
@@ -162,13 +165,76 @@ export function holdAtShelves(world: World, fromX: number, fromZ: number, events
   }
 }
 
-/** Lane B r10 (R0191): how far a shelf stands over its own cells' ground (world units). */
-export function shelfRise(): number {
-  return S.riseSteps * DUNGEON.elev.step;
+/**
+ * Lane B r10 (R0191): how far a shelf stands over its own cells' ground (world units). With a
+ * floor and a cell, the rise of the block that cell is in (a terrace ledge is one step, 0.5 u).
+ */
+export function shelfRise(f?: Floor, c?: Cell): number {
+  const i = f && c ? shelfAt(f, c) : -1;
+  const steps = i >= 0 && f!.shelves![i]!.ledge ? L.riseSteps : S.riseSteps;
+  return steps * DUNGEON.elev.step;
 }
 
 /** Lane B r10: whether cell (x, y) is on a shelf; no allocation, for the renderers' per-vertex use. */
 export function onShelf(f: Floor, x: number, y: number): boolean {
   if (!f.shelves?.length || x < 0 || y < 0 || x >= f.cols || y >= f.rows) return false;
   return shelfMask(f)[y * f.cols + x]! >= 0;
+}
+
+/**
+ * R0031 (lane A r13): terrace ledges. A few bigger blocks of dry floor stand one terrace step
+ * (0.5 u) over the ground round them. Their edge is a ledge like a shelf's: up needs a jump,
+ * down is a free drop, tap walks treat them as closed from below. They carry no find and are
+ * never on the critical path: a block is only placed where closing every shelf and ledge at
+ * once leaves all other floor still reachable on foot, and never on stairs or any busy cell,
+ * so the stairs, keys and bosses keep their walking way. Own seeded stream, run after the
+ * shelves and hop spots, so earlier layouts are untouched. Mutates and returns the floor.
+ */
+export function terraceLedges(f: Floor, seed: number, depth: number): Floor {
+  if (f.version < 4 || depth < L.fromDepth || f.zone) return f;
+  const rng = Rng.fromSeed((seed * 137 + depth * 983 + 0x7e44) >>> 0);
+  const want = rng.int(L.count[0], L.count[1]);
+  const { cols, rows, cells } = f;
+  const busy = busyCells(f);
+  const closed: Cell[] = (f.shelves ?? []).flatMap((s) => s.cells);
+  const walled = (extra: Cell[]) => {
+    const all = [...closed, ...extra];
+    for (const c of all) cells[c.y * cols + c.x] = WALL;
+    const n = countOf(reachMask(f, f.stairsUp, false));
+    for (const c of all) cells[c.y * cols + c.x] = FLOOR;
+    return n;
+  };
+  const base = countOf(reachMask(f, f.stairsUp, false)) - closed.length;
+  const keepAway = [f.stairsUp, ...(f.stairsDown ? [f.stairsDown] : [])];
+  const made: Shelf[] = [];
+  for (let t = 0; t < L.tries && made.length < want; t++) {
+    const [w, h] = rng.pick(L.sizes);
+    const x0 = rng.int(2, cols - w - 3);
+    const y0 = rng.int(2, rows - h - 3);
+    const block: Cell[] = [];
+    let ok = true;
+    for (let y = y0 - 1; y <= y0 + h && ok; y++)
+      for (let x = x0 - 1; x <= x0 + w && ok; x++) {
+        const i = y * cols + x;
+        const inside = x >= x0 && x < x0 + w && y >= y0 && y < y0 + h;
+        // The block is plain free floor; its one-cell rim must not touch another raised block.
+        if (inside && (cells[i] !== FLOOR || busy.has(i))) ok = false;
+        else if (inside) block.push({ x, y });
+        else if (closed.some((c) => c.x === x && c.y === y)) ok = false;
+      }
+    if (!ok) continue;
+    const mid = block[0]!;
+    if (keepAway.some((c) => cellDist(c, mid) < L.fromStairs)) continue;
+    if (made.some((s) => cellDist(s.cells[0]!, mid) < L.spacing)) continue;
+    if (walled(block) !== base - block.length) continue;
+    made.push({ cells: block, find: '', ledge: true });
+    closed.push(...block);
+    for (const c of block) busy.add(c.y * cols + c.x);
+  }
+  if (made.length === 0) return f;
+  f.shelves = [...(f.shelves ?? []), ...made];
+  masks.delete(f);
+  const rise = L.riseSteps * DUNGEON.elev.step;
+  for (const s of made) for (const c of s.cells) f.elevation[c.y * cols + c.x]! += rise;
+  return f;
 }
