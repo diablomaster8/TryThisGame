@@ -5026,6 +5026,24 @@ html.story-resting canvas {
   flex-wrap: wrap;
   gap: 6px;
 }
+/* R0650: each area is a Go there button with its chapters folded under it. */
+.wm-story-area {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.wm-story-area > .btn {
+  align-self: flex-start;
+  min-height: 44px;
+}
+.wm-story-chapters > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 
 /* Lane C r10 agent C: the journal's step controls, the summary card and the recap. */
 .journal-recap > summary {

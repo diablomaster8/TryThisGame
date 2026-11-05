@@ -299,7 +299,7 @@ export interface JournalView {
   hint: string;
   final: number;
   met: boolean;
-  chapters: Array<{ n: number; title: string }>;
+  chapters: Array<{ n: number; title: string; area?: string }>;
   endings: Record<string, { title: string; how: string }>;
   /** The ending id as the endings map keys it. */
   ending: string | null;
@@ -346,7 +346,11 @@ export function journalView(world: World, c: CampaignState, goalMet: boolean): J
     hint: def.hint,
     final: s.chapters.length,
     met: storyGoalMet(world, c),
-    chapters: s.chapters.map((ch) => ({ n: ch.n, title: ch.title })),
+    chapters: s.chapters.map((ch) => ({
+      n: ch.n,
+      title: ch.title,
+      ...(ch.area ? { area: ch.area } : {}),
+    })),
     endings: s.endings,
     ending: c.ending,
     storyline: s.id,

@@ -26,6 +26,7 @@
  */
 import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
+import { HUNDRED_CHAPTER_AREAS, placeChapters } from './chapter-areas';
 
 const say =
   (who: string) =>
@@ -925,7 +926,7 @@ export const STORYLINE_HUNDRED: Storyline = {
   source: 'Digimon World (1999): mechanics only',
   audience: 'main',
   speakers: HUNDRED_SPEAKERS,
-  chapters: HUNDRED_CHAPTERS,
+  chapters: placeChapters(HUNDRED_CHAPTERS, HUNDRED_CHAPTER_AREAS),
   endings: HUNDRED_ENDINGS,
   extra: HUNDRED_EXTRA,
   notes:
