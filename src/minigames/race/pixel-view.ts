@@ -12,7 +12,7 @@ import type { SheetCache } from '../../render/sprites/sheets';
 import { sectionAt, type RaceState, type Racer } from '../../sim/race';
 import type { Nubbin } from '../../sim/types';
 import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
-import { cheerVoice, liesFlat, racerPersonality, startLook } from '../../sim/race-persona';
+import { cheerVoice, lineClock, liesFlat, racerPersonality, startLook } from '../../sim/race-persona';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from '../expedition/art';
 import {
@@ -288,7 +288,7 @@ export class RacePixelView implements RaceView {
       const image = sheet.texture.image as HTMLCanvasElement;
       // R0583: the personality shows at the start line and in the rest pause (looks only).
       const persona = racerPersonality(r);
-      const startPose = done ? null : startLook(persona, race.timeMs, still);
+      const startPose = done ? null : startLook(persona, lineClock(race), still);
       const flat = resting && liesFlat(persona);
       const sx =
         Math.round(pos * PX_PER_UNIT - camX - rect.w / (2 * PX)) + Math.round(startPose?.dx ?? 0);

@@ -195,6 +195,13 @@ export interface RaceState {
   finished: boolean;
   /** Final placements by racer id once finished. */
   placements: string[];
+  /**
+   * R0583: a pre-race hold, in ms, that the screen sets so the start-line poses play before
+   * anyone moves. `stepRace` only waits it out: nothing else reads it, so a seed gives the
+   * same finishing times with or without it. Absent in plain sim runs.
+   */
+  countdownMs?: number;
+  countdownTotalMs?: number;
 }
 
 function levelsOf(n: Nubbin): Record<StatKey, number> {
@@ -330,6 +337,10 @@ export function cheerReady(race: RaceState): boolean {
 
 export function stepRace(race: RaceState, dtMs: number): void {
   if (race.finished) return;
+  if ((race.countdownMs ?? 0) > 0) {
+    race.countdownMs = Math.max(0, race.countdownMs! - dtMs);
+    return;
+  }
   const dt = dtMs / 1000;
   race.timeMs += dtMs;
   for (const r of race.racers) {

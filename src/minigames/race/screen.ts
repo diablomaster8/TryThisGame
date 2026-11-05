@@ -1,5 +1,7 @@
 import { playArea } from '../play-area';
 import { RACE, SIM } from '../../config/tuning';
+import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { countLabel, inCountdown } from '../../sim/race-persona';
 import { UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import type { SheetCache } from '../../render/sprites/sheets';
@@ -132,6 +134,10 @@ export class RaceScreen {
     const starts = ++this.starts;
     this.race = race;
     this.onDone = onDone;
+    // R0583: hold the field at the line while the start poses play (once per race).
+    if (race.countdownTotalMs === undefined) {
+      race.countdownMs = race.countdownTotalMs = RACE_PERSONA.countdownMs;
+    }
     this.watch = new RaceWatch(race);
     this.outcome = null;
     this.hatRoll = hatRoll;
@@ -181,6 +187,7 @@ export class RaceScreen {
 
   private cheer(): void {
     if (!this.race || this.loading3d || !this.view.ready) return;
+    if (inCountdown(this.race)) return;
     if (cheer(this.race)) {
       playSound('cheer');
       this.view.cheered(this.race, performance.now());
@@ -253,11 +260,11 @@ export class RaceScreen {
   private updateHud(race: RaceState, live: boolean): void {
     const place = this.livePlacement(race);
     this.hud.textContent = live
-      ? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`
+      ? (countLabel(race) ?? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`)
       : this.tip
         ? `${UI_TEXT.stageLoading} ${this.tip}`
         : UI_TEXT.stageLoading;
-    this.cheerBtn.disabled = !live || !cheerReady(race) || race.finished;
+    this.cheerBtn.disabled = !live || inCountdown(race) || !cheerReady(race) || race.finished;
   }
 
   private showResults(race: RaceState): void {
