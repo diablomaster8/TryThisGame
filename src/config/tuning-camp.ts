@@ -58,7 +58,11 @@ export const QUEST_OFFERS = {
     s19: 'lapse',
     s23: 'lapse',
     s26: 'lapse',
-  } as Readonly<Record<string, 'never' | 'lapse'>>,
+    // R0657: the post-game expansions are plain invitations, put off for as long as you like.
+    e1: 'free',
+    e2: 'free',
+    e3: 'free',
+  } as Readonly<Record<string, 'never' | 'lapse' | 'free'>>,
   /** Steps per size chip on the offer card (R0606): up to `s` is S, up to `m` is M, else L. */
   size: { s: 3, m: 7 },
   /** R0635: the rough minutes one quest step takes, for "about N min left". */

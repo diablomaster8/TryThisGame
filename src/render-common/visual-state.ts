@@ -43,6 +43,15 @@ const CLIP_STATE: Record<string, VisualState> = {
   surprised: 'surprised',
   tumble: 'tumble',
   held: 'held',
+  // R0239: the battle verbs share the state of the 3D pose the battle view maps them onto.
+  windup: 'happy',
+  bonk: 'happy',
+  splash: 'flap',
+  hit: 'sad',
+  dodge: 'surprised',
+  cheer: 'happy',
+  tuckered: 'sleep',
+  wave: 'happy',
 };
 
 /** 3D pose names. `pet` is the held and petted body; the Keeper-only poses have no state. */

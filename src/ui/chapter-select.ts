@@ -7,13 +7,15 @@
  * are no checkpoints, so only Watch again shows.
  */
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
-import { STORY_TEXT, type Scene } from '../config/story';
+import { REPLAY_TEXT } from '../config/strings-camp12d';
+import { STORY_TEXT, type Choice, type Line, type Scene } from '../config/story';
 import type { Game } from '../game';
 import { readCheckpoint } from '../platform/save-backups';
 import {
   currentSlot,
   hasSave,
   labelSlot,
+  readSlotSummary,
   slotsFor,
   writeSlotFrom,
   type SaveSlot,
@@ -21,16 +23,44 @@ import {
 import { chapterSelect, type DoneChapter } from '../sim/chapter-select';
 import { sceneById, storylines } from '../sim/story-scenes';
 import { SPINE_LINE } from '../sim/story-marks';
+import { confirmModal } from './confirm';
 import { button, el } from './dom';
 
-/** One scene made of a chapter's scenes, with no choices: a read-only replay. */
-export function replayScene(ch: DoneChapter): Scene | null {
+/** The choice of `scene` this story's flags show was taken: all its `set` flags hold. */
+export function chosenOf(scene: Scene, flags: Readonly<Record<string, unknown>>): Choice | null {
+  return (
+    scene.choices?.find((ch) => {
+      const set = Object.entries(ch.set ?? {});
+      return set.length > 0 && set.every(([k, v]) => flags[k] === v);
+    }) ?? null
+  );
+}
+
+/**
+ * One scene made of a chapter's scenes, read-only. R0618: a scene with choices shows them all,
+ * then the one taken ("You chose: ..."), then what was said after it; none can be clicked.
+ */
+export function replayScene(
+  ch: DoneChapter,
+  flags: Readonly<Record<string, unknown>> = {},
+): Scene | null {
   const scenes = ch.scenes.map((id) => sceneById(id)).filter((s): s is Scene => !!s);
   const first = scenes[0];
   if (!first) return null;
+  const narrate = (text: string): Line => ({ who: 'narrator', text });
+  const lines = scenes.flatMap((s) => {
+    if (!s.choices || s.choices.length === 0) return s.lines;
+    const taken = chosenOf(s, flags);
+    return [
+      ...s.lines,
+      narrate(REPLAY_TEXT.options(s.choices.map((x) => x.label))),
+      narrate(taken ? REPLAY_TEXT.chose(taken.label) : REPLAY_TEXT.choseUnknown),
+      ...(taken?.then ?? []),
+    ];
+  });
   return {
     id: `replay-${ch.line}-${ch.n}`,
-    lines: scenes.flatMap((s) => s.lines),
+    lines,
     ...(first.stage ? { stage: first.stage } : {}),
   };
 }
@@ -57,12 +87,34 @@ function emptySlot(of: SaveSlot): SaveSlot | null {
   return null;
 }
 
+/** The slot a branch would replace when none is empty: the last slot that is not this one. */
+export function overwriteSlot(of: SaveSlot): SaveSlot | null {
+  for (let index = slotsFor(of.mode); index >= 1; index--)
+    if (index !== of.index) return { mode: of.mode, index };
+  return null;
+}
+
+function confirmOverwrite(slot: SaveSlot): Promise<boolean> {
+  const name = readSlotSummary(slot)?.label?.name ?? '';
+  return confirmModal({
+    title: REPLAY_TEXT.overwriteTitle,
+    body: REPLAY_TEXT.overwriteBody(slot.index, name),
+    confirm: REPLAY_TEXT.overwriteConfirm(slot.index),
+    cancel: REPLAY_TEXT.overwriteCancel,
+  });
+}
+
 /** Puts chapter `ch`'s checkpoint into a new slot; answers what to tell the player. */
 export async function branchFrom(ch: DoneChapter): Promise<string> {
   if (!ch.checkpoint) return PROFILE_TEXT.noCheckpoint;
   const from = currentSlot();
-  const to = emptySlot(from);
-  if (!to) return PROFILE_TEXT.branchNoRoom;
+  let to = emptySlot(from);
+  if (!to) {
+    // R0618: every slot is full: offer the last other one, and only replace it on a yes.
+    const over = overwriteSlot(from);
+    if (!over || !(await confirmOverwrite(over))) return PROFILE_TEXT.branchNoRoom;
+    to = over;
+  }
   const raw = await readCheckpoint(ch.checkpoint).catch(() => null);
   const json = raw ? branchJson(raw) : null;
   if (!json || !writeSlotFrom(to, json)) return PROFILE_TEXT.branchFailed;
@@ -93,7 +145,8 @@ export function renderChapterSelect(
     const row = el('div', 'journal-line');
     row.appendChild(el('div', 'roster-line', PROFILE_TEXT.chapterRow(roadName(ch.line), ch.n)));
     const actions = el('div', 'journal-actions');
-    const scene = replayScene(ch);
+    const owner = ch.line === SPINE_LINE ? g.world.campaign : g.world.lines?.[ch.line];
+    const scene = replayScene(ch, owner?.flags ?? {});
     if (scene && replay)
       actions.appendChild(
         button(

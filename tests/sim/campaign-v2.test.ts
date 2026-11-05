@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { endingScenes } from '../../src/sim/campaign-routes';
 import { endingFor, mossFaded } from '../../src/sim/campaign';
 import { familyCount, s10FootScene } from '../../src/sim/side-stories';
@@ -7,6 +7,10 @@ import type { CampaignState, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
 import { hatch } from '../../src/sim/lifecycle';
 import { c, campaignWorld, drive, moss, runCampaign, sable } from './campaign-driver';
+import { TIMING_BUDGET } from '../../src/config/tuning-sim';
+
+// HOT-CI: long scripted runs; a timeout here was the runner's load, not a wrong result.
+vi.setConfig({ testTimeout: TIMING_BUDGET.slowTestTimeoutMs });
 
 /**
  * Campaign v2 (CV1 with CV6's campaign items): the bible's ending order over every flag

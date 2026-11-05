@@ -26,6 +26,7 @@ import {
   type SaveMode,
 } from '../../src/platform/storage';
 import { setLiveSavesOn, parseStub } from '../../src/platform/live-store';
+import { setUnifiedOn } from '../../src/platform/unified-keys';
 import { lastSaveProblem, resetSaveRoom, archiveAllUnreadable } from '../../src/platform/save-room';
 import {
   legacyRemovable,
@@ -234,13 +235,14 @@ describe('stage B: legacy saves into unified slots (R0598)', () => {
     ]);
     expect(plan.k1.map((s) => s?.from ?? null)).toEqual([null, 'grove.save.edu.2', null]);
     expect(plan.older).toEqual([]);
-    // Every slot loads, with the same world apart from the line's new home.
+    // Round 12: every slot is the save as it was, byte for byte (a line still plays as one).
     for (const s of [...plan.p1, ...plan.k1]) {
       if (!s) continue;
-      const from = deserialize(seven().find((x) => x.key === s.from)!.json);
-      const to = deserialize(s.json);
-      expect(to.savedAtWallMs).toBe(from.savedAtWallMs);
-      expect(worldFingerprint(to.world)).toBe(worldFingerprint(unifyWorld(from.world)));
+      const from = seven().find((x) => x.key === s.from)!.json;
+      expect(s.json).toBe(from);
+      expect(worldFingerprint(deserialize(s.json).world)).toBe(
+        worldFingerprint(deserialize(from).world),
+      );
     }
   });
 
@@ -263,7 +265,9 @@ describe('stage B: legacy saves into unified slots (R0598)', () => {
     store.set('grove.save.campaign.unreadable.1', '{old');
     store.set(legacySideKey('atlas'), '{"atlas":1}');
     const before = new Map(store);
+    setUnifiedOn(false);
     expect(await migrateToUnified(1000)).toBe('off');
+    setUnifiedOn(null);
     expect(await migrateToUnified(1000, true)).toBe('migrated');
     for (const [k, v] of before) {
       expect(store.get(k)).toBe(v);

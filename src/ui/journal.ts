@@ -42,7 +42,8 @@ import '../camp-r11.css';
 import { C11_TEXT } from '../config/strings';
 import { showSkipCard, stepSummary } from './skip-card';
 import type { Scene } from '../config/story';
-import { renderAreas, renderNow, type NowOptions } from './journal-now';
+import { renderNow, type NowOptions } from './journal-now';
+import { renderAreas } from './journal-areas';
 import { renderDone, renderSpineCard } from './journal-done';
 
 /** Lane C r11 (R0610): the page the journal last showed this session, kept across openings. */

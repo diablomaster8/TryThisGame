@@ -23,6 +23,7 @@ import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 import { comedyReport } from './comedy-report';
 import { lineFlagProblems, ruleFlags } from './line-flags';
 import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
+import { chapterRecap, lineChapterRecap, linePitch, questPitch } from '../../src/content/pitches';
 import { openWorldChecks } from './open-world-check'; /* Lane C r11, R0645 */
 import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
 import { STANDARD_LABELS } from '../../src/config/strings-access-r10';
@@ -1096,6 +1097,41 @@ if (process.argv.includes('--unplayable'))
       unplayable.map((u) => `${u.summary ? ' ' : '-'} ${u.id}  ${u.check}`).join('\n') +
       '\n',
   );
+// Lane C r12 (R0646): the writers' pitches and recaps (content/pitches.ts). Too long is a problem;
+// missing is reported as a count for the writers to work down.
+const tooLong = (what: string, t: string | null): void => {
+  if (t && t.length > 160) problems.push(`${what}: ${t.length} characters`);
+};
+const seenPitch = new Set<string>();
+const pitchQuests = allQuests.filter(
+  (q) => /^(Q|S)\d+$/.test(q.code) && !seenPitch.has(q.id) && seenPitch.add(q.id),
+);
+for (const q of pitchQuests) tooLong(`pitch ${q.id}`, questPitch(q));
+for (const sl of STORYLINE_CONTENT) {
+  tooLong(`pitch line ${sl.id}`, linePitch(sl));
+  for (const ch of sl.chapters)
+    tooLong(`recap ${sl.id}:${ch.n}`, ch.recap ?? lineChapterRecap(sl.id, ch.n));
+}
+for (const ch of C.CAMPAIGN_CHAPTERS)
+  tooLong(`recap chapter ${ch.n}`, ch.recap ?? chapterRecap(ch.n));
+console.log(
+  JSON.stringify({
+    missingPitches: {
+      quests: pitchQuests.filter((q) => !questPitch(q)).map((q) => q.code),
+      lines: STORYLINE_CONTENT.filter((sl) => !linePitch(sl)).map((sl) => sl.id),
+    },
+    missingRecaps: {
+      spine: C.CAMPAIGN_CHAPTERS.filter((ch) => !(ch.recap ?? chapterRecap(ch.n))).map(
+        (ch) => ch.n,
+      ),
+      line: STORYLINE_CONTENT.flatMap((sl) =>
+        sl.chapters
+          .filter((ch) => !(ch.recap ?? lineChapterRecap(sl.id, ch.n)))
+          .map((ch) => `${sl.id}:${ch.n}`),
+      ),
+    },
+  }),
+);
 console.log(problems.slice(0, 60).join('\n'));
 // TECH-10: a problem fails the run, so CI and the deploy stop on it.
 if (problems.length > 0) process.exitCode = 1;

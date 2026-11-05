@@ -1,5 +1,11 @@
 import { IDLE_GLYPH, idlePose } from './battle-idle';
-import { CLIPS, frameKey, type ClipName } from '../render/sprites/animations';
+import {
+  BATTLE_CLIP_ANGLES,
+  BATTLE_CLIP_NAMES,
+  CLIPS,
+  frameKey,
+  type ClipName,
+} from '../render/sprites/animations';
 import { DRAWN_ANGLES, type DrawnAngle } from '../render/sprites/angles';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import {
@@ -121,6 +127,19 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     neutral,
     clipFrames(['happy', 'sad', 'sleep', 'eat']),
   );
+  // R0239: the eight battle clips (front and side only) for the Chao look and the art species.
+  chao('Child, neutral: battle clips', neutral, [
+    ...(['windup', 'bonk', 'splash', 'hit', 'dodge', 'cheer', 'tuckered', 'wave'] as const).flatMap(
+      (clip) =>
+        BATTLE_CLIP_ANGLES.flatMap((angle) =>
+          Array.from({ length: CLIPS[clip].frames }, (_, f): [string, DrawnAngle, number] => [
+            clip,
+            angle,
+            f,
+          ]),
+        ),
+    ),
+  ]);
   chao('Child, neutral: swim, flap, stills', neutral, [...clipFrames(['swim', 'flap']), ...stills]);
   // FIGHT-78: the battle idles, mid-play and (second of each pair) the reduced-motion still.
   {
@@ -337,6 +356,9 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     const row = heading(`Species: ${id}`);
     for (const angle of DRAWN_ANGLES) cell(row, drawCreature(angle, poseFor('idle', 0), art), id);
     cell(row, drawCreature('side', poseFor('walk', 1), art), `${id} walk`);
+    for (const clip of BATTLE_CLIP_NAMES)
+      for (let f = 0; f < CLIPS[clip].frames; f++)
+        cell(row, drawCreature('side', poseFor(clip, f), art), `${id} ${clip} ${f}`);
   }
   sheet('Props', buildPropSheet(), [frameKey('fruit', 'front', 0), frameKey('flower', 'front', 0)]);
   sheet(

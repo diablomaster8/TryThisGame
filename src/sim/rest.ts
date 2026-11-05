@@ -59,15 +59,15 @@ function spineWait(world: World, c: CampaignState): RestWait | null {
     // The nights before the Long Night: rest to the next dawn, and again if need be.
     if (sideHoldsOpening(world, c))
       return { when: 'dawn', untilMs: nextDawn(world.timeMs), owner: 'hazel' };
-    return wait(world, 'hazel', (ms) => sceneTimeHolds(ms, def.opening));
+    return wait(world, 'hazel', (ms) => sceneTimeHolds(ms, def.opening, world));
   }
   if (c.step === 1 && c.chapter !== 10 && goalMet(world, c) && !seen(c, def.closing))
-    return wait(world, 'hazel', (ms) => sceneTimeHolds(ms, def.closing));
+    return wait(world, 'hazel', (ms) => sceneTimeHolds(ms, def.closing, world));
   if (c.step === 2 && seen(c, def.closing) && c.chapter < FINAL_CHAPTER) {
     const next = chapterDef(c.chapter + 1);
     const minMs = (c.openedMs ?? 0) + paced(world, STORY.goalMinMs);
     if (!next) return null;
-    return wait(world, 'hazel', (ms) => ms >= minMs && sceneTimeHolds(ms, next.opening));
+    return wait(world, 'hazel', (ms) => ms >= minMs && sceneTimeHolds(ms, next.opening, world));
   }
   return null;
 }

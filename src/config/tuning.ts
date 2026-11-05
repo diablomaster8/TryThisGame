@@ -1554,6 +1554,8 @@ export const QUESTS = {
   /** Open requests on the board at once. */
   open: 3,
   baseShells: 20,
+  /** R0629: a child profile keeps at most this many quests active (a grown-up's is `activeCap`). */
+  childCap: 2,
 } as const;
 
 export const ACHIEVEMENTS = {
@@ -2119,3 +2121,4 @@ export * from './tuning-move-r10b';
 export * from './tuning-kids-r10'; /* Lane E r10 kids UI */
 export * from './tuning-camp11c';
 export * from './tuning-camp11ui';
+export * from './tuning-camp12c';

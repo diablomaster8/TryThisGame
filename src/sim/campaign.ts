@@ -437,7 +437,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     if (lossHeld(world, c.chapter)) return;
     if (!seen(c, def.opening)) {
       // A breath after the last scene, and the time of day the opening names.
-      if (resting(world, c) || !sceneTimeHolds(world.timeMs, def.opening)) return;
+      if (resting(world, c) || !sceneTimeHolds(world.timeMs, def.opening, world)) return;
       queueOpening(world, c);
       return;
     }
@@ -465,7 +465,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
         : c.rest && world.timeMs < c.rest.atMs + paced(world, STORY.closingSettleMs)
     )
       return;
-    if (c.chapter !== 10 && !sceneTimeHolds(world.timeMs, def.closing)) return;
+    if (c.chapter !== 10 && !sceneTimeHolds(world.timeMs, def.closing, world)) return;
     c.step = 2;
     if (c.chapter === 10) {
       // The fellowship scene, then the vigil; c10-close comes at the end of the night.
@@ -509,7 +509,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
   if (!quick && world.timeMs < (c.openedMs ?? world.timeMs) + paced(world, STORY.goalMinMs)) return;
   // A breath after the closing, and the next opening's hour, before the chapter card.
   const next = chapterDef(c.chapter + 1);
-  if (resting(world, c) || (next && !sceneTimeHolds(world.timeMs, next.opening))) return;
+  if (resting(world, c) || (next && !sceneTimeHolds(world.timeMs, next.opening, world))) return;
   // The opening queues on the next tick, once any side story due first has had its turn.
   beginChapter(world, c, c.chapter + 1, events);
 }

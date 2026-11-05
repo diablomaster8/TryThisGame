@@ -50,6 +50,12 @@ import { HollowSectors } from './hollow-sectors';
  * (`hollow-ctx.ts`). A module's owner edits only that file; `hollow.ts` just calls it.
  */
 
+interface TriCount {
+  trisBuilt: number;
+  trisDrawn: number;
+  meshes: number;
+}
+
 /** `?perf` in the address turns the Hollow's build-time logging on (R0194). */
 function perfOn(): boolean {
   try {
@@ -214,8 +220,33 @@ export class Hollow {
         m.build(f, this.ctx);
         per[m.constructor.name] = Math.round((performance.now() - a) * 10) / 10;
       }
-      this.logBuild(f, performance.now() - t0, per);
+      this.logBuild(f, performance.now() - t0, per, this.countTris());
     }
+  }
+
+  /**
+   * Triangles built (all sectors, whole floor) and drawn now (draw ranges and instance counts
+   * respected), with the mesh count, for the `?perf` log (R0194). Only run when logging is on.
+   */
+  private countTris(): TriCount {
+    const none = { trisBuilt: 0, trisDrawn: 0, meshes: 0 };
+    if (!perfOn()) return none;
+    const out = { ...none };
+    this.group.traverse((o) => {
+      const m = o as THREE.Mesh;
+      if (!m.isMesh || !m.geometry) return;
+      const g = m.geometry as THREE.BufferGeometry;
+      const total = (g.index ? g.index.count : (g.getAttribute('position')?.count ?? 0)) / 3;
+      const inst = (m as THREE.InstancedMesh).isInstancedMesh ? (m as THREE.InstancedMesh) : null;
+      const n = inst ? inst.count : 1;
+      const range = g.drawRange.count === Infinity ? total * 3 : g.drawRange.count;
+      out.trisBuilt += total * n;
+      out.trisDrawn += (m.visible ? Math.min(total, range / 3) : 0) * n;
+      out.meshes++;
+    });
+    out.trisBuilt = Math.round(out.trisBuilt);
+    out.trisDrawn = Math.round(out.trisDrawn);
+    return out;
   }
 
   /**
@@ -223,9 +254,16 @@ export class Hollow {
    * its per-module split go to the console and `window.__hollowPerf` (draw calls and
    * triangles are in the scene's own perf stats). Budget: 400 ms desktop, 1200 ms phone.
    */
-  private logBuild(f: Floor, ms: number, per: Record<string, number>): void {
+  private logBuild(f: Floor, ms: number, per: Record<string, number>, tris: TriCount): void {
     if (!perfOn()) return;
-    const row = { cols: f.cols, rows: f.rows, zone: f.zone ?? 'level', ms: Math.round(ms), per };
+    const row = {
+      cols: f.cols,
+      rows: f.rows,
+      zone: f.zone ?? 'level',
+      ms: Math.round(ms),
+      per,
+      ...tris,
+    };
     (globalThis as { __hollowPerf?: unknown }).__hollowPerf = row;
     console.info('[perf] hollow floor build', JSON.stringify(row));
   }
