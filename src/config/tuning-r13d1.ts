@@ -47,3 +47,11 @@ export const LAND_GARDENS = {
   r: 3.2,
   periodMs: 40_000,
 } as const;
+
+/** WORLD-33: walking out of a neighbour's garden back onto the lane (garden-local coordinates). */
+export const GARDEN_WALKOUT = {
+  /** The garden's own gate, south of where a visitor arrives. */
+  gate: { x: 0, z: 12 },
+  /** How near the Keeper must walk to it. */
+  r: 2.2,
+} as const;
