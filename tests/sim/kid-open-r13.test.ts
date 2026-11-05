@@ -11,16 +11,17 @@ import { pitchForProfile } from '../../src/ui/offer-card';
 describe('R0629: kid open flow, round 13', () => {
   it('a child pitch without a written one is the first goal, kept to 14 words', () => {
     const q = sideStory('s1')!;
+    const rest = { ...q } as Partial<typeof q>;
+    delete rest.pitchChild;
     const long = {
-      ...q,
-      pitchChild: undefined,
+      ...rest,
       steps: [
         {
           ...q.steps[0]!,
           goal: 'one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen',
         },
       ],
-    };
+    } as typeof q;
     const out = pitchForProfile(long, true).replace('…', '').trim().split(/\s+/);
     expect(out.length).toBeLessThanOrEqual(QUESTS.maxPitchWords);
   });

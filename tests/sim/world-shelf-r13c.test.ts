@@ -41,12 +41,12 @@ describe('story-world shelves (R0630)', () => {
   });
 
   it('reading them leaves the Grove save byte-identical', () => {
-    const world = createWorld(7);
-    const before = serialize(world);
+    const world = createWorld(7, 0);
+    const before = serialize(world, 0);
     const x = crossSavesFrom(null, arcade, []);
     worldProgress(x.arcade.carts);
     worldProgress(parseMultiverse(multiverse).lines);
     derivedUnlocks(x);
-    expect(serialize(world)).toBe(before);
+    expect(serialize(world, 0)).toBe(before);
   });
 });
