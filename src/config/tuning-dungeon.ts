@@ -202,7 +202,18 @@ export const HOLLOW = {
    * `popAfterMs` pops to its slot.
    */
   follow: { slotRadius: 0.9, fan: 0.8, popDistance: 12, popAfterMs: 3000, personal: 0.55 },
-  props: { landmarkShare: 0.7, navClearance: 0.35, postRadius: 0.12, cartRadius: 0.3 },
+  props: {
+    landmarkShare: 0.7,
+    navClearance: 0.35,
+    postRadius: 0.12,
+    cartRadius: 0.3,
+    /** The parked cart's top (R0032, round 12): under a jump's height, so it can be climbed. */
+    cartTop: 0.72,
+    /** Feet this close under a prop's top already pass over it, and the edge ring standing allows. */
+    topSlack: 0.05,
+    topEdge: 0.18,
+    crystalRadius: 0.3,
+  },
   /**
    * Rumble rooms (R0257, R0282): from `fromDepth`, about `share` of dungeon levels mark one
    * room (at least `minSide` cells each way, never the stairs', the chest's or a boss's) whose

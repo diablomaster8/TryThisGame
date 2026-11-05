@@ -830,7 +830,13 @@ function blocks(f: Floor, x: number, y: number, solid: Solid): boolean {
 }
 
 /** Push a circle out of the wall cells around it. Returns true when it moved. */
-export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid = 'rock'): boolean {
+export function resolveDungeon(
+  p: Vec2,
+  f: Floor,
+  radius: number,
+  solid: Solid = 'rock',
+  feetY = 0,
+): boolean {
   let moved = false;
   const c = cellOf(f, p);
   if (blocks(f, c.x, c.y, solid)) {
@@ -840,7 +846,8 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid =
       const q = cellCentre(f, near);
       p.x = q.x;
       p.z = q.z;
-      if (resolveProps(p, f, radius)) escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+      if (resolveProps(p, f, radius, feetY))
+        escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius), feetY);
       return true;
     }
   }
@@ -875,9 +882,9 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid =
     }
   }
   // Solid set pieces (R0032), then the walls once more so a prop never pushes into rock.
-  if (resolveProps(p, f, radius)) {
+  if (resolveProps(p, f, radius, feetY)) {
     moved = true;
-    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius), feetY);
   }
   return moved;
 }
