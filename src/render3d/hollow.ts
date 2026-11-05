@@ -225,8 +225,10 @@ export class Hollow {
   }
 
   /**
-   * Triangles built (all sectors, whole floor) and drawn now (draw ranges and instance counts
-   * respected), with the mesh count, for the `?perf` log (R0194). Only run when logging is on.
+   * Triangles built (all sectors, whole floor) and drawn now (shown sectors; draw ranges and
+   * instance counts respected, the view's own culling not), with the mesh count, for the
+   * `?perf` log (R0194). A sector mesh shares its floor's buffers, so it counts its own run.
+   * Only run when logging is on.
    */
   private countTris(): TriCount {
     const none = { trisBuilt: 0, trisDrawn: 0, meshes: 0 };
@@ -240,8 +242,9 @@ export class Hollow {
       const inst = (m as THREE.InstancedMesh).isInstancedMesh ? (m as THREE.InstancedMesh) : null;
       const n = inst ? inst.count : 1;
       const range = g.drawRange.count === Infinity ? total * 3 : g.drawRange.count;
-      out.trisBuilt += total * n;
-      out.trisDrawn += (m.visible ? Math.min(total, range / 3) : 0) * n;
+      const own = Math.min(total, range / 3);
+      out.trisBuilt += own * n;
+      out.trisDrawn += (m.visible ? own : 0) * n;
       out.meshes++;
     });
     out.trisBuilt = Math.round(out.trisBuilt);

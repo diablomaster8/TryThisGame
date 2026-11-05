@@ -10,7 +10,7 @@ import { fogged } from './hollow-fog';
 import { tileLookOf } from '../render/paint/dungeon-tiles';
 import type { TileLook } from '../config/tuning-r10b1';
 import { SectorIndex } from '../render/field-sectors';
-import { sectorSizeOf } from './hollow-sectors';
+import { sectorRows, sectorSizeOf, tagSector } from './hollow-sectors';
 import {
   CELL,
   WALL_H,
@@ -501,11 +501,6 @@ export class HollowRock implements HollowModule {
   private plugSnap = false;
   private lastT = 0;
   private jobs: BakeJob[] = [];
-  /** Lane B r10 (R0147): a field draws only the 3×3 sectors round the Keeper. */
-  private sectors: { sec: SectorIndex; geo: THREE.BufferGeometry }[] = [];
-  private sectorKey = -1;
-  private readonly sectorRange = { start: 0, count: 0 };
-  private sectorFloor: Floor | null = null;
   private jobAt = 0;
   private vertAt = 0;
   private readonly base = new THREE.Color();
@@ -586,9 +581,6 @@ export class HollowRock implements HollowModule {
     const solid = new CellField(f, (x, y) => (cellAt(f, x, y) === WALL ? 1 : 0), 1);
     const vistaCells = this.vistaCells(f);
 
-    this.sectors = [];
-    this.sectorKey = -1;
-    this.sectorFloor = f;
     jobs.push(this.buildFloor(f, ctx, wet, solid, vistaCells));
     jobs.push(this.buildWalls(f, ctx, wet, open, vistaCells));
     this.jobs = jobs;
@@ -732,12 +724,10 @@ export class HollowRock implements HollowModule {
     g.setAttribute('aTorch', torchAttr);
     g.setAttribute('aWet', new THREE.BufferAttribute(wetB.floats, 1));
     g.setIndex(tris);
-    if (sec) this.sectors.push({ sec, geo: g });
     nrmGeo.dispose();
     const floor = new THREE.Mesh(g, this.earth);
     floor.receiveShadow = true;
-    ctx.group.add(floor);
-    this.objs.push(floor);
+    this.place(floor, f, sec, ctx, 0.5);
     return {
       count: n,
       pos: g.attributes.position as THREE.BufferAttribute,
@@ -917,7 +907,6 @@ export class HollowRock implements HollowModule {
     g.setAttribute('aLean', new THREE.BufferAttribute(leanB.floats, 2));
     g.setAttribute('aWet', new THREE.BufferAttribute(wetB.floats, 1));
     g.setIndex(sec ? sec.finish() : index);
-    if (sec) this.sectors.push({ sec, geo: g });
     g.computeBoundingSphere();
     if (g.boundingSphere) g.boundingSphere.radius += R.lean + 1;
 
@@ -937,15 +926,12 @@ export class HollowRock implements HollowModule {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     this.wallMesh = mesh;
-    ctx.group.add(mesh);
-    this.objs.push(mesh);
+    this.place(mesh, f, sec, ctx, R.lean + 1);
     return { count: n, pos: posAttr, nrm: nrmAttr, col: colAttr, torch: torchAttr, init };
   }
 
   dispose(): void {
     disposeObjects(this.objs);
-    this.sectors = [];
-    this.sectorFloor = null;
     this.wallTex?.dispose();
     this.wallTex = null;
     this.u.wallH.value = placeholderH();
@@ -962,23 +948,56 @@ export class HollowRock implements HollowModule {
     const dt = Math.min(0.1, Math.max(0, t - this.lastT));
     this.lastT = t;
     this.bake();
-    this.stream(keeper);
     if (fr.camera) this.cutaway(fr.camera, [keeper, ...fr.party], dt, fr.run);
   }
 
-  /** Show only the sectors round the Keeper's (R0147): a draw-range change on a sector crossing. */
-  private stream(keeper: { x: number; z: number }): void {
-    const f = this.sectorFloor;
-    if (!f || this.sectors.length === 0) return;
-    const cx = Math.floor(keeper.x / CELL + f.cols / 2);
-    const cy = Math.floor(keeper.z / CELL + f.rows / 2);
-    const key = this.sectors[0]!.sec.key(cx, cy);
-    if (key === this.sectorKey) return;
-    this.sectorKey = key;
-    for (const s of this.sectors) {
-      s.sec.range(cx, cy, this.sectorRange);
-      s.geo.setDrawRange(this.sectorRange.start, this.sectorRange.count);
+  /**
+   * Into the scene: `mesh` whole, or on a streamed floor one mesh per sector (R0147, R0194)
+   * sharing its buffers, each drawing its sector's run of the index with bounds of its own.
+   * `HollowSectors` shows the window round the Keeper; the renderer culls the rest of the
+   * window by view. `pad` widens each sector's bounds for what the shader moves (the lean).
+   */
+  private place(
+    mesh: THREE.Mesh,
+    f: Floor,
+    sec: SectorIndex | null,
+    ctx: HollowCtx,
+    pad: number,
+  ): void {
+    this.objs.push(mesh);
+    if (!sec) {
+      ctx.group.add(mesh);
+      return;
     }
+    const g = mesh.geometry;
+    const idx = g.index!;
+    const pos = g.getAttribute('position') as THREE.BufferAttribute;
+    const box = new THREE.Box3();
+    const v = new THREE.Vector3();
+    let at = 0;
+    for (let sx = 0; sx < sec.nx; sx++)
+      for (let sy = 0; sy < sec.ny; sy++) {
+        const n = sec.at(sx * sec.size, sy * sec.size).length;
+        const start = at;
+        at += n;
+        if (!n) continue;
+        const part = new THREE.BufferGeometry();
+        for (const [name, a] of Object.entries(g.attributes)) part.setAttribute(name, a);
+        part.setIndex(idx);
+        part.setDrawRange(start, n);
+        box.makeEmpty();
+        for (let i = start; i < start + n; i++)
+          box.expandByPoint(v.fromBufferAttribute(pos, idx.getX(i)));
+        part.boundingSphere = box.getBoundingSphere(new THREE.Sphere());
+        part.boundingSphere.radius += pad;
+        const m = new THREE.Mesh(part, mesh.material);
+        m.castShadow = mesh.castShadow;
+        m.receiveShadow = mesh.receiveShadow;
+        if (mesh.customDepthMaterial) m.customDepthMaterial = mesh.customDepthMaterial;
+        tagSector(m, { col: sx, row: sectorRows(f) ? sy : -1 });
+        ctx.group.add(m);
+        this.objs.push(m);
+      }
   }
 
   /**

@@ -4,7 +4,7 @@ import type { Floor } from '../sim/dungeon';
 import type { DungeonLootKind } from '../sim/types';
 import { CELL } from './hollow-ctx';
 import { looksWet } from './hollow-dress-path';
-import { BALL, BOX, CONE, CYL, Kit, prim, ROCK, SPHERE } from './hollow-dress-kit';
+import { BOX, CONE, CYL, Kit, OCT, prim, ROCK, SPHERE } from './hollow-dress-kit';
 
 /**
  * The dressing's shared shapes (`hollow-dress.ts`), made once per page: the rounded
@@ -22,23 +22,29 @@ export const LOOT_KIND: Record<DungeonLootKind, number> = {
 };
 export const LID_KIND = 6;
 
-/** A rounded stalagmite, base at y 0 and tip at 1, radius 1 (item 20: no sharp spikes). */
+/**
+ * A rounded stalagmite, base at y 0 and tip at 1, radius 1 (item 20: no sharp spikes). Six
+ * bands round seven sides (R0194: 84 triangles, was 112; a big floor shows hundreds).
+ */
 export const STALAG = () =>
   prim('stalag', () => {
     const pts = [
       [1, 0],
-      [0.96, 0.1],
-      [0.78, 0.3],
-      [0.56, 0.52],
-      [0.38, 0.72],
-      [0.24, 0.88],
-      [0.1, 0.98],
+      [0.9, 0.16],
+      [0.66, 0.4],
+      [0.42, 0.66],
+      [0.24, 0.86],
+      [0.08, 0.98],
       [0, 1],
     ].map(([r, y]) => new THREE.Vector2(r, y));
-    return new THREE.LatheGeometry(pts, 8);
+    return new THREE.LatheGeometry(pts, 7);
   });
 
-/** One root strand hanging from y 0 down about 2.2: a root, a vine round it, glowing berries. */
+/**
+ * One root strand hanging from y 0 down about 2.2: a root, a vine round it, glowing berries.
+ * Low-poly on purpose (R0194: a big floor shows a hundred of them): about 390 triangles, a
+ * sixth of the first cut, with the same shape at phone size.
+ */
 export const STRAND = () =>
   prim('strand', () => {
     const k = new Kit();
@@ -49,22 +55,26 @@ export const STRAND = () =>
         -t * 2.2,
         Math.sin(t * 3.1 + 1) * 0.08 + t * 0.12,
       );
+    const root = TUBE(5);
+    const thin = TUBE(3);
     for (let i = 0; i < 7; i++)
-      k.rod(pt(i / 7), pt((i + 1) / 7), 0.075 - i * 0.008, i % 2 ? '#6e4a30' : '#7a5636');
+      k.rod(pt(i / 7), pt((i + 1) / 7), 0.075 - i * 0.008, i % 2 ? '#6e4a30' : '#7a5636', 0, root);
     // Two rootlets.
-    k.rod(pt(0.35), pt(0.35).add(new THREE.Vector3(0.28, -0.35, 0.05)), 0.02, '#7a5636');
-    k.rod(pt(0.6), pt(0.6).add(new THREE.Vector3(-0.22, -0.3, 0.1)), 0.018, '#7a5636');
+    const r1 = pt(0.35).add(new THREE.Vector3(0.28, -0.35, 0.05));
+    const r2 = pt(0.6).add(new THREE.Vector3(-0.22, -0.3, 0.1));
+    k.rod(pt(0.35), r1, 0.02, '#7a5636', 0, thin);
+    k.rod(pt(0.6), r2, 0.018, '#7a5636', 0, thin);
     // The vine winding round it, with leaves.
     let prev: THREE.Vector3 | null = null;
-    for (let i = 0; i <= 16; i++) {
-      const t = i / 16;
+    for (let i = 0; i <= 12; i++) {
+      const t = i / 12;
       const c = pt(t * 0.92);
       const a = t * 9;
       const p = new THREE.Vector3(c.x + Math.cos(a) * 0.09, c.y, c.z + Math.sin(a) * 0.09);
-      if (prev) k.rod(prev, p, 0.016, '#4f8a42');
-      if (i % 3 === 1)
+      if (prev) k.rod(prev, p, 0.016, '#4f8a42', 0, thin);
+      if (i % 2 === 1)
         k.part(
-          SPHERE(),
+          OCT(),
           p.x + Math.cos(a) * 0.06,
           p.y,
           p.z + Math.sin(a) * 0.06,
@@ -81,7 +91,7 @@ export const STRAND = () =>
       const c = pt(0.35 + (b / Math.max(1, D.berriesPerRoot - 1)) * 0.55);
       for (let j = 0; j < 3; j++)
         k.part(
-          BALL(),
+          BERRY(),
           c.x + Math.cos(j * 2.1 + b) * 0.07,
           c.y - j * 0.04,
           c.z + Math.sin(j * 2.1 + b) * 0.07,
@@ -94,6 +104,14 @@ export const STRAND = () =>
     }
     return k.build()!;
   });
+
+/**
+ * A strand's rods are open tubes (their ends sit inside the next rod or the rock), its
+ * leaves flattened octahedra, its berries coarse balls: all small enough to read the same.
+ */
+const TUBE = (seg: number) =>
+  prim(`tube${seg}`, () => new THREE.CylinderGeometry(0.5, 0.5, 1, seg, 1, true));
+const BERRY = () => prim('berry', () => new THREE.IcosahedronGeometry(0.5, 0));
 
 /** Every loot model and the chest lid in one geometry, each part stamped with its kind. */
 export const LOOT = () =>
@@ -134,6 +152,24 @@ export const LOOT = () =>
     k.part(BOX(), 0, 0.075, 0.235, 0.1, 0.15, 0.48, '#e0c060', 0.6);
     return k.build()!;
   });
+
+/**
+ * Each kind's run [start, end) in a `LOOT` geometry's index (the kit adds them in order), so
+ * a mesh per kind draws only its own triangles (R0194).
+ */
+export function lootRanges(g: THREE.BufferGeometry): Map<number, [number, number]> {
+  const out = new Map<number, [number, number]>();
+  const idx = g.index;
+  const kind = g.getAttribute('aKind');
+  if (!idx || !kind) return out;
+  for (let i = 0; i < idx.count; i += 3) {
+    const k = Math.round(kind.getX(idx.getX(i)));
+    const r = out.get(k);
+    if (r) r[1] = i + 3;
+    else out.set(k, [i, i + 3]);
+  }
+  return out;
+}
 
 export const PLANE = () => prim('plane', () => new THREE.PlaneGeometry(1, 1));
 export const FLAT = () => prim('flat', () => new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2));
