@@ -2,6 +2,9 @@ import { DRESS_D } from '../config/tuning-d';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
+import { C12C } from '../config/tuning-camp12c';
+import { NATIVE_PPU } from './sprite-batch';
+import { isDoorKey } from './story-doors';
 import { dressItems, itemSignature, shelfKeepsakes, type DressItem } from './dress-d-rules';
 import { buildDressSheet, buildShelfSheet } from './paint/dress-props';
 import type { PixelDressCtx, PixelDressing } from './dressings';
@@ -29,6 +32,10 @@ function frameFor(it: DressItem): string | null {
       return it.lit ? 'shrine-lit' : 'shrine';
     case 'bell':
       return it.n > 0 ? 'bell-new' : 'bell';
+    case 'sundial':
+      return `sundial${Math.min(3, Math.max(1, it.n))}`;
+    case 'terminal':
+      return it.lit ? 'terminal-lit' : 'terminal';
     case 'board':
       return `board${Math.min(6, it.n)}`;
     case 'porchLight':
@@ -121,17 +128,28 @@ export const dressD: PixelDressing = {
       }
       const key = frameFor(it);
       const rect = key ? sheet.frames.get(frameKey(key, 'front', 0)) : undefined;
+      // R0630: a story world's door is tappable (the HUD opens its shelf from `building:door-*`).
       if (rect)
-        batch.draw({
-          sheet,
-          rect,
-          flip: false,
-          x: it.x,
-          y: bob,
-          z: it.z + dz,
-          mode: 'billboard',
-          tint,
-        });
+        batch.draw(
+          {
+            sheet,
+            rect,
+            flip: false,
+            x: it.x,
+            y: bob,
+            z: it.z + dz,
+            mode: 'billboard',
+            tint,
+            // A door reads larger than the little props (C12C.doors.pixelScale).
+            ...(isDoorKey(it.key)
+              ? {
+                  w: (rect.w / NATIVE_PPU) * C12C.doors.pixelScale,
+                  h: (rect.h / NATIVE_PPU) * C12C.doors.pixelScale,
+                }
+              : {}),
+          },
+          isDoorKey(it.key) ? { id: it.key, kind: 'building' } : undefined,
+        );
       // The star is the cue, so it hangs over the item even where the item has no sprite of its own.
       // Keepsakes' star is painted into the shelf, where its row is.
       if (it.glint && star && it.shape !== 'none') {

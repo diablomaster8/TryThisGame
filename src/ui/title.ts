@@ -30,6 +30,10 @@ import {
   slotsFor,
   copySlot,
   profileOf,
+  beginVisit,
+  keeperProfile,
+  readSlotSummaryOf,
+  setKeeperProfile,
   type SaveMode,
   type SaveSlot,
   type SaveSummary,
@@ -495,7 +499,47 @@ export function showTitle(
     const olderHost = el('div');
     menu.appendChild(olderHost);
     void import('./title-profiles').then((m) => m.renderOlder(olderHost, say, mainMenu)); // R0598: saves that did not fit the 8 slots
+    visitOthers(now);
     recentlyErased(now);
+  };
+
+  /**
+   * R0669 (CAMP-77): the other Keepers' Groves, opened read-only: the game draws the world
+   * as saved, frozen, and writes nothing (storage refuses every write during a visit).
+   */
+  const visitOthers = (now: number) => {
+    const others = listProfiles().filter((p) => p.kind === 'keeper' && p.id !== keeperProfile());
+    const rows: HTMLElement[] = [];
+    for (const p of others)
+      for (const mode of MODES) {
+        if (mode === 'edu') continue;
+        for (let index = 1; index <= slotsFor(mode); index++) {
+          const slot: SaveSlot = { mode, index };
+          const s = readSlotSummaryOf(p.id, slot);
+          if (!s) continue;
+          const where = `${SLOT_TEXT.modes[mode] ?? mode} · ${SLOT_TEXT.slot(index)}`;
+          const b = button(
+            '',
+            () => {
+              if (beginVisit(p.id)) finish({ slot, fresh: false, trainer: null });
+            },
+            'btn title-slot-main',
+          );
+          b.append(
+            el('strong', undefined, SAVE_LAYOUT_TEXT.visitSlot(p.name, where)),
+            el('small', undefined, describe(mode, s, now)),
+          );
+          const row = el('div', 'title-slot');
+          row.appendChild(b);
+          rows.push(row);
+        }
+      }
+    if (rows.length === 0) return;
+    const fold = el('details', 'title-mode title-visit');
+    fold.appendChild(el('summary', 'title-mode-name', SAVE_LAYOUT_TEXT.visitOthers));
+    fold.appendChild(el('p', 'help', SAVE_LAYOUT_TEXT.visitOthersHelp));
+    fold.append(...rows);
+    menu.appendChild(fold);
   };
 
   /** TECH-29: erased slots from the last week, each with Restore while its slot is empty. */
@@ -646,7 +690,12 @@ export function showTitle(
     void import('./title-profiles').then((m) =>
       m.renderWho(menu, {
         parent,
-        onKeeper: () => mainMenu(),
+        onKeeper: (p) => {
+          // R0653: that Keeper's own slots (only p1 has any before the unified slots).
+          setKeeperProfile(p.id);
+          markLastProfile(keeperProfile());
+          mainMenu();
+        },
         onChild: (slot) => finish({ slot, fresh: false, trainer: null }),
         redraw: () => whoMenu(),
       }),

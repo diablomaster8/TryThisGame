@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CAMP10D } from '../../src/config/tuning';
-import { boardCards } from '../../src/render/dress-camp10d';
+import { boardCards, sundialFace } from '../../src/render/dress-camp10d';
 import { dressItems } from '../../src/render/dress-d-rules';
 import { startCampaign } from '../../src/sim/campaign';
 import { createWorld } from '../../src/sim/world';
@@ -60,5 +60,22 @@ describe('notice board and Grove-change props (R0607, R0639)', () => {
     w.storyRegion = 'fold';
     w.keeper.pos = { x: 2, z: 18 };
     expect(item(w, 'grove-change-grove-fold-habitat')).toBeUndefined();
+  });
+});
+
+describe('bespoke sundial and server terminal (R0639)', () => {
+  it('reads the ending on the sundial and lights the terminal', () => {
+    expect(sundialFace(['line-dawn'])).toBe(1);
+    expect(sundialFace(['line-dusk'])).toBe(2);
+    expect(sundialFace(['line-dawn', 'line-dusk'])).toBe(3);
+    const w = world(12);
+    w.inventory.keepsakes.push('grove-sundial', 'line-dusk', 'grove-server-glow');
+    w.keeper.pos = { x: -4, z: -10 };
+    const s = item(w, 'grove-change-grove-sundial');
+    expect(s?.shape).toBe('sundial');
+    expect(s?.n).toBe(2);
+    const t = item(w, 'grove-change-grove-server-glow');
+    expect(t?.shape).toBe('terminal');
+    expect(t?.lit).toBe(true);
   });
 });

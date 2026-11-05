@@ -1,5 +1,6 @@
+import { beginApproach, stepApproach } from './offer-approach';
 import { REGIONS } from '../config/regions';
-import { OFFER_WINDOWS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
+import { OFFER_WINDOWS, QUESTS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { areaOf } from '../content/where-map';
 import { audienceAllowed, isFunQuestCode } from './audience';
@@ -21,7 +22,9 @@ import type { CampaignState, QuestBook, QuestEntry, SimEvent, World } from './ty
 
 /** Is this world on the Open flow (a Hazel's Grove save, outside the Learning Grove). */
 export function openFlow(world: World): boolean {
-  return world.settings.questFlow === 'open' && world.edu === null;
+  // R0629: a Learning Grove profile may take the Open flow too (it is the kid flow, below); the
+  // Settings menu leaves it off unless a grown-up sets it, so no old save changes.
+  return world.settings.questFlow === 'open';
 }
 
 export function questBook(world: World): QuestBook {
@@ -33,6 +36,16 @@ export function questBook(world: World): QuestBook {
     areas: {},
     here: null,
   });
+}
+
+/** R0629: a child profile (the Learning Grove) on the Open flow. */
+export function kidFlow(world: World): boolean {
+  return openFlow(world) && world.edu !== null;
+}
+
+/** R0629: how many quests may be active at once: `QUESTS.childCap` for a child. */
+export function activeCapOf(world: World): number {
+  return kidFlow(world) ? QUESTS.childCap : QUEST_OFFERS.activeCap;
 }
 
 /** R0603: what Not now means for this story. */
@@ -156,6 +169,7 @@ export function stepQuestOffers(
   const book = questBook(world);
   expireOffers(world, c, events);
   holdAboveAudience(world, c);
+  stepApproach(world, book);
   // R0631: while Hazel's opening is due or her goal is met, no offer is made; the area counts
   // as entered once the spine has played, so the Keeper standing there is offered then.
   if (hold) return;
@@ -193,6 +207,7 @@ export function stepQuestOffers(
     };
     book.offer = { quest: id, area: here, atMs: now };
     (book.areaOfferMs ??= {})[here] = now;
+    beginApproach(world, book, id);
     events.push({ kind: 'questOffered', quest: id, area: here });
     count(world, 'offered');
     made += 1;
@@ -274,7 +289,9 @@ export function acceptQuest(
   // A story that opened on its own (the quiet chapters) is already under way.
   if (status === 'open' && prior?.state !== 'shelved') return false;
   const active = activeQuests(world, c);
-  if (active.length >= QUEST_OFFERS.activeCap) {
+  if (active.length >= activeCapOf(world)) {
+    // R0629: a child cannot weigh which to put aside, so the longest-running free one rests.
+    if (!shelve && kidFlow(world)) shelve = active.find((a) => declineRule(a) === 'free');
     if (!shelve || !active.includes(shelve) || !shelveQuest(world, shelve)) {
       events.push({ kind: 'questAtCap', quest: id, active });
       return false;

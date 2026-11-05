@@ -246,7 +246,8 @@ describe('after the move (R0598: Older saves, Combine endings)', () => {
     expect(store.has(older[0]!.key)).toBe(true); // the legacy key stays
     expect(olderSaves().length).toBe(older.length - 1);
     expect(hazelTargets()).toEqual([1]);
-    expect(endingSources()).toContain('grove.save.hundred');
+    // Round 12: a moved save is read from its unified slot.
+    expect(endingSources()).toContain(unifiedKey('p1', 2));
     const rosterBefore = deserialize(store.get(unifiedKey('p1', 1))!).world.nubbins.map(
       (n) => n.id,
     );

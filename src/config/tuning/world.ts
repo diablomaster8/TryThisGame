@@ -106,6 +106,8 @@ export const QUESTS = {
   /** Open requests on the board at once. */
   open: 3,
   baseShells: 20,
+  /** R0629: a child profile keeps at most this many quests active (a grown-up's is `activeCap`). */
+  childCap: 2,
 } as const;
 
 export const ACHIEVEMENTS = {

@@ -10,7 +10,7 @@ import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
 import { deserialize, serialize } from '../sim/save';
 import { combineEndings, shapeOf } from '../sim/save-unify';
 import { MIGRATED_KEY, unifiedJson, unifiedKey } from './migrate-unified';
-import { summarize, type SaveSummary } from './storage';
+import { readKeyJson, summarize, type SaveSummary } from './storage';
 
 const SEEN_KEY = 'grove.migrated.seen';
 
@@ -40,12 +40,9 @@ export function parseMarker(json: string | null): MovedMarker | null {
   }
 }
 
+/** A key's text, a big save's pointer resolved (R0668). */
 function get(key: string): string | null {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
+  return readKeyJson(key);
 }
 
 function set(key: string, json: string): boolean {
@@ -95,7 +92,8 @@ export function swapOlder(key: string, index: number): boolean {
   const to = unifiedKey('p1', index);
   if (get(to) !== null) return false;
   const raw = get(key);
-  const json = raw ? unifiedJson(raw) : null;
+  // The save as it is (round 12: the game plays unified slots, a separate campaign as one).
+  const json = raw !== null && unifiedJson(raw) !== null ? raw : null;
   if (!json || !set(to, json)) return false;
   const m = readMoved();
   if (m) {
@@ -110,7 +108,10 @@ export function swapOlder(key: string, index: number): boolean {
 export function endingSources(): string[] {
   const m = readMoved();
   if (!m) return [];
-  const keys = [...m.p1, ...m.older].filter((k): k is string => !!k);
+  // A moved save is read from its unified slot (its legacy key may be gone, step 8).
+  const keys = [...m.p1.map((k, i) => (k ? unifiedKey('p1', i + 1) : null)), ...m.older].filter(
+    (k): k is string => !!k,
+  );
   return keys.filter((k) => {
     const json = get(k);
     if (!json) return false;

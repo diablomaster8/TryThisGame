@@ -8,6 +8,7 @@ import { playFair } from '../epilogue';
 import { tapFernStone } from '../fern-stone';
 import { skipGoal } from '../goal-skips';
 import { startLesson } from '../kindergarten';
+import { helpQuest } from '../kid-flow';
 import { chooseCastHome } from '../line-rewards';
 import { visit } from '../neighbourhood';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from '../quest-offers';
@@ -94,6 +95,10 @@ export const handlers: Handlers = {
   // Lane C r8 (R0602): the Open quest flow's answers (sim/quest-offers.ts).
   questAccept(world, cmd, events) {
     if (world.campaign) acceptQuest(world, world.campaign, cmd.id, cmd.shelve, events);
+    return;
+  },
+  questHelp(world, cmd, events) {
+    helpQuest(world, cmd.id, events);
     return;
   },
   questDecline(world, cmd) {

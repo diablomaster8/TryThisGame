@@ -550,6 +550,8 @@ export interface QuestBook {
   areaOfferMs?: Record<string, number>;
   /** Lane C r11 (R0641): quests with a step skipped or imagined, with how many; no leaf mark. */
   skippedSteps?: Record<string, number>;
+  /** Lane C r12 (R0651): the giver walking up to the Keeper; the card waits for it. */
+  approach?: { quest: string; giver: string; startMs: number };
   /** Lane C r11 (R0651): sim ms of the last arrival beat, for its cap. */
   lastBeatMs?: number;
   /** Lane C r11 (R0640): lines whose region pitch card has been shown, once ever. */
@@ -1579,6 +1581,7 @@ export type Command =
   // Lane C round 8 (R0602): the Open quest flow. Accept may name an active quest to shelve.
   | { kind: 'questAccept'; id: string; shelve?: string }
   | { kind: 'questDecline'; id: string }
+  | { kind: 'questHelp'; id: string }
   | { kind: 'questShelve'; id: string }
   | { kind: 'questTrack'; id: string; on: boolean }
   // Lane C r11 (R0640): a line's region pitch card was shown; it is never pitched again.
@@ -1970,6 +1973,7 @@ export type SimEvent =
   // Lane C round 8 (R0602): an area entered, an offer made, and accepting at the cap.
   | { kind: 'areaEntered'; area: string }
   | { kind: 'questOffered'; quest: string; area: string }
+  | { kind: 'questHelped'; quest: string }
   | { kind: 'questAtCap'; quest: string; active: string[] }
   // Lane C r9: a windowed offer passed (R0652); a line's rewards (R0639); its cast's choice (R0594).
   | { kind: 'questExpired'; quest: string; lapsed: boolean }

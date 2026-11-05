@@ -1,4 +1,4 @@
-import { CLIPS, frameKey, type ClipName } from './animations';
+import { BATTLE_CLIP_ANGLES, CLIPS, frameKey, isBattleClip, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { drawHat, HELD_POSES, poseFor, type ChaoPose } from './chao';
@@ -900,7 +900,7 @@ function clipPose(spec: CreatureSpec, clip: ClipName, f: number): ChaoPose {
 export function buildCreatureSheet(spec: CreatureSpec, hat: string | null = null): SpriteSheet {
   const atlas = new AtlasBuilder(CREATURE_SIZE, CREATURE_SIZE, 10);
   for (const clip of Object.keys(CLIPS) as ClipName[]) {
-    for (const angle of DRAWN_ANGLES) {
+    for (const angle of isBattleClip(clip) ? BATTLE_CLIP_ANGLES : DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {
         atlas.add(
           frameKey(clip, angle, f),

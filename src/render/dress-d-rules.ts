@@ -5,6 +5,7 @@ import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import { stageFlags } from './scene-stage';
 import { camp10dDressItems } from './dress-camp10d';
+import { storyDoorItems } from './story-doors';
 
 /**
  * Which of package d's props and items stand now, and where (campaign graphics H11, M1,
@@ -29,6 +30,12 @@ export type DressShape =
   | 'lever'
   | 'lens'
   | 'porchLight'
+  | 'sundial'
+  | 'terminal'
+  | 'doorAtlas'
+  | 'doorCabinet'
+  | 'doorRift'
+  | 'doorGate'
   | 'keepShelf'
   | 'chair'
   | 'bench'
@@ -78,7 +85,7 @@ export function itemSignature(it: DressItem): string {
 export function dressItems(world: World, stage: SceneStage, darkness: number): DressItem[] {
   const f = stageFlags(world, stage);
   const out: DressItem[] = [];
-  if (!world.campaign || f.chapter === 0) return out;
+  if (!world.campaign || f.chapter === 0) return storyDoorItems(world, stage, darkness);
   const sp = stage.props ?? {};
   const want = (key: string, dflt: boolean): boolean => (sp[key] ? sp[key] !== 'hide' : dflt);
   const keeps = world.inventory.keepsakes;
@@ -226,5 +233,7 @@ export function dressItems(world: World, stage: SceneStage, darkness: number): D
   }
   // Lane C r10 agent D (R0607, R0639): the notice board and the lines' Grove changes.
   out.push(...camp10dDressItems(world, stage));
+  // R0630: the doors to the story worlds (render/story-doors.ts).
+  out.push(...storyDoorItems(world, stage, darkness));
   return out;
 }

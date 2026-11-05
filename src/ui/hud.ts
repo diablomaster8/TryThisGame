@@ -1423,6 +1423,11 @@ export function mountHud(
     onEvents(events: SimEvent[]) {
       handleHudEvents(evCtx, events);
     },
+    // R0620: with Aging while closed off there is no away screen; the recap still follows a long break.
+    onBreak(elapsedMs: number) {
+      const g = game();
+      if (g?.world.campaign && recapDue(elapsedMs)) recap.show(g);
+    },
     onAway(report: AwayReport, closed: () => void) {
       const g = game();
       // Shown at once, so no story scene can start under it; the scene waits for it to close.
@@ -1454,6 +1459,11 @@ export function mountHud(
           g.send({ kind: 'coaxOut' });
         else if (which === 'cottage') pocket.open(sheet.selectedId);
         else if (which === 'workshop') decorate.open('workshop');
+        // R0630: the doors to the story worlds, tapped in the Grove.
+        else if (which === 'door-atlas') atlas.open();
+        else if (which === 'door-cabinet') cabinet.open();
+        else if (which === 'door-rift') rift.open();
+        else if (which === 'door-gate') neoGate.open();
         else if (which === 'nursery') toast(UI_TEXT.nurseryTap);
         else if (which === 'bathhouse') toast(UI_TEXT.bathhouseTap);
         else if (which === 'host') g.send({ kind: 'neighbourGift' });

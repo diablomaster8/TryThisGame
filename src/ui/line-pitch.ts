@@ -1,5 +1,6 @@
 import { STORY_REGIONS, type StoryRegionId } from '../config/story-regions';
 import { C11_TEXT } from '../config/strings';
+import { linePitch } from '../content/pitches';
 import { beatAllowed } from '../sim/camp11';
 import { lineRefusal } from '../sim/story-book';
 import { sideStory, storylineById } from '../sim/story-scenes';
@@ -38,7 +39,7 @@ export function pitchLines(
       send({ kind: 'linePitched', id });
       void confirmModal({
         title: `${C11_TEXT.pitchTag} · ${s.title}`,
-        body: s.tagline,
+        body: linePitch(s) ?? s.tagline,
         confirm: C11_TEXT.pitchBegin,
         cancel: C11_TEXT.pitchLater,
       }).then((ok) => {

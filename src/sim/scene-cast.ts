@@ -58,8 +58,10 @@ export function sceneGuests(world: World, id: string): string[] {
 export function syncSceneGuests(world: World, c: CampaignState): void {
   const head = c.queue[0];
   const wanted = head && world.location !== 'dungeon' ? sceneGuests(world, head) : [];
-  if (world.npcs.some((n) => n.guest && !wanted.includes(n.trainer)))
-    world.npcs = world.npcs.filter((n) => !n.guest || wanted.includes(n.trainer));
+  // R0651: an offer's giver (`offer-<who>`) stays until the offer is answered (offer-approach.ts).
+  const stale = (n: Npc): boolean =>
+    !!n.guest && !n.id.startsWith('offer-') && !wanted.includes(n.trainer);
+  if (world.npcs.some(stale)) world.npcs = world.npcs.filter((n) => !stale(n));
   const k = world.keeper;
   wanted.forEach((who, i) => {
     if (world.npcs.some((n) => n.trainer === who)) return;
@@ -79,6 +81,26 @@ export function syncSceneGuests(world: World, c: CampaignState): void {
     npc.target = null;
     npc.guest = true;
   });
+}
+
+/**
+ * R0651: a quest giver who is not in the Grove yet, brought in `reach` units from the Keeper in
+ * direction `angle`, as a guest (`offer-<who>`) that walks up to them. `syncSceneGuests` leaves
+ * it alone until the offer is answered.
+ */
+export function spawnOfferGuest(world: World, who: string, angle: number, reach: number): Npc {
+  const k = world.keeper;
+  const pos = { x: k.pos.x + Math.sin(angle) * reach, z: k.pos.z + Math.cos(angle) * reach };
+  clampToWorld(pos);
+  resolve(pos, world);
+  const npc: Npc = spawnNpc(world, who);
+  npc.id = `offer-${who}`;
+  npc.pos = pos;
+  npc.home = { ...pos };
+  npc.facing = Math.atan2(k.pos.x - pos.x, k.pos.z - pos.z);
+  npc.target = null;
+  npc.guest = true;
+  return npc;
 }
 
 /**
