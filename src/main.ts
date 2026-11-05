@@ -139,6 +139,12 @@ let sandboxStart = false;
 void restoreFromMirror()
   .then(route)
   .finally(() => requestAnimationFrame(dropSplash));
+/** R0492: resolves when the first screen has painted; the boot chunks queue behind it. */
+const firstPaint = (() => {
+  let resolve!: () => void;
+  const promise = new Promise<void>((r) => (resolve = r));
+  return { promise, resolve };
+})();
 /**
  * R0492 (TECH-51): index.html's inline splash covers the cold start; it goes on the first
  * frame of whatever the route mounted (the title, or the loading veil), and the title's
@@ -147,6 +153,7 @@ void restoreFromMirror()
 function dropSplash(): void {
   document.getElementById('splash')?.remove();
   if (document.querySelector('.title')) performance.mark?.('title-visible');
+  firstPaint.resolve();
 }
 /** R0669: begin a visit to profile `id` and answer the first slot it has a save in, or null. */
 function visitSlotOf(id: string): SaveSlot | null {
@@ -234,8 +241,12 @@ function route(): void {
   } else {
     // Fetch the campaign and side-story chunks while the title is up.
     // A failure here is retried, and reported, when the game starts.
-    loadStories();
-    loadBoot().catch(() => undefined);
+    // R0492: measured on Slow 4G, fetching them beside the title's own download put the title
+    // at 4.0 s; they now start once the title has painted.
+    void firstPaint.promise.then(() => {
+      loadStories();
+      loadBoot().catch(() => undefined);
+    });
     // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
     const focus = params.has('edu') ? ('edu' as const) : undefined;
     showTitle(
