@@ -228,6 +228,8 @@ export function objectiveOf(g: Game): GroveObjective | null {
   const none = groveSuggestion(g.world);
   // No Nubbin of your own and no egg: the chapter goal cannot move until you buy one.
   if (none?.action === 'shop') return none;
+  // R0448: Hazel's chapter 1 runs the same guided first steps through the chip (pat, name, toss).
+  if (c && !c.storyline && c.chapter === 1 && firstLoopStep(g.world)) return none;
   if (c) {
     const met = goalMet(g.world, c);
     const view = journalView(g.world, c, met);
