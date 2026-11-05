@@ -10,5 +10,6 @@ export * from '../tuning-soul-r11a';
 export * from '../tuning-soul-r11b';
 export * from '../tuning-soul-r11g';
 export * from '../tuning-soul-r11h';
+export * from '../tuning-soul-r12a';
 export * from '../tuning-soul-r8';
 export * from '../tuning-soul-r9';
