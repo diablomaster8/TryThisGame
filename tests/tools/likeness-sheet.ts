@@ -16,9 +16,9 @@ import { SPECIES } from '../../src/sim/species';
 import { SPECIES_LABELS } from '../../src/config/strings';
 
 export interface SheetOptions {
-  family?: string;
-  filter?: string;
-  ids?: string[];
+  family?: string | undefined;
+  filter?: string | undefined;
+  ids?: string[] | undefined;
   colour?: boolean;
 }
 
