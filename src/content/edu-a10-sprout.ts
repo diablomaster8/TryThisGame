@@ -189,6 +189,7 @@ const Q01 = quest(
         N('An old woman tells a story with her hands.'),
         G('Sit, sit! A guest! Your little one can sit on the end.', 'happy'),
         N('A small girl with lots of hair pats your Nubbin like a drum.'),
+        N('Whoosh! The blue page whooshes open, smelling of salt.'),
       ],
       [
         notice(
@@ -206,7 +207,7 @@ const Q01 = quest(
     ),
     sc(
       'a10-01-page-done',
-      [G('Now, where was I? The heart of the island!', 'think')],
+      [G('Now, where was I? The heart of the island!', 'think'), N('Hee-hee! The little ones giggle, all squished in a row.')],
       [
         ask(
           'literacy',
@@ -239,6 +240,7 @@ const Q01 = quest(
         N('Some children squeal and hide behind each other. The small girl leans in.'),
         T('Mother, that is enough. The little ones will be scared.'),
         N('Gramma Tala says her son is a good chief. He is also wrong.'),
+        N('Squeak! A little one squeaks and hides behind her brother.'),
       ],
       [
         ask(
@@ -264,7 +266,7 @@ const Q01 = quest(
     ),
     sc(
       'a10-01-story-done',
-      [N('Gramma Tala picks up a stick and walks to the shore, humming.'), N('You follow her.')],
+      [N('Gramma Tala picks up a stick and walks to the shore, humming.'), N('You follow her.'), N('Swish! Gramma’s stick swishes a long line in the sand.')],
       [
         notice(
           'social-studies',
@@ -285,6 +287,7 @@ const Q01 = quest(
         N('The small girl has run to the beach. She frowns at something flat.'),
         N('It is a baby turtle. It is trying to reach the sea.'),
         N('Birds circle above. The girl holds a big leaf over it, like a roof.'),
+        N('Peep! The baby turtle gives a tiny peep.'),
       ],
       [
         ask(
@@ -343,6 +346,7 @@ const Q01 = quest(
         N('The water falls back. Gramma Tala picks up the green stone.'),
         N('She keeps it safe in the shell at her neck.'),
         G('The sea picks who it picks. It never says why.', 'soft'),
+        N('Whoosh! The great wave whooshes back, and the turtle splashes home.'),
       ],
       [
         doit(
@@ -382,6 +386,7 @@ const Q02 = quest(
         N('Inside it is black and soft. It should be white!'),
         FM('Whole trees of them. Young trees too.'),
         M('Then we will plant a new grove. There is good ground over there.', 'think'),
+        N('Crack! A coconut cracks open. Oh dear, it is black.'),
       ],
       [
         notice(
@@ -419,7 +424,7 @@ const Q02 = quest(
     ),
     sc(
       'a10-02-coconuts-done',
-      [M('That is one trouble. Next will be the fishing. It is always the fishing.')],
+      [M('That is one trouble. Next will be the fishing. It is always the fishing.'), N('Thump! A coconut thumps down from the tree.')],
       [
         ask(
           'sel',
@@ -445,6 +450,7 @@ const Q02 = quest(
         N('The fishermen go quiet. The chief has walked up.'),
         T('We do not cross the reef. It is our rule. It keeps us safe.'),
         N('Your Nubbin senses a mood. It sits on Moana’s foot.'),
+        N('Thump! Empty canoes thump on the sand.'),
       ],
       [
         ask(
@@ -474,6 +480,7 @@ const Q02 = quest(
         N('The chief walks away. Moana watches the reef.'),
         N('Five canoes lie on the sand, with nothing in them.'),
         M('He never says why.', 'angry'),
+        N('Creak! The empty canoes creak in the sun.'),
       ],
       [
         doit(
@@ -521,6 +528,7 @@ const Q02 = quest(
         N('Moana sits on the sand, by the canoe in two pieces. Pua sulks.'),
         M('Fine. I will not go past the reef. Probably.', 'sad'),
         N('Your Nubbin comes out of the sea with a spiral shell.'),
+        N('Splash! Your Nubbin splashes out of the sea with a shell.'),
       ],
       [
         ask(
@@ -549,6 +557,7 @@ const Q02 = quest(
         N('She looks at the cut on her foot, not at the reef.'),
         N('Your Nubbin drops the spiral shell in your hand. You keep it safe.'),
         M('That is Gramma, round the point. She dances with the sea.', 'soft'),
+        N('Plop! The spiral shell plops into your hand.'),
       ],
       [
         ask(
@@ -598,6 +607,7 @@ const Q03 = quest(
         G('Do not stand there like a post. The sea does not bite!'),
         M('Gramma, you should not be out here alone.'),
         G('I have the sea, a guest and a round little thing with wings.', 'happy'),
+        N('Splash! Long, slow waves splash on the point.'),
       ],
       [
         notice(
@@ -680,7 +690,7 @@ const Q03 = quest(
     ),
     sc(
       'a10-03-step-done',
-      [G('There. That is yours now. A step is like a name. It stays.', 'soft')],
+      [G('There. That is yours now. A step is like a name. It stays.', 'soft'), N('Ding! Gramma gives the sand one proud tap, like a bell.')],
       [
         doit(
           'literacy',
@@ -704,6 +714,7 @@ const Q03 = quest(
         G('I know. Wrong boat, wrong tide. Otherwise, very good.', 'happy'),
         G('Safe is good. But safe is not the only thing.', 'soft'),
         G('You have a big question in you. Go on. Ask it.', 'think'),
+        N('Swish! The waves swish up the sand and back.'),
       ],
       [
         ask(
@@ -732,6 +743,7 @@ const Q03 = quest(
       [
         M('Who are we? Where did we come from? Why do we never leave?', 'think'),
         G('Good. Get your guest. Bring a torch.'),
+        N('Crackle, pop! A torch pops alight in the dusk.'),
       ],
       [
         notice(
@@ -753,6 +765,7 @@ const Q03 = quest(
         N('Gramma gets up. It takes three tries, and a hand from you.'),
         N('Your Nubbin walks up the beach, doing its step, a bit crooked.'),
         G('It will come. Everything good comes slowly.', 'soft'),
+        N('Hee-hee! Your Nubbin wobbles through its step and giggles.'),
       ],
       [
         notice(
@@ -816,6 +829,7 @@ const Q04 = quest(
       [
         N('The torch makes the wet rock shine.'),
         N('Your Nubbin’s emote ball glows too. It is company.'),
+        N('Drip, drip! The wet rock drips, and the torch shines.'),
       ],
       [
         notice(
@@ -840,6 +854,7 @@ const Q04 = quest(
         M('Whose are these? Nobody builds these any more!', 'shock'),
         N('Your Nubbin sits on a hull, under a very tall mast.'),
         N('At the front is a great drum.'),
+        N('Creak! The old hulls creak, tall and quiet.'),
       ],
       [
         doit(
@@ -872,7 +887,7 @@ const Q04 = quest(
     ),
     sc(
       'a10-04-canoes-done',
-      [G('Bang the drum, Moana. It has been waiting for you.', 'soft')],
+      [G('Bang the drum, Moana. It has been waiting for you.', 'soft'), N('Thump! Something deep in the cave gives a soft thump.')],
       [
         notice(
           'science',
@@ -896,6 +911,7 @@ const Q04 = quest(
         N('A woman at a steering oar grins right at you.'),
         N('They find an island, land and plant. Then they sail on.'),
         N('Your Nubbin is doing its step without knowing it.'),
+        N('Thump! Boom! The drum goes thump all round the cave.'),
       ],
       [
         notice(
@@ -916,6 +932,7 @@ const Q04 = quest(
       [
         N('The drum stops ringing. You are in the cave again.'),
         N('There is dust on your feet and sea sounds at the far end.'),
+        N('Drip, drip. The cave goes quiet, and drips softly.'),
       ],
       [
         doit(
@@ -940,6 +957,7 @@ const Q04 = quest(
         G('Maui took it. So Maui must put it back.'),
         M('You take it, you bring it back. That is the rule!', 'happy'),
         M('I have to tell Dad. Right now!', 'happy'),
+        N('Creak! The cave door creaks as Moana runs to tell Dad.'),
       ],
       [
         ask(
@@ -1006,7 +1024,7 @@ const Q05 = quest(
     ),
     sc(
       'a10-05-council-done',
-      [N('A boy runs in, out of breath. Gramma Tala has fallen by the shore.', 'shock')],
+      [N('A boy runs in, out of breath. Gramma Tala has fallen by the shore.', 'shock'), N('Thump! Running feet thump along the shore.')],
       [
         ask(
           'literacy',
@@ -1083,6 +1101,7 @@ const Q05 = quest(
         N('She hugs Moana for a long time. Then she hugs you too.'),
         N('You carry the bundles to the cave’s sea mouth, in the dark.'),
         N('There the smallest canoe waits. It still looks enormous.'),
+        N('Thump! Heavy bundles thump down by the sea mouth.'),
       ],
       [
         doit(
@@ -1118,7 +1137,7 @@ const Q05 = quest(
     ),
     sc(
       'a10-05-pack-done',
-      [N('You turn round, and your Nubbin is gone! So is Heihei the rooster.')],
+      [N('You turn round, and your Nubbin is gone! So is Heihei the rooster.'), N('Splash! Something splashes in the dark. Where is your Nubbin?')],
       [
         ask(
           'literacy',
@@ -1207,6 +1226,7 @@ const Q06 = quest(
       [
         N('You wake on a beach with sand in your mouth.'),
         N('Your Nubbin is asleep on top of Heihei, who has not noticed.'),
+        N('Hee-hee! Heihei snores, and your Nubbin giggles in its sleep.'),
       ],
       [
         doit(
@@ -1232,6 +1252,7 @@ const Q06 = quest(
         MU('I am Maui. I pulled islands out of the sea. I slowed the sun.'),
         MU('And what is this? A coconut with opinions?', 'think'),
         M('My island is dying. You are coming with me to put it right.', 'angry'),
+        N('Thump! Huge feet thump on the sand.'),
       ],
       [
         notice(
@@ -1266,7 +1287,7 @@ const Q06 = quest(
     ),
     sc(
       'a10-06-maui-done',
-      [MU('Thanks for the boat. I have waited a long time for one.', 'happy')],
+      [MU('Thanks for the boat. I have waited a long time for one.', 'happy'), N('Creak! The old boat creaks. Maui is very pleased.')],
       [
         ask(
           'maths',
@@ -1295,6 +1316,7 @@ const Q06 = quest(
         N('At the top is a hole. Far below, a canoe sails away.'),
         M('Right.', 'angry'),
         N('She jumps, and so do you. Your Nubbin shuts its eyes, but falls anyway.'),
+        N('Thump! The boulder thumps shut over the cave.'),
       ],
       [
         ask(
@@ -1320,7 +1342,7 @@ const Q06 = quest(
     ),
     sc(
       'a10-06-statue-done',
-      [N('The sea catches you like a hand. It sets you on the deck.')],
+      [N('The sea catches you like a hand. It sets you on the deck.'), N('Splash! You land on the deck with a big splash.')],
       [
         ask(
           'literacy',
@@ -1390,6 +1412,7 @@ const Q07 = quest(
         N('They wear coconut armour, with faces painted on the front.'),
         MU('Kakamora! Pirates! They take everything they see.', 'shock'),
         N('Your Nubbin looks at them. They look at your Nubbin.'),
+        N('Drip, drip! Fog drips from the sail, and drums go thump, thump.'),
       ],
       [
         notice(
@@ -1424,6 +1447,7 @@ const Q07 = quest(
       [
         M('Why are they looking at it like that?', 'think'),
         MU('They think it is one of theirs. A little one without a coconut.', 'think'),
+        N('Hee-hee! The tiny pirates giggle at your little friend.'),
       ],
       [
         ask(
@@ -1454,6 +1478,7 @@ const Q07 = quest(
         N('Moana jumps to their raft. Your Nubbin jumps too.'),
         N('The pirates let it through. One paints a face on its tummy.'),
         N('Your Nubbin picks up Heihei and walks back. Nobody stops it.'),
+        N('Pop! Little darts pop into the deck.'),
       ],
       [
         ask(
@@ -1476,6 +1501,7 @@ const Q07 = quest(
       [
         N('Moana swings back on a rope. Your Nubbin clings to her back.'),
         N('Heihei clings to your Nubbin. He is calmly eating a dart.'),
+        N('Munch! Heihei munches a dart, calm as a cloud.'),
       ],
       [
         ask(
@@ -1502,6 +1528,7 @@ const Q07 = quest(
         N('Moana points to a gap between two boats of the raft.'),
         M('There! Go between them!'),
         N('The canoe shoots through the gap. The raft comes unlashed.'),
+        N('Whoosh! The canoe whooshes through the gap.'),
       ],
       [
         ask(
@@ -1521,7 +1548,7 @@ const Q07 = quest(
     ),
     sc(
       'a10-07-escape-done',
-      [N('The pirates drift off in the fog, drumming crossly.')],
+      [N('The pirates drift off in the fog, drumming crossly.'), N('Thump, thump! The pirates thump their drums, crossly.')],
       [
         notice(
           'sel',
@@ -1546,6 +1573,7 @@ const Q07 = quest(
         MU('My hook is at the bottom of the world.'),
         M('Then teach me to sail.'),
         N('Your Nubbin still has a fierce face on its tummy.'),
+        N('Pop! The green stone pops out of Heihei, and Moana washes it.'),
       ],
       [
         doit(
@@ -1586,6 +1614,7 @@ const Q08 = quest(
         MU('Then you know which way you are going.'),
         M('That is it? That is the secret?', 'think'),
         MU('That is night one. It takes years.', 'soft'),
+        N('Ding! One star shines like a tiny bell.'),
       ],
       [
         notice(
@@ -1603,7 +1632,7 @@ const Q08 = quest(
     ),
     sc(
       'a10-08-stars-done',
-      [N('Moana checks her hand against the same star, again and again.')],
+      [N('Moana checks her hand against the same star, again and again.'), N('Ding! Another star winks, and Moana nods.')],
       [
         doit(
           'maths',
@@ -1628,6 +1657,7 @@ const Q08 = quest(
         MU('That is the swell. Big, slow waves from far away.'),
         MU('Keep it at the same angle, and you keep your course.'),
         M('There! I can feel two swells!', 'happy'),
+        N('Swish! The big swell swishes under the boat.'),
       ],
       [
         doit(
@@ -1660,7 +1690,7 @@ const Q08 = quest(
     ),
     sc(
       'a10-08-swell-done',
-      [MU('Huh. Not bad. Not good. Not bad.', 'think')],
+      [MU('Huh. Not bad. Not good. Not bad.', 'think'), N('Hee-hee! Maui chuckles into his hands.')],
       [
         notice(
           'sel',
@@ -1684,6 +1714,7 @@ const Q08 = quest(
         N('Your Nubbin points with its whole arm. Then its whole body.', 'happy'),
         MU('Good. That way is land!'),
         M('Stars. Swells. Birds.', 'think'),
+        N('Tweet! A little bird tweets high overhead.'),
       ],
       [
         ask(
@@ -1711,7 +1742,7 @@ const Q08 = quest(
     ),
     sc(
       'a10-08-birds-done',
-      [N('Moana takes the steering oar for the first time. Maui lets her.')],
+      [N('Moana takes the steering oar for the first time. Maui lets her.'), N('Whee! Moana grips the oar, and the canoe goes whee!')],
       [
         notice(
           'social-studies',
@@ -1733,6 +1764,7 @@ const Q08 = quest(
         N('In the morning there is a tiny woven sail on your Nubbin’s back.'),
         M('Every voyager needs a sail. Even a small one.', 'happy'),
         N('Your Nubbin spins to see it. Heihei spins too.'),
+        N('Swish! Strips of leaf swish into a tiny sail.'),
       ],
       [
         ask(
@@ -1776,6 +1808,7 @@ const Q09 = quest(
         N('You climb behind her. Your Nubbin holds your heel.'),
         N('At the top, Maui speaks old words, low and quiet.', 'soft'),
         N('The rock opens. Below is a long way down, and a glow.'),
+        N('Crack! The stone cracks open with a deep, low rumble.'),
       ],
       [
         ask(
@@ -1802,6 +1835,7 @@ const Q09 = quest(
       [
         MU('Wait here. This is no place for a… Moana? Moana!', 'shock'),
         N('She has jumped, and so has your Nubbin. You sigh, and jump too.'),
+        N('Splash! Two small splashes. In she goes, and so do you.'),
       ],
       [
         ask(
@@ -1848,6 +1882,7 @@ const Q09 = quest(
       [
         N('A trail of shiny things leads into a cave.'),
         N('A shell, a bone, an earring, a golden canoe!'),
+        N('Ding! A golden earring dings against a shell.'),
       ],
       [
         doit(
@@ -1873,6 +1908,7 @@ const Q09 = quest(
         TM('Oh! What is that on the little round one? It glows!', 'happy'),
         N('Your Nubbin, worried, turns its ball into a question mark.'),
         TM('It does tricks!', 'shock'),
+        N('Clink, clank! Then pop! A crab lifts a treasure and it pops loose.'),
       ],
       [
         notice(
@@ -1906,7 +1942,7 @@ const Q09 = quest(
     ),
     sc(
       'a10-09-lair-done',
-      [N('Behind him, Moana climbs his shell and lifts off the hook.')],
+      [N('Behind him, Moana climbs his shell and lifts off the hook.'), N('Pop! The hook pops free of the shell.')],
       [
         notice(
           'science',
@@ -1930,6 +1966,7 @@ const Q09 = quest(
         TM('Somebody turn me over! I am never undignified!', 'angry'),
         N('A warm geyser carries you all up into the real sky.'),
         N('Your Nubbin’s painted face washes off in the sea.'),
+        N('Whoosh! The warm geyser whooshes you into the sky.'),
       ],
       [
         ask(
@@ -1974,6 +2011,7 @@ const Q10 = quest(
         N('Flash! Now a pig. Your Nubbin and Pua would get on.'),
         MU('A thousand years without it. Hawk!', 'angry'),
         N('Flash! A hawk with a shark’s head flops into the sea.'),
+        N('Splash! A hawk with a shark’s head splashes down.'),
       ],
       [
         ask(
@@ -1993,7 +2031,7 @@ const Q10 = quest(
     ),
     sc(
       'a10-10-practice-done',
-      [N('Maui climbs back aboard as himself. He sits down hard at the stern.')],
+      [N('Maui climbs back aboard as himself. He sits down hard at the stern.'), N('Thump! Maui thumps down at the stern.')],
       [
         notice(
           'literacy',
@@ -2048,7 +2086,7 @@ const Q10 = quest(
     ),
     sc(
       'a10-10-story-done',
-      [N('Maui does not answer. But he does not turn his back again.')],
+      [N('Maui does not answer. But he does not turn his back again.'), N('Creak! The deck creaks as Maui sits down again.')],
       [
         ask(
           'literacy',
@@ -2082,6 +2120,7 @@ const Q10 = quest(
         N('A great hawk lifts off and climbs in a wide spiral.', 'happy'),
         M('Look at him go!', 'happy'),
         N('You steer into the wind. Your Nubbin throws its arms up, as if flying.'),
+        N('Whoosh! The great hawk whooshes up in a spiral.'),
       ],
       [
         notice(
@@ -2099,7 +2138,7 @@ const Q10 = quest(
     ),
     sc(
       'a10-10-hawk-done',
-      [N('The hawk dives, pulls up, and lands on the mast. It is grinning.')],
+      [N('The hawk dives, pulls up, and lands on the mast. It is grinning.'), N('Hee-hee! The hawk grins on the mast, and Moana giggles.')],
       [
         ask(
           'maths',
@@ -2123,6 +2162,7 @@ const Q10 = quest(
         M('We saw. The fish saw too.', 'happy'),
         N('He teaches her steering and the shapes of waves. He is a good teacher.'),
         N('That evening, Moana steers alone. Maui sleeps.'),
+        N('Whee! Moana steers alone, and the canoe goes whee!'),
       ],
       [
         notice(
@@ -2160,6 +2200,7 @@ const Q11 = quest(
         M('I know the swell now. There is a gap.'),
         N('The ash moves. A giant of rock and fire stands up.'),
         N('Your Nubbin hides under the deck with Heihei. Very sensible.'),
+        N('Crack! The ash cracks, and a giant begins to stand.'),
       ],
       [
         notice(
@@ -2177,7 +2218,7 @@ const Q11 = quest(
     ),
     sc(
       'a10-11-barrier-done',
-      [N('Te Kā roars. It is the sound of a very loud, very cross mountain.')],
+      [N('Te Kā roars. It is the sound of a very loud, very cross mountain.'), N('Thump! Te Kā’s great fist thumps down in the sea.')],
       [
         ask(
           'sel',
@@ -2239,7 +2280,7 @@ const Q11 = quest(
     ),
     sc(
       'a10-11-gap-done',
-      [N('The sea goes quiet. The sail is torn, and Te Kā’s glow sinks.')],
+      [N('The sea goes quiet. The sail is torn, and Te Kā’s glow sinks.'), N('Drip, drip. The torn sail drips in the quiet.')],
       [
         notice(
           'science',
@@ -2421,6 +2462,7 @@ const Q12 = quest(
         N('The manta glides, and your Nubbin glides. Side by side!'),
         G('There. You did not forget.', 'soft'),
         N('Moana laughs. It is her first laugh since the dark islands.'),
+        N('Whee! The manta glides and your Nubbin glides too, whee!'),
       ],
       [
         doit(
@@ -2439,7 +2481,7 @@ const Q12 = quest(
     ),
     sc(
       'a10-12-manta-done',
-      [G('Things you are taught with love, you keep. They stay put.', 'soft')],
+      [G('Things you are taught with love, you keep. They stay put.', 'soft'), N('Ding! One bright star dings above the canoe.')],
       [
         ask(
           'literacy',
@@ -2470,6 +2512,7 @@ const Q12 = quest(
         N('The stars become sails. The great canoes cross the sky.'),
         N('Moana stands up straight. She is crying and she is strong.'),
         M('Everything I was taught, I still have. I will take it back myself.', 'happy'),
+        N('Ding! The stars ring like tiny bells over the water.'),
       ],
       [
         notice(
@@ -2561,6 +2604,7 @@ const Q13 = quest(
         N('A hawk drops from the sky. It becomes Maui, with his cracked hook.', 'shock'),
         MU('Told you to let me go first.', 'happy'),
         M('You came back!', 'happy'),
+        N('Swish! The canoe swishes left, then right, then left.'),
       ],
       [
         ask(
@@ -2580,7 +2624,7 @@ const Q13 = quest(
     ),
     sc(
       'a10-13-run-done',
-      [MU('Go! I will hold her!'), N('His hook meets Te Kā’s fist and breaks. He stands firm.')],
+      [MU('Go! I will hold her!'), N('His hook meets Te Kā’s fist and breaks. He stands firm.'), N('Bonk! The hook bonks against Te Kā’s fist.')],
       [
         notice(
           'sel',
@@ -2604,6 +2648,7 @@ const Q13 = quest(
         N('It is the same spiral as on the green stone. And your shell.'),
         M('Oh.', 'soft'),
         M('She is Te Fiti, without her heart.', 'soft'),
+        N('Creak! The mast creaks as you climb up after her.'),
       ],
       [
         ask(
@@ -2628,6 +2673,7 @@ const Q13 = quest(
       [
         N('Moana climbs down. She holds up her hand to the open water.'),
         N('The sea parts. A path of wet sand opens, straight to Te Kā.', 'shock'),
+        N('Whoosh! The sea whooshes apart in a wall of water.'),
       ],
       [
         ask(
@@ -2655,6 +2701,7 @@ const Q13 = quest(
         N('Moana walks down the path through the sea.'),
         N('Te Kā sees her and comes roaring down. Moana keeps walking.'),
         N('You step onto the wet sand. Your heart goes like a drum.'),
+        N('Thump! Your heart goes thump, thump, like a drum.'),
       ],
       [
         ask(
@@ -2715,6 +2762,7 @@ const Q13 = quest(
         N('Te Kā stoops, enormous. Fire runs off her like water.'),
         M('I see the spiral. I know you. You have waited a long time.', 'soft'),
         N('Moana touches her forehead to Te Kā’s. The giant goes very still.'),
+        N('Pop! A tiny flame pops and goes out.'),
       ],
       [
         ask(
@@ -2743,6 +2791,7 @@ const Q13 = quest(
         N('She gives Maui his hook, mended and new.', 'soft'),
         MU('I am sorry for what I took.', 'sad'),
         N('Te Fiti smiles. The sea around her goes clear and full of fish.', 'soft'),
+        N('Pop! The stone pops into the spiral, and the world glows.'),
       ],
       [
         notice(
@@ -2782,6 +2831,7 @@ const Q14 = quest(
         N('On his arm is a new mark: a girl at a steering oar.', 'soft'),
         MU('I did not do that one. It just turned up. Best one I have.', 'happy'),
         MU('Goodbye, coconut. You were the least use, and I will miss you most.', 'happy'),
+        N('Whoosh! A hawk whooshes up over the bow.'),
       ],
       [
         notice(
@@ -2816,7 +2866,7 @@ const Q14 = quest(
     ),
     sc(
       'a10-14-farewell-done',
-      [N('A flash. A hawk climbs in a spiral, rolls, and is gone.')],
+      [N('A flash. A hawk climbs in a spiral, rolls, and is gone.'), N('Whoosh! The hawk rolls once and whooshes away.')],
       [
         notice(
           'social-studies',
@@ -2844,6 +2894,7 @@ const Q14 = quest(
         S('Of course she did. I packed her lunch.', 'happy'),
         N('Chief Tui looks at Sina. Sina looks at the sea.'),
         N('Nobody says who knew.'),
+        N('Ding, dong! The bells of Motunui ring out over the bay.'),
       ],
       [
         ask(
@@ -2863,7 +2914,7 @@ const Q14 = quest(
     ),
     sc(
       'a10-14-home-done',
-      [N('Moana climbs the hill of chiefs’ stones. She puts a shell on top.')],
+      [N('Moana climbs the hill of chiefs’ stones. She puts a shell on top.'), N('Plop! A shell plops on top of the hill of stones.')],
       [
         ask(
           'maths',
@@ -2891,12 +2942,13 @@ const Q14 = quest(
         N('The people see, and point. Some laugh, and some cry.'),
         T('That is my mother’s step. I thought it was just her.', 'soft'),
         M('It is never just one person.', 'soft'),
+        N('Splash! The canoes splash through the waterfall, one by one.'),
       ],
       [HOKULEA(3)],
     ),
     sc(
       'a10-14-bow-done',
-      [N('The canoes sail on, towards an island nobody has seen yet.', 'happy')],
+      [N('The canoes sail on, towards an island nobody has seen yet.', 'happy'), N('Whee! The great canoes go whee, towards an island nobody has seen.')],
       [
         doit(
           'maths',
@@ -2922,6 +2974,7 @@ const Q14 = quest(
         N('Out at sea, Te Fiti’s shore is green. Your shell is there, with her.'),
         ...A14_HOME,
         N('A white spiral shell is painted on the canoe’s prow.', 'happy'),
+        N('Plop! Your Nubbin plops into the little canoe, happy.'),
       ],
       [HOME_DRAW(3)],
     ),
@@ -2941,6 +2994,7 @@ export const EDU_A10_SPROUT_VARIANTS: EduScene[] = [
       N('The manta rises, and your Nubbin rises. Side by side!'),
       G('There. You did not forget.', 'soft'),
       N('Moana laughs. It is her first laugh since the dark islands.'),
+      N('Whee! The manta rolls and your Nubbin rolls too, whee!'),
     ],
     [WAVE_STEP(3)],
   ),
@@ -2955,6 +3009,7 @@ export const EDU_A10_SPROUT_VARIANTS: EduScene[] = [
       N('The people see, and point. Some laugh, and some cry.'),
       T('That is my mother’s step. I thought it was just her.', 'soft'),
       M('It is never just one person.', 'soft'),
+      N('Splash! The canoes splash through the waterfall, one by one.'),
     ],
     [HOKULEA(3)],
   ),
@@ -2968,6 +3023,7 @@ export const EDU_A10_SPROUT_VARIANTS: EduScene[] = [
       M('On the path, you said you remembered her. I think she heard.', 'soft'),
       ...A14_HOME,
       N('Along the hull is a line of small carved spirals. Your Nubbin counts them.', 'happy'),
+      N('Plop! Your Nubbin plops into the little canoe, happy.'),
     ],
     [HOME_DRAW(3)],
   ),
@@ -2981,6 +3037,7 @@ export const EDU_A10_SPROUT_VARIANTS: EduScene[] = [
       M('On the path, you said nothing. You just came. That was brave.', 'happy'),
       ...A14_HOME,
       N('Two pairs of footprints are painted on the deck. Your Nubbin stands in one.', 'happy'),
+      N('Plop! Your Nubbin plops into the little canoe, happy.'),
     ],
     [HOME_DRAW(3)],
   ),

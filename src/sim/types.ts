@@ -684,7 +684,9 @@ export type DyeColor =
   | 'cream'
   | 'black'
   | 'white'
-  | 'coral';
+  | 'coral'
+  /** R0427: the kid-safe rainbow dye; it cycles hue slowly (render/sprites/rainbow-dye.ts). */
+  | 'rainbow';
 /** R0427: where a dye goes; the wing and crown tips are for adults. */
 export type DyeSlot = 'hat' | 'scarf' | 'wingTip' | 'crownTip';
 export const DYE_COLORS_ALL: readonly DyeColor[] = [
@@ -700,6 +702,7 @@ export const DYE_COLORS_ALL: readonly DyeColor[] = [
   'black',
   'white',
   'coral',
+  'rainbow',
 ];
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
@@ -1002,6 +1005,8 @@ export interface DungeonRun {
   taken: string[];
   chestOpen: boolean;
   strays: DungeonStray[];
+  /** R0326: strays just fed a fruit, shy and delighted for `leftMs` more, then gone up to the square. */
+  fedStrays?: Array<{ id: string; pos: Vec2; leftMs: number; king?: true }>;
   /** R0162: single Shells a fleeing stray dropped, waiting to be picked up. */
   shellTrail?: Array<{ id: string; x: number; z: number }>;
   /** R0159: shrines used on this level, and the shrine buffs still running (paused in fights). */

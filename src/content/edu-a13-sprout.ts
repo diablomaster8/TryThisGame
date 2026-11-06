@@ -350,6 +350,7 @@ const A1: EduQuest = quest(
         N('Master Cherry looks under the bench. He looks up the chimney.'),
         MC('Did you say that? Nobody said that!', 'shock'),
         MC('I imagined it. It was only the weather.'),
+        N('Creak! Master Cherry’s bench creaks as he peeks beneath.'),
       ],
       [
         notice(
@@ -376,6 +377,7 @@ const A1: EduQuest = quest(
         G('Good morning, Master Antonio. I want to carve a puppet.'),
         LG('Good idea, Polendina!'),
         N('Geppetto goes red. He thinks Master Cherry said it!'),
+        N('Bonk! The plane bonks the log, and the log says ow!'),
       ],
       [
         ask(
@@ -416,6 +418,7 @@ const A1: EduQuest = quest(
         N('Then they swap back and shake hands.'),
         N('Master Cherry gives Geppetto the log. It bounces on his toe.'),
         N('Then it is peace, and the rain has stopped.'),
+        N('Hee-hee! The two old men giggle over their swapped wigs.'),
       ],
       [
         ask(
@@ -447,6 +450,7 @@ const A1: EduQuest = quest(
         G('It keeps me warm if I do not think about it.', 'happy'),
         N('He hangs his felt cap on a nail. Your Nubbin hops in.'),
         G('Ha. It may stay. It is the warmest thing in the house.', 'happy'),
+        N('Creak! The little door creaks open, and a lamp glows.'),
       ],
       [
         doit(
@@ -491,6 +495,7 @@ const A2: EduQuest = quest(
         G('Wooden eyes, why are you looking at me?', 'shock'),
         N('He carves the nose. It grows. And grows!'),
         N('He carves the mouth. It sticks out its tongue.'),
+        N('Swish! The knife swishes, and the nose grows and grows.'),
       ],
       [
         notice(
@@ -528,6 +533,7 @@ const A2: EduQuest = quest(
         N('Geppetto carves the hands. They grab his yellow wig!'),
         G('Pinocchio! Give that back!'),
         N('Pinocchio gives it back. His eyes are laughing.'),
+        N('Hee-hee! The wooden hands wave the wig, and Pinocchio giggles.'),
       ],
       [
         ask(
@@ -584,6 +590,7 @@ const A2: EduQuest = quest(
         N('Pinocchio lies down on the stones and will not walk.'),
         N('The crowd thinks the old man is being unkind to the puppet.'),
         CB('You, old man. You can come with me.'),
+        N('Thump! Pinocchio thumps down on the stones and will not move.'),
       ],
       [
         notice(
@@ -607,6 +614,7 @@ const A2: EduQuest = quest(
         N('Your Nubbin hops out of the cap. The street is empty.'),
         N('Pinocchio runs home across the fields, fast as a hare.'),
         N('The room under the stairs is very quiet.'),
+        N('Thump, thump! Wooden feet thump home across the square.'),
       ],
       [
         ask(
@@ -653,6 +661,7 @@ const A3: EduQuest = quest(
         N('Then, a small sound. Cri, cri, cri.'),
         P('Who is that?', 'shock'),
         N('Your Nubbin’s ears go straight up.'),
+        N('Squeak! Cri, cri! A tiny squeak comes from the wall.'),
       ],
       [
         doit(
@@ -674,6 +683,7 @@ const A3: EduQuest = quest(
       [
         N('On the wall climbs a big cricket. He looks very grand.'),
         CR('I am the Talking-cricket. I have lived here a hundred years.'),
+        N('Creak! The wall creaks, and a grand cricket climbs up.'),
       ],
       [
         ask(
@@ -754,7 +764,7 @@ const A3: EduQuest = quest(
     ),
     sc(
       'a13-03-cricket-done',
-      [N('The room is quiet. Pinocchio rests his chin on his fists.'), P('Anyway. I am hungry.')],
+      [N('The room is quiet. Pinocchio rests his chin on his fists.'), P('Anyway. I am hungry.'), N('Thump! Pinocchio thumps his chin down on his fists.')],
       [
         ask(
           1,
@@ -777,6 +787,7 @@ const A3: EduQuest = quest(
         P('Is there any supper? Somewhere?'),
         N('Your Nubbin curls up against your boot.'),
         N('Outside, the wind is getting up.'),
+        N('Hee-hee! Your Nubbin giggles at Pinocchio’s rumbling tummy.'),
       ],
       [
         notice(
@@ -818,6 +829,7 @@ const A4: EduQuest = quest(
         P('Painted. Even the soup is painted.', 'sad'),
         N('He tries the drawers. A button. A cork. A bent nail.'),
         N('Your Nubbin digs in the heap in the corner.'),
+        N('Bonk! Pinocchio’s nose bonks the painted soup pot.'),
       ],
       [
         doit(
@@ -853,6 +865,7 @@ const A4: EduQuest = quest(
       [
         N('In the heap is something round and white. An egg!'),
         P('An egg! I will fry it!', 'happy'),
+        N('Pop! A little round egg pops out of the heap.'),
       ],
       [
         ask(
@@ -882,6 +895,7 @@ const A4: EduQuest = quest(
         N('Pinocchio holds the empty shell. His mouth is wide open. Your Nubbin opens its mouth too.'),
         N('The chick flies out of the window and away.'),
         P('Oh. The cricket was right. I wish I had not run off.', 'sad'),
+        N('Crack! The egg cracks, and out flies a chick.'),
       ],
       [
         ask(
@@ -909,6 +923,7 @@ const A4: EduQuest = quest(
       [
         N('Outside, the wind is a storm. Pinocchio puts his cap on.'),
         P('There is a village. Someone will give me bread. I will ask nicely.'),
+        N('Whoosh! The wind whooshes, and Pinocchio puts his cap on.'),
       ],
       [
         notice(
@@ -956,6 +971,7 @@ const A4: EduQuest = quest(
         N('You walk home together, dripping.'),
         N('Your Nubbin is dry under your coat.'),
         N('Pinocchio puts his wet feet on the brazier. He falls asleep.'),
+        N('Drip, drip! You walk home dripping, all in a line.'),
       ],
       [
         ask(
@@ -993,6 +1009,7 @@ const A4: EduQuest = quest(
         N('He jumps up, and falls on his face.'),
         N('His feet burned away in the night. He did not feel a thing, because he is wood.'),
         N('(He is fine. Geppetto will make him new ones.)'),
+        N('Knock, knock! Bonk! Someone bonks at the door.'),
       ],
       [
         ask(
@@ -1042,6 +1059,7 @@ const A5: EduQuest = quest(
         N('You lean out and take his arm. Up he comes.'),
         G('Now, you young— Oh. Oh, my boy. Your feet.', 'shock'),
         N('He came to scold. He looks at the feet, and hugs him instead.'),
+        N('Creak! The high window creaks open, and you lean out.'),
       ],
       [
         ask(
@@ -1070,6 +1088,7 @@ const A5: EduQuest = quest(
         P('I am so hungry, Babbo.', 'sad'),
         N('Geppetto takes three pears from his pocket. It is his own breakfast.'),
         N('He holds them out and says nothing about it.'),
+        N('Munch! Pinocchio munches a pear, and then another.'),
       ],
       [
         doit(
@@ -1133,6 +1152,7 @@ const A5: EduQuest = quest(
         N('A minute later the peel is gone, and the cores too.'),
         P('I feel very well now.', 'happy'),
         G('You see? Do not be too fussy.'),
+        N('Crunch! The last core crunches, and the peel is gone.'),
       ],
       [
         ask(
@@ -1165,6 +1185,7 @@ const A5: EduQuest = quest(
         P('But I need a spelling-book for school.'),
         N('Geppetto has no money. He puts on his old patched coat and goes out.'),
         N('It is snowing.'),
+        N('Creak! The old coat creaks off Geppetto’s shoulders.'),
       ],
       [
         notice(
@@ -1179,7 +1200,7 @@ const A5: EduQuest = quest(
     ),
     sc(
       'a13-05-coat',
-      [...COAT],
+      [...COAT, N('Thump! The spelling-book thumps on the table.')],
       [
         ask(
           2,
@@ -1208,6 +1229,7 @@ const A5: EduQuest = quest(
         P('Today I learn to read. Tomorrow, to write. The day after, sums.', 'happy'),
         N('Geppetto watches from the door in his shirt-sleeves.'),
         N('The half-carved Nubbin waits on the bench. Ears, and nothing else.'),
+        N('Hee-hee! Pinocchio chatters all the way, and Geppetto giggles.'),
       ],
       [
         doit(
@@ -1247,6 +1269,7 @@ const A6: EduQuest = quest(
         N('One foot points to school. One foot points to the music.'),
         N('At the bottom of the hill is a great tent with flags.'),
         N('The poster says THE GREAT PUPPET THEATRE.'),
+        N('Boom! Thump! A big drum thumps from the bottom of the road.'),
       ],
       [
         doit(
@@ -1283,6 +1306,7 @@ const A6: EduQuest = quest(
         N('A ticket costs four pennies. Pinocchio has no pennies.'),
         N('He has a spelling-book. He sells it for four pennies.'),
         N('Oh, Pinocchio.'),
+        N('Ding! Four pennies ding into the ticket-man’s hand.'),
       ],
       [
         doit(
@@ -1304,6 +1328,7 @@ const A6: EduQuest = quest(
         HQ('Look! It is our brother Pinocchio!', 'shock'),
         PU('Come up! Come up!', 'happy'),
         N('Pinocchio jumps onto the stage. Hugs, and kisses, and friendly pokes!'),
+        N('Whee! The puppets cheer, and Pinocchio jumps up, whee!'),
       ],
       [
         notice(
@@ -1325,6 +1350,7 @@ const A6: EduQuest = quest(
         N('Then the showman comes out. He is as big as a door.'),
         N('His beard reaches the floor. His eyes are like red lanterns.'),
         FE('What is all this? Who is that?', 'angry'),
+        N('Thump! The showman’s big boots thump on the stage.'),
       ],
       [
         ask(
@@ -1352,6 +1378,7 @@ const A6: EduQuest = quest(
         FE('We will talk about him after the show. Hang him up!'),
         N('Pinocchio hangs by his paper jacket on a nail, like a coat.'),
         N('The showman’s name is Fire-eater. It is only a name.'),
+        N('Creak! The rope creaks as Pinocchio swings.'),
       ],
       [
         doit(
@@ -1395,6 +1422,7 @@ const A7: EduQuest = quest(
         P('Babbo! Save me!', 'shock'),
         N('Fire-eater’s nose twitches. His eyes water. Then he sneezes!'),
         HQ('Good news, brother. When he sneezes, he is sorry for you.', 'happy'),
+        N('Achoo! Fire-eater’s nose twitches, and then he sneezes. Achoo!'),
       ],
       [
         notice(
@@ -1432,6 +1460,7 @@ const A7: EduQuest = quest(
       [
         FE('I will not burn you. But my supper must be cooked.', 'think'),
         FE('Bring me Harlequin instead.'),
+        N('Thump! The big man thumps his fist on the table.'),
       ],
       [
         ask(
@@ -1482,6 +1511,7 @@ const A7: EduQuest = quest(
         FE('Oh, very well! Nobody burns tonight.', 'sad'),
         N('The puppets dance till dawn. So do you!'),
         N('Your Nubbin dances along Fire-eater’s beard.'),
+        N('Whee! The puppets dance till dawn, whee, whee!'),
       ],
       [
         doit(
@@ -1506,6 +1536,7 @@ const A7: EduQuest = quest(
         N('Fire-eater sneezes again. He gives Pinocchio five gold pieces.'),
         FE('For your father. Tell him to buy a coat.', 'soft'),
         N('Pinocchio hugs every puppet twice, and goes home with the gold.'),
+        N('Achoo! Fire-eater sneezes again, and five gold pieces ding.'),
       ],
       [
         ask(
@@ -1561,6 +1592,7 @@ const A8: EduQuest = quest(
         P('Look! Five gold pieces. I am buying Babbo a coat!', 'happy'),
         N('The Fox stretches out his lame leg. The Cat opens his eyes, then shuts them.'),
         N('Nobody sees but you.'),
+        N('Creak! A stick creaks under the lame Fox’s paw.'),
       ],
       [
         ask(
@@ -1604,6 +1636,7 @@ const A8: EduQuest = quest(
         FX('Plant a coin in the Field of Miracles. A tree will grow with gold on it!'),
         N('A white blackbird calls to Pinocchio not to listen.'),
         N('The Cat leaps. The blackbird flies away safe.'),
+        N('Tweet! A white blackbird tweets, but nobody listens.'),
       ],
       [
         ask(
@@ -1629,6 +1662,7 @@ const A8: EduQuest = quest(
         N('The Cat orders lots and lots of fish. The Fox orders chicken.'),
         N('Pinocchio is too excited to eat. He has a walnut.'),
         P('Tonight a seed. Tomorrow a tree!', 'happy'),
+        N('Munch! The Cat munches fish, and the Fox munches chicken.'),
       ],
       [
         ask(
@@ -1667,6 +1701,7 @@ const A8: EduQuest = quest(
         N('At midnight the innkeeper knocks. The Fox and Cat have gone ahead.'),
         IK('They said you would pay. One gold piece.'),
         N('Pinocchio pays. He had five gold pieces. Now he has four.'),
+        N('Ding! One gold piece dings onto the innkeeper’s hand.'),
       ],
       [
         doit(
@@ -1690,6 +1725,7 @@ const A8: EduQuest = quest(
         N('From low in the leaves comes a tiny sound. Cri.'),
         P('Not you. I am not listening.', 'shock'),
         N('He walks faster. There is only dark in the hedge.'),
+        N('Squeak! Something rustles, and a tiny cri squeaks.'),
       ],
       [
         ask(
@@ -1735,6 +1771,7 @@ const A9: EduQuest = quest(
         N('Pinocchio cannot answer. His mouth is full of gold!'),
         SS('Hand it over, or else!'),
         N('One sounds just like a Fox with a cold.'),
+        N('Thump, thump! Two black sacks go thump along the road.'),
       ],
       [
         notice(
@@ -1829,6 +1866,7 @@ const A9: EduQuest = quest(
         N('They hang him by his paper jacket from the Big Oak.'),
         N('He dangles like a coat on a peg. He is not hurt.'),
         ST('We will be back in the morning.'),
+        N('Creak! The Big Oak creaks as the paper jacket swings.'),
       ],
       [
         ask(
@@ -1853,6 +1891,7 @@ const A9: EduQuest = quest(
         P('Oh, Babbo. If you were here.', 'sad'),
         N('Pinocchio is worn out. His eyes close.'),
         N('Behind you, the window of the white house opens again.'),
+        N('Creak! The oak branch creaks as the night goes by.'),
       ],
       [
         notice(
@@ -1893,6 +1932,7 @@ const A10: EduQuest = quest(
         FY('Bring him in. Medoro! The coach!'),
         N('A poodle in a coachman’s coat leads a tiny coach. A hundred white mice pull it!'),
         MD('Mind the custard, please. It is for the journey.'),
+        N('Boing! A hundred white mice go boing, boing, boing!'),
       ],
       [
         notice(
@@ -1926,7 +1966,7 @@ const A10: EduQuest = quest(
     ),
     sc(
       'a13-10-falcon-done',
-      [N('The Fairy puts Pinocchio to bed.'), N('She sends for the three best doctors nearby.')],
+      [N('The Fairy puts Pinocchio to bed.'), N('She sends for the three best doctors nearby.'), N('Creak! The little bed creaks under the soft blue blanket.')],
       [
         doit(
           1,
@@ -1954,6 +1994,7 @@ const A10: EduQuest = quest(
         CR('He is a rascal. But a rascal can mend his ways.'),
         N('From under the sheet comes a sound of crying.'),
         CW('When a patient cries, it is a sign he is getting better.'),
+        N('Squeak! A small squeak comes from under the sheet.'),
       ],
       [
         ask(
@@ -1984,6 +2025,7 @@ const A10: EduQuest = quest(
         ...LEAVE,
         N('Under the sheet, Pinocchio stops crying to listen.'),
         N('He hears that slow, uneven step go down the stairs.'),
+        N('Creak! The door creaks as the cricket goes last.'),
       ],
       [
         ask(
@@ -2014,6 +2056,7 @@ const A10: EduQuest = quest(
         N('She puts her hand on Pinocchio’s forehead. He is very warm.'),
         FY('Fever. Silly boy. Silly, silly boy.', 'soft'),
         FY('You came in with him. Stay, then.'),
+        N('Drip, drip. A damp cloth drips on his warm forehead.'),
       ],
       [
         notice(
@@ -2087,6 +2130,7 @@ const A11: EduQuest = quest(
       [
         N('In a few minutes Pinocchio jumps out of bed. He is well!'),
         N('Puppets get ill quickly, and well quickly.'),
+        N('Boing! Pinocchio boings out of bed, well again.'),
       ],
       [
         doit(
@@ -2113,6 +2157,7 @@ const A11: EduQuest = quest(
         N('His nose grows again. It bumps the bed and the window.'),
         FY('Fibs are found out quickly, my boy.'),
         N('He cannot get through the door. His nose is too long!'),
+        N('Bonk! His long nose bonks the bed and the window.'),
       ],
       [
         ask(
@@ -2159,6 +2204,7 @@ const A11: EduQuest = quest(
         N('Pinocchio cries for a while. The Fairy lets him.'),
         N('Then she claps. A thousand woodpeckers fly in.'),
         N('Tap, tap, tap! They peck his nose back to size.'),
+        N('Tap, tap! Bonk! A thousand woodpeckers peck his nose back.'),
       ],
       [
         notice(
@@ -2181,6 +2227,7 @@ const A11: EduQuest = quest(
         FY('Your babbo is on his way. He will be here by dark.'),
         P('Babbo! Here? I will go and meet him!', 'happy'),
         N('He is off in a rattle of bark shoes.'),
+        N('Hee-hee! Pinocchio giggles, and runs to find Babbo.'),
       ],
       [
         ask(
@@ -2231,6 +2278,7 @@ const A12: EduQuest = quest(
         FX('With four coins, you could have two thousand. Think how proud Babbo would be.'),
         P('Is it far?'),
         N('Pinocchio thinks of the Fairy, and of Babbo. And of two thousand.'),
+        N('Ding! A gold coin dings in the Fox’s paw.'),
       ],
       [
         ask(
@@ -2279,6 +2327,7 @@ const A12: EduQuest = quest(
         N('The town of Catchfools is full of sad animals.'),
         N('Dogs with no coats, shivering. Sheep with no wool. Hens with no crests.'),
         N('Butterflies who sold their wings!'),
+        N('Squeak! The sad hens squeak in the street of Catchfools.'),
       ],
       [
         ask(
@@ -2308,6 +2357,7 @@ const A12: EduQuest = quest(
         FX('Now go away for twenty minutes.'),
         CT('We want nothing for it.'),
         N('The Fox and Cat hurry off down the road.'),
+        N('Thump! Thump! Spades thump into the soft earth.'),
       ],
       [
         doit(
@@ -2344,6 +2394,7 @@ const A12: EduQuest = quest(
         N('Twenty minutes later, back at the field. There is no tree.'),
         N('There is only a hole, and it is empty.'),
         PR('Ha ha! Your friends dug up your gold and ran off.', 'happy'),
+        N('Hee-hee! A far-off laugh rings across the empty field.'),
       ],
       [
         doit(
@@ -2367,6 +2418,7 @@ const A12: EduQuest = quest(
         P('Then I will go to the judge. Judges are for this.', 'angry'),
         N('Your Nubbin throws a small clod at the Parrot. It misses.'),
         N('The Parrot laughs again.'),
+        N('Boing! Your Nubbin hops on the sand pile, boing, boing.'),
       ],
       [
         ask(
@@ -2412,6 +2464,7 @@ const A13: EduQuest = quest(
         JG('Dear me. Poor boy.', 'sad'),
         N('The Judge nods and blows his nose. Then he rings a bell.'),
         JG('This boy was robbed. Take him away and lock him up.'),
+        N('Ding! The judge rings his little bell.'),
       ],
       [
         ask(
@@ -2449,6 +2502,7 @@ const A13: EduQuest = quest(
       [
         N('Four months in jail for being robbed.'),
         N('Pinocchio is led away, too surprised to cry.'),
+        N('Thump! The judge thumps the table, and the guards thump too.'),
       ],
       [
         doit(
@@ -2475,6 +2529,7 @@ const A13: EduQuest = quest(
         N('The jailer opens the cells. He shuts the door on Pinocchio.'),
         P('I beg your pardon. I am a rascal as well.'),
         N('The jailer bows and opens the door.'),
+        N('Creak! The jail door creaks open, then shut.'),
       ],
       [
         notice(
@@ -2492,7 +2547,7 @@ const A13: EduQuest = quest(
     ),
     sc(
       'a13-13-prison-done',
-      [N('Pinocchio walks out into the sunshine.'), N('His nose stays exactly where it is.')],
+      [N('Pinocchio walks out into the sunshine.'), N('His nose stays exactly where it is.'), N('Whee! Pinocchio runs out into the sunshine, whee!')],
       [
         ask(
           0,
@@ -2522,6 +2577,7 @@ const A13: EduQuest = quest(
         N('After an hour he walks slowly. After two he looks at the vineyards.'),
         P('Just one bunch of grapes. I am so hungry.', 'sad'),
         N('He is over the wall before you can speak.'),
+        N('Thump, thump! His wooden feet thump slower and slower.'),
       ],
       [
         ask(
@@ -2572,6 +2628,7 @@ const A14: EduQuest = quest(
         FM(
           'My old dog Melampo died this morning. He was very old. You can be my watchdog tonight.',
         ),
+        N('Bonk! The trap bonks shut on his ankle.'),
       ],
       [
         ask(
@@ -2612,6 +2669,7 @@ const A14: EduQuest = quest(
         N('The farmer puts a brass collar on Pinocchio, on a long chain.'),
         FM('If thieves come, bark. Goodnight.'),
         P('The cricket said this would happen.', 'sad'),
+        N('Ding! The brass collar dings on a long chain.'),
       ],
       [
         notice(
@@ -2640,6 +2698,7 @@ const A14: EduQuest = quest(
         N('Your Nubbin counts the tails going in. One, two, three, four. Shut!'),
         N('Pinocchio shuts the door. He rolls a stone against it.'),
         N('Bow-wow! Bow-wow! Bow-wow!'),
+        N('Squeak! The hen-house door squeaks, and shuts with a bonk.'),
       ],
       [
         doit(
@@ -2662,6 +2721,7 @@ const A14: EduQuest = quest(
         N('The farmer runs out in his nightshirt, with a lantern.'),
         N('He puts all four martens in a sack.'),
         FM('Well done, dog! Well done, boy. Whatever you are.', 'happy'),
+        N('Thump! The farmer thumps out in his nightshirt.'),
       ],
       [
         ask(
@@ -2685,6 +2745,7 @@ const A14: EduQuest = quest(
         N('Pinocchio knows the answer. He looks at the empty kennel.'),
         P('Melampo was a good old dog. Let him keep his good name. It costs nothing.', 'soft'),
         N('The farmer lets him go. He gives you grapes for the road.'),
+        N('Hee-hee! The farmer gives a surprised chuckle.'),
       ],
       [
         ask(
@@ -2726,6 +2787,7 @@ const A15: EduQuest = quest(
         P('What does it say? I cannot read. I sold my book.', 'sad'),
         N('You kneel by the stone. Your Nubbin brushes leaves off it.'),
         P('Read it. Please.'),
+        N('Plop! A tear plops on the little stone.'),
       ],
       [
         ask(
@@ -2770,6 +2832,7 @@ const A15: EduQuest = quest(
       [
         N('He cries all night. The hills cry back in echoes.'),
         P('Little Fairy, come back. Where is Babbo?', 'sad'),
+        N('Hee-hee! Even the hills answer back, softly.'),
       ],
       [
         ask(
@@ -2796,6 +2859,7 @@ const A15: EduQuest = quest(
         P('Babbo! Can you take me?', 'shock'),
         PG('Climb on my back. Traveller, it is the coast road for you.'),
         N('Off they go over the trees. You walk all day.'),
+        N('Whoosh! The great pigeon whooshes over the hills.'),
       ],
       [
         notice(
@@ -2817,6 +2881,7 @@ const A15: EduQuest = quest(
         N('At dawn you come out on the shore.'),
         N('A crowd points out to sea. A tiny boat is rowing.'),
         N('Pinocchio is on a rock, waving his cap.'),
+        N('Splash! Waves splash on the rocks at the shore.'),
       ],
       [
         notice(
@@ -2840,6 +2905,7 @@ const A15: EduQuest = quest(
         N('A big wave hides the boat from view.'),
         P('I will help him!'),
         N('Pinocchio jumps in. Wood floats, so he swims like a fish.'),
+        N('Splash! Pinocchio splashes in, and wood floats.'),
       ],
       [
         doit(
@@ -2888,6 +2954,7 @@ const A16: EduQuest = quest(
         P('Pull a cart? I am not a donkey!', 'angry'),
         N('A bricklayer says he can carry bricks for his supper.'),
         P('Bricks are heavy. Look at my arms.'),
+        N('Thump! Bricks thump down on the busy street.'),
       ],
       [
         ask(
@@ -2929,7 +2996,7 @@ const A16: EduQuest = quest(
     ),
     sc(
       'a13-16-island-done',
-      [N('Along the street comes a little woman, carrying two cans of water.')],
+      [N('Along the street comes a little woman, carrying two cans of water.'), N('Splash! The water splashes from the little woman’s cans.')],
       [
         doit(
           0,
@@ -2977,6 +3044,7 @@ const A16: EduQuest = quest(
         FY('Puppets do not grow. They stay as they were made.'),
         P('I am tired of being wood! I want to be a boy!', 'sad'),
         FY('You can be. But nobody can earn it for you.', 'soft'),
+        N('Gulp! Pinocchio gulps, and wants to be a real boy.'),
       ],
       [
         ask(
@@ -3008,6 +3076,7 @@ const A16: EduQuest = quest(
         N('The boys hang their caps on his nose!'),
         N('He puts up with it for a morning. Then they all like him.'),
         N('The teacher praises him. He is first through the door.'),
+        N('Plop! Caps plop onto Pinocchio’s long nose.'),
       ],
       [
         doit(
@@ -3026,7 +3095,7 @@ const A16: EduQuest = quest(
     ),
     sc(
       'a13-16-school-done',
-      [N('The atlas turns a page. A whole school year goes by. Pinocchio comes top in the tests.')],
+      [N('The atlas turns a page. A whole school year goes by. Pinocchio comes top in the tests.'), N('Ding! The school bell dings, and a year goes by.')],
       [
         notice(
           0,
@@ -3048,6 +3117,7 @@ const A16: EduQuest = quest(
         P('I will. You will see.', 'happy'),
         N('He means it, at the time.'),
         N('Your Nubbin has been to school too. It can sit still for nearly a minute.'),
+        N('Hee-hee! Your Nubbin sits still, and almost giggles.'),
       ],
       [
         ask(
@@ -3099,6 +3169,7 @@ const A17: EduQuest = quest(
         SB('After school he will be gone!'),
         N('The boys are already running.'),
         N('Pinocchio looks at the school. Then at the road to the sea.'),
+        N('Thump, thump! The boys run, and their books go thump.'),
       ],
       [
         ask(
@@ -3143,6 +3214,7 @@ const A17: EduQuest = quest(
       [
         N('At the beach the sea is flat and empty, smooth as a plate.'),
         N('There is no Dog-fish. There never was.'),
+        N('Splash! The sea is flat. Not even a small splash.'),
       ],
       [
         ask(
@@ -3197,6 +3269,7 @@ const A17: EduQuest = quest(
         N('Eugene sits up. He has a bump like half an egg. He is all right.'),
         N('Two carabineers come down the beach. They see a wooden boy and a book.'),
         N('Pinocchio runs. They let their dog off after him.'),
+        N('Bonk! A sum-book bonks him on the head.'),
       ],
       [
         ask(
@@ -3251,6 +3324,7 @@ const A17: EduQuest = quest(
         N('You wade in and take the other end. Out comes the dog, like a wet carpet.'),
         AL('You saved me. I do not forget a thing like that.', 'soft'),
         N('He shakes himself all over you, and trots off home.'),
+        N('Splash! Out comes the dog, in a great wet splash.'),
       ],
       [
         ask(
@@ -3279,6 +3353,7 @@ const A17: EduQuest = quest(
         P('I am a puppet!'),
         N('He rolls Pinocchio in flour from head to foot.'),
         P('I am not a fish! Fish do not wear shoes!', 'shock'),
+        N('Pfft! Flour goes pfft all over Pinocchio.'),
       ],
       [
         notice(
@@ -3300,6 +3375,7 @@ const A17: EduQuest = quest(
         N('A big dog bounds into the cave. It is Alidoro, dry now.'),
         N('He gently takes Pinocchio in his teeth, and is gone.'),
         AL('Now we are even.', 'happy'),
+        N('Thump! The big dog’s paws thump in the cave.'),
       ],
       [
         ask(
@@ -3329,6 +3405,7 @@ const A17: EduQuest = quest(
         N('It takes her nine hours to come down! Pinocchio falls asleep on the step.'),
         FY('Tomorrow you will stop being a puppet. You will be a boy.', 'soft'),
         P('Tomorrow? Really? I will invite everybody!', 'happy'),
+        N('Pfft! Flour puffs off Pinocchio like a cloud. Pfft!'),
       ],
       [
         notice(
@@ -3376,6 +3453,7 @@ const A18: EduQuest = quest(
         N('A silent coach comes down the road, pulled by donkeys in white boots.'),
         N('A Little Man drives it. He is as round and shiny as butter.'),
         LM('Climb up, my dears. There is always room, for boys.', 'happy'),
+        N('Whoosh! The silent coach whooshes by, not a sound.'),
       ],
       [
         ask(
@@ -3421,6 +3499,7 @@ const A18: EduQuest = quest(
         N('One donkey turns its head and speaks, very low.'),
         N('Poor boy, it says. Take care.'),
         N('The coach rolls away without a sound. You run after it all night.'),
+        N('Peep! You peep after the coach as it rolls away.'),
       ],
       [
         notice(
@@ -3445,6 +3524,7 @@ const A18: EduQuest = quest(
         P('Isn’t it wonderful?', 'happy'),
         N('Your Nubbin finds paper donkey ears and wears them.'),
         N('The atlas turns its pages. Five months go by, all holidays.'),
+        N('Whee! The Land of Toys goes whee, all day long.'),
       ],
       [
         doit(
@@ -3464,6 +3544,7 @@ const A18: EduQuest = quest(
         N('One morning Pinocchio wakes with long, hairy ears.'),
         N('The Marmot upstairs shakes her head.'),
         MA('Donkey fever. Soon you will be a donkey.', 'sad'),
+        N('Boing! Pinocchio’s long ears go boing in the mirror.'),
       ],
       [
         ask(
@@ -3494,6 +3575,7 @@ const A18: EduQuest = quest(
         N('Then the laughing stops. The tent goes quiet.', 'sad'),
         N('He catches his leg on a hoop. After that, he limps.'),
         N('A drum-maker buys him. He lowers the donkey into the sea on a rope.'),
+        N('Thump! A hoop thumps down, and the tent goes quiet.'),
       ],
       [
         doit(
@@ -3512,7 +3594,7 @@ const A18: EduQuest = quest(
     ),
     sc(
       'a13-18-sea',
-      [...SEA],
+      [...SEA, N('Nibble! Pop! The little fish pop up and nibble.')],
       [
         notice(
           4,
@@ -3585,6 +3667,7 @@ const A19: EduQuest = quest(
         TU('I am a Tunny. I was swallowed too.'),
         P('I am a puppet. And that is a traveller, and a Nubbin.'),
         N('Far away, down the dark, there is a little light.'),
+        N('Drip, drip! Water drips in the dark, fishy room.'),
       ],
       [
         ask(
@@ -3627,6 +3710,7 @@ const A19: EduQuest = quest(
       [
         N('The light is a candle, stuck in a green glass bottle.'),
         N('At the table sits an old man, white as snow. He is eating a tiny fish.'),
+        N('Crack! The little candle crackles in the green bottle.'),
       ],
       [
         doit(
@@ -3650,6 +3734,7 @@ const A19: EduQuest = quest(
         G('Hush. You are here.', 'soft'),
         G('This is my last candle. When it goes out, we are in the dark.', 'sad'),
         P('Then we must get out. I can swim. I am wood. I will carry you.'),
+        N('Splash! Pinocchio splashes in the dark water.'),
       ],
       [
         ask(
@@ -3675,6 +3760,7 @@ const A19: EduQuest = quest(
       [
         G('Ciao, traveller. You came all this way.', 'soft'),
         N('Your Nubbin climbs on his shoulder. He laughs for the first time in two years.'),
+        N('Hee-hee! Geppetto laughs for the first time in two years.'),
       ],
       [
         notice(
@@ -3722,6 +3808,7 @@ const A19: EduQuest = quest(
         P('Babbo, I cannot. I am going under.', 'sad'),
         TU('Who is going under?'),
         N('It is the Tunny! He swims up beneath them both, like a boat.'),
+        N('Splash! Pinocchio swims and swims, splash after splash.'),
       ],
       [
         ask(
@@ -3742,7 +3829,7 @@ const A19: EduQuest = quest(
     ),
     sc(
       'a13-19-complete',
-      [N('The Tunny carries them to shore. You swim beside him.'), ...THANKS, ...CANDLE],
+      [N('The Tunny carries them to shore. You swim beside him.'), ...THANKS, ...CANDLE, N('Splash! The Tunny splashes to shore, with all of you aboard.')],
       [
         doit(
           4,
@@ -3793,6 +3880,7 @@ const A20: EduQuest = quest(
         FX('Oh, Pinocchio! Have pity on two poor creatures!', 'sad'),
         P('Goodbye, you cheats. You fooled me once. You will not fool me twice.', 'angry'),
         N('He walks on, holding his babbo up.'),
+        N('Crunch! The gravel crunches under slow, tired feet.'),
       ],
       [
         ask(
@@ -3845,6 +3933,7 @@ const A20: EduQuest = quest(
         N('At the end of a lane is a little straw hut.'),
         N('A sign on the door says PULL THE CORD. So Pinocchio does.'),
         N('Inside, on a beam, sits the Talking-cricket.'),
+        N('Ding! The little cord rings a bell inside the hut.'),
       ],
       [
         doit(
@@ -3863,7 +3952,7 @@ const A20: EduQuest = quest(
     ),
     sc(
       'a13-20-hut',
-      [...HUT],
+      [...HUT, N('Creak! The straw bed creaks as Geppetto lies down.')],
       [
         ask(
           6,
@@ -3888,6 +3977,7 @@ const A20: EduQuest = quest(
       [
         N('Pinocchio lays his babbo on the straw. Geppetto is so weak he can only smile.'),
         P('Milk. He needs milk. I will get him some.'),
+        N('Creak! The little hut creaks as Pinocchio goes out.'),
       ],
       [
         notice(
@@ -3971,6 +4061,7 @@ const A20: EduQuest = quest(
         N('He tips out the jar. Every penny goes to the Snail.'),
         P('Take her this. I do not need a coat. It was too warm anyway.', 'soft'),
         SN('I will go as fast as I can.', 'happy'),
+        N('Plop! The pennies plop into the Snail’s hand.'),
       ],
       [
         ask(
@@ -3999,6 +4090,7 @@ const A20: EduQuest = quest(
         N('That night Pinocchio dreams of the Fairy, smiling and well.'),
         N('She tells him his good heart has made up for everything.'),
         N('In the morning, he wakes up.'),
+        N('Tweet! The morning birds tweet at the window.'),
       ],
       [
         ask(
@@ -4022,6 +4114,7 @@ const A20: EduQuest = quest(
         N('Your Nubbin climbs into the old puppet’s lap and curls up, nose to tail.'),
         G('Leave it. The little Nubbin likes it.', 'soft'),
         ...HOME,
+        N('Boing! Pinocchio boings out of bed. He is a boy!'),
       ],
       [
         doit(
@@ -4057,6 +4150,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       MC('Come in! Shut the weather out. And bring your… kettle?'),
       CK('Announcement: I am Clank! I am a guest! I love it!', 'happy'),
       ...LOG,
+      N('Bonk! The axe bonks the log. Ow! Not so hard!'),
     ],
     [
       notice(
@@ -4081,6 +4175,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       CK('Is that a job?'),
       Y('No. It is not a job.'),
       N('Clank’s chimney-light flickers. He is thinking about it.'),
+      N('Thump! The spelling-book thumps on the table.'),
     ],
     [
       ask(
@@ -4110,6 +4205,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       ...LEAVE,
       N('At the door he stops. He nods to you. A small, neat nod.'),
       N('Then he goes down the stairs.'),
+      N('Creak! The door creaks as the cricket nods and goes.'),
     ],
     [
       ask(
@@ -4134,6 +4230,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       N('He swims under your rock and looks up.'),
       P('Your cricket was right. I did grow up a donkey.', 'sad'),
       P('Do not tell him I said so.'),
+      N('Splash! A little fish splashes under your rock.'),
     ],
     [
       ask(
@@ -4163,6 +4260,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       TU('I am a Tunny. I was swallowed too.'),
       P('I am a puppet. And that is a traveller, and a Nubbin.'),
       N('Far away, down the dark, there is a little light.'),
+      N('Drip, drip! Water drips in the dark, fishy room.'),
     ],
     [
       ask(
@@ -4207,6 +4305,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       CK('He does not have the word either.', 'soft'),
       CK('Nobody put it in him.'),
       ...CANDLE,
+      N('Splash! The Tunny splashes to shore, with Clank on his back.'),
     ],
     [
       doit(
@@ -4230,6 +4329,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       ...HUT,
       CR('And thank your friend for the hedge.', 'soft'),
       N('He settles on his beam, and looks at you. That is plenty.'),
+      N('Creak! The straw bed creaks as Geppetto lies down.'),
     ],
     [
       ask(
@@ -4259,6 +4359,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       ...WAKE,
       N('Clank rolls down his ramp. He parks beside the old puppet.'),
       N('He does not say anything about it.'),
+      N('Whee! Clank rolls down his hill, whee!'),
     ],
     [
       ask(
@@ -4278,7 +4379,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
     ],
   ),
   // ------------------------------------------------ Clank’s word
-  sc('a13-20-word', [...WORD_A, ...WORD_B, ...HOME], [LOVE_LESSON]),
+  sc('a13-20-word', [...WORD_A, ...WORD_B, ...HOME, N('Creak! The page creaks softly shut.')], [LOVE_LESSON]),
   // ------------------------------------------------ Clank’s word, after S25
   sc(
     'a13-20-word-next-door',
@@ -4286,6 +4387,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       ...WORD_A,
       ...WORD_B,
       ...HOME,
+      N('Creak! The page creaks softly shut.'),
     ],
     [LOVE_LESSON],
   ),
@@ -4299,6 +4401,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       CK('Announcement.', 'soft'),
       CK('Love.', 'soft'),
       CK('I am only saying it once, so it does not wear out.'),
+      N('Ding! The lantern shed gives a gentle ding.'),
     ],
     [
       notice(
@@ -4325,6 +4428,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       PX('I know. I am sorry.', 'sad'),
       CK('Do not be. Geppetto did not either.', 'happy'),
       N('Pixel laughs, and puts Clank’s nose back on.'),
+      N('Hee-hee! Pixel giggles, and a little spark pops.'),
     ],
     [
       ask(
@@ -4352,6 +4456,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       CK('Announcement: I am just here.', 'soft'),
       CK('Announcement: still just here.'),
       CK('Not helping. Just here. Both are allowed.', 'happy'),
+      N('Ding! Clank gives one small ding, just to say here.'),
     ],
     [
       notice(

@@ -4,6 +4,16 @@
  * Hazel's own note (`fieldNote`); the ones whose first sentence runs long have their own line
  * here. Our own names only, never the inspiration's.
  */
+import {
+  SPROUT_COLOURS,
+  SPROUT_CRITTER,
+  SPROUT_SECONDS,
+  SPROUT_SHINY,
+  SPROUT_TWOTONE,
+  SPROUT_WEAR,
+} from './field-notes-sprout-extra';
+import { FLAVOUR } from './strings-look';
+
 const OWN: Record<string, string> = {
   'chao:neutral:fly': 'Flaps first, then walks. Whoops!',
   'chao:neutral:run': 'Always off somewhere else already.',
@@ -57,9 +67,34 @@ const words = (t: string): number => t.trim().split(/\s+/).length;
 /** The sprout line for a book key, given Hazel's full note for it ('' when there is none). */
 export function sproutNote(key: string, full: string): string {
   if (OWN[key]) return OWN[key];
+  const p = key.split(':');
+  switch (p[0]) {
+    case 'colour':
+      if (p[2] === 'shiny') return SPROUT_SHINY;
+      if (p[2] === 'twotone') return SPROUT_TWOTONE;
+      return SPROUT_COLOURS[p[1] ?? ''] ?? '';
+    case 'jewel':
+      return SPROUT_COLOURS[p[1] ?? ''] ?? '';
+    case 'hat':
+    case 'look':
+      return short(SPROUT_WEAR[p[1] ?? ''] ?? FLAVOUR.wear[p[1] ?? '']);
+    case 'part':
+      return short(SPROUT_CRITTER[p[1] ?? ''] ?? FLAVOUR.critter[p[1] ?? '']);
+    case 'chao':
+      // A second evolution borrows its first evolution's line (as `fieldNote` does).
+      if (p.length > 3) {
+        return SPROUT_SECONDS[key] ?? sproutNote(p.slice(0, 3).join(':'), full);
+      }
+      break;
+    default:
+  }
   if (!full) return '';
-  const first = full.split(/(?<=[.!?])\s+/)[0] ?? '';
-  return words(first) <= 8 ? first : '';
+  return short(full.split(/(?<=[.!?])\s+/)[0]);
+}
+
+/** The line when it fits a sprout (eight words or fewer), else nothing. */
+function short(line: string | undefined): string {
+  return line && words(line) <= 8 ? line : '';
 }
 
 /** The keys with a hand-written sprout line (for the tests). */

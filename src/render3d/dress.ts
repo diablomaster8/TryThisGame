@@ -15,7 +15,8 @@ import {
 import type { Rigged } from '../samples/species';
 import { bellyOf, headDome } from '../samples/nubbin-critter-parts';
 import { DYE_COLORS } from '../render/sprites/chao';
-import { C, color, nearestIndex, shadeOf } from '../render/sprites/palette';
+import { dyeToken, dyePair, rainbowStep } from '../render/sprites/rainbow-dye';
+import { C, color, nearestIndex } from '../render/sprites/palette';
 import type { DyeColor, Nubbin } from '../sim/types';
 import { wornExtras } from '../sim/wear';
 import { specForKey } from './looks';
@@ -266,11 +267,11 @@ function headItem(id: string): Item | null {
 const DYE_MAIN = new Set<number>([C.cream, C.sunYellow, C.teal, C.rose, C.violet]);
 const DYE_SHADE = new Set<number>([C.ember, C.moonPurple, C.plum, C.orange]);
 
-function dyed(col: number, dye: DyeColor | null): number {
+function dyed(col: number, dye: string | null): number {
   if (!dye) return col;
-  const d = DYE_COLORS[dye];
+  const [d, dShade] = dyePair(dye, (k) => DYE_COLORS[k as DyeColor]);
   if (DYE_MAIN.has(col)) return d;
-  if (DYE_SHADE.has(col)) return shadeOf(d);
+  if (DYE_SHADE.has(col)) return dShade;
   return col;
 }
 
@@ -327,8 +328,8 @@ interface Worn {
   hat: string | null;
   /** R0400: the other slots' registry ids, joined. */
   wear: string;
-  dye: DyeColor | null;
-  scarf: DyeColor | null;
+  dye: string | null;
+  scarf: string | null;
   glasses: boolean;
   /** LOOK-54: rebirth stars shown (0-3), or 4 for the ring. */
   stars: number;
@@ -355,11 +356,13 @@ export class Dresser {
       stubOnce(`hat:${hat}`, 'no 3D hat; drawn bare');
       hat = null;
     }
-    const dye = hat ? (n.hatDye ?? null) : null;
+    // R0427: the rainbow dye is a token carrying its ring step, so the hat re-dresses as it drifts.
+    const step = rainbowStep();
+    const dye = hat ? dyeToken(n.hatDye, step) : null;
     // R0400: face, neck, back and body items, each on its own anchor.
     const extras = dressable ? wornExtras(n).filter((id) => registryItem(id)) : [];
     const wear = extras.join('+');
-    const scarf = dressable ? (n.scarf ?? null) : null;
+    const scarf = dressable ? dyeToken(n.scarf, step) : null;
     const glasses = dressable && !!n.glasses;
     const stars = dressable ? Math.min(4, n.rebirths) : 0;
     const belt = beltOf(n);
@@ -383,7 +386,7 @@ export class Dresser {
     if (!head || !hips) return;
     const at = (ud.dressAt ??= anchorsFor(ud.lookKey ?? 'nubbin'));
     const groups: Group[] = [];
-    const worn: { item: Item; dye: DyeColor | null }[] = [];
+    const worn: { item: Item; dye: string | null }[] = [];
     if (hat && item) worn.push({ item, dye });
     for (const id of extras) worn.push({ item: registryItem(id)!, dye: null });
     // R0413: a costume's head parts sit on the dome like a hat.
@@ -413,7 +416,7 @@ export class Dresser {
       groups.push(g);
     }
     if (scarf) {
-      const sc = DYE_COLORS[scarf];
+      const [sc, scShade] = dyePair(scarf, (k) => DYE_COLORS[k as DyeColor]);
       const r = at.neckR;
       const g = this.build(
         [
@@ -421,7 +424,7 @@ export class Dresser {
           p('capsule', sc, [r * 0.35, -0.2, r * 0.92], [0.16, 0.22, 0.08], [0.2, 0, 0.15]),
           p(
             'cyl',
-            shadeOf(sc),
+            scShade,
             [r * 0.35 + 0.03, -0.38, r * 0.92 + 0.04],
             [0.08, 0.03, 0.05],
             [0.2, 0, 0.15],

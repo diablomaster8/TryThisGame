@@ -20,6 +20,7 @@ import {
 } from './parts';
 import { partStepScale, type PartStep } from './part-size';
 import { PixelCanvas } from './pixel-canvas';
+import { dyePair } from './rainbow-dye';
 import { drawCosmetic } from './cosmetic-pixel';
 import { ditherGlass, metalColors } from './finish-pixel';
 import type { Birthmark } from '../birthmark';
@@ -786,6 +787,8 @@ export interface ChaoLook {
   /** R0427: an adult's dyed wing and crown tips. */
   wingDye?: DyeColor | null;
   crownDye?: DyeColor | null;
+  /** R0427: the rainbow dye's ring step this sheet is baked at (rainbow-dye.ts). */
+  rainbowStep?: number;
 }
 
 /** Palette colour for each dye, and its shade. */
@@ -802,7 +805,14 @@ export const DYE_COLORS: Record<DyeColor, number> = {
   black: C.ink,
   white: C.white,
   coral: C.blush,
+  // The rainbow's still colour; the sheet bakes the live step (rainbow-dye.ts).
+  rainbow: C.rose,
 };
+
+/** A dye's main and second colour for a sheet (the rainbow at the sheet's baked step). */
+function dyeOf(dye: DyeColor, look: { rainbowStep?: number }): [number, number] {
+  return dyePair(dye, (d) => DYE_COLORS[d as DyeColor], look.rainbowStep ?? 0);
+}
 
 /**
  * Character looks: the Chao that dressed up as other heroes. Each is a palette plus a
@@ -1787,14 +1797,18 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   const tell = look.colors.tell ?? col.tip;
   const wingBase = tellType === 'fly' ? { ...look, colors: { ...col, wing: tell } } : look;
   const wingLook = look.wingDye
-    ? { ...wingBase, colors: { ...wingBase.colors, wing: DYE_COLORS[look.wingDye] } }
+    ? { ...wingBase, colors: { ...wingBase.colors, wing: dyeOf(look.wingDye, look)[0] } }
     : wingBase;
   const armLook = tellType === 'power' ? { ...look, colors: { ...col, body: tell } } : look;
   const lift = look.shape.crownLift ?? 0;
   const crownL = lift ? { ...L, headCy: L.headCy - lift } : L;
   const crownTell = tellType === 'normal' ? { ...col, tip: tell } : col;
   const crownCol = look.crownDye
-    ? { ...crownTell, tip: DYE_COLORS[look.crownDye], tipShade: shadeOf(DYE_COLORS[look.crownDye]) }
+    ? {
+        ...crownTell,
+        tip: dyeOf(look.crownDye, look)[0],
+        tipShade: dyeOf(look.crownDye, look)[1],
+      }
     : crownTell;
 
   // Back layer: wings/back part and tail behind the body for front-ish views.
@@ -1912,7 +1926,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       // Draw the hat aside, swap its main colours for the dye, then lay it on.
       const tmp = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
       drawHat(tmp, angle, L, look.hat);
-      const d = DYE_COLORS[look.hatDye];
+      const [d, dShade] = dyeOf(look.hatDye, look);
       const map: Partial<Record<number, number>> = {};
       for (const c of [
         C.cream,
@@ -1926,7 +1940,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
         C.orange,
       ]) {
         map[c] =
-          c === C.ember || c === C.moonPurple || c === C.plum || c === C.orange ? shadeOf(d) : d;
+          c === C.ember || c === C.moonPurple || c === C.plum || c === C.orange ? dShade : d;
       }
       tmp.recolor(map);
       pc.blit(tmp, 0, 0);
@@ -1949,10 +1963,10 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   }
   // A scarf around the neck and glasses over the eyes.
   if (look.scarf && angle !== 'back') {
-    const sc = DYE_COLORS[look.scarf];
+    const [sc, scShade] = dyeOf(look.scarf, look);
     const ny = L.headCy + L.headRy - 1;
     pc.ellipse(L.headCx, ny, L.headRx - 1.5, 1.6, sc);
-    pc.thinLine(L.headCx - L.headRx + 2, ny + 0.5, L.headCx + L.headRx - 2, ny + 0.5, shadeOf(sc));
+    pc.thinLine(L.headCx - L.headRx + 2, ny + 0.5, L.headCx + L.headRx - 2, ny + 0.5, scShade);
     pc.rect(L.headCx + 2, ny, 2, 4, sc);
     pc.dot(L.headCx + 3, ny + 3.5, shadeOf(sc));
   }
