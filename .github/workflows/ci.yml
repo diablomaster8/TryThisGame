@@ -65,7 +65,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx vitest run --no-file-parallelism tests/sim/world.test.ts tests/sim/lifecycle.test.ts tests/sim/offline.test.ts tests/sim/battle-balance.test.ts tests/sim/battle-resume.test.ts tests/sim/pond-glide.test.ts tests/sim/story-book.test.ts tests/sim/battle-round3.test.ts tests/sim/battle-atb.test.ts tests/render/hollow-automap.test.ts tests/sim/dungeon-r8-deep-perf.test.ts tests/sim/dungeon-v3.test.ts tests/sim/tactics-ai.test.ts tests/sim/tactics-core.test.ts tests/sim/nav.test.ts
+      - run: npx vitest run --no-file-parallelism tests/sim/world.test.ts tests/sim/lifecycle.test.ts tests/sim/offline.test.ts tests/sim/battle-balance.test.ts tests/sim/battle-resume.test.ts tests/sim/pond-glide.test.ts tests/sim/story-book.test.ts tests/sim/battle-round3.test.ts tests/sim/battle-atb.test.ts tests/render/hollow-automap.test.ts tests/render/frame-budget.test.ts tests/sim/dungeon-r8-deep-perf.test.ts tests/sim/dungeon-v3.test.ts tests/sim/tactics-ai.test.ts tests/sim/tactics-core.test.ts tests/sim/nav.test.ts
         env:
           PERF: 1
 

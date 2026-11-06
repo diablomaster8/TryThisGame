@@ -137,8 +137,8 @@ export const GOV_MEMORY = {
  */
 export const PIXEL_GOV = {
   order: ['particles', 'wind', 'weather', 'height'] as const,
-  slowMs: 30,
-  fastMs: 21,
+  slowMs: 19.5,
+  fastMs: 17.5,
   smallHeight: 432,
 } as const;
 
