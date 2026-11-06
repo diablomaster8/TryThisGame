@@ -60,6 +60,8 @@ export type PoseName =
   | 'itemGet'
   // LOOK-21: crying: seated, fists rubbing the eyes in turn, wailing.
   | 'cry'
+  // R0583: the lazy racer's start-line yawn: a stretch up on the toes, a wide mouth, a slow sag.
+  | 'yawn'
   // R0239: the battle verbs, as rig poses of their own (the pixel clips of the same names).
   | 'windup'
   | 'bonk'
@@ -84,6 +86,7 @@ export const MOTION_POSES: PoseName[] = [
   'flap',
   'swim',
   'cry',
+  'yawn',
 ];
 /**
  * Campaign graphics 4 (K1, K39): the story stage's poses. `sit` lowers the hips onto a seat
@@ -405,6 +408,8 @@ export const EXPRESSIONS: Record<PoseName, Expression> = {
   itemGet: { lid: 0, squint: 0, brow: 0.2, browLift: 0.2, arc: false, gape: 0.6 },
   // LOOK-21: eyes screwed shut, brows knitted up at the inner ends, the mouth a wailing 'O'.
   cry: { lid: 1, squint: 0.6, brow: -0.5, browLift: 0.08, arc: false, gape: 1 },
+  // R0583: eyes shut tight in a big yawn, the mouth a wide 'O'.
+  yawn: { lid: 0.9, squint: 0.4, brow: -0.1, browLift: 0.1, arc: false, gape: 1 },
   // R0239: set jaw and narrowed eyes, a shouted lunge, spray, a flinch, a dodge, a cheer, a nap.
   windup: { lid: 0.25, squint: 0.4, brow: -0.35, browLift: 0, arc: false },
   bonk: { lid: 0, squint: 0.5, brow: -0.4, browLift: 0.02, arc: false, gape: 0.5 },
@@ -2040,12 +2045,38 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         mouthOpen = 0.8;
         break;
       }
+      case 'yawn': {
+        // R0583: a slow stretch. Over the first 70% of a 2.6 s cycle the arms rise overhead, the
+        // body goes up on its toes, the head tips back and the mouth opens wide; then it all
+        // sags back and the mouth shuts. Reduced motion holds the stretched pose.
+        const k = still ? 0.7 : (t % 2.6) / 2.6;
+        const up = k < 0.7 ? smooth(k / 0.7) : 1 - smooth((k - 0.7) / 0.3);
+        hips.position.y = spec.hipY + 0.05 * up;
+        hips.rotation.x = -0.1 * up;
+        set('head', -0.38 * up + 0.05 * (1 - up), 0, 0);
+        set('tail', 0.5 * up, 0, 0);
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, side * 0.2 * up);
+        } else if (quad) {
+          set('legFL', -0.7 * up, 0, 0);
+          set('legFR', -0.7 * up, 0, 0);
+          hips.rotation.x = -0.25 * up;
+        } else {
+          set('armL', -0.3 * up + ar.pitch * (1 - up), 0, 2.4 * up + ar.roll * (1 - up));
+          set('armR', -0.3 * up + ar.pitch * (1 - up), 0, -2.4 * up - ar.roll * (1 - up));
+          set('legL', 0, 0, 0);
+          set('legR', 0, 0, 0);
+        }
+        earFold = 0.3 * up;
+        mouthOpen = 0.95 * up;
+        break;
+      }
       case 'wave': {
         // A hello: standing easy, one arm up and swinging side to side, the tail wagging.
         hips.position.y = spec.hipY + s(t * 2.2) * 0.02;
         hips.rotation.z = s(t * 3) * 0.04;
         set('head', -0.05, 0, s(t * 3) * 0.12);
-        set('tail', 0.6, s(t * 8) * 0.6, 0);
+        set('tail', 0.6, still ? 0 : s(t * 8) * 0.6, 0);
         if (spider) {
           for (const [n, side, phase] of SPIDER_LEGS)
             set(n, 0, s(t * 8 + phase) * 0.1, side * 0.15);
@@ -2056,7 +2087,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('legBR', 0, 0, 0);
         } else {
           set('armL', ar.pitch, 0, ar.roll + s(t * 1.6) * 0.08);
-          set('armR', -0.3, 0, -(2.3 + s(t * 10) * 0.35));
+          set('armR', -0.3, 0, -(2.3 + (still ? 0 : s(t * 10) * 0.35)));
           set('legL', 0, 0, 0);
           set('legR', 0, 0, 0);
         }

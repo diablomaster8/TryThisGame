@@ -28,6 +28,7 @@ import {
   setSfxVolume,
   setSoundEnabled,
 } from '../platform/audio';
+import { applyVoices, masterMuteSettings } from '../platform/voices';
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
@@ -211,9 +212,11 @@ export function mountHud(
         return;
       }
       const on = !g.world.settings.sound;
-      g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
+      const muted = masterMuteSettings({ ...g.world.settings, sound: on, music: on }, on);
+      g.send({ kind: 'setSettings', settings: muted });
       setSoundEnabled(on);
       setMusicEnabled(on);
+      applyVoices(muted, g.world.edu);
     },
     'btn btn-icon',
   );
@@ -1182,6 +1185,7 @@ export function mountHud(
       journalBtn.hidden = !c;
       // Which piece plays: story over dialogue, the minigames their own, else the hour's.
       setMusicEnabled(g.world.settings.music);
+      applyVoices(g.world.settings, g.world.edu);
       setMusicVolume(g.world.settings.musicVolume);
       setSfxVolume(g.world.settings.sfxVolume);
       const chapter = c?.chapter ?? 0;
