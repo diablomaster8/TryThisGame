@@ -899,6 +899,9 @@ export function mountHud(
       get creator() {
         return roster.creator;
       },
+      get creatorGallery() {
+        return roster.creator.gallery;
+      },
       get debug() {
         return debug;
       },
