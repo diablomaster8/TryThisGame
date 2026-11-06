@@ -222,6 +222,7 @@ const Q01: EduQuest = quest(
         M('I’m Miguel. Come on, I’ll show you my house.'),
         N('A thin, hairless dog trots along behind you. Pant, pant!'),
         M('That is Dante. He isn’t mine. He thinks he is!'),
+        N('Hee-hee! Dante’s tail goes thump, thump, thump on the cobbles.'),
       ],
       [
         ask(
@@ -255,6 +256,7 @@ const Q01: EduQuest = quest(
         N('They are bright, and they smell strong.'),
         N('That helps loved ones who have died find their way home.'),
         N('Your Nubbin carries one marigold, very proudly.'),
+        N('Plop! A marigold plops into your Nubbin’s basket.'),
       ],
       [
         doIt(
@@ -275,6 +277,7 @@ const Q01: EduQuest = quest(
         AB('Now you can eat. Pan de muerto for everyone!'),
         N('It is a sweet, round bread, with strips on top like bones.'),
         N('Abuelita cuts a piece for you, one for Miguel and one for Nubbin.'),
+        N('Munch! Your Nubbin munches the sweet, round bread. Yum!'),
       ],
       [
         ask(
@@ -305,6 +308,7 @@ const Q01: EduQuest = quest(
         M('Mamá Imelda was very sad. So now our house has no music.', 'sad'),
         N('An old, old lady sits by the ofrenda. This is Mamá Coco.'),
         CO('Who are you? Are you new?', 'think'),
+        N('Creak! The old chair creaks as Mamá Coco rocks.'),
       ],
       [
         notice(
@@ -337,6 +341,7 @@ const Q01: EduQuest = quest(
         CO('Is Papá home? Is he coming home?', 'think'),
         M('Not today, Mamá Coco.', 'soft'),
         N('Miguel sounds sad. He has said it a hundred times.'),
+        N('Ding! The little clock on the shelf rings one soft ding.'),
       ],
       [
         ask(
@@ -369,6 +374,7 @@ const Q01: EduQuest = quest(
         N('Nobody hums, and nobody taps a spoon. The house is oddly quiet.'),
         M('After supper, I want to show you a secret.', 'think'),
         N('Your Nubbin’s ribbon flutters, bright as a marigold.'),
+        N('Pop! A candle flame pops, and then it glows again.'),
       ],
       [
         ask(
@@ -424,6 +430,7 @@ const Q02: EduQuest = quest(
         N('He plucks a string. Twang!'),
         N('Your Nubbin sways. Dante thumps his tail.'),
         M('There is a talent show tonight. If I win, my family will see.'),
+        N('Creak! The ladder creaks, and the loose board creaks too.'),
       ],
       [
         doIt(
@@ -457,6 +464,7 @@ const Q02: EduQuest = quest(
         M('Come on. I need to see the stage.'),
         N('You climb down the ladder, one rung at a time.'),
         N('Down, down, down. Now you are in the shoe shop.'),
+        N('Thump! Your Nubbin lands on the shop floor with a soft thump.'),
       ],
       [
         ask(
@@ -483,6 +491,7 @@ const Q02: EduQuest = quest(
         AB('Music! On Día de Muertos!', 'angry'),
         N('She marches Miguel home. You follow, quietly.'),
         N('At the ofrenda, Miguel sees the old photo. The guitar has a skull.'),
+        N('Whoosh! Abuelita sweeps through the square like a small storm.'),
       ],
       [
         ask(
@@ -514,6 +523,7 @@ const Q02: EduQuest = quest(
         M('Look! It’s a guitar with a skull on its head!', 'shock'),
         N('The guitar has a big round hole in the middle.'),
         M('He’s my family. I’m meant to be a musician!', 'happy'),
+        N('Ding! A tiny guitar string dings when Miguel touches it.'),
       ],
       [
         ask(
@@ -565,6 +575,7 @@ const Q02: EduQuest = quest(
         N('You sit down next to Miguel. Your Nubbin leans on his arm.'),
         N('(Be very still. Count to ten, slowly.)'),
         M('Thanks.', 'soft'),
+        N('Hee-hee! Your Nubbin holds still, and then it giggles.'),
       ],
       [
         doIt(
@@ -585,6 +596,7 @@ const Q02: EduQuest = quest(
         N('Beyond the church, the graveyard glows with candles.'),
         M('His guitar is in his tomb. He’d want me to play it.', 'think'),
         N('Dante sneezes. It sounds like an opinion.'),
+        N('Achoo! Dante sneezes, and a candle flame wobbles.'),
       ],
       [
         ask(
@@ -656,6 +668,7 @@ const Q03: EduQuest = quest(
         N('You make a step with your hands.'),
         N('Your Nubbin holds Dante. Or Dante holds your Nubbin!'),
         N('(Count them. You, Miguel, Dante and your Nubbin.)'),
+        N('Creak! The little window creaks wide open.'),
       ],
       [
         ask(
@@ -741,6 +754,7 @@ const Q03: EduQuest = quest(
         JU('Mijo, are you alive?', 'shock'),
         TW('He looks very alive.'),
         N('You know their faces from the ofrenda photos.'),
+        N('Thump! Dancing bones go clickety-thump down the path.'),
       ],
       [
         doIt(
@@ -763,6 +777,7 @@ const Q03: EduQuest = quest(
         RO('And who’s this? A friend?'),
         N('Your Nubbin feels shy. It hides behind your leg.'),
         N('Then it peeks out and waves.'),
+        N('Peep! Your Nubbin peeks out, small as a peep.'),
       ],
       [
         ask(
@@ -788,6 +803,7 @@ const Q03: EduQuest = quest(
         TW('She always knows what to do.'),
         RO('You’ll come too. You must be meant to.', 'soft'),
         N('The atlas is warm in your pocket.'),
+        N('Creak! A great old gate creaks open for you.'),
       ],
       [
         notice(
@@ -831,6 +847,7 @@ const Q04: EduQuest = quest(
         N('Your Nubbin stops. Its colours are changing!'),
         N('It has pink ears, a green back and yellow dots.'),
         N('Pink, green, pink, green, pink, green… (Say it with me.)'),
+        N('Pop! Pop! Your Nubbin’s colours pop pink, then green.'),
       ],
       [
         ask(
@@ -862,6 +879,7 @@ const Q04: EduQuest = quest(
         TW('An alebrije! The little one is a spirit guide!', 'happy'),
         JU('Alebrijes are bright painted creatures.'),
         M('My cousin sells carved ones to tourists.', 'think'),
+        N('Whee! The little guide spins round and round, whee!'),
       ],
       [
         notice(
@@ -887,6 +905,7 @@ const Q04: EduQuest = quest(
         I('My photo is up every year. Something is wrong.', 'angry'),
         RO('Mamá Imelda! Look who we found!'),
         N('Mamá Imelda turns. She sees Miguel.'),
+        N('Ding, dong! A big bell rings above the queue.'),
       ],
       [
         ask(
@@ -916,6 +935,7 @@ const Q04: EduQuest = quest(
         I('Miguel?', 'shock'),
         M('Hola, Mamá Imelda…', 'sad'),
         N('Your Nubbin tries to look like a decoration.'),
+        N('Boing! Your Nubbin bounces up to look like a decoration.'),
       ],
       [
         ask(
@@ -941,6 +961,7 @@ const Q04: EduQuest = quest(
         N('A petal stuck to your shoe still glows. You keep it.'),
         OF('Family business? Second floor.'),
         I('Come. All of you.'),
+        N('Plop! A glowing petal plops into your pocket.'),
       ],
       [
         ask(
@@ -1019,6 +1040,7 @@ const Q05: EduQuest = quest(
         CL('Number five?'),
         N('Somehow it’s your number already.'),
         N('Stamp. Stamp. Rest. Stamp. Stamp. Rest. (Clap the pattern.)'),
+        N('Thump, thump! Stamp! The big stamp thumps on every paper.'),
       ],
       [
         doIt(
@@ -1041,6 +1063,7 @@ const Q05: EduQuest = quest(
         I('Miguel, I give you my blessing. But no music, ever.', 'angry'),
         M('That’s not fair!', 'angry'),
         I('That’s the only blessing I have.'),
+        N('Thump! The big desk thumps, and her voice is stern.'),
       ],
       [
         ask(
@@ -1071,6 +1094,7 @@ const Q05: EduQuest = quest(
         N('Then he is back, looking sheepish.'),
         M('I reached for the guitar. I just picked it up.', 'sad'),
         I('So. You heard me.', 'angry'),
+        N('Pop! The petal flares with a little pop.'),
       ],
       [
         ask(
@@ -1096,6 +1120,7 @@ const Q05: EduQuest = quest(
         N('Miguel runs down the stairs and out into the streets.'),
         N('Dante bounds after him.'),
         N('Mamá Imelda looks at you. She looks fierce, and a little scared.'),
+        N('Thump, thump! Feet thump down the long stone stairs.'),
       ],
       [
         doIt(
@@ -1125,6 +1150,7 @@ const Q05: EduQuest = quest(
         N('You catch up with Miguel in a back street.'),
         M('I just need to find Ernesto. How hard can it be?'),
         N('A poster says SOLD OUT. (Point to the S.)'),
+        N('Ding! A shop bell dings in the back street.'),
       ],
       [
         ask(
@@ -1148,6 +1174,7 @@ const Q05: EduQuest = quest(
         N('In the Department, Mamá Imelda fills in a form.'),
         N('She presses so hard the pen goes through.'),
         N('She is worried. Her tummy feels tight.'),
+        N('Crack! Her pen cracks, and ink splashes the page.'),
       ],
       [
         notice(
@@ -1195,6 +1222,7 @@ const Q06: EduQuest = quest(
         H('You put my photo on your ofrenda. Just one year.'),
         H('There’s someone I want to see.', 'soft'),
         N('He holds out a bony hand.'),
+        N('Psst! Pop! A skeleton pops out from behind a barrel.'),
       ],
       [
         ask(
@@ -1233,6 +1261,7 @@ const Q06: EduQuest = quest(
         N('He tucks his photo into Miguel’s pocket, beside the family photo.'),
         H('For your ofrenda. Don’t lose it.'),
         H('First the boy needs a guitar. I know a man who has one.'),
+        N('Pop! A photo pops safely into Miguel’s pocket.'),
       ],
       [
         ask(
@@ -1289,6 +1318,7 @@ const Q06: EduQuest = quest(
         N('Héctor puts the guitar into Miguel’s hands.'),
         N('A guitar has strings. (Pluck them with me. One, two, three…)'),
         N('Héctor’s hand shines gold at the edges.'),
+        N('Ding! One bright string rings out as Miguel plucks it.'),
       ],
       [
         doIt(
@@ -1310,6 +1340,7 @@ const Q06: EduQuest = quest(
         H('Will you remember my name? Héctor. Just Héctor.'),
         N('He pulls a thread from his jacket.'),
         H('Or you could stitch it somewhere safe.'),
+        N('Ding, ding! Your Nubbin taps a string, and it goes ding.'),
       ],
       [
         doIt(
@@ -1352,6 +1383,7 @@ const Q06: EduQuest = quest(
         H('Right! We have a boy to make famous.', 'happy'),
         N('He jumps up, with a big smile.'),
         N('Look at his face. Look at that big smile.'),
+        N('Whee! Héctor does a little jig, whee!'),
       ],
       [
         ask(
@@ -1375,6 +1407,7 @@ const Q06: EduQuest = quest(
         H('There’s a talent show tonight. The winner plays at his party.'),
         M('I was going to play tonight!', 'happy'),
         H('You’re already practised. Come on!'),
+        N('Zoom! The streetcar zooms past with a clang of its bell.'),
       ],
       [
         ask(
@@ -1422,6 +1455,7 @@ const Q07: EduQuest = quest(
         M('Do I look like one of them?'),
         N('Your Nubbin holds up a little mirror. Miguel grins.'),
         H('Don’t get stage fright!'),
+        N('Pop! Your Nubbin’s paint dries with a tiny pop.'),
       ],
       [
         notice(
@@ -1452,6 +1486,7 @@ const Q07: EduQuest = quest(
         N('Above the square hang strings of papel picado.'),
         N('That means “paper with tiny holes cut in it”.'),
         EM('Next! The boy with the paint. And the tall one.'),
+        N('Swish! The paper flags swish over the square.'),
       ],
       [
         doIt(
@@ -1477,6 +1512,7 @@ const Q07: EduQuest = quest(
         N('Miguel starts to play. It’s a quick, silly song.'),
         N('The crowd claps with the beat. Clap, clap, clap!'),
         N('Your Nubbin dances at the front of the stage.'),
+        N('Boing! Your Nubbin bounces on the beat, boing, boing!'),
       ],
       [
         ask(
@@ -1514,6 +1550,7 @@ const Q07: EduQuest = quest(
         N('The crowd roars. And then a loud voice.'),
         I('MIGUEL!', 'angry'),
         N('The whole Rivera family is pushing through the crowd.'),
+        N('Whee! The crowd roars, and the lights go whee!'),
       ],
       [
         ask(
@@ -1542,6 +1579,7 @@ const Q07: EduQuest = quest(
         M('You’re just using me!', 'angry'),
         H('Fine! Go!', 'angry'),
         N('Miguel runs. Héctor stands alone, his arms out.'),
+        N('Thump, thump! Miguel’s feet thump away down the alley.'),
       ],
       [
         ask(
@@ -1576,6 +1614,7 @@ const Q07: EduQuest = quest(
         M('I don’t need any of them. I just need him.', 'sad'),
         N('Your Nubbin pulls one flag free and gives it to Miguel.'),
         N('He smiles, a tiny bit. The flag is a rectangle.'),
+        N('Pop! A paper guitar flag pops loose in the wind.'),
       ],
       [
         ask(
@@ -1622,6 +1661,7 @@ const Q08: EduQuest = quest(
         N('You carry a case. Your Nubbin carries a maraca.'),
         N('The doorman sighs and waves you in.'),
         M('There he is!', 'happy'),
+        N('Ding! The doorman’s bell dings, and the doors open.'),
       ],
       [
         doIt(
@@ -1643,6 +1683,7 @@ const Q08: EduQuest = quest(
       [
         N('Across the pool, under a spotlight, stands Ernesto de la Cruz.'),
         N('He is tall, in a white suit. Your Nubbin is small.'),
+        N('Ding! A spotlight clicks on with a little ding.'),
       ],
       [
         ask(
@@ -1696,6 +1737,7 @@ const Q08: EduQuest = quest(
         ER('A great-great-grandson! Everyone, cheer!', 'happy'),
         N('The crowd cheers. Miguel looks very happy.'),
         N('Your Nubbin doesn’t clap. It has a funny feeling.'),
+        N('Whee! Streamers whee up over the cheering crowd.'),
       ],
       [
         notice(
@@ -1758,6 +1800,7 @@ const Q09: EduQuest = quest(
         H('Ernesto. You took my songs and said they were yours.', 'angry'),
         M('His songs? What does he mean?', 'think'),
         N('A film plays. Two friends share a farewell toast.'),
+        N('Ding! The old film clicks, and a little bell rings.'),
       ],
       [
         ask(
@@ -1781,6 +1824,7 @@ const Q09: EduQuest = quest(
         N('Héctor stops. He stares at the screen.'),
         N('Two glasses chink together. Clink!'),
         H('I know this. This isn’t how it went.', 'shock'),
+        N('Ding! Ding! Two glasses go ding on the screen.'),
       ],
       [
         doIt(
@@ -1805,6 +1849,7 @@ const Q09: EduQuest = quest(
         ER('I did what I had to do.'),
         N('Ernesto says it calmly. Miguel feels cold inside.'),
         ER('Guards, take them away.'),
+        N('Gulp! Miguel gulps, and his tummy goes cold.'),
       ],
       [
         notice(
@@ -1833,6 +1878,7 @@ const Q09: EduQuest = quest(
       [
         N('The guards walk you down a long stair, to a deep round hole.'),
         N('Dante sees you go. Woof! Woof! Woof!'),
+        N('Thump! The guards’ boots thump on the long stair.'),
       ],
       [
         ask(
@@ -1936,6 +1982,7 @@ const Q10: EduQuest = quest(
         N('Héctor’s mouth falls open.'),
         N('His jaw nearly falls off. He catches it.'),
         H('I’m your what?', 'shock'),
+        N('Plop! A drop plops into the water far below.'),
       ],
       [
         ask(
@@ -2019,6 +2066,7 @@ const Q10: EduQuest = quest(
         M('Dante’s an alebrije!', 'happy'),
         N('Your Nubbin glows too, every stripe and spot.'),
         N('Then a huge painted cat lands, with Mamá Imelda on her back.'),
+        N('Whoosh! Painted wings whoosh through the dark.'),
       ],
       [
         doIt(
@@ -2039,6 +2087,7 @@ const Q10: EduQuest = quest(
         H('I was. I had my hat on and everything.', 'soft'),
         N('Mamá Imelda is still hurt. But she pulls Héctor up onto the painted cat.'),
         I('We will get that photo back.'),
+        N('Thump! A great cat’s paws land with a soft thump.'),
       ],
       [
         notice(
@@ -2060,6 +2109,7 @@ const Q10: EduQuest = quest(
         N('The painted cat rises out of the cenote, with her wings beating.'),
         N('Your Nubbin rides on Dante’s back. Both are blazing with colour.'),
         N('Below, the city glitters.'),
+        N('Whoosh! The painted cat whooshes up and out.'),
       ],
       [
         ask(
@@ -2112,6 +2162,7 @@ const Q11: EduQuest = quest(
         I('I… I don’t…', 'shock'),
         N('Then Héctor plays. Mamá Imelda closes her eyes, and sings.'),
         N('It is a slow song. The whole stadium goes quiet.'),
+        N('Ding! A soft chord rings out, and the stadium hushes.'),
       ],
       [
         doIt(
@@ -2130,6 +2181,7 @@ const Q11: EduQuest = quest(
       [
         N('When the song ends, Mamá Imelda looks at Héctor.'),
         I('Don’t say anything. Not yet.', 'soft'),
+        N('Ding! A last note rings out, and fades away.'),
       ],
       [
         ask(
@@ -2206,6 +2258,7 @@ const Q11: EduQuest = quest(
         M('I have to go home. I have to help her remember.', 'sad'),
         N('Mamá Imelda holds a marigold petal.'),
         I('What blessing should I give?'),
+        N('Pop! A marigold petal pops open in her hand.'),
       ],
       [
         doIt(
@@ -2253,6 +2306,7 @@ const Q11: EduQuest = quest(
         N('The petal glows in Miguel’s hand.'),
         H('Go on, chamaco. Go home.', 'soft'),
         N('The sun comes up. Gold petals swirl round you.'),
+        N('Whoosh! Gold petals whoosh round you in the morning sun.'),
       ],
       [
         ask(
@@ -2278,6 +2332,7 @@ const Q11: EduQuest = quest(
         N('You are back in the stone room, with Miguel and the white guitar.'),
         N('Your Nubbin is blue again, with a little pink on its ears.'),
         M('Mamá Coco! Come on, quick!'),
+        N('Whee! The petals spin round and go whee, up and away.'),
       ],
       [
         ask(
@@ -2368,6 +2423,7 @@ const Q12: EduQuest = quest(
         N('(Count them in Spanish: uno, dos, tres, cuatro, cinco!)'),
         AB('Where were you? We looked all night.', 'sad'),
         M('I’m sorry. I have to see Mamá Coco. Please.'),
+        N('Pop! The last candle pops, and a small smoke curl floats up.'),
       ],
       [
         doIt(
@@ -2392,7 +2448,7 @@ const Q12: EduQuest = quest(
     ),
     sc(
       'a7-12-home-done',
-      [AB('Go. Go to her. Quickly.', 'soft'), N('Dante gets through the door first.')],
+      [AB('Go. Go to her. Quickly.', 'soft'), N('Dante gets through the door first.'), N('Thump! Dante thumps his tail on the door and goes in.')],
       [
         notice(
           0,
@@ -2416,6 +2472,7 @@ const Q12: EduQuest = quest(
         N('Your Nubbin climbs into her lap.'),
         N('Her fingers find the ribbon. They find the stitched letters.'),
         CO('H… Hé…', 'think'),
+        N('Creak! Her chair creaks as your Nubbin climbs in.'),
       ],
       [
         ask(
@@ -2437,6 +2494,7 @@ const Q12: EduQuest = quest(
       [
         N('Miguel looks at Mamá Coco’s lips. Then he picks up the guitar.'),
         M('Mamá Coco, your papá wrote you a song.', 'soft'),
+        N('Ding! One soft guitar string rings in the room.'),
       ],
       [
         ask(
@@ -2465,6 +2523,7 @@ const Q12: EduQuest = quest(
         N('Then she begins to sing along.'),
         N('She opens a drawer, and takes out a folded scrap of paper.'),
         CO('I kept him. All this time.', 'happy'),
+        N('Ding, ding! The guitar rings, soft and slow.'),
       ],
       [
         doIt(
@@ -2485,6 +2544,7 @@ const Q12: EduQuest = quest(
         N('It fits exactly. A family of three, all their faces showing.'),
         N('You tie the orange ribbon round the mended photo.'),
         CO('There. Now he won’t get lost.', 'soft'),
+        N('Pop! The torn corner pops snug into the old photo.'),
       ],
       [
         doIt(
@@ -2498,7 +2558,7 @@ const Q12: EduQuest = quest(
         ),
       ],
     ),
-    sc('a7-12-complete', [E_START, E_RIBBON, ...E_COCO, ...E_FREE, E_HOME], completeLesson()),
+    sc('a7-12-complete', [E_START, E_RIBBON, ...E_COCO, ...E_FREE, E_HOME, N('Whee! Abuelita twirls round the room, whee!')], completeLesson()),
   ],
   'Every scene of A7-12 has a sprout version. Mamá Coco’s death is said once, plainly, with comfort straight after. Variants use the shared epilogue pieces.',
 );
@@ -2514,6 +2574,7 @@ const VARIANTS: EduScene[] = [
       N('Héctor’s hand shines gold. He is fading.'),
       N('You say his name, quietly: Héctor.'),
       H('You still have it. The promise.', 'soft'),
+      N('Plop! A drop plops into the cold water.'),
     ],
     [
       ask(
@@ -2544,6 +2605,7 @@ const VARIANTS: EduScene[] = [
       N('You promised. So you take her hand, and say it clearly.'),
       Y('Héctor. Your papá’s name is Héctor.'),
       CO('H… Hé…', 'think'),
+      N('Creak! Her chair creaks as your Nubbin climbs in.'),
     ],
     [
       ask(
@@ -2567,6 +2629,7 @@ const VARIANTS: EduScene[] = [
       N('It fits exactly. A family of three, all their faces showing.'),
       N('Mamá Coco looks at you, as if she knows you.'),
       CO('You said his name first. Thank you.', 'soft'),
+      N('Pop! The torn corner pops snug into the old photo.'),
     ],
     [
       doIt(
@@ -2580,21 +2643,21 @@ const VARIANTS: EduScene[] = [
       ),
     ],
   ),
-  sc('a7-12-complete-both', [E_START, E_RIBBON, ...E_COCO, ...E_BOTH, E_HOME], completeLesson()),
-  sc('a7-12-complete-sit', [E_START, E_RIBBON, ...E_COCO, ...E_SIT, E_HOME], completeLesson()),
+  sc('a7-12-complete-both', [E_START, E_RIBBON, ...E_COCO, ...E_BOTH, E_HOME, N('Whee! Abuelita twirls round the room, whee!')], completeLesson()),
+  sc('a7-12-complete-sit', [E_START, E_RIBBON, ...E_COCO, ...E_SIT, E_HOME, N('Ding! One soft string rings in the sunny courtyard.')], completeLesson()),
   sc(
     'a7-12-complete-promise',
-    [E_START, E_PROMISE, ...E_COCO, ...E_FREE, E_HOME],
+    [E_START, E_PROMISE, ...E_COCO, ...E_FREE, E_HOME, N('Whee! Abuelita twirls round the room, whee!')],
     completeLesson(),
   ),
   sc(
     'a7-12-complete-both-promise',
-    [E_START, E_PROMISE, ...E_COCO, ...E_BOTH, E_HOME],
+    [E_START, E_PROMISE, ...E_COCO, ...E_BOTH, E_HOME, N('Whee! Abuelita twirls round the room, whee!')],
     completeLesson(),
   ),
   sc(
     'a7-12-complete-sit-promise',
-    [E_START, E_PROMISE, ...E_COCO, ...E_SIT, E_HOME],
+    [E_START, E_PROMISE, ...E_COCO, ...E_SIT, E_HOME, N('Ding! One soft string rings in the sunny courtyard.')],
     completeLesson(),
   ),
 ];

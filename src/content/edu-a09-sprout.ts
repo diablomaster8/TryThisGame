@@ -170,6 +170,7 @@ const A01 = quest(
         MT('Hello! I am Moomintroll. Are you a visitor?', 'happy'),
         N('A smaller friend peeks out from behind the water butt.'),
         SN('I am Sniff. Is your Nubbin valuable? It would fit my pocket.', 'think'),
+        N('Pop! A jam jar pops open, and the valley smells of berries.'),
       ],
       [
         ask(
@@ -213,6 +214,7 @@ const A01 = quest(
         MT('Come and see the sea. Something is wrong with it.'),
         N('This story is from Finland, a country in the far north.'),
         N('There is snow in winter, and lakes, and a lot of trees.'),
+        N('Plop! A jammy paw plops into yours.'),
       ],
       [
         note(
@@ -239,6 +241,7 @@ const A01 = quest(
         N('The sea looks like an old grey spoon.'),
         MT('It was blue yesterday. It is always blue.', 'sad'),
         N('Under a rock there is a cave. Inside, the sand is soft and dry.'),
+        N('Splash! Little grey waves splash by the cave.'),
       ],
       [
         doit(
@@ -261,6 +264,7 @@ const A01 = quest(
         N('You sit in the cave mouth and watch the grey sea.'),
         MT('Mamma would like this cave. It feels cosy and safe.', 'soft'),
         N('Sniff sits close, very close, and says nothing.'),
+        N('Drip, drip. Water drips from the roof of the little cave.'),
       ],
       [
         note(
@@ -288,6 +292,7 @@ const A01 = quest(
         N('Sniff turns the colour of the sea.'),
         MP('There are professors in the mountains. They will know.'),
         MP('We need a brave person and a good raft.', 'happy'),
+        N('Creak! The hammock creaks between the birch trees.'),
       ],
       [
         ask(
@@ -340,6 +345,7 @@ const A01 = quest(
         N('That night you all stand on the veranda.'),
         N('Low over the mountains is a new light. It has a tail.'),
         N('The tail is faint and red, like a match just blown out.'),
+        N('Pop! A match pops alight, then goes out, like the comet’s tail.'),
       ],
       [
         ask(
@@ -362,6 +368,7 @@ const A01 = quest(
         MM('And come home when you have found out.'),
         MT('We will come home, Mamma.'),
         N('Sniff pats his pocket. Your Nubbin pats back.'),
+        N('Thump! A knapsack thumps down, full of sandwiches.'),
       ],
       [
         note(
@@ -412,6 +419,7 @@ const A02 = quest(
         SN('That plank is crooked. That one is too short.'),
         N('By noon there is a raft, and it floats!'),
         MP('What shall we call her?', 'happy'),
+        N('Bonk! Bonk! Hammers bonk as the raft takes shape.'),
       ],
       [
         doit(
@@ -454,6 +462,7 @@ const A02 = quest(
         N('Moominmamma comes down the bank with a big basket.'),
         MM('Sandwiches on top. Pullovers underneath.', 'happy'),
         N('Then she looks at the raft, and the river, and the planks.'),
+        N('Thump! The big basket thumps down on the raft.'),
       ],
       [
         ask(
@@ -482,6 +491,7 @@ const A02 = quest(
         SN('These are valuable. They are all valuable!', 'angry'),
         MM('Things are lovely, dear. But they do not row.', 'soft'),
         N('Your Nubbin looks at the sack. Then it looks at you.'),
+        N('Thump! A heavy sack thumps down on the planks.'),
       ],
       [
         ask(
@@ -530,6 +540,7 @@ const A02 = quest(
         N('Moominpappa pushes the raft off with his foot.'),
         N('Moominmamma waves her apron until the bend.'),
         N('Sniff’s compass is broken. It points to nothing.'),
+        N('Splash! The raft splashes into the river and bobs along.'),
       ],
       [
         note(
@@ -594,6 +605,7 @@ const A02 = quest(
         N('At dusk you pull in to a sandy bank.'),
         N('Moomintroll unpacks the sandwiches.'),
         N('Far up the river, a thin line of smoke rises.'),
+        N('Crunch! Sandwiches crunch, and the river goes plip, plop.'),
       ],
       [
         note(
@@ -618,6 +630,7 @@ const A02 = quest(
         SN('Now it is just sky. And that is scarier.', 'sad'),
         N('Your Nubbin climbs on his knee.'),
         N('It is as near to a lid as it can get.'),
+        N('Munch! Sniff munches his sandwich, small bite by small bite.'),
       ],
       [
         note(
@@ -664,6 +677,7 @@ const A03 = quest(
         N('A fisherman in a green hat sits on a stone.'),
         SK('Come and sit, if you are coming. The fish have heard you.'),
         SK('They only pretend to be scared. Then they do not get caught.', 'happy'),
+        N('Splash! A fish splashes, but not near the hook.'),
       ],
       [
         doit(
@@ -687,6 +701,7 @@ const A03 = quest(
         SK('I am Snufkin. There is coffee, from the one cup.'),
         N('He passes the cup round. It goes round twice.'),
         N('Nobody minds. Everybody waits for a turn.'),
+        N('Slurp! The coffee goes slurp, and round the cup goes.'),
       ],
       [
         ask(
@@ -711,6 +726,7 @@ const A03 = quest(
         SN('That is hardly anything! What if you want something?'),
         SK('I look at it. Then I leave it. It is still beautiful.'),
         SK('You do not own a friend. You walk beside them.', 'soft'),
+        N('Crack! The fire cracks, and a bright spark pops up.'),
       ],
       [
         doit(
@@ -755,6 +771,7 @@ const A03 = quest(
         N('Snufkin plays again, softly.'),
         N('The tune goes round the fire and over the water.'),
         N('Your Nubbin sits by his boot to listen.'),
+        N('Ding! One soft note rings from the harmonica.'),
       ],
       [
         doit(
@@ -782,6 +799,7 @@ const A03 = quest(
         SK('A bit. Being frightened is all right.', 'think'),
         SK('It means you have noticed something.'),
         SN('I have noticed everything.', 'sad'),
+        N('Peep! A little star peeps out above the trees.'),
       ],
       [
         ask(
@@ -812,6 +830,7 @@ const A03 = quest(
         N('He finds a second harmonica in his tent. It is dented.'),
         SK('I have two. I do not like having two. I like one.'),
         N('He holds it out to you.'),
+        N('Creak! The tent creaks as Snufkin looks for the dented one.'),
       ],
       [
         ask(
@@ -842,6 +861,7 @@ const A03 = quest(
         SK('That is the right note. It is just in the wrong place.', 'happy'),
         N('Your Nubbin claps. Sniff claps a beat later.'),
         SK('Play it when you are home. Then the tune will know where it lives.'),
+        N('Squeak! Your harmonica squeaks like a duck in a cupboard!'),
       ],
       [
         ask(
@@ -895,6 +915,7 @@ const A04 = quest(
         SN('I had not thought of that.'),
         N('A steep slab needs a rope. Snufkin ties it to a rock.'),
         N('At the top is a round white building with a slot in its roof.'),
+        N('Crunch! Loose stones crunch under every paw.'),
       ],
       [
         ask(
@@ -943,6 +964,7 @@ const A04 = quest(
         N('The Observatory door is open.'),
         N('Inside, someone is counting in a whisper.'),
         N('A very long telescope points at the sky.'),
+        N('Creak! The Observatory door creaks open, slow and wide.'),
       ],
       [
         note(
@@ -967,6 +989,7 @@ const A04 = quest(
         P2('Possibly eight forty-three. We are arguing about that.'),
         N('(Point to a clock, if you have one. Where is nine?)'),
         PR('It will land about here. How interesting!', 'happy'),
+        N('Ding! A clock dings nine times, then thinks again.'),
       ],
       [
         note(
@@ -990,6 +1013,7 @@ const A04 = quest(
         MT('Mamma does not know the date.', 'shock'),
         SK('Then we had better tell her.'),
         N('Moomintroll is already on his way.'),
+        N('Thump! Moomintroll’s feet thump away down the hill.'),
       ],
       [
         ask(
@@ -1022,6 +1046,7 @@ const A04 = quest(
         SN('Will it hit? Tell me. I am brave once I know.'),
         N('He looks at you.'),
         N('He is a little bit brave, and a little bit scared.'),
+        N('Pop! A bright star pops out of the dusk.'),
       ],
       [
         note(
@@ -1067,6 +1092,7 @@ const A04 = quest(
         N('Sniff stands up.'),
         N('Then he holds out his paw to help you up.'),
         N('It is the first thing he has ever given anybody.'),
+        N('Hee-hee! A tiny, shy giggle slips out of Sniff.'),
       ],
       [
         ask(
@@ -1093,6 +1119,7 @@ const A04 = quest(
         SK('Four days. That is enough to get home.'),
         SN('I always stop to look at things.'),
         SK('So do I. We will look quickly.', 'happy'),
+        N('Whee! You slide down the slope by the comet’s red light, whee!'),
       ],
       [
         doit(
@@ -1165,6 +1192,7 @@ const A05 = quest(
         N('The garnet is warm from his paw.'),
         N('Snufkin lifts one eyebrow at Sniff, and says nothing, kindly.'),
         N('Sniff has shared something. It was hard, and it was good.'),
+        N('Plop! The warm garnet plops into Sniff’s paw, and then yours.'),
       ],
       [
         note(
@@ -1191,6 +1219,7 @@ const A05 = quest(
         N('Snufkin pushes the branches with his stick.'),
         N('You hold one branch down with a long stick, too.'),
         N('Your Nubbin hides in Sniff’s pocket. Everyone helps.'),
+        N('Crack! The branches crack, and Moomintroll peeks out.'),
       ],
       [
         ask(
@@ -1223,6 +1252,7 @@ const A05 = quest(
         N('Moomintroll catches her. They sit down in the grass.'),
         SM('You came straight at it.', 'soft'),
         MT('I will think later.'),
+        N('Whoosh! The last branch whooshes back, and everyone sits down.'),
       ],
       [
         note(
@@ -1247,6 +1277,7 @@ const A05 = quest(
         SM('My ankle ring! Thank you!', 'happy'),
         SN('I saw it first.'),
         N('Sniff has an argument ready. But there is nobody to argue with.'),
+        N('Ding! The little ankle ring dings in her paw.'),
       ],
       [
         ask(
@@ -1294,6 +1325,7 @@ const A05 = quest(
         SM('Can we come with you? I do not want to be alone.'),
         MT('Of course. Mamma always makes enough for everybody.', 'happy'),
         N('Moomintroll, Sniff, Snufkin, the Snork Maiden, and you.'),
+        N('Munch! Everybody munches a sandwich, all in a ring.'),
       ],
       [
         doit(
@@ -1339,6 +1371,7 @@ const A06 = quest(
         SO('That is not on my list!', 'shock'),
         MT('We are going home before the comet.'),
         SO('Without a meeting? Never!', 'think'),
+        N('Thump! The Snork’s neat tent thumps open, square and tight.'),
       ],
       [
         ask(
@@ -1365,6 +1398,7 @@ const A06 = quest(
         N('Snufkin starts to speak. The Snork talks over him.'),
         SO('One at a time!'),
         N('Then the Snork sees that it means him, too.'),
+        N('Thump! The Snork thumps his list on the log.'),
       ],
       [
         note(
@@ -1389,6 +1423,7 @@ const A06 = quest(
         SN('Both my paws. And my ears.', 'shock'),
         SO('Agreed. Item three. What shall we do? Suggestions?'),
         N('Nobody says anything. The comet moves a little.'),
+        N('Pop! A small star pops out while nobody speaks.'),
       ],
       [
         ask(
@@ -1430,6 +1465,7 @@ const A06 = quest(
         N('Under “Any other business” he has written: Sniff is worried.'),
         SN('Well, I am.'),
         SO('It is official. Everyone must bear it in mind.', 'soft'),
+        N('Swish! The Snork swishes his pencil, writing it all down.'),
       ],
       [
         note(
@@ -1453,6 +1489,7 @@ const A06 = quest(
         SO('Meeting closed. We march.'),
         N('The Snork walks at the front. Snufkin walks in front of him.'),
         N('The Snork does not notice.'),
+        N('Thump, thump! Marching feet thump along, left, right, left.'),
       ],
       [
         ask(
@@ -1500,6 +1537,7 @@ const A07 = quest(
         HE('A what? Is it a butterfly?', 'think'),
         MT('It is a star with a tail. It might land here.'),
         HE('Then it had better land quietly. I am looking for a Mourning Blue.'),
+        N('Swish! A long dress swishes through the meadow grass.'),
       ],
       [
         note(
@@ -1522,6 +1560,7 @@ const A07 = quest(
         SM('He is not listening. Hemulens never listen when collecting.'),
         SK('Then we will help him finish.'),
         N('It is hard to talk to someone who is busy.'),
+        N('Buzz! Bees buzz, and the Hemulen never looks up.'),
       ],
       [
         ask(
@@ -1552,6 +1591,7 @@ const A07 = quest(
         N('Your Nubbin stands very still on a stone.'),
         N('A butterfly the colour of dusk lands on its head!'),
         N('Nobody breathes. Nobody moves.'),
+        N('Whoosh! A tiny wing whooshes by, then lands soft.'),
       ],
       [
         doit(
@@ -1594,6 +1634,7 @@ const A07 = quest(
         N('The Hemulen writes in a fat notebook.'),
         HE('A sighting! Now. What was that about a star?', 'think'),
         N('He wrote down what he saw. He did not need a net.'),
+        N('Pop! The notebook pops open at a clean new page.'),
       ],
       [
         doit(
@@ -1616,6 +1657,7 @@ const A07 = quest(
         HE('Will there be butterflies?'),
         MT('After. There are always butterflies after.', 'soft'),
         HE('Then I will come.', 'happy'),
+        N('Boing! Moomintroll bounces away over the grass, boing!'),
       ],
       [
         ask(
@@ -1671,6 +1713,7 @@ const A08 = quest(
         SK('It is hiding. Everything hides from something big.'),
         SO('Around the bay takes three days. Across takes one.'),
         N('Far out, a fish waits in a puddle that is just enough.'),
+        N('Splash! A fish splashes in a lonely puddle, far out.'),
       ],
       [
         note(
@@ -1692,6 +1735,7 @@ const A08 = quest(
         N('Three days is more than you have.'),
         N('A map would show the land and the water.'),
         N('Across is the short way. Around is the long way.'),
+        N('Creak! The map creaks as you spread it on a stone.'),
       ],
       [
         note(
@@ -1718,6 +1762,7 @@ const A08 = quest(
         SK('Short stilts fall over less far.'),
         N('Sniff falls over on purpose. He wants it over with.'),
         N('Everybody practises, and everybody falls over. Then up again!'),
+        N('Thump! Sniff falls over on purpose, thump!'),
       ],
       [
         ask(
@@ -1767,6 +1812,7 @@ const A08 = quest(
         N('Everybody has fallen over at least once.'),
         SK('Nobody minds a fall. You just get up.'),
         N('Snufkin puts his harmonica away. It is time.'),
+        N('Whee! Everyone wobbles, and then everyone laughs, whee!'),
       ],
       [
         ask(
@@ -1797,6 +1843,7 @@ const A08 = quest(
         N('In a puddle lies a pink shell with a curl.'),
         N('You pick it up. You hold it to your ear.'),
         MT('It is waiting. It is listening for the sea, like us.', 'soft'),
+        N('Splash! Your stilts go plip, plop, splash in the puddles.'),
       ],
       [
         ask(
@@ -1822,6 +1869,7 @@ const A08 = quest(
         N('You put the shell in your pocket.'),
         N('It is pink, and curly, and very light.'),
         N('It seems to want carrying.'),
+        N('Plop! The pink shell plops into your pocket.'),
       ],
       [
         ask(
@@ -1845,6 +1893,7 @@ const A08 = quest(
         N('Out on the seabed, the light comes from the sky, red and steady.'),
         SK('We will go on in the dark. The comet lights the way.'),
         N('Sniff counts his stilts, his pocket, his Nubbin, and you.'),
+        N('Thump, thump! Your stilts thump on and on across the sand.'),
       ],
       [
         note(
@@ -1889,6 +1938,7 @@ const A09 = quest(
         N('Moomintroll steps off the ridge to take a shortcut.'),
         N('His stilt sinks into the edge of a dark pool.'),
         N('The water in the pool moves, though there is no wind.'),
+        N('Squelch! Then plop! A stilt sinks into the dark pool.'),
       ],
       [
         ask(
@@ -1917,6 +1967,7 @@ const A09 = quest(
         SK('Moomintroll. Come back on the ridge. Slowly.'),
         N('Snufkin’s voice is low and calm.'),
         N('A calm voice helps a friend who is stuck.'),
+        N('Slurp! The pool goes slurp, then lets him go.'),
       ],
       [
         note(
@@ -1944,6 +1995,7 @@ const A09 = quest(
         N('The Snork Maiden grabs a lantern and runs.'),
         SM('Let him go!', 'angry'),
         N('She swings the lantern. Gold light flares on the rock.'),
+        N('Splash! A long arm splashes up out of the pool.'),
       ],
       [
         note(
@@ -2028,6 +2080,7 @@ const A09 = quest(
         MT('I did not know you could do that.'),
         SM('Neither did I. I was too busy doing it.'),
         N('Sniff and your Nubbin come out, surprised to be fine.'),
+        N('Hee-hee! Moomintroll gives a shaky giggle, and then another.'),
       ],
       [
         ask(
@@ -2081,6 +2134,7 @@ const A10 = quest(
         SO('The seventh. I wish it was not.', 'sad'),
         MT('We can do it! It comes in the evening.'),
         N('Sniff walks a little faster.'),
+        N('Thump, thump! Everyone’s feet thump a little faster.'),
       ],
       [
         note(
@@ -2102,6 +2156,7 @@ const A10 = quest(
         N('He wears a big flowered dress and fans himself.'),
         H2('Cousin! What are you doing out on a day like this?', 'shock'),
         HE('Walking very fast, cousin.'),
+        N('Swish! The big flowered dress swishes as the cousin fans himself.'),
       ],
       [
         ask(
@@ -2129,6 +2184,7 @@ const A10 = quest(
         N('Then everyone holds on to everyone. Hold on tight! Hold on tight!'),
         SK('Spread your skirts out wide! Like wings!'),
         N('The Hemulen spreads his dress. You are gliding, all in a chain.'),
+        N('Whoosh! The wind whooshes, and everyone holds on tight.'),
       ],
       [
         doit(
@@ -2169,6 +2225,7 @@ const A10 = quest(
         N('One after another, like socks letting go of their pegs.'),
         H2('My best dress. It has never been so useful.', 'happy'),
         N('(Say it together, like a drum: Hold on tight! Hold on tight!)'),
+        N('Plop! One by one, everyone plops softly down.'),
       ],
       [
         note(
@@ -2195,6 +2252,7 @@ const A10 = quest(
         MT('Over the hill and through the birch wood.', 'happy'),
         N('Snufkin pats his head. His hat has gone.'),
         N('It is caught on a thistle, three steps away.'),
+        N('Thump! Hurrying feet thump down the hill.'),
       ],
       [
         doit(
@@ -2237,6 +2295,7 @@ const A10 = quest(
         N('Then you run, all of you, down through the birch wood.'),
         MT('There! There is the house! There is the smoke!', 'happy'),
         N('Moomintroll feels happy, and excited, and nearly home.'),
+        N('Whee! Down the birch wood you go, whee!'),
       ],
       [
         ask(
@@ -2265,6 +2324,7 @@ const A10 = quest(
         MT('It says: gone to the cave. Come quickly.'),
         SN('The cave! My cave!', 'happy'),
         N('The other Hemulen still holds his dress out, in case.'),
+        N('Creak! The shut gate creaks in the empty garden.'),
       ],
       [
         note(
@@ -2315,6 +2375,7 @@ const A11 = quest(
         MM('There is cake. There is always cake when we are scared.', 'soft'),
         MU('I brought my hammock. Nobody else thought of it.', 'think'),
         MP('I brought my book about me. In case.'),
+        N('Munch! Everybody munches cake, because there is always cake.'),
       ],
       [
         ask(
@@ -2343,6 +2404,7 @@ const A11 = quest(
         N('The kitchen clock says half past seven.'),
         N('It ticks loudly. Everybody is listening.'),
         N('The long hand points straight down, at six.'),
+        N('Ding! The kitchen clock gives a small ding.'),
       ],
       [
         note(
@@ -2367,6 +2429,7 @@ const A11 = quest(
         N('You put down your things on the rock.'),
         N('Three are left: the shell, the garnet, and your Nubbin.'),
         N('Your arms are only so big.'),
+        N('Plop! Your treasures plop onto the rock, one, two, three.'),
       ],
       [
         ask(
@@ -2431,6 +2494,7 @@ const A11 = quest(
         N('He does not ask you anything this time.'),
         N('In the dark his paw finds your hand and holds on.'),
         N('Neither of you says a word. You wait, together.'),
+        N('Drip, drip. The cave drips softly in the dark.'),
       ],
       [
         doit(
@@ -2454,6 +2518,7 @@ const A11 = quest(
         N('Nobody moves. Nobody speaks. Even Sniff.'),
         N('The clock goes on ticking, tick, tick, tick.'),
         N('Time goes on, even when we wait.'),
+        N('Tick, tick! Ding! The clock ticks, and then it rings.'),
       ],
       [
         note(
@@ -2475,6 +2540,7 @@ const A11 = quest(
         N('Boom, rumble! The ground shakes, softly.'),
         MM('Hush now. Hush. Everyone is here.', 'soft'),
         N('Everyone is here.'),
+        N('Thump! The ground gives one big, soft thump.'),
       ],
       [
         note(
@@ -2524,6 +2590,7 @@ const A12 = quest(
         SN('Has it gone? Tell me exactly.', 'shock'),
         MP('It brushed us with its tail, and went on its way.', 'soft'),
         N('The lamps come on. Moominmamma cuts the cake.'),
+        N('Whoosh! The great hush whooshes over, and then it is gone.'),
       ],
       [
         note(
@@ -2544,6 +2611,7 @@ const A12 = quest(
         N('One by one, everybody falls asleep where they sit.'),
         N('They are in a heap, like puppies.'),
         N('It was a big night. Their bodies need rest.'),
+        N('Hee-hee! A sleepy giggle comes from the heap of friends.'),
       ],
       [
         ask(
@@ -2575,6 +2643,7 @@ const A12 = quest(
         N('The sea is coming back, in long, slow, shining sheets.'),
         MT('It came back. Everything came back.', 'happy'),
         SK('Things mostly do.', 'soft'),
+        N('Splash! Long, slow waves splash up the sand.'),
       ],
       [
         note(
@@ -2595,6 +2664,7 @@ const A12 = quest(
         N('Your Nubbin runs down to the water.'),
         N('It sits in the first wave. The sea comes home round it.'),
         SN('It is all right, then. I can tell, because it is doing that.', 'happy'),
+        N('Splash! Your Nubbin splashes in the first wave.'),
       ],
       [
         ask(
@@ -2626,6 +2696,7 @@ const A12 = quest(
         MM('Something to remember the house by.', 'soft'),
         N('She gives you a little blue stove.'),
         MM('Wherever you light it, people come home to it.'),
+        N('Creak! The garden gate creaks at the bend in the road.'),
       ],
       [
         ask(
@@ -2649,6 +2720,7 @@ const A12 = quest(
         N('He plays a few notes without looking back.'),
         N('You play a few notes back. They sound like a duck in a cupboard.'),
         N('Snufkin waves his hand over his head. Right note!'),
+        N('Squeak! Your harmonica squeaks, and Snufkin waves.'),
       ],
       [
         doit(
@@ -2673,6 +2745,7 @@ const A12 = quest(
         SN('Bring the Nubbin. My pocket will be empty.', 'soft'),
         N('The blue house and the sea go flat and still.'),
         N('You are back in the Grove, with a little blue stove.'),
+        N('Whoosh! The page whooshes shut, and the valley goes quiet.'),
       ],
       [
         note(
@@ -2706,6 +2779,7 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       SN('We are home by then. You said. We are home.', 'soft'),
       N('He has carried your words like a button. Now he gives them back.'),
       N('You wait, together.'),
+      N('Drip, drip. The cave drips softly in the dark.'),
     ],
     [
       note(
@@ -2728,6 +2802,7 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       N('You hold it to your ear.'),
       N('Very faint, you hear the sea. It got home first.'),
       MT('Let me listen! Oh. It is home.', 'happy'),
+      N('Splash! Very faint, you hear a splash, a long way off.'),
     ],
     [
       doit(
@@ -2752,6 +2827,7 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       SN('No. You keep it. You held it all night.', 'soft'),
       N('He looks surprised at himself.'),
       N('Then he looks pleased, which surprises him more.'),
+      N('Plop! The garnet plops back into your pocket.'),
     ],
     [
       note(
@@ -2780,6 +2856,7 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       N('MAMMA is still painted on the back.'),
       SN('She came home on her own. That is allowed, isn’t it?', 'happy'),
       MP('Of course. She is named after Mamma. Mamma always comes home.', 'soft'),
+      N('Splash! Long, slow waves splash up the sand.'),
     ],
     [
       note(
@@ -2807,6 +2884,7 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       N('THE VALUABLE is still painted on the back. Sniff pats it, twice.'),
       SN('She came home on her own. That is what a valuable does.', 'happy'),
       MP('Of course. She is called The Valuable. We do not lose a valuable.'),
+      N('Splash! Long, slow waves splash up the sand.'),
     ],
     [
       note(
