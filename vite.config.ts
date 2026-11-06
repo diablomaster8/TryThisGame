@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { ISOLATED_FILES, TOOL_FILES, UNIT_FILES } from './tests/test-projects';
+import WeightedShardSequencer from './tests/shard-sequencer';
 import { TIMING_BUDGET } from './src/config/tuning-sim';
 
 // BASE_PATH is set by the GitHub Pages workflow to "/<repo-name>/".
@@ -251,6 +252,8 @@ export default defineConfig({
   optimizeDeps: { include: ['three'] },
   test: {
     environment: 'node',
+    // Test-speed: `--shard` deals the heavy scripted runs out by weight (tests/shard-weights.ts).
+    sequence: { sequencer: WeightedShardSequencer },
     // HOT-CI: CI runners are slower and noisier; long sim tests get the scaled timeout there.
     testTimeout: TIMING_BUDGET.testTimeoutMs * (process.env.CI ? TIMING_BUDGET.ciTimeoutScale : 1),
     // TECH-42: two projects. `unit` skips the story scripts (see tests/test-projects.ts);

@@ -168,7 +168,9 @@ describe('the act boss is a game of tag (R0188)', () => {
     const w = kidWorld();
     applyCommand(w, { kind: 'enterAct', act: 0 }, []);
     const run = w.dungeon!;
-    while (run.depth < actBossDepth(0)) {
+    // Bounded: a floor with no way down must fail this test, not spin it forever (a CI hang).
+    for (let guard = 0; run.depth < actBossDepth(0); guard++) {
+      expect(guard, `still on depth ${run.depth}`).toBeLessThan(60);
       run.packs = [];
       applyCommand(w, { kind: 'dungeonGo', to: 'down' }, []);
       if (run.pendingPos) w.keeper.pos = { ...run.pendingPos };
