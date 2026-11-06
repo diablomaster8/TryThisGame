@@ -246,8 +246,8 @@ html.a11y-simple-touch .btn {
       local,
     linear-gradient(to left, #1a1530 30%, rgba(26, 21, 48, 0)) right center / 28px 100% no-repeat
       local,
-    radial-gradient(farthest-side at 0 50%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0))
-      left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 0 50%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0)) left
+      center / 12px 100% no-repeat scroll,
     radial-gradient(farthest-side at 100% 50%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0))
       right center / 12px 100% no-repeat scroll;
 }

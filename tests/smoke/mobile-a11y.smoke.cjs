@@ -1,4 +1,4 @@
-/* global require, process, console, window, document */
+/* global require, process, console, window, document, getComputedStyle */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Phone UX smoke (hot/mobile-a11y, 2026-11-06): on the main screens at 375x812 (and again at
@@ -87,7 +87,8 @@ function measure(minSize) {
     const tooSmall = isRange
       ? r.height < minSize - 0.5
       : r.width < minSize - 0.5 || r.height < minSize - 0.5;
-    if (tooSmall && !labelOk) small.push(`${name(el)} ${Math.round(r.width)}x${Math.round(r.height)}`);
+    if (tooSmall && !labelOk)
+      small.push(`${name(el)} ${Math.round(r.width)}x${Math.round(r.height)}`);
     const inScroller = !!el.closest(SCROLLERS);
     if (!inScroller && (r.right > vw + 1 || r.left < -1)) off.push(name(el));
     const label = (
@@ -141,17 +142,11 @@ function measure(minSize) {
       await page.screenshot({ path: path.join(SHOTS, `${label.replace(/\W+/g, '-')}.png`) });
     }
   };
-  const tap = async (sel) => {
-    const el = page.locator(sel).filter({ visible: true }).first();
-    if (!(await el.count())) return false;
-    await el.tap();
-    await page.waitForTimeout(500);
-    return true;
-  };
   const closePanel = async () => {
     await page.evaluate(() => {
       const b = [...document.querySelectorAll('.modal:not([hidden]) button, .sheet button')].find(
-        (e) => e.offsetParent && /close|×|✕/i.test(`${e.getAttribute('aria-label')} ${e.textContent}`),
+        (e) =>
+          e.offsetParent && /close|×|✕/i.test(`${e.getAttribute('aria-label')} ${e.textContent}`),
       );
       if (b) b.click();
     });
@@ -179,21 +174,21 @@ function measure(minSize) {
       ['More', /^More$/i],
     ];
     for (const [label, re] of panels) {
-      const ok = await page.evaluate(
-        (src) => {
-          const rx = new RegExp(src, 'i');
-          const b = [...document.querySelectorAll('.actionbar button, .topbar button')].find(
-            (e) => e.offsetParent && rx.test((e.getAttribute('aria-label') || e.textContent).trim()),
-          );
-          if (b) b.click();
-          return !!b;
-        },
-        re.source,
-      );
+      const ok = await page.evaluate((src) => {
+        const rx = new RegExp(src, 'i');
+        const b = [...document.querySelectorAll('.actionbar button, .topbar button')].find(
+          (e) => e.offsetParent && rx.test((e.getAttribute('aria-label') || e.textContent).trim()),
+        );
+        if (b) b.click();
+        return !!b;
+      }, re.source);
       if (!ok) {
         const seen = await page.evaluate(() =>
           [...document.querySelectorAll('.actionbar button, .topbar button')]
-            .map((e) => `${e.offsetParent ? '' : '(hidden) '}${e.getAttribute('aria-label') || e.textContent}`)
+            .map(
+              (e) =>
+                `${e.offsetParent ? '' : '(hidden) '}${e.getAttribute('aria-label') || e.textContent}`,
+            )
             .join(' | '),
         );
         problems.push(`${label}: its action bar button was not found (saw: ${seen})`);
@@ -215,13 +210,18 @@ function measure(minSize) {
     // Settings, every tab.
     await page.evaluate(() =>
       [...document.querySelectorAll('.actionbar button, .topbar button')]
-        .find((e) => e.offsetParent && /settings/i.test(e.getAttribute('aria-label') || e.textContent))
+        .find(
+          (e) => e.offsetParent && /settings/i.test(e.getAttribute('aria-label') || e.textContent),
+        )
         ?.click(),
     );
     await page.waitForSelector('.settings-tabs', { timeout: 10000 });
     const tabs = await page.locator('.settings-tab').count();
     for (let i = 0; i < tabs; i++) {
-      await page.locator('.settings-tab').nth(i).evaluate((e) => e.click());
+      await page
+        .locator('.settings-tab')
+        .nth(i)
+        .evaluate((e) => e.click());
       await check(`settings tab ${i + 1} of ${tabs}`);
     }
     await closePanel();
@@ -239,8 +239,6 @@ function measure(minSize) {
   }
   await browser.close();
   for (const e of errors) problems.push(e);
-  console.log(
-    `\n${VIEW.width}x${VIEW.height}: ${screens} screens, ${problems.length} problem(s)`,
-  );
+  console.log(`\n${VIEW.width}x${VIEW.height}: ${screens} screens, ${problems.length} problem(s)`);
   process.exit(problems.length ? 1 : 0);
 })();
