@@ -286,6 +286,8 @@ export class Grove3dScene {
   private particlesShed = false;
   private groveBloomShed = false;
   private shadowShed = false;
+  /** The Grove shed list's `shadowRate` step: the sun's shadow redrawn every second frame. */
+  private shadowRateShed = false;
   /** R0094: the haze and rain share a drawn region's own sky asks for (the game sets it). */
   readonly regionSky = { fog: 0, intensity: 0 };
   private readonly puddles: GrovePuddles;
@@ -708,7 +710,11 @@ export class Grove3dScene {
     this.composer.addPass(this.grade);
     this.smaa = new SMAAPass();
     this.composer.addPass(this.smaa);
-    // TECH-52: the Grove's shed list (particles, SMAA, bloom, shadow redraws).
+    // TECH-52: the Grove's shed list (particles, shadow redraw rate, SMAA, bloom, shadows).
+    this.groveShed.register({
+      name: 'shadowRate',
+      apply: (shed) => (this.shadowRateShed = shed),
+    });
     this.groveShed.register({
       name: 'smaa',
       apply: (shed) => (this.smaa.enabled = this.tierFx.smaa && !shed),
@@ -2373,7 +2379,10 @@ export class Grove3dScene {
     // at that frame rate.
     const shadows = this.renderer.shadowMap;
     const strained =
-      this.governor.ratio < this.governor.maxRatio || level > 0 || this.governor.geoLevel > 0;
+      this.governor.ratio < this.governor.maxRatio ||
+      level > 0 ||
+      this.governor.geoLevel > 0 ||
+      (!this.shedCave && this.shadowRateShed);
     if (this.caveShadowOff) {
       // Underground: clear the map once (nothing is on its layer), then never redraw it.
       shadows.autoUpdate = false;

@@ -115,10 +115,12 @@ export const PERF_GLOBAL = {
 /**
  * TECH-52: what the Grove sheds above ground before the render scale, cheapest to lose first
  * (`render3d/grove-shed.ts`). The steps judge against the governor's own targets, so a device
- * that already holds 30 fps keeps everything.
+ * that already holds 60 fps keeps everything. `shadowRate` (hot/perf-leaks, 2026-11-06): the
+ * sun's shadow map is redrawn every second frame (a frame-late shadow), before any effect
+ * goes; it was a quarter of a phone's 3D frame at full quality.
  */
 export const GROVE_SHED = {
-  order: ['particles', 'smaa', 'bloom', 'shadows'] as const,
+  order: ['particles', 'shadowRate', 'smaa', 'bloom', 'shadows'] as const,
 } as const;
 
 /** TECH-52/53: where each renderer keeps its settled governor level, one per device. */

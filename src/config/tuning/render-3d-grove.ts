@@ -524,11 +524,15 @@ export const GROVE3D = {
    * scale (backing-store pixels per CSS pixel) steps down by stepDown, never below
    * minRatio; when it stays under fastMs for upFrames frames it steps back up toward the
    * device ratio (capped at maxRatio). The canvas is scaled up smoothly, so a phone that
-   * cannot hold 30 fps trades sharpness for frames instead of stuttering.
+   * cannot hold 60 fps trades sharpness for frames instead of stuttering. hot/perf-leaks
+   * (2026-11-06): the targets are the 60 fps frame (16.7 ms), as underground: a step is taken
+   * while the smoothed frame runs over 19 ms (about 53 fps) and given back under 17.8 ms
+   * (about 56 fps), so a device that holds 60 keeps everything and one that does not starts
+   * shedding within a second.
    */
   governor: {
-    slowMs: 30,
-    fastMs: 21,
+    slowMs: 19,
+    fastMs: 17.8,
     downFrames: 20,
     upFrames: 240,
     stepDown: 0.85,
