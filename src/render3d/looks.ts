@@ -33,6 +33,7 @@ import { RADIANT_ART_PREFIX } from '../render/sprites/stage-art';
 import { C, color, shadeOf } from '../render/sprites/palette';
 import { cosmetic } from '../config/cosmetics';
 import { DYE_COLORS } from '../render/sprites/chao';
+import { dyePair } from '../render/sprites/rainbow-dye';
 import type { DyeColor } from '../sim/types';
 import { keeperOutfit } from '../render/keeper-look';
 import { EXTRA_LOOKS } from '../sim/extra-looks';
@@ -328,8 +329,11 @@ export function specForKey(key: string): SpeciesSpec {
     const dyedTips: Partial<NubbinColors> = {};
     const wingTip = mod('wingtip:');
     const crownTip = mod('crowntip:');
-    if (wingTip && wingTip in DYE_COLORS) dyedTips.wing = color(DYE_COLORS[wingTip as DyeColor]);
-    if (crownTip && crownTip in DYE_COLORS) dyedTips.tip = color(DYE_COLORS[crownTip as DyeColor]);
+    const flat = (d: string): number | undefined => DYE_COLORS[d as DyeColor];
+    // The rainbow arrives as `rainbow.<step>` (rainbow-dye.ts); both ends read the same ring.
+    const known = (d: string): boolean => d.startsWith('rainbow') || d in DYE_COLORS;
+    if (wingTip && known(wingTip)) dyedTips.wing = color(dyePair(wingTip, flat)[0]);
+    if (crownTip && known(crownTip)) dyedTips.tip = color(dyePair(crownTip, flat)[0]);
     const colour = mods.filter(
       (m) =>
         m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny' || m.startsWith('finish:'),

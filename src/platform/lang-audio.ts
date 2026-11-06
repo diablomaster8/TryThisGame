@@ -101,7 +101,8 @@ let voCurrent: HTMLAudioElement | null = null;
 
 /** Play a line's recording; false when there is none (the caller speaks it instead). */
 export function playVoClip(id: string | undefined, onEnded?: () => void): boolean {
-  if (!id || !VO_RECORDED.has(id) || !isAudioUnlocked() || !isSoundEnabled()) return false;
+  // The voices switch is checked by `speakLine`, the only caller; this is not a sound effect.
+  if (!id || !VO_RECORDED.has(id) || !isAudioUnlocked()) return false;
   try {
     voCurrent?.pause();
     voCurrent = new Audio(`${base()}audio/vo/${id}.mp3`);

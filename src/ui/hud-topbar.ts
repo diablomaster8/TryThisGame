@@ -7,6 +7,7 @@ import { STORY_TEXT } from '../config/story';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOPBAR_TEXT } from '../config/strings-r8d';
 import { setMusicEnabled, setSoundEnabled } from '../platform/audio';
+import { applyVoices, masterMuteSettings } from '../platform/voices';
 import type { Game } from '../game';
 import { button, el } from './dom';
 import { labelActions } from './hud-toasts';
@@ -79,9 +80,11 @@ export function buildTopbar(root: HTMLElement, game: () => Game | null, h: Topba
         return;
       }
       const on = !g.world.settings.sound;
-      g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
+      const muted = masterMuteSettings({ ...g.world.settings, sound: on, music: on }, on);
+      g.send({ kind: 'setSettings', settings: muted });
       setSoundEnabled(on);
       setMusicEnabled(on);
+      applyVoices(muted, g.world.edu);
     },
     'btn btn-icon',
   );

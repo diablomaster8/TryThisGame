@@ -67,6 +67,23 @@ export function stepStray(
 // Time since a fleeing stray last dropped a Shell; runtime only (a reload restarts it).
 const dropClock = new WeakMap<DungeonStray, number>();
 
+/** R0326: a fed stray lingers shy-delighted for `fedMs` where it stood, then leaves. */
+export function startFed(run: DungeonRun, s: DungeonStray): void {
+  (run.fedStrays ??= []).push({
+    id: s.id,
+    pos: { x: s.pos.x, z: s.pos.z },
+    leftMs: S.fedMs,
+    ...(s.king ? { king: true as const } : {}),
+  });
+}
+
+/** One live step of the fed strays' timers. */
+export function stepFedStrays(run: DungeonRun, dtMs: number): void {
+  if (!run.fedStrays?.length) return;
+  for (const f of run.fedStrays) f.leftMs -= dtMs;
+  run.fedStrays = run.fedStrays.filter((f) => f.leftMs > 0);
+}
+
 /** The Keeper walks over dropped Shells and picks them up. */
 export function pickTrail(world: World, run: DungeonRun, events: SimEvent[]): void {
   const trail = run.shellTrail;

@@ -21,6 +21,7 @@ import { ROSTER } from './art/species-roster';
 import { variantById } from './art/nubbin-variant-catalogue';
 import type { Keeper, Nubbin, World } from '../sim/types';
 import { speciesArt } from '../render/sprites/species-art';
+import { dyeToken, rainbowStep } from '../render/sprites/rainbow-dye';
 import { partsModBody } from './art/nubbin-critter-parts';
 import { partSteps } from '../render/sprites/part-size';
 import { specForKey, tintMods } from './looks';
@@ -74,8 +75,8 @@ export function nubbinLook(n: Nubbin): Look {
     (parts ? `~parts:${parts}` : '') +
     (mark ? `~mark:${mark}` : '') +
     // R0427: an adult's dyed wing and crown tips.
-    (n.stage === 'adult' && n.wingDye ? `~wingtip:${n.wingDye}` : '') +
-    (n.stage === 'adult' && n.crownDye ? `~crowntip:${n.crownDye}` : '') +
+    (n.stage === 'adult' && n.wingDye ? `~wingtip:${dyeToken(n.wingDye, rainbowStep())}` : '') +
+    (n.stage === 'adult' && n.crownDye ? `~crowntip:${dyeToken(n.crownDye, rainbowStep())}` : '') +
     // R0413: a body costume recolours the body.
     (costumeOf(n) ? `~costume:${n.wear!.body}` : '');
   const over = look ? `~look:${look}` : '';

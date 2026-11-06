@@ -222,6 +222,7 @@ const Q01: EduQuest = quest(
       [
         GR('That is Kay and Gerda. They live across the gutter.'),
         GR('Each evening there is a story. You hold the candle.'),
+        N('Pop! A candle flame pops, and the little room glows.'),
       ],
       [
         ask(
@@ -253,6 +254,7 @@ const Q01: EduQuest = quest(
         GR('And it made ugly things look big.', 'think'),
         KA('I’d like to look in it.'),
         GE('I wouldn’t.', 'sad'),
+        N('Tinkle! Hee-hee! The mirror gives a thin, silly ding.'),
       ],
       [
         ask(
@@ -280,6 +282,7 @@ const Q01: EduQuest = quest(
       [
         N('Grandmother does the troll’s voice. It is deep and pleased.'),
         TR('Ha! See how small good things look in my mirror!', 'happy'),
+        N('Ding! The glass dings, and the troll’s laugh is deep.'),
       ],
       [
         ask(
@@ -307,6 +310,7 @@ const Q01: EduQuest = quest(
         GR('A piece in your heart makes it cold.', 'sad'),
         KA('And then what?'),
         GR('Then you need someone to come and fetch you.', 'soft'),
+        N('Pop! A mirror piece pops, and glitters across the floor.'),
       ],
       [
         ask(
@@ -351,6 +355,7 @@ const Q01: EduQuest = quest(
       [
         N('The troll laughs on the wall. Grandmother blows out the candle.'),
         N('In the dark, something glints once. Then it is gone.'),
+        N('Pfft! Grandmother blows out the candle. Pfft!'),
       ],
       [
         note(
@@ -464,6 +469,7 @@ const Q02: EduQuest = quest(
         GE('We go down all our stairs and up all the others.'),
         KA('It takes years!'),
         GE('It takes two minutes.'),
+        N('Thump, thump! Feet thump up all the stairs, and down again.'),
       ],
       [
         ask(
@@ -495,6 +501,7 @@ const Q02: EduQuest = quest(
         KA('Do they have a queen?'),
         GR('They do. Some nights she looks in at windows.'),
         KA('I’d put her on the hot stove! She would melt.', 'happy'),
+        N('Crack! The ice crackles on the window in feathery ferns.'),
       ],
       [
         ask(
@@ -532,7 +539,7 @@ const Q02: EduQuest = quest(
     ),
     sc(
       'a12-02-frost-done',
-      [N('Grandmother smooths Kay’s hair.'), N('She tells a story about a goose instead.')],
+      [N('Grandmother smooths Kay’s hair.'), N('She tells a story about a goose instead.'), N('Hee-hee! Grandmother’s goose story makes Gerda giggle.')],
       [
         ask(
           0,
@@ -563,6 +570,7 @@ const Q02: EduQuest = quest(
         N('It grows into a tall lady made of ice and starlight.'),
         N('She is lovely and cold. Her eyes shine like stars.'),
         N('She looks in at Kay. She waves her hand. Come!'),
+        N('Creak! The window creaks, and the frost turns to a lady.'),
       ],
       [
         ask(
@@ -609,7 +617,7 @@ const Q02: EduQuest = quest(
     ),
     sc(
       'a12-02-night-done',
-      [N('You sit up until morning.'), N('The frost on your window has grown into ferns.')],
+      [N('You sit up until morning.'), N('The frost on your window has grown into ferns.'), N('Crack! The frost crackles into new ferns on the glass.')],
       [
         note(
           1,
@@ -629,6 +637,7 @@ const Q02: EduQuest = quest(
         KA('Well, I wasn’t.'),
         N('Grandmother looks at Kay a little longer than usual.'),
         N('Then the thaw comes. The swallows come back. The roses wake up.'),
+        N('Tweet! The first swallow tweets, and the thaw begins.'),
       ],
       [
         ask(
@@ -676,6 +685,7 @@ const Q03: EduQuest = quest(
         KA('Ow! Something stung my heart. And my eye!', 'sad'),
         N('A tiny bit of the troll’s mirror flies into Kay’s eye.'),
         N('Another bit goes into his heart.'),
+        N('Ow! Pop! A glass speck pops into Kay’s eye.'),
       ],
       [
         ask(
@@ -716,7 +726,7 @@ const Q03: EduQuest = quest(
     ),
     sc(
       'a12-03-arch-done',
-      [KA('It’s gone. I think it’s gone.'), N('It hasn’t gone.')],
+      [KA('It’s gone. I think it’s gone.'), N('It hasn’t gone.'), N('Peep! Something very small glints in the light, and hides.')],
       [
         ask(
           0,
@@ -748,6 +758,7 @@ const Q03: EduQuest = quest(
         N('Kay slams his window. Gerda holds her book close.'),
         GE('He said it is a baby book.', 'sad'),
         N('Your Nubbin glares at every window in the street, just in case.'),
+        N('Bonk! Kay bonks the rose tree with his boot.'),
       ],
       [
         ask(
@@ -790,6 +801,7 @@ const Q03: EduQuest = quest(
       [
         N('The rose tree has lost two flowers and a bit of bark.'),
         N('Roses forgive that, if you leave them be.'),
+        N('Plop! A rose petal plops softly on the ground.'),
       ],
       [
         note(
@@ -813,6 +825,7 @@ const Q03: EduQuest = quest(
         N('Under the glass each flake is a six-pointed star.'),
         GE('Real flowers smell of something.'),
         KA('That’s what is wrong with them.'),
+        N('Ding! The glass dings, with a small, cold sound.'),
       ],
       [
         doit(
@@ -847,7 +860,7 @@ const Q03: EduQuest = quest(
     ),
     sc(
       'a12-03-glass-done',
-      [KA('I’m allowed in the big square tomorrow. Gran said.'), GE('Gran said maybe.', 'think')],
+      [KA('I’m allowed in the big square tomorrow. Gran said.'), GE('Gran said maybe.', 'think'), N('Creak! The big gate creaks. Gran said maybe.')],
       [
         ask(
           1,
@@ -874,6 +887,7 @@ const Q03: EduQuest = quest(
         GE('He’s still in there. Something is in front of him.', 'soft'),
         N('You sit down next to her on Kay’s stool.'),
         N('You wait with her. Waiting together is a kind of help.'),
+        N('Creak! Kay’s stool creaks as you sit down beside her.'),
       ],
       [
         doit(
@@ -915,6 +929,7 @@ const Q04: EduQuest = quest(
         N('The square is busy. Bold boys tie sledges to farmers’ carts.'),
         N('A great white sledge comes in. The driver wears white fur.'),
         N('The white driver watches only Kay.'),
+        N('Swish! The sledges swish into the square.'),
       ],
       [
         ask(
@@ -961,7 +976,7 @@ const Q04: EduQuest = quest(
     ),
     sc(
       'a12-04-square-done',
-      [N('Kay holds his cord. He ties a careful knot, tongue between his teeth.')],
+      [N('Kay holds his cord. He ties a careful knot, tongue between his teeth.'), N('Pop! Kay’s knot pops tight, with his tongue between his teeth.')],
       [
         ask(
           0,
@@ -987,6 +1002,7 @@ const Q04: EduQuest = quest(
         N('Out through the town gate. The snow comes down thick and white.'),
         KA('Stop! I want to get off!', 'shock'),
         N('You lose them. Then, from a hill, you see the sledge has stopped.'),
+        N('Whoosh! The white sledge whooshes out of the town gate.'),
       ],
       [
         ask(
@@ -1010,6 +1026,7 @@ const Q04: EduQuest = quest(
       [
         N('The driver stands up. Under the snow is a tall lady, pale and sparkling.'),
         N('It is the lady from the window. It is the Snow Queen.'),
+        N('Crack! The reins crack, and snow swirls everywhere.'),
       ],
       [
         ask(
@@ -1039,6 +1056,7 @@ const Q04: EduQuest = quest(
         N('Now Kay does not feel cold at all.'),
         N('Gerda, Grandmother, the roses: Kay forgets them. But you do not.', 'sad'),
         N('The sledge rises over the forest. A big white moon comes out.'),
+        N('Pfft! The snow goes pfft, and softens every sound.'),
       ],
       [
         ask(
@@ -1077,7 +1095,7 @@ const Q04: EduQuest = quest(
     ),
     sc(
       'a12-04-kiss-done',
-      [N('You walk back in the dark. The town gate is still open.')],
+      [N('You walk back in the dark. The town gate is still open.'), N('Crunch! Your boots crunch back through the town gate.')],
       [
         note(
           0,
@@ -1097,6 +1115,7 @@ const Q04: EduQuest = quest(
         N('People in the town say Kay fell in the river.'),
         GE('No. He hates water. He would never go near the river.'),
         N('Grandmother is sad all winter. Gerda is brave and quiet.'),
+        N('Splash! Gerda turns away from the water. Kay would never go there.'),
       ],
       [
         ask(
@@ -1149,6 +1168,7 @@ const Q05: EduQuest = quest(
         GE('But I think Kay is alive. I think he is just far away.', 'soft'),
         N('The sunshine does not believe it. Neither do the swallows.'),
         GE('I don’t believe it either.', 'soft'),
+        N('Crunch! Snow crunches under Gerda’s lonely boots.'),
       ],
       [
         ask(
@@ -1195,6 +1215,7 @@ const Q05: EduQuest = quest(
       [
         GE('I’m going to give the river my two red shoes.'),
         GE('Kay never saw them. They are my best thing.'),
+        N('Plop! One red shoe plops into the river, then the other.'),
       ],
       [
         ask(
@@ -1258,6 +1279,7 @@ const Q05: EduQuest = quest(
         N('She throws the shoes from the end of the boat.'),
         N('The boat isn’t tied. It slides out of the rushes.'),
         GE('Oh!', 'shock'),
+        N('Splash! The little boat splashes out of the rushes.'),
       ],
       [
         note(
@@ -1327,6 +1349,7 @@ const Q05: EduQuest = quest(
         N('The banks are lovely: flowers and old trees.'),
         N('Three sheep and two cows graze on the slopes.'),
         N('There isn’t a single person anywhere.'),
+        N('Plop! A fish plops in the quiet water.'),
       ],
       [
         ask(
@@ -1351,6 +1374,7 @@ const Q05: EduQuest = quest(
         N('Two wooden soldiers stand outside, as still as statues.'),
         GE('Hello! Can you help us?'),
         N('The soldiers can’t answer, being wooden. But somebody else does.'),
+        N('Creak! The old cottage door creaks open.'),
       ],
       [
         doit(
@@ -1396,6 +1420,7 @@ const Q06: EduQuest = quest(
         OW('Kay? He hasn’t come by. Don’t be sad. Eat your cherries.'),
         N('She combs Gerda’s hair with a golden comb. Gerda grows sleepy.'),
         N('She isn’t wicked. She just always wanted a little girl.'),
+        N('Munch! Gerda munches a sweet red cherry.'),
       ],
       [
         ask(
@@ -1439,6 +1464,7 @@ const Q06: EduQuest = quest(
       [
         N('While you doze, the old woman goes into the garden.'),
         N('She points her stick at the rose bushes. They sink into the ground.'),
+        N('Swish! The old woman’s stick swishes through the air.'),
       ],
       [
         note(
@@ -1461,6 +1487,7 @@ const Q06: EduQuest = quest(
         N('One day the old woman’s painted hat lies on the bench.'),
         N('Gerda sees a rose painted on the hat.'),
         GE('Roses! Where are the roses? There are none here!', 'shock'),
+        N('Pop! One flower pops up, and then another, then another.'),
       ],
       [
         note(
@@ -1492,6 +1519,7 @@ const Q06: EduQuest = quest(
       [
         N('Gerda sits by the bare patch and cries. Her tears fall on the earth.'),
         N('A rose bush comes up, in full flower!'),
+        N('Pop! A rose bush pops up where Gerda’s tears fell.'),
       ],
       [
         ask(
@@ -1574,6 +1602,7 @@ const Q06: EduQuest = quest(
       [
         GE('It’s no good. They only know their own stories.'),
         GE('I have to go. I’ve stayed too long.'),
+        N('Creak! The garden gate creaks open at last.'),
       ],
       [
         ask(
@@ -1650,6 +1679,7 @@ const Q07: EduQuest = quest(
         RA('There is a clever princess in this land.', 'happy'),
         RA('She has read every newspaper in the world.'),
         RA('And forgotten them all again. That is how clever she is.'),
+        N('Crack! A hard black beak taps and cracks a twig.'),
       ],
       [
         ask(
@@ -1689,7 +1719,7 @@ const Q07: EduQuest = quest(
     ),
     sc(
       'a12-07-hedge-done',
-      [RA('She wanted a husband who could answer, not just look grand.')],
+      [RA('She wanted a husband who could answer, not just look grand.'), N('Hee-hee! The raven chuckles, flapping his wings.')],
       [
         ask(
           0,
@@ -1717,6 +1747,7 @@ const Q07: EduQuest = quest(
         GE('That was Kay! I’ve found him!', 'happy'),
         RA('His boots creaked all over the hall. He was not afraid.'),
         RA('He came to hear how clever she was. They liked each other.'),
+        N('Creak! His boots creak all over the great hall.'),
       ],
       [
         ask(
@@ -1755,6 +1786,7 @@ const Q07: EduQuest = quest(
       [
         GE('Please, can you get us in? I have to see him.'),
         RA('I’ll speak to my sweetheart. Wait here.'),
+        N('Creak! The back stair creaks as she tiptoes up.'),
       ],
       [
         ask(
@@ -1817,6 +1849,7 @@ const Q07: EduQuest = quest(
         N('At the top, a little lamp burns on a cupboard.'),
         N('The tame raven turns her head this way and that.'),
         PR('My intended has told me so much about you, little miss.', 'happy'),
+        N('Ding! The tiny lamp rings on its cupboard, soft and bright.'),
       ],
       [
         note(
@@ -1836,6 +1869,7 @@ const Q07: EduQuest = quest(
         N('Shadows rush past on the walls: horses with flying manes.'),
         PR('Only dreams. They come to fetch thoughts out hunting.'),
         N('Your Nubbin ducks under a dream horse, just in case.'),
+        N('Whoosh! Dream-horses whoosh by on the walls.'),
       ],
       [
         note(
@@ -1881,6 +1915,7 @@ const Q08: EduQuest = quest(
         N('Two beds hang from it, each like a lily.'),
         N('One is white, with the princess asleep. One is red.'),
         GE('Kay will be in the red one.', 'soft'),
+        N('Swish! The satin walls swish as you pass.'),
       ],
       [
         ask(
@@ -1913,7 +1948,7 @@ const Q08: EduQuest = quest(
     ),
     sc(
       'a12-08-halls-done',
-      [N('Gerda tiptoes to the red bed.')],
+      [N('Gerda tiptoes to the red bed.'), N('Creak! The floor creaks, and Gerda holds her breath.')],
       [
         ask(
           0,
@@ -1943,6 +1978,7 @@ const Q08: EduQuest = quest(
         N('The prince has a neck like Kay’s, and that is all.'),
         N('The princess peeps out of her white lily. What is going on?'),
         N('Gerda cries. She tells them the whole story.', 'sad'),
+        N('Peep! The princess peeps out of her white lily.'),
       ],
       [
         ask(
@@ -1989,6 +2025,7 @@ const Q08: EduQuest = quest(
       [
         PN('You poor child.', 'soft'),
         PS('Nobody is angry. Though the ravens mustn’t make a habit of it.'),
+        N('Hee-hee! The prince’s sleepy voice ends in a giggle.'),
       ],
       [
         note(
@@ -2010,6 +2047,7 @@ const Q08: EduQuest = quest(
         N('In the morning she wears silk and velvet.'),
         GE('Thank you. I need a carriage, a horse and boots, to find Kay.'),
         PN('Boots, and a muff for the cold. And a proper carriage.'),
+        N('Swish! The velvet skirt swishes as Gerda turns around.'),
       ],
       [
         ask(
@@ -2047,7 +2085,7 @@ const Q08: EduQuest = quest(
     ),
     sc(
       'a12-08-gifts-done',
-      [N('The coach is pure gold. A golden star shines on the door.')],
+      [N('The coach is pure gold. A golden star shines on the door.'), N('Ding! The golden star on the coach door dings.')],
       [
         ask(
           0,
@@ -2072,6 +2110,7 @@ const Q08: EduQuest = quest(
         N('His sweetheart waves from the door. Her head aches from too much food.'),
         GE('Goodbye! Goodbye!', 'happy'),
         N('Gerda keeps her hands in the muff. Your Nubbin keeps them warm.'),
+        N('Crunch! Gerda crunches a gingerbread biscuit in the coach.'),
       ],
       [
         note(
@@ -2117,6 +2156,7 @@ const Q09: EduQuest = quest(
         N('The robber girl is Gerda’s size, with black eyes that look almost sad.'),
         N('Gerda tells her everything. The robber girl puts her hands in the muff.'),
         RG('What’s this? It’s warm. It’s alive!', 'shock'),
+        N('Crack! Branches crack in the dark forest.'),
       ],
       [
         ask(
@@ -2155,7 +2195,7 @@ const Q09: EduQuest = quest(
     ),
     sc(
       'a12-09-forest-done',
-      [N('The robber girl keeps one hand in the muff the whole way.')],
+      [N('The robber girl keeps one hand in the muff the whole way.'), N('Thump! Thump! The coach thumps along the road.')],
       [
         note(
           0,
@@ -2214,7 +2254,7 @@ const Q09: EduQuest = quest(
     ),
     sc(
       'a12-09-castle-done',
-      [RG('Tell me about Kay again. The warm thing stays where I can see it.')],
+      [RG('Tell me about Kay again. The warm thing stays where I can see it.'), N('Pop! The fire pops, and the muff stays warm.')],
       [
         doit(
           0,
@@ -2236,6 +2276,7 @@ const Q09: EduQuest = quest(
         RG('I didn’t ask you.'),
         N('Your Nubbin looks at you. It waits to see what you will do.'),
         N('The robber girl’s hands are chapped. There is a scar on one knuckle.'),
+        N('Thump! The big castle door thumps shut.'),
       ],
       [
         ask(
@@ -2290,6 +2331,7 @@ const Q09: EduQuest = quest(
       [
         N('The robber girl falls asleep with an arm round Gerda, and snores.'),
         N('Gerda lies awake and stares at the pigeons. You stare at Gerda.'),
+        N('Pop! A pigeon puffs up, and the robber girl snores.'),
       ],
       [
         note(
@@ -2309,6 +2351,7 @@ const Q09: EduQuest = quest(
         N('Bae stands in the dark with his copper ring on, looking at the door.'),
         N('The pigeons shuffle and murmur on their perches.'),
         N('Only the robber girl sleeps. She sleeps like someone who has won.'),
+        N('Creak! The old castle creaks as the robbers sing.'),
       ],
       [
         ask(
@@ -2428,6 +2471,7 @@ const Q10: EduQuest = quest(
         BA('Snow and ice! It’s glorious. You can run free in great shining valleys.', 'happy'),
         BA('The Snow Queen’s castle is far north, in the ice. Very far. Bring socks.'),
         GE('Oh, Kay. Little Kay.', 'sad'),
+        N('Coo, coo! Squeak! The pigeons coo and shuffle on their perch.'),
       ],
       [
         ask(
@@ -2465,7 +2509,7 @@ const Q10: EduQuest = quest(
     ),
     sc(
       'a12-10-pigeons-done',
-      [N('Nobody sleeps much after that, except the robber girl and one very old pigeon.')],
+      [N('Nobody sleeps much after that, except the robber girl and one very old pigeon.'), N('Peep! One old pigeon peeps in its sleep.')],
       [
         ask(
           0,
@@ -2496,6 +2540,7 @@ const Q10: EduQuest = quest(
         N('His eyes shine. He shakes his big antlers.'),
         RG('The men are all out. Only Mother is here, and she naps at noon.'),
         RG('Then I’ll do something for you.'),
+        N('Thump! The reindeer’s antlers thump the wooden gate.'),
       ],
       [
         note(
@@ -2524,7 +2569,7 @@ const Q10: EduQuest = quest(
     ),
     sc(
       'a12-10-morning-done',
-      [N('At noon the old robber woman has a nap, chin on chest.')],
+      [N('At noon the old robber woman has a nap, chin on chest.'), N('Pfft! The old robber woman snores her little pfft.')],
       [
         ask(
           0,
@@ -2547,6 +2592,7 @@ const Q10: EduQuest = quest(
         RG('I am helping Bae. I am not helping you.', 'angry'),
         N('She sounds cross. But she is being kind.'),
         ...FREE,
+        N('Pop! The robber girl pops the knife and cuts the cord.'),
       ],
       [
         ask(
@@ -2576,6 +2622,7 @@ const Q10: EduQuest = quest(
         N('Bae runs over stumps and bushes, through forest and plains.'),
         N('Above you the sky flares green and white.'),
         BA('Those are my old lights! Look at them flash!', 'happy'),
+        N('Whoosh! Bae whooshes through the trees under the green lights.'),
       ],
       [
         note(
@@ -2595,6 +2642,7 @@ const Q10: EduQuest = quest(
         N('Gerda’s hands are in great mittens. Your Nubbin rides inside her coat.'),
         GE('Is it much further?'),
         BA('Yes. But we’re nearer than we were.'),
+        N('Crunch! Snow crunches under Bae’s hooves, all night.'),
       ],
       [
         ask(
@@ -2642,6 +2690,7 @@ const Q11: EduQuest = quest(
         N('A reindeer, a cold girl and a lodger crawl in. She stays calm.'),
         SA('Well. Come in. Shut the cold out. Mind the pan.'),
         N('Gerda is too cold to speak. The woman rubs her hands by the lamp.'),
+        N('Creak! The little door creaks open to the warm room.'),
       ],
       [
         note(
@@ -2673,7 +2722,7 @@ const Q11: EduQuest = quest(
     ),
     sc(
       'a12-11-hut-done',
-      [SA('There. Fingers are coming back. Toes next.', 'soft')],
+      [SA('There. Fingers are coming back. Toes next.', 'soft'), N('Pop! The stove pops, and fingers come back to life.')],
       [
         note(
           0,
@@ -2696,6 +2745,7 @@ const Q11: EduQuest = quest(
         SA('You’ve a long way to go, to where the Snow Queen is.'),
         GE('Do you know where she is?'),
         SA('I know her weather. She lights up the sky every evening, further north.'),
+        N('Pop! The stove pops, and the lamp wobbles.'),
       ],
       [
         ask(
@@ -2735,7 +2785,7 @@ const Q11: EduQuest = quest(
     ),
     sc(
       'a12-11-lamp-done',
-      [SA('My friend further north knows that country better than I do.')],
+      [SA('My friend further north knows that country better than I do.'), N('Swish! She swishes her cloak, ready to write.')],
       [
         ask(
           0,
@@ -2765,6 +2815,7 @@ const Q11: EduQuest = quest(
         N('She gives you a rolled-up reindeer skin.'),
         SA('To sit on, wherever you end up sitting. Snow is colder from underneath.', 'think'),
         N('She doesn’t say how she knows. She knows the country.'),
+        N('Slurp! Hee-hee! The cat slurps the fish water.'),
       ],
       [
         ask(
@@ -2803,7 +2854,7 @@ const Q11: EduQuest = quest(
     ),
     sc(
       'a12-11-fish-done',
-      [SA('Go well. Come back this way after. I’ll want to know how it ends.')],
+      [SA('Go well. Come back this way after. I’ll want to know how it ends.'), N('Creak! The little door creaks, and the night comes in.')],
       [
         ask(
           0,
@@ -2826,6 +2877,7 @@ const Q11: EduQuest = quest(
         GE('She didn’t ask for anything. Not even our names.', 'soft'),
         N('The fish letter is warm in your coat. Your Nubbin sniffs it, hopefully.'),
         BA('Not far now. Further than you’d like, but not far.'),
+        N('Whoosh! Bae whooshes on under the blue lights.'),
       ],
       [
         ask(
@@ -2906,7 +2958,7 @@ const Q12: EduQuest = quest(
     ),
     sc(
       'a12-12-chimney-done',
-      [FI('Well. So you’re the ones. Sit.')],
+      [FI('Well. So you’re the ones. Sit.'), N('Creak! The little hut creaks as it fills with steam.')],
       [
         ask(
           0,
@@ -2938,6 +2990,7 @@ const Q12: EduQuest = quest(
         FI('I can’t give her more than she has. Look how much that is!'),
         FI('People help her. Animals carry her. She has come this far barefoot.'),
         FI('It is in her heart. She loves someone, all the way through.', 'soft'),
+        N('Pop! The stove pops, and Gerda sleeps through it.'),
       ],
       [
         ask(
@@ -2960,7 +3013,7 @@ const Q12: EduQuest = quest(
     ),
     sc(
       'a12-12-power-done',
-      [N('Gerda, by the stove, hasn’t heard a word. She sleeps in the heat.')],
+      [N('Gerda, by the stove, hasn’t heard a word. She sleeps in the heat.'), N('Hee-hee! Gerda snores a tiny snore by the stove.')],
       [
         note(
           0,
@@ -2981,6 +3034,7 @@ const Q12: EduQuest = quest(
         FI('Take her as far as the bush. Then stop. Then wait.'),
         FI('Some doors only open for one person.', 'think'),
         N('She looks at you, as if checking you are the waiting sort.'),
+        N('Plop! A drop plops from the chimney into the pot.'),
       ],
       [
         ask(
@@ -3029,7 +3083,7 @@ const Q12: EduQuest = quest(
     ),
     sc(
       'a12-12-ask-done',
-      [FI('Now go. Put her down at the bush. Let the reindeer come straight back.')],
+      [FI('Now go. Put her down at the bush. Let the reindeer come straight back.'), N('Thump! The reindeer’s hooves thump on the floor.')],
       [
         ask(
           0,
@@ -3052,6 +3106,7 @@ const Q12: EduQuest = quest(
         GE('Oh! My boots! My mittens!', 'shock'),
         N('Bae doesn’t dare stop. He runs through the hard cold.'),
         N('You look back once. The little hot house is a spark, then nothing.'),
+        N('Whoosh! Bae whooshes on, and the cold bites hard.'),
       ],
       [
         note(
@@ -3091,6 +3146,7 @@ const Q13: EduQuest = quest(
         N('He turns and runs back, so he won’t change his mind.'),
         N('Gerda stands in her stockings, with no boots and no mittens.'),
         N('In the distance something glitters, huge and cold.'),
+        N('Crunch! Snow crunches under Gerda’s stockinged feet.'),
       ],
       [
         ask(
@@ -3138,6 +3194,7 @@ const Q13: EduQuest = quest(
       [
         N('Gerda runs off across the snow. She does not look back.'),
         N('You are alone by the bush with your Nubbin. The quiet comes down.'),
+        N('Hee-hee! The wind whistles, and the red berries shake.'),
       ],
       [
         doit(
@@ -3160,6 +3217,7 @@ const Q13: EduQuest = quest(
         N('You count the berries. Then you count again. A different number!'),
         N('Far off, green and white lights rise over the palace.'),
         N('You don’t know how long. You will be here when it’s over.', 'soft'),
+        N('Pfft! The snow goes pfft under the reindeer skin.'),
       ],
       [
         doit(
@@ -3176,7 +3234,7 @@ const Q13: EduQuest = quest(
     ),
     sc(
       'a12-13-wait-done',
-      [N('Your feet go numb, and come back, and go numb again. You stay.')],
+      [N('Your feet go numb, and come back, and go numb again. You stay.'), N('Pop! Your toes go pop, and tingle, and go numb.')],
       [
         ask(
           0,
@@ -3203,6 +3261,7 @@ const Q13: EduQuest = quest(
         N('Far away, tiny Gerda is still walking. Something moves towards her.'),
         N('You stand up on the skin to see. You do not step off it.'),
         N('You hold your Nubbin tight and stay where you are.'),
+        N('Whee! Green lights whee across the sky.'),
       ],
       [
         note(
@@ -3241,6 +3300,7 @@ const Q14: EduQuest = quest(
         N('The nearer they get, the bigger they grow.'),
         N('Some are like spiky hedgehogs. Some are like fat little bears.'),
         N('They are the Snow Queen’s guards. They make a ring round Gerda.'),
+        N('Whoosh! The snowflakes whoosh in a great swirl.'),
       ],
       [
         ask(
@@ -3280,7 +3340,7 @@ const Q14: EduQuest = quest(
     ),
     sc(
       'a12-14-guards-done',
-      [N('Gerda stops. She doesn’t run.')],
+      [N('Gerda stops. She doesn’t run.'), N('Crunch! Gerda stops, and the snow crunches under her feet.')],
       [
         ask(
           0,
@@ -3313,6 +3373,7 @@ const Q14: EduQuest = quest(
         N('They clear the road ahead of her.'),
         N('They stroke her hands and feet. She feels the cold less.', 'soft'),
         N('She walks on, quickly and bravely.'),
+        N('Pop! Each flake pops softly and lets her pass.'),
       ],
       [
         note(
@@ -3327,7 +3388,7 @@ const Q14: EduQuest = quest(
     ),
     sc(
       'a12-14-prayer-done',
-      [N('They go with her to the gate. Then they fade, like breath on glass.')],
+      [N('They go with her to the gate. Then they fade, like breath on glass.'), N('Pfft! The flakes fade like breath on glass. Pfft!')],
       [
         doit(
           0,
@@ -3348,6 +3409,7 @@ const Q14: EduQuest = quest(
         N('She goes in. The gate closes. The winds get up again.'),
         N('You sit back down on the reindeer skin.'),
         N('Now there is nothing to watch but the walls.'),
+        N('Whoosh! The gate of winds whooshes shut behind Gerda.'),
       ],
       [
         ask(
@@ -3398,6 +3460,7 @@ const Q15: EduQuest = quest(
         N('The Snow Queen stands in the greatest hall, ready to go.'),
         QU('I’m off to the warm lands.'),
         QU('Make the word while I’m gone, and I’ll give you the world.'),
+        N('Whoosh! The cold wind whooshes, and the Queen is gone.'),
       ],
       [
         ask(
@@ -3430,7 +3493,7 @@ const Q15: EduQuest = quest(
     ),
     sc(
       'a12-15-south-done',
-      [N('In the great hall Kay is alone. He is the only thing that moves.')],
+      [N('In the great hall Kay is alone. He is the only thing that moves.'), N('Creak! The ice creaks, in the great quiet hall.')],
       [
         ask(
           0,
@@ -3457,6 +3520,7 @@ const Q15: EduQuest = quest(
         N('He makes words. But one word he cannot make.'),
         KA('Nearly. It just needs one more piece.'),
         N('It doesn’t. He sits and thinks until he creaks, stiff and still.', 'sad'),
+        N('Crack! The ice pieces click and crack as Kay moves them.'),
       ],
       [
         doit(
@@ -3491,7 +3555,7 @@ const Q15: EduQuest = quest(
     ),
     sc(
       'a12-15-puzzle-done',
-      [N('Then a small figure in stockings comes in through the gate of winds.')],
+      [N('Then a small figure in stockings comes in through the gate of winds.'), N('Crunch! Small stockinged feet crunch across the frost.')],
       [
         ask(
           0,
@@ -3518,6 +3582,7 @@ const Q15: EduQuest = quest(
         N('Kay does not look up. He is counting pieces.'),
         N('Your Nubbin holds its breath. So do you.'),
         N('Over the palace the northern lights go quiet.'),
+        N('Pop! The ice pops, and one piece slides into place.'),
       ],
       [
         ask(
@@ -3567,6 +3632,7 @@ const Q16: EduQuest = quest(
         N('Her warm tears fall on his chest and reach his heart.'),
         N('They thaw the ice. The little splinter melts, as if it never was.'),
         N('Kay looks at her.'),
+        N('Plop! A warm tear plops on Kay’s chest.'),
       ],
       [
         note(
@@ -3595,7 +3661,7 @@ const Q16: EduQuest = quest(
     ),
     sc(
       'a12-16-found-done',
-      [N('Gerda sings the rose hymn. You know the tune, and hum along.')],
+      [N('Gerda sings the rose hymn. You know the tune, and hum along.'), N('Hum! Hee-hee! You hum along with the rose song.')],
       [
         doit(
           0,
@@ -3628,6 +3694,7 @@ const Q16: EduQuest = quest(
         N('He looks round the hall as if for the first time.'),
         KA('It’s so cold in here. It’s so big and empty.', 'sad'),
         N('He holds Gerda. She laughs and cries at once. So do you.'),
+        N('Pop! The glass speck pops out with his tears.'),
       ],
       [
         ask(
@@ -3660,7 +3727,7 @@ const Q16: EduQuest = quest(
     ),
     sc(
       'a12-16-tears-done',
-      [N('Even the pieces of ice begin to move.')],
+      [N('Even the pieces of ice begin to move.'), N('Crack! The ice pieces crackle and begin to move.')],
       [
         ask(
           0,
@@ -3685,6 +3752,7 @@ const Q16: EduQuest = quest(
         N('Kay didn’t make it. It made itself when he stopped trying and was glad.'),
         N('Gerda hugs him. His cheeks go pink. His eyes shine like hers.'),
         N('He is well and strong again.'),
+        N('Whee! The ice pieces dance, whee, whee!'),
       ],
       [
         doit(
@@ -3714,7 +3782,7 @@ const Q16: EduQuest = quest(
     ),
     sc(
       'a12-16-word-done',
-      [N('Kay’s freedom is written there on the lake, in shining letters.')],
+      [N('Kay’s freedom is written there on the lake, in shining letters.'), N('Ding! The bright letters ring on the frozen lake.')],
       [
         doit(
           0,
@@ -3736,6 +3804,7 @@ const Q16: EduQuest = quest(
         N('The patch of frost fogs over. You can see them coming.'),
         GE('There! By the bush! It’s our lodger. They waited!', 'happy'),
         KA('Waited? Out here? For me?', 'think'),
+        N('Crunch! Kay and Gerda crunch out across the snow.'),
       ],
       [
         ask(
@@ -3786,6 +3855,7 @@ const Q17: EduQuest = quest(
         KA('Hello, lodger. I’m sorry about the face I pulled at you.', 'sad'),
         N('He means the horrible face at the window. He remembers, and he is ashamed.'),
         GE('He’s really back. He’s cross about his feet, which is how I know.', 'happy'),
+        N('Thump! Bae’s hooves thump, and the doe follows.'),
       ],
       [
         ask(
@@ -3829,7 +3899,7 @@ const Q17: EduQuest = quest(
     ),
     sc(
       'a12-17-doe-done',
-      [N('Bae and the doe carry them south. You walk beside them.')],
+      [N('Bae and the doe carry them south. You walk beside them.'), N('Crunch! Snow crunches under four hooves and two feet.')],
       [
         ask(
           0,
@@ -3857,6 +3927,7 @@ const Q17: EduQuest = quest(
         N('She drives you south herself, to the edge of her country.'),
         N('There the first green is coming through the snow.'),
         SA('Go well, all of you. Even the one who wanted to eat my letter.'),
+        N('Pop! The little stove pops, and the hut is warm.'),
       ],
       [
         ask(
@@ -3898,7 +3969,7 @@ const Q17: EduQuest = quest(
     ),
     sc(
       'a12-17-south-done',
-      [N('Bae and the doe run north, side by side, into the snow.')],
+      [N('Bae and the doe run north, side by side, into the snow.'), N('Thump, thump! Two reindeer thump away north.')],
       [
         note(
           0,
@@ -3943,6 +4014,7 @@ const Q17: EduQuest = quest(
         N('As she rides off, she tosses something small and red over her shoulder.'),
         N('It lands on your Nubbin’s head: a little red cap.'),
         RG('Robbers always have two of everything!', 'happy'),
+        N('Plop! A little red cap plops on your Nubbin’s head.'),
       ],
       [
         ask(
@@ -3966,6 +4038,7 @@ const Q17: EduQuest = quest(
         N('Kay and Gerda walk on, hand in hand. It is spring.'),
         N('Your Nubbin wears its red cap at a slant.'),
         N('Somewhere ahead, church bells are ringing.'),
+        N('Hee-hee! Your Nubbin tips its red cap at a slant.'),
       ],
       [
         note(
@@ -4005,6 +4078,7 @@ const Q18: EduQuest = quest(
         N('But Kay and Gerda notice something. They have grown up.'),
         KA('Was the door always this low?', 'think'),
         GE('We have been gone a long time.', 'soft'),
+        N('Ding, dong! The church bells ring across the old town.'),
       ],
       [
         ask(
@@ -4043,7 +4117,7 @@ const Q18: EduQuest = quest(
     ),
     sc(
       'a12-18-bells-done',
-      [N('The window is open. Gutter roses bloom and grow in at the window.')],
+      [N('The window is open. Gutter roses bloom and grow in at the window.'), N('Creak! The window creaks open, and roses grow in.')],
       [
         ask(
           0,
@@ -4068,6 +4142,7 @@ const Q18: EduQuest = quest(
         N('Kay and Gerda understand the old rose hymn, all at once.'),
         N('They are grown up, and they are children too, in the place that counts.', 'soft'),
         N('And it is summer: warm, glorious summer.'),
+        N('Creak! Two small stools creak under grown-up weight.'),
       ],
       [
         ask(
@@ -4107,6 +4182,7 @@ const Q18: EduQuest = quest(
       [
         GR('There you are, lodger. I kept your room.', 'soft'),
         GR('I thought you’d want it back, after.'),
+        N('Ding! A tiny bell rings over the cottage door.'),
       ],
       [
         ask(
@@ -4133,6 +4209,7 @@ const Q18: EduQuest = quest(
         N('Your Nubbin sits alone among the roses, in its red cap, quite content.'),
         N('Nobody is holding it, and nobody needs to. It stays because it wants to.', 'soft'),
         ...END,
+        N('Plop! A rose petal plops softly onto the page.'),
       ],
       [
         doit(
@@ -4158,6 +4235,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('Your Nubbin carries a little lantern. In it is Cinder’s ember, small and red.'),
       N('It burns steady. Grandmother holds her hands out to it.'),
       GR('Now that’s a good little fire. Bring it up; the eaves get cold.', 'soft'),
+      N('Pop! The ember pops, small and steady and red.'),
     ],
     [
       ask(
@@ -4180,6 +4258,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('Your Nubbin carries a little lantern. In it is Cinder’s ember, small and red.'),
       N('It flickers now and then, as if remembering. It never goes out.'),
       GR('That one has a story in it. Bring it up; the eaves get cold.', 'think'),
+      N('Pop! The ember pops, small and red.'),
     ],
     [
       note(
@@ -4203,6 +4282,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('She says nothing about the stone in your pocket.'),
       N('She opens her white bearskin. It is soft and very quiet inside.'),
       N('Nothing would hurt there. But nothing would be warm, either.'),
+      N('Swish! The white bearskin swishes open.'),
     ],
     [
       ask(
@@ -4253,6 +4333,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       RG('There. I gave it back. Nobody made me.', 'think'),
       RG('If I can give one back, I can give two.'),
       ...FREE,
+      N('Pop! The robber girl pops the knife and cuts the cord.'),
     ],
     [
       ask(
@@ -4282,6 +4363,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       FI('That was a fierce fire once.', 'think'),
       FI('Now it only keeps someone warm. That’s the right size for a fire.', 'soft'),
       N('She warms her hands at it, as if greeting someone.'),
+      N('Pop! The ember pops in the little lantern.'),
     ],
     [
       ask(
@@ -4309,6 +4391,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       FI('That was a fierce fire once.', 'think'),
       FI('Now it only keeps someone warm. That’s the right size for a fire.', 'soft'),
       N('The ember flickers while she looks. It doesn’t go out.'),
+      N('Pop! The ember pops in the little lantern.'),
     ],
     [
       note(
@@ -4331,6 +4414,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('There is no wind. Just the quiet, the bush and the red berries.'),
       N('You count the berries. Then you count again. A different number!'),
       N('You don’t know how long. You will be here when it’s over.', 'soft'),
+      N('Pfft! The snow goes pfft under the reindeer skin.'),
     ],
     [
       note(
@@ -4353,6 +4437,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('There is no wind. Just the quiet, the bush and the red berries.'),
       N('You count the berries. Then you count again. A different number!'),
       N('You don’t know how long. You will be here when it’s over.', 'soft'),
+      N('Pfft! The snow goes pfft under the reindeer skin.'),
     ],
     [
       note(
@@ -4378,6 +4463,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('In your pocket, the stone hums. It sounds pleased.'),
       N('The road is open. Nothing would stop you.'),
       N('You could walk in. You know how welcome you would be.', 'think'),
+      N('Hum! Hee-hee! The stone hums, pleased as a kettle.'),
     ],
     [
       ask(
@@ -4453,6 +4539,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       GR('Lodger. Why is your hand always on your pocket?', 'think'),
       N('You look down, and it is. You hadn’t noticed.'),
       GR('Kay held his burning-glass tight, all last winter. I would not see that again.', 'sad'),
+      N('Plop! Your hand plops back into your pocket again.'),
     ],
     [
       ask(
@@ -4500,6 +4587,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
       N('It might be one of the robber girl’s. Either way, it chose this.'),
       N('Your Nubbin, in its red cap, sits beside it. They watch the rooftops.'),
       ...END,
+      N('Peep! A wood pigeon peeps on the roses.'),
     ],
     [
       ask(

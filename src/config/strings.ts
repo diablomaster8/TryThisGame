@@ -496,6 +496,11 @@ export const UI_TEXT = {
   sound: 'Sound effects',
   soundHelp: 'Little blips for taps, pickups and big moments.',
   music: 'Music',
+  voicesStory: 'Story voices',
+  voicesStoryHelp:
+    'Reads the story’s lines and choices aloud. Off by default outside the Learning Grove.',
+  voicesUi: 'Read everything else aloud',
+  voicesUiHelp: 'Menus, cards, captions and prompts. Separate from the story voices.',
   musicHelp:
     'The Grove’s own score: a waltz by day, a music box at night, themes for the title, races and Expeditions.',
   quitMinigame: 'Leave (Esc)',
@@ -758,6 +763,7 @@ export const UI_TEXT = {
     black: 'Black',
     white: 'White',
     coral: 'Coral',
+    rainbow: 'Rainbow',
   },
   dyeWingTip: 'Wing tips',
   dyeCrownTip: 'Crown tip',

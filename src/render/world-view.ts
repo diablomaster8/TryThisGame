@@ -1965,6 +1965,25 @@ export class WorldView {
       }
     });
     for (const id of this.strayPrev.keys()) if (!liveIds.has(id)) this.strayPrev.delete(id);
+    // R0326: a fed stray lingers shy-delighted (the blushing sway) for a beat, then leaves.
+    for (const fs of run.fedStrays ?? []) {
+      if (actorFog(run, f, world.keeper.pos, fs.pos) === 0) continue;
+      const lrect = grey.frames.get(
+        frameKey('love', 'front', frameAt(CLIPS.love, this.particles.reduceMotion ? 0 : nowMs)),
+      );
+      if (!lrect) continue;
+      shadow(fs.pos.x, 0, fs.pos.z, 0.5);
+      batch.draw({
+        sheet: grey,
+        rect: lrect,
+        flip: false,
+        x: fs.pos.x,
+        y: 0,
+        z: fs.pos.z,
+        mode: 'billboard',
+        tint: this.lightAt(fs.pos.x, fs.pos.z) * 0.9,
+      });
+    }
     // The wild creature keeps to its nook until the Keeper creeps up on it.
     for (const w of run.wild) {
       if (w.scanned) continue;

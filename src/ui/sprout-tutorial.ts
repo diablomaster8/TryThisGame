@@ -9,7 +9,8 @@ import '../kids-r10.css';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 import type { Game } from '../game';
-import { isAudioUnlocked, isSoundEnabled } from '../platform/audio';
+import { isAudioUnlocked } from '../platform/audio';
+import { isVoiceOn } from '../platform/voices';
 import type { EduState } from '../sim/types';
 import { speakLine } from './lesson';
 
@@ -41,7 +42,7 @@ export class SproutTutorial {
       if (busy) this.stop();
       return;
     }
-    if (!tutorialShouldStart(g.world.edu, busy, isAudioUnlocked() && isSoundEnabled())) return;
+    if (!tutorialShouldStart(g.world.edu, busy, isAudioUnlocked() && isVoiceOn('ui'))) return;
     this.running = true;
     g.send({ kind: 'eduTutorialSaid' });
     const b = this.buttons;

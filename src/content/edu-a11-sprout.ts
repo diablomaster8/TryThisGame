@@ -196,6 +196,7 @@ const Q01: EduQuest = quest(
         P('I was going to see about some honey. Come too.'),
         P('Honey is better with someone to watch.', 'happy'),
         N('Pooh hums as he walks. Hum, hum, hum.'),
+        N('Hee-hee! Pooh’s tummy gives a happy rumble as he hums.'),
       ],
       [
         notice(
@@ -333,6 +334,7 @@ const Q01: EduQuest = quest(
         N('Christopher Robin ties a blue ribbon on your Nubbin.'),
         CR('So everyone knows it is a Friend.'),
         N('A ribbon is tied in a bow. First one loop, then another.'),
+        N('Pop! A blue ribbon pops into a bow on your Nubbin.'),
       ],
       [
         notice(
@@ -380,6 +382,7 @@ const Q02: EduQuest = quest(
         R('Nobody. I said it for him.'),
         R('Oh, all right. Come in. Wipe your feet.'),
         N('Pooh has a little honey, then a little more, then the rest.'),
+        N('Slurp! Pooh slurps the honey, then a little more.'),
       ],
       [
         notice(
@@ -402,6 +405,7 @@ const Q02: EduQuest = quest(
         N('Pooh pushes out of the front door.'),
         N('His front half gets out. The rest is too full of honey.'),
         P('Oh dear. I seem to have stopped.', 'shock'),
+        N('Pop! Half of Pooh pops out of the door. Then he stops.'),
       ],
       [
         ask(
@@ -428,6 +432,7 @@ const Q02: EduQuest = quest(
         CR('He will have to stay until he is thin again. A week.'),
         P('A week! What about meals?', 'shock'),
         P('Please read to me. Something comforting.', 'sad'),
+        N('Squeak! The round door squeaks, and Pooh waves one paw.'),
       ],
       [
         notice(
@@ -449,6 +454,7 @@ const Q02: EduQuest = quest(
         CR('We will take turns. You read in the mornings.'),
         CR('I will read in the afternoons.'),
         N('Pooh sniffs. Then he smiles a very small smile.'),
+        N('Hee-hee! Pooh gives a small, sticky giggle.'),
       ],
       [
         notice(
@@ -474,6 +480,7 @@ const Q02: EduQuest = quest(
         R('Tea towels.'),
         N('Your Nubbin gives Pooh an acorn to look at.'),
         P('What are we reading today?'),
+        N('Plop! An acorn plops into Pooh’s paw.'),
       ],
       [
         doIt(
@@ -541,6 +548,7 @@ const Q02: EduQuest = quest(
         N('Pooh walks off humming. He is thinner now.'),
         R('He will be back. I need a wider door.', 'think'),
         N('Rabbit looks at the empty hall. He almost misses the legs.'),
+        N('Creak! Rabbit’s wide door creaks as Pooh walks off.'),
       ],
       [
         notice(
@@ -584,6 +592,7 @@ const Q03: EduQuest = quest(
         PG('A Woozle?', 'shock'),
         P('It might be. Woozles are hard to tell from the front.'),
         N('Your Nubbin puts its feet carefully in the snow.'),
+        N('Crunch! Snow crunches under your Nubbin’s careful feet.'),
       ],
       [
         notice(
@@ -622,6 +631,7 @@ const Q03: EduQuest = quest(
         N('Round they go. Round and round.'),
         N('Every time, there are more tracks.'),
         N('(Point to the footprints. Count them: one, two, three.)'),
+        N('Crunch, crunch! The snow crunches, round and round.'),
       ],
       [
         doIt(
@@ -648,6 +658,7 @@ const Q03: EduQuest = quest(
         N('Pooh puts his foot in a print. It fits!'),
         P('Oh.', 'think'),
         N('Piglet looks at your Nubbin’s feet. He goes pink.'),
+        N('Plop! Pooh’s foot plops right into the print.'),
       ],
       [
         ask(
@@ -677,6 +688,7 @@ const Q03: EduQuest = quest(
         CR('Oh, Pooh. Whose footprints do you think those are?', 'happy'),
         P('My own. I have been following my own feet.', 'sad'),
         CR('There is no better bear anywhere.', 'soft'),
+        N('Hee-hee! Christopher Robin laughs, and the whole tree giggles.'),
       ],
       [
         notice(
@@ -700,6 +712,7 @@ const Q03: EduQuest = quest(
         N('Piglet walks a long way round your Nubbin. Then a shorter way.'),
         PG('I knew it was not a Woozle. Mostly.', 'soft'),
         N('Your Nubbin holds out a paw. Piglet shakes it, twice.'),
+        N('Munch! Pooh munches a honey sandwich, very pleased.'),
       ],
       [
         ask(
@@ -755,6 +768,7 @@ const Q04: EduQuest = quest(
         N('Pooh walks round Eeyore. Then round again.'),
         P('Eeyore! Where is your tail?', 'shock'),
         E('It is gone. That explains a great deal.', 'sad'),
+        N('Swish! Eeyore’s empty rump swishes where his tail was.'),
       ],
       [
         ask(
@@ -800,6 +814,7 @@ const Q04: EduQuest = quest(
         P('I shall find your tail, Eeyore. Me. Pooh.'),
         E('Thank you, Pooh. You are a real friend.', 'soft'),
         N('Eeyore’s ears lift, just a little.'),
+        N('Ding! A tiny bell rings as Eeyore’s ears lift.'),
       ],
       [
         notice(
@@ -827,6 +842,7 @@ const Q04: EduQuest = quest(
         O('A Notice is a sign. One writes on it and pins it up.'),
         O('Usually I do the writing.'),
         N('Your Nubbin is not listening. It stares at the bell-pull.'),
+        N('Creak! Owl’s grand door creaks open, slow and wide.'),
       ],
       [
         ask(
@@ -854,6 +870,7 @@ const Q04: EduQuest = quest(
         O('I found it on a bush. It came away in my wing.'),
         P('It is Eeyore’s! It is his tail!'),
         N('(Point to the grey tail with a tuft at the end.)'),
+        N('Ding! The bell-pull dings, and everyone stares at it.'),
       ],
       [
         notice(
@@ -920,6 +937,7 @@ const Q04: EduQuest = quest(
         N('He is ready for a little something by eleven o’clock.'),
         P('Owl knows ever such a lot. But your Nubbin looked at the bell-pull.', 'happy'),
         N('Your Nubbin looks proud.'),
+        N('Munch! Pooh munches a little something at eleven o’clock.'),
       ],
       [
         notice(
@@ -967,6 +985,7 @@ const Q05: EduQuest = quest(
         N('Your Nubbin moves one pebble a very long way.'),
         PG('What do Heffalumps like?'),
         P('Honey.', 'happy'),
+        N('Thump! Thump! Little spades thump the soft earth.'),
       ],
       [
         doIt(
@@ -1010,6 +1029,7 @@ const Q05: EduQuest = quest(
         N('Pooh fetches his very last jar of honey.'),
         N('He lowers it into the pit. Down, down, down.'),
         N('He looks at it for a long time.'),
+        N('Plop! The honey jar plops to the bottom of the pit.'),
       ],
       [
         notice(
@@ -1068,6 +1088,7 @@ const Q05: EduQuest = quest(
         N('Pooh climbs out somehow.'),
         N('He wanders off in the grey morning, with the jar on his head.'),
         P('Mmff mmm mmff.', 'happy'),
+        N('Bonk! The jar bonks on every tree as Pooh wanders home.'),
       ],
       [
         ask(
@@ -1101,6 +1122,7 @@ const Q05: EduQuest = quest(
         N('You stay with the lantern. You do not explain.'),
         N('The jar bangs on a root and breaks. There is Pooh!'),
         PG('…Oh. It was Pooh.', 'sad'),
+        N('Crack! The jar cracks on a root, and out pops Pooh.'),
       ],
       [
         ask(
@@ -1123,6 +1145,7 @@ const Q05: EduQuest = quest(
         N('Piglet goes home to bed. He has a headache.'),
         N('Pooh goes home to breakfast.'),
         N('Your Nubbin keeps one piece of the jar.'),
+        N('Hee-hee! Piglet gives a tired little giggle.'),
       ],
       [
         notice(
@@ -1145,6 +1168,7 @@ const Q05: EduQuest = quest(
         CR('You were a bear in a jar. That is better.'),
         P('Then who is the Heffalump?', 'think'),
         N('Everyone looks at your Nubbin. It looks behind itself.'),
+        N('Hee-hee! Everyone giggles, and your Nubbin giggles too.'),
       ],
       [
         notice(
@@ -1194,6 +1218,7 @@ const Q06: EduQuest = quest(
         E('How many presents? None. That is zero. I counted twice.'),
         N('Pooh looks left and right. No presents.'),
         P('Wait here, Eeyore.'),
+        N('Splash! Eeyore’s hoof splashes in the stream.'),
       ],
       [
         ask(
@@ -1226,6 +1251,7 @@ const Q06: EduQuest = quest(
         N('Piglet runs to be first, and trips. He lands on the balloon.'),
         N('Bang! Now it is a bit of damp rag.'),
         PG('Oh, d-dear.', 'sad'),
+        N('Bang! Pop! The balloon pops under Piglet.'),
       ],
       [
         notice(
@@ -1247,6 +1273,7 @@ const Q06: EduQuest = quest(
         N('Your Nubbin looks at the pot, the rag and the thistle.'),
         N('The pot is empty, the rag is floppy, and the thistle is prickly.'),
         N('(Touch your arm. Is it soft or prickly?)'),
+        N('Plop! The empty pot plops down beside the rag.'),
       ],
       [
         notice(
@@ -1274,6 +1301,7 @@ const Q06: EduQuest = quest(
         E('It goes in and out. Fancy that.', 'happy'),
         N('Nobody has seen Eeyore happy before. Nobody speaks.'),
         N('Now it is your Nubbin’s turn. It can give something, or nothing.'),
+        N('Pop! The rag pops in and out of the pot.'),
       ],
       [
         notice(
@@ -1327,6 +1355,7 @@ const Q06: EduQuest = quest(
         N('By evening Eeyore still puts the rag in and out of the pot.'),
         N('In, out, in, out, in, out.'),
         N('He looks almost cheerful.'),
+        N('Pop, pop! In and out, in and out, pop, pop.'),
       ],
       [
         notice(
@@ -1351,6 +1380,7 @@ const Q06: EduQuest = quest(
         P('Will they?'),
         E('No. But they could.'),
         N('Pooh gives you an empty pot too. Eeyore adds a bit of balloon.'),
+        N('Munch! Pooh munches the cake. Eeyore munches slowly.'),
       ],
       [
         ask(
@@ -1399,6 +1429,7 @@ const Q07: EduQuest = quest(
         R('Piglet hops in the pocket, so Kanga does not notice.'),
         PG('V-very small. Yes.', 'shock'),
         N('Your Nubbin looks at you. You look at Rabbit.'),
+        N('Squeak! Piglet squeaks in the deep pocket.'),
       ],
       [
         notice(
@@ -1437,6 +1468,7 @@ const Q07: EduQuest = quest(
         R('The baby is called Roo. Look after him on the way, Keeper.'),
         R('Happy Roos stay quiet.'),
         N('(Whisper “Quiet Roo.” Now whisper louder, then quieter.)'),
+        N('Shh! Hee-hee! Roo giggles, even though he is quiet.'),
       ],
       [
         ask(
@@ -1466,6 +1498,7 @@ const Q07: EduQuest = quest(
         N('You run alongside.'),
         RO('Is this a game? It smells of carrots!', 'happy'),
         RO('Can your Nubbin come too?'),
+        N('Boing! Roo bounces, boing, boing, boing!'),
       ],
       [
         notice(
@@ -1508,6 +1541,7 @@ const Q07: EduQuest = quest(
         N('At Rabbit’s, Roo hops off the step. Hop!'),
         N('Rabbit pretends not to count the hops.'),
         N('He counts them anyway.'),
+        N('Boing! Roo hops off the step, boing, boing.'),
       ],
       [
         doIt(
@@ -1556,6 +1590,7 @@ const Q07: EduQuest = quest(
         N('Kanga collects Roo from Rabbit’s. She smiles.'),
         N('She knew all along.'),
         R('I was only borrowing.'),
+        N('Hee-hee! Kanga smiles, and Roo giggles in her pocket.'),
       ],
       [
         ask(
@@ -1579,6 +1614,7 @@ const Q07: EduQuest = quest(
         N('Rabbit is friendly now. A bit stiffly, like a new shoe.'),
         RO('Can I go in the pillowcase again?', 'happy'),
         K('Thank you for watching him, dear.', 'soft'),
+        N('Boing! Roo jumps into the pillowcase, boing!'),
       ],
       [
         notice(
@@ -1627,6 +1663,7 @@ const Q08: EduQuest = quest(
         E('Nobody told me. Well, somebody did. Not properly.', 'sad'),
         R('Single file!'),
         N('Your Nubbin marches in line, between Pooh and Piglet.'),
+        N('Thump, thump! Everyone’s boots thump in a single line.'),
       ],
       [
         ask(
@@ -1702,6 +1739,7 @@ const Q08: EduQuest = quest(
         RO('Did you see me swimming? Did you?', 'happy'),
         K('We did, dear. Now come and be dried.', 'soft'),
         N('The stream keeps running, down, down, down.'),
+        N('Splash! Roo splashes in the stream, and Kanga dries him.'),
       ],
       [
         notice(
@@ -1728,6 +1766,7 @@ const Q08: EduQuest = quest(
         N('He writes a sign on it. The spelling wobbles.'),
         E('My tail has been in the pool ten minutes. It is numb.', 'sad'),
         CR('Oh, Eeyore. Let me dry it.'),
+        N('Splash! Eeyore’s tail splashes in the pool.'),
       ],
       [
         notice(
@@ -1750,6 +1789,7 @@ const Q08: EduQuest = quest(
         N('Everyone walks home in a long happy line.'),
         N('Roo is asleep on Kanga.'),
         N('Pooh walks very upright. That is how discoverers walk.'),
+        N('Thump! The long pole thumps on Pooh’s shoulder.'),
       ],
       [
         notice(
@@ -1773,6 +1813,7 @@ const Q08: EduQuest = quest(
         P('Did I really discover it?'),
         CR('You did.'),
         P('I thought it would be bigger. But it is very nice.', 'happy'),
+        N('Ding! The hat-stand dings against the door.'),
       ],
       [
         doIt(
@@ -1822,6 +1863,7 @@ const Q09: EduQuest = quest(
         PG('Everyone else will be fine. I am just small and wet.', 'sad'),
         N('He writes HELP and his name. He corks it in a bottle.'),
         N('You are up on the high bank. You see the bottle float by.'),
+        N('Drip, drip, drip. Rain drips off every leaf.'),
       ],
       [
         ask(
@@ -1848,6 +1890,7 @@ const Q09: EduQuest = quest(
         N('You follow the bottle along the bank.'),
         N('Bob, bob, bob. It floats all the way to Pooh.'),
         N('Pooh is sitting on a branch above his own front door.'),
+        N('Bob! Plop! The bottle bobs and bumps along the bank.'),
       ],
       [
         notice(
@@ -1873,6 +1916,7 @@ const Q09: EduQuest = quest(
         P('This is the Floating Bear. Mostly it floats.', 'happy'),
         N('You find a wash-tub in a bush. You paddle with your hands.'),
         N('Your Nubbin rides on your head, nice and dry.'),
+        N('Splash! The wash-tub splashes into the flood.'),
       ],
       [
         ask(
@@ -1907,6 +1951,7 @@ const Q09: EduQuest = quest(
         N('You bump into the hill where Christopher Robin lives.'),
         N('It is an island now. A boy stands on it.'),
         N('(Point to the water all round the hill.)'),
+        N('Bonk! The tub bonks gently against the hill.'),
       ],
       [
         notice(
@@ -1932,6 +1977,7 @@ const Q09: EduQuest = quest(
         CR('I name this ship the Brain of Pooh. It was your idea.', 'happy'),
         P('The Brain of Pooh. Oh.', 'soft'),
         N('You paddle beside them. Your Nubbin is the lookout.'),
+        N('Pop! The umbrella pops open like a flower.'),
       ],
       [
         notice(
@@ -1953,6 +1999,7 @@ const Q09: EduQuest = quest(
         N('Piglet is at his window. He is very small and very wet.'),
         N('He sees the Brain of Pooh. He jumps up and down.'),
         PG('Pooh! Christopher Robin! You came!', 'happy'),
+        N('Boing! Piglet bounces up and down at his window.'),
       ],
       [
         notice(
@@ -1976,6 +2023,7 @@ const Q09: EduQuest = quest(
         CR('It was Pooh’s idea. All of it.'),
         P('Was it? I must have more of them.', 'happy'),
         N('Your Nubbin sneezes. It is the driest thing for miles.'),
+        N('Achoo! Your Nubbin sneezes, the driest thing aboard.'),
       ],
       [
         ask(
@@ -2020,6 +2068,7 @@ const Q10: EduQuest = quest(
         E('A party. For me. Nobody has a party for me. Until now.', 'think'),
         O('No, it is for…'),
         N('But Eeyore has turned away to think.'),
+        N('Ding! A little bell rings, and everyone looks up.'),
       ],
       [
         ask(
@@ -2068,6 +2117,7 @@ const Q10: EduQuest = quest(
         N('You put a cushion on it, and a card that says EEYORE.'),
         E('A place at the end. With my name on.', 'soft'),
         E('The cushion is a nice touch.'),
+        N('Plop! A soft cushion plops on the end chair.'),
       ],
       [
         doIt(
@@ -2091,6 +2141,7 @@ const Q10: EduQuest = quest(
         N('Eeyore half stands, to make a speech.'),
         N('Then Christopher Robin gives Pooh a present.'),
         N('Eeyore sits down again.'),
+        N('Creak! Eeyore’s chair creaks as he half stands.'),
       ],
       [
         notice(
@@ -2114,6 +2165,7 @@ const Q10: EduQuest = quest(
         N('Pooh cannot write. But he looks at every pencil.'),
         E('Pencils. When I was young we had sticks.'),
         N('Walking home, Pooh and Piglet are quiet. It is a friendly quiet.'),
+        N('Hee-hee! Pooh and Piglet giggle all the way home.'),
       ],
       [
         notice(
@@ -2161,6 +2213,7 @@ const Q11: EduQuest = quest(
         N('A heap of sticks lies on the far side of the wood.'),
         N('You carry sticks. Your Nubbin carries one, the long way round.'),
         PG('It is a very good house. Eeyore will be pleased.'),
+        N('Crunch! Snow crunches under every stick-carrying foot.'),
       ],
       [
         ask(
@@ -2226,6 +2279,7 @@ const Q11: EduQuest = quest(
         N('You think of a heap of sticks. Uh-oh.'),
         CR('Let us go and look.'),
         N('You walk with them through the snow.'),
+        N('Crunch! Crunch! The snow crunches all the way there.'),
       ],
       [
         notice(
@@ -2247,6 +2301,7 @@ const Q11: EduQuest = quest(
         N('At Pooh Corner stands a house of sticks.'),
         N('Pooh and Piglet are admiring it.'),
         N('Snow is on the roof. Inside, it is dry.'),
+        N('Pop! A little puff of snow pops off the stick roof.'),
       ],
       [
         notice(
@@ -2271,6 +2326,7 @@ const Q11: EduQuest = quest(
         E('It is better here. Not so draughty.', 'happy'),
         CR('It is a lovely house, Eeyore.'),
         E('Somebody somewhere must like me.', 'soft'),
+        N('Whoosh! The wind whooshes, and the stick house stands firm.'),
       ],
       [
         ask(
@@ -2293,6 +2349,7 @@ const Q11: EduQuest = quest(
         N('Eeyore goes in. He comes out again, to look at his door.'),
         N('On the latch is a blue ribbon, tied in a bow.'),
         E('It keeps the door from banging. Useful. Like a Friend.', 'soft'),
+        N('Creak! The door creaks, and the ribbon keeps it quiet.'),
       ],
       [
         notice(
@@ -2316,6 +2373,7 @@ const Q11: EduQuest = quest(
         P('We did. And then we gave it back, in a better place.', 'think'),
         PG('I think that counts.', 'soft'),
         N('Your Nubbin walks in Pooh’s footprints all the way. Hop, hop.'),
+        N('Crunch! Your Nubbin’s feet crunch in Pooh’s footprints.'),
       ],
       [
         ask(
@@ -2367,6 +2425,7 @@ const Q12: EduQuest = quest(
         N('Tigger has orange and black stripes. Orange, black, orange, black.'),
         N('He has a fight with the tablecloth. He wins.'),
         N('He bounces your Nubbin. Your Nubbin bounces back.'),
+        N('Bonk! Something bonks the cupboard door in the night!'),
       ],
       [
         ask(
@@ -2406,6 +2465,7 @@ const Q12: EduQuest = quest(
         N('In the morning, Pooh sets out a pot of honey.'),
         N('The very best kind.'),
         N('The night is over. The sun is up.'),
+        N('Plop! A honey pot plops down by the door.'),
       ],
       [
         notice(
@@ -2432,6 +2492,7 @@ const Q12: EduQuest = quest(
         N('At Eeyore’s, Tigger tries a thistle.'),
         T('Ow! Prickly! That is a punishment!', 'shock'),
         E('Some of us eat them every day. We hardly complain.', 'sad'),
+        N('Slurp! Tigger slurps the honey, then spits out the haycorns.'),
       ],
       [
         ask(
@@ -2454,6 +2515,7 @@ const Q12: EduQuest = quest(
         P('Only Kanga is left. She might have something.', 'think'),
         N('Tigger has tried three things. Honey, haycorns, thistles.'),
         N('(Hold up three fingers. One more try!)'),
+        N('Pop! A thistle pops. Ow! Prickly!'),
       ],
       [
         doIt(
@@ -2481,6 +2543,7 @@ const Q12: EduQuest = quest(
         T('That is it! That is a Tigger breakfast!', 'happy'),
         RO('He can have mine! Always!', 'happy'),
         K('Then he had better stay. I will fetch another spoon.', 'soft'),
+        N('Slurp! Tigger slurps the malt, and says it is just right.'),
       ],
       [
         notice(
@@ -2502,6 +2565,7 @@ const Q12: EduQuest = quest(
         N('So Tigger lives at Kanga’s from then on.'),
         N('He has malt for breakfast, dinner and tea.'),
         N('He tried and tried until he found what suited him.'),
+        N('Gulp! Gulp! Tigger gulps down his breakfast, dinner and tea.'),
       ],
       [
         notice(
@@ -2524,6 +2588,7 @@ const Q12: EduQuest = quest(
         T('And Tiggers like Keepers! Bounce!', 'happy'),
         N('Tigger bounces your Nubbin, gently.'),
         N('It lands on its feet.'),
+        N('Boing! Tigger bounces, boing, boing, boing!'),
       ],
       [
         doIt(
@@ -2572,6 +2637,7 @@ const Q13: EduQuest = quest(
         P('Ah. That helps.'),
         R('Look under things. That is called being Thorough.'),
         N('Your Nubbin looks under a leaf at once.'),
+        N('Pop! A leaf pops up, and your Nubbin looks beneath.'),
       ],
       [
         ask(
@@ -2616,6 +2682,7 @@ const Q13: EduQuest = quest(
         N('You look over the edge. Pooh is in the pit.'),
         N('Piglet is under Pooh.'),
         PG('I was searching. Under things.', 'sad'),
+        N('Thump! Pooh thumps into the pit, on top of Piglet.'),
       ],
       [
         ask(
@@ -2642,6 +2709,7 @@ const Q13: EduQuest = quest(
         N('Christopher Robin comes to the edge of the pit.'),
         N('He looks. Then he sits down to laugh.'),
         N('Pooh and Piglet laugh too, after a bit.'),
+        N('Hee-hee! Christopher Robin laughs until he has to sit down.'),
       ],
       [
         notice(
@@ -2667,6 +2735,7 @@ const Q13: EduQuest = quest(
         CR('Pooh! You found Small!', 'happy'),
         P('Where was he?'),
         CR('On you.'),
+        N('Pop! A tiny beetle pops out of Pooh’s fur.'),
       ],
       [
         doIt(
@@ -2690,6 +2759,7 @@ const Q13: EduQuest = quest(
         N('Small says nothing, being a beetle.'),
         P('I found him without looking. That is the easiest way.', 'happy'),
         N('Your Nubbin looks under every leaf on the way home.'),
+        N('Hee-hee! Your Nubbin lifts every leaf, giggling.'),
       ],
       [
         notice(
@@ -2772,6 +2842,7 @@ const Q14: EduQuest = quest(
         N('Soon everyone stands at the bottom of the pine.'),
         N('They all look up.'),
         N('(Point up. Point down. Up is high. Down is low.)'),
+        N('Creak! The tall pine creaks, and everyone looks up.'),
       ],
       [
         notice(
@@ -2820,6 +2891,7 @@ const Q14: EduQuest = quest(
         N('Crash! Everyone falls in a heap.'),
         E('Thank you. I was quite comfortable down here.', 'sad'),
         N('Eeyore is at the bottom of the heap. He is fine.'),
+        N('Thump! Everyone tumbles down in a thump and a heap.'),
       ],
       [
         notice(
@@ -2843,6 +2915,7 @@ const Q14: EduQuest = quest(
         N('Christopher Robin puts his tunic back on.'),
         N('It has a Tigger-shaped stretch now.'),
         N('Your Nubbin cannot get down its branch either. It has to be lifted.'),
+        N('Boing! Tigger bounces off, boing, boing, boing!'),
       ],
       [
         ask(
@@ -2890,6 +2963,7 @@ const Q15: EduQuest = quest(
         N('A note is pinned to his door. The spelling wobbles.'),
         R('Backson? What is a Backson? Gone out with a Backson?', 'think'),
         R('I must ask Owl. Owl can read.'),
+        N('Creak! Rabbit’s door creaks, and the note flaps.'),
       ],
       [
         ask(
@@ -2933,6 +3007,7 @@ const Q15: EduQuest = quest(
         O('Large, I should think.'),
         O('I know my days. Tuesday. T, U, E… there is an S somewhere.'),
         N('Your Nubbin cannot spell anything. It looks at Owl with respect.'),
+        N('Ding! Owl’s old clock gives a grand ding.'),
       ],
       [
         ask(
@@ -2955,6 +3030,7 @@ const Q15: EduQuest = quest(
         R('Eeyore might have seen it. He sees most things.'),
         N('Owl does not always spell every word right.'),
         N('Nobody does. That is how we learn.'),
+        N('Hee-hee! Owl laughs, and a feather floats down.'),
       ],
       [
         notice(
@@ -2981,6 +3057,7 @@ const Q15: EduQuest = quest(
         E('Christopher Robin taught me. He goes out in the mornings now, to learn things.'),
         R('Learn? Then the Backson is… oh.', 'think'),
         N('Rabbit stands very still. It is the first time today he is not busy.'),
+        N('Plop! Eeyore plops down a third stick, to make an A.'),
       ],
       [
         doIt(
@@ -3003,6 +3080,7 @@ const Q15: EduQuest = quest(
         E('Somebody has to look after the A. In case he forgets it.', 'soft'),
         N('Eeyore’s ears are up again.'),
         N('He is proud of his A. He worked hard on it.'),
+        N('Ding! Eeyore’s ears ring up like two little bells.'),
       ],
       [
         ask(
@@ -3028,6 +3106,7 @@ const Q15: EduQuest = quest(
         CR('Hello! Did you see my note? I said I would be back soon.', 'happy'),
         N('He is. Rabbit walks home slowly, thinking about mornings.'),
         N('Your Nubbin guards Eeyore’s A until Eeyore says it can go.'),
+        N('Creak! The gate creaks as Christopher Robin comes home.'),
       ],
       [
         notice(
@@ -3111,6 +3190,7 @@ const Q16: EduQuest = quest(
         N('Your Nubbin’s stick comes out first, and wins. It shakes itself all over Piglet.'),
         CR('Does that count? Probably. I think.', 'think'),
         PG('Woozles shake like that. I am nearly sure.', 'shock'),
+        N('Splash! Your Nubbin’s stick splashes in first.'),
       ],
       [
         notice(
@@ -3196,6 +3276,7 @@ const Q16: EduQuest = quest(
         N('Everyone looks at Tigger. Tigger looks at the sky.'),
         T('Just a cough. A big Tigger cough.'),
         E('Some coughs are bouncier than others. That is all I am saying.'),
+        N('Splash! Eeyore comes up the bank, splashing and dripping.'),
       ],
       [
         ask(
@@ -3224,6 +3305,7 @@ const Q16: EduQuest = quest(
         P('The best thing about this game is you can play for ever.', 'happy'),
         N('Your Nubbin watches the water go under. Same water, new water.'),
         CR('You could have a bridge like this at home. Any stream will do.'),
+        N('Splash! Splash! The sticks splash under the bridge, again and again.'),
       ],
       [
         doIt(
@@ -3269,6 +3351,7 @@ const Q17: EduQuest = quest(
         PG('Lost? On his own? That is not kind.'),
         N('A mist is coming up from the river, white and soft.'),
         T('A walk! Tiggers love walks!', 'happy'),
+        N('Whoosh! The mist whooshes up from the river, white and soft.'),
       ],
       [
         notice(
@@ -3304,6 +3387,7 @@ const Q17: EduQuest = quest(
         N('Into the mist they go. Rabbit leads.'),
         N('Tigger bounces round the outside of everybody.'),
         N('The Forest goes soft and white.'),
+        N('Boing! Tigger bounces round the edge of the mist.'),
       ],
       [
         notice(
@@ -3333,6 +3417,7 @@ const Q17: EduQuest = quest(
         T('Where would a Rabbit be? Under things. Rabbits like under.', 'think'),
         N('He looks under a leaf, a stone, and you. No Rabbit!'),
         N('He bounces into the white. You follow, holding your Nubbin close.'),
+        N('Drip, drip. The mist drips from every leaf in the hollow.'),
       ],
       [
         notice(
@@ -3355,6 +3440,7 @@ const Q17: EduQuest = quest(
         T('Rabbit! There you are! Tiggers are good at finding!', 'happy'),
         N('Rabbit comes out. For once, he has no plan.'),
         R('Tigger. Oh, Tigger. I am glad to see you.', 'soft'),
+        N('Boing! Tigger bounces in, and there is Rabbit.'),
       ],
       [
         ask(
@@ -3380,6 +3466,7 @@ const Q17: EduQuest = quest(
         R('He is still very bouncy. Too bouncy.', 'think'),
         N('Rabbit says it quietly. He does not quite mean it any more.'),
         T('Tiggers do not get lost. Tiggers find.', 'happy'),
+        N('Boing! Tigger bounces ahead, a little more gently.'),
       ],
       [
         notice(
@@ -3428,6 +3515,7 @@ const Q18: EduQuest = quest(
         N('The floor is a wall. The door is in the ceiling.'),
         PG('Pooh, is it still the same day?', 'shock'),
         O('My house is on its side. This has never happened.', 'sad'),
+        N('Whoosh! The wind whooshes, and Pooh’s house tips over.'),
       ],
       [
         notice(
@@ -3466,6 +3554,7 @@ const Q18: EduQuest = quest(
         P('The letter-box. Only somebody very small could get through.', 'think'),
         N('Everyone looks at Piglet.'),
         N('(Point to the smallest friend.)'),
+        N('Squeak! The letter-box squeaks open. Little Piglet wriggles in.'),
       ],
       [
         ask(
@@ -3527,6 +3616,7 @@ const Q18: EduQuest = quest(
         N('Soon Christopher Robin arrives with a ladder.'),
         N('Piglet comes with him, very proud, trying not to be.'),
         N('(Count the ladder steps with me: one, two, three, four, five.)'),
+        N('Thump! The ladder thumps against the wall.'),
       ],
       [
         doIt(
@@ -3554,6 +3644,7 @@ const Q18: EduQuest = quest(
         E('There. A house. Nobody is using it.', 'happy'),
         N('It is Piglet’s house. Everybody knows, except Eeyore.'),
         N('Piglet looks at Eeyore. Eeyore is happier than anyone has seen him.'),
+        N('Creak! The little house creaks in the wind.'),
       ],
       [
         notice(
@@ -3575,6 +3666,7 @@ const Q18: EduQuest = quest(
         PG('Yes. It is just the house for Owl.', 'soft'),
         N('Piglet says it bravely.'),
         N('Then he has to look at the ground for a while.'),
+        N('Creak! The door creaks, and Piglet looks at the ground.'),
       ],
       [
         ask(
@@ -3599,6 +3691,7 @@ const Q18: EduQuest = quest(
         N('Owl moves into Piglet’s old house. He gives it a grand new name.'),
         N('He spells it wrong.'),
         N('Your Nubbin carries Piglet’s smallest chair to Pooh’s, very carefully.'),
+        N('Plop! Piglet’s little bag plops into your Nubbin’s paws.'),
       ],
       [
         notice(
@@ -3654,6 +3747,7 @@ const Q19: EduQuest = quest(
         N('Nobody laughs. Even Tigger stands still.'),
         PG('It is a very good poem, Eeyore.'),
         R('Now everybody signs their name at the bottom.'),
+        N('Ding! A tiny bell rings, and the Forest hushes.'),
       ],
       [
         notice(
@@ -3712,6 +3806,7 @@ const Q19: EduQuest = quest(
         T('Is he coming back? He is. Isn’t he?', 'think'),
         N('Nobody answers. Tigger bounces once, very small.'),
         N('(Grown-up: you can say, “I do not know, but he loves you all.”)'),
+        N('Boing! Tigger bounces once, very small.'),
       ],
       [
         ask(
@@ -3735,6 +3830,7 @@ const Q19: EduQuest = quest(
         E('I took it off my door. My door can bang for a bit.', 'soft'),
         E('It is a Friend ribbon. He will know.', 'soft'),
         ...S19_DELIVER,
+        N('Ding! The scroll tied with ribbon gives a quiet ding.'),
       ],
       [
         notice(
@@ -3759,6 +3855,7 @@ const Q19: EduQuest = quest(
         N('Piglet goes last of all. Only Pooh is left.'),
         N('You wait by the gate with your Nubbin.'),
         N('Nobody asked you to. It seems the right place to be.'),
+        N('Creak! The gate creaks as everyone goes home.'),
       ],
       [
         notice(
@@ -3780,6 +3877,7 @@ const Q19: EduQuest = quest(
         N('After a while Christopher Robin comes out. Pooh is with him.'),
         CR('We are walking to the top of the Forest. Come some of the way?', 'soft'),
         N('Your Nubbin is already on its feet.'),
+        N('Creak! The gate creaks, and your Nubbin is on its feet.'),
       ],
       [
         ask(
@@ -3833,6 +3931,7 @@ const Q20: EduQuest = quest(
         P('Oh. I do that a lot.', 'happy'),
         N('At the top is a ring of trees, sixty-something of them.'),
         N('Nobody can count them. It changes every time.'),
+        N('Crunch! Leaves crunch under their feet on the way up.'),
       ],
       [
         doIt(
@@ -3878,6 +3977,7 @@ const Q20: EduQuest = quest(
         P('I will. I promise.', 'soft'),
         CR('If I am not here so much, it is not because of you.'),
         P('I shall know. Even if I do not know why.'),
+        N('Whoosh! A soft wind whooshes through the ring of trees.'),
       ],
       [
         notice(
@@ -3912,6 +4012,7 @@ const Q20: EduQuest = quest(
         CR('Come on, Pooh.'),
         P('Where?'),
         CR('Anywhere.', 'happy'),
+        N('Whee! Christopher Robin runs off, and Pooh goes whee!'),
       ],
       [
         notice(
@@ -3937,6 +4038,7 @@ const Q20: EduQuest = quest(
         N('The page closes gently, like a door nobody bangs.'),
         N('You are back in the Grove, with the atlas on your knee.'),
         N('By the stream is a little bridge. A blue ribbon is on its rail.'),
+        N('Creak! The page closes like a door that nobody bangs.'),
       ],
       [
         ask(
@@ -3972,6 +4074,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('Beside the step, a purple top pokes through the snow.'),
       N('It is the thistle your Nubbin gave him. He has planted it.'),
       E('I did not eat it. It ought to have somewhere to live.', 'soft'),
+      N('Creak! The door creaks, and the purple thistle nods.'),
     ],
     [
       notice(
@@ -3994,6 +4097,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('Then he shuffles to one side.'),
       N('There is a space just your size, and a smaller one beside it.'),
       E('I kept you a place. Not that you have to. Sit, I mean.', 'soft'),
+      N('Creak! The new step creaks, with room for you.'),
     ],
     [
       notice(
@@ -4021,6 +4125,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('Tigger says he only coughed. Then he looks at his feet.'),
       T('It was a bouncy sort of cough. Sorry, Eeyore.', 'sad'),
       E('That is the first sorry I have had this year. I shall keep it.', 'soft'),
+      N('Plop! Eeyore plops down, wet and a bit cross.'),
     ],
     [
       notice(
@@ -4051,6 +4156,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('You go after Rabbit, with your Nubbin, into the white.'),
       N('You find him in a hollow, small and damp.'),
       R('Oh. Good. I was not lost. I was waiting for somebody.', 'sad'),
+      N('Drip, drip. The mist drips from the hollow’s roof.'),
     ],
     [
       notice(
@@ -4075,6 +4181,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       Y('Listen.'),
       T('Rabbit? Keeper? Tiggers are good at finding!', 'happy'),
       R('Tigger. Oh, Tigger. I am glad to see you.', 'soft'),
+      N('Boing! Tigger bounces in, and there is Rabbit.'),
     ],
     [
       notice(
@@ -4098,6 +4205,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('He stays there, and clears his throat.'),
       R('About the mist. I was grateful for the company. That is all.', 'soft'),
       N('He goes back to his list. He does not look up for some time.'),
+      N('Ding! Rabbit’s pencil gives a tidy little ding.'),
     ],
     [
       notice(
@@ -4121,6 +4229,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('It is a thistle, pressed flat. Its purple has gone pale.'),
       E('I put that in. From my step. It is not much. Well. It is.', 'soft'),
       ...S19_DELIVER,
+      N('Pop! The thistle pops out of the scroll, bright and purple.'),
     ],
     [
       notice(
@@ -4144,6 +4253,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       E('Somebody sat with me.', 'soft'),
       N('He does not explain. He hands it back, and does not look at you.'),
       ...S19_DELIVER,
+      N('Ding! The scroll tied with ribbon gives a quiet ding.'),
     ],
     [
       notice(
@@ -4170,6 +4280,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('The page closes gently, like a door nobody bangs.'),
       N('You are back in the Grove, with the atlas on your knee.'),
       N('By the stream is a little bridge. A thistle grows at the far end.'),
+      N('Creak! The page closes like a door that nobody bangs.'),
     ],
     [
       notice(
@@ -4196,6 +4307,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('The page closes gently, like a door nobody bangs.'),
       N('You are back in the Grove, with the atlas on your knee.'),
       N('By the stream is a little bridge. One place is worn smooth, for sitting.'),
+      N('Creak! The page closes like a door that nobody bangs.'),
     ],
     [
       notice(
@@ -4224,6 +4336,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
       N('At the bottom is one letter: H.'),
       N('Maybe you remember a little: a lap, a voice, a turning page.'),
       N('Your Nubbin climbs into your lap. You sit with the page.'),
+      N('Plop! One small ink drop plops by the letter H.'),
     ],
     [
       notice(

@@ -182,7 +182,7 @@ const Q01_SCENES: EduScene[] = [
   ),
   sc(
     'a02-01-page-done',
-    [N('A wind comes and leans on the egg. Push, push, push!')],
+    [N('A wind comes and leans on the egg. Push, push, push!'), N('Creak! The big stone egg rocks a little on its base.')],
     [
       notice(
         0,
@@ -222,6 +222,7 @@ const Q01_SCENES: EduScene[] = [
     [
       N('Monkey’s eyes shine gold. Two beams of light shoot up high.'),
       N('Far above, someone puts down his tea.'),
+      N('Ding! Somewhere high up, a tiny teacup clinks on its saucer.'),
     ],
     [
       notice(
@@ -243,6 +244,7 @@ const Q01_SCENES: EduScene[] = [
       JE('Let him play. Small things grow.', 'soft'),
       N('Your Nubbin leans over the cloud. It waves at a tiny grey dot.'),
       N('The tiny dot waves back!'),
+      N('Whee! Your Nubbin slides down a soft cloud and giggles.'),
     ],
     [
       ask(
@@ -273,6 +275,7 @@ const Q01_SCENES: EduScene[] = [
       N('He gives your Nubbin a peach. It is mostly bite marks!'),
       N('Your Nubbin holds it like treasure.'),
       N('Then your Nubbin breaks it in two and gives Monkey half.'),
+      N('Munch, munch! Your Nubbin eats up the last of the peach.'),
     ],
     [
       ask(
@@ -344,7 +347,7 @@ const Q02_SCENES: EduScene[] = [
   ),
   sc(
     'a02-02-stream-done',
-    [N('Monkey crouches down. He shuts his eyes. He leaps!')],
+    [N('Monkey crouches down. He shuts his eyes. He leaps!'), N('Splash! Droplets fly like a hundred little silver beads.')],
     [
       notice(
         0,
@@ -405,6 +408,7 @@ const Q02_SCENES: EduScene[] = [
       N('Your Nubbin climbs into his lap, to sit with him.'),
       GB('Some wise ones live for a very long time. Far away.'),
       MK('Then I will go and find them.'),
+      N('Hee-hee! The monkeys cheer so loud the branches shake.'),
     ],
     [
       ask(
@@ -449,6 +453,7 @@ const Q02_SCENES: EduScene[] = [
       N('You and your Nubbin hop on too. Waving from shore is rude.'),
       MK('I will be back. And I will not ever have to stop.'),
       N('The raft goes out over the big water. Everyone waves and waves.'),
+      N('Creak! The little raft creaks as it bobs on the water.'),
     ],
     [
       doIt(
@@ -478,6 +483,7 @@ const Q03_SCENES: EduScene[] = [
       MK('Then no, thank you.'),
       N('The teacher taps Monkey three times on the head. Tap, tap, tap!'),
       N('He walks out with his hands behind his back. Monkey grins.'),
+      N('Tap, tap, bonk! Your Nubbin copies him and bonks its own head.'),
     ],
     [
       doIt(
@@ -596,6 +602,7 @@ const Q03_SCENES: EduScene[] = [
       N('One somersault. The world rolls by like a rug.'),
       N('Then there are peaches again!'),
       N('Your Nubbin tumbles onto the grass. It beams. Again, please!'),
+      N('Whee! Your Nubbin rolls down the grass, round and round.'),
     ],
     [
       notice(
@@ -621,6 +628,7 @@ const Q04_SCENES: EduScene[] = [
       MK('What rank is horse-keeper, exactly?'),
       N('It is the smallest job in Heaven. Monkey throws down his hat.'),
       N('He goes straight home, cross as a cat.'),
+      N('Thump! Monkey throws his hat down hard in the dust.'),
     ],
     [
       ask(
@@ -642,7 +650,7 @@ const Q04_SCENES: EduScene[] = [
   ),
   sc(
     'a02-04-stables-done',
-    [JE('Give him the Peach Garden to look after. It will keep him busy.', 'think')],
+    [JE('Give him the Peach Garden to look after. It will keep him busy.', 'think'), N('Ding! A little bell rings for the new Peach Garden keeper.')],
     [
       notice(
         0,
@@ -663,6 +671,7 @@ const Q04_SCENES: EduScene[] = [
       N('The spirit goes. Monkey climbs the oldest tree.'),
       N('He eats the best peach, then the next best. Then he naps.'),
       N('A ripe peach drops by your Nubbin’s feet. It glows a little.'),
+      N('Plop! A ripe peach drops into the soft grass.'),
     ],
     [
       doIt(
@@ -715,6 +724,7 @@ const Q04_SCENES: EduScene[] = [
       N('Then he eats the whole feast, and the magic pills too.'),
       MK('Oh. That might have been a mistake.', 'shock'),
       MK('Cousin! Home! Now!'),
+      N('Munch, crunch! Monkey eats the feast faster than a mouse.'),
     ],
     [
       ask(
@@ -770,6 +780,7 @@ const Q05_SCENES: EduScene[] = [
       N('Out he jumps! His eyes are two little suns.'),
       MK('Cousin! You waited. I am going to be rude to everyone.', 'happy'),
       N('He runs the length of Heaven. Generals tumble like skittles.'),
+      N('Whoosh! Monkey zooms down the long hall like a runaway kite.'),
     ],
     [
       ask(
@@ -788,7 +799,7 @@ const Q05_SCENES: EduScene[] = [
   ),
   sc(
     'a02-05-furnace-done',
-    [JE('Fetch the Buddha. Ask him, please, to come.', 'sad')],
+    [JE('Fetch the Buddha. Ask him, please, to come.', 'sad'), N('Pop! The furnace lid pops off, and out comes a puff of smoke.')],
     [
       notice(
         0,
@@ -843,6 +854,7 @@ const Q05_SCENES: EduScene[] = [
     [
       N('The Buddha lifts his hand. On one finger is a name, in tiny writing.'),
       MK('That cannot be. I went…', 'shock'),
+      N('Hee-hee! A tiny giggle runs round the Buddha’s hand.'),
     ],
     [
       ask(
@@ -868,6 +880,7 @@ const Q05_SCENES: EduScene[] = [
       MK('For how long?', 'sad'),
       BU('Until he has learned. Then someone will come.'),
       N('Your Nubbin sits by his free hand. Monkey holds its foot.'),
+      N('Thump! The mountain settles down, soft and slow.'),
     ],
     [
       ask(
@@ -896,6 +909,7 @@ const Q05_SCENES: EduScene[] = [
       QM('Keep the stone. Plant it where you will be glad to see it.'),
       N('The page turns, and turns. Many years pass.'),
       N('Moss grows on Monkey’s hand. Your Nubbin keeps its foot there.'),
+      N('Plop! A single peach stone plops into your Nubbin’s paw.'),
     ],
     [
       notice(
@@ -922,6 +936,7 @@ const Q06_SCENES: EduScene[] = [
       MO('You carry nothing. I carry everything. May I ask for help?'),
       N('You take the luggage. Your Nubbin climbs on top of it.'),
       MO('Thank you. You are my second disciple. I keep forgetting the horse.', 'happy'),
+      N('Creak, creak! The old horse plods by, and the saddle creaks.'),
     ],
     [
       ask(
@@ -955,7 +970,7 @@ const Q06_SCENES: EduScene[] = [
   ),
   sc(
     'a02-06-road-done',
-    [N('From the mountain ahead, a voice shouts. Loud!'), N('It shakes the leaves.')],
+    [N('From the mountain ahead, a voice shouts. Loud!'), N('It shakes the leaves.'), N('Thump! The big voice rolls down the hill like thunder.')],
     [
       ask(
         0,
@@ -984,6 +999,7 @@ const Q06_SCENES: EduScene[] = [
       MK('I am your disciple. Please peel the paper off the top.'),
       N('The monk climbs. You hold his staff and push.'),
       N('At the top is a strip of gold paper. He peels it, gently.'),
+      N('Crack! The gold paper crackles as the monk peels it back.'),
     ],
     [
       ask(
@@ -1009,6 +1025,7 @@ const Q06_SCENES: EduScene[] = [
       N('The mountain splits like bread. Monkey bounds out!'),
       N('He bows to the monk four times. Then he hugs your Nubbin.'),
       MK('Right! Where are we going? India? Easy! We will be there by lunch!', 'happy'),
+      N('Whoosh! Monkey leaps out so fast, the dust spins.'),
     ],
     [
       ask(
@@ -1037,6 +1054,7 @@ const Q06_SCENES: EduScene[] = [
       N('Monkey comes back and puts it on. He likes it.'),
       N('The monk says some quiet words. The band gets snug!'),
       N('Monkey hops round the road, holding his head.'),
+      N('Ding! The gold band rings, small and shiny on Monkey’s head.'),
     ],
     [
       doIt(
@@ -1090,6 +1108,7 @@ const Q06_SCENES: EduScene[] = [
       MO('That is all anyone can promise.', 'soft'),
       N('You pick up the luggage. Your Nubbin climbs on.'),
       N('The monk, Monkey, you, your Nubbin, and the horse go west.'),
+      N('Swish! The white horse swishes his tail, and you all go west.'),
     ],
     [
       doIt(
@@ -1141,6 +1160,7 @@ const Q07_SCENES: EduScene[] = [
     [
       MK('Local spirits say a lady put that dragon here.'),
       MK('I know which lady. I will fetch her.'),
+      N('Splash! The dragon dives down into the cold green river.'),
     ],
     [
       ask(
@@ -1169,6 +1189,7 @@ const Q07_SCENES: EduScene[] = [
       MK('You gave him the band!', 'angry'),
       GY('I did. You are clever, Monkey. Clever ones need a friend beside them.', 'soft'),
       N('Your Nubbin gives her a pebble, its very best gift. She smiles.'),
+      N('Drip, drip, drip. Willow leaves drip, soft and cool, by the pond.'),
     ],
     [
       notice(
@@ -1229,6 +1250,7 @@ const Q07_SCENES: EduScene[] = [
       MO('A dragon. I am riding a dragon!', 'happy'),
       MK('Nobody at home will believe that. Get used to it.'),
       N('The white horse carries the monk with great care.'),
+      N('Whoosh! The white dragon-horse shakes his mane and trots.'),
     ],
     [
       ask(
@@ -1262,6 +1284,7 @@ const Q08_SCENES: EduScene[] = [
       MO('Please, no. Never show off to a collector.', 'think'),
       N('Monkey shows it anyway. The whole hall fills with light.'),
       AB('Oh my. May I borrow it, just for tonight?', 'soft'),
+      N('Ding! The abbot rings a small gong, and the room hums.'),
     ],
     [
       doIt(
@@ -1330,6 +1353,7 @@ const Q08_SCENES: EduScene[] = [
       N('On the hill, a big black bear comes down. He says he will help.'),
       N('He does not help. He finds the robe instead!'),
       N('By morning the robe is gone, and so is the bear.'),
+      N('Pfft! A puff of grey smoke drifts up from the empty hall.'),
     ],
     [
       doIt(
@@ -1352,6 +1376,7 @@ const Q08_SCENES: EduScene[] = [
       BR('A gift from my friend! How kind.', 'happy'),
       N('He swallows it. Gurgle. Rumble. Somersaults inside the Bear!'),
       BR('Ow! All right! Take the robe!', 'shock'),
+      N('Gulp! Down goes the pill. Gurgle, gurgle, rumble!'),
     ],
     [
       ask(
@@ -1393,6 +1418,7 @@ const Q08_SCENES: EduScene[] = [
       BR('Yes. All right. Thank you. I think.', 'sad'),
       N('At the monastery, the monks sweep up very quietly.'),
       N('The monk gives them the last of his rice.'),
+      N('Pop! Monkey pops out, and the Bear burps a tiny puff.'),
     ],
     [
       notice(
@@ -1418,6 +1444,7 @@ const Q09_SCENES: EduScene[] = [
       GA('He keeps my daughter in the back house. Can you help?'),
       MK('Big ears, big snout, big appetite? I will sort it. I need a dress.', 'happy'),
       MO('A what?', 'shock'),
+      N('Knock, knock! The village gate creaks open a crack.'),
     ],
     [
       ask(
@@ -1448,6 +1475,7 @@ const Q09_SCENES: EduScene[] = [
       MK('I am not well.', 'sad'),
       N('Monkey sits up and pulls off the nightcap. Surprise!'),
       N('The fellow squeals and zooms out of the window.'),
+      N('Squeak! The little window flaps open, and out zooms Pigsy.'),
     ],
     [
       doIt(
@@ -1463,7 +1491,7 @@ const Q09_SCENES: EduScene[] = [
   ),
   sc(
     'a02-09-backhouse-done',
-    [N('Your Nubbin picks up the dropped flowers. Somebody ought to.')],
+    [N('Your Nubbin picks up the dropped flowers. Somebody ought to.'), N('Plop! A flower plops into your Nubbin’s waiting paws.')],
     [
       notice(
         0,
@@ -1484,6 +1512,7 @@ const Q09_SCENES: EduScene[] = [
       MK('I escort a monk to fetch books. Tang Sanzang.'),
       N('The rake drops. The pig-faced fellow goes pink.'),
       PG('The lady told me to wait for him! I got hungry while I waited.', 'shock'),
+      N('Bonk! Staff meets rake, and the cave rings like a bell.'),
     ],
     [
       doIt(
@@ -1534,6 +1563,7 @@ const Q09_SCENES: EduScene[] = [
       PG('Pigsy for short. Everyone does.'),
       PG('Keep my room for me, will you? Just in case.'),
       N('Pigsy carries the luggage pole for a whole mile.'),
+      N('Thump, thump! The heavy rake thumps on Pigsy’s shoulder.'),
     ],
     [
       notice(
@@ -1581,6 +1611,7 @@ const Q10_SCENES: EduScene[] = [
       SD('Every traveller wants to fight me or run away.', 'sad'),
       SD('I used to work in Heaven. I broke one crystal cup. One!', 'sad'),
       N('Your Nubbin pats his knee. He pats it back.'),
+      N('Splash! You and your Nubbin slip into the cool river.'),
     ],
     [
       ask(
@@ -1605,6 +1636,7 @@ const Q10_SCENES: EduScene[] = [
     [
       N('You come up gasping. Big breath in!'),
       N('Monkey has somersaulted off to the South Sea to fetch help.'),
+      N('Whoosh! You pop up and breathe in a great big breath.'),
     ],
     [
       doIt(
@@ -1627,6 +1659,7 @@ const Q10_SCENES: EduScene[] = [
       SD('I did not know. He looks so ordinary.', 'shock'),
       MO('I am very ordinary. That is rather the point.', 'soft'),
       N('Moksa puts the gourd on the water. It grows into a raft!'),
+      N('Plop! The gourd plops on the water, and then it grows.'),
     ],
     [
       ask(
@@ -1670,6 +1703,7 @@ const Q10_SCENES: EduScene[] = [
       MO('Wukong, Bajie, Wujing, the horse, and you. I have the count right!', 'happy'),
       N('Now there are six of you, and the horse.'),
       N('Sandy takes the back of the pole. You take the front.'),
+      N('Splash! The raft goes plip-plop across the wide river.'),
     ],
     [
       doIt(
@@ -1698,6 +1732,7 @@ const Q11_SCENES: EduScene[] = [
       MO('No thank you. Please take them away.', 'shock'),
       N('So the helpers eat them in the kitchen. Pigsy listens at the wall.'),
       N('He makes a small, hungry sound.'),
+      N('Munch! A tiny munch comes from behind the kitchen wall.'),
     ],
     [
       ask(
@@ -1724,6 +1759,7 @@ const Q11_SCENES: EduScene[] = [
       N('The helpers count their fruit. They come back shouting.'),
       MK('Then nobody gets any!', 'angry'),
       N('Monkey pushes the whole tree over. Its roots come up out of the ground.'),
+      N('Crack! The branches crack, and the tree begins to tip.'),
     ],
     [
       notice(
@@ -1758,6 +1794,7 @@ const Q11_SCENES: EduScene[] = [
     [
       N('The master comes home that night. He sweeps up all of you, gently.'),
       ZY('Mend my tree, and I will let you go.', 'angry'),
+      N('Hee-hee! A little giggle slips out of the gentle master.'),
     ],
     [
       notice(
@@ -1779,6 +1816,7 @@ const Q11_SCENES: EduScene[] = [
       N('You carry cup after cup. Your Nubbin has a very small cup.'),
       N('It pours very slowly, and gets most of it in.'),
       N('Guanyin sprinkles dew, and the tree stands up! Its leaves are green and glossy.'),
+      N('Drip, drip! Your Nubbin’s tiny cup drips all the way.'),
     ],
     [
       ask(
@@ -1815,6 +1853,7 @@ const Q11_SCENES: EduScene[] = [
       MO('It tastes like the first morning of spring.', 'soft'),
       N('Master Zhenyuan and Monkey promise to be brothers.'),
       N('Monkey looks a little shy, which is new.'),
+      N('Munch, munch! The fruit tastes sweet. Everyone munches, quiet and happy.'),
     ],
     [
       ask(
@@ -1847,6 +1886,7 @@ const Q12_SCENES: EduScene[] = [
       N('Poof! She flops like an empty coat. A cold puff floats away.'),
       MO('She was only a girl!', 'shock'),
       MK('Look in the basket. No noodles. Only worms and frogs.'),
+      N('Whoosh! A small cold puff of air blows away.'),
     ],
     [
       ask(
@@ -1868,7 +1908,7 @@ const Q12_SCENES: EduScene[] = [
   ),
   sc(
     'a02-12-girl-done',
-    [N('The monk says the quiet words. Monkey holds his head and says nothing.')],
+    [N('The monk says the quiet words. Monkey holds his head and says nothing.'), N('Ding! A tiny temple bell rings, far down the valley.')],
     [
       ask(
         0,
@@ -1893,6 +1933,7 @@ const Q12_SCENES: EduScene[] = [
       N('Monkey taps. The old woman folds away like paper.'),
       MO('Twice! In one morning!', 'angry'),
       MK('The same trickster. She keeps coming back.', 'angry'),
+      N('Swish! The old woman folds up flat, like a paper fan.'),
     ],
     [
       doIt(
@@ -1916,6 +1957,7 @@ const Q12_SCENES: EduScene[] = [
       PG('He made them look like bones. It is a trick!', 'think'),
       MO('Three people, Wukong. I cannot walk beside that.', 'sad'),
       MO('You carry our things. You have seen it all. What do you think?', 'sad'),
+      N('Crack! The chalky heap cracks open. It is only a trick.'),
     ],
     [
       notice(
@@ -1960,6 +2002,7 @@ const Q12_SCENES: EduScene[] = [
       MO('Go home, Wukong. Please go.', 'sad'),
       N('So Monkey goes home. He is very sad.'),
       N('Your Nubbin sits in the road. It looks at the empty place.'),
+      N('Pop, pop, pop! The three extra Monkeys pop away, one by one.'),
     ],
     [
       doIt(
@@ -1983,6 +2026,7 @@ const Q12_SCENES: EduScene[] = [
       PG('The trickster says you are just a jumped-up monkey.', 'think'),
       MK('He said that? Right.', 'angry'),
       N('Pigsy winks at you. It is the cleverest thing he has done.'),
+      N('Pfft! Pigsy blows a raspberry at the yellow trickster.'),
     ],
     [
       notice(
@@ -2001,6 +2045,7 @@ const Q12_SCENES: EduScene[] = [
       N('Monkey sends the trickster flying. The monk is a monk again, shaky.'),
       MO('I was wrong to send you away, Wukong. I am sorry.', 'sad'),
       MK('I am scared of how strong I am, too, sometimes.', 'soft'),
+      N('Whoosh! The trickster sails away over the trees, spinning.'),
     ],
     [
       ask(
@@ -2029,6 +2074,7 @@ const Q12_SCENES: EduScene[] = [
       N('Sandy picks up the back of the pole. You pick up the front.'),
       MK('Cousin’s keeper. I have not forgotten what you said.', 'think'),
       N('Your Nubbin rides on his shoulder the rest of the day.'),
+      N('Hee-hee! Your Nubbin giggles on Monkey’s shoulder, high above the path.'),
     ],
     [
       doIt(
@@ -2083,6 +2129,7 @@ const Q13_SCENES: EduScene[] = [
       SH('Answer me! It is rude not to answer!', 'angry'),
       N('He shakes the gourd. Then he looks at you.'),
       SH('You, carrying the luggage. Answer me!'),
+      N('Whoosh! The gourd sucks at the air like a big bath plug.'),
     ],
     [
       doIt(
@@ -2137,7 +2184,7 @@ const Q13_SCENES: EduScene[] = [
   ),
   sc(
     'a02-13-swap-done',
-    [N('Gold Horn goes the same way. Sandy unties the monk, and Pigsy, who grumbles.')],
+    [N('Gold Horn goes the same way. Sandy unties the monk, and Pigsy, who grumbles.'), N('Plop! The silly gourd plops into the long grass.')],
     [
       ask(
         0,
@@ -2161,6 +2208,7 @@ const Q13_SCENES: EduScene[] = [
       MK('You might have watched them better.', 'think'),
       LL('So might the Jade Emperor, on you. Yet here we all are.', 'soft'),
       N('He leads both brothers home, by the hand.'),
+      N('Thump, thump! The two brothers trot home behind the old man.'),
     ],
     [
       ask(
@@ -2190,6 +2238,7 @@ const Q14_SCENES: EduScene[] = [
       MO('Wukong, untie him at once and carry him.'),
       MK('Master, a child does not tie himself to a pine tree.', 'think'),
       MO('Wukong. A child is crying. Untie him.', 'angry'),
+      N('Creak! The tall pine creaks and sways in the wind.'),
     ],
     [
       notice(
@@ -2249,6 +2298,7 @@ const Q14_SCENES: EduScene[] = [
       SD('Water, not too cold, not too fast.', 'shock'),
       N('You run with a bucket, three times. Pigsy rubs Monkey’s back and hands.'),
       N('Your Nubbin lies on Monkey’s chest, to warm him.'),
+      N('Splash! Bucket after bucket splashes over smoky Monkey.'),
     ],
     [
       doIt(
@@ -2267,6 +2317,7 @@ const Q14_SCENES: EduScene[] = [
     [
       MK('Ugh. I am all right. Get off, Cousin. No, stay there a minute.', 'soft'),
       MK('There is only one person for this.'),
+      N('Cough, hee! Monkey laughs, and then he sneezes. Achoo!'),
     ],
     [
       notice(
@@ -2292,6 +2343,7 @@ const Q14_SCENES: EduScene[] = [
       RB('Let me go! I want my mother!', 'sad'),
       GY('You shall see her. First, will you learn a little?', 'soft'),
       N('Red Boy looks at her for a long time. Then he bows.'),
+      N('Pop! A pink lotus pops open under the little boy’s feet.'),
     ],
     [
       notice(
@@ -2328,6 +2380,7 @@ const Q14_SCENES: EduScene[] = [
       MO('He was only a boy, really.', 'sad'),
       MK('He was a boy who set fire to me. But yes.', 'think'),
       N('Your Nubbin finds a red ribbon. It keeps it for Red Boy’s mum.'),
+      N('Ding! A little bell hangs on the red ribbon.'),
     ],
     [
       doIt(
@@ -2356,6 +2409,7 @@ const Q15_SCENES: EduScene[] = [
       N('This Monkey’s face changes. He bumps the monk down.'),
       N('He grabs the luggage you carry. Your Nubbin hisses.'),
       N('It has never hissed at Monkey before.'),
+      N('Whoosh! Monkey zooms off on a cloud with the luggage.'),
     ],
     [
       ask(
@@ -2377,6 +2431,7 @@ const Q15_SCENES: EduScene[] = [
     [
       N('He tears off the pack and whooshes away on a cloud.'),
       N('The monk sits up, dizzy but not hurt.'),
+      N('Thump! The monk sits down hard on the soft grass.'),
     ],
     [
       notice(
@@ -2400,6 +2455,7 @@ const Q15_SCENES: EduScene[] = [
       GY('I cannot tell them apart.', 'think'),
       N('Even the Jade Emperor’s mirror shows two, exactly the same.'),
       N('Your Nubbin looks from one to the other. It cries, and that is okay.'),
+      N('Zoom! Two Monkeys whizz by. Which is which?'),
     ],
     [
       doIt(
@@ -2421,6 +2477,7 @@ const Q15_SCENES: EduScene[] = [
       MO('Which one is my disciple?', 'sad'),
       N('Two staffs. Two gold bands. Both faces look at you.'),
       N('Your Nubbin holds both tails, one in each paw.'),
+      N('Bonk! Two staffs bonk together and make a ringing sound.'),
     ],
     [
       ask(
@@ -2480,6 +2537,7 @@ const Q15_SCENES: EduScene[] = [
       N('Under it is a small monkey with six ears, shaking.'),
       N('Monkey lifts his staff. Then he lowers it.'),
       MK('Go. Be yourself somewhere. It is harder, but it is yours.', 'soft'),
+      N('Pop! The pretend Monkey shrinks down, small and shy.'),
     ],
     [
       doIt(
@@ -2510,6 +2568,7 @@ const Q15_SCENES: EduScene[] = [
       MK('Only if you say it twice.', 'soft'),
       MO('Please.', 'soft'),
       N('Your Nubbin lets go of its tail. It was the right one all along.'),
+      N('Whee! The little monkey leaps off, light as a feather.'),
     ],
     [
       ask(
@@ -2594,6 +2653,7 @@ const Q16_SCENES: EduScene[] = [
     [
       N('Monkey comes back. He turns into a tiny fly.'),
       N('He hops into her tea. After a fuss, she hands over a fan.'),
+      N('Buzz! A tiny fly buzzes round the cup. Nobody sees!'),
     ],
     [
       doIt(
@@ -2616,6 +2676,7 @@ const Q16_SCENES: EduScene[] = [
       PG('Run!', 'shock'),
       N('Everybody runs, and Pigsy runs fastest. Nobody has seen that before.'),
       MO('Wukong, your tail!', 'shock'),
+      N('Whoosh! The false fan makes the flames leap higher.'),
     ],
     [
       ask(
@@ -2662,6 +2723,7 @@ const Q16_SCENES: EduScene[] = [
       IF('My boy would have wanted the fire. I think I want the rain.'),
       N('The fan is huge. You and Sandy hold it, and Monkey swings it.'),
       N('Your Nubbin sits on your head and counts on its paws.'),
+      N('Swish, swish! The huge fan swishes. Your Nubbin counts along.'),
     ],
     [
       doIt(
@@ -2680,6 +2742,7 @@ const Q16_SCENES: EduScene[] = [
     [
       N('Forty-nine waves, and the flames go out.'),
       N('The first rain in a thousand years falls. Steam rises everywhere.'),
+      N('Pitter, patter! The first raindrops go pitter-patter on the hot rocks.'),
     ],
     [
       notice(
@@ -2700,6 +2763,7 @@ const Q16_SCENES: EduScene[] = [
       N('Monkey gives the fan back to the princess. Everyone is surprised.'),
       IF('Tell my son I kept his ribbon.', 'soft'),
       MO('We shall tell him.'),
+      N('Splash! You splash through puddles on the Flaming Mountains.'),
     ],
     [
       ask(
@@ -2734,6 +2798,7 @@ const Q17_SCENES: EduScene[] = [
       N('Seven women spin in the garden. They have too many shiny eyes.'),
       SS('A monk? How lovely. Do stay.', 'soft'),
       N('Your Nubbin tugs your sleeve. Fine threads lie across the path.'),
+      N('Creak! The cottage gate creaks. Hmm, it smells of silk.'),
     ],
     [
       doIt(
@@ -2749,7 +2814,7 @@ const Q17_SCENES: EduScene[] = [
   ),
   sc(
     'a02-17-cottage-done',
-    [N('Threads are everywhere. The monk is wrapped like a parcel.')],
+    [N('Threads are everywhere. The monk is wrapped like a parcel.'), N('Thump! The monk wobbles in his silk parcel and sits down.')],
     [
       notice(
         0,
@@ -2770,6 +2835,7 @@ const Q17_SCENES: EduScene[] = [
       N('Round three rocks, under a root, to a peg at the back.'),
       SD('Everything that holds on has to hold on to something.', 'think'),
       MK('Cousin. If I were more patient, I would have found that.', 'soft'),
+      N('Pop! Each thread pops softly when Monkey plucks it.'),
     ],
     [
       doIt(
@@ -2809,6 +2875,7 @@ const Q17_SCENES: EduScene[] = [
       N('The seven spinners are seven spiders, scuttling for the cracks.'),
       MO('Leave them. Let them spin somewhere else.'),
       N('Pigsy lowers his rake. Your Nubbin waves at the last spider.'),
+      N('Squeak! The little spiders squeak and scuttle off to the cracks.'),
     ],
     [
       ask(
@@ -2842,6 +2909,7 @@ const Q17_SCENES: EduScene[] = [
       MO('Perhaps it is all right to be carried, now and then.', 'soft'),
       PG('I have always said so. Nobody listens.'),
       N('Your Nubbin has a thread of silk round one ear, like a ribbon.'),
+      N('Munch! The monk munches his supper and smiles at Monkey.'),
     ],
     [
       notice(
@@ -2867,6 +2935,7 @@ const Q18_SCENES: EduScene[] = [
       MK('That mountain there. You can stop worrying now.', 'soft'),
       N('The monk sits down in the road. He cries, and laughs, at once.'),
       N('Your Nubbin climbs into his lap. Pigsy sits too.'),
+      N('Thump, thump! The horse’s hooves go slow, then quick.'),
     ],
     [
       notice(
@@ -2889,6 +2958,7 @@ const Q18_SCENES: EduScene[] = [
       MO('I cannot. It has no bottom.', 'shock'),
       MK('You have walked fourteen years on trust. Try one more step.'),
       N('The monk steps in. The boat holds him up, firm as stone.'),
+      N('Creak! The boat creaks, and then it settles, firm and still.'),
     ],
     [
       ask(
@@ -2927,7 +2997,7 @@ const Q18_SCENES: EduScene[] = [
   ),
   sc(
     'a02-18-boat-done',
-    [N('On the far side, everyone feels light, like putting down a heavy pack.')],
+    [N('On the far side, everyone feels light, like putting down a heavy pack.'), N('Whee! Everyone lifts their arms. The pack is gone!')],
     [
       doIt(
         0,
@@ -2950,6 +3020,7 @@ const Q18_SCENES: EduScene[] = [
       MO('Blank? After all this?', 'sad'),
       BU('The blank ones are truest. But people in the East need words.', 'soft'),
       N('New scrolls are full of writing. The monk gives his golden bowl as thanks.'),
+      N('Ding! A soft gong sounds across the golden hall.'),
     ],
     [
       notice(
@@ -2982,6 +3053,7 @@ const Q18_SCENES: EduScene[] = [
       MK('Told you. India by lunch.', 'happy'),
       PG('It was fourteen years.', 'think'),
       MK('A very long lunch.'),
+      N('Thump! A bundle of scrolls thumps down on the pile.'),
     ],
     [
       doIt(
@@ -3012,6 +3084,7 @@ const Q19_SCENES: EduScene[] = [
       MO('Oh no. I forgot. I am so sorry.', 'sad'),
       N('The turtle sinks slowly into the river. He is sad.'),
       N('Everyone goes into the water. Your Nubbin is delighted.'),
+      N('Splash! The big old turtle slides under the water.'),
     ],
     [
       ask(
@@ -3033,6 +3106,7 @@ const Q19_SCENES: EduScene[] = [
     [
       N('Your Nubbin swims round the turtle, then sits on his shell.'),
       TT('No harm done. I only wanted to be remembered.', 'soft'),
+      N('Plop! Your Nubbin plops onto his shell, and he hums.'),
     ],
     [
       notice(
@@ -3056,6 +3130,7 @@ const Q19_SCENES: EduScene[] = [
       MO('No! We came all this way. Now they are not whole.', 'sad'),
       MK('Nothing is whole, master. These are just honest about it.', 'soft'),
       MK('Maybe there is room for whoever reads them next.'),
+      N('Crunch! The wet scrolls crunch softly as they dry.'),
     ],
     [
       notice(
@@ -3084,7 +3159,7 @@ const Q19_SCENES: EduScene[] = [
   ),
   sc(
     'a02-19-rock-done',
-    [MO('Not quite complete. Yes. All right. That will do.', 'soft')],
+    [MO('Not quite complete. Yes. All right. That will do.', 'soft'), N('Hee-hee! The scrolls rustle in the sun, almost laughing.')],
     [
       doIt(
         0,
@@ -3108,6 +3183,7 @@ const Q19_SCENES: EduScene[] = [
       MK('A buddha in a headband looks silly. Take it off, master.', 'happy'),
       MO('Touch your head, Wukong.', 'soft'),
       N('Monkey touches his head. The band is gone!'),
+      N('Ding, dong! Bells ring all over the city of Chang’an.'),
     ],
     [
       ask(
@@ -3143,6 +3219,7 @@ const Q19_SCENES: EduScene[] = [
       MK('This one never tightens. It comes off when you want.', 'happy'),
       MK('And here, a little cloud, for when your Grove feels too big.'),
       N('Your Nubbin rolls twice and lands in your arms. Then you are home.'),
+      N('Whee! Your Nubbin rolls up, tumbles, and lands in your arms.'),
     ],
     [
       ask(
@@ -3172,6 +3249,7 @@ const A02_VARIANTS: EduScene[] = [
       FM('On the ridge you took his side, not mine.', 'sad'),
       MK('Tell them, Cousin’s keeper. Which one of us is me?'),
       N('Your Nubbin holds both tails, one in each paw.'),
+      N('Bonk! Two staffs bonk together and make a ringing sound.'),
     ],
     [
       ask(
@@ -3232,6 +3310,7 @@ const A02_VARIANTS: EduScene[] = [
       N('Monkey blows on a hair. It becomes a thin gold band, Nubbin-sized.'),
       MK('This one never tightens. It comes off when you want.', 'happy'),
       N('He gives your Nubbin a little cloud. It rolls twice, then you are home.'),
+      N('Whee! Your Nubbin rolls up, tumbles, and lands in your arms.'),
     ],
     [
       ask(
