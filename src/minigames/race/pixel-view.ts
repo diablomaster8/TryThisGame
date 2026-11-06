@@ -12,7 +12,14 @@ import type { SheetCache } from '../../render/sprites/sheets';
 import { sectionAt, type RaceState, type Racer } from '../../sim/race';
 import type { Nubbin } from '../../sim/types';
 import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
-import { cheerVoice, lineClock, liesFlat, racerPersonality, startLook } from '../../sim/race-persona';
+import {
+  cheerVoice,
+  lineClock,
+  liesFlat,
+  racerPersonality,
+  startLook,
+} from '../../sim/race-persona';
+import { startRect } from '../../render/start-pose';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from '../expedition/art';
 import {
@@ -291,15 +298,21 @@ export class RacePixelView implements RaceView {
                 ? 'flap'
                 : 'walk';
       const f = frameAt(CLIPS[clip], still ? 0 : nowMs + lane * 90);
-      const rect = sheet.frames.get(frameKey(clip, 'side', f));
-      if (!rect) continue;
+      const walkRect = sheet.frames.get(frameKey(clip, 'side', f));
+      if (!walkRect) continue;
       const image = sheet.texture.image as HTMLCanvasElement;
       // R0583: the personality shows at the start line and in the rest pause (looks only).
       const persona = racerPersonality(r);
       const startPose = done ? null : startLook(persona, lineClock(race), still);
+      // The sheet's own wave, peek, tongue-out or yawn frame when it has one; the offset and
+      // emote below stay as the fallback for sheets without them.
+      const realPose =
+        startPose && !resting ? startRect(sheet, startPose.kind, lineClock(race), still) : null;
+      const rect = realPose ?? walkRect;
       const flat = resting && liesFlat(persona);
       const sx =
-        Math.round(pos * PX_PER_UNIT - camX - rect.w / (2 * PX)) + Math.round(startPose?.dx ?? 0);
+        Math.round(pos * PX_PER_UNIT - camX - rect.w / (2 * PX)) +
+        Math.round(realPose ? 0 : (startPose?.dx ?? 0));
       // A clean hop clears the fence; a racer that stumbled stays low and goes dizzy.
       const hop = done || r.stumbleMs > 0 ? 0 : hopLift(race, pos);
       const lift = done
@@ -313,7 +326,7 @@ export class RacePixelView implements RaceView {
       const drawH = flat ? Math.round(fullH * 0.55) : fullH;
       const sy =
         Math.round(laneY[lane]! - fullH + 4 - lift + (fullH - drawH)) +
-        Math.round(startPose?.dy ?? 0);
+        Math.round(realPose ? 0 : (startPose?.dy ?? 0));
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, drawH);
       if (RACE_LOOK.story && !r.isPlayer)
         drawBib(ctx, Math.round(sx + rect.w / (2 * PX) - 4), Math.round(sy + drawH - 14), lane + 1);
@@ -334,7 +347,7 @@ export class RacePixelView implements RaceView {
           color(C.sunYellow),
           color(C.darkPlum),
         );
-      if (startPose)
+      if (startPose && !realPose)
         drawShadowText(
           ctx,
           startPose.glyph,
