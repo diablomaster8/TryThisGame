@@ -90,6 +90,7 @@ import { HopCourseChip } from './hop-course';
 import { KarateMenu } from './karate';
 import { mountLandmarkCard } from './landmark-card';
 import { speakLine } from './lesson';
+import { EduNoticing } from './edu-noticing'; /* R0723 */
 import { arrivalBeat, pitchLines } from './line-pitch';
 import { mossReaction } from './moss-watch';
 import { noteHowTo } from './objective';
@@ -137,6 +138,7 @@ export interface EventCtx {
   karate: KarateMenu;
   landmarkCard: ReturnType<typeof mountLandmarkCard>;
   locationLabel: (loc: string) => string;
+  noticing: EduNoticing;
   offerCard: OfferCard;
   races: RacesMenu;
   regionChip: RegionChip;
@@ -170,6 +172,7 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
     karate,
     landmarkCard,
     locationLabel,
+    noticing,
     offerCard,
     races,
     regionChip,
@@ -256,6 +259,13 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
     if (ride) {
       toast(ride);
       continue;
+    }
+    // R0723: a sprout's Grove noticing, spoken and rate-limited.
+    const noticed = noticing.onEvent(e, g.world, performance.now());
+    if (noticed) {
+      speakLine(noticed.text);
+      toast(noticed.text);
+      g.send({ kind: 'eduNotice', item: noticed.item });
     }
     // R0467: a badge earned with the hatch rides on the hatch card as a chip.
     if (e.kind === 'achievement' && hatchCard.foldBadge(badgeLine(e.id, e.shells))) continue;
@@ -695,6 +705,15 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
       hs.heldFestival = UI_TEXT.festival[e.season];
     } else if (e.kind === 'coop') {
       toast(e.active ? UI_TEXT.coopOn : UI_TEXT.coopOff);
+    } else if (e.kind === 'coopGag') {
+      const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+      toast(
+        e.gag === 'spin'
+          ? UI_TEXT.coopSpin(n?.name ?? NAMES.creature)
+          : e.gag === 'avalanche'
+            ? UI_TEXT.coopAvalanche
+            : UI_TEXT.coopBow,
+      );
     } else if (e.kind === 'dyed') {
       const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
       toast(UI_TEXT.dyed(n?.name ?? NAMES.creature, e.slot));

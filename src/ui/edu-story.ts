@@ -5,6 +5,11 @@
  * the `parentNote` lines. Everything reads `world.edu` and the loaded edu chunk and sends
  * commands; nothing here changes the world.
  */
+import { KIDS_STORY_TEXT } from '../config/strings-story-r11e';
+import { coPlayMode } from './co-play';
+import { listenOptIn, setListenOptIn } from '../platform/listen';
+import { EDU_OFFLINE_TEXT, LISTEN_TEXT } from '../config/strings-listen';
+import { eduOfflineReady } from './offline-packs';
 import { standardsList } from './edu-report'; /* Lane E r10 */
 import { EDU_STORY_TEXT } from '../config/strings';
 import { READ_TEXT } from '../config/strings-fun-r7';
@@ -14,6 +19,9 @@ import type { Game } from '../game';
 import { eduContent } from '../sim/story-scenes';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
+import { speakLine } from './lesson';
+import { chooseVoice, englishVoices, savedVoiceName } from '../platform/voice';
+import { KIDS_VOICE_TEXT } from '../config/strings-kid-games';
 
 /** The picker's story button: starts Hazel's Grove the first time, then plays the next scene or says what is next. */
 export function storyPickButton(
@@ -107,6 +115,21 @@ export function storySettings(body: HTMLElement, g: Game): void {
   );
   rowAuto.append(cbAuto, textAuto);
   body.appendChild(rowAuto);
+  /* Lane E r11, R0697: playing alone turns bracketed prompts into spoken "your turn" lines. */
+  const rowAlone = el('label', 'check-row');
+  const cbAlone = el('input');
+  cbAlone.type = 'checkbox';
+  cbAlone.checked = coPlayMode(e) === 'alone';
+  cbAlone.addEventListener('change', () =>
+    g.send({ kind: 'eduSetCoPlay', mode: cbAlone.checked ? 'alone' : 'together' }),
+  );
+  const textAlone = el('span');
+  textAlone.append(
+    el('strong', undefined, KIDS_STORY_TEXT.coPlayLabel),
+    el('small', undefined, KIDS_STORY_TEXT.coPlayHelp),
+  );
+  rowAlone.append(cbAlone, textAlone);
+  body.appendChild(rowAlone);
   // R0343: Grove Readers keep reading for themselves unless the grown-up opts in.
   const row2 = el('label', 'check-row');
   const cb2 = el('input');
@@ -120,6 +143,65 @@ export function storySettings(body: HTMLElement, g: Game): void {
   );
   row2.append(cb2, text2);
   body.appendChild(row2);
+  listenRow(body);
+  offlineRow(body);
+  voiceChooser(body);
+}
+
+/** R0721: "Ready for offline ✓" once the Learning Grove files are held by this device. */
+function offlineRow(body: HTMLElement): void {
+  const p = el('p', 'help edu-offline-state');
+  p.hidden = true;
+  body.appendChild(p);
+  void eduOfflineReady().then((ok) => {
+    if (ok === null) return;
+    p.textContent = ok ? EDU_OFFLINE_TEXT.ready : EDU_OFFLINE_TEXT.notReady;
+    p.hidden = false;
+  });
+}
+
+/** R0744: the grown-up's opt-in for the "I heard you!" listener (off by default). */
+function listenRow(body: HTMLElement): void {
+  const row = el('label', 'check-row');
+  const cb = el('input');
+  cb.type = 'checkbox';
+  cb.checked = listenOptIn();
+  cb.addEventListener('change', () => setListenOptIn(cb.checked));
+  const text = el('span');
+  text.append(el('strong', undefined, LISTEN_TEXT.label), el('small', undefined, LISTEN_TEXT.help));
+  row.append(cb, text);
+  body.appendChild(row);
+}
+
+/** R0698: the read-aloud voice chooser with a sample, for the voices this device has. */
+function voiceChooser(body: HTMLElement): void {
+  let voices: SpeechSynthesisVoice[];
+  try {
+    voices = englishVoices(window.speechSynthesis?.getVoices?.() ?? []);
+  } catch {
+    voices = [];
+  }
+  if (voices.length === 0) return;
+  const row = el('label', 'field-row');
+  const sel = el('select');
+  const auto = el('option', undefined, KIDS_VOICE_TEXT.auto);
+  auto.value = '';
+  sel.appendChild(auto);
+  for (const v of voices) {
+    const o = el('option', undefined, `${v.name} (${v.lang})`);
+    o.value = v.name;
+    sel.appendChild(o);
+  }
+  sel.value = savedVoiceName() ?? '';
+  sel.addEventListener('change', () => {
+    chooseVoice(sel.value || null);
+    speakLine(KIDS_VOICE_TEXT.sample);
+  });
+  row.append(el('span', undefined, KIDS_VOICE_TEXT.label), sel);
+  body.append(
+    row,
+    button(`🔊 ${KIDS_VOICE_TEXT.hear}`, () => speakLine(KIDS_VOICE_TEXT.sample), 'btn btn-small'),
+  );
 }
 
 /** How many story lessons, by area and by standard, and the latest parent notes. */

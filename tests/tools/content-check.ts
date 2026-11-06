@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { stepPlayable } from '../../src/sim/goal-skips';
 import { TRACE_TARGETS } from '../../src/sim/lang';
 import { doUnmapped } from '../../src/ui/do-plan'; /* Lane E r10, R0700 */
+import { resolveChoiceIcons } from '../../src/config/choice-icons'; /* R0677 */
 import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
 import { personalityCardProblems } from '../../src/content/edu-personality-cards';
@@ -33,6 +34,7 @@ import {
 import { openWorldChecks } from './open-world-check'; /* Lane C r11, R0645 */
 import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
 import { STANDARD_LABELS } from '../../src/config/strings-access-r10';
+import { aloneWarning } from '../../src/ui/co-play';
 import { EDU_ROUND_STANDARDS } from '../../src/config/edu-standards-r10';
 
 const problems: string[] = [];
@@ -521,6 +523,7 @@ const aheadCheck = (
         );
     }
 };
+const aloneWarn: string[] = [];
 const eduTexts: { band: string; id: string; text: string }[] = [];
 const edu: Record<
   string,
@@ -598,6 +601,11 @@ for (const band of C.EDU_BANDS) {
     }
     for (const l of texts) {
       eduTexts.push({ band, id: e.id, text: l.text });
+      // R0697 (KIDS-29): a bracketed prompt a child playing alone would hear badly (warning).
+      if (band === 'sprout') {
+        const why = aloneWarning(l.text, (l as { childSay?: readonly string[] }).childSay);
+        if (why) aloneWarn.push(`alone? ${e.id}: ${why}`);
+      }
       st.lines++;
       st.words += l.text.split(/\s+/).length;
       if (!mapped(e.of, l.who)) problems.push(`edu ${e.id}: unmapped speaker ${l.who}`);
@@ -796,6 +804,7 @@ let results = 0;
 for (const r of C.RESULT_SETS) results += r.lines.length;
 warnings.push(...mathsWarn);
 warnings.push(...aheadWarn);
+warnings.push(...aloneWarn);
 // 8. Choices are real (SR-20261027-1304): a fun-quest choice flag that no sim rule, UI or
 // `requires` reads, and that its quest's notes don't call flavour, is a choice that changes
 // nothing. One summary line plus up to 20 examples.
@@ -978,18 +987,29 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
     });
   }
 }
-// R0677 (KIDS-09): sprout choices and ask options without an `icon` show a number instead.
-// Counted, not listed: the aim is 0, and a writer adds icons file by file.
+// R0677 (KIDS-09): sprout choices and ask options without an authored `icon` get one from
+// their words (`src/config/choice-icons.ts`), else their number. Counted, not listed, and a
+// warning, never a problem: the aim is 0 authored gaps, and a writer adds icons file by file.
 let sproutNoIcon = 0;
+let sproutNumberIcon = 0;
+const countIcons = (set: readonly { label: string; icon?: string | undefined }[]): void => {
+  for (const r of resolveChoiceIcons(set)) {
+    if (r.fromWords !== null) sproutNoIcon++;
+    if (r.fromWords === false) sproutNumberIcon++;
+  }
+};
 for (const e of [
   ...C.EDU_CAMPAIGN.sprout.flatMap((c) => c.scenes),
   ...C.EDU_QUESTS.sprout.flatMap((q) => q.scenes),
   ...C.EDU_VARIANTS.sprout,
 ]) {
-  for (const c of e.choices ?? []) if (!c.icon) sproutNoIcon++;
-  for (const l of e.lessons)
-    for (const o of l.kind === 'ask' ? (l.options ?? []) : []) if (!o.icon) sproutNoIcon++;
+  countIcons(e.choices ?? []);
+  for (const l of e.lessons) if (l.kind === 'ask') countIcons(l.options ?? []);
 }
+if (sproutNoIcon > 0)
+  warnings.push(
+    `sprout-icons: ${sproutNoIcon} sprout choices lack an authored icon (${sproutNumberIcon} show only a number)`,
+  );
 // R0348 (FUN-59): the reader band keeps the canon keep-jokes (the table in docs/canon.md),
 // matched by keywords in the reader version of each joke's scene.
 {
@@ -1069,6 +1089,7 @@ console.log(
   JSON.stringify(
     {
       sproutNoIcon,
+      sproutNumberIcon,
       quests,
       scenes,
       lines,

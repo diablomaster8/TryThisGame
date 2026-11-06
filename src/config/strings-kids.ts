@@ -178,6 +178,11 @@ export const EDU_PLACES_TEXT = {
     kindergarten: 'Kindergarten',
     map: 'Map',
     beetle: 'Beetle Run',
+    funRun: 'Fun Run',
+    shellDash: 'Shell Dash',
+    glowCave: 'Glow Cave',
+    atlas: "Nova's Atlas",
+    arcade: "Pixel's Arcade",
   },
   grownUps: 'Grown-ups',
   /** The grown-up area's toggles. */

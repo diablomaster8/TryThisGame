@@ -1173,6 +1173,16 @@ export function playHollowCue(cue: HollowCue): void {
 // ---------------------------------------------------------------- R0139 (lane D r9): biome beds
 
 /**
+ * R0675: where a spoken-style cue (platform/edu-audio.ts) plugs in: the running context, the
+ * effects bus (so mute and the SFX volume govern it) and the shared noise buffer. Null until
+ * the first tap unlocks sound.
+ */
+export function sfxOut(): { ctx: AudioContext; bus: GainNode; noise: AudioBuffer } | null {
+  if (!unlocked || !ctx || !sfxBus) return null;
+  return { ctx, bus: sfxBus, noise: noise(ctx) };
+}
+
+/**
  * Where a biome sound bed (platform/biome-beds.ts) plugs in: the running context, the
  * ambience bus (so the Ambience setting, the SFX volume and mute all govern it) and the shared
  * noise buffer. Null until the first tap unlocks sound, so nothing is built or heard before.

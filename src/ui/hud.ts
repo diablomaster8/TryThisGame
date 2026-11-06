@@ -45,6 +45,10 @@ import { Guide } from './guide';
 import { titleCardUp } from './title-card';
 import { kidToaster } from './kid-notice';
 import { BreakWarning } from './break-warning';
+import { speakLine } from './lesson';
+import { EduNoticing } from './edu-noticing'; /* R0723 */
+import { GlowCave } from './glow-cave';
+import { DueWave } from './lang-due'; /* R0701 */
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -408,6 +412,18 @@ export function mountHud(
     return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
   }
 
+  /** R0687 / R0690: the Learning Grove's places that open existing screens. */
+  const openEduAtlas = (): void => atlas.open();
+  const openEduArcade = (): void => cabinet.open();
+  const openGlowCave = (): void => dungeon.open();
+
+  function startFunRun(): void {
+    const g = game();
+    if (!g || races.screen.isOpen) return;
+    sheet.close();
+    races.funRun();
+  }
+
   function startExpedition(): void {
     const g = game();
     if (!g || expedition.isOpen) return;
@@ -431,6 +447,16 @@ export function mountHud(
       g.world.location === 'hollow' || g.world.campaign?.chapter === 8 ? 'hollow' : 'meadow',
       g.graphics,
       g.scene3d,
+      // R0689: a sprout's run is Shell Dash (30 s, gentle bumps, counted aloud); readers keep
+      // the normal Expedition.
+      g.world.edu?.band === 'sprout'
+        ? {
+            kid: true,
+            speak: (t) => {
+              if (game()?.world.edu?.readAloud) speakLine(t);
+            },
+          }
+        : {},
     );
   }
 
@@ -481,7 +507,9 @@ export function mountHud(
   const kidNotices = kidToaster(bandToaster(fastSafe, game), game, () => kidBusy());
   const toast = kidNotices.toast;
   // Lane E r10 (R0694): the heads-up before a Learning Grove loss chapter.
+  const noticing = new EduNoticing();
   const lossNotice = new LossNotice(root, game, toast);
+  const dueWave = new DueWave(toast); /* R0701 */
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
   commandTaps.add((c) => curiosities.onCommand(c)); /* Lane E r9 */
@@ -627,6 +655,8 @@ export function mountHud(
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // R0690: the Glow Cave's floor puzzle for a sprout.
+  const glowCave = new GlowCave(root, game);
   // Lane B r8: the boss scroll (R0207) waits for the boss celebration to close.
   dungeon.scrollBusy = () => celebration.isOpen;
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
@@ -687,7 +717,7 @@ export function mountHud(
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
   const moreList = el('div', 'title-menu');
   for (const [label, open] of [
-    [`🏫 ${UI_TEXT.kindergarten}`, () => kindergarten.open()],
+    [`🏫 ${UI_TEXT.kindergarten}`, () => (game()?.world.edu ? edu : kindergarten).open()],
     [`🥋 ${UI_TEXT.karate}`, () => karate.open()],
     [`📔 ${UI_TEXT.collection}`, () => book.open()],
     [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
@@ -806,6 +836,11 @@ export function mountHud(
       kindergarten: () => kindergarten.open(),
       map: () => map.open(),
       beetle: () => startTank(),
+      shellDash: () => startExpedition(),
+      funRun: () => startFunRun(),
+      glowCave: () => openGlowCave(),
+      atlas: () => openEduAtlas(),
+      arcade: () => openEduArcade(),
     },
     () => grownUps.open(),
   );
@@ -1217,6 +1252,7 @@ export function mountHud(
       const isEdu = !!g.world.edu;
       racesBtn.hidden = isEdu;
       dungeon.refresh(g.world);
+      glowCave.refresh();
       expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
       expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
       setActionGlyph(expeditionBtn, isEdu ? '🎓' : '🧭');
@@ -1296,6 +1332,7 @@ export function mountHud(
         applyHudScheme(g.world);
         kidNotices.flush();
         lossNotice.update(g, busy);
+        dueWave.update(g, busy || eduPrompt.isOpen); /* R0701 */
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
         offerCard.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
@@ -1441,6 +1478,7 @@ export function mountHud(
     karate,
     landmarkCard,
     locationLabel,
+    noticing,
     offerCard,
     races,
     regionChip,
@@ -1482,7 +1520,8 @@ export function mountHud(
       }
       if (id?.startsWith('building:') && g) {
         const which = id.slice('building:'.length);
-        if (which === 'school') kindergarten.open();
+        // R0742: in the Learning Grove the hut is the door to Play & learn.
+        if (which === 'school') (g.world.edu ? edu : kindergarten).open();
         else if (which === 'dojo') karate.open();
         // R0527 (lane A r10): a Nubbin hiding inside is coaxed out by a tap on the door.
         else if (which === 'cottage' && g.world.nubbins.some((n) => n.cottageHide))

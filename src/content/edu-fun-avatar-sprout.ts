@@ -574,6 +574,7 @@ const Q48: EduQuest = {
         T('Their guide went home. Who will lead them down?'),
         P('Me! It’s just walking downhill!', 'happy'),
         K('Both groups want to go first. Hmm.', 'think'),
+        N('Whoosh! A cold wind blows up from the canyon.'),
       ],
       [
         ask(
@@ -677,6 +678,7 @@ const Q48: EduQuest = {
         BR('Pass the dumplings, cousin.', 'soft'),
         K('(whispering) Pemba, that story isn’t true.'),
         P('(whispering) But look. They’re sharing a blanket.'),
+        N('Munch, munch! The dumplings go fast.'),
       ],
       [
         ask(
@@ -1479,6 +1481,7 @@ const Q52: EduQuest = {
         N('Puffin rests his big head on your shoulder.'),
         P('He likes you now. He’ll come when you call!', 'happy'),
         N('A tuft of white fur lands on your Nubbin’s head.'),
+        N('Peep! Puffin gives one small, happy peep.'),
       ],
       [
         notice(
@@ -1612,6 +1615,7 @@ const Q53: EduQuest = {
         T('Nearly? I’m wearing face paint!'),
         S('The paint helps your friends know it’s you.', 'soft'),
         S('That part you’ve got.'),
+        N('Swish! Tuk waves the fan and nearly hits Sumi.'),
       ],
       [
         act(
@@ -1638,6 +1642,7 @@ const Q53: EduQuest = {
         S('That is a very good sorry.', 'soft'),
         S('Keep the fan, Keeper. And the paint!', 'happy'),
         N('Your Nubbin won’t wash its face for three days.'),
+        N('Swish! Sumi flicks the fan open. Fancy!'),
       ],
       [
         ask(
@@ -1715,6 +1720,7 @@ const Q54: EduQuest = {
         PI('Your hand. Your breath. Your eyes.'),
         T('And my knees. My knees learned a lot.'),
         PI('Knees always learn first.'),
+        N('Bonk! Tuk’s sword taps his own knee.'),
       ],
       [
         act(
@@ -1794,6 +1800,7 @@ const Q54: EduQuest = {
         N('Master Pian makes a little wooden practice sword for you too.'),
         PI('Here is my spoon. I made it first.'),
         N('Tuk tries it. Wobble, wobble. Soup everywhere!'),
+        N('Ding! The sword rings, clear and bright.'),
       ],
       [
         ask(
@@ -1931,6 +1938,7 @@ const Q55: EduQuest = {
         T('I’m not. I’m writing a letter.'),
         B('I’m writing a fan letter. To the big guy with the beard.', 'happy'),
         P('I liked the start. And the middle. Not the end.'),
+        N('Whoosh! Tuk’s letter flutters off, and he chases it.'),
       ],
       [
         ask(
@@ -2118,6 +2126,7 @@ const Q56: EduQuest = {
         B('Here. A spare belt. Your Nubbin earned it.'),
         N('The belt is much too big. Your Nubbin drags it proudly.'),
         G('And take a ring post! For your own arena!', 'happy'),
+        N('Thump! Tuk trips over his own noisy feet.'),
       ],
       [
         ask(
@@ -2165,6 +2174,7 @@ const Q57: EduQuest = {
         RE('Long ago, a river spirit helped us. A lady with a painted face.', 'soft'),
         N('A little girl holds up an empty fish basket.'),
         N('Nalu goes quiet. She has an idea.'),
+        N('Drip, drip! Brown water drips off the stilts.'),
       ],
       [
         ask(
@@ -2196,6 +2206,7 @@ const Q57: EduQuest = {
         N('At the last house, a boy gives you a drawing.'),
         N('It is a lady with a painted face.'),
         K('That settles it.', 'soft'),
+        N('Ding! A little bell on a door welcomes you in.'),
       ],
       [
         act(
@@ -2434,6 +2445,7 @@ const Q58: EduQuest = {
         T('Then we make them a cloud!', 'happy'),
         P('A danger cloud! Big and clear!'),
         T('Pemba, you clever little weather boy.', 'happy'),
+        N('Whoosh! The danger cloud puffs up, big and clear.'),
       ],
       [
         ask(
@@ -2795,6 +2807,7 @@ const Q60: EduQuest = {
         P('The lemur isn’t really a thief. It’s hungry and lonely.', 'soft'),
         N('Your Nubbin sits in the middle. It holds up a fruit.'),
         N('“Chirr?” The lemur tilts its head.'),
+        N('Plop! Your Nubbin sits down in the middle of the temple.'),
       ],
       [
         ask(
@@ -2857,6 +2870,7 @@ const Q60: EduQuest = {
         N('Lumi rides home on your shoulder. Nibble, nibble.'),
         N('That night, Lumi sleeps in the fruit basket!'),
         P('That explains a lot. Count your spoons!', 'happy'),
+        N('Munch! Lumi eats a peach. Juice everywhere!'),
       ],
       [
         ask(
@@ -2938,6 +2952,7 @@ const Q61: EduQuest = {
         N('Behind the oldest shelf, your Nubbin finds a scroll.'),
         N('It has Brag’s stamp. And an old map to sleep on!'),
         K('It’s his diary! Look at this!', 'shock'),
+        N('Achoo! The dust tickles Nalu’s nose.'),
       ],
       [
         notice(
@@ -2967,6 +2982,7 @@ const Q61: EduQuest = {
         TI('He does sound a bit like a bully.', 'shock'),
         K('Kesh didn’t hurt anyone. She looked after her home.'),
         TI('One more clue and I’ll be sure. Keeper?', 'think'),
+        N('Bonk! The mayor bangs his gavel. It hits his own hat.'),
       ],
       [
         ask(
@@ -3002,6 +3018,7 @@ const Q61: EduQuest = {
         P('Hooray! Can I keep the flags?', 'happy'),
         P('Keeper? Should I say sorry for what Kesh did?', 'think'),
         P('It wasn’t me. But it sort of was.'),
+        N('Whee! Pemba waves both flags at once.'),
       ],
       [
         notice(
@@ -3039,6 +3056,7 @@ const Q61: EduQuest = {
         T('You’re a party now. Don’t let it go to your head.'),
         TI('And next time, we’ll read our old papers first.', 'soft'),
         N('The mayor gives you a painted party mask.'),
+        N('Ding, dong! The Pemba Day bell rings.'),
       ],
       [
         ask(
@@ -3146,6 +3164,7 @@ const Q62: EduQuest = {
         P('Race you! Loser carries the fish!', 'happy'),
         N('The smallest penguin picks your Nubbin, not Pemba.'),
         T('Smart penguin.'),
+        N('Whee! The sled whooshes down the snowy hill.'),
       ],
       [
         notice(
@@ -3194,6 +3213,7 @@ const Q62: EduQuest = {
         P('Thank you for the rescue. And for the penguin ride!', 'soft'),
         N('The penguins waddle home over the hill.'),
         N('The smallest one waves at your Nubbin.'),
+        N('Splash! A penguin belly-flops into the snow.'),
       ],
       [
         notice(
@@ -3295,6 +3315,7 @@ const Q63: EduQuest = {
         P('I love roofs!', 'happy'),
         BU('Or think like Biscuit! Where would a goat go?', 'happy'),
         N('Your Nubbin climbs the highest wall. It chews a leaf.'),
+        N('Boing! Something springs over the market wall.'),
       ],
       [
         notice(
@@ -3314,6 +3335,7 @@ const Q63: EduQuest = {
         C('Not the cabbages! Not up there!'),
         BU('Biscuit! That’s two challenges!', 'happy'),
         BU('Oh dear. Biscuit ate someone else’s cabbage.', 'think'),
+        N('Munch, munch! Biscuit eats on, happy as can be.'),
       ],
       [
         ask(
@@ -3343,6 +3365,7 @@ const Q63: EduQuest = {
         P('Tuk, I think the old man is the tricky one.', 'think'),
         BU('Choose! I love surprises!', 'happy'),
         N('Your Nubbin shakes its head at all three.'),
+        N('Thump! Something big stomps behind the curtain.'),
       ],
       [
         ask(
@@ -3403,6 +3426,7 @@ const Q63: EduQuest = {
         T('That is surprisingly wise.'),
         BU('I know! Take a bit of my slide. And my laugh!', 'happy'),
         N('Biscuit says thank you. By eating your hat.'),
+        N('Hee-hee! Rumbold laughs until his hat falls off.'),
       ],
       [
         notice(
@@ -3452,6 +3476,7 @@ const Q64: EduQuest = {
         Z('I was mean. And loud. Mostly loud.', 'sad'),
         N('Your Nubbin sits on the rock. It listens.'),
         Z('Pemba. Hello. I am a person. Now a good one. Probably.'),
+        N('Thump! Kaito bumps into the pillar. Oops.'),
       ],
       [
         ask(
@@ -3489,6 +3514,7 @@ const Q64: EduQuest = {
         N('It is the shortest one. It is the best one.'),
         Z('Short and friendly. Short and friendly.'),
         Z('Or maybe I just wave? Waving is friendly.', 'think'),
+        N('Swish, swish! Kaito practises his wave.'),
       ],
       [
         ask(
@@ -3516,6 +3542,7 @@ const Q64: EduQuest = {
         Z('That was not the speech. Not any of them.', 'think'),
         K('What do you want, Kaito?', 'angry'),
         N('Everyone looks at you. Even your Nubbin.'),
+        N('Pop! A spark jumps out of the campfire.'),
       ],
       [
         notice(
@@ -3546,6 +3573,7 @@ const Q64: EduQuest = {
         K('I haven’t forgotten. You chased us all over the hills, Kaito.'),
         Z('That’s fair. I want the chance to do better.', 'soft'),
         K('…One chance.'),
+        N('Whee! Pemba hugs the whole team at once.'),
       ],
       [
         notice(
@@ -3570,6 +3598,7 @@ const Q64: EduQuest = {
         Z('I’m still not good at talking to people.', 'think'),
         Z('But I got a bit better today. I tried three times.', 'happy'),
         N('He waves. Stiff and wobbly. Your Nubbin copies him!'),
+        N('Swish, swish! Your Nubbin copies the wave.'),
       ],
       [
         act(
@@ -3615,6 +3644,7 @@ const Q65: EduQuest = {
         I('The lotus does nothing. That’s why it matters most.', 'think'),
         Z('Uncle, that makes it more confusing.'),
         N('Your Nubbin sniffs a flower tile. It’s wood. Oh.'),
+        N('Plop! A raindrop falls off a leaf onto the board.'),
       ],
       [
         act(
@@ -3646,6 +3676,7 @@ const Q65: EduQuest = {
         Z('He says that to everyone.'),
         I('I have never said it to you, nephew.'),
         Z('…Hm.'),
+        N('Plop! Plop! The tiles go down, one by one.'),
       ],
       [
         ask(
@@ -3702,6 +3733,7 @@ const Q65: EduQuest = {
         N('Flowers bloom all over the board.'),
         I('You win! Fair and square! What a happy day!', 'happy'),
         I('Look at the pattern you made.'),
+        N('Whee! Petals fly up off the board.'),
       ],
       [
         ask(
@@ -3728,6 +3760,7 @@ const Q65: EduQuest = {
         Z('Uncle. Are you in a secret club?'),
         I('A tea club. Mostly. Go back to sleep, nephew.', 'happy'),
         N('Your Nubbin carries the board home on its head.'),
+        N('Ding! The lotus tile rings on the table, just once.'),
       ],
       [
         notice(

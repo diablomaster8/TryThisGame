@@ -315,6 +315,7 @@ const S13: EduQuest = quest(
         N('By the top line, a grown-up wrote: BIG ENOUGH TO WORK.'),
         T('…Where was I.', 'sad'),
         N('Tobin goes quiet. He walks on down the steps.'),
+        N('Splash! The last of the water drains away.'),
       ],
       [
         {
@@ -467,6 +468,7 @@ const S13: EduQuest = quest(
         N('Hazel’s writing leans over, like it’s walking uphill.'),
         N('Aldous’s writing stands up straight, stiff as a soldier.'),
         N('You check on the letter a lot. That’s part of keeping it safe.'),
+        N('Creak! The tin box opens, and closes again.'),
       ],
       [
         {
@@ -1581,6 +1583,7 @@ const S14: EduQuest = quest(
         N('Sparks comes round the table and hugs her. Not a word.'),
         N('Pixel passes a tea towel. Byte passes a better one.'),
         N('You keep your button right where it is.'),
+        N('Pfft! Byte blows his nose on the better towel.'),
       ],
       [
         {

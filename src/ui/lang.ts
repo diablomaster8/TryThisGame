@@ -11,15 +11,20 @@ import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
 import type { LanguageCourse, VocabItem } from '../content/types';
 import { langCourses } from '../sim/lang';
+import { dueFor, LangReview } from './lang-review';
 import type { LangCourseId } from '../sim/types';
 import { clipFor, missingClips, playWord } from '../platform/lang-audio';
 import { CLIP_TEXT } from '../config/strings-r11d6';
 import { button, el, modal } from './dom';
 import { appendScriptText } from './lang-dom';
+import { topicIcon, wordIcon } from './lang-icons'; /* R0706 */
 /* Lane E r9 */
 import { langSkipRow, langWaitCard, langWaitLine, sayLangWait } from './lang-wait';
 import { friendCard, greetAll, stampsFor } from './postcard-faces'; /* Lane E r10, R0705 */
 import { speakLine } from './lesson';
+import { boxesView } from './lang-boxes';
+import { TraceBook } from './trace-book'; /* R0707 */
+import { TRACE_BOOK_TEXT } from '../config/strings-trace-book';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 
@@ -57,8 +62,31 @@ function wordRow(g: Game, w: VocabItem, extra?: string): HTMLElement {
   return row;
 }
 
+/**
+ * R0706: a word as a picture tile for the child's list: an icon and the native word. Readers
+ * also see the romanisation and meaning; sprouts see neither. A tap plays the clip and sends
+ * `langWord`, which makes the Nubbin do the word's gesture (`reactTo`).
+ */
+function wordTile(g: Game, w: VocabItem, reader: boolean): HTMLElement {
+  const tile = el('button', 'lang-tile');
+  tile.type = 'button';
+  tile.setAttribute('aria-label', w.english);
+  tile.appendChild(el('span', 'lang-tile-icon', wordIcon(w.id, w.topic)));
+  const native = el('strong', 'lang-native');
+  appendScriptText(native, w.native);
+  tile.appendChild(native);
+  if (reader) tile.appendChild(el('small', undefined, `${w.roman} · ${w.english}`));
+  tile.addEventListener('click', () => {
+    playWord(w.audio);
+    g.send({ kind: 'langWord', word: w.id, how: 'heard' });
+  });
+  return tile;
+}
+
 export class LangPanel {
   private readonly dialog;
+  private readonly review: LangReview;
+  private readonly book: TraceBook;
 
   constructor(
     parent: HTMLElement,
@@ -66,6 +94,8 @@ export class LangPanel {
     private readonly toast: (text: string) => void,
   ) {
     this.dialog = modal(parent, LANG_TEXT.postcard, LANG_TEXT.back);
+    this.review = new LangReview(parent, game, () => this.open());
+    this.book = new TraceBook(parent, game);
   }
 
   /** The picker's postcard button. */
@@ -96,6 +126,10 @@ export class LangPanel {
     const friends = el('div', 'postcard-friends');
     for (const course of langCourses()) friends.appendChild(this.courseCard(g, course));
     body.appendChild(friends);
+    // R0707: the free tracing book, every glyph met so far.
+    body.appendChild(
+      button(TRACE_BOOK_TEXT.open, () => this.book.render(this.dialog.body, () => this.open()), 'btn'),
+    );
     this.dialog.show();
     // R0705: the postcard is read aloud, then each friend says hello from their clip.
     const greet = () => greetAll(langCourses(), KIDS_R10_TUNING.greetGapMs);
@@ -123,6 +157,11 @@ export class LangPanel {
       stamps: stampsFor(course.quests, (q) => fun[q.toLowerCase()]?.status === 'done'),
       onMeet: () => this.start(g, id),
       onWords: () => this.words(g, course),
+      onReview: () => {
+        this.dialog.hide();
+        this.review.open(course);
+      },
+      dueCount: dueFor(g.world, course).length,
     });
     card.title = LANG_TEXT.progress(
       questsDone(g, course),
@@ -157,9 +196,15 @@ export class LangPanel {
     if (met.length === 0) body.appendChild(el('p', 'help', LANG_TEXT.noWordsYet));
     else {
       body.appendChild(el('p', 'help', LANG_TEXT.tapToHear));
-      const list = el('div', 'shop-list');
-      for (const w of met) list.appendChild(wordRow(g, w));
-      body.appendChild(list);
+      const reader = g.world.edu?.band === 'reader';
+      const byTopic = new Map<string, VocabItem[]>();
+      for (const w of met) byTopic.set(w.topic, [...(byTopic.get(w.topic) ?? []), w]);
+      for (const [topic, words] of byTopic) {
+        body.appendChild(el('h4', 'lang-topic-head', `${topicIcon(topic)} ${topic}`));
+        const grid = el('div', 'lang-tiles');
+        for (const w of words) grid.appendChild(wordTile(g, w, reader));
+        body.appendChild(grid);
+      }
     }
     body.appendChild(button(`← ${LANG_TEXT.back}`, () => this.open(), 'btn'));
   }
@@ -213,5 +258,6 @@ export function langProgress(body: HTMLElement, g: Game): void {
       fold.appendChild(list);
       body.appendChild(fold);
     }
+    boxesView(body, g.world, course.vocab); /* R0718 */
   }
 }

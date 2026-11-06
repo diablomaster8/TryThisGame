@@ -1,4 +1,5 @@
 import { SEASONS } from '../config/tuning';
+import { seasonHat } from '../config/cosmetics';
 import type { Season, SimEvent, World } from './types';
 
 /**
@@ -34,5 +35,9 @@ export function seasonalEggColor(season: Season): string | null {
 export function stepSeasons(world: World, events: SimEvent[]): void {
   if (world.festivalSeen === world.season) return;
   world.festivalSeen = world.season;
-  events.push({ kind: 'festival', season: world.season });
+  // LOOK-70: the season's first visit brings its hat as a free gift (kept for good).
+  const hat = seasonHat(world.season);
+  const gift = hat && !world.inventory.hats.includes(hat) ? hat : null;
+  if (gift) world.inventory.hats.push(gift);
+  events.push(gift ? { kind: 'festival', season: world.season, giftHat: gift } : { kind: 'festival', season: world.season });
 }

@@ -1428,6 +1428,7 @@ const Q09 = quest(
         GN('The gourd is round, like the sun. Round is best.'),
         SN('The shoe has laces! Follow the laces!', 'angry'),
         N('A tiny third group sits round a pebble.'),
+        N('Boing! The gourd rolls off its rock and bounces away.'),
       ],
       [
         ask(
@@ -1451,6 +1452,7 @@ const Q09 = quest(
         MB('He’s just my cheeky Barty. And it’s past his bedtime!', 'angry'),
         BT('I am a bit cheeky.', 'soft'),
         MB('Keeper, please help. Nobody listens to me.', 'sad'),
+        N('Hee-hee! Barty hides a giggle behind his hat.'),
       ],
       [
         ask(
@@ -1795,6 +1797,7 @@ const Q11 = quest(
         N('Gorbold pushes one fruit stone over to your Nubbin.'),
         GB('Yours.', 'soft'),
         N('Mr Crisp stops. Gorbold has never shared before!'),
+        N('Crunch! Your Nubbin nibbles one thin slice. Just right.'),
       ],
       [
         ask(
@@ -2178,6 +2181,7 @@ const Q14 = quest(
         TF('And no getting up. Not even for a snack.'),
         PO('Unless it’s a very small snack.'),
         N('They nod. Very serious. Very cosy.'),
+        N('Plop! Your sleepy Nubbin sinks into the comfy chair.'),
       ],
       [
         ask(
@@ -2476,6 +2480,7 @@ const Q16 = quest(
         Y('You just say no to everything!'),
         BY('No, I don’t.'),
         N('The sand is half gone.'),
+        N('Ding! Byte’s little bell rings. Byte frowns at it.'),
       ],
       [
         ask(
@@ -2617,6 +2622,7 @@ const Q17 = quest(
         N('Your rubber fish squeaks every time.'),
         PI('Good. Very good. Your wrist is a bit too keen.', 'think'),
         GR('Keen wrists end up in the water.'),
+        N('Squeak! says the rubber fish. Again, with feeling!'),
       ],
       [
         notice(
@@ -2811,6 +2817,7 @@ const Q18 = quest(
         SG('Don’t fight it. Make it your friend.'),
         Y('How?'),
         SG('Throw it gently to your Nubbin. Let it catch!', 'happy'),
+        N('Thump! The pineapple lands in your Nubbin’s paws.'),
       ],
       [
         ask(
@@ -2856,6 +2863,7 @@ const Q18 = quest(
         SG('Blow it, and your Nubbins look up. Throw, and they catch.'),
         SG('Dried fruit is next week. Bring a hat.', 'think'),
         N('Now your Nubbins can catch fruit you throw!'),
+        N('Tweet! The whistle sings, and every Nubbin looks up.'),
       ],
       [
         notice(
@@ -2921,6 +2929,7 @@ const Q19 = quest(
         MT('Jump the matchboxes. Climb the low wall. Go round the sleeping Keeper.'),
         N('At the end, a Keeper snores in a deckchair.'),
         N('Nobody knows who put them there.'),
+        N('Zoom! Four runners dash off. The Keeper in the deckchair snores on.'),
       ],
       [
         act(
@@ -3050,6 +3059,7 @@ const Q20 = quest(
         N('He flips the board. It’s the same tree!'),
         AR('Look! Another larch!'),
         AR('Your job: find every tree you DO have. Tap each one.'),
+        N('Whoosh! The wind shakes the tall, thin larch.'),
       ],
       [
         ask(
@@ -3680,6 +3690,7 @@ const Q24 = quest(
         IN('Break time! You may help each other now. That’s learning.'),
         Y('Right, Buttons. Circles first.'),
         N('Buttons looks up at you. It has never drawn a circle.'),
+        N('Plop! Buttons drops a big ink dot. Then a circle!'),
       ],
       [
         act(
@@ -4111,6 +4122,7 @@ const Q27 = quest(
         N('Mr. Tweed looks at the ceiling. Half a moustache is still on his lip.'),
         N('Behind his back, he gives you a pile of empty frames.'),
         N('The teeny bear hides in your collar until the Warden goes.'),
+        N('Squeak! The teeny bear peeks out of your collar.'),
       ],
       [
         ask(
@@ -4174,6 +4186,7 @@ const Q28 = quest(
         N('He mimes: firework in the paint… BOOM! Paint everywhere!'),
         TW('Boom.', 'happy'),
         N('Your Nubbin hides behind your legs.'),
+        N('Drip, drip! Yellow paint drips off the tiny brush.'),
       ],
       [
         notice(
@@ -4200,6 +4213,7 @@ const Q28 = quest(
         N('The bear sits on the gate post, watching.'),
         N('The room is empty. Just Mr. Tweed, the paint and the firework.'),
         N('He tucks his trousers into his socks. Safety clothes!'),
+        N('Plop! One sleepy Nubbin rolls over in the grass.'),
       ],
       [
         ask(

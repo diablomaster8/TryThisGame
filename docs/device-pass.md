@@ -35,3 +35,28 @@ Chrome's heap (Performance monitor, or `performance.memory.usedJSHeapSize`).
 | Device        | Tier | Renderer | p95 ms | Heap MB | Calls | Date |
 | ------------- | ---- | -------- | ------ | ------- | ----- | ---- |
 | (not yet run) |      |          |        |         |       |      |
+
+## Learning Grove with young children (R0748, KIDS-80)
+
+Everything so far was checked in headless Edge with a stubbed voice. This pass needs people.
+Four children, 15 minutes each, with a grown-up observing: age 3, ages 4-5, age 6 and ages
+8-10, spread over an iPad, a cheap Android tablet and a phone (each device sees at least one
+child). The observer starts a timer when the child first sees the Learning Grove picker and
+does not help unless asked twice. Consent: the grown-up agrees in advance; no names, photos
+or recordings are kept, only the counts below.
+
+Record, per age band (copy the table once per child):
+
+| Measure | Age 3 | Ages 4-5 | Age 6 | Ages 8-10 |
+| --- | --- | --- | --- | --- |
+| Time to the first successful round without help (seconds) | | | | |
+| Number of "I can't" moments (said or shown by stopping) | | | | |
+| Screens that stall (name each: picker, round, results, postcard, shop) | | | | |
+| Is the voice understood? (clip or browser voice; yes, mostly, no; any word misheard) | | | | |
+
+Also note the device, browser, whether sound was on, and which taps missed (a tap target
+the child hit twice). Turn each stall and each "I can't" into an issue titled with the
+screen and the age. Results go here, under a dated heading, and the PROGRESS known gap
+"not yet checked on real phones" stays open until all three devices are done.
+
+Status: not run (needs children and devices). Left for Maor to schedule.

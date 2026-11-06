@@ -41,7 +41,9 @@ export function countAloud(n: number): string {
 export function optionSay(o: EduOption): string {
   switch (o.kind) {
     case 'colour':
+    case 'thing':
     case 'shape':
+    case 'prop':
     case 'picture':
       return o.label;
     case 'letter':
@@ -52,6 +54,8 @@ export function optionSay(o: EduOption): string {
       return countAloud(o.n);
     case 'word':
       return o.word;
+    case 'clock':
+      return 'a clock';
     case 'sum':
       return `${numberWord(o.a)} and ${numberWord(o.b)} more`;
   }

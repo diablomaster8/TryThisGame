@@ -193,6 +193,7 @@ const S1: EduQuest = quest(
         M('That’s the rule. Briar made it up.', 'think'),
         N('Moss folds a big green leaf. Fold, fold, fold.'),
         M('Mine always tips over. Every single year.', 'think'),
+        N('Splash! The leaf boat tips right over.'),
       ],
       [
         {
@@ -1337,6 +1338,7 @@ const S4: EduQuest = quest(
         N('It kicks. It doesn’t sink!'),
         MA('Now swim up the stream. Just a little way.'),
         MA('Lesson two: near water, Keepers stay close to a grown-up.', 'think'),
+        N('Splash! Your Nubbin kicks, and the water goes everywhere.'),
       ],
       [
         {
@@ -1820,6 +1822,7 @@ const S5: EduQuest = quest(
         N('They look at each other. Then they just sit.'),
         DU('She did that for me once, on a bad day.', 'soft'),
         DU('She didn’t fix anything. She just sat with me.', 'soft'),
+        N('Plop! Your littlest Nubbin sits down too, right beside her.'),
       ],
       [
         {
@@ -3005,6 +3008,7 @@ const S9: EduQuest = quest(
         Y('So he couldn’t come back in?'),
         HZ('No, love. So I’d hear him if he ever came back.', 'soft'),
         HZ('A sticky gate rattles. I always hear it.', 'happy'),
+        N('Outside, the sticky gate gives one long creak.'),
       ],
       [
         {

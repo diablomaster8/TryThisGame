@@ -147,7 +147,7 @@ const LJ1: Quest = {
     {
       id: 'lj1-step2',
       goal: 'Teach three Nubbins to bow when you say “konnichiwa”.',
-      hint: 'Tap a Nubbin, choose Say, then “konnichiwa”. Do it a few times; Nubbins learn by copying.',
+      hint: 'Tap a Nubbin, then “Say a word”: it bows back. Do it with three different Nubbins.',
       check: 'lang:ja:teach:nubbins:konnichiwa:3',
       scene: {
         id: 'lj1-s2',

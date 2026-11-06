@@ -135,7 +135,7 @@ export const LANG_HEBREW: Quest[] = [
       {
         id: 'lh1-step2',
         goal: 'Teach three Nubbins to wave when they hear שָׁלוֹם (shalom).',
-        hint: 'Stand by a Nubbin, say shalom and wave. When it waves back, say תּוֹדָה (toda, “thank you”).',
+        hint: 'Open a Nubbin and tap “Say a word”. It waves back. Do it with three Nubbins, then say תּוֹדָה (toda).',
         check: 'lang:he:teach:nubbins:shalom:3',
         scene: {
           id: 'lh1-s2',

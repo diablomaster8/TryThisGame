@@ -104,6 +104,26 @@ describe('race', () => {
     expect(finish(cheered)).toBeLessThan(finish(plain));
   });
 
+  it('trips with joy on the third quick cheer without losing any distance (R0325)', () => {
+    const race = createRace(COURSES[0]!, 1, racer(30), 5);
+    const me = race.racers.find((r) => r.isPlayer)!;
+    const wait = () => {
+      for (let i = 0; i < RACE.cheerCooldownMs / SIM.stepMs; i++) stepRace(race, SIM.stepMs);
+    };
+    expect(cheer(race)).toBe(true);
+    wait();
+    expect(cheer(race)).toBe(true);
+    expect(me.tumbles ?? 0).toBe(0);
+    wait();
+    expect(cheer(race)).toBe(true);
+    expect(me.tumbles).toBe(1);
+    expect(me.tumbleUntilMs).toBeGreaterThan(race.timeMs);
+    // A tumble is only a flag for the renderers: the racer keeps running.
+    const at = me.pos;
+    stepRace(race, SIM.stepMs);
+    expect(me.pos).toBeGreaterThan(at);
+  });
+
   it('pays prizes for the top three and records tier wins', () => {
     expect(prizeFor(1, 2)).toBe(40);
     expect(prizeFor(3, 1)).toBe(5);
@@ -181,5 +201,22 @@ describe('personality', () => {
     }
     expect(n.stage).toBe('adult');
     expect(n.personality).toBe('mischievous');
+  });
+});
+
+describe('rivals from other families (R0417)', () => {
+  it('tier 2 draws at least two rivals from the species met, tier 1 none, and it is seeded', () => {
+    const met = ['sparkmouse', 'embercub'];
+    for (const seed of [1, 2, 3, 4, 5]) {
+      const a = createRace(COURSES[0]!, 2, racer(20), seed, undefined, [], met);
+      const b = createRace(COURSES[0]!, 2, racer(20), seed, undefined, [], met);
+      const others = a.racers.filter((r) => r.species);
+      expect(others.length).toBeGreaterThanOrEqual(2);
+      expect(others.every((r) => met.includes(r.species!))).toBe(true);
+      expect(b.racers.map((r) => r.species)).toEqual(a.racers.map((r) => r.species));
+      const t1 = createRace(COURSES[0]!, 1, racer(20), seed, undefined, [], met);
+      expect(t1.racers.some((r) => r.species)).toBe(false);
+    }
+    expect(createRace(COURSES[0]!, 2, racer(20), 1).racers.some((r) => r.species)).toBe(false);
   });
 });

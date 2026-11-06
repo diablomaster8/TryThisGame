@@ -13,6 +13,7 @@ import type { TraceTarget } from '../sim/lang';
 import { button, dialogFocus, el } from './dom';
 import { HEBREW_STROKES } from './hebrew-strokes';
 import { KANA_STROKES } from './kana-strokes';
+import { LATIN_STROKES } from './latin-strokes';
 import { loadLangFonts } from './lang-fonts';
 import {
   afterMiss,
@@ -28,9 +29,17 @@ import { TRACE_KID_TEXT } from '../config/strings';
 import { speakLine } from './lesson';
 
 /** Stroke guides by glyph, kana and Hebrew alike. A glyph without guides is judged by ink. */
-const STROKES: Readonly<Record<string, ScreenPt[][]>> = { ...KANA_STROKES, ...HEBREW_STROKES };
+const STROKES: Readonly<Record<string, ScreenPt[][]>> = {
+  ...KANA_STROKES,
+  ...HEBREW_STROKES,
+  ...LATIN_STROKES,
+};
 
-const FONT = { he: '"Noto Sans Hebrew", sans-serif', ja: '"Klee One", "Noto Sans JP", sans-serif' };
+const FONT = {
+  he: '"Noto Sans Hebrew", sans-serif',
+  ja: '"Klee One", "Noto Sans JP", sans-serif',
+  en: '"Andika", "Comic Neue", "Century Gothic", "Trebuchet MS", sans-serif',
+};
 
 export class TraceGame {
   private readonly root: HTMLDivElement;
@@ -46,6 +55,8 @@ export class TraceGame {
   private drag: ScreenPt[] | null = null;
   private ink: ScreenPt[] = [];
   private done: (() => void) | null = null;
+  /** R0702: told after each glyph is traced (the English game feeds `edu.items`). */
+  private onGlyph: ((glyph: string, index: number) => void) | null = null;
   /** R0703: misses on the current stroke, the last rejected drag, and the ghost finger. */
   private misses = 0;
   private rejected: { pts: ScreenPt[]; at: number } | null = null;
@@ -95,18 +106,24 @@ export class TraceGame {
     return !this.root.hidden;
   }
 
-  open(quest: string, target: TraceTarget, onDone: () => void): void {
+  open(
+    quest: string,
+    target: TraceTarget,
+    onDone: () => void,
+    onGlyph?: (glyph: string, index: number) => void,
+  ): void {
     this.quest = quest;
     this.target = target;
     this.done = onDone;
+    this.onGlyph = onGlyph ?? null;
     this.fits.clear();
     this.glyph = 0;
     this.root.hidden = false;
     this.focus.opened();
-    this.help.textContent = target.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
+    this.help.textContent = this.helpText();
     this.renderWord();
     // The glyph needs its font before its ink can be measured.
-    void loadLangFonts(target.lang)
+    void (target.lang === 'en' ? Promise.resolve() : loadLangFonts(target.lang))
       .then(() => document.fonts?.load(`200px ${FONT[target.lang]}`, target.glyphs.join('')))
       .catch(() => undefined)
       .finally(() => {
@@ -312,8 +329,17 @@ export class TraceGame {
     this.stroke += 1;
     this.misses = 0;
     if (this.stroke >= count) return this.nextGlyph();
-    this.help.textContent = t.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
+    this.help.textContent = this.helpText();
     this.draw();
+  }
+
+  private helpText(): string {
+    const l = this.target?.lang;
+    return l === 'he'
+      ? LANG_TEXT.traceHelpHe
+      : l === 'en'
+        ? LANG_TEXT.traceHelpEn
+        : LANG_TEXT.traceHelpJa;
   }
 
   /** R0703: tolerance by age (wider for small hands); the main game keeps its own. */
@@ -324,6 +350,7 @@ export class TraceGame {
   private nextGlyph(): void {
     const t = this.target;
     if (!t) return;
+    this.onGlyph?.(this.current(), this.glyph);
     this.glyph += 1;
     if (this.glyph < t.glyphs.length) {
       this.startGlyph();
@@ -332,7 +359,7 @@ export class TraceGame {
     this.help.textContent = LANG_TEXT.traceDone;
     this.say(TRACE_KID_TEXT.done);
     this.renderWord();
-    this.game()?.send({ kind: 'langTraced', quest: this.quest });
+    if (this.quest) this.game()?.send({ kind: 'langTraced', quest: this.quest });
     const done = this.done;
     window.setTimeout(() => {
       this.close();
