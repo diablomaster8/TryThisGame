@@ -147,6 +147,7 @@ const key2Jump = (e: KeyboardEvent): boolean => e.key === 'Enter' || e.code === 
 
 export class GameInput {
   private readonly abort = new AbortController();
+  private padSeen = false;
   private readonly keys = new Set<string>();
   private pointerId: number | null = null;
   /**
@@ -189,6 +190,9 @@ export class GameInput {
     surface.addEventListener('pointerup', this.onUp, { signal });
     surface.addEventListener('pointercancel', this.onUp, { signal });
     surface.addEventListener('lostpointercapture', this.onLost, { signal });
+    // PERF: `navigator.getGamepads()` allocates a list and costs about 0.3 ms a call on a
+    // throttled phone, twice a frame; a pad only exists after its `gamepadconnected` event.
+    window.addEventListener('gamepadconnected', () => (this.padSeen = true), { signal });
     window.addEventListener('keydown', this.onKey, { signal });
     window.addEventListener('keyup', this.onKey, { signal });
     window.addEventListener(
@@ -302,7 +306,7 @@ export class GameInput {
     if (this.keys.has('j')) right -= 1;
     let pet = false;
     let feed = false;
-    const pads = typeof navigator.getGamepads === 'function' ? navigator.getGamepads() : [];
+    const pads = this.pads();
     const pad = this.soloPad() ? null : pads?.[0];
     if (pad) {
       const ax = pad.axes[0] ?? 0;
@@ -356,10 +360,16 @@ export class GameInput {
     this.host.send({ kind: 'roll', dir: { x, z } });
   }
 
+  private pads(): readonly (Gamepad | null)[] {
+    return this.padSeen && typeof navigator.getGamepads === 'function'
+      ? navigator.getGamepads()
+      : [];
+  }
+
   /** MOVE-49: the first gamepad, when it drives Keeper 1 (co-op off), else null. */
   private soloPad(): Gamepad | null {
     if (!this.host.pad || this.host.pad.coop()) return null;
-    const pads = typeof navigator.getGamepads === 'function' ? navigator.getGamepads() : [];
+    const pads = this.pads();
     return pads?.[0] ?? null;
   }
 
