@@ -273,7 +273,7 @@ const Q01: EduQuest = quest(
         N('Your Nubbin is asleep on the anvil. Snore, snore.'),
         GB('Good work, helper.'),
         GB('Hiccup, stay here. Stay. Here.'),
-        N('Clang! The hammer clangs, and Hiccup yawns.'),
+        N('Bonk! The hammer bonks, and Hiccup yawns.'),
       ],
       [
         doit(
@@ -597,7 +597,7 @@ const Q02: EduQuest = quest(
         N('Hiccup goes up to his corner. He takes out his charcoal.'),
         N('Scratch, scratch, scratch. He draws what he saw.'),
         N('He does not want to forget it.'),
-        N('Scratch! The charcoal scratches, and the forge fire crackles.'),
+        N('Crack! The forge fire cracks, and the charcoal scratches.'),
       ],
       [
         doit(
@@ -903,7 +903,7 @@ const Q04: EduQuest = quest(
         N('Hiccup cuts the ropes instead. Snip, snip, snip.'),
         N('The dragon jumps up and roars. Then it flies off.'),
         N('Your Nubbin is scared. It hides behind a stump and shakes.'),
-        N('Snip! Snip! The knife snips through the rope.'),
+        N('Pop! The rope pops as the knife cuts it.'),
       ],
       [
         ask(
@@ -1076,7 +1076,7 @@ const Q05: EduQuest = quest(
         A('I am Astrid. Stay out of my way.'),
         FL('I am Fishlegs! Is that a hatchling?', 'happy'),
         N('Hiccup creeps in last, in a helmet too big for him.'),
-        N('Clang! The arena gate clangs open.'),
+        N('Creak! The arena gate creaks open.'),
       ],
       [
         notice(
@@ -1670,7 +1670,7 @@ const Q08: EduQuest = quest(
         N('Toothless bends his big head down. Sniff, sniff, sniff.'),
         N('Your Nubbin sniffs back. Then it bumps its forehead on his nose.'),
         H('He likes it! He does not like anybody.', 'happy'),
-        N('Sniff! Boop! Your Nubbin bumps the big nose.'),
+        N('Boing! Your Nubbin bumps the big nose. Boing!'),
       ],
       [
         ask(
@@ -1877,7 +1877,7 @@ const Q09: EduQuest = quest(
         N('Bang, bang, bang! Your Nubbin brings a bucket of water.'),
         N('At the cove they go up again.'),
         N('This time they miss the lake. Up they go, over the sea!'),
-        N('Bang! Clang! The hammers bang in the forge.'),
+        N('Bonk! Bonk! The hammers bonk in the forge.'),
       ],
       [
         doit(
@@ -2006,7 +2006,7 @@ const Q10: EduQuest = quest(
         N('Gobber claps. His hook goes clang.'),
         N('Hiccup blinks. Everyone is cheering.'),
         N('Gobber looks surprised. Fishlegs looks surprised.'),
-        N('Clang! Gobber’s hook clangs on his shield.'),
+        N('Bonk! Gobber’s hook bonks on his shield.'),
       ],
       [
         doit(
@@ -2559,7 +2559,7 @@ const Q13: EduQuest = quest(
         N('You stand at the gate with Gobber.'),
         N('Hiccup walks into the pit in his too-big helmet.'),
         N('He looks at you. He has an idea.'),
-        N('Clang! The arena gate clangs open.'),
+        N('Creak! The arena gate creaks open.'),
       ],
       [
         doit(
@@ -2606,7 +2606,7 @@ const Q13: EduQuest = quest(
         ST('Enough! Get him out!', 'angry'),
         N('Stoick bangs the bars with his hammer. CLANG!'),
         N('The loud noise frightens the dragon. Far off, a whistle comes closer.'),
-        N('Clang! Stoick bangs the bars. Clang, clang!'),
+        N('Bonk! Stoick bonks the bars. Bonk, bonk!'),
       ],
       [
         ask(
@@ -3433,7 +3433,7 @@ const Q18: EduQuest = quest(
         N('He has a new one, made of iron and wood.'),
         GB('I made it. It has a spring to help you walk.'),
         H('It is really good, Gobber.', 'soft'),
-        N('Clunk! The new foot clunks on the floor.'),
+        N('Thump! The new foot thumps on the floor.'),
       ],
       [
         notice(
@@ -3484,7 +3484,7 @@ const Q18: EduQuest = quest(
         N('Step, clunk. Step, clunk.'),
         N('It is a lovely, steady beat.'),
         H('Come on. I want to see what is outside.'),
-        N('Clunk! Step, clunk. Step, clunk.'),
+        N('Thump! Step, thump. Step, thump.'),
       ],
       [
         doit(

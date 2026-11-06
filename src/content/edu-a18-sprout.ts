@@ -431,7 +431,7 @@ const A02 = quest(
         V('Oh! It is you. Shut the door. Properly, it sticks.'),
         N('You shut it properly. Thud! It does stick.'),
         N('Door. Floor. They sound the same at the end.'),
-        N('Thud! The sticky door thuds shut.'),
+        N('Thump! The sticky door thumps shut.'),
       ],
       [
         doit(
@@ -1953,7 +1953,7 @@ const A08 = quest(
         BY('Same rules for you as for her. Work, and you go home.', 'angry'),
         N('She lifts one hand. The gate swings open.'),
         N('Clack, clack, clack, clack. Four bolts slide back.'),
-        N('Clack! The gate bolts go clack, clack, clack.'),
+        N('Bonk! The gate bolts go bonk, bonk, bonk.'),
       ],
       [
         doit(
@@ -3225,7 +3225,7 @@ const A14 = quest(
         N('Vasilisa locks the door.'),
         N('She hangs the key on a string round her neck.'),
         N('She does not look back at the house.'),
-        N('Click! The key clicks in the lock.'),
+        N('Pop! The key turns, and the lock pops.'),
       ],
       [
         ask(

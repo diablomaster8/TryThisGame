@@ -1191,7 +1191,7 @@ const Q4: EduQuest = quest(
         SC('I want brains.'),
         N('The Woodman taps his chest. Clong. It is empty.', 'sad'),
         N('Dorothy hands you the oil-can. It is yours to carry now.'),
-        N('Clink! Clank! The Woodman taps his chest, and it rings like a pot.'),
+        N('Ding! The Woodman taps his chest, and it rings like a pot.'),
       ],
       [
         ask(
@@ -2161,7 +2161,7 @@ const Q9: EduQuest = quest(
         N('He puts a pair on each friend. Even Toto.'),
         N('He finds a tiny pair for your Nubbin. Then yours.'),
         N('Click. Everything is green. The walls, the floor, your hands.'),
-        N('Click! The little lock goes click.'),
+        N('Pop! The little lock pops open.'),
       ],
       [
         ask(
@@ -3141,7 +3141,7 @@ const Q13: EduQuest = quest(
         SC('Dorothy melted her with a bucket.'),
         N('He locks the green spectacles on you all again. Click.'),
         N('Your Nubbin holds still for its pair.'),
-        N('Click! The spectacles click, one by one.'),
+        N('Pop! The spectacles pop on, one by one.'),
       ],
       [
         doit(
@@ -3487,7 +3487,7 @@ const Q15: EduQuest = quest(
         N('Oz takes out a pretty silk heart. You hold it steady.'),
         N('He fills it with soft sawdust.'),
         N('He puts it in the Woodman’s chest, then patches it shut. Clink, clink.'),
-        N('Clink! Clink! The little heart goes clink.'),
+        N('Ding! Ding! The little heart goes ding.'),
       ],
       [
         doit(
@@ -3816,7 +3816,7 @@ const Q16: EduQuest = quest(
         N('Without the glasses, the city is plain stone.'),
         N('There is a little green paint here and there.'),
         N('Your Nubbin keeps its own pair on.'),
-        N('Click! The last spectacles click off, one by one.'),
+        N('Pop! The last spectacles pop off, one by one.'),
       ],
       [
         doit(
@@ -3959,7 +3959,7 @@ const Q17: EduQuest = quest(
         N('The milkmaid leads her cow away on three legs.'),
         D('We must walk carefully. Everything here breaks.', 'think'),
         N('Pretty plates and cups are called china.'),
-        N('Clink! The china plates clink, soft and careful.'),
+        N('Ding! The china plates ding, soft and careful.'),
       ],
       [
         notice(
@@ -4035,7 +4035,7 @@ const Q17: EduQuest = quest(
         N('China people come with glue pots. They are used to mending.'),
         N('You climb the far wall and drop into soft grass.'),
         D('I am glad we saw it. I will never forget it.', 'soft'),
-        N('Clink! The little china pieces clink back into place.'),
+        N('Ding! The little china pieces ding back into place.'),
       ],
       [
         ask(
@@ -4201,6 +4201,7 @@ const Q18: EduQuest = quest(
         L('I was scared the whole time. My knees knocked.', 'soft'),
         Y('I know. You went anyway.'),
         N('Your Nubbin pats his nose, very gently.'),
+        N('Thump! The Lion’s knees go thump, thump, thump.'),
       ],
       [
         ask(
@@ -4456,7 +4457,7 @@ const Q20: EduQuest = quest(
         GL('Knock your heels together three times.'),
         GL('Say where you want to go. The shoes will take you.'),
         N('Knock, knock, knock.'),
-        N('Click! Knock! The heels go click, click, click.'),
+        N('Bonk! The heels go bonk, bonk, bonk.'),
       ],
       [
         doit(
@@ -4628,7 +4629,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       N('Without the glasses, the city is plain stone.'),
       N('There is a little green paint here and there.'),
       N('Your Nubbin keeps its own pair on.'),
-      N('Click! The last spectacles click off, one by one.'),
+      N('Pop! The last spectacles pop off, one by one.'),
     ],
     [
       doit(
@@ -4655,7 +4656,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       N('Without the glasses, the city is plain stone.'),
       N('There is a little green paint here and there.'),
       N('Your Nubbin keeps its own pair on.'),
-      N('Click! The last spectacles click off, one by one.'),
+      N('Pop! The last spectacles pop off, one by one.'),
     ],
     [
       doit(

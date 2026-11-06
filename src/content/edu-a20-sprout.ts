@@ -325,7 +325,7 @@ const Q01 = quest(
         BA('Put it down, and sit. Everyone who climbs should rest.'),
         N('Your Nubbin sits in his light. Blink. Blink. Then it tips over, fast asleep.'),
         BA('Shh. The small ones do that. Let it sleep.', 'soft'),
-        N('Blink! The light goes blink, blink, blink.'),
+        N('Pop! The little light goes pop, pop, pop.'),
       ],
       [
         ask(
@@ -381,7 +381,7 @@ const Q01 = quest(
         BA('Everyone climbs up here with a question.'),
         BA('I like the part of the day when I listen.', 'happy'),
         BA('Ask me something. Or don’t.'),
-        N('Snip! Baldr snips the strap, and mends it.'),
+        N('Pop! Baldr pops a new stitch in the strap.'),
       ],
       [
         ask(
@@ -591,7 +591,7 @@ const Q02 = quest(
         N('The talk goes on all morning, and into the night.'),
         N('You carry three cups to the table. Then two more.'),
         N('You listen to everything.'),
-        N('Clink! The cups clink on the long table.'),
+        N('Ding! The cups ding on the long table.'),
       ],
       [
         ask(
@@ -663,7 +663,7 @@ const Q02 = quest(
         BA('Mother, you do not have to.'),
         FR('I know.'),
         N('Your Nubbin falls asleep. You carry it down the hill.'),
-        N('Snore! Your Nubbin snores all the way down the hill.'),
+        N('Pfft! Your Nubbin snores all the way down the hill.'),
       ],
       [
         ask(
