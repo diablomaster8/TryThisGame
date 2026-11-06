@@ -6,7 +6,7 @@
  * rebuilt. Every call is wrapped: private windows, blocked storage, a full disk or a
  * browser without IndexedDB all read as "not cached" and the game builds instead.
  */
-import type { SurfaceArrays } from '../samples/sculpt-spec';
+import type { SurfaceArrays } from './art/sculpt-spec';
 
 interface CacheRecord {
   version: string;

@@ -4,8 +4,8 @@
  * one way more than `offDeg` off the camera's forward, the view turns one 45° step toward
  * it, with the usual tween. Never in dialogue, while carrying, or outside the Grove.
  */
+import type { ReadonlyWorld } from './readonly-world';
 import { CAMERA_FOLLOW_WALK } from '../config/tuning-move';
-import type { World } from '../sim/types';
 
 /** The camera's side of this: its yaw and its own snap turn. */
 export interface TurnableCamera {
@@ -23,7 +23,12 @@ export class WalkFollow {
    * Per frame. `blocked` is true while a dialogue is up. Returns the turn made, if any (for
    * tests); the turn itself goes through `camera.rotate`.
    */
-  update(world: World, camera: TurnableCamera, nowMs: number, blocked: boolean): 1 | -1 | 0 {
+  update(
+    world: ReadonlyWorld,
+    camera: TurnableCamera,
+    nowMs: number,
+    blocked: boolean,
+  ): 1 | -1 | 0 {
     const k = world.keeper;
     const F = CAMERA_FOLLOW_WALK;
     const on =

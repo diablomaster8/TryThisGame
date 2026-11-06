@@ -1,7 +1,10 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** Lane A round 11, helper G5: read-aloud lines for the Learning Grove's sprout band. */
 export const SPROUT_TEXT = {
   /** "Pip feels shy today": the personality said once, aloud, instead of a word on the sheet. */
-  feels: (name: string, word: string): string => `${name} feels ${word.toLowerCase()} today.`,
+  feels: (name: string, word: string): string =>
+    fmt(MESSAGES_EN.feelsToday, { name, word: word.toLowerCase() }),
   /** The icon-only personality chip's label for a screen reader. */
   chipLabel: (word: string): string => `Feeling: ${word}`,
 } as const;

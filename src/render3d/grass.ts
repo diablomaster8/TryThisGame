@@ -1,7 +1,7 @@
 import type * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
-import { buildGrass, pourGrass, type Tex } from '../samples/aaa-kit';
-import { placeGrass, type GrassPlacement } from '../samples/grass-place';
+import { buildGrass, pourGrass, type Tex } from './art/aaa-kit';
+import { placeGrass, type GrassPlacement } from './art/grass-place';
 import { groveGrassField } from './grass-field';
 import { GrassChunks } from './grass-chunks';
 import type { GrassReply } from './grass-worker';

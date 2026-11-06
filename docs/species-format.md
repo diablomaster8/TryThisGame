@@ -385,6 +385,9 @@ both renderers (LOOK-05):
 | `rise`     | How many segments stand up under the head; 2 by default (Gyarados 4, Airdramon 5).               |
 | `belly`    | A belly stripe in the belly colour.                                                              |
 | `fin`      | A dorsal fin in the accent colour on segments 2 and 5 (Gyarados).                                |
+| `plated`   | Squarer, studded plates instead of round discs (Steelix); 3D adds a stud and a wider block.      |
+| `spikes`   | A ring of short accent spikes on every other segment, sticking out sideways (Steelix).           |
+| `jaw`      | A wide, square, jutting lower jaw on the head with two tusks, an underbite (Steelix).            |
 
 In 3D the neck is sculpted into the torso and each lying segment is a part named `seg<i>`, re-hung
 bone under bone (`render3d/art-serpent.ts`); the walk is a travelling yaw wave on the gait clock.

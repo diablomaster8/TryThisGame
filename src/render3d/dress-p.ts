@@ -12,7 +12,7 @@ import {
   StageTracker,
   type CarryProp,
 } from '../render/stage-actors';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import type { World } from '../sim/types';
 import { STAGE_FIGURES, type Figure } from './crowd';
 import type { Dress3dCtx, Dressing3d } from './dressings';

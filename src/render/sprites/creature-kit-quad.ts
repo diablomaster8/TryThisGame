@@ -298,13 +298,17 @@ export function drawKitExtras(
         // from the side the missile points out ahead of the chest.
         if (behind || a.back) break;
         const my = a.bodyCy - Math.round(a.bodyRy * 0.35);
-        if (side) {
+        if (side || a.face > 0) {
           // Above the near arm's fist, which covers the middle of the chest from the side.
-          const mx = a.bodyCx + a.bodyRx - 2;
-          const sy = a.bodyCy - Math.round(a.bodyRy * 0.75);
-          pc.rect(mx, sy - 1, 4, 3, C.lilacGrey);
-          pc.px(mx + 1, sy - 1, C.pale);
-          pc.tri(mx + 4, sy - 1, mx + 4, sy + 1, mx + 6, sy, C.ember);
+          // A dark hatch, then a red nose cone 4 px long outlined in ink, drawn over the arm.
+          const mx = a.bodyCx + a.bodyRx - (side ? 3 : 4);
+          const sy = a.bodyCy - Math.round(a.bodyRy * 0.7);
+          pc.rect(mx - 1, sy - 3, 5, 6, C.ink);
+          pc.rect(mx, sy - 2, 3, 4, C.lilacGrey);
+          pc.px(mx, sy - 2, C.pale);
+          pc.tri(mx + 2, sy - 3, mx + 2, sy + 3, mx + 8, sy, C.ink);
+          pc.tri(mx + 3, sy - 2, mx + 3, sy + 2, mx + 7, sy, C.ember);
+          pc.px(mx + 3, sy - 1, C.pale);
         } else {
           const mx = a.bodyCx + (a.face > 0 ? 2 : 0);
           pc.ellipse(mx, my, 3, 2.5, C.ink);

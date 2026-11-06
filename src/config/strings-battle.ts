@@ -2,6 +2,8 @@ import { FUMBLE_TEXT, FUSION_TEXT } from './strings-battle-r6';
 import type { BattleEvent, Combatant, MoodStat, StatusId, TraitId } from '../sim/battle/types';
 import type { NubbinType } from '../sim/types';
 import { moveName } from './strings-battle-moves';
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 
 export { BATTLE_MOVE_TEXT, moveName } from './strings-battle-moves';
 
@@ -207,7 +209,10 @@ export function formatEvent(e: BattleEvent, name: (id: string) => string): strin
         ? `${name(e.by)} draws a doodle of themself.`
         : `${name(e.by)} bonks the doodle instead!`;
     case 'yawny':
-      return `${name(e.who)} is ${BATTLE_TEXT.yawny.toLowerCase()} and starts with little Puff.`;
+      return fmt(MESSAGES_EN.yawnyStart, {
+        name: name(e.who),
+        state: BATTLE_TEXT.yawny.toLowerCase(),
+      });
     case 'turnStart':
     case 'turnEnd':
       return null;
@@ -309,8 +314,12 @@ export function formatRound3(e: BattleEvent, name: (id: string) => string): stri
     case 'item': {
       const it = T.items[e.item];
       return e.by === e.to
-        ? `${name(e.by)} has a ${it?.name.toLowerCase() ?? e.item}.`
-        : `${name(e.by)} gives ${name(e.to)} a ${it?.name.toLowerCase() ?? e.item}.`;
+        ? fmt(MESSAGES_EN.itemOwn, { by: name(e.by), item: it?.name.toLowerCase() ?? e.item })
+        : fmt(MESSAGES_EN.itemGive, {
+            by: name(e.by),
+            to: name(e.to),
+            item: it?.name.toLowerCase() ?? e.item,
+          });
     }
     case 'calm':
       return e.delta >= 0 ? `${name(e.to)} looks calmer.` : `${name(e.to)} looks wary.`;

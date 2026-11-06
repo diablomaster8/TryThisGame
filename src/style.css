@@ -5961,3 +5961,16 @@ body.edu-sprout.edu-sprout.edu-sprout .topbar .btn:not(.btn-logo) {
   font-weight: bold;
   z-index: 54;
 }
+
+/* R0447 (lane D r13): the title's "Load another save" fold. */
+.title-spare > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.title-spare-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}

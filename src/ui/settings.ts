@@ -3,6 +3,7 @@ import { mountProfileBackup } from './backup'; /* Lane C r11 */
 import { shareOrDownload } from '../platform/share';
 import { mountOfflinePacks } from './offline-packs';
 import { SHARE_TEXT } from '../config/strings-r9d3';
+import { GROVE_DRESS_TEXT } from '../config/strings-r13d1';
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
 import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
@@ -87,6 +88,7 @@ export class SettingsMenu {
   private readonly autoRun: HTMLInputElement;
   private readonly camFollow: HTMLInputElement;
   private readonly leftHand: HTMLInputElement;
+  private readonly groveDress: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
   /** TECH-27: text size. */
@@ -385,6 +387,18 @@ export class SettingsMenu {
     );
     handRow.append(this.leftHand, lText);
     body.appendChild(handRow);
+    // R0096: keep the old Sun and Moon recolour of the Grove.
+    const dressRow = el('label', 'check-row');
+    this.groveDress = el('input');
+    this.groveDress.type = 'checkbox';
+    this.groveDress.addEventListener('change', () => this.apply());
+    const gdText = el('span');
+    gdText.append(
+      el('strong', undefined, GROVE_DRESS_TEXT.label),
+      el('small', undefined, GROVE_DRESS_TEXT.help),
+    );
+    dressRow.append(this.groveDress, gdText);
+    body.appendChild(dressRow);
     // R0302: the dialogue's voice blips.
     at('sound');
     const blipRow = el('label', 'check-row');
@@ -654,6 +668,7 @@ export class SettingsMenu {
     this.autoRun.checked = !!g.world.settings.autoRun;
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
+    this.groveDress.checked = !!g.world.settings.groveDresses;
     this.blips.checked = g.world.settings.voiceBlips !== false;
     this.haptics.checked = hapticsOn(g.world.settings);
     this.slapstick.value = g.world.settings.slapstick ?? 'full';
@@ -827,6 +842,8 @@ export class SettingsMenu {
       settings.autoRun = this.autoRun.checked;
     if (this.camFollow.checked !== !!g.world.settings.cameraFollowsWalk)
       settings.cameraFollowsWalk = this.camFollow.checked;
+    if (this.groveDress.checked !== !!g.world.settings.groveDresses)
+      settings.groveDresses = this.groveDress.checked;
     if (this.leftHand.checked !== !!g.world.settings.leftHanded)
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))

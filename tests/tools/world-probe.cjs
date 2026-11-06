@@ -245,6 +245,7 @@ async function probe(TAG) {
     args: ['--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'],
   });
   const ctx = await browser.newContext({
+    bypassCSP: true, // newer playwright-core runs waitForFunction through eval
     viewport: { width: 375, height: 812 },
     deviceScaleFactor: 2,
     isMobile: true,

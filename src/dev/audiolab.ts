@@ -2,11 +2,16 @@
  * R0507 (TECH-64): `?audiolab` (dev only). Renders every sound effect through the real bus
  * graph offline, measures its peak and an approximate loudness (K-weighted mean square, ungated,
  * so a short effect reads quieter than its peak suggests), and lists them against the targets
- * in `SFX_TARGETS`. Songs are not rendered here yet: the score scheduler is tied to the live clock.
+ * in `SFX_TARGETS`.
  */
 import audioSrc from '../platform/audio.ts?raw';
-import { renderSoundOffline, type SoundName } from '../platform/audio';
-import { SFX_TARGETS } from '../config/tuning-r8d-audio';
+import {
+  renderSoundOffline,
+  renderSongOffline,
+  SONG_NAMES,
+  type SoundName,
+} from '../platform/audio';
+import { SFX_TARGETS, SONG_LEVEL, SONG_LUFS } from '../config/tuning-r8d-audio';
 
 /** Every name in the SoundName union, read from the source so the list never goes stale. */
 export function soundNamesFromSource(src: string): string[] {
@@ -88,6 +93,11 @@ export function targetPeak(name: string): number {
   return SFX_TARGETS.ticks.includes(name) ? SFX_TARGETS.tickPeakDb : SFX_TARGETS.peakDb;
 }
 
+/** A song's target in LUFS: the common target plus its offset (night and sorrow sit 2 dB under). */
+export function songTarget(name: string): number {
+  return SONG_LUFS.targetLufs + (SONG_LEVEL.offsetDb[name] ?? 0);
+}
+
 export async function runAudioLab(root: HTMLElement): Promise<void> {
   root.textContent = 'Rendering sounds...';
   const rows: string[] = [];
@@ -104,6 +114,21 @@ export async function runAudioLab(root: HTMLElement): Promise<void> {
         `<td>${m ? m.lufs.toFixed(1) : ''}</td><td>${t}</td><td>${m ? (ok ? 'ok' : off > 0 ? 'loud' : 'quiet') : ''}</td></tr>`,
     );
   }
+  const songRows: string[] = [];
+  const songLevels: Record<string, number> = {};
+  for (const name of SONG_NAMES) {
+    const x = await renderSongOffline(name, SONG_LUFS.renderSec);
+    const m = x ? measure(x, 44100) : null;
+    const t = songTarget(name);
+    if (m) songLevels[name] = Math.round(m.lufs * 10) / 10;
+    const off = m ? m.lufs - t : 0;
+    const ok = m ? Math.abs(off) <= SONG_LUFS.toleranceLu : true;
+    songRows.push(
+      `<tr${ok ? '' : ' style="background:#fdd"'}><td>${name}</td><td>${m ? m.peakDb.toFixed(1) : 'silent'}</td>` +
+        `<td>${m ? m.lufs.toFixed(1) : ''}</td><td>${t}</td><td>${m ? off.toFixed(1) : ''}</td><td>${ok ? 'ok' : off > 0 ? 'loud' : 'quiet'}</td></tr>`,
+    );
+  }
+  (window as unknown as { audioLabSongs: Record<string, number> }).audioLabSongs = songLevels;
   root.innerHTML =
     '<h1>Audio lab</h1><p>Effect peaks and approximate LUFS through the real bus and compressor. ' +
     'Songs are not measured here yet. Median peak: ' +
@@ -111,6 +136,11 @@ export async function runAudioLab(root: HTMLElement): Promise<void> {
     ' dBFS.</p><table border="1" cellpadding="4" style="border-collapse:collapse">' +
     '<tr><th>sound</th><th>peak dBFS</th><th>LUFS</th><th>target peak</th><th>verdict</th></tr>' +
     rows.join('') +
+    '</table><h2>Songs (' +
+    SONG_LUFS.renderSec +
+    ' s each, through the trim)</h2>' +
+    '<table border="1" cellpadding="4" style="border-collapse:collapse"><tr><th>song</th><th>peak dBFS</th><th>LUFS</th><th>target</th><th>off (LU)</th><th>verdict</th></tr>' +
+    songRows.join('') +
     '</table>';
   (window as unknown as { audioLabRows: number }).audioLabRows = rows.length;
 }

@@ -237,6 +237,7 @@ const A1: EduQuest = quest(
         GR('Go on, then. They will want help. I will make supper.'),
         N('The lorry is little and has wheels at the front and the back.'),
         N('Your Nubbin trots after it in the dust.'),
+        N('Honk! The little lorry honks, and the dust goes whoosh.'),
       ],
       [
         doit(
@@ -291,6 +292,7 @@ const A1: EduQuest = quest(
       [
         FA('That is the last box. Who wants to find the well?'),
         N('Mei wants to. Satsuki wants to. Your Nubbin wants to!'),
+        N('Thump! The last box thumps down by the door.'),
       ],
       [
         ask(
@@ -327,6 +329,7 @@ const A1: EduQuest = quest(
         ME('It is the biggest in the world!'),
         N('The wind blows. The whole tree moves, slow and soft.'),
         N('Your Nubbin sits down in the grass and looks up.'),
+        N('Swish! The big tree swishes, slow and soft.'),
       ],
       [
         notice(
@@ -350,6 +353,7 @@ const A1: EduQuest = quest(
         N('Supper is rice, pickles and fish.'),
         N('Cicadas stop buzzing. Frogs start. Ribbit! Ribbit!'),
         GR('The old house was empty for a long time. It will like children.'),
+        N('Buzz! The cicadas buzz, then go quiet, one by one.'),
       ],
       [
         doit(
@@ -393,6 +397,7 @@ const A2: EduQuest = quest(
         N('You go up together with your lantern.'),
         N('Scritch, scratch! Little black things run away from the light.'),
         ME('I will catch one!'),
+        N('Creak! The old stairs creak under the lantern light.'),
       ],
       [
         ask(
@@ -426,6 +431,7 @@ const A2: EduQuest = quest(
         N('Mei holds up her hands. They are empty.'),
         N('But her hands are black. Her feet are black too.'),
         ME('I got its black on me!', 'happy'),
+        N('Giggle! Mei giggles, and shows her black hands.'),
       ],
       [
         doit(
@@ -453,6 +459,7 @@ const A2: EduQuest = quest(
         N('A boy looks over the hedge. It is Kanta. He puts a basket on the step.'),
         KA('Your house is haunted!'),
         N('He runs away, very fast. The basket stays.'),
+        N('Splash! The rags splash in the bucket.'),
       ],
       [
         ask(
@@ -514,6 +521,7 @@ const A2: EduQuest = quest(
         N('You all clean until dusk. The girls race the rags down the floor.'),
         N('Your Nubbin rinses a rag in the bucket. It sits in it.'),
         GR('A house with its windows open. That is more like it.'),
+        N('Splash! Splash! Your Nubbin splashes in the rag bucket.'),
       ],
       [
         notice(
@@ -617,6 +625,7 @@ const A3: EduQuest = quest(
         ME('Dad! I heard something!', 'shock'),
         FA('Do you know what to do? Laugh, as loud as you can!'),
         N('From the back comes a big, silly laugh. Ha ha ha!'),
+        N('Splash! The bath splashes at the back of the house.'),
       ],
       [
         ask(
@@ -657,6 +666,7 @@ const A3: EduQuest = quest(
         N('The wind blows on. Inside, nobody minds any more.'),
         N('Mei comes out pink and warm in a towel.'),
         N('She falls asleep on the floor. Snore!'),
+        N('Whoosh! The wind whooshes by, and the old house creaks.'),
       ],
       [
         notice(
@@ -679,6 +689,7 @@ const A3: EduQuest = quest(
         N('You sit on Granny’s step. Your Nubbin looks at the old house.'),
         N('Soft black things float up from the eaves. Up, up, up the hill.'),
         N('Satsuki sees you. She lifts her hand.'),
+        N('Whoosh! The little black things whoosh up and away.'),
       ],
       [
         notice(
@@ -704,6 +715,7 @@ const A3: EduQuest = quest(
         N('The last little black thing goes into the dark tree.'),
         GR('Still up? They have gone. They will find another empty house.', 'soft'),
         N('Granny brings barley tea. She sits with you and says nothing.'),
+        N('Creak! The old step creaks as Granny sits beside you.'),
       ],
       [
         notice(
@@ -782,6 +794,7 @@ const A4: EduQuest = quest(
         N('All its windows are open.'),
         SA('Mum’s window is the third one. Mei, walk!'),
         N('Mei runs.'),
+        N('Ding! Ding! The bicycle bell dings all the way up.'),
       ],
       [
         doit(
@@ -929,6 +942,7 @@ const A5: EduQuest = quest(
         N('Then your Nubbin stops. Something small and white walks through the grass.'),
         N('A bigger blue one follows. It has a little sack of acorns.'),
         ME('Oh! Wait for me!'),
+        N('Pitter, patter! Tiny feet pitter-patter through the grass.'),
       ],
       [
         notice(
@@ -958,6 +972,7 @@ const A5: EduQuest = quest(
         N('The small ones go under the house and out the other side.'),
         N('Into the hedge they go.'),
         ME('They went in there! There is a tunnel!'),
+        N('Swish! The hedge swishes as they slip through.'),
       ],
       [
         ask(
@@ -1012,6 +1027,7 @@ const A5: EduQuest = quest(
         N('You are in an old, quiet wood. Long lines of light come down.'),
         N('A tree root is as wide as a road. Above it, the camphor tree goes up and up.'),
         N('Mei’s hat is on the moss. Mei is not in it.'),
+        N('Crunch! Dry leaves crunch under your feet.'),
       ],
       [
         notice(
@@ -1058,6 +1074,7 @@ const A6: EduQuest = quest(
         N('A great grey-and-white shape is fast asleep.'),
         N('Mei lies on his tummy. It goes up and down.'),
         ME('Shh. He is asleep. He is so soft.', 'happy'),
+        N('Whoosh! The leaves whoosh, and the sleepy fur goes up and down.'),
       ],
       [
         doit(
@@ -1084,6 +1101,7 @@ const A6: EduQuest = quest(
         N('You wake up on soft moss in a green clearing.'),
         N('Mei is asleep beside you. Gold light shines through the leaves.'),
         N('The tree root is gone. Your Nubbin looks all around.'),
+        N('Peep! A little bird goes peep above the clearing.'),
       ],
       [
         ask(
@@ -1111,6 +1129,7 @@ const A6: EduQuest = quest(
         N('Mei goes back to the hedge. Every gap leads to the garden.'),
         ME('It was here. I am not telling fibs.', 'sad'),
         FA('I believe you, Mei. Not many people are so lucky.', 'soft'),
+        N('Whee! Mei runs back to the hedge. Whee!'),
       ],
       [
         ask(
@@ -1141,6 +1160,7 @@ const A6: EduQuest = quest(
         FA('When someone lets you visit, you say thank you.'),
         FA('Come on. All of us.'),
         N('Mei takes your hand. Off you go, up the hill.'),
+        N('Crunch! The path crunches as you all go up the hill.'),
       ],
       [
         doit(
@@ -1168,6 +1188,7 @@ const A6: EduQuest = quest(
         FA('Because it is a very old, special tree. People look after it.'),
         N('The family bows to the tree. You stand behind them.'),
         FA('Thank you for looking after Mei.'),
+        N('Ding! A small bell dings at the shrine.'),
       ],
       [
         notice(
@@ -1207,6 +1228,7 @@ const A6: EduQuest = quest(
         ME('The big one was this big! No, this big!'),
         N('Every time Mei tells it, the spirit gets a bit bigger.'),
         GR('A big one, was it? Hm.', 'think'),
+        N('Hee-hee! Mei giggles, and stretches her arms wide.'),
       ],
       [
         doit(
@@ -1272,6 +1294,7 @@ const A7: EduQuest = quest(
         N('The umbrella is old, with a patch and a little hole.'),
         ME('Kanta’s house is haunted too.'),
         SA('Mei.'),
+        N('Pitter, patter! The rain goes pitter-patter on the old umbrella.'),
       ],
       [
         ask(
@@ -1304,6 +1327,7 @@ const A7: EduQuest = quest(
         ME('I will say thank you very loudly!'),
         SA('That is what we cannot do.'),
         SA('Keeper, what do we do?'),
+        N('Drip! Drip! The umbrella drips on the step.'),
       ],
       [
         ask(
@@ -1343,6 +1367,7 @@ const A7: EduQuest = quest(
         N('Next time it rains, the umbrella goes to school.'),
         N('Kanta holds it a little to one side. One person under it. One space beside.'),
         GR('That boy would give you the coat off his back.', 'happy'),
+        N('Pitter, patter! Rain pitter-patters on the umbrella.'),
       ],
       [
         doit(
@@ -1386,6 +1411,7 @@ const A8: EduQuest = quest(
         N('Mei sniffs a tomato. It smells of sunshine.'),
         N('The girls cool the vegetables in the stream.'),
         ME('This corn is for Mum. Only this one.', 'think'),
+        N('Splash! The vegetables splash in the cool stream.'),
       ],
       [
         ask(
@@ -1416,6 +1442,7 @@ const A8: EduQuest = quest(
         N('Mei carries her ear of corn home herself.'),
         N('She holds it in both arms, like a baby.'),
         N('Nobody else may hold it.'),
+        N('Crunch! Mei’s feet crunch on the path.'),
       ],
       [
         notice(
@@ -1438,6 +1465,7 @@ const A8: EduQuest = quest(
         SA('Dear Mum. Mei has met a spirit. He is big and grey.'),
         SA('Please get better soon. I miss you.', 'soft'),
         N('Mei has drawn a picture at the bottom.'),
+        N('Pop! The little cork pops out of the ink bottle.'),
       ],
       [
         doit(
@@ -1467,6 +1495,7 @@ const A8: EduQuest = quest(
         ME('Will it go fast?'),
         SA('First the bus. Next the train. Last a man brings it.'),
         ME('I could go faster.', 'think'),
+        N('Thump! The letter thumps into the red box.'),
       ],
       [
         doit(
@@ -1514,6 +1543,7 @@ const A9: EduQuest = quest(
         N('You carry the lantern. Your Nubbin hides under Mei’s umbrella.'),
         N('A bus comes. Nobody gets off. It drives away.'),
         SA('He will be on the next one.'),
+        N('Splash! Splash! The puddles splash under the girls’ boots.'),
       ],
       [
         doit(
@@ -1542,6 +1572,7 @@ const A9: EduQuest = quest(
         N('The next bus is a long time coming.'),
         N('Mei gets heavier and sleepier.'),
         N('Satsuki lifts her on to her back.'),
+        N('Pitter, patter! The rain goes pitter-patter on the roof.'),
       ],
       [
         ask(
@@ -1573,6 +1604,7 @@ const A9: EduQuest = quest(
         N('Next to Satsuki stands something huge and grey, with a leaf on its head.'),
         N('It looks at the dark road, like people at a bus stop.'),
         N('Then it looks at you. It blinks, once, very slowly.'),
+        N('Drip! Drip! The rain drips from the roof.'),
       ],
       [
         doit(
@@ -1603,6 +1635,7 @@ const A9: EduQuest = quest(
         N('A drop falls on it. Tok!'),
         N('Then the drops in every tree fall at once. Tok, tok, tok!'),
         N('He leaps with joy. A happy roar goes through you like warm wind.'),
+        N('Whoosh! A happy roar goes whoosh through the trees.'),
       ],
       [
         notice(
@@ -1652,6 +1685,7 @@ const A9: EduQuest = quest(
       [
         N('A plain bus comes round the bend. Mr Kusakabe gets off.'),
         FA('All of you? In this rain? Why do you all look like that?'),
+        N('Honk! The plain bus goes honk and splash.'),
       ],
       [
         ask(
@@ -1682,6 +1716,7 @@ const A9: EduQuest = quest(
         FA('Took my umbrella, did he? He is welcome. It leaked.', 'happy'),
         N('At Granny’s door, your Nubbin finds a big leaf. It wears it like a hat.'),
         N('It will not take it off for supper.'),
+        N('Crunch! The big leaf crunches on your Nubbin’s head.'),
       ],
       [
         doit(
@@ -1724,6 +1759,7 @@ const A10: EduQuest = quest(
         ME('Acorns! He gave us acorns!', 'happy'),
         FA('Seeds are a promise. You must keep your side.'),
         N('Your Nubbin sniffs every one.'),
+        N('Pop! The grass string pops, and acorns roll out.'),
       ],
       [
         doit(
@@ -1753,6 +1789,7 @@ const A10: EduQuest = quest(
         SA('We will make a seed bed in the garden.'),
         SA('Will you help dig?'),
         N('Many hands. Dig, dig, dig!'),
+        N('Thump! Thump! The spades thump into the soil.'),
       ],
       [
         notice(
@@ -1776,6 +1813,7 @@ const A10: EduQuest = quest(
         ME('Now they grow.'),
         N('They do not. Mei squats and waits. Your Nubbin squats too.'),
         N('Nothing comes up. Not today. Not tomorrow.'),
+        N('Plop! Plop! Each seed plops into its hole.'),
       ],
       [
         ask(
@@ -1818,6 +1856,7 @@ const A10: EduQuest = quest(
         FA('Seeds take their time. Most good things do.', 'soft'),
         ME('He would make them grow. If he came.'),
         N('That night your Nubbin sits at the window. It looks at the old house.'),
+        N('Creak! The window creaks open to the night.'),
       ],
       [
         ask(
@@ -1871,6 +1910,7 @@ const A11: EduQuest = quest(
         N('In the old house garden, three spirits walk round the seed bed.'),
         N('Satsuki and Mei come out in their nightclothes.'),
         ME('He came! Onee-chan, he came!', 'happy'),
+        N('Pitter, patter! Soft feet go pitter-patter on the wood.'),
       ],
       [
         notice(
@@ -1899,6 +1939,7 @@ const A11: EduQuest = quest(
         N('They twist and grow. A sapling, then a tree.'),
         N('It grows as tall as the great tree on the hill.'),
         SA('We did it!', 'happy'),
+        N('Whee! Round the bed you go. Whee!'),
       ],
       [
         ask(
@@ -1928,6 +1969,7 @@ const A11: EduQuest = quest(
         N('The great one sets a huge wooden top spinning.'),
         N('He steps on it. He holds out a paw to the girls.'),
         N('Round and round it goes. Whirr!'),
+        N('Whirr! Whee! The big top whirrs round and round.'),
       ],
       [
         notice(
@@ -1951,6 +1993,7 @@ const A11: EduQuest = quest(
         ME('We are the wind!', 'happy'),
         N('At the very top of the tree, little flutes play.'),
         N('You hear frogs, wind and the stream, all at once.'),
+        N('Whee! The wind goes whoosh, and you go whee.'),
       ],
       [
         ask(
@@ -1981,6 +2024,7 @@ const A11: EduQuest = quest(
         SA('It was a dream! But it was not!', 'happy'),
         N('On your windowsill is a small black seed.'),
         N('It smells of the camphor tree. You keep it.'),
+        N('Tweet! A morning bird goes tweet at the window.'),
       ],
       [
         ask(
@@ -2349,6 +2393,7 @@ const A14: EduQuest = quest(
         N('He gets up, with Satsuki on his tummy.'),
         N('He climbs up the tree, like wind. You climb after.'),
         N('Up, up, up. The roots are far below.'),
+        N('Whoosh! The wind whooshes as you go up.'),
       ],
       [
         ask(
@@ -2482,6 +2527,7 @@ const A15: EduQuest = quest(
         N('Satsuki bows a little to the Catbus. She asks it nicely.'),
         N('The sign rolls round. It says HOSPITAL.'),
         N('The sisters climb in. The door stays open for you.'),
+        N('Creak! The sign creaks round, slow and wide.'),
       ],
       [
         ask(
@@ -2528,6 +2574,7 @@ const A15: EduQuest = quest(
         N('Mei sits on Satsuki’s lap with the corn.'),
         ME('Are we nearly there?'),
         SA('Nearly.', 'soft'),
+        N('Whoosh! The hills whoosh by in the dusk.'),
       ],
       [
         notice(
@@ -2649,6 +2696,7 @@ const A16: EduQuest = quest(
         GR('Oh, the three of you.', 'soft'),
         N('Later in the summer, Mrs Kusakabe comes home. She is getting well.'),
         N('You are back in the Grove. There is a bus-stop bench by the lane.'),
+        N('Creak! The old gate creaks as you step through.'),
       ],
       [
         ask(
@@ -2689,6 +2737,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Next to Satsuki, something stands in the rain.'),
       N('You see two big grey feet. They have claws like garden forks.'),
       N('The rain drips on to the feet. One shifts, politely.'),
+      N('Drip! Drip! The rain drips off the big grey feet.'),
     ],
     [
       doit(
@@ -2722,6 +2771,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Shoots come up. One more, darker, comes from the little hole.'),
       N('They grow into a tree as tall as the great tree.'),
       SA('We did it!', 'happy'),
+      N('Whee! Round the bed you go. Whee!'),
     ],
     [
       ask(
@@ -2755,6 +2805,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       SA('It was a dream! But it was not!', 'happy'),
       N('Where you planted the acorn, the earth is smooth and bare.'),
       N('Your Nubbin looks at the hill, as if it knows something.'),
+      N('Tweet! A morning bird goes tweet at the window.'),
     ],
     [
       ask(
@@ -2785,6 +2836,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       KA('Where is Satsuki?'),
       Y('She has gone to get help, somewhere I cannot follow.'),
       KA('Then we look on our own. Get on!'),
+      N('Ding! Ding! The bicycle bell dings. Get on!'),
     ],
     [
       ask(
@@ -2818,6 +2870,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Kanta pedals hard. He stands up on the pedals.'),
       N('He shouts, “Mei!” at every turning.'),
       N('Your Nubbin hangs on tight.'),
+      N('Ding! Ding! The bicycle bell dings at every turn.'),
     ],
     [
       ask(
@@ -2846,6 +2899,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Two yellow lights go over your heads, along the wires.'),
       N('A sign on top says MEI.'),
       Y('Follow that wind!'),
+      N('Whoosh! The wind whooshes, and the wires hum.'),
     ],
     [
       notice(
@@ -2871,6 +2925,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('The wind dies away ahead of you.'),
       N('Kanta keeps pedalling. He does not ask any more questions.'),
       N('The road bumps. Bump, bump, bump!'),
+      N('Bonk! Bump! The wheels bonk over the stones.'),
     ],
     [
       ask(
@@ -2920,6 +2975,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Behind them the Catbus waits. Kanta cannot see it, but you can.'),
       KA('Mei! She is all right!', 'happy'),
       N('Your Nubbin runs down the road and hugs your shins.'),
+      N('Whoosh! The Catbus whooshes past, and is gone.'),
     ],
     [
       ask(
@@ -2961,6 +3017,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('The sisters climb in. The door shuts. The Catbus leaps.'),
       KA('Where did they go? They were just there!', 'shock'),
       Y('They have gone to see their mum.'),
+      N('Whoosh! The Catbus whooshes up and away.'),
     ],
     [
       doit(
@@ -2989,6 +3046,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('The statues stand in their red bibs in the last light.'),
       N('They keep the road, as they always have.'),
       N('The flowers at their feet nod, and are still.'),
+      N('Pitter, patter! A few drops pitter-patter on the stones.'),
     ],
     [
       doit(
@@ -3013,6 +3071,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Up the long hill you walk it. Down the other side, it flies.'),
       KA('I am going to be in so much trouble.', 'happy'),
       N('He does not sound as if he minds at all.'),
+      N('Ding! Whee! The bicycle bell dings all the way down.'),
     ],
     [
       notice(
@@ -3039,6 +3098,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       MO('It is only a cold. The doctor is fussing.', 'happy'),
       N('In the tall pine, two small shapes sit very still.'),
       KA('Is that them? Up the tree?', 'shock'),
+      N('Creak! The tall pine creaks in the wind.'),
     ],
     [
       notice(
@@ -3065,6 +3125,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('It puts down an ear of corn on the sill.'),
       N('Mr Kusakabe finds it. It says, To Mother.'),
       N('He looks out at the pine. He lifts his hand. You lift yours.'),
+      N('Whoosh! A soft wind whooshes through the pine.'),
     ],
     [
       doit(
@@ -3087,6 +3148,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('A gust goes through the pine. The small shapes are gone.'),
       N('Two yellow lights go over the hills towards home.'),
       N('Kanta watches them all the way.'),
+      N('Whoosh! The wind whooshes, and the road is empty.'),
     ],
     [
       ask(
@@ -3115,6 +3177,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Kanta goes pink to the ears.'),
       N('Later in the summer, Mrs Kusakabe comes home. She is getting well.'),
       N('You are back in the Grove. There is a bus-stop bench by the lane.'),
+      N('Ding! The bicycle bell dings at the gate.'),
     ],
     [
       ask(
@@ -3144,6 +3207,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       M('I planted one of those, long ago. It took four hundred years.', 'think'),
       M('You did it in one night.'),
       M('Show-off.'),
+      N('Creak! The big tree creaks, as if it is proud.'),
     ],
     [
       notice(
@@ -3175,6 +3239,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Something drops through the leaves into your hand. An acorn!'),
       M('It gives back. Put it on the string.', 'soft'),
       N('You thread it on. It fits.'),
+      N('Plop! The acorn plops into your hand.'),
     ],
     [
       notice(
@@ -3224,6 +3289,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('Its leaves are glossy and smell sharp.'),
       N('Your Nubbin sits by the pot, chin on its knees.'),
       N('It means to be very good at waiting for a tree.'),
+      N('Plop! The pot plops down in the soft earth.'),
     ],
     [
       ask(

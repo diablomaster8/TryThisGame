@@ -15,9 +15,9 @@ import type { Flashes, Overlays, TacticsBoardView } from '../minigames/tactics/b
 import { daylightAt } from '../render/daylight';
 import { C, color } from '../render/sprites/palette';
 import { speciesArt } from '../render/sprites/species-art';
-import { variantById } from '../samples/nubbin-variant-catalogue';
-import type { Rigged } from '../samples/species';
-import { ROSTER } from '../samples/species-roster';
+import { variantById } from './art/nubbin-variant-catalogue';
+import type { Rigged } from './art/species';
+import { ROSTER } from './art/species-roster';
 import { standing } from '../sim/battle/damage';
 import { heightAt, mapOf, tileAt } from '../sim/battle/tactics';
 import { chargeTiles } from '../sim/battle/tactics/engine';

@@ -211,6 +211,7 @@ const Q1: EduQuest = quest(
         RA('Say it with me. Ka-ri-bu!'),
         N('Your Nubbin climbs the tree. It sits in the fork.'),
         RA('Today a king shows his new baby to everyone. Will you help me carry gourds?'),
+        N('Whoosh! Rafiki swings down from the tree, quick as a monkey.'),
       ],
       [
         doit(
@@ -250,6 +251,7 @@ const Q1: EduQuest = quest(
         N('Your tummy bounces. You want to hurry after him!'),
         RA('Polepole. Slowly. The sun is not going anywhere.'),
         N('You slow down. Your Nubbin slows down too.'),
+        N('Thump, thump! Rafiki’s stick thumps along the path ahead.'),
       ],
       [
         ask(
@@ -284,6 +286,7 @@ const Q1: EduQuest = quest(
         ZA('Are you on the list? I keep the list.', 'think'),
         RA('They are with me, Zazu.'),
         ZA('Very well. Go up. Mind the king’s tail.'),
+        N('Thump, thump! A hundred feet thump toward the big rock.'),
       ],
       [
         doit(
@@ -327,6 +330,7 @@ const Q1: EduQuest = quest(
         MU('Rafiki. You came.'),
         RA('I always come.', 'happy'),
         N('Rafiki is a Swahili word. It means friend.'),
+        N('Tweet! Tweet! The birds sing hello to the king.'),
       ],
       [
         notice(
@@ -353,6 +357,7 @@ const Q1: EduQuest = quest(
         N('Your Nubbin climbs on your head to see.'),
         N('Down on the plain, the zebras stamp. The birds fly in a big wheel.'),
         N('Then the whole plain kneels.'),
+        N('Whoosh! The birds whoosh up in one big wheel.'),
       ],
       [
         ask(
@@ -396,6 +401,7 @@ const Q1: EduQuest = quest(
         MU('His name is Simba. That is the Swahili word for lion.'),
         N('Simba. Say it slowly: sss-im-ba.'),
         RA('Now we have painting to do.'),
+        N('Squeak! The little cub squeaks in his sleep.'),
       ],
       [
         ask(
@@ -483,6 +489,7 @@ const Q2: EduQuest = quest(
         RA('Good work. Asante! That means thank you.'),
         RA('Now you say it to me.'),
         N('You say asante. Rafiki smiles all the way up to his ears.'),
+        N('Splash! A big yellow splash lands on Rafiki’s nose.'),
       ],
       [
         ask(
@@ -515,6 +522,7 @@ const Q2: EduQuest = quest(
         N('Last, he paints a red line on the brow.'),
         N('Your Nubbin puts a red paw-print on its own head.'),
         RA('Ha! Painting someone means you want to remember them.', 'happy'),
+        N('Swish! Rafiki swishes the shell, and the red line appears.'),
       ],
       [
         doit(
@@ -553,6 +561,7 @@ const Q2: EduQuest = quest(
         N('Rafiki gives your Nubbin a tiny dried gourd on a string.'),
         RA('Nothing is in it yet. That is the best kind of gourd.'),
         N('Your Nubbin shakes it. Rattle, rattle!'),
+        N('Rattle! Pop! The tiny gourd pops open, and out falls a seed.'),
       ],
       [
         ask(
@@ -608,6 +617,7 @@ const Q3: EduQuest = quest(
         MU('Simba. Guests are not for pouncing.'),
         SI('It started it!'),
         N('Your Nubbin looks delighted. It dives back in.'),
+        N('Boing! Simba boings like a spring, right into the grass.'),
       ],
       [
         ask(
@@ -649,6 +659,7 @@ const Q3: EduQuest = quest(
         N('The king walks to the top of the rock.'),
         N('Simba scrambles after him. You follow.'),
         N('Tap, tap, tap, tap. Your feet make a steady beat.'),
+        N('Thump, thump, thump! Your feet thump up the big rock.'),
       ],
       [
         doit(
@@ -671,6 +682,7 @@ const Q3: EduQuest = quest(
         N('Far away is a grey place. Nothing seems to grow there.'),
         MU('Stay away from there, Simba.'),
         N('Your Nubbin holds its hands up to the sun.'),
+        N('Whoosh! The sun whooshes up, and the grass turns gold.'),
       ],
       [
         ask(
@@ -713,6 +725,7 @@ const Q3: EduQuest = quest(
         N('Pounce! He lands on Zazu.'),
         N('Your Nubbin watches. It wiggles, it creeps, and it pounces.'),
         N('It misses! It lands in a bush.'),
+        N('Boing! Pounce! Down goes Zazu, and out comes a squeak.'),
       ],
       [
         doit(
@@ -747,6 +760,7 @@ const Q3: EduQuest = quest(
         MU('Your small one will be a fine hunter. With a bigger bush.'),
         N('Simba lies on his back with his paws in the air.'),
         N('He is out of breath and very proud.'),
+        N('Pfft! Simba blows out his breath, and giggles.'),
       ],
       [
         ask(
@@ -791,6 +805,7 @@ const Q4: EduQuest = quest(
         SC('How lovely. I will not get up.'),
         N('Scar looks at you for a long time. Your tummy feels funny.'),
         N('Your Nubbin hides behind your leg.'),
+        N('Creak! A tiny stone creaks under Scar’s heavy paw.'),
       ],
       [
         ask(
@@ -872,6 +887,7 @@ const Q4: EduQuest = quest(
         N('He says it as if he is sorry. His tail says he is not.'),
         N('Simba’s eyes go round and shiny.'),
         SC('Do not tell your dad I said anything.'),
+        N('Drip, drip! Cool water drips from the rock above.'),
       ],
       [
         ask(
@@ -920,6 +936,7 @@ const Q4: EduQuest = quest(
         RA('Hmm. That was not kind.', 'think'),
         RA('Let us fill the gourds. Cubs get thirsty.'),
         N('You fill three gourds with water.'),
+        N('Splash! The gourds splash full, one, two, three.'),
       ],
       [
         doit(
@@ -961,6 +978,7 @@ const Q5: EduQuest = quest(
         ZA('Stay together, in a line, please.'),
         RA('Take water. Keep your eyes open.'),
         N('Your Nubbin walks between the two cubs.'),
+        N('Thump, thump! Four little paws thump along the path.'),
       ],
       [
         ask(
@@ -1003,6 +1021,7 @@ const Q5: EduQuest = quest(
         N('Halfway across the plain, Simba looks at Nala.'),
         N('Nala looks back. Then both of them run!'),
         N('They run far ahead. Zazu is far behind.'),
+        N('Whoosh! Two cubs zoom off across the plain.'),
       ],
       [
         ask(
@@ -1030,6 +1049,7 @@ const Q5: EduQuest = quest(
         N('Far behind, Zazu flies into a flock of flamingos. Bump!'),
         N('The flamingos stand up straight, all in a row.'),
         ZA('Well! At least somebody can make a line.', 'happy'),
+        N('Bonk! A flamingo bonks Zazu, and feathers go pop.'),
       ],
       [
         notice(
@@ -1070,6 +1090,7 @@ const Q5: EduQuest = quest(
         N('Ahead of you, the grass stops.'),
         N('The ground goes grey and cracked.'),
         N('Steam puffs up out of the cracks. Pssshhh!'),
+        N('Pssh! Pop! The steam pops out of the cracks.'),
       ],
       [
         doit(
@@ -1093,6 +1114,7 @@ const Q5: EduQuest = quest(
         N('Your Nubbin holds on to your leg.'),
         Y('We should go back.'),
         SI('We have only just got here!'),
+        N('Creak! A giant rib creaks in the wind.'),
       ],
       [
         ask(
@@ -1219,6 +1241,7 @@ const Q6: EduQuest = quest(
         MU('Never come near my son again.'),
         N('Three hyenas run away into the steam.'),
         N('Ed is still giggling.'),
+        N('Hee-hee! Ed giggles, and the other two go bonk.'),
       ],
       [
         ask(
@@ -1455,6 +1478,7 @@ const Q9: EduQuest = quest(
         N('Zazu has bumped his wing on the rocks. You scoop him up and follow.'),
         N('Three silly, scary hyenas chase Simba to the thorn bushes.'),
         N('They stop at the thorns. Simba is far away now.'),
+        N('Whoosh! Zazu whooshes along, and bumps the rocks. Bonk!'),
       ],
       [
         notice(
@@ -1492,6 +1516,7 @@ const Q9: EduQuest = quest(
         N('Thorns are sharp points on a plant.'),
         N('They stop animals from nibbling the leaves.'),
         N('Beyond the thorns there is only dry sand.'),
+        N('Crack! A dry thorn cracks as it springs back.'),
       ],
       [
         ask(
@@ -1624,6 +1649,7 @@ const Q10: EduQuest = quest(
         N('You walk beside him anyway.'),
         N('It is very hot. You share the last of your water.'),
         N('Simba lies down in the sand.'),
+        N('Gulp! You share the last gulp of water.'),
       ],
       [
         ask(
@@ -1661,6 +1687,7 @@ const Q10: EduQuest = quest(
         N('Big birds circle in the sky. They are vultures.'),
         N('They ride the warm air. They hardly flap at all!'),
         N('Your Nubbin shakes its gourd at them. Rattle, rattle!'),
+        N('Whoosh! The vultures whoosh round and round up high.'),
       ],
       [
         notice(
@@ -1685,6 +1712,7 @@ const Q10: EduQuest = quest(
         PU('Look, Timon. A little lion. Can we keep him?'),
         TI('Fine! But I am not carrying him.'),
         N('Pumbaa carries Simba. Timon carries nothing at all.'),
+        N('Pop! Timon pops up out of the bushes.'),
       ],
       [
         ask(
@@ -1775,6 +1803,7 @@ const Q11: EduQuest = quest(
         PU('We say “no worries”. In Swahili, people say hakuna matata.'),
         N('Simba says it quietly. He smiles a little.'),
         N('Your Nubbin lies on the log next to him.'),
+        N('Splash! Pumbaa splashes into the stream.'),
       ],
       [
         ask(
@@ -1823,6 +1852,7 @@ const Q11: EduQuest = quest(
         N('The page turns its seasons, one after another.'),
         N('Simba grows bigger. A thick gold mane grows in.'),
         N('You and your Nubbin do not change. The atlas keeps your time.'),
+        N('Whoosh! The seasons whoosh by, page after page.'),
       ],
       [
         ask(
@@ -1934,6 +1964,7 @@ const Q12: EduQuest = quest(
         N('Simba jumps out of the ferns. They roll over in the mud.'),
         N('She holds him down. She knows him.'),
         SI('Nala?'),
+        N('Splash! They roll over, and the mud goes splash.'),
       ],
       [
         notice(
@@ -1970,6 +2001,7 @@ const Q12: EduQuest = quest(
         NA('Everyone thought you were lost forever!'),
         N('Then she sees you in the stream. Her eyes go wide.'),
         NA('Rafiki’s guest! You were with him all this time?'),
+        N('Splish, splash! Nala splashes through the stream to you.'),
       ],
       [
         ask(
@@ -1997,6 +2029,7 @@ const Q12: EduQuest = quest(
         N('Under the waterfall, you hear them talk.'),
         NA('There is no rain. The river is mud. We are all hungry.'),
         SI('I cannot go back.'),
+        N('Crack! The dry mud cracks under their feet.'),
       ],
       [
         ask(
@@ -2202,6 +2235,7 @@ const Q13: EduQuest = quest(
         N('It is Rafiki. He has burrs in his beard.'),
         Y('How did you find us?'),
         RA('The wind told me.'),
+        N('Crunch! A twig crunches. Somebody is in the ferns.'),
       ],
       [
         doit(
@@ -2247,6 +2281,7 @@ const Q14: EduQuest = quest(
         RA('Nothing. I am sitting. You can sit too.'),
         N('Simba moves away. Rafiki moves too, and sits again.'),
         RA('I am not following you. I am sitting next to you.'),
+        N('Creak! The log creaks as Rafiki sits down.'),
       ],
       [
         ask(
@@ -2292,6 +2327,7 @@ const Q14: EduQuest = quest(
         N('Rafiki sets off into the trees. He runs very fast!'),
         N('He goes over a log, under a root, and through the ferns.'),
         N('Simba goes after him. So do you.'),
+        N('Whoosh! Rafiki whooshes over the log and under the root.'),
       ],
       [
         ask(
@@ -2411,6 +2447,7 @@ const Q14: EduQuest = quest(
         N('Rafiki swings the stick again. This time Simba ducks!'),
         RA('Ha! You learn.'),
         N('Simba looks at the sky. Then he runs for home.'),
+        N('Bonk! Rafiki taps Simba, and Simba says bonk.'),
       ],
       [
         ask(
@@ -2460,6 +2497,7 @@ const Q16: EduQuest = quest(
         N('Steam rises from the hot rock.'),
         N('The land has been dry for a very long time.'),
         N('Your Nubbin splashes in every puddle.'),
+        N('Splash! Splash! Your Nubbin splashes in every puddle.'),
       ],
       [
         ask(
@@ -2570,6 +2608,7 @@ const Q16: EduQuest = quest(
         N('The page turns slowly, like someone staying on the last good bit.'),
         N('Rain, then sun, then rain again.'),
         N('The wet times and the dry times come round each year.'),
+        N('Pitter, patter! The rain comes down, then the sun peeps out.'),
       ],
       [
         ask(
@@ -2609,6 +2648,7 @@ const Q16: EduQuest = quest(
         N('All the animals gather below the rock.'),
         N('At the top, Simba stands tall. Nala holds something small between her paws.'),
         N('A tiny cub, three days old.'),
+        N('Tweet! The birds tweet, and the whole plain cheers.'),
       ],
       [
         ask(
@@ -2640,6 +2680,7 @@ const Q16: EduQuest = quest(
         N('Then the light comes, and the kitchen table.'),
         N('Nova’s atlas lies open at a green plain.'),
         N('A new bookmark lies between the pages. It smells of rain.'),
+        N('Whoosh! The page flips shut, and the kitchen smells of rain.'),
       ],
       [
         ask(
@@ -2678,6 +2719,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       ZA('The king, Rafiki. And the boy…'),
       RA('I know. Hush. Rest now.'),
       N('Zazu falls asleep on a bed of leaves.'),
+      N('Thump! Zazu’s wing thumps, as he flops into the leaves.'),
     ],
     [
       ask(
@@ -2747,6 +2789,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       ZA('I must go back. Someone must stand by the queen.'),
       RA('Your wing, Zazu.'),
       ZA('I will walk. Hornbills are excellent at walking.'),
+      N('Creak! The baobab creaks as you climb the branch.'),
     ],
     [
       ask(
@@ -2791,6 +2834,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       RA('Hard days have come. We watch. We carry water. We wait.'),
       RA('Waiting is not nothing. Done well, it is hard work.'),
       N('Your Nubbin looks up at the smudge where the cub was.'),
+      N('Drip! A drip of water falls into the gourd.'),
     ],
     [
       doit(
@@ -2814,6 +2858,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       RA('A plain is everyone on it, looking after each other.'),
       N('Every day you carry water up to the rock in Rafiki’s gourds.'),
       RA('Polepole. You walk too fast in this heat.'),
+      N('Splash! Water splashes from the gourd, as you walk.'),
     ],
     [
       ask(
@@ -2859,6 +2904,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       N('There is nothing left for them to eat.'),
       N('Zazu is up there too, stuck near Scar’s place.'),
       N('He sees you. He lifts his chin.'),
+      N('Pfft! A hyena blows a raspberry at the sun.'),
     ],
     [
       ask(
@@ -2886,6 +2932,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       N('You set your gourd down at Sarabi’s feet.'),
       N('She drinks a little. She gives the rest to the youngest lioness.'),
       SB('Asante. Tell Rafiki we are still here.'),
+      N('Gulp! Sarabi takes one small, careful gulp.'),
     ],
     [
       doit(
@@ -2923,6 +2970,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       N('You fill every gourd you can carry.'),
       NA('Come on, then. Keep up.'),
       RA('Polepole! Slowly, now.'),
+      N('Splash! Splash! The gourds splash full at the stream.'),
     ],
     [
       ask(
@@ -2958,6 +3006,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       PU('Aaagh! She is going to eat me!'),
       N('A young lion jumps out of the ferns. They roll in the mud.'),
       SI('Nala?'),
+      N('Boing! A young lion boings out of the ferns.'),
     ],
     [
       ask(
@@ -3000,6 +3049,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       SI('You! Rafiki’s guest. You have not changed at all!'),
       Y('It is a long story. There is a book in it.'),
       NA('Rafiki sent them with me. Simba, we all thought you were lost.'),
+      N('Hee-hee! Nala giggles. She can’t help it.'),
     ],
     [
       ask(

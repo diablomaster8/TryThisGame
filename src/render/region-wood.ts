@@ -8,6 +8,8 @@ import { SEASON_LOOK } from '../config/region-season-look';
 import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from './region-ground';
 import type { RegionPx } from './region-host-px';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
+import { millWheelMul } from '../sim/region-weather-play';
+import type { World } from '../sim/types';
 
 /**
  * WORLD-25 (R11 lane D): the Wood in the pixel view, a lazy chunk the region host loads on the
@@ -109,6 +111,23 @@ class WoodPx implements RegionPx {
 
 export function createRegionPx(l: RegionLayout): RegionPx {
   return new WoodPx(l);
+}
+
+/** The wheel's frames a second, dry; rain multiplies it (the sim's `millWheelMul`). */
+const WHEEL_FPS = 2.5;
+
+/** R0089 (R13 d1): the mill's wheel turns, faster in rain, held still under reduced motion. */
+export function drawDynamic(batch: SpriteBatch, world: World, tint: number): void {
+  const mill = WOOD_POIS.find((p) => p.id === 'old-mill');
+  if (!mill) return;
+  const still =
+    typeof document !== 'undefined' && document.documentElement.classList.contains('reduce-motion');
+  const frame = still ? 0 : Math.floor((world.timeMs / 1000) * WHEEL_FPS * millWheelMul(world)) & 1;
+  const d = sprite(`wheel-${frame}`, mill.x - 2 + 2.19, mill.z - 2 + 0.05, 2.9);
+  if (!d) return;
+  d.y = 0.18;
+  d.tint = tint;
+  batch.draw(d);
 }
 
 /** The tree tunnel's arch: at the Grove's north wood and at the Wood's south gate. */

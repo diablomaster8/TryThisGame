@@ -347,6 +347,7 @@ const Q1: EduQuest = quest(
         D('Come and meet Aunt Em. Follow me and Toto!'),
         N('Dorothy’s dress is pale. The grass is brown. The house is grey.'),
         N('Toto starts with the sound t. Say it: t, t, Toto!'),
+        N('Pitter, patter! Toto’s paws pitter-patter across the dry grass.'),
       ],
       [
         doit(
@@ -406,6 +407,7 @@ const Q1: EduQuest = quest(
         N('Then the house turns round and round.'),
         N('It lifts up, up, up, like a balloon.'),
         D('Hold tight, Toto!', 'shock'),
+        N('Whoosh! The wind whooshes, and the house goes round.'),
       ],
       [
         notice(
@@ -433,6 +435,7 @@ const Q1: EduQuest = quest(
         N('Dorothy lies down to sleep. Toto cuddles close.'),
         N('You stay awake with your Nubbin.'),
         N('A gap opens in the page. You see green grass!'),
+        N('Swish! The grey clouds swish past the little window.'),
       ],
       [
         doit(
@@ -493,6 +496,7 @@ const Q1: EduQuest = quest(
         N('They stop and stare at the house.'),
         N('Two silver shoes poke out under one corner.'),
         N('Only your Nubbin sees them.'),
+        N('Thump! The house thumps down, soft, on the green grass.'),
       ],
       [
         doit(
@@ -578,6 +582,7 @@ const Q2: EduQuest = quest(
         D('Please, can you help me get home to Aunt Em?'),
         D('She will be so worried.', 'sad'),
         NW('Ah. That is hard. Let me think.', 'think'),
+        N('Hee-hee! A small Munchkin giggles, then hides behind a hat.'),
       ],
       [
         ask(
@@ -607,6 +612,7 @@ const Q2: EduQuest = quest(
         N('They tell Dorothy to go to the Emerald City.'),
         NW('Keep to the road of yellow bricks. It will take you there.'),
         N('She kisses Dorothy on the forehead. A round mark shines.'),
+        N('Ding! A tiny bell rings on the kind lady’s hat.'),
       ],
       [
         doit(
@@ -666,6 +672,7 @@ const Q2: EduQuest = quest(
         B('Then you are a kind witch. That is best. Now: the tables!'),
         B('Five tables. Blue plates only!'),
         N('You carry dishes to the tables. Plates, cups, jugs.'),
+        N('Ding! The plates ding as you set them down.'),
       ],
       [
         doit(
@@ -699,6 +706,7 @@ const Q2: EduQuest = quest(
         N('Three fiddlers start to play. Everyone dances.'),
         N('Dorothy laughs, for the first time since the storm.'),
         N('The plates are dark blue. The cups are pale blue.'),
+        N('Swish! The dancers swish round, and the fiddles play on.'),
       ],
       [
         ask(
@@ -722,6 +730,7 @@ const Q2: EduQuest = quest(
         N('You sit with Boq on his step. The yellow road glows.'),
         B('It is a long way. But she has the kiss, the shoes, and you.', 'soft'),
         N('Your Nubbin curls up next to the silver shoes.'),
+        N('Creak! The old bed creaks, soft and slow.'),
       ],
       [
         ask(
@@ -772,6 +781,7 @@ const Q3: EduQuest = quest(
         N('He winks!'),
         SC('Good morning. Would you lift me down, please?', 'happy'),
         N('Someone must hold the pole steady.'),
+        N('Creak! The old pole creaks as it sways.'),
       ],
       [
         ask(
@@ -808,6 +818,7 @@ const Q3: EduQuest = quest(
         SC('Thank you! I feel much more like a person.', 'happy'),
         N('He stretches. He yawns. He falls flat on his face!'),
         N('He gets up. He falls over sideways. Flop!'),
+        N('Thump! The Scarecrow thumps down on the soft earth.'),
       ],
       [
         doit(
@@ -865,6 +876,7 @@ const Q3: EduQuest = quest(
         N('First he can only fall.'),
         N('Next he can take small steps.'),
         N('Last he can walk in a nearly straight line.'),
+        N('Thump, thump! His little steps go thump, thump on the road.'),
       ],
       [
         ask(
@@ -895,6 +907,7 @@ const Q3: EduQuest = quest(
         D('Even if home is plain, it is where my people are.', 'soft'),
         D('Nowhere else is home.', 'soft'),
         SC('I see. Home is where the people you love are.', 'think'),
+        N('Swish! The corn swishes, and the river goes by.'),
       ],
       [
         ask(
@@ -931,6 +944,7 @@ const Q3: EduQuest = quest(
         N('The road goes on. The corn fields fade away.'),
         N('Now there are trees on both sides.'),
         N('The Scarecrow walks between you, nearly straight.'),
+        N('Crunch! The yellow bricks crunch under three pairs of feet.'),
       ],
       [
         ask(
@@ -955,6 +969,7 @@ const Q3: EduQuest = quest(
         N('Straw burns easily.'),
         N('You make sure he stands far away from the campfire.'),
         N('That night he stands guard. It is the most useful he has felt.'),
+        N('Crack! The campfire cracks, and a spark pops up.'),
       ],
       [
         notice(
@@ -1000,6 +1015,7 @@ const Q4: EduQuest = quest(
         N('A man made of tin stands still. His axe is up high.'),
         TW('Mmm. I got wet in the rain. Now I am stuck.', 'sad'),
         TW('Please oil me. The oil-can is in my cottage.'),
+        N('Creak! Something creaks in the trees. Creak, creak.'),
       ],
       [
         ask(
@@ -1030,6 +1046,7 @@ const Q4: EduQuest = quest(
         N('The cottage is just through the trees.'),
         N('You hurry. Your Nubbin is at your heels.'),
         TW('Thank you for stopping to look.', 'soft'),
+        N('Crunch! The leaves crunch as you hurry along.'),
       ],
       [
         ask(
@@ -1058,6 +1075,7 @@ const Q4: EduQuest = quest(
         N('One is big and square. One is small and round.'),
         N('One has a long thin spout.'),
         N('Your Nubbin looks up at them.'),
+        N('Ding! The tin jugs ding when you tap them.'),
       ],
       [
         ask(
@@ -1095,6 +1113,7 @@ const Q4: EduQuest = quest(
         N('You run back through the trees.'),
         N('You still see the pencil picture in your mind.'),
         N('The girl in it has a kind face.'),
+        N('Pitter, patter! Your feet pitter-patter back along the path.'),
       ],
       [
         doit(
@@ -1146,6 +1165,7 @@ const Q4: EduQuest = quest(
         N('Next you oiled his arms.'),
         N('Last you oiled his legs.'),
         TW('Thank you. One more year and I would be a statue.', 'soft'),
+        N('Squeak! The Woodman squeaks, then moves with no squeak at all.'),
       ],
       [
         ask(
@@ -1171,6 +1191,7 @@ const Q4: EduQuest = quest(
         SC('I want brains.'),
         N('The Woodman taps his chest. Clong. It is empty.', 'sad'),
         N('Dorothy hands you the oil-can. It is yours to carry now.'),
+        N('Ding! The Woodman taps his chest, and it rings like a pot.'),
       ],
       [
         ask(
@@ -1217,6 +1238,7 @@ const Q5: EduQuest = quest(
         D('Leave him alone! You should be ashamed!', 'angry'),
         L('I did not bite him.', 'sad'),
         N('The Lion rubs his nose. His eyes fill with tears.'),
+        N('Whoosh! A big paw whooshes past your ear.'),
       ],
       [
         notice(
@@ -1248,6 +1270,7 @@ const Q5: EduQuest = quest(
         D('You meant to scare him. That is not kind.'),
         L('I know. Knowing does not help.', 'sad'),
         N('The Lion looks down at his big paws.'),
+        N('Thump! The Lion’s paw thumps on the ground.'),
       ],
       [
         ask(
@@ -1273,6 +1296,7 @@ const Q5: EduQuest = quest(
         N('Your Nubbin comes out. One paw. Its nose. Then all of it.'),
         N('It walks across the road. It sits down next to the Lion.'),
         L('Oh! It is not afraid of me.', 'soft'),
+        N('Squeak! A tiny Toto squeak, and a big Lion sniff.'),
       ],
       [
         ask(
@@ -1307,6 +1331,7 @@ const Q5: EduQuest = quest(
         D('We are going to see Oz. Come with us.'),
         L('Would he have some courage for a lion?', 'think'),
         D('I think he has a cupboard full.'),
+        N('Crunch! Your feet crunch on the road, side by side.'),
       ],
       [
         doit(
@@ -1331,6 +1356,7 @@ const Q5: EduQuest = quest(
         N('He hops aside. He is so glad that happy tears run down.'),
         N('His jaw goes stiff. Mmm!'),
         N('You oil his jaw. The Scarecrow holds his hat.'),
+        N('Squeak! The Woodman’s jaw gives a last squeak, then stops.'),
       ],
       [
         doit(
@@ -1377,6 +1403,7 @@ const Q6: EduQuest = quest(
         L('I might be able to jump that.', 'think'),
         SC('Then you are our bridge!'),
         L('I am scared of high places. But I will try.', 'sad'),
+        N('Whoosh! The wind whooshes up out of the deep ditch.'),
       ],
       [
         doit(
@@ -1409,6 +1436,7 @@ const Q6: EduQuest = quest(
         L('That was scary. I need to sit down.', 'shock'),
         N('He sits. Pant, pant, pant.'),
         N('Your Nubbin sits and pants too, to keep him company.'),
+        N('Thump! The Lion thumps down on the far side.'),
       ],
       [
         doit(
@@ -1499,6 +1527,7 @@ const Q6: EduQuest = quest(
         L('The Kalidahs!', 'shock'),
         N('The Lion crosses last. He turns and roars. ROAR!'),
         L('Stand behind me. I will hold them.', 'angry'),
+        N('Creak! The rope creaks as it holds the tree.'),
       ],
       [
         ask(
@@ -1534,6 +1563,7 @@ const Q6: EduQuest = quest(
         N('Crash! The log drops into the ditch.'),
         N('The beasts cannot cross. They grumble and go home.'),
         L('That was a close one. I did not like it.', 'shock'),
+        N('Crash! Thump! The log thumps into the ditch.'),
       ],
       [
         doit(
@@ -1560,6 +1590,7 @@ const Q6: EduQuest = quest(
         L('You stood beside me. You were shaking.', 'think'),
         Y('So were you.'),
         L('Yes. But we both stayed.', 'soft'),
+        N('Splash! A fish splashes in the wide river.'),
       ],
       [
         ask(
@@ -1608,6 +1639,7 @@ const Q7: EduQuest = quest(
         N('The Scarecrow cuts a long pole to push the raft.'),
         L('I will sit in the middle and keep very still.'),
         D('Where did you learn your knots?'),
+        N('Thump! The logs thump together, tight and snug.'),
       ],
       [
         ask(
@@ -1643,6 +1675,7 @@ const Q7: EduQuest = quest(
         N('The raft has five logs. Tied tight.'),
         N('Everyone climbs aboard.'),
         N('The raft dips under the Lion. Then it bobs up.'),
+        N('Splash! The raft splashes into the water.'),
       ],
       [
         doit(
@@ -1666,6 +1699,7 @@ const Q7: EduQuest = quest(
         SC('Goodbye!', 'sad'),
         L('I can swim. Hold my tail!'),
         N('The Lion swims. You all hold on.'),
+        N('Whoosh! The river whooshes, and the raft spins.'),
       ],
       [
         ask(
@@ -1698,6 +1732,7 @@ const Q7: EduQuest = quest(
         N('At last you reach the bank. Everyone is soaked.'),
         N('You oil the Woodman at once.'),
         D('We must go back and find him.'),
+        N('Splash! Splash! Everyone shakes off the cold water.'),
       ],
       [
         ask(
@@ -1764,6 +1799,7 @@ const Q7: EduQuest = quest(
         ST('Is he heavy?'),
         D('He is only straw. He weighs hardly anything.'),
         ST('Then I will try.'),
+        N('Whoosh! A stork whooshes in over the river.'),
       ],
       [
         ask(
@@ -1788,6 +1824,7 @@ const Q7: EduQuest = quest(
         N('He hugs everyone. He hugs you twice.'),
         ST('Do not mention it. My chicks are waiting.', 'happy'),
         N('She flies off. The Scarecrow waves until she is gone.'),
+        N('Whoosh! Big wings whoosh over the river.'),
       ],
       [
         ask(
@@ -1868,6 +1905,7 @@ const Q8: EduQuest = quest(
         N('You reach the green grass. Your Nubbin sneezes and wakes.'),
         N('The Lion is fast asleep, far back in the poppies.'),
         SC('He is too heavy for us to lift.', 'sad'),
+        N('Achoo! Your Nubbin sneezes, and the sleepy red dust floats away.'),
       ],
       [
         doit(
@@ -1894,6 +1932,7 @@ const Q8: EduQuest = quest(
         TW('I have no heart. But I help anyone who needs a friend.'),
         Q('I am the Queen of the Field Mice!', 'shock'),
         N('Out of the grass come mice. Dozens. Then hundreds.'),
+        N('Squeak! Squeak! A hundred little mice squeak hello.'),
       ],
       [
         ask(
@@ -1931,6 +1970,7 @@ const Q8: EduQuest = quest(
         SC('I have an idea! Lots of mice. And the Lion!', 'happy'),
         Q('A Lion? Will he eat us?'),
         SC('Not he. He is a coward. And asleep. And our friend.'),
+        N('Squeak! The mice squeak and whisper to each other.'),
       ],
       [
         ask(
@@ -1955,6 +1995,7 @@ const Q8: EduQuest = quest(
         N('Ten mice line up, each with a string.'),
         N('You loop a string gently round each mouse. Loop, knot. Loop, knot.'),
         N('At last all ten strings are tied to the cart.'),
+        N('Pop! The knot pops tight, and the string holds.'),
       ],
       [
         doit(
@@ -1985,6 +2026,7 @@ const Q8: EduQuest = quest(
         N('The Woodman and the Scarecrow roll the sleeping Lion onto the cart.'),
         Q('Ready, my people? Pull!'),
         N('The mice pull, all together. The cart begins to move.'),
+        N('Thump! The Lion thumps onto the cart, still snoring.'),
       ],
       [
         doit(
@@ -2009,6 +2051,7 @@ const Q8: EduQuest = quest(
         Q('Call us if you ever need us. We come running.'),
         N('The Lion wakes up. He is very glad to be awake.'),
         L('Mice? Little mice carried me?', 'shock'),
+        N('Squeak! The mice squeak goodbye, and scamper home.'),
       ],
       [
         ask(
@@ -2057,6 +2100,7 @@ const Q9: EduQuest = quest(
         G('Why have you come to the Emerald City?'),
         D('Please, we would like to see Oz.'),
         G('A silly errand might make him angry!', 'shock'),
+        N('Ding! The big green bell dings at the gate.'),
       ],
       [
         ask(
@@ -2093,6 +2137,7 @@ const Q9: EduQuest = quest(
         G('You will want to see him. But spectacles first.'),
         G('Nobody goes in without spectacles.'),
         N('Spec-ta-cles. Clap each part.'),
+        N('Ding! A little bell dings. Spec-ta-cles!'),
       ],
       [
         doit(
@@ -2116,6 +2161,7 @@ const Q9: EduQuest = quest(
         N('He puts a pair on each friend. Even Toto.'),
         N('He finds a tiny pair for your Nubbin. Then yours.'),
         N('Click. Everything is green. The walls, the floor, your hands.'),
+        N('Pop! The little lock pops open.'),
       ],
       [
         ask(
@@ -2148,6 +2194,7 @@ const Q9: EduQuest = quest(
         N('Your friends look at each other through green glass.'),
         N('Nobody asks why.'),
         N('You wonder, but you stay quiet too.'),
+        N('Swish! Your friends swish round to look at each other.'),
       ],
       [
         ask(
@@ -2207,6 +2254,7 @@ const Q9: EduQuest = quest(
         N('A green cat sits on a green step. It looks at the Lion.'),
         L('Do not look at me, cat. I am being very brave.'),
         N('The cat yawns. The Lion walks a little faster.'),
+        N('Peep! A green bird goes peep in the green tree.'),
       ],
       [
         ask(
@@ -2230,6 +2278,7 @@ const Q9: EduQuest = quest(
         GW('Oz will see you. One at a time. One each day.'),
         GW('Until then, you may each have a room.'),
         N('Your room has a little fountain. Your Nubbin sleeps in it.'),
+        N('Splash! The little fountain splashes in your room.'),
       ],
       [
         notice(
@@ -2275,6 +2324,7 @@ const Q10: EduQuest = quest(
         O('You stand before Oz, the Great and Terrible. What do you want?', 'angry'),
         D('I am Dorothy. I want to go home to Kansas.'),
         O('First, you must do something for me.', 'think'),
+        N('Whoosh! A great wind whooshes round the round room.'),
       ],
       [
         ask(
@@ -2305,6 +2355,7 @@ const Q10: EduQuest = quest(
         O('Rid the land of the Wicked Witch of the West.'),
         O('Then I will send you home.'),
         D('But I have never hurt anything on purpose.', 'sad'),
+        N('Thump! The Lion’s tail thumps, once, then is still.'),
       ],
       [
         ask(
@@ -2330,6 +2381,7 @@ const Q10: EduQuest = quest(
         TW('He was a Beast. He had five eyes!', 'shock'),
         D('He was a Head when I went in.', 'think'),
         SC('Then which is he, really?'),
+        N('Creak! The door creaks open, and creaks shut.'),
       ],
       [
         doit(
@@ -2366,6 +2418,7 @@ const Q10: EduQuest = quest(
         L('I will roar at him. He will have to give me courage.'),
         L('Or I will run away. It could go either way.', 'think'),
         N('Everyone goes quiet. Nobody knows which it will be.'),
+        N('Thump! The Lion’s paw thumps on the floor.'),
       ],
       [
         ask(
@@ -2391,6 +2444,7 @@ const Q10: EduQuest = quest(
         N('The door bursts open. The Lion runs out!'),
         L('A Ball of Fire! It singed my whiskers!', 'shock'),
         N('Your Nubbin blows on his warm tail to cool it. Phew!'),
+        N('Whoosh! The fire whooshes, and the Lion runs.'),
       ],
       [
         notice(
@@ -2422,6 +2476,7 @@ const Q10: EduQuest = quest(
         L('He is the same, whatever he looks like.'),
         L('He wants the Witch gone.'),
         N('Dor-o-thy. Clap her name.'),
+        N('Ding! The big gong dings. Dor-o-thy!'),
       ],
       [
         doit(
@@ -2444,6 +2499,7 @@ const Q10: EduQuest = quest(
         SC('I will come too.'),
         TW('And I.'),
         N('The Guardian points west. There is no road at all.'),
+        N('Creak! The big door creaks, and the night is dark.'),
       ],
       [
         ask(
@@ -2524,6 +2580,7 @@ const Q11: EduQuest = quest(
         N('In the Witch’s cupboard is a Golden Cap.'),
         N('Whoever owns it can call the Winged Monkeys three times.'),
         N('The Witch puts it on.'),
+        N('Creak! The cupboard door creaks open.'),
       ],
       [
         notice(
@@ -2579,6 +2636,7 @@ const Q11: EduQuest = quest(
         N('They fly away.'),
         W('The Good Witch’s mark. And silver shoes.', 'think'),
         W('But she does not know what they do!', 'happy'),
+        N('Whoosh! The Monkeys whoosh away into the sky.'),
       ],
       [
         ask(
@@ -2604,6 +2662,7 @@ const Q11: EduQuest = quest(
         W('Then no food for you!', 'angry'),
         N('Each night, when she sleeps, Dorothy sneaks him food.'),
         N('Tonight it is your turn. Your Nubbin tiptoes with you.'),
+        N('Squeak! The back door squeaks, ever so softly.'),
       ],
       [
         ask(
@@ -2639,6 +2698,7 @@ const Q11: EduQuest = quest(
         L('How will we ever get away?', 'sad'),
         D('I do not know. But we will find a way.'),
         N('The Lion purrs, very quiet.'),
+        N('Thump! The Lion’s tail goes thump on the stones.'),
       ],
       [
         doit(
@@ -2662,6 +2722,7 @@ const Q11: EduQuest = quest(
         N('Dorothy only takes them off at night.'),
         N('The Witch is scared of the dark. She is more scared of water.'),
         N('You sweep round a bucket by the kitchen door.'),
+        N('Swish! Your broom goes swish, swish round the bucket.'),
       ],
       [
         ask(
@@ -2708,6 +2769,7 @@ const Q12: EduQuest = quest(
         N('Your Nubbin sniffs the spot. It will not step there.'),
         W('Fetch me the wood, girl. Straight across the floor.', 'happy'),
         N('Dorothy starts to walk. Your Nubbin’s ears go flat.'),
+        N('Creak! A loose board creaks right there.'),
       ],
       [
         ask(
@@ -2744,6 +2806,7 @@ const Q12: EduQuest = quest(
         N('Dorothy trips and falls. One silver shoe pops off.'),
         N('The Witch snatches it and puts it on.'),
         W('Ha! One shoe is better than none.', 'happy'),
+        N('Pop! The silver shoe pops off, and bounces.'),
       ],
       [
         notice(
@@ -2803,6 +2866,7 @@ const Q12: EduQuest = quest(
         D('She is gone. And I did not mean it.', 'sad'),
         D('Now the Lion can come out.'),
         N('That night Dorothy has sweet tea by the fire. Your Nubbin watches the sugar vanish, very suspicious.'),
+        N('Splash! A few drops splash on the old stones.'),
       ],
       [
         ask(
@@ -2848,6 +2912,7 @@ const Q12: EduQuest = quest(
         N('The Winkie tinsmiths mend the Woodman. Tap, tap, tap.'),
         N('The Scarecrow needs new straw. Two Winkies carry two handfuls each.'),
         N('Your Nubbin packs the straw in tight.'),
+        N('Pop! Tap, tap! Tiny hammers go tap, tap, tap.'),
       ],
       [
         ask(
@@ -2880,6 +2945,7 @@ const Q12: EduQuest = quest(
         SC('There. Am I myself again?', 'happy'),
         N('He is. The Woodman is too. The Lion purrs.'),
         N('The Winkies wear yellow. Yellow like the sun.'),
+        N('Ding! The Woodman gives a happy ding.'),
       ],
       [
         doit(
@@ -2904,6 +2970,7 @@ const Q12: EduQuest = quest(
         WK('This one is for your little one. We made it in the night.', 'happy'),
         N('A tiny gold cap, with shiny beads. It fits your Nubbin.'),
         WK('It does not call anything. It is just a hat.'),
+        N('Ding! The tiny cap gives a shiny ding.'),
       ],
       [
         ask(
@@ -2980,6 +3047,7 @@ const Q13: EduQuest = quest(
         N('Flap! Flap! Winged Monkeys land all round you.'),
         MO('First call. What do you want?', 'think'),
         D('Please carry us to the Emerald City.'),
+        N('Whoosh! The Monkeys whoosh down, and the air goes whoosh.'),
       ],
       [
         doit(
@@ -3005,6 +3073,7 @@ const Q13: EduQuest = quest(
         MO('We were free once. We played in the forest.', 'sad'),
         MO('Once we played a trick that was not kind.'),
         MO('So now we must do what the Cap says.', 'sad'),
+        N('Whee! The wind whooshes past your ears.'),
       ],
       [
         ask(
@@ -3047,6 +3116,7 @@ const Q13: EduQuest = quest(
         N('The Monkeys set you down at the gate. Down you go.'),
         N('They bow once. Then they fly away fast.'),
         SC('Now that is how to travel! No ditches!', 'happy'),
+        N('Thump! Everyone thumps down on the green grass.'),
       ],
       [
         ask(
@@ -3071,6 +3141,7 @@ const Q13: EduQuest = quest(
         SC('Dorothy melted her with a bucket.'),
         N('He locks the green spectacles on you all again. Click.'),
         N('Your Nubbin holds still for its pair.'),
+        N('Pop! The spectacles pop on, one by one.'),
       ],
       [
         doit(
@@ -3155,6 +3226,7 @@ const Q14: EduQuest = quest(
         N('Toto bumps a tall screen in the corner.'),
         N('Crash! It falls over.'),
         N('Behind it stands a little old man. He looks as surprised as you.'),
+        N('Bonk! Toto bonks the screen with his nose.'),
       ],
       [
         ask(
@@ -3185,6 +3257,7 @@ const Q14: EduQuest = quest(
         O('I come from Omaha. I can make my voice come from anywhere.'),
         O('I came here in a balloon. People thought I was a great Wizard.'),
         O('So I gave everyone green spectacles. It began as a small fib.', 'sad'),
+        N('Crack! The little man’s voice cracks like a twig.'),
       ],
       [
         ask(
@@ -3217,6 +3290,7 @@ const Q14: EduQuest = quest(
         ...POOR_WIZARD,
         N('Oz built high walls to feel safe.'),
         N('But walls keep friends out too. Oz was very lonely in there.'),
+        N('Creak! The old chair creaks as he sits down.'),
       ],
       [
         ask(
@@ -3241,6 +3315,7 @@ const Q14: EduQuest = quest(
         O('Please do not tell anyone. They think they are safe.'),
         O('If they knew, they would be scared.'),
         O('I will do my best for your friends, I promise.', 'think'),
+        N('Hee! A little hee-hee comes from behind the screen.'),
       ],
       [
         notice(
@@ -3280,6 +3355,7 @@ const Q14: EduQuest = quest(
         O('Come to me in the morning, all of you.'),
         O('I will have something for each of you.'),
         N('You waited four days. One, two, three, four.'),
+        N('Ding! The clock dings. One, two, three, four.'),
       ],
       [
         doit(
@@ -3304,6 +3380,7 @@ const Q14: EduQuest = quest(
         L('You are only a humbug. What can you give?', 'think'),
         O('Most people only need to be told they have it.', 'think'),
         N('You stand the screen back up. It seems kinder.'),
+        N('Creak! The old screen creaks as you stand it up.'),
       ],
       [
         ask(
@@ -3384,6 +3461,7 @@ const Q15: EduQuest = quest(
         N('Oz fills the Scarecrow’s head and pins it back.'),
         O('There! New brains. You will be a great thinker.', 'happy'),
         SC('I feel wise! Very wise!', 'happy'),
+        N('Pop! A little pin goes pop in the Scarecrow’s head.'),
       ],
       [
         ask(
@@ -3409,6 +3487,7 @@ const Q15: EduQuest = quest(
         N('Oz takes out a pretty silk heart. You hold it steady.'),
         N('He fills it with soft sawdust.'),
         N('He puts it in the Woodman’s chest, then patches it shut. Clink, clink.'),
+        N('Ding! Ding! The little heart goes ding.'),
       ],
       [
         doit(
@@ -3442,6 +3521,7 @@ const Q15: EduQuest = quest(
         TW('I feel it! Thank you, thank you.', 'happy'),
         O('Do not mention it. Please.', 'think'),
         N('The Woodman holds very still, listening to his chest.'),
+        N('Ding! The Woodman’s chest gives a happy ding.'),
       ],
       [
         ask(
@@ -3467,6 +3547,7 @@ const Q15: EduQuest = quest(
         L('I was scared all the way here.', 'sad'),
         O('Everyone is scared sometimes. Brave is going on anyway.', 'soft'),
         O('You did that the whole way.'),
+        N('Gulp! The Lion drinks it down in one gulp.'),
       ],
       [
         doit(
@@ -3497,6 +3578,7 @@ const Q15: EduQuest = quest(
         L('I feel very full of something.', 'happy'),
         N('The dish is round and green.'),
         N('Green is the colour of grass and leaves.'),
+        N('Hee-hee! The Lion giggles, and his whiskers shake.'),
       ],
       [
         doit(
@@ -3518,6 +3600,7 @@ const Q15: EduQuest = quest(
         O('I give them bran and sawdust and green water.'),
         O('And it works. They feel better.'),
         N('Your friends are happy, with what they had all along.'),
+        N('Slurp! Your friends slurp the green water, and smile.'),
       ],
       [
         ask(
@@ -3566,6 +3649,7 @@ const Q16: EduQuest = quest(
         N('You hold the strips straight. Dorothy sews.'),
         N('Your Nubbin sits in the silk scraps like an egg in a nest.'),
         O('Then glue inside, and a basket to sit in.'),
+        N('Swish! The needle swishes through the silk.'),
       ],
       [
         doit(
@@ -3598,6 +3682,7 @@ const Q16: EduQuest = quest(
         N('At last the balloon is finished.'),
         N('It is green and big and shiny with glue.'),
         N('Bal-loon. Clap the parts.'),
+        N('Creak! The balloon basket creaks, big and proud.'),
       ],
       [
         doit(
@@ -3673,6 +3758,7 @@ const Q16: EduQuest = quest(
         N('They fly away. Dorothy sits down on the steps.'),
         GW('Ask Glinda, the Good Witch of the South.'),
         D('Then I will go to Glinda.'),
+        N('Whoosh! The wind whooshes, and the dust flies up.'),
       ],
       [
         ask(
@@ -3705,6 +3791,7 @@ const Q16: EduQuest = quest(
         L('I will come. Then I will find a forest to live in.'),
         SC('I will come as far as Glinda’s.', 'happy'),
         TW('My heart will not let me stay behind.', 'soft'),
+        N('Thump! The Lion’s tail goes thump, thump, thump.'),
       ],
       [
         ask(
@@ -3729,6 +3816,7 @@ const Q16: EduQuest = quest(
         N('Without the glasses, the city is plain stone.'),
         N('There is a little green paint here and there.'),
         N('Your Nubbin keeps its own pair on.'),
+        N('Pop! The last spectacles pop off, one by one.'),
       ],
       [
         doit(
@@ -3809,6 +3897,7 @@ const Q17: EduQuest = quest(
         N('Behind the first row, the trees are only trees.'),
         N('Everyone gets through. The Scarecrow is last, very ruffled.'),
         N('Tree rhymes with bee.'),
+        N('Swish! The branches swish, and let everyone through.'),
       ],
       [
         ask(
@@ -3836,6 +3925,7 @@ const Q17: EduQuest = quest(
         N('The cow’s leg snaps off.'),
         MM('Look what you have done! Her leg is off!', 'angry'),
         D('I am very sorry. Please forgive us.', 'sad'),
+        N('Crack! A china cup cracks on the path.'),
       ],
       [
         ask(
@@ -3869,6 +3959,7 @@ const Q17: EduQuest = quest(
         N('The milkmaid leads her cow away on three legs.'),
         D('We must walk carefully. Everything here breaks.', 'think'),
         N('Pretty plates and cups are called china.'),
+        N('Ding! The china plates ding, soft and careful.'),
       ],
       [
         notice(
@@ -3895,6 +3986,7 @@ const Q17: EduQuest = quest(
         N('Beside the path is a china field, with tiny china lambs.'),
         N('One comes to the fence. Your Nubbin touches noses with it.'),
         N('Your Nubbin looks at your pocket. It wants the lamb so much.'),
+        N('Peep! A little china lamb goes peep.'),
       ],
       [
         ask(
@@ -3943,6 +4035,7 @@ const Q17: EduQuest = quest(
         N('China people come with glue pots. They are used to mending.'),
         N('You climb the far wall and drop into soft grass.'),
         D('I am glad we saw it. I will never forget it.', 'soft'),
+        N('Ding! The little china pieces ding back into place.'),
       ],
       [
         ask(
@@ -3987,6 +4080,7 @@ const Q18: EduQuest = quest(
         TG('King of Beasts! We need you.', 'happy'),
         TG('A giant spider chases and frightens us.', 'sad'),
         N('Your Nubbin presses against your legs again.'),
+        N('Crunch! Dry leaves crunch under the great trees.'),
       ],
       [
         doit(
@@ -4017,6 +4111,7 @@ const Q18: EduQuest = quest(
         L('If I deal with this spider, will you have me for your King?', 'think'),
         TG('Gladly. All of us.'),
         L('Then wait here.'),
+        N('Ding! A bell hangs in the tree, and dings in the wind.'),
       ],
       [
         ask(
@@ -4046,6 +4141,7 @@ const Q18: EduQuest = quest(
         D('He was so scared of the ditch. And now this.', 'sad'),
         TW('I think courage was inside him all the time.', 'soft'),
         N('You wait. The forest is very quiet.'),
+        N('Creak! A branch creaks. Everything else is quiet.'),
       ],
       [
         ask(
@@ -4105,6 +4201,7 @@ const Q18: EduQuest = quest(
         L('I was scared the whole time. My knees knocked.', 'soft'),
         Y('I know. You went anyway.'),
         N('Your Nubbin pats his nose, very gently.'),
+        N('Thump! The Lion’s knees go thump, thump, thump.'),
       ],
       [
         ask(
@@ -4182,6 +4279,7 @@ const Q19: EduQuest = quest(
         N('The Lion roars and runs up the hill.'),
         N('A head shoots out. Down he rolls, bump, bump, bump.'),
         L('Ow. Courage does not help your nose.', 'sad'),
+        N('Bonk! The Lion bonks his nose. Ow!'),
       ],
       [
         notice(
@@ -4207,6 +4305,7 @@ const Q19: EduQuest = quest(
         N('You read them with her, very clearly.'),
         MO('Third call. The last. What is it to be?', 'think'),
         D('Carry us over the hill to the Quadlings.'),
+        N('Whoosh! The Monkeys whoosh down from the sky.'),
       ],
       [
         doit(
@@ -4237,6 +4336,7 @@ const Q19: EduQuest = quest(
         N('The Monkeys carry you over the hill.'),
         N('The Hammer-Heads shoot their heads up high. They cannot reach.'),
         N('Your Nubbin looks down at them. They look up at your Nubbin.'),
+        N('Whoosh! The Monkeys whoosh over the hill.'),
       ],
       [
         ask(
@@ -4267,6 +4367,7 @@ const Q19: EduQuest = quest(
         N('Everything here is red: fences, houses, bridges.'),
         D('Which way is Glinda’s castle?'),
         N('A Quadling points. Far away, a castle shines.'),
+        N('Crunch! The red path crunches under your feet.'),
       ],
       [
         ask(
@@ -4321,6 +4422,7 @@ const Q20: EduQuest = quest(
         SC('Then I would never have got my brains!', 'shock'),
         TW('And I would still be stuck in the forest.'),
         N('Dorothy looks down at the shoes for a long time.'),
+        N('Ding! A little silver bell dings in the big room.'),
       ],
       [
         ask(
@@ -4355,6 +4457,7 @@ const Q20: EduQuest = quest(
         GL('Knock your heels together three times.'),
         GL('Say where you want to go. The shoes will take you.'),
         N('Knock, knock, knock.'),
+        N('Bonk! The heels go bonk, bonk, bonk.'),
       ],
       [
         doit(
@@ -4526,6 +4629,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       N('Without the glasses, the city is plain stone.'),
       N('There is a little green paint here and there.'),
       N('Your Nubbin keeps its own pair on.'),
+      N('Pop! The last spectacles pop off, one by one.'),
     ],
     [
       doit(
@@ -4552,6 +4656,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       N('Without the glasses, the city is plain stone.'),
       N('There is a little green paint here and there.'),
       N('Your Nubbin keeps its own pair on.'),
+      N('Pop! The last spectacles pop off, one by one.'),
     ],
     [
       doit(
@@ -4578,6 +4683,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       N('A Quadling points. Far away, a castle shines.'),
       N('Your Nubbin pats your pocket. The little lamb is very still.'),
       N('Your Nubbin pats it again, slower.', 'sad'),
+      N('Crunch! The red path crunches under your feet.'),
     ],
     [
       ask(
@@ -4692,6 +4798,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       ...POOR_WIZARD,
       N('You think of Corvin, back in the valley.'),
       N('He said sorry, and gave back what was not his.', 'soft'),
+      N('Creak! The old chair creaks as the Wizard sits down.'),
     ],
     [HUMBUG_ASK(3)],
   ),
@@ -4701,6 +4808,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       ...POOR_WIZARD,
       N('You think of Corvin, back in the valley.'),
       N('He swapped his trick for other things. That did not make it right.'),
+      N('Creak! The old chair creaks as the Wizard sits down.'),
     ],
     [HUMBUG_ASK(3)],
   ),
@@ -4710,6 +4818,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
       ...POOR_WIZARD,
       N('You think of Corvin, back in the valley.'),
       N('He only stopped when he fell, with a big bump.', 'sad'),
+      N('Creak! The old chair creaks as the Wizard sits down.'),
     ],
     [HUMBUG_ASK(3)],
   ),
