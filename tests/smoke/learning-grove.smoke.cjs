@@ -1,4 +1,4 @@
-/* global require, process, console, window, document, setTimeout */
+/* global require, process, console, window, document, setTimeout, localStorage */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * R0722 (KIDS-54): a headless smoke test of the Learning Grove in a phone viewport. It opens
