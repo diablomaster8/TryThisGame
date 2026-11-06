@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** Player-facing text for the Learning Grove's kid-facing screens (lane E, round 7: KIDS). */
 
 /** R0671: the kid-safe sound sheet the ⚙ button opens in a Learning Grove. */
@@ -104,8 +106,7 @@ export const EDU_PICKER_TEXT = {
 
 /** R0686: the results card, said aloud. */
 export const EDU_RESULTS_TEXT = {
-  say: (stars: number, name: string) =>
-    `You got ${stars} ${stars === 1 ? 'star' : 'stars'}! ${name} is so happy.`,
+  say: (stars: number, name: string) => fmt(MESSAGES_EN.starsSay, { stars, name }),
 } as const;
 
 /** R0711 / R0731: kind words for a miss, and the sprout band's hold-to-leave. */

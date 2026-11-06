@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /**
  * Lane A round 5 (FUN) player-facing text: the toasts' voice, badges, the away diary, tips.
  * Re-exported through `strings-fun.ts` and `strings.ts`. Bands: `main` is the main game;
@@ -134,13 +136,13 @@ export const PET_LINES: Record<string, Record<ToastBand, readonly string[]>> = {
  */
 export const HATCH_CARD_TEXT = {
   hatched: (names: string[]) =>
-    names.length === 1
-      ? `${names[0]} hatched!`
-      : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]} hatched!`,
-  shell: (names: string[]) =>
-    names.length === 1
-      ? 'There is a bit of shell on their head.'
-      : 'They are both wearing a bit of shell.',
+    fmt(MESSAGES_EN.hatchedNames, {
+      n: names.length,
+      first: names[0] ?? '',
+      init: names.slice(0, -1).join(', '),
+      last: names[names.length - 1] ?? '',
+    }),
+  shell: (names: string[]) => fmt(MESSAGES_EN.hatchShell, { n: names.length }),
   sprout: 'Pop! A baby! It has a shell hat!',
   firstInBook: 'First Nubbin in your book.',
   pet: 'Pet',
@@ -159,7 +161,7 @@ export const FERN_STONE_TEXT = {
     'You straighten the top stone. Fern will straighten it back.',
   ],
   sprout: ['Hello, stone!', 'A stone with a face! Hee hee!', 'Fern’s stones! Count them!'],
-  count: (n: number) => (n === 1 ? 'One stone.' : `${n} stones.`),
+  count: (n: number) => fmt(MESSAGES_EN.stones, { n }),
 } as const;
 
 /** R0314 (FUN-25): the race card's footer, with Byte's word at the milestones. */
