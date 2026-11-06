@@ -265,6 +265,7 @@ const A01: EduQuest = quest(
         N('He pays Sinbad. Clink, clink!'),
         P('This is the House of Wisdom. It is a library.'),
         P('People come here to read, and write, and learn.'),
+        N('Clink, clink! Then ding! The librarian rings a little bell.'),
       ],
       [
         nt(
@@ -290,6 +291,7 @@ const A01: EduQuest = quest(
         P('I carry heavy loads all day. It is not fair!'),
         N('Sinbad says this very loudly. A window opens up high.'),
         N('Your Nubbin looks up at the window.'),
+        N('Creak! A shutter creaks open high above the street.'),
       ],
       [
         ak(
@@ -340,6 +342,7 @@ const A01: EduQuest = quest(
         ST('My master wants to meet the man who was talking.'),
         ST('And his friend. And that.'),
         N('(That is your Nubbin. It waves.)'),
+        N('Creak! The gate creaks wide. Your Nubbin waves hello.'),
       ],
       [
         ak(
@@ -371,6 +374,7 @@ const A01: EduQuest = quest(
         P('Sinbad. Sinbad the porter.'),
         S('Ha! I am Sinbad too. Sinbad the sailor.', 'happy'),
         S('The young man in my stories is me, long ago. You will meet him.'),
+        N('Splash! The fountain splashes, and your Nubbin peeks in.'),
       ],
       [
         ak(
@@ -400,6 +404,7 @@ const A01: EduQuest = quest(
       [
         N('The porter sits right on the edge of the cushion.'),
         N('He looks a little shy in such a fancy room.'),
+        N('Creak! The cushion creaks as the porter sits very straight.'),
       ],
       [
         nt(
@@ -423,6 +428,7 @@ const A01: EduQuest = quest(
         P('My daughter will love that.', 'soft'),
         S('You too, little friend. Sit close.'),
         N('The old man smiles at you and your Nubbin.'),
+        N('Hee-hee! Your Nubbin giggles and snuggles up close.'),
       ],
       [
         nt(
@@ -469,6 +475,7 @@ const A02: EduQuest = quest(
         N('Now you are on a ship. It has a big triangle sail.'),
         N('A young man leans on the rail. He grins at the sea.'),
         YS('You are new! Good. Nobody else has heard my jokes.', 'happy'),
+        N('Creak! The ship creaks and rocks, up and down.'),
       ],
       [
         ak(
@@ -546,6 +553,7 @@ const A02: EduQuest = quest(
         N('The sailors light a fire. Somebody sings.'),
         N('Your Nubbin sits down. Then it jumps up!'),
         N('The ground is warm. It is warm from underneath.'),
+        N('Crunch! Dry twigs crunch as the sailors light a fire.'),
       ],
       [
         dn(
@@ -579,6 +587,7 @@ const A02: EduQuest = quest(
         N('The island shakes. Wobble, wobble!'),
         N('All the little trees lean the same way.'),
         CP('It is not an island! It is a fish! Run!', 'shock'),
+        N('Splash! The big fish dives, and waves splash everywhere.'),
       ],
       [
         nt(
@@ -645,6 +654,7 @@ const A02: EduQuest = quest(
         N('A day goes by, then a night, then another day.'),
         N('Bump! The tub hits sand.'),
         YS('Land! Hooray!', 'happy'),
+        N('Thump! The tub bumps onto the sand with a soft thump.'),
       ],
       [
         ak(
@@ -718,6 +728,7 @@ const A03: EduQuest = quest(
         KI('A man who came out of the sea in a tub! Tell me about your city.', 'happy'),
         YS('It is round, your majesty. Perfectly round. The palace is in the middle.'),
         KI('Round? Why round?', 'think'),
+        N('Splash! Small waves splash on the beach beside him.'),
       ],
       [
         ak(
@@ -758,6 +769,7 @@ const A03: EduQuest = quest(
         N('The king makes Sinbad keeper of the harbour.'),
         N('Sinbad writes down every ship that comes and goes.'),
         N('And he asks each captain the way to Baghdad.'),
+        N('Ding! A harbour bell rings for every ship that comes in.'),
       ],
       [
         nt(
@@ -779,6 +791,7 @@ const A03: EduQuest = quest(
         YS('I am Sinbad! I am him!'),
         CP('Everyone says they are Sinbad when there is a bale to be had.', 'angry'),
         N('Sinbad’s shoulders droop. Nobody believes him.'),
+        N('Thump! A bale thumps down on the stone quay.'),
       ],
       [
         ak(
@@ -811,6 +824,7 @@ const A03: EduQuest = quest(
         N('The captain folds his arms.'),
         N('The bales sit on the quay.'),
         N('Your Nubbin sniffs one. Sniff, sniff!'),
+        N('Thump! The bales sit in a row. Your Nubbin sniffs one.'),
       ],
       [
         ak(
@@ -835,6 +849,7 @@ const A03: EduQuest = quest(
         N('Sinbad cannot remember. He scratches his head. Nothing falls out.'),
         N('Your Nubbin tugs the cord. A corner of blue cloth peeks out.'),
         N('(Point to the blue. Say “blue”!)'),
+        N('Pop! A corner of blue cloth pops out of the cord.'),
       ],
       [
         dn(
@@ -874,6 +889,7 @@ const A03: EduQuest = quest(
         CP('I am sorry I left you.', 'soft'),
         CP('Please take your bales. And take my hand.'),
         N('Sinbad shakes the captain’s hand.'),
+        N('Hee-hee! The captain’s stern face melts into a giggle.'),
       ],
       [
         nt(
@@ -896,6 +912,7 @@ const A03: EduQuest = quest(
         N('He sails home with the captain. They are friends now.'),
         P('He left you in the sea, and you shook his hand?'),
         S('He came back with all my things. That is rare.'),
+        N('Ding! A coin dings into the king’s little dish.'),
       ],
       [
         ak(
@@ -942,6 +959,7 @@ const A04: EduQuest = quest(
         N('You and Sinbad sleep under a tree.'),
         N('You wake up, and the sea is empty. The ship has gone!'),
         YS('Twice now! Why does everyone leave me?', 'sad'),
+        N('Splash! The empty sea splashes on the empty shore.'),
       ],
       [
         ak(
@@ -984,6 +1002,7 @@ const A04: EduQuest = quest(
         N('You climb the tallest tree on the island.'),
         N('From the top, you can see everything. The bushes below look tiny!'),
         N('On the far side is a great white dome. It shines.'),
+        N('Creak! The tall branch creaks as you climb up.'),
       ],
       [
         ak(
@@ -1016,6 +1035,7 @@ const A04: EduQuest = quest(
         N('Tap, tap, tap! Something inside is tapping.'),
         N('The sun goes out. A giant bird lands on the dome.'),
         YS('It is an egg! And that is its mother!', 'shock'),
+        N('Crack! A tiny crack runs across the white shell.'),
       ],
       [
         ak(
@@ -1043,6 +1063,7 @@ const A04: EduQuest = quest(
       [
         N('The giant bird tucks her head under her wing.'),
         N('She snores, zzzzz! The snore lifts your hair.'),
+        N('Hee-hee! The great bird snores, and your hair flutters.'),
       ],
       [
         nt(
@@ -1102,6 +1123,7 @@ const A04: EduQuest = quest(
       [
         N('At noon, the bird lands on a high ridge.'),
         N('You untie the turban. You are shaking, but you did it.'),
+        N('Whoosh! The wind whooshes past as the great bird glides.'),
       ],
       [
         nt(
@@ -1125,6 +1147,7 @@ const A04: EduQuest = quest(
         N('Your Nubbin catches it, and falls over.'),
         YS('Keep it. Now people will believe you.', 'happy'),
         P('That is not a chicken.'),
+        N('Plop! A heavy jewel plops into your Nubbin’s paws.'),
       ],
       [
         ak(
@@ -1179,6 +1202,7 @@ const A05: EduQuest = quest(
         N('Long snakes lie in the sun. They are fast asleep.'),
         N('You tiptoe down, between the snakes. Tip, tip, tip.'),
         N('Your Nubbin tiptoes too. It does it very well.'),
+        N('Pitter, patter! Your toes go pitter-patter between the sleepy snakes.'),
       ],
       [
         nt(
@@ -1213,6 +1237,7 @@ const A05: EduQuest = quest(
       [
         N('Something falls out of the sky. Splat, it is a big piece of meat!'),
         N('Everyone stares at it. What is it doing here?'),
+        N('Thump! A big piece of meat thumps down in the valley.'),
       ],
       [
         dn(
@@ -1235,6 +1260,7 @@ const A05: EduQuest = quest(
         N('He ties himself under a big piece of meat.'),
         YS('Take some stones! Quick!', 'happy'),
         N('By your foot is a small, clear stone. It is as small as a lentil.'),
+        N('Plop! Little stones stick to the meat with a plop.'),
       ],
       [
         nt(
@@ -1274,7 +1300,7 @@ const A05: EduQuest = quest(
     ),
     sc(
       'a06-05-meat-done',
-      [N('Your Nubbin climbs into Sinbad’s sash.'), N('You hold on to his belt with both hands.')],
+      [N('Your Nubbin climbs into Sinbad’s sash.'), N('You hold on to his belt with both hands.'), N('Swish! Sinbad’s sash swishes as your Nubbin climbs in.')],
       [
         dn(
           1,
@@ -1296,6 +1322,7 @@ const A05: EduQuest = quest(
         ME('A man on my meat! And no diamonds!', 'angry'),
         YS('Peace, friend. Here, take some stones.'),
         N('The merchant stops shouting at once.'),
+        N('Whoosh! The eagle whooshes up, and the ground gets small.'),
       ],
       [
         nt(
@@ -1316,6 +1343,7 @@ const A05: EduQuest = quest(
       [
         ME('Twenty years I threw meat. Nobody ever came up on it before!', 'think'),
         N('Sinbad grins. Your Nubbin grins too.'),
+        N('Hee-hee! Sinbad and your Nubbin share a big grin.'),
       ],
       [
         ak(
@@ -1340,6 +1368,7 @@ const A05: EduQuest = quest(
         N('You put the little stone in the porter’s hand.'),
         P('Nobody ever gave me a jewel. I will never sell it.', 'soft'),
         S('Good. A stone you keep is worth more than one you sell.', 'happy'),
+        N('Plop! The little stone plops into the porter’s big hand.'),
       ],
       [
         nt(
@@ -1388,6 +1417,7 @@ const A06: EduQuest = quest(
         YS('Those pots are for supper. And we are the supper!'),
         N('Your Nubbin climbs into a pot to check. It sniffs. It climbs out again, very fast.'),
         N('Then he lies down across the gate, and falls fast asleep.'),
+        N('Creak! The great castle door creaks. Sniff, sniff!'),
       ],
       [
         ak(
@@ -1428,7 +1458,7 @@ const A06: EduQuest = quest(
     ),
     sc(
       'a06-06-castle-done',
-      [YS('He is asleep across the only way out.'), N('Everyone whispers. Shh, shh.')],
+      [YS('He is asleep across the only way out.'), N('Everyone whispers. Shh, shh.'), N('Hee-hee! The sleeping giant gives one great, wobbly snore.')],
       [
         nt(
           1,
@@ -1540,6 +1570,7 @@ const A06: EduQuest = quest(
         S('Not me. Your friend’s little one did. I only ran.', 'happy'),
         P('My daughter will like that one.', 'happy'),
         S('That is how I tell it to children. It is the truest way I know.', 'soft'),
+        N('Achoo! Your Nubbin sneezes, and everybody giggles.'),
       ],
       [
         nt(
@@ -1583,6 +1614,7 @@ const A07: EduQuest = quest(
         YS('Up the trees, all of you!', 'shock'),
         N('You climb. Your Nubbin climbs faster.'),
         N('The snake winds round the tree. It waits.'),
+        N('Creak! The tree creaks as everyone climbs up high.'),
       ],
       [
         nt(
@@ -1617,6 +1649,7 @@ const A07: EduQuest = quest(
       [
         YS('Snakes can climb. We need a way to be safe.', 'think'),
         N('Everybody looks at the broken raft planks.'),
+        N('Thump! A wooden plank thumps down on the sand.'),
       ],
       [
         ak(
@@ -1645,6 +1678,7 @@ const A07: EduQuest = quest(
         N('You tie, and he ties. Your Nubbin holds each knot.'),
         N('All night the snake goes round and round.'),
         N('Nobody sleeps. Sinbad whispers about his round city.'),
+        N('Creak, creak! The knots creak tight round the little box.'),
       ],
       [
         dn(
@@ -1678,6 +1712,7 @@ const A07: EduQuest = quest(
         N('At first light the snake gives up.'),
         N('It pours itself away into the grass.'),
         N('It does not come back.'),
+        N('Plop! Something slides off into the grass with a soft plop.'),
       ],
       [
         nt(
@@ -1702,6 +1737,7 @@ const A07: EduQuest = quest(
         CP('We have goods for a man we left on an island. His name was Sinbad.'),
         YS('That is me! That is ME!', 'happy'),
         N('Sinbad laughs and laughs.'),
+        N('Whee! Everyone waves their arms and shouts whee!'),
       ],
       [
         dn(
@@ -1723,6 +1759,7 @@ const A07: EduQuest = quest(
         S('Never again.'),
         P('How long did that last?', 'think'),
         S('Long enough to get bored.', 'happy'),
+        N('Hee-hee! Even the porter laughs at never again.'),
       ],
       [
         dn(
@@ -1815,6 +1852,7 @@ const A08: EduQuest = quest(
       [
         S('Come in now, just for the dark part, and the light after it.', 'soft'),
         N('The lamps flicker. The porter holds his breath.'),
+        N('Creak! The lamps creak on their chains and flicker.'),
       ],
       [
         nt(
@@ -1885,6 +1923,7 @@ const A08: EduQuest = quest(
       [
         N('Something brushes your ankle.'),
         N('It is a little animal with a striped face. It knows where it is going.'),
+        N('Pitter, patter! Tiny paws go pitter-patter on the cave floor.'),
       ],
       [
         ak(
@@ -1933,7 +1972,7 @@ const A08: EduQuest = quest(
     ),
     sc(
       'a06-08-tunnel-done',
-      [N('Some days later a ship sees his fire on the stones.'), N('The sailors take him home.')],
+      [N('Some days later a ship sees his fire on the stones.'), N('The sailors take him home.'), N('Crack! A little fire cracks on the stony shore.')],
       [
         nt(
           1,
@@ -1958,6 +1997,7 @@ const A08: EduQuest = quest(
         S('Thank you. Nobody has said that for a long time.', 'soft'),
         P('I said a foolish thing on your bench.'),
         S('You said a true thing. It was half the truth. Come back for the other half.'),
+        N('Ding! The long room’s clock gives a quiet ding.'),
       ],
       [
         ak(
@@ -2045,7 +2085,7 @@ const A09: EduQuest = quest(
     ),
     sc(
       'a06-09-egg-done',
-      [N('Two huge shadows cross the island.'), N('One, then two. The parents are home.')],
+      [N('Two huge shadows cross the island.'), N('One, then two. The parents are home.'), N('Whoosh! Two huge wings whoosh over the island.')],
       [
         dn(
           1,
@@ -2099,6 +2139,7 @@ const A09: EduQuest = quest(
       [
         N('A current carries you both along.'),
         N('By evening there is an island. It has fruit and running water.'),
+        N('Splash! The warm current splashes round the boulders.'),
       ],
       [
         ak(
@@ -2133,6 +2174,7 @@ const A09: EduQuest = quest(
         S('I knew, and I did not make them listen.', 'think'),
         P('You told them.'),
         S('Telling is not the same as making someone listen.'),
+        N('Creak! A cushion creaks as the little girl turns over.'),
       ],
       [
         ak(
@@ -2187,6 +2229,7 @@ const A10: EduQuest = quest(
         YS('He wants to be carried. Up you come, grandfather.', 'soft'),
         N('On the far bank, he does not get down!'),
         N('He drums his heels, and points at a fig tree.'),
+        N('Splash! Water splashes round Sinbad’s ankles at the stream.'),
       ],
       [
         nt(
@@ -2222,6 +2265,7 @@ const A10: EduQuest = quest(
         N('Days pass like this.'),
         N('The old man’s legs are long, and limp, and wrinkly.'),
         N('He never gets down.'),
+        N('Thump! Two wrinkly heels go thump on Sinbad’s sides.'),
       ],
       [
         ak(
@@ -2246,6 +2290,7 @@ const A10: EduQuest = quest(
         N('A fig tree has a low branch full of ripe fruit.'),
         N('Your Nubbin points at the branch. Then it bends its knees.'),
         YS('Walk under the branch. Then duck!', 'think'),
+        N('Munch! The old man munches a fig, juicy and sweet.'),
       ],
       [
         ak(
@@ -2290,6 +2335,7 @@ const A10: EduQuest = quest(
         YS('Now!'),
         N('Sinbad ducks. The old man hangs from the branch by both hands.'),
         N('His mouth is full of fig. He is quite surprised, and not hurt at all.'),
+        N('Gulp! The old man gulps, and then he hiccups. Hic!'),
       ],
       [
         nt(
@@ -2314,6 +2360,7 @@ const A10: EduQuest = quest(
         N('The palm trees are tall and full of monkeys.'),
         N('The sailors throw pebbles near the monkeys, carefully missing.'),
         N('The monkeys throw coconuts back. Thud, thud!'),
+        N('Bonk! A coconut bonks on a hard, round rock.'),
       ],
       [
         ak(
@@ -2358,6 +2405,7 @@ const A10: EduQuest = quest(
         P('I have carried men like that. I never put them down.'),
         S('You did. You got up from my bench and came in.'),
         P('Hm.', 'soft'),
+        N('Hee-hee! A sleepy giggle drifts across the long room.'),
       ],
       [
         nt(
@@ -2401,6 +2449,7 @@ const A11: EduQuest = quest(
         YS('Everything anyone ever lost is here. None of it is any use.'),
         N('A river runs down the beach. It runs into a cave!'),
         YS('Water goes somewhere. A river always goes somewhere.', 'think'),
+        N('Splash! The little river splashes down to the cave.'),
       ],
       [
         nt(
@@ -2435,6 +2484,7 @@ const A11: EduQuest = quest(
       [
         YS('A raft, then. If the river goes in, it comes out.'),
         N('Sinbad looks at the planks along the beach.'),
+        N('Thump! A plank thumps onto the pile of wood.'),
       ],
       [
         ak(
@@ -2465,6 +2515,7 @@ const A11: EduQuest = quest(
         YS('Nobody would believe me!', 'happy'),
         N('Your Nubbin picks up a green one. It puts it back.'),
         YS('You and your friend are no good at being rich.'),
+        N('Plop! A heavy jewel plops back into the sand.'),
       ],
       [
         dn(
@@ -2500,6 +2551,7 @@ const A11: EduQuest = quest(
         YS('Keep your head down. Think of something nice.'),
         N('The rock glitters a little, like tiny stars.'),
         N('Sinbad falls asleep, and so do you.'),
+        N('Drip, drip! Water drips from the cave roof as you float.'),
       ],
       [
         nt(
@@ -2539,6 +2591,7 @@ const A11: EduQuest = quest(
         S('Serendib. A great island, far from here.'),
         P('You cannot stop there!', 'angry'),
         S('I am old. I can stop where I like.', 'happy'),
+        N('Whee! Your raft glides down the green stream, whee!'),
       ],
       [
         ak(
@@ -2596,6 +2649,7 @@ const A12: EduQuest = quest(
         N('Green rice fields step down the hills. Water shines in each one.'),
         N('The trees smell of cinnamon when you rub them.'),
         N('Your Nubbin rubs every tree. It arrives smelling like a pudding.'),
+        N('Splash! Rice-field water splashes as your Nubbin hops in.'),
       ],
       [
         nt(
@@ -2632,6 +2686,7 @@ const A12: EduQuest = quest(
       [
         N('The palace is cool and open. Birds fly in and out.'),
         N('The king is waiting. He is as curious as a boy.'),
+        N('Tweet, tweet! Birds tweet as they fly through the palace.'),
       ],
       [
         nt(
@@ -2656,6 +2711,7 @@ const A12: EduQuest = quest(
         YS('They say he walks the city to see how people live.'),
         KS('A king who looks for himself. Good! I will write to him.', 'happy'),
         KS('You will carry my letter. You will be my messenger.'),
+        N('Ding! A soft gong rings, and the king smiles.'),
       ],
       [
         ak(
@@ -2703,6 +2759,7 @@ const A12: EduQuest = quest(
         FA('People come for different reasons. Everyone climbs the same steps.', 'soft'),
         N('The sun comes up, red, over the sea.'),
         N('Everyone goes quiet. Your Nubbin sits very still on your foot.'),
+        N('Whoosh! The morning wind whooshes over the mountain top.'),
       ],
       [
         nt(
@@ -2726,6 +2783,7 @@ const A12: EduQuest = quest(
         S('That is how many friendships between countries begin.'),
         P('Did you promise again?', 'happy'),
         S('I did. That one nearly took.', 'happy'),
+        N('Creak! The big ship creaks as it leaves the shore.'),
       ],
       [
         nt(
@@ -2773,6 +2831,7 @@ const A13: EduQuest = quest(
         YS('But I promised. Never again!'),
         CA('Then promise again afterwards.'),
         N('Your Nubbin nods. It has heard Sinbad promise lots of times.'),
+        N('Ding, dong! The palace bell rings across the round city.'),
       ],
       [
         ak(
@@ -2826,6 +2885,7 @@ const A13: EduQuest = quest(
       [
         N('The Caliph sends books, and fine cloth, and a silver saddle.'),
         N('Sinbad looks at the saddle. He says nothing.'),
+        N('Creak! The silver saddle creaks as Sinbad looks at it.'),
       ],
       [
         dn(
@@ -2848,6 +2908,7 @@ const A13: EduQuest = quest(
         N('In the night the wind turns. In the morning every sail fills at once.'),
         N('Weeks of blue. Then green hills, and a king on the shore.'),
         KS('Books! He sent me books!', 'happy'),
+        N('Whoosh! The wind whooshes, and every sail pops full!'),
       ],
       [
         nt(
@@ -2868,6 +2929,7 @@ const A13: EduQuest = quest(
       [
         KS('Go home safely, messenger. Tell your Caliph I am reading.'),
         N('The king hugs his new books. He waves as the ship sails off.'),
+        N('Hee-hee! The king hugs his books and giggles.'),
       ],
       [
         nt(
@@ -2893,6 +2955,7 @@ const A13: EduQuest = quest(
         P('After all that? After the letter?', 'shock'),
         S('After all that. The sea never asked if I deserved it.', 'soft'),
         S('Come back for the next part. Sinbad is brave. And there is a kind choice in it.'),
+        N('Splash! The big ship splashes through the wide blue sea.'),
       ],
       [
         nt(
@@ -2943,6 +3006,7 @@ const A14: EduQuest = quest(
         N('The herd walks past. An old elephant leads them.'),
         N('Every morning, Sinbad’s arrows land far away in the mud.'),
         YS('I am the worst archer in the world. On purpose. Do not tell him.'),
+        N('Thump, thump! The elephants’ big feet thump past the tree.'),
       ],
       [
         dn(
@@ -2979,6 +3043,7 @@ const A14: EduQuest = quest(
       [
         N('Weeks go by, with mud and missed arrows.'),
         N('The master grumbles, and buys more arrows.'),
+        N('Plop! An arrow plops into the soft mud, far away.'),
       ],
       [
         nt(
@@ -3009,6 +3074,7 @@ const A14: EduQuest = quest(
         N('It is quiet. Nobody hurts them.'),
         N('The herd remembers them. That is why they come.'),
         N('The old elephant sets you down, safe. The herd turns and goes.'),
+        N('Thump! A huge, gentle foot thumps by, slow and soft.'),
       ],
       [
         ak(
@@ -3042,6 +3108,7 @@ const A14: EduQuest = quest(
       [
         YS('Go to the town ahead. I twisted my ankle.'),
         YS('You decide what he is told. I have done enough deciding for elephants.'),
+        N('Whoosh! The old elephant’s trunk whooshes up in a goodbye.'),
       ],
       [
         ak(
@@ -3071,6 +3138,7 @@ const A14: EduQuest = quest(
         MA('The tree is down. Where is Sinbad?', 'shock'),
         N('Far behind you, the herd walks home in a long grey line.'),
         N('Your Nubbin looks at the herd, then at you. It waits.'),
+        N('Creak! The master’s gate creaks. He looks and looks.'),
       ],
       [
         nt(
@@ -3115,6 +3183,7 @@ const A14: EduQuest = quest(
       [
         N('That evening Sinbad limps through the gate.'),
         N('He looks at you and the master. He understands, without a word.'),
+        N('Creak! The gate creaks as Sinbad limps through it.'),
       ],
       [
         ak(
@@ -3147,6 +3216,7 @@ const A14: EduQuest = quest(
         MA('You are free, Sinbad. Go home.'),
         YS('The elephants paid for my freedom. I want to remember that.', 'soft'),
         MA('Nobody in this town will hunt them again. I have promised.'),
+        N('Thump, thump! A long grey line thumps home through the hills.'),
       ],
       [
         nt(
@@ -3188,6 +3258,7 @@ const A15: EduQuest = quest(
         N('He walks in through the city gate. You are beside him.'),
         YS('Seven voyages! And I promise you now: there is no eighth.'),
         N('For once, he keeps his promise.'),
+        N('Splash! The low ship splashes into Basra harbour.'),
       ],
       [
         ak(
@@ -3240,6 +3311,7 @@ const A15: EduQuest = quest(
         S('Then it has a fountain now.'),
         N('Next morning, workmen are on the porter’s street with stone.'),
         D('Baba! They are building water! Right here!', 'happy'),
+        N('Splash! Fresh water splashes into the new fountain.'),
       ],
       [
         nt(
@@ -3278,6 +3350,7 @@ const A15: EduQuest = quest(
         S('From my first ship. Hang it where you can see the wind.', 'soft'),
         P('Then give me one more evening. Next time, you will hear mine.'),
         S('Yours?', 'happy'),
+        N('Creak! The old chest creaks open, slow and gentle.'),
       ],
       [
         ak(
@@ -3331,6 +3404,7 @@ const A16: EduQuest = quest(
         P('This is the first line of my story. A friend brought it from a valley.'),
         P('I will never sell it.'),
         P('I am a porter. I carry paper, and I cannot read, so I listen.'),
+        N('Ding! A little bell rings, and the long room hushes.'),
       ],
       [
         nt(
@@ -3353,6 +3427,7 @@ const A16: EduQuest = quest(
         P('Nobody shot at them. Nobody ever will.'),
         P('The old elephants gave their tusks. And Sinbad was free.', 'soft'),
         N('Nobody speaks. Then the old man claps, and everyone claps.'),
+        N('Clap, clap! Hee-hee! Hands clap, and the room giggles.'),
       ],
       [
         nt(
@@ -3378,6 +3453,7 @@ const A16: EduQuest = quest(
         P('Now he wants to listen, and he starts with me.', 'happy'),
         N('You step back through the page. The Grove’s evening is all round you.'),
         N('Your Nubbin drags the cushion over the lawn.'),
+        N('Whee! Your Nubbin drags the cushion over the soft grass.'),
       ],
       [
         ak(
@@ -3419,6 +3495,7 @@ const A16: EduQuest = quest(
       [
         N('One by one, your Nubbins come over the grass.'),
         N('They sit in a ring round the cushion.'),
+        N('Thump! One Nubbin plops down in the ring, and then another.'),
       ],
       [
         dn(
@@ -3440,6 +3517,7 @@ const A16: EduQuest = quest(
         N('You have never told a story either.'),
         N('Your Nubbin sits on your foot, to help.'),
         N('You take a breath. Then you begin.'),
+        N('Creak! The cushion creaks as you sit down to tell.'),
       ],
       [
         nt(
@@ -3488,6 +3566,7 @@ const A16: EduQuest = quest(
         NV('She told them until he learned to be kind.'),
         NV('Persian, then Arabic, then French, then English. And now you, on a cushion.'),
         NV('Stories travel like sailors. They come home a little changed.', 'happy'),
+        N('Whoosh! Your Nubbin whooshes its arms like a great bird.'),
       ],
       [
         ak(
@@ -3524,6 +3603,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
         '“Seven trips, and he still came home to tell it to a friend. Somebody must stay and listen, and I will. H.”',
       ),
       N('Underneath is a tiny whale, with a tree on its back.'),
+      N('Plop! A tiny drop of ink plops by the whale.'),
     ],
     [
       nt(
@@ -3548,6 +3628,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
       N('Your pockets are empty. The porter sees you check.'),
       P('Nothing? In a valley of diamonds?'),
       P('That is wise, or silly. I will think about it tonight.', 'think'),
+      N('Hee-hee! The porter chuckles at your empty pockets.'),
     ],
     [
       nt(
@@ -3575,6 +3656,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
       MA('No more arrows. No more hunting. Not by me.', 'soft'),
       MA('You are free, Sinbad. I am sorry I have nothing to give you.', 'sad'),
       YS('You are giving me home. That is plenty.', 'soft'),
+      N('Thump! A tired old elephant thumps by, in the dream.'),
     ],
     [
       nt(
@@ -3599,6 +3681,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
       YS('Home! Poor, late, and safe. That still counts.'),
       YS('Seven voyages! And I promise: there is no eighth.'),
       N('For once, he keeps his promise.'),
+      N('Creak! The old boat creaks as it ties up at the quay.'),
     ],
     [
       nt(
@@ -3641,6 +3724,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
       N('The porter’s home is one clean room. His daughter gives the old man the only cushion.'),
       D('Baba says you were poor once too. Is that true?'),
       S('Once, for a season. It was a very good season.', 'soft'),
+      N('Plop! The old man plops down on his daughter’s cushion.'),
     ],
     [
       nt(
@@ -3685,6 +3769,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
       P('I had nothing, so I listened.'),
       P('A friend brought me nothing from a valley of diamonds. I decided it was a present.'),
       P('I am a porter. I carry paper, and I cannot read, so I listen.'),
+      N('Ding! A little bell rings, and the long room hushes.'),
     ],
     [
       nt(
@@ -3710,6 +3795,7 @@ export const EDU_A06_SPROUT_VARIANTS: EduScene[] = [
       P('Nobody shot at them. Nobody ever will.'),
       P('The elephants waited with Sinbad, a whole season. And Sinbad was free.', 'soft'),
       N('Nobody speaks. Then the old man claps, and everyone claps.'),
+      N('Thump! A tired old elephant thumps by, slow and soft.'),
     ],
     [
       ak(
