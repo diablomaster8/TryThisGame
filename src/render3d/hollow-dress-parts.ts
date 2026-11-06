@@ -3,7 +3,7 @@ import { GROVE3D } from '../config/tuning';
 import type { CaveBand } from '../render/cave-bands';
 import { cellAt, cellCentre, WALL, type Cell, type Floor } from '../sim/dungeon';
 import { CELL, cellHash } from './hollow-ctx';
-import { BALL, BOX, CONE, CYL, DISC, Kit, OCT, ROCK, SPHERE } from './hollow-dress-kit';
+import { BALL, BEAD, BOX, CONE, CYL, DISC, Kit, OCT, PAD, ROCK, SPHERE } from './hollow-dress-kit';
 import { cellTop } from './hollow-dress-path';
 
 /**
@@ -285,7 +285,7 @@ export function landmark(f: Floor, kit: Kit, band: CaveBand, out: SetOut): void 
         const z = p.z + Math.sin(a) * r;
         const tall = 0.4 + h(100 + i) * 0.5;
         kit.part(CYL(0.3, 4), x, y0 + tall / 2, z, 0.04, tall, 0.04, '#5a8a4a');
-        kit.part(SPHERE(), x, y0 + tall + 0.04, z, 0.08, 0.14, 0.08, band.glow, 1.4);
+        kit.part(BEAD(), x, y0 + tall + 0.04, z, 0.08, 0.14, 0.08, band.glow, 1.4);
       }
       glow(out, p, y0 - 0.25, R * 2.2, 0.01, '#7ad8ff', 0.45);
       break;
@@ -380,7 +380,7 @@ export function landmark(f: Floor, kit: Kit, band: CaveBand, out: SetOut): void 
       kit.part(SPHERE(), p.x + fx * 0.55, y0 + 0.26, p.z + fz * 0.55, 0.32, 0.12, 0.32, TIMBER);
       for (let i = 0; i < 3; i++)
         kit.part(
-          SPHERE(),
+          BEAD(),
           p.x + fx * 0.55 + Math.cos(i * 2.1) * 0.07,
           y0 + 0.33,
           p.z + fz * 0.55 + Math.sin(i * 2.1) * 0.07,
@@ -424,7 +424,7 @@ export function landmark(f: Floor, kit: Kit, band: CaveBand, out: SetOut): void 
           const r = 0.28 + (rFoot - 0.28) * Math.pow(t, 2.2) + 0.12;
           for (let b = 0; b < 3; b++)
             kit.part(
-              SPHERE(),
+              BEAD(),
               p.x + Math.cos(a0 + 0.25) * r,
               y0 + H * (1 - t) - b * 0.12,
               p.z + Math.sin(a0 + 0.25) * r,
@@ -436,7 +436,7 @@ export function landmark(f: Floor, kit: Kit, band: CaveBand, out: SetOut): void 
             );
         }
         kit.part(
-          SPHERE(),
+          PAD(),
           p.x + Math.cos(a0 + 0.5) * rFoot,
           y0 + 0.02,
           p.z + Math.sin(a0 + 0.5) * rFoot,
@@ -493,7 +493,7 @@ function mushroom(
   for (let i = 0; i < 3; i++) {
     const a = k * 9 + i * 2.1;
     kit.part(
-      SPHERE(),
+      BEAD(),
       x - lean * 0.3 * s + Math.cos(a) * 0.17 * s,
       y0 + 0.7 * s,
       z + Math.sin(a) * 0.17 * s,

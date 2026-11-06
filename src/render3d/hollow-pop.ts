@@ -58,6 +58,7 @@ function haloGeometry(radius: number): THREE.BufferGeometry {
   return g;
 }
 
+/** Additive, so both sides draw in one pass (the order of adding never shows; R0194 part 2). */
 const additive = (color: string, opacity: number): THREE.MeshBasicMaterial =>
   new THREE.MeshBasicMaterial({
     color,
@@ -67,6 +68,7 @@ const additive = (color: string, opacity: number): THREE.MeshBasicMaterial =>
     depthWrite: false,
     vertexColors: true,
     side: THREE.DoubleSide,
+    forceSinglePass: true,
     fog: false,
   });
 

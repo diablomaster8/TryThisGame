@@ -4,7 +4,19 @@ import type { CaveBand } from '../render/cave-bands';
 import { cellAt, cellCentre, FLOOR, WALL, WATER, type Cell, type Floor } from '../sim/dungeon';
 import { setPieces } from '../sim/dungeon-set-pieces';
 import { CELL, cellHash } from './hollow-ctx';
-import { BOX, CONE, CYL, DISC, Kit, OCT, PRISM, ROCK, SPHERE, TORUS } from './hollow-dress-kit';
+import {
+  BOX,
+  CONE,
+  CYL,
+  DISC,
+  Kit,
+  OCT,
+  PRISM,
+  ROCK,
+  SPHERE,
+  TORUS,
+  TUBE,
+} from './hollow-dress-kit';
 import { cellPoint, cellTop, deckHeight, STONE_TOP } from './hollow-dress-path';
 import {
   DIRS,
@@ -120,6 +132,9 @@ function rails(f: Floor, kit: Kit, out: SetOut): void {
         new THREE.Vector3(p.x + s.x * g * k, p.y + 0.09, p.z + s.z * g * k),
         0.03,
         IRON,
+        0,
+        // Open (R0194 part 2): each rail's ends sit in the next, so caps were half its cost.
+        TUBE(6),
       );
   }
   for (const c of run) out.busy.add(key(c));

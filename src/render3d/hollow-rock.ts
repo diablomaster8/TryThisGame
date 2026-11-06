@@ -10,7 +10,9 @@ import { fogged } from './hollow-fog';
 import { tileLookOf } from '../render/paint/dungeon-tiles';
 import type { TileLook } from '../config/tuning-r10b1';
 import { SectorIndex } from '../render/field-sectors';
-import { sectorRows, sectorSizeOf, tagSector } from './hollow-sectors';
+import { HOLLOW_PERF } from '../config/tuning-dungeon-tap';
+import { cellRects } from './hollow-lod';
+import { sectorLods, sectorRows, sectorSizeOf, tagSector } from './hollow-sectors';
 import {
   CELL,
   WALL_H,
@@ -643,6 +645,10 @@ export class HollowRock implements HollowModule {
     const wetB = new Buf();
     const index: number[] = [];
     const sec = streamed(f);
+    // A far sector's low-detail ground (R0194 part 2, `hollow-lod.ts`): each cell's planar
+    // sub-quads merged into rectangles over the same vertices; a ledge keeps its fine slope.
+    const lo = sectorLods(f) ? streamed(f) : null;
+    const hAt = (i: number, j: number): number => pos.data[vid[j * W + i]! * 3 + 1]!;
     const vtx = (i: number, j: number): number => {
       const k = j * W + i;
       let v = vid[k]!;
@@ -656,12 +662,16 @@ export class HollowRock implements HollowModule {
       }
       return v;
     };
-    const quad = (i: number, j: number, n: number): void => {
+    /** A quad `n` sub-steps wide (`m` deep): into the full index and/or the low-detail one. */
+    const quad = (i: number, j: number, n: number, hi = true, low = true, m = n): void => {
       const a = vtx(i, j);
       const b = vtx(i + n, j);
-      const c = vtx(i, j + n);
-      const d = vtx(i + n, j + n);
-      (sec ? sec.at(Math.floor(i / S), Math.floor(j / S)) : index).push(a, c, b, b, c, d);
+      const c = vtx(i, j + m);
+      const d = vtx(i + n, j + m);
+      const cx = Math.floor(i / S);
+      const cy = Math.floor(j / S);
+      if (hi) (sec ? sec.at(cx, cy) : index).push(a, c, b, b, c, d);
+      if (low && lo) lo.at(cx, cy).push(a, c, b, b, c, d);
     };
     for (let cy = 0; cy < f.rows; cy++)
       for (let cx = 0; cx < f.cols; cx++) {
@@ -673,7 +683,11 @@ export class HollowRock implements HollowModule {
             if (cellAt(f, cx + dx, cy + dy) !== WALL) near = true;
         if (near) {
           for (let sj = 0; sj < S; sj++)
-            for (let si = 0; si < S; si++) quad(cx * S + si, cy * S + sj, 1);
+            for (let si = 0; si < S; si++) quad(cx * S + si, cy * S + sj, 1, true, false);
+          if (!lo) continue;
+          const h = (i: number, j: number) => hAt(cx * S + i, cy * S + j);
+          for (const [i0, j0, i1, j1] of cellRects(h, S, HOLLOW_PERF.lod.flatEps))
+            quad(cx * S + i0, cy * S + j0, i1 - i0, false, true, j1 - j0);
         } else quad(cx * S, cy * S, S);
       }
     const n = pos.data.length / 3;
@@ -681,7 +695,9 @@ export class HollowRock implements HollowModule {
     const col = new Float32Array(n * 3);
     const nrmGeo = new THREE.BufferGeometry();
     nrmGeo.setAttribute('position', new THREE.BufferAttribute(p, 3));
+    // Normals from the full cut only, so the low-detail twin shades the same.
     const tris = sec ? sec.finish() : index;
+    const loTris = lo ? lo.finish() : [];
     nrmGeo.setIndex(tris);
     nrmGeo.computeVertexNormals();
     const nrm = nrmGeo.attributes.normal as THREE.BufferAttribute;
@@ -727,11 +743,11 @@ export class HollowRock implements HollowModule {
     g.setAttribute('color', colAttr);
     g.setAttribute('aTorch', torchAttr);
     g.setAttribute('aWet', new THREE.BufferAttribute(wetB.floats, 1));
-    g.setIndex(tris);
+    g.setIndex(lo ? tris.concat(loTris) : tris);
     nrmGeo.dispose();
     const floor = new THREE.Mesh(g, this.earth);
     floor.receiveShadow = true;
-    this.place(floor, f, sec, ctx, 0.5);
+    this.place(floor, f, sec, lo, ctx, 0.5);
     return {
       count: n,
       pos: g.attributes.position as THREE.BufferAttribute,
@@ -816,6 +832,10 @@ export class HollowRock implements HollowModule {
     const col = new Buf();
     const index: number[] = [];
     const sec = streamed(f);
+    // A far sector's low-detail rock (R0194 part 2): each face over a subset of the same
+    // vertices (every `wallRowStep`th row, every `wallColStep`th column), the top one quad.
+    const lo = sectorLods(f) ? streamed(f) : null;
+    const { wallRowStep, wallColStep } = HOLLOW_PERF.lod;
     const foot = new THREE.Color('#5a5266');
     const lipC = new THREE.Color('#b0a8be');
     const c = new THREE.Color();
@@ -859,6 +879,7 @@ export class HollowRock implements HollowModule {
           const a = t0 + j * 3 + k;
           (sec ? sec.at(w.cx, w.cy) : index).push(a, a + 3, a + 1, a + 1, a + 3, a + 4);
         }
+      lo?.at(w.cx, w.cy).push(t0, t0 + 6, t0 + 2, t0 + 2, t0 + 6, t0 + 8);
       // The sides: finely cut toward open ground, a plain strip toward another block.
       for (const [dx, dy] of [
         [1, 0],
@@ -883,15 +904,25 @@ export class HollowRock implements HollowModule {
         for (let j = 0; j <= nv; j++)
           for (let k = 0; k <= nu; k++)
             emit(w, i, px + (ax * k) / nu, pz + (az * k) / nu, j / nv, dx, 0, dy, tone);
-        for (let j = 0; j < nv; j++)
-          for (let k = 0; k < nu; k++) {
-            const a = s0 + j * (nu + 1) + k;
-            const b = a + 1;
-            const cc = a + nu + 1;
-            const d = cc + 1;
-            if (flip) (sec ? sec.at(w.cx, w.cy) : index).push(a, cc, b, b, cc, d);
-            else (sec ? sec.at(w.cx, w.cy) : index).push(a, b, cc, b, d, cc);
-          }
+        const face = (out: number[], dj: number, dk: number): void => {
+          for (let j = 0; j < nv; j += dj)
+            for (let k = 0; k < nu; k += dk) {
+              const a = s0 + j * (nu + 1) + k;
+              const b = a + dk;
+              const cc = a + dj * (nu + 1);
+              const d = cc + dk;
+              if (flip) out.push(a, cc, b, b, cc, d);
+              else out.push(a, b, cc, b, d, cc);
+            }
+        };
+        face(sec ? sec.at(w.cx, w.cy) : index, 1, 1);
+        // Steps that do not divide the face (a plain strip has 2 rows, 1 column) fall back.
+        if (lo)
+          face(
+            lo.at(w.cx, w.cy),
+            nv % wallRowStep === 0 ? wallRowStep : nv,
+            nu % wallColStep === 0 ? wallColStep : nu,
+          );
       }
     });
     const n = pos.data.length / 3;
@@ -910,7 +941,8 @@ export class HollowRock implements HollowModule {
     g.setAttribute('aWall', new THREE.BufferAttribute(wallB.floats, 3));
     g.setAttribute('aLean', new THREE.BufferAttribute(leanB.floats, 2));
     g.setAttribute('aWet', new THREE.BufferAttribute(wetB.floats, 1));
-    g.setIndex(sec ? sec.finish() : index);
+    const hiTris = sec ? sec.finish() : index;
+    g.setIndex(lo ? hiTris.concat(lo.finish()) : hiTris);
     g.computeBoundingSphere();
     if (g.boundingSphere) g.boundingSphere.radius += R.lean + 1;
 
@@ -930,7 +962,7 @@ export class HollowRock implements HollowModule {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     this.wallMesh = mesh;
-    this.place(mesh, f, sec, ctx, R.lean + 1);
+    this.place(mesh, f, sec, lo, ctx, R.lean + 1);
     return { count: n, pos: posAttr, nrm: nrmAttr, col: colAttr, torch: torchAttr, init };
   }
 
@@ -960,11 +992,14 @@ export class HollowRock implements HollowModule {
    * sharing its buffers, each drawing its sector's run of the index with bounds of its own.
    * `HollowSectors` shows the window round the Keeper; the renderer culls the rest of the
    * window by view. `pad` widens each sector's bounds for what the shader moves (the lean).
+   * With `lo` (a big level, R0194 part 2) the index holds the low-detail runs after the full
+   * ones, and each sector gets a `lo` twin that `HollowSectors` swaps in when it is far.
    */
   private place(
     mesh: THREE.Mesh,
     f: Floor,
     sec: SectorIndex | null,
+    lo: SectorIndex | null,
     ctx: HollowCtx,
     pad: number,
   ): void {
@@ -978,30 +1013,46 @@ export class HollowRock implements HollowModule {
     const pos = g.getAttribute('position') as THREE.BufferAttribute;
     const box = new THREE.Box3();
     const v = new THREE.Vector3();
+    // A far twin's vertices are a subset of its sector's full cut: it keeps the same bounds.
+    const bounds = new Map<number, THREE.Sphere>();
     let at = 0;
-    for (let sx = 0; sx < sec.nx; sx++)
-      for (let sy = 0; sy < sec.ny; sy++) {
-        const n = sec.at(sx * sec.size, sy * sec.size).length;
-        const start = at;
-        at += n;
-        if (!n) continue;
-        const part = new THREE.BufferGeometry();
-        for (const [name, a] of Object.entries(g.attributes)) part.setAttribute(name, a);
-        part.setIndex(idx);
-        part.setDrawRange(start, n);
-        box.makeEmpty();
-        for (let i = start; i < start + n; i++)
-          box.expandByPoint(v.fromBufferAttribute(pos, idx.getX(i)));
-        part.boundingSphere = box.getBoundingSphere(new THREE.Sphere());
-        part.boundingSphere.radius += pad;
-        const m = new THREE.Mesh(part, mesh.material);
-        m.castShadow = mesh.castShadow;
-        m.receiveShadow = mesh.receiveShadow;
-        if (mesh.customDepthMaterial) m.customDepthMaterial = mesh.customDepthMaterial;
-        tagSector(m, { col: sx, row: sectorRows(f) ? sy : -1 });
-        ctx.group.add(m);
-        this.objs.push(m);
-      }
+    for (const [s, lod] of [
+      [sec, lo ? 'hi' : undefined],
+      [lo, 'lo'],
+    ] as const) {
+      if (!s) continue;
+      for (let sx = 0; sx < s.nx; sx++)
+        for (let sy = 0; sy < s.ny; sy++) {
+          const n = s.at(sx * s.size, sy * s.size).length;
+          const start = at;
+          at += n;
+          if (!n) continue;
+          const part = new THREE.BufferGeometry();
+          for (const [name, a] of Object.entries(g.attributes)) part.setAttribute(name, a);
+          part.setIndex(idx);
+          part.setDrawRange(start, n);
+          const k = sx * s.ny + sy;
+          let sphere = lod === 'lo' ? bounds.get(k)?.clone() : undefined;
+          if (!sphere) {
+            box.makeEmpty();
+            for (let i = start; i < start + n; i++)
+              box.expandByPoint(v.fromBufferAttribute(pos, idx.getX(i)));
+            sphere = box.getBoundingSphere(new THREE.Sphere());
+            sphere.radius += pad;
+            bounds.set(k, sphere);
+          }
+          part.boundingSphere = sphere;
+          const m = new THREE.Mesh(part, mesh.material);
+          m.castShadow = mesh.castShadow;
+          m.receiveShadow = mesh.receiveShadow;
+          if (mesh.customDepthMaterial) m.customDepthMaterial = mesh.customDepthMaterial;
+          tagSector(m, { col: sx, row: sectorRows(f) ? sy : -1 }, false, lod);
+          // A far twin starts hidden, so the first frame never draws both.
+          if (lod === 'lo') m.visible = false;
+          ctx.group.add(m);
+          this.objs.push(m);
+        }
+    }
   }
 
   /**

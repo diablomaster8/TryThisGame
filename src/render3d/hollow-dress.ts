@@ -36,13 +36,17 @@ import {
   lootRanges,
   PLANE,
   poolGeometry,
+  ROCK_LO,
   STALAG,
+  STALAG_LO,
   STRAND,
+  STRAND_LO,
 } from './hollow-dress-geo';
 import { buildSet, type GlowSpot, type GlyphSpot } from './hollow-dress-set';
+import { InstancePack, lodTwin, windowed } from './hollow-lod';
 import { paintedWater, type PaintedWater } from './water';
 import { fogged } from './hollow-fog';
-import { sectorGroups, sectorParts, tagSector } from './hollow-sectors';
+import { sectorGroups, sectorLods, sectorParts, tagSector, type SectorKey } from './hollow-sectors';
 import { lootShown } from '../sim/dungeon-sight';
 import type { DungeonRun } from '../sim/types';
 
@@ -156,6 +160,7 @@ export class HollowDress implements HollowModule {
   private lid: { x: number; y: number; z: number; ry: number } | null = null;
   private lidOpen: boolean | null = null;
   private glows: THREE.InstancedMesh | null = null;
+  private glowPack: InstancePack | null = null;
   private glowSpots: GlowSpot[] = [];
   private crystalFlash: Array<{ x: number; z: number; slot: number; near: boolean; at: number }> =
     [];
@@ -291,7 +296,8 @@ export class HollowDress implements HollowModule {
       this.put(fall);
     }
     const pool = poolGeometry(f);
-    if (pool) this.put(new THREE.Mesh(pool, this.water.material));
+    // Drawn only round the Keeper on a big level (R0194 part 2), still one draw.
+    if (pool) this.put(windowed(f, new THREE.Mesh(pool, this.water.material)));
     this.buildLoot(f);
     this.buildPicks(f);
   }
@@ -430,12 +436,17 @@ export class HollowDress implements HollowModule {
     // On a streamed floor every scatter is one mesh per sector (R0147, R0194,
     // `hollow-sectors.ts`), each with its own bounds so the renderer culls it by view too.
     const at = (m: THREE.Matrix4) => ({ x: m.elements[12]!, z: m.elements[14]! });
+    // Far sectors on a big level draw a low-detail twin (`lodTwin`, R0194 part 2).
+    const twin = (im: THREE.InstancedMesh, geo: THREE.BufferGeometry, key: SectorKey | null) => {
+      if (key && sectorLods(f)) this.put(lodTwin(im, geo, key), false);
+    };
     for (const [key, part] of sectorGroups(f, stones, at)) {
       const im = new THREE.InstancedMesh(ROCK(), this.stone, part.length);
       part.forEach((m, i) => im.setMatrixAt(i, m));
       im.receiveShadow = true;
       tagSector(im, key, true);
       this.put(im, false);
+      twin(im, ROCK_LO(), key);
     }
     for (const [key, part] of sectorGroups(f, stalag, (r) => r[0])) {
       const im = new THREE.InstancedMesh(STALAG(), this.stone, part.length);
@@ -446,6 +457,7 @@ export class HollowDress implements HollowModule {
       this.shrinkable(im, part);
       // Shrinking only ever makes them smaller, so the full-size bounds stay true.
       im.computeBoundingSphere();
+      twin(im, STALAG_LO(), key);
     }
     for (const [key, part] of sectorGroups(f, roots, (r) => r[0])) {
       const im = new THREE.InstancedMesh(STRAND(), this.kitInst, part.length);
@@ -457,6 +469,7 @@ export class HollowDress implements HollowModule {
       this.put(im, false);
       this.shrinkable(im, part);
       im.computeBoundingSphere();
+      twin(im, STRAND_LO(), key);
     }
     for (const [key, part] of sectorGroups(f, decals, ([m]) => at(m))) {
       const geo = FLAT().clone();
@@ -524,6 +537,8 @@ export class HollowDress implements HollowModule {
     im.count = spots.length;
     this.glows = im;
     this.glowSpots = spots;
+    // On a big level only the sector window's are drawn (R0194 part 2); colours go through it.
+    this.glowPack = new InstancePack(im, [...spots, ...this.crystalFlash], true);
     this.put(im, false);
   }
 
@@ -659,6 +674,7 @@ export class HollowDress implements HollowModule {
     this.picks.length = 0;
     this.loot.clear();
     this.lidMesh = this.bubbles = this.glows = this.glyphs = null;
+    this.glowPack = null;
     this.lootAt = [];
     this.lid = null;
     this.glowSpots = [];
@@ -718,12 +734,15 @@ export class HollowDress implements HollowModule {
           this.m4.compose(this.v, this.q.identity(), this.s.setScalar(0.4)),
         );
     });
+    // A kind with nothing showing skips the draw altogether (R0194 part 2: a call each).
     for (const [kind, im] of this.loot) {
       im.count = used.get(kind) ?? 0;
+      im.visible = im.count > 0;
       im.instanceMatrix.needsUpdate = true;
     }
     if (this.bubbles) {
       this.bubbles.count = bubbles;
+      this.bubbles.visible = bubbles > 0;
       this.bubbles.instanceMatrix.needsUpdate = true;
     }
     if (this.lid && this.lidMesh && open !== this.lidOpen) {
@@ -744,7 +763,8 @@ export class HollowDress implements HollowModule {
   /** The portal beams swell gently, and the crystal flashes fade (both read the clock). */
   private breathe(t: number, still: boolean): void {
     const im = this.glows;
-    if (!im) return;
+    const pack = this.glowPack;
+    if (!im || !pack) return;
     const P = GROVE3D.cave.dress.portal;
     const T = GROVE3D.cave.dress.touch;
     let dirty = false;
@@ -752,7 +772,7 @@ export class HollowDress implements HollowModule {
       this.glowSpots.forEach((s, i) => {
         if (!s.breathe) return;
         const k = 1 + Math.sin(t * Math.PI * 2 * P.breathePerSec + i) * P.breathe;
-        im.setColorAt(i, this.c.copy(s.color).multiplyScalar(k));
+        pack.setColorAt(i, this.c.copy(s.color).multiplyScalar(k));
         dirty = true;
       });
     const flash = new THREE.Color(this.ctx?.band.crystal ?? '#9ae8ff');
@@ -760,13 +780,13 @@ export class HollowDress implements HollowModule {
     for (const c of this.crystalFlash) {
       const k = Math.max(0, 1 - (t - c.at) / T.flashSec);
       if (k <= 0 && c.at < -1) continue;
-      im.setColorAt(c.slot, this.c.copy(flash).multiplyScalar(k * 0.8));
+      pack.setColorAt(c.slot, this.c.copy(flash).multiplyScalar(k * 0.8));
       if (k <= 0) c.at = -99;
       else lit = true;
       dirty = true;
     }
     // Only while a crystal is flashing are its (otherwise black) slots drawn (R0194).
-    im.count = lit ? this.glowSpots.length + this.crystalFlash.length : this.glowSpots.length;
+    im.count = lit ? pack.shown : pack.shownBefore(this.glowSpots.length);
     if (dirty && im.instanceColor) im.instanceColor.needsUpdate = true;
   }
 
