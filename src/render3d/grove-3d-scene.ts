@@ -41,6 +41,7 @@ import { Actors } from './actors';
 import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
 import { Bursts } from './bursts';
+import { syncOcclude } from './building-kit';
 import { poofBursts, POOF3D } from './foe-poof-3d';
 import { GearPop3D } from './hollow-gear-pop';
 import { HollowR9a3D } from './hollow-r9a-3d';
@@ -569,6 +570,13 @@ export class Grove3dScene {
       antialias: false,
       powerPreference: 'high-performance',
     });
+    // The building occluders' box uniforms go to the shaders flat, refreshed once per render
+    // call rather than flattened again on every draw (`syncOcclude`).
+    const draw = this.renderer.render.bind(this.renderer);
+    this.renderer.render = (scene, camera) => {
+      syncOcclude();
+      draw(scene, camera);
+    };
     this.governor = new FrameGovernor(window.devicePixelRatio);
     this.renderer.setPixelRatio(this.governor.ratio);
     // Count every composer pass, reset once per frame in `render` (review C, item 19).

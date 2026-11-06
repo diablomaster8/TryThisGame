@@ -94,6 +94,33 @@ export const OCCLUDE = {
   eaves: { value: CG4_C4.footprint.ground },
 };
 
+/**
+ * The vector arrays of `OCCLUDE`, flat, for the shaders. Three flattens an array of vectors
+ * again on every draw that switches material (over a hundred programs carry these), while a
+ * flat array goes straight to its equality check; `syncOcclude` copies the vectors in before
+ * each render (`Grove3dScene` calls it from the renderer), so every draw sees what it saw.
+ */
+const OCCLUDE_FLAT = {
+  points: { value: new Float32Array(OCCLUDE.points.value.length * 4) },
+  boxMin: { value: new Float32Array(OCCLUDE.boxMin.value.length * 3) },
+  boxMax: { value: new Float32Array(OCCLUDE.boxMax.value.length * 3) },
+  hideMin: { value: new Float32Array(OCCLUDE.hideMin.value.length * 3) },
+  hideMax: { value: new Float32Array(OCCLUDE.hideMax.value.length * 3) },
+};
+
+function flatInto(out: Float32Array, list: readonly (THREE.Vector3 | THREE.Vector4)[], n: number) {
+  for (let i = 0; i < list.length; i++) list[i]!.toArray(out, i * n);
+}
+
+/** Copy `OCCLUDE`'s vector arrays into the shaders' flat ones; call before each render. */
+export function syncOcclude(): void {
+  flatInto(OCCLUDE_FLAT.points.value, OCCLUDE.points.value, 4);
+  flatInto(OCCLUDE_FLAT.boxMin.value, OCCLUDE.boxMin.value, 3);
+  flatInto(OCCLUDE_FLAT.boxMax.value, OCCLUDE.boxMax.value, 3);
+  flatInto(OCCLUDE_FLAT.hideMin.value, OCCLUDE.hideMin.value, 3);
+  flatInto(OCCLUDE_FLAT.hideMax.value, OCCLUDE.hideMax.value, 3);
+}
+
 const GROUND_YES = { value: 1 };
 
 /** Bucket names whose low flat pieces are part of a house, never ground (K2 review). */
@@ -130,17 +157,17 @@ export function occludable(
   shader.uniforms.uOccIsGround = ground;
   shader.uniforms.uOccNearCam = OCCLUDE.nearCam;
   shader.uniforms.uOccOn = OCCLUDE.on;
-  shader.uniforms.uOccP = OCCLUDE.points;
+  shader.uniforms.uOccP = OCCLUDE_FLAT.points;
   shader.uniforms.uOccR = OCCLUDE.radius;
   shader.uniforms.uOccKeep = OCCLUDE.keep;
   shader.uniforms.uOccMargin = OCCLUDE.margin;
   shader.uniforms.uOccBoxes = OCCLUDE.boxes;
   shader.uniforms.uOccGround = OCCLUDE.ground;
-  shader.uniforms.uOccBoxMin = OCCLUDE.boxMin;
-  shader.uniforms.uOccBoxMax = OCCLUDE.boxMax;
+  shader.uniforms.uOccBoxMin = OCCLUDE_FLAT.boxMin;
+  shader.uniforms.uOccBoxMax = OCCLUDE_FLAT.boxMax;
   shader.uniforms.uOccHides = OCCLUDE.hides;
-  shader.uniforms.uOccHideMin = OCCLUDE.hideMin;
-  shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
+  shader.uniforms.uOccHideMin = OCCLUDE_FLAT.hideMin;
+  shader.uniforms.uOccHideMax = OCCLUDE_FLAT.hideMax;
   shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
   shader.uniforms.uOccFoot = OCCLUDE.footprint;
   shader.uniforms.uOccEaves = OCCLUDE.eaves;
@@ -707,13 +734,13 @@ export function hideDepthMaterial(): THREE.MeshDepthMaterial {
   const m = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
   m.onBeforeCompile = (shader) => {
     shader.uniforms.uOccHides = OCCLUDE.hides;
-    shader.uniforms.uOccHideMin = OCCLUDE.hideMin;
-    shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
+    shader.uniforms.uOccHideMin = OCCLUDE_FLAT.hideMin;
+    shader.uniforms.uOccHideMax = OCCLUDE_FLAT.hideMax;
     shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
     shader.uniforms.uOccFoot = OCCLUDE.footprint;
     shader.uniforms.uOccBoxes = OCCLUDE.boxes;
-    shader.uniforms.uOccBoxMin = OCCLUDE.boxMin;
-    shader.uniforms.uOccBoxMax = OCCLUDE.boxMax;
+    shader.uniforms.uOccBoxMin = OCCLUDE_FLAT.boxMin;
+    shader.uniforms.uOccBoxMax = OCCLUDE_FLAT.boxMax;
     shader.uniforms.uOccOn = OCCLUDE.on;
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vOccWorld;')
