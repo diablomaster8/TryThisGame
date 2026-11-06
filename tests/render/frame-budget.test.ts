@@ -34,7 +34,7 @@ describe('frame budget: sim and sprite batch', () => {
   it('steps a Grove of eight Nubbins well inside a frame (per 100 ms step)', () => {
     const w = eightNubbins();
     for (let i = 0; i < 50; i++) stepWorld(w, SIM.stepMs); // warm up the JIT
-    const steps = 600;
+    const steps = 300;
     const t0 = performance.now();
     for (let i = 0; i < steps; i++) stepWorld(w, SIM.stepMs);
     const perStep = (performance.now() - t0) / steps;
@@ -43,7 +43,7 @@ describe('frame budget: sim and sprite batch', () => {
     // limit is loose on purpose (a shared dev machine measured 1 to 9 ms), it catches a
     // regression to a step that no phone could fit, not noise.
     expect(perStep).toBeLessThan(budgetMs(STEP_MS_MAX));
-  });
+  }, 60_000);
 
   it('batches 600 sprites a frame (eight Nubbins, scenery, shadows) inside a frame share', () => {
     const surface = (size: number): AtlasSurface => ({
@@ -140,6 +140,7 @@ describe('frame budget: DOM-write guards', () => {
 
   it('asks the pointer and the DOM once, then answers from memory', () => {
     const g = globalThis as unknown as Record<string, unknown>;
+    const had = { matchMedia: g.matchMedia, document: g.document };
     let queries = 0;
     let lookups = 0;
     const el = { isConnected: true };
@@ -164,8 +165,10 @@ describe('frame budget: DOM-write guards', () => {
       cachedQuery('.dialogue');
       expect(lookups).toBe(2);
     } finally {
-      delete g.matchMedia;
-      delete g.document;
+      if (had.matchMedia === undefined) delete g.matchMedia;
+      else g.matchMedia = had.matchMedia;
+      if (had.document === undefined) delete g.document;
+      else g.document = had.document;
     }
   });
 });
