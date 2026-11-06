@@ -326,7 +326,7 @@ const Q02: EduQuest = quest(
         N('You find a watering can by the pool.'),
         N('You fill the trough under the fruit tree. Glug, glug.'),
         N('Three Chao come to watch, very seriously.'),
-        N('Glug! Glug! The trough goes glug, and the Chao cheer.'),
+        N('Splash! The trough fills with a glug, and the Chao cheer.'),
       ],
       [
         ask(
@@ -400,6 +400,7 @@ const Q02: EduQuest = quest(
       [
         N('The sirens go off toward the square.'),
         N('Your Nubbin is the last to leave the pool. It looks back twice.'),
+        N('Whoosh! The sirens whoosh away, and the pool goes still.'),
       ],
       [
         ask(
@@ -422,6 +423,7 @@ const Q02: EduQuest = quest(
         N('The radio is still talking. The man turns it up, then down, then up.'),
         PX('Let’s go and look. Just look. From far away.'),
         PX('I said “far away”. Remember I said it.', 'think'),
+        N('Ding! The radio dings, and the man turns it up.'),
       ],
       [
         ask(
@@ -706,6 +708,7 @@ const Q04: EduQuest = quest(
         N('The gold comes back. The birds go quiet.'),
         N('You are in the street, with your hand on a wall.'),
         PX('You were gone nine seconds. Nine! You look like it was all afternoon.', 'shock'),
+        N('Tweet! Tweet! The birds tweet, and your hand is on the wall.'),
       ],
       [
         ask(
@@ -891,6 +894,7 @@ const Q05: EduQuest = quest(
         N('The water creature rises from a puddle. Eggman tosses it the jewel.'),
         N('It swallows the light, and grows. Its eyes look at nothing.'),
         EG('Two jewels, two sizes! Toodle-oo!'),
+        N('Whoosh! The round machine whooshes down. Buzz!'),
       ],
       [
         ask(
@@ -1112,7 +1116,7 @@ const Q06: EduQuest = quest(
         N('He takes it back. Then he gives it again.'),
         KN('Just for tonight. Don’t lose it. That piece is a bit of my home.'),
         N('Your Nubbin sleeps holding it. In the morning it gives it back.'),
-        N('Snore! Snore! Your Nubbin snores, with a green piece in its paw.'),
+        N('Thump! Your Nubbin flops down, snoring, a green piece in its paw.'),
       ],
       [
         ask(
@@ -1178,6 +1182,7 @@ const Q07: EduQuest = quest(
       [
         N('Birds sing. The stone is warm.'),
         N('The big green jewel is whole again, glowing on its altar.'),
+        N('Tweet! Tweet! The birds tweet, and the stone is warm.'),
       ],
       [
         ask(
@@ -1474,6 +1479,7 @@ const Q08: EduQuest = quest(
         N('She picks up the bird. She kisses every Chao on the head.'),
         N('That takes a while. Then she goes.'),
         PX('I’ve got a funny feeling.', 'think'),
+        N('Squeak! Every Chao squeaks, when Amy kisses its head.'),
       ],
       [
         ask(
@@ -1539,7 +1545,7 @@ const Q09: EduQuest = quest(
     ),
     sc(
       'pa1-09-big-done',
-      [N('Big gives you a spare rod.'), N('On the end is a little rubber bug with a bell. Ting!'), N('Ting! Ting! The little bell on the bug goes ting.')],
+      [N('Big gives you a spare rod.'), N('On the end is a little rubber bug with a bell. Ting!'), N('Ding! Ding! The little bell on the bug goes ding.')],
       [
         ask(
           1,
@@ -1877,7 +1883,7 @@ const Q11: EduQuest = quest(
       [
         N('Down a ladder, past a door marked EGG STORAGE.'),
         N('You hear something you didn’t expect up here: Chao!'),
-        N('Clunk! Clunk! Your boots clunk on the iron ladder.'),
+        N('Thump! Thump! Your boots thump on the iron ladder.'),
       ],
       [
         ask(
@@ -1970,6 +1976,7 @@ const Q11: EduQuest = quest(
         N('It isn’t looking at Eggman. It is looking at the empty Chao garden.'),
         PX('It’s looking for them. It doesn’t know they got out.', 'soft'),
         N('Sonic is there, with Amy holding the bird. You stay by the hatch.'),
+        N('Splash! Chaos splashes up over the rail.'),
       ],
       [
         ask(
@@ -2021,6 +2028,7 @@ const Q11: EduQuest = quest(
         N('From the rail you see the lifeboats floating down. Lots of little parachutes.'),
         N('Your Nubbin waves with both arms until the last one is gone.'),
         PX('That’s the Chao safe. Now everybody else.'),
+        N('Whee! The little parachutes go whee, down to the sea.'),
       ],
       [
         doIt(
@@ -2798,6 +2806,7 @@ const Q16: EduQuest = quest(
         N('Sonic goes gold all over! Then he is up in the sky, flying.'),
         PX('He’s flying! Oh, I wish you could see your own face.', 'happy'),
         N('A gold spark circles the water coil, like a bee round a bear.'),
+        N('Whoosh! Sonic whooshes up into the sky. Whee!'),
       ],
       [
         ask(

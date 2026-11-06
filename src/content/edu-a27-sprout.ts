@@ -1292,7 +1292,7 @@ const A6: EduQuest = quest(
       [
         SA('Sound the drums! We march at first light!'),
         N('You and your Nubbin run ahead to the mountain.'),
-        N('Boom! The drums go boom, and Nubbin runs ahead.'),
+        N('Thump! The drums thump, and Nubbin runs ahead.'),
       ],
       [
         ask(
@@ -1762,7 +1762,7 @@ const A9: EduQuest = quest(
         ZA('It is so loud!'),
         SA('Only when the world is happy.', 'happy'),
         N('High above, a great bird turns once, and goes home.', 'soft'),
-        N('Boom! Boom! The drums go boom, and the trumpets toot.'),
+        N('Thump! Thump! The drums thump, and the trumpets toot.'),
       ],
       [
         doit(
@@ -1932,7 +1932,7 @@ const A10: EduQuest = quest(
     ),
     sc(
       'a27-10-banquet-done',
-      [N('Your Nubbin falls asleep on a cushion, tummy up. Snore!'), N('Snore! Snore! Your Nubbin snores on its cushion.')],
+      [N('Your Nubbin falls asleep on a cushion, tummy up. Snore!'), N('Thump! Plop! Your Nubbin flops on its cushion, and snores.')],
       [
         ask(
           0,
@@ -2242,7 +2242,7 @@ const A12: EduQuest = quest(
         N('They drop petals in the river. Plip, plip!'),
         N('Zal takes his bow and goes to the water.'),
         N('He shoots one arrow across the river. It lands among the roses.'),
-        N('Plip, plip! Petals plip into the river, one by one.'),
+        N('Plop! Plop! Petals plop into the river, one by one.'),
       ],
       [
         ask(
@@ -2527,7 +2527,7 @@ const A13: EduQuest = quest(
         N('Nubbin sits on your feet, fast asleep.'),
         N('At midnight, a night porter walks round with a lamp.'),
         N('He stops at the rope. He looks up the wall.', 'shock'),
-        N('Snore! Snore! Nubbin snores on your feet, soft and low.'),
+        N('Creak! The porch creaks, and Nubbin snores on your feet.'),
       ],
       [
         ask(
@@ -2560,7 +2560,7 @@ const A13: EduQuest = quest(
       [
         N('In the camp, the morning drums begin.'),
         N('The voices upstairs say: not yet, please, not yet.'),
-        N('Boom! The camp drum goes boom, and a bird peeps.'),
+        N('Thump! The camp drum thumps, and a bird goes tweet.'),
       ],
       [
         ask(
@@ -3180,7 +3180,7 @@ const A16: EduQuest = quest(
         N('Zal rules with patience and fairness.'),
         N('Rudaba sits beside him. He puts a gold crown on her black hair.'),
         N('Nubbin has eaten its weight in wedding cake. It sleeps two days.'),
-        N('Snore! Snore! Nubbin sleeps for two days, full of cake.'),
+        N('Burp! Nubbin sleeps two days. Hee-hee! It giggles in its dreams.'),
       ],
       [
         notice(
@@ -3595,6 +3595,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('I have one thing to ask. I love Rudaba. I want to marry her.'),
       ZA('I learned to wait on a mountain. I can wait for you.', 'soft'),
       N('He gives the letter to you.'),
+      N('Swish! The scribe’s pen swishes across the page.'),
     ],
     [
       ask(
@@ -3626,6 +3627,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('I made you wait one night. You made me wait many.', 'happy'),
       ZA('Now we have both waited. That is fair.'),
       N('He gives the letter to you.'),
+      N('Swish! The scribe’s pen swishes across the page.'),
     ],
     [
       ask(
@@ -3659,6 +3661,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('He leans on your shoulder.'),
       N('It burns slowly, like a candle. It smells of sandalwood.'),
       N('Outside, all at once, the light goes strange.'),
+      N('Crack! The fire cracks, and the feather curls.'),
     ],
     [
       ask(
@@ -3685,6 +3688,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('He lays the feather on the fire. Nubbin holds his boot.'),
       N('It burns slowly, like a candle. It smells of sandalwood.'),
       N('Outside, all at once, the light goes strange.'),
+      N('Crack! The fire cracks, and the feather curls.'),
     ],
     [
       ask(
@@ -3717,6 +3721,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('It waits at the back. Very politely.'),
       N('A feather drifts down. The Simurgh lets it stay.'),
       N('You are back in the Grove. Nubbin wants second breakfast!'),
+      N('Peep! Hee-hee! Nubbin gives a tiny peep, and giggles.'),
     ],
     [
       ask(
@@ -3750,6 +3755,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('It waits at the back. Very politely.'),
       N('A feather drifts down. The Simurgh lets it stay.'),
       N('You are back in the Grove. Nubbin wants second breakfast!'),
+      N('Peep! Hee-hee! Nubbin gives a tiny peep, and giggles.'),
     ],
     [
       ask(

@@ -614,7 +614,7 @@ const A2: EduQuest = quest(
         AN('Python first. He is the vainest. Vain ones are easy.'),
         N('A python is a big snake. It has no legs.'),
         N('It flicks its tongue, flick, flick! That is how it smells.'),
-        N('Flick, flick! Hiss! The python flicks its tongue.'),
+        N('Swish! The python’s tongue swishes out, flick, flick!'),
       ],
       [
         notice(
@@ -1484,7 +1484,7 @@ const A6: EduQuest = quest(
         N('Ananse comes back at last with lots of rope. He is puffing.'),
         AN('Four! Four, and my mother makes five!', 'happy'),
         N('First the python. Next the hornets. Then the leopard. Last, the fairy.'),
-        N('Puff! Puff! Ananse puffs back with his arms full of rope.'),
+        N('Swish! Ananse puffs back with his arms full of rope.'),
       ],
       [
         ask(
@@ -1723,7 +1723,7 @@ const A8: EduQuest = quest(
         N('You carry one end. Ananse carries the other.'),
         N('Your Nubbin presses its ear to the lid.'),
         AN('Mine. All of them. My name on every one.', 'happy'),
-        N('Hum! Hum! The warm box hums against your arms.'),
+        N('Thump! The warm box thumps softly against your arms.'),
       ],
       [
         ask(
@@ -2141,7 +2141,7 @@ const A10: EduQuest = quest(
         MO('Kwaku! Will you eat?'),
         AN('Eat? Never! I will fast out of respect.', 'sad'),
         AS('He has never fasted in his life.'),
-        N('Boom! Boom! The slow drums go boom across the village.'),
+        N('Thump! Thump! The slow drums thump across the village.'),
       ],
       [
         ask(
@@ -2179,7 +2179,7 @@ const A10: EduQuest = quest(
         N('The drums beat all morning. Boom, boom, boom!'),
         N('A drum has a skin. When you hit it, the skin shakes.'),
         N('By noon, Ananse keeps staring at the pots. His tummy rumbles very loudly.'),
-        N('Gurgle! Gurgle! Ananse’s tummy rumbles, loud as a drum.'),
+        N('Gulp! Ananse’s tummy rumbles, loud as a drum.'),
       ],
       [
         doit(
@@ -2521,7 +2521,7 @@ const A11: EduQuest = quest(
         N('Two tellings of one story, on two sides of an ocean.'),
         N('Neither one is wrong.'),
         N('The page lifts. It begins to turn back.'),
-        N('Click! The old radio clicks off, and the night is soft.'),
+        N('Squeak! The old radio squeaks off, and the night is soft.'),
       ],
       [
         ask(
@@ -2624,7 +2624,7 @@ const A12: EduQuest = quest(
         N('The courtyard is quiet. A small boy at the front frowns. That is a good sign.'),
         ST('Hm. That one is a true one.', 'soft'),
         ST('Things get caught. That is how it is. I will keep a piece of that. The chin.'),
-        N('Splat! The gum goes splat, and the doll sticks fast.'),
+        N('Plop! The gum goes plop, and the doll sticks fast.'),
       ],
       [
         ask(
@@ -2792,6 +2792,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       N('Ananse shakes with one leg. He keeps three crossed behind his back.'),
       AN('I am Kwaku. That is a Wednesday name!', 'happy'),
       N('Your Nubbin sits in sap and sticks. Nobody is surprised.'),
+      N('Pop! Wisp’s head pops out of the bag, torn ear first.'),
     ],
     [
       ask(
@@ -2837,6 +2838,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       W('warm. was warm.', 'soft'),
       AN('A glove! One glove. Thank you.', 'shock'),
       N('Each of them is sure he has won.'),
+      N('Plop! The glove plops down on the step.'),
     ],
     [
       ask(
@@ -2925,6 +2927,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       N('The beans fly everywhere. His head is bare and shiny.'),
       MM('A spider caught me once. Fair is fair.', 'happy'),
       N('Everybody laughs. Hers is the loudest.'),
+      N('Pop! Pop! The beans pop out, and fly everywhere.'),
     ],
     [
       ask(
@@ -2950,6 +2953,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       N('Later, he hides in the long grass. Someone small sits down beside him.'),
       N('It is Mmoatia. She says nothing. She lays a cool, wet leaf on his hot head.'),
       N('Ananse says nothing too.'),
+      N('Plop! The leaf plops on his head, cool and wet.'),
     ],
     [
       notice(
@@ -2977,6 +2981,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       N('The children laugh. One claps with one hand on his knee.'),
       ST('Ha! That one is a clever one.', 'happy'),
       ST('One hand free, and the story still holds. I will keep a piece. The hand.'),
+      N('Hee-hee! The children giggle at the one free hand.'),
     ],
     [
       ask(
@@ -3005,6 +3010,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       N('The courtyard is very quiet. A girl at the back leans on her brother. He lets her.'),
       ST('Mm. That one is a kind one.', 'soft'),
       ST('Nothing got fixed, and it is better anyway. I will keep a piece. The sitting.'),
+      N('Hee-hee! The children giggle, and sit a little closer.'),
     ],
     [
       ask(
