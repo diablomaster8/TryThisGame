@@ -6,8 +6,8 @@ import { SheetCache } from '../../src/render/sprites/sheets';
 import { specForKey } from '../../src/render3d/looks';
 
 describe('wing and crown tip dyes (R0427)', () => {
-  it('there are twelve dyes', () => {
-    expect(DYE_COLORS_ALL).toHaveLength(12);
+  it('there are twelve flat dyes and the rainbow', () => {
+    expect(DYE_COLORS_ALL).toHaveLength(13);
   });
   it('only adults take them, and a dye is used up', () => {
     const w = createWorld(3, Date.UTC(2026, 6, 1));
