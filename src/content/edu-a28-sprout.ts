@@ -231,6 +231,7 @@ const A1: EduQuest = quest(
         CH('Nana is coming! Nana!', 'happy'),
         N('An old woman walks slowly across the yard. She has all the time in the world.'),
         N('One mat is empty, right at the front.'),
+        N('Crackle! Pop! The fire pops, and orange sparks jump up.'),
       ],
       [
         ask(
@@ -267,6 +268,7 @@ const A1: EduQuest = quest(
         N('The old woman sits on the stool. The fire pops.'),
         N('Everybody goes quiet. Even the grown-ups.'),
         N('Quiet ears help us hear a story.'),
+        N('Hee-hee! A baby giggles, then everyone says shh.'),
       ],
       [
         doit(
@@ -324,6 +326,7 @@ const A1: EduQuest = quest(
         ST('Good! Now I will tell you exactly how it happened.', 'happy'),
         N('The children laugh. You laugh too.'),
         N('Four children sit on the front mat, squashed up tight.'),
+        N('Creak! The old stool creaks, and the children squash up tight.'),
       ],
       [
         doit(
@@ -351,6 +354,7 @@ const A1: EduQuest = quest(
         N('Crickets chirp in the dark. Chirp, chirp, chirp!'),
         N('Then the mat is red earth. There are trees. It is morning.'),
         N('Something sits on a log, swinging lots of legs.'),
+        N('Whoosh! Whoosh! Wind whooshes through the red-earth trees.'),
       ],
       [
         notice(
@@ -373,6 +377,7 @@ const A1: EduQuest = quest(
         AN('You have two arms. Excellent. I have eight legs.', 'happy'),
         N('Your Nubbin touches a silver thread. It sticks!'),
         N('The spider pulls it free. He has done this many times.'),
+        N('Pop! The silver thread pops off your Nubbin’s paw.'),
       ],
       [
         doit(
@@ -397,6 +402,7 @@ const A1: EduQuest = quest(
         N('Far behind you, the old woman is still telling.'),
         AN('Come! We are going to see the Sky-god. Walk tall. Not too tall.'),
         N('Your Nubbin follows, stepping where he steps.'),
+        N('Thump! Thump! Ananse’s hat thumps as he marches off.'),
       ],
       [
         ask(
@@ -452,6 +458,7 @@ const A2: EduQuest = quest(
         N('At the far end is a light too bright to look at.'),
         N('Rich men are leaving. The Sky-god said no to all their gifts.'),
         AN('Kings could not pay. But I have no money. Nobody watches a poor spider.'),
+        N('Whee! The thread hums, and the cloud goes whoosh.'),
       ],
       [
         notice(
@@ -482,6 +489,7 @@ const A2: EduQuest = quest(
         N('Ananse straightens his hat. He takes three steps.'),
         N('He bows so low that his hat touches the cloud.'),
         N('You bow too. Bowing says: I respect you.'),
+        N('Swish! The big hat swishes low, and touches the cloud.'),
       ],
       [
         ask(
@@ -516,6 +524,7 @@ const A2: EduQuest = quest(
         ),
         N('Your Nubbin stares at him. So do you.'),
         NY('So be it. Go, Kwaku Ananse.'),
+        N('Ding! Ding! A cloud bell dings, and the Sky-god nods.'),
       ],
       [
         ask(
@@ -547,6 +556,7 @@ const A2: EduQuest = quest(
         N('Down the thread, Ananse is humming.'),
         N('You count on your fingers. Your Nubbin counts on its toes.'),
         AN('My name is Kwaku. Clap it with me: Kwa-ku!'),
+        N('Clap, clap! Kwa-ku! Hee-hee! Even the cloud giggles.'),
       ],
       [
         doit(
@@ -572,6 +582,7 @@ const A2: EduQuest = quest(
         AN('Ah. A specialist.'),
         AN('They call me Kwaku. I was born on a Wednesday!', 'happy'),
         AN('Every child has a day name. What is yours?'),
+        N('Crunch! Crunch! Dry leaves crunch under Ananse’s eight feet.'),
       ],
       [
         notice(
@@ -603,6 +614,7 @@ const A2: EduQuest = quest(
         AN('Python first. He is the vainest. Vain ones are easy.'),
         N('A python is a big snake. It has no legs.'),
         N('It flicks its tongue, flick, flick! That is how it smells.'),
+        N('Flick, flick! Hiss! The python flicks its tongue.'),
       ],
       [
         notice(
@@ -625,6 +637,7 @@ const A2: EduQuest = quest(
         AN('One thing at a time. That is how you eat a whole yam.', 'happy'),
         N('Big jobs get smaller when we do one bit at a time.'),
         N('You set off. Your Nubbin follows, with a leaf stuck to its foot.'),
+        N('Munch! Munch! You munch yam, one small bite at a time.'),
       ],
       [
         ask(
@@ -678,6 +691,7 @@ const A3: EduQuest = quest(
         N('Creeper is a vine. It is bendy and strong.'),
         AN('Now my wife Aso is coming. We will have a loud argument.'),
         AS('I always argue with you loudly. I do not need a reason.'),
+        N('Swish! The tall grass swishes, and you drag the branch.'),
       ],
       [
         ask(
@@ -705,6 +719,7 @@ const A3: EduQuest = quest(
         N('Its roots look like knuckles on a big brown hand.'),
         N('Something long sleeps up in the branches. Hhh, hhh. It is breathing.'),
         N('Tree. Three. Those words rhyme!'),
+        N('Creak! The great tree creaks, as if it is breathing.'),
       ],
       [
         doit(
@@ -732,6 +747,7 @@ const A3: EduQuest = quest(
         AN('Settle it for us, Onini. Lie down by the branch.'),
         ON('Lay the branch down. I will lie beside it.', 'angry'),
         N('He stretches and stretches. There is still a hand’s width of branch left.'),
+        N('Hee-hee! Hiss! The python giggles, and then stretches long.'),
       ],
       [
         ask(
@@ -765,6 +781,7 @@ const A3: EduQuest = quest(
       [
         AN('Your tail keeps slipping, Onini.'),
         AN('My helper will hold it, so we can measure you properly.'),
+        N('Swish! The long tail swishes, and slips away again.'),
       ],
       [
         ask(
@@ -796,6 +813,7 @@ const A3: EduQuest = quest(
         ON('This is not measuring!', 'shock'),
         AN('No. You are very long, though!', 'happy'),
         N('Your Nubbin ties its own foot into the knot.'),
+        N('Thump! Thump! The python thumps his tail, and Ananse ties on.'),
       ],
       [
         ask(
@@ -856,6 +874,7 @@ const A3: EduQuest = quest(
         N('Onini goes up the thread to the Sky-god. He is cross all the way.'),
         N('He will be looked after. It is a court, not a kitchen.'),
         AN('Hornets next. Find me a gourd!'),
+        N('Buzz! Buzz! The hornets buzz, far away and getting closer.'),
       ],
       [
         notice(
@@ -902,6 +921,7 @@ const A4: EduQuest = quest(
         AN('Fill it to the brim!'),
         N('You fill the gourd at the stream. Your Nubbin fills one too.'),
         N('Half the water makes it back. Half is on its feet.'),
+        N('Splash! Splash! You fill the gourd at the stream.'),
       ],
       [
         ask(
@@ -934,6 +954,7 @@ const A4: EduQuest = quest(
         N('The nest hangs from a branch like a grey paper lantern.'),
         N('It hums. It hums louder the closer you get.'),
         N('Hornets chew wood into paper. They build the nest from it.'),
+        N('Buzz! Buzz! The grey nest hums and buzzes like a pot.'),
       ],
       [
         notice(
@@ -1017,6 +1038,7 @@ const A4: EduQuest = quest(
         N('Your Nubbin’s eyes go wide. Then they go narrow.'),
         AN('Two!', 'happy'),
         N('Two things are paid: the python and the hornets.'),
+        N('Ouch! Pop! A hornet stings, and the stopper pops in.'),
       ],
       [
         ask(
@@ -1041,6 +1063,7 @@ const A4: EduQuest = quest(
         N('Your Nubbin’s nose has a small red bump.'),
         N('It is cross with the gourd, the hornets and the sky!'),
         AN('Leopard next. For a leopard, we dig.'),
+        N('Boing! Boing! Ananse dances, and the gourd goes boing.'),
       ],
       [
         ask(
@@ -1088,6 +1111,7 @@ const A5: EduQuest = quest(
         AN('Now put sticks across the top. Then leaves on the sticks.'),
         N('The sticks go over the hole. The leaves go on top.'),
         N('Now it looks like a path. You must remember where it isn’t!'),
+        N('Thump! Thump! Spades thump in the soft earth.'),
       ],
       [
         ask(
@@ -1112,6 +1136,7 @@ const A5: EduQuest = quest(
         AN('Now we go home and sleep.'),
         AN('Leopards walk at night. That is when the hole will work.'),
         N('Leopards have spots. They are good at climbing trees too.'),
+        N('Snore! Snore! The forest snores, and the leaves go swish.'),
       ],
       [
         ask(
@@ -1179,6 +1204,7 @@ const A5: EduQuest = quest(
         N('The tree springs up and Osebo goes with it. He is wrapped, cross and not hurt.'),
         OS('Spider! When I get out of this!', 'angry'),
         AN('Yes, yes. Everyone says that.', 'happy'),
+        N('Swish! Swish! The web swishes round and round the leopard.'),
       ],
       [
         notice(
@@ -1210,6 +1236,7 @@ const A5: EduQuest = quest(
         N('Your Nubbin carries the tip of the tail.'),
         N('Your Nubbin gets stuck to the web. It goes up the thread, stuck!'),
         N('Ananse unpicks it, bit by bit.'),
+        N('Thump! Thump! You carry the bundle, and it thumps your toes.'),
       ],
       [
         ask(
@@ -1240,6 +1267,7 @@ const A5: EduQuest = quest(
         AN('Now the hard one. Nobody sees a fairy unless she wants to be seen.'),
         N('Ghana has hot green forest in the south and drier grassland in the north.'),
         N('Leopards live in places like these.'),
+        N('Crunch! Crunch! Sticks crunch, and the night birds peep.'),
       ],
       [
         ask(
@@ -1290,6 +1318,7 @@ const A6: EduQuest = quest(
         N('Its head is a circle. Its body is a rectangle.'),
         N('Your Nubbin sits up straighter.'),
         AN('Lovely. Now the gum.'),
+        N('Whittle, whittle! Swish! The knife swishes, and curls fall down.'),
       ],
       [
         ask(
@@ -1314,6 +1343,7 @@ const A6: EduQuest = quest(
         N('Your Nubbin touches it. Stuck! It takes both of you to pull it free.'),
         N('Ananse sets a bowl of mashed yam in the doll’s lap.'),
         AN('Now we hide. Very quiet. You especially.'),
+        N('Squelch! Slurp! The gum goes slurp, thick and shiny.'),
       ],
       [
         ask(
@@ -1343,6 +1373,7 @@ const A6: EduQuest = quest(
         N('She slaps the doll. Her hand sticks! Then her other hand sticks!'),
         MM('Let go of me!', 'shock'),
         AN('Rope! Stay there. I will fetch rope!', 'happy'),
+        N('Pitter, patter! Tiny feet pitter-patter to the doll.'),
       ],
       [
         ask(
@@ -1370,6 +1401,7 @@ const A6: EduQuest = quest(
         N('Mmoatia pulls. The doll leans. Nothing comes apart.'),
         N('One hand is stuck. Now the other hand is stuck!'),
         N('She stops. She looks straight at your root.'),
+        N('Pop! Pop! Her hands stick, and the gum goes pop.'),
       ],
       [
         doit(
@@ -1452,6 +1484,7 @@ const A6: EduQuest = quest(
         N('Ananse comes back at last with lots of rope. He is puffing.'),
         AN('Four! Four, and my mother makes five!', 'happy'),
         N('First the python. Next the hornets. Then the leopard. Last, the fairy.'),
+        N('Puff! Puff! Ananse puffs back with his arms full of rope.'),
       ],
       [
         ask(
@@ -1480,6 +1513,7 @@ const A6: EduQuest = quest(
         AN('Tomorrow, the court. Wash. You are covered in gum.'),
         N('Your Nubbin is stuck to the yam bowl. It does not mind.'),
         N('Yam grows under the ground. It is a root, full of food.'),
+        N('Squelch! Slurp! You peel off the gum, with a loud slurp.'),
       ],
       [
         ask(
@@ -1522,6 +1556,7 @@ const A7: EduQuest = quest(
         AN('As an honoured guest, Mother! The best stools!', 'happy'),
         N('She takes your arm, not his. Your Nubbin carries her bundle of snacks.'),
         YA('He was always like this. Even in the egg.'),
+        N('Thump! Thump! Ya Nsia’s stick thumps proudly on the path.'),
       ],
       [
         ask(
@@ -1553,6 +1588,7 @@ const A7: EduQuest = quest(
       [
         N('Up the thread go Ya Nsia, you, your Nubbin and Ananse.'),
         N('The old lady goes first. Ananse comes last, practising what to say.'),
+        N('Whee! The thread hums, and you all go whee, up and up.'),
       ],
       [
         doit(
@@ -1580,6 +1616,7 @@ const A7: EduQuest = quest(
         NY('Kings could not pay. Kwaku Ananse has paid.'),
         NY('From today the stories are his. They will be called spider stories.'),
         N('Ananse takes off his hat and holds it to his chest. For once, he says nothing.'),
+        N('Ding! Ding! The elders’ gold bell dings.'),
       ],
       [
         notice(
@@ -1612,6 +1649,7 @@ const A7: EduQuest = quest(
         YA('Except my snacks. The small one has those.', 'happy'),
         N('These tales are called Anansesem. That means spider stories.'),
         N('Spider and story both start with the sound sss.'),
+        N('Munch! Munch! Nubbin munches the snacks. Ya Nsia lets it.'),
       ],
       [
         ask(
@@ -1638,6 +1676,7 @@ const A7: EduQuest = quest(
         N('She puts a shawl of spider silk on your Nubbin.'),
         N('It sticks. Of course it sticks.'),
         N('A leaf sticks to it. Then a feather.'),
+        N('Hee-hee! A leaf sticks to the shawl, then a feather. Pop!'),
       ],
       [
         ask(
@@ -1684,6 +1723,7 @@ const A8: EduQuest = quest(
         N('You carry one end. Ananse carries the other.'),
         N('Your Nubbin presses its ear to the lid.'),
         AN('Mine. All of them. My name on every one.', 'happy'),
+        N('Hum! Hum! The warm box hums against your arms.'),
       ],
       [
         ask(
@@ -1707,6 +1747,7 @@ const A8: EduQuest = quest(
         AN('I am not going to open it. I just want to look.'),
         N('He looks and looks. It is hard to wait.'),
         N('Waiting is hard, even for a spider.'),
+        N('Creak! The step creaks, as Ananse tiptoes round the box.'),
       ],
       [
         ask(
@@ -1765,6 +1806,7 @@ const A8: EduQuest = quest(
         AN('Everywhere! Everyone will tell them now. Badly, mostly.', 'happy'),
         N('The stories fly over Africa and over a big sea, the Atlantic.'),
         N('Far across the water are islands. One is called Jamaica.'),
+        N('Whoosh! The stories whoosh out like a flock of birds.'),
       ],
       [
         ask(
@@ -1792,6 +1834,7 @@ const A8: EduQuest = quest(
         AN('Here is your story. “Ananse.”', 'happy'),
         N('That is the whole story. One word!'),
         AN('All the stories are about me now. Very handy.'),
+        N('Pop! The lid pops, and the box is empty.'),
       ],
       [
         ask(
@@ -1826,6 +1869,7 @@ const A8: EduQuest = quest(
         N('Ananse sits back on his step, very pleased.'),
         N('Buttercups grow all round the step.'),
         N('A buttercup is a yellow flower. It has five petals.'),
+        N('Plop! A buttercup petal plops down on Ananse’s hat.'),
       ],
       [
         doit(
@@ -1849,6 +1893,7 @@ const A8: EduQuest = quest(
         AN('The best part? I do not have to keep them. Somebody else carries them now.', 'happy'),
         N('Far off, you hear the courtyard fire. People tell stories in the evening.'),
         AN('There. She is telling one. Mine.', 'soft'),
+        N('Crackle! Pop! The far fire crackles and pops.'),
       ],
       [
         ask(
@@ -1897,6 +1942,7 @@ const A9: EduQuest = quest(
         AN('Mine. All of it!', 'happy'),
         N('Your Nubbin gets swept into the pile. Ananse tips it out.'),
         AN('Not you. You are not wisdom. You are luggage.'),
+        N('Swish! Swish! Ananse sweeps, and your Nubbin goes flying.'),
       ],
       [
         ask(
@@ -1928,6 +1974,7 @@ const A9: EduQuest = quest(
       [
         AN('Now I will hang it at the top of the tallest tree.'),
         N('The tree is very tall. Ananse is very small.'),
+        N('Creak! The tall tree creaks, and sways in the breeze.'),
       ],
       [
         ask(
@@ -1955,6 +2002,7 @@ const A9: EduQuest = quest(
         NT('Father, tie the pot on your back. Then you can climb.'),
         AN('Hmph.', 'angry'),
         N('Ananse looks at the pot. He looks at his back. He looks at his son.'),
+        N('Thump! Bonk! The pot bonks against the tree, again and again.'),
       ],
       [
         ask(
@@ -2014,6 +2062,7 @@ const A9: EduQuest = quest(
         N('None come your way.'),
         N('Your Nubbin holds out its paws anyway. They stay empty.'),
         N('It is a little sad. But it is glad it tried.'),
+        N('Plop! Plop! Wisdom plops down on ants, frogs and one goat.'),
       ],
       [
         ask(
@@ -2042,6 +2091,7 @@ const A9: EduQuest = quest(
         N('They walk home together. Ananse keeps a leg on his son’s shoulder.'),
         N('You keep the broken gourd. It still sparkles.'),
         N('It broke in two equal halves. Two halves make one whole gourd.'),
+        N('Ding! The broken gourd dings, and still sparkles.'),
       ],
       [
         ask(
@@ -2091,6 +2141,7 @@ const A10: EduQuest = quest(
         MO('Kwaku! Will you eat?'),
         AN('Eat? Never! I will fast out of respect.', 'sad'),
         AS('He has never fasted in his life.'),
+        N('Boom! Boom! The slow drums go boom across the village.'),
       ],
       [
         ask(
@@ -2128,6 +2179,7 @@ const A10: EduQuest = quest(
         N('The drums beat all morning. Boom, boom, boom!'),
         N('A drum has a skin. When you hit it, the skin shakes.'),
         N('By noon, Ananse keeps staring at the pots. His tummy rumbles very loudly.'),
+        N('Gurgle! Gurgle! Ananse’s tummy rumbles, loud as a drum.'),
       ],
       [
         doit(
@@ -2153,6 +2205,7 @@ const A10: EduQuest = quest(
         AN('Ow. Ow. Ow ow ow.', 'shock'),
         N('A cousin comes round the corner. Ananse stands very straight.'),
         N('He said he would not eat. Now he is hiding beans.'),
+        N('Gulp! Gulp! Ananse gulps hot beans, and tries not to yell.'),
       ],
       [
         ask(
@@ -2192,6 +2245,7 @@ const A10: EduQuest = quest(
         AN('A dance! A hat-shaking dance. Very old. Very respectful.'),
         N('Children join in, delighted. Your Nubbin dances too.'),
         AS('Kwaku. Stop.', 'angry'),
+        N('Boing! Boing! Ananse shakes his head, and Nubbin goes boing too.'),
       ],
       [
         ask(
@@ -2219,6 +2273,7 @@ const A10: EduQuest = quest(
         N('Ananse’s head is bare and shiny. Everyone laughs, kindly.'),
         N('A bean lands on your Nubbin’s head. It eats it. Nobody tells Ananse.'),
         N('Hot beans made the hat hot, and the hat made his head hot.'),
+        N('Pop! Pop! Hot beans fly out, and go plop on the grass.'),
       ],
       [
         ask(
@@ -2243,6 +2298,7 @@ const A10: EduQuest = quest(
         N('The funeral goes on, warmer than before.'),
         N('People tell the story of the beans.'),
         N('That is why the spider is bald, and keeps to the grass.'),
+        N('Swish! The long grass swishes round his bald head.'),
       ],
       [
         ask(
@@ -2289,6 +2345,7 @@ const A11: EduQuest = quest(
         N('This is a yard in Jamaica. Jamaica is a warm island.'),
         N('An old woman sits on the step with a cup of tea.'),
         N('Children sit on the steps below. Your Nubbin sits with them.'),
+        N('Clink! Ding! A cup dings on the saucer, quiet and warm.'),
       ],
       [
         ask(
@@ -2311,6 +2368,7 @@ const A11: EduQuest = quest(
         N('One child budges up. There is room for you too.'),
         N('Nobody asks where you came from.'),
         N('Making room feels kind and warm.'),
+        N('Hee-hee! A little girl giggles, and budges up.'),
       ],
       [
         ask(
@@ -2371,6 +2429,7 @@ const A11: EduQuest = quest(
         EL('Now. Anancy, and the gum.', 'happy'),
         N('Frogs sing in the dark. They call loudly to each other.'),
         N('Frogs sing so other frogs can find them.'),
+        N('Peep! Peep! Frogs peep in the dark, calling loudly.'),
       ],
       [
         ask(
@@ -2400,6 +2459,7 @@ const A11: EduQuest = quest(
         N('The children mouth the next part along with her.'),
         EL('So Anancy slapped him, and stuck. Then the other hand, and stuck again.'),
         N('In her story, Anancy got caught. In yours, he was the one catching.'),
+        N('Splat! Bonk! Anancy slaps, and gets stuck. Bonk!'),
       ],
       [
         ask(
@@ -2433,6 +2493,7 @@ const A11: EduQuest = quest(
         N('Your Nubbin looks at its paw. It has stuck to lots of things today.'),
         N('Silk. Sap. Gum. Web.'),
         N('Four sticky things!'),
+        N('Pop! Your Nubbin pulls its paw free, with a pop.'),
       ],
       [
         doit(
@@ -2460,6 +2521,7 @@ const A11: EduQuest = quest(
         N('Two tellings of one story, on two sides of an ocean.'),
         N('Neither one is wrong.'),
         N('The page lifts. It begins to turn back.'),
+        N('Click! The old radio clicks off, and the night is soft.'),
       ],
       [
         ask(
@@ -2511,6 +2573,7 @@ const A12: EduQuest = quest(
         ST('Somebody else tells one now. You. Your turn.'),
         N('Your Nubbin climbs up on the stool beside her.'),
         N('It sits down. It is stuck. Nana Ama does not mind one bit.'),
+        N('Creak! The stool creaks, as Nubbin climbs up beside her.'),
       ],
       [
         ask(
@@ -2533,6 +2596,7 @@ const A12: EduQuest = quest(
         N('The children turn on their mats to look at you.'),
         N('Four children sit on the front mat. Four sit on the next mat.'),
         N('Everyone waits, just as they waited for her.'),
+        N('Hee-hee! Eight children shuffle on the mats, and giggle.'),
       ],
       [
         ask(
@@ -2560,6 +2624,7 @@ const A12: EduQuest = quest(
         N('The courtyard is quiet. A small boy at the front frowns. That is a good sign.'),
         ST('Hm. That one is a true one.', 'soft'),
         ST('Things get caught. That is how it is. I will keep a piece of that. The chin.'),
+        N('Splat! The gum goes splat, and the doll sticks fast.'),
       ],
       [
         ask(
@@ -2582,6 +2647,7 @@ const A12: EduQuest = quest(
         N('The storyteller keeps a piece of your story, safe.'),
         N('The children whisper it to each other.'),
         N('It feels good when someone listens to you.'),
+        N('Hee-hee! The children whisper it, and giggle behind their hands.'),
       ],
       [
         ask(
@@ -2635,6 +2701,7 @@ const A12: EduQuest = quest(
         N('The children are quiet for a moment. Then they stretch and yawn.'),
         N('Sparks from the fire float up and up.'),
         N('Hot air goes up. It carries the sparks.'),
+        N('Crackle! Pop! The sparks pop up, high into the dark.'),
       ],
       [
         ask(
@@ -2662,6 +2729,7 @@ const A12: EduQuest = quest(
         N('The fire sinks. The courtyard folds into a page.'),
         N('You are in the Grove with Nova’s atlas on your knees.'),
         N('By the hearth is a carved box. Something inside hums.'),
+        N('Pop! The fire sinks, and the courtyard folds up. Pop!'),
       ],
       [
         ask(

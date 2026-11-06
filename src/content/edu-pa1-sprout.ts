@@ -148,6 +148,7 @@ const Q01: EduQuest = quest(
         PX('Each one is a whole world. You go in. I stay here.'),
         N('The label shows a garden, a pool, and little round creatures.'),
         N('Your Nubbin presses its face to the picture. It goes very still.'),
+        N('Creak! The shed door creaks, and the lanterns swing.'),
       ],
       [
         ask(
@@ -182,6 +183,7 @@ const Q01: EduQuest = quest(
         N('Pixel blows the dust off the cartridge. Puff!'),
         N('She wipes the shiny bit on her sleeve.'),
         PX('Clean contacts, happy cartridge. Everyone knows that.'),
+        N('Achoo! The dust makes your Nubbin sneeze. Achoo!'),
       ],
       [
         ask(
@@ -209,6 +211,7 @@ const Q01: EduQuest = quest(
         N('Your Nubbin looks at you. Then at the window. Then at you.'),
         Y('Together, then.'),
         N('You pick up your Nubbin and lean into the light.'),
+        N('Whoosh! The screen whooshes bright, and you fall in. Whee!'),
       ],
       [
         ask(
@@ -231,6 +234,7 @@ const Q01: EduQuest = quest(
         N('Behind you, the shed goes small and far away.'),
         N('Like a room seen through a keyhole.'),
         PX('See you on the other side! Well, I’ll see you.'),
+        N('Pop! The shed shrinks to a dot, with a tiny pop.'),
       ],
       [
         ask(
@@ -254,6 +258,7 @@ const Q01: EduQuest = quest(
         N('There is a pool, a palm tree, and stepping stones.'),
         PX('You’re in! Your hair has gone a bit square. It suits you.', 'happy'),
         N('Your Nubbin rolls off your arm. It sits up and stares.'),
+        N('Thump! Boing! You land on the grass, and your Nubbin boings.'),
       ],
       [
         ask(
@@ -298,6 +303,7 @@ const Q02: EduQuest = quest(
         N('The Chao gets up and pats your Nubbin. Its ball turns into a heart.'),
         PX('They’re cousins. They are absolutely cousins.', 'happy'),
         N('A Chao gives your Nubbin half a fruit. Your Nubbin gives back a pebble.'),
+        N('Splish! Splash! A little Chao splashes in the pool.'),
       ],
       [
         ask(
@@ -320,6 +326,7 @@ const Q02: EduQuest = quest(
         N('You find a watering can by the pool.'),
         N('You fill the trough under the fruit tree. Glug, glug.'),
         N('Three Chao come to watch, very seriously.'),
+        N('Glug! Glug! The trough goes glug, and the Chao cheer.'),
       ],
       [
         ask(
@@ -457,6 +464,7 @@ const Q03: EduQuest = quest(
         N('Your Nubbin holds your shirt with both hands.'),
         PX('Look at its head! Look at the shape!', 'shock'),
         N('Its head curls up and over. Just like a Chao. Just like your Nubbin.'),
+        N('Splash! The fountains splash, and the police whistles go peep.'),
       ],
       [
         ask(
@@ -537,6 +545,7 @@ const Q03: EduQuest = quest(
         N('Sonic is gone, fast as he came.'),
         N('The police roll up their tape.'),
         PX('So that’s the water creature. We will see it again.'),
+        N('Whoosh! A blue streak whooshes by, and the tape flaps.'),
       ],
       [
         ask(
@@ -563,6 +572,7 @@ const Q03: EduQuest = quest(
         N('A small pink light bobs above the drain. It is plum-sized.'),
         N('It comes to your face. It circles your Nubbin once. Then it waits.'),
         PX('That’s not on the sleeve either.', 'think'),
+        N('Pop! The little pink light pops out of the drain.'),
       ],
       [
         ask(
@@ -600,6 +610,7 @@ const Q04: EduQuest = quest(
         N('Your Nubbin reaches up. The light dips to be touched.'),
         PX('It likes your Nubbin. That’s a good sign.'),
         N('At the end of the street, the light grows and grows.'),
+        N('Ding! The pink light dings softly against a lamp-post.'),
       ],
       [
         ask(
@@ -626,6 +637,7 @@ const Q04: EduQuest = quest(
         N('The city sounds go out, like a candle.'),
         N('Birds sing instead. It smells of warm stone.'),
         PX('Keeper? The screen’s gone gold. Where are you?', 'shock'),
+        N('Tweet! Tweet! The birds tweet, in the warm gold light.'),
       ],
       [
         ask(
@@ -762,6 +774,7 @@ const Q05: EduQuest = quest(
         TA('Hi! I’m Tails. Your friend has a head like a Chao.'),
         TA('We found a jewel. It’s making my instruments go funny.'),
         PX('A fox with two tails, who fixes planes. I love this game.', 'happy'),
+        N('Choo, choo! Ding! The little train dings into the valley.'),
       ],
       [
         ask(
@@ -783,6 +796,7 @@ const Q05: EduQuest = quest(
       [
         N('Tails hooks a stool out with his foot. He keeps working.'),
         N('Your Nubbin climbs onto the stool and watches.'),
+        N('Creak! The stool creaks, and your Nubbin sits proudly.'),
       ],
       [
         ask(
@@ -815,6 +829,7 @@ const Q05: EduQuest = quest(
         PX('Tell him “the shiny one.”'),
         N('All seven are shiny. The whole bench is shiny.'),
         TA('Nearly there. The jewel is sending out a signal. Something is following it.', 'think'),
+        N('Clink! Clank! Tails clinks the tools, and one goes bonk.'),
       ],
       [
         doIt(
@@ -899,6 +914,7 @@ const Q05: EduQuest = quest(
         N('Eggman’s machine hums away over the trees.'),
         TA('Are you two all right?'),
         PX('Nobody look at the claw marks on the bench. Nobody.', 'shock'),
+        N('Bonk! A spanner bonks the bench, and rolls away.'),
       ],
       [
         ask(
@@ -926,6 +942,7 @@ const Q05: EduQuest = quest(
         TA('Thanks for the help. Most people just ask about the tails.'),
         PX('I was going to ask about the tails.', 'sad'),
         N('Tails says your Nubbin can keep its spanner. It carries it everywhere.'),
+        N('Ding! The spanner dings on the plane’s nose.'),
       ],
       [
         ask(
@@ -1029,6 +1046,7 @@ const Q06: EduQuest = quest(
         KN('…How did it do that?', 'shock'),
         PX('Nubbins are good at finding green things.', 'happy'),
         KN('Fine. Small one, you’re with me. Keeper, keep up.'),
+        N('Crunch! Crunch! Green pieces crunch under your boots.'),
       ],
       [
         ask(
@@ -1064,6 +1082,7 @@ const Q06: EduQuest = quest(
         N('By sunset you have a sack of green pieces.'),
         N('Knuckles counts them twice and scowls. That is how he says thank you.'),
         KN('Not all of them. Not yet. But it’s a start.'),
+        N('Plop! Plop! The pieces plop into the sack, one by one.'),
       ],
       [
         ask(
@@ -1093,6 +1112,7 @@ const Q06: EduQuest = quest(
         N('He takes it back. Then he gives it again.'),
         KN('Just for tonight. Don’t lose it. That piece is a bit of my home.'),
         N('Your Nubbin sleeps holding it. In the morning it gives it back.'),
+        N('Snore! Snore! Your Nubbin snores, with a green piece in its paw.'),
       ],
       [
         ask(
@@ -1136,6 +1156,7 @@ const Q07: EduQuest = quest(
         KN('Go on, then. If it wants you, it wants you.'),
         PX('Gold screen again. Hold your Nubbin’s hand.'),
         N('Your Nubbin takes your finger. The light comes down like a warm hat.'),
+        N('Ding! The pink light dings, and floats over the altar.'),
       ],
       [
         ask(
@@ -1297,6 +1318,7 @@ const Q08: EduQuest = quest(
         AM('The robots keep chasing him! He hasn’t done anything!', 'angry'),
         PX('Look at its necklace. It’s glowing green.'),
         AM('Please. Have you got somewhere we could hide?'),
+        N('Thump! Thump! Amy thumps across the square in her red shoes.'),
       ],
       [
         ask(
@@ -1329,6 +1351,7 @@ const Q08: EduQuest = quest(
       [
         N('You run for the hotel. Amy runs beside you.'),
         N('Your Nubbin bounces along behind, like a dropped ball.'),
+        N('Boing! Boing! Your Nubbin boings along behind, like a ball.'),
       ],
       [
         ask(
@@ -1356,6 +1379,7 @@ const Q08: EduQuest = quest(
         PX('They’re hiding him. They’re hiding him with themselves.', 'soft'),
         N('Your Nubbin sits in the ring too. The bird stops trembling.'),
         AM('Oh, you darlings.', 'happy'),
+        N('Peep! Peep! The small bird peeps, safe in the circle.'),
       ],
       [
         doIt(
@@ -1429,6 +1453,7 @@ const Q08: EduQuest = quest(
       [
         N('Amy lets out a big breath. Phew!'),
         AM('Did you see its face? It didn’t want to.', 'think'),
+        N('Phew! Whoosh! Amy lets out a big breath. Whoosh!'),
       ],
       [
         doIt(
@@ -1489,6 +1514,7 @@ const Q09: EduQuest = quest(
         BI('He jumped in the river. I’ve been fishing for him all day.'),
         N('Your Nubbin sits by Big. Big pats its head with one big finger.'),
         BI('You can help. But you have to be quiet.'),
+        N('Plop! A fat frog plops into the river.'),
       ],
       [
         ask(
@@ -1513,7 +1539,7 @@ const Q09: EduQuest = quest(
     ),
     sc(
       'pa1-09-big-done',
-      [N('Big gives you a spare rod.'), N('On the end is a little rubber bug with a bell. Ting!')],
+      [N('Big gives you a spare rod.'), N('On the end is a little rubber bug with a bell. Ting!'), N('Ting! Ting! The little bell on the bug goes ting.')],
       [
         ask(
           1,
@@ -1544,6 +1570,7 @@ const Q09: EduQuest = quest(
         PX('This is the slowest game ever. I love it.', 'happy'),
         N('Dragonflies come and go.'),
         N('The bell rings once. Ting. Then it doesn’t.'),
+        N('Splash! Plop! The bobber plops, and the dragonflies buzz.'),
       ],
       [
         doIt(
@@ -1597,6 +1624,7 @@ const Q09: EduQuest = quest(
         BI('That big water fella? I saw him. He was looking for something.'),
         BI('Same as me. I know that look.', 'soft'),
         N('Big goes back to his rod, perfectly still, waiting for his friend.'),
+        N('Ribbit! Splash! The frog splashes off, and Big grins.'),
       ],
       [
         ask(
@@ -1849,6 +1877,7 @@ const Q11: EduQuest = quest(
       [
         N('Down a ladder, past a door marked EGG STORAGE.'),
         N('You hear something you didn’t expect up here: Chao!'),
+        N('Clunk! Clunk! Your boots clunk on the iron ladder.'),
       ],
       [
         ask(
@@ -1874,6 +1903,7 @@ const Q11: EduQuest = quest(
         PX('There are lifeboats. Two decks up, on the left.'),
         N('You pick up two Chao. Three more follow your Nubbin in a wobbly line.'),
         PX('Every one of them, Keeper. Not one stays behind.'),
+        N('Squeak! Squeak! The Chao squeak and follow in a wobbly line.'),
       ],
       [
         ask(
@@ -1908,6 +1938,7 @@ const Q11: EduQuest = quest(
         N('The last Chao is in the last lifeboat. You pull the lever.'),
         N('It floats down under a parachute with Eggman’s face on it.'),
         PX('The parachutes have his face on them. I can’t believe it.', 'happy'),
+        N('Whoosh! Pop! The parachute pops open, and floats down.'),
       ],
       [
         ask(
@@ -1961,6 +1992,7 @@ const Q11: EduQuest = quest(
         N('There is a long, splashy fight. You peek through your fingers.'),
         N('At the end, Chaos pours away over the side, still looking back.'),
         AM('Keeper! You’re here too? I saved the bird!', 'happy'),
+        N('Splash! Splash! The big fight splashes everywhere.'),
       ],
       [
         ask(
@@ -2430,6 +2462,7 @@ const Q14: EduQuest = quest(
         N('Footsteps! Sonic comes in out of the rain.'),
         N('He shakes himself like a dog. Flap, flap, flap!'),
         SO('Hey. Following me again? Or am I following you?'),
+        N('Splash! Flap, flap! Sonic shakes off the rain, with a flap.'),
       ],
       [
         ask(
@@ -2567,6 +2600,7 @@ const Q15: EduQuest = quest(
         N('Then the water comes. A whole sea, walking into the city.'),
         PX('Get up high. Keeper, now. Find a roof.', 'shock'),
         N('People run, carrying Chao. Some Chao carry each other!'),
+        N('Whoosh! The water whooshes down the street. Splash!'),
       ],
       [
         ask(
@@ -2585,7 +2619,7 @@ const Q15: EduQuest = quest(
     ),
     sc(
       'pa1-15-flood-done',
-      [N('Water pours down the station steps.'), N('Like a waterfall going the wrong way!')],
+      [N('Water pours down the station steps.'), N('Like a waterfall going the wrong way!'), N('Whoosh! Splash! The stairs go whoosh, like a slide.')],
       [
         ask(
           1,
@@ -2609,6 +2643,7 @@ const Q15: EduQuest = quest(
         PX('Pushchair first. Then the boy. I’ll count the floors for you.'),
         N('Up and down, up and down. Your Nubbin swims, a Chao on its back!'),
         PX('Two more down there. Go on. I’ve got the count.'),
+        N('Splash! Splash! Your Nubbin swims, with a Chao on its head.'),
       ],
       [
         doIt(
@@ -2638,6 +2673,7 @@ const Q15: EduQuest = quest(
         N('The roof is crowded and wet. Nobody is missing.'),
         N('The cat sits on a vent, judging everyone.'),
         PX('Everyone’s up. Good. Good.', 'soft'),
+        N('Squeak! The roof cat sits on a vent, and sneezes. Achoo!'),
       ],
       [
         ask(
@@ -2793,6 +2829,7 @@ const Q16: EduQuest = quest(
       [
         N('The gold spark strikes, and strikes again. Chaos roars and shrinks.'),
         N('Then the water goes down, all at once. Like a bath draining!'),
+        N('Whoosh! Gurgle! The water drains away, like a bath. Gulp!'),
       ],
       [
         ask(
