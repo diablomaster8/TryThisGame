@@ -3544,6 +3544,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('Is Sistan home now? The place I come back to?', 'think'),
       SA('Yes. It is louder than a nest. But yes.', 'soft'),
       N('High above, a great bird turns once, and goes home.', 'soft'),
+      N('Thump! Thump! The drums thump, and the trumpets toot.'),
     ],
     [
       doit(
@@ -3568,6 +3569,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('Father, this is my friend. A friend is someone who stays.', 'happy'),
       SA('Then your friend is family now.'),
       ZA('Oh no. Then I need another word!', 'think'),
+      N('Crunch! Hee-hee! Nubbin crunches the rose, and Zal giggles.'),
     ],
     [
       ask(

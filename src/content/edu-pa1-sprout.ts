@@ -3258,6 +3258,7 @@ export const EDU_PA1_SPROUT_VARIANTS: EduScene[] = [
       CK('Announcement: that parachute has a FACE on it. I want one with MY face.', 'happy'),
       PX('It’s Eggman’s face, Clank.'),
       CK('Then I would like a very small Eggman.'),
+      N('Whoosh! Pop! The parachute pops open, and floats down.'),
     ],
     [
       ask(
