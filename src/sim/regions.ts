@@ -61,6 +61,8 @@ export function travelBlock(
   const to = regions[exit.to];
   if (!to.built) return 'unbuilt';
   if (exitLocked(world, exit)) return 'locked';
+  // R13 d2 (R0099): the Learning Grove only goes to kid-safe places.
+  if (world.edu && !to.kidsSafe) return 'not-for-kids';
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   // R12 lane D (WORLD-33): a garden gate on the lane names its own sub-place; without one
@@ -84,8 +86,9 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   // R0124: when this region was left, for its closed-form ageing on the way back.
   (world.regionLeftMs ??= {})[from] = world.timeMs;
   const k = world.keeper;
-  // R11 lane D: a carried Nubbin is set down at the border; Nubbins stay home in the Grove.
-  if (k.carrying && exit.to !== 'grove') keeperPutDown(world, events);
+  // R13 d2 (R0121): a carried Nubbin comes along into drawn regions; at any other border it is
+  // set down, and Nubbins stay home in the Grove.
+  if (k.carrying && exit.to !== 'grove' && !REGION_SPECS[exit.to]) keeperPutDown(world, events);
   // WORLD-39/56: a seamless edge keeps the Keeper's footing, re-based into the neighbour's
   // own coordinates; every other kind arrives at the exit's spot.
   const keep = exit.kind === 'seamless' ? seamlessOffset(exit) : null;

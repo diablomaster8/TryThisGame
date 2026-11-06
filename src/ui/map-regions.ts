@@ -118,7 +118,9 @@ function areaQuestFold(grp: AreaQuests, open: boolean, title?: string): HTMLElem
     el(
       'summary',
       'c11-row-sum',
-      title ?? CAMP13C_TEXT.areaCounts(count('now'), count('done'), count('later')),
+      [title, CAMP13C_TEXT.areaCounts(count('now'), count('done'), count('later'))]
+        .filter(Boolean)
+        .join(' · '),
     ),
   );
   for (const r of grp.rows)

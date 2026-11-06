@@ -31,6 +31,10 @@ describe('guided first loop', () => {
     expect(groveSuggestion(w)?.key).toBe('grove:loop-name');
     const events: SimEvent[] = [];
     applyCommand(w, { kind: 'rename', nubbinId: egg.id, name: 'Pebble' }, events);
+    // The last step is the optional toss; it ends the guide once done.
+    expect(firstLoopStep(w)?.step).toBe('toss');
+    expect(groveSuggestion(w)?.key).toBe('grove:loop-toss');
+    w.diary!.firstTossMs = w.timeMs;
     expect(firstLoopStep(w)).toBeNull();
   });
 

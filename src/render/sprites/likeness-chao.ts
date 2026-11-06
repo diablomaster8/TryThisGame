@@ -4,9 +4,9 @@
  * reference built on `samples/nubbin-variants*.ts`): the palette roles, the part bones and
  * the wings and ball say what a viewer should find on the figure. Data only, never shown.
  */
-import { ALL_VARIANTS } from '../../samples/nubbin-variant-catalogue';
-import { paletteOf } from '../../samples/nubbin-variants';
-import type { SpeciesSpec } from '../../samples/species';
+import { ALL_VARIANTS } from '../../render3d/art/nubbin-variant-catalogue';
+import { paletteOf } from '../../render3d/art/nubbin-variants';
+import type { SpeciesSpec } from '../../render3d/art/species';
 import type { Likeness } from './likeness';
 
 let byId: Map<string, SpeciesSpec> | null = null;

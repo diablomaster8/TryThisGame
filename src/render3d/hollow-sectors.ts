@@ -3,6 +3,7 @@ import { HOLLOW_PERF } from '../config/tuning-dungeon-tap';
 import { FIELD_R10 } from '../config/tuning-r10b2';
 import { sectorWindow } from '../render/field-sectors';
 import { CELL, type HollowCtx, type HollowModule } from './hollow-ctx';
+import type { SectorPack } from './hollow-lod';
 import type { Floor } from '../sim/dungeon';
 
 /**
@@ -16,6 +17,9 @@ import type { Floor } from '../sim/dungeon';
  *
  * A field (R0147) is streamed by whole sector columns, as before; a big dungeon level
  * (R0194, DUNG-51) by square sectors, since its phone camera looks a long way up the screen.
+ * On such a level (R0194 part 2) a sector's rock, ground and props also have low-detail
+ * twins (`userData.sectorLod`), swapped by the Keeper's distance with hysteresis, and the
+ * whole-floor draws (pools, glows, mushrooms) are packed to the window (`hollow-lod.ts`).
  */
 
 /**
@@ -69,11 +73,50 @@ export function sectorGroups<T>(
  * Tag a sector's mesh for `HollowSectors` (nothing when the floor draws whole). A `prop` is
  * small: on a level it draws only within `HOLLOW_PERF.propReach` of the Keeper.
  */
-export function tagSector(o: THREE.Object3D, key: SectorKey | null, prop = false): void {
+export function tagSector(
+  o: THREE.Object3D,
+  key: SectorKey | null,
+  prop = false,
+  lod?: SectorLod,
+): void {
   if (!key) return;
   o.userData.sectorCol = key.col;
   if (key.row >= 0) o.userData.sectorRow = key.row;
   if (prop) o.userData.sectorProp = true;
+  if (lod) o.userData.sectorLod = lod;
+}
+
+/**
+ * A sector mesh's detail (R0194 part 2): `hi` draws while its sector is near the Keeper, `lo`
+ * (the same vertices, fewer triangles) once it is far. A mesh with neither always draws.
+ */
+export type SectorLod = 'hi' | 'lo';
+
+/** Whether a floor has low-detail twins for its far sectors: a big level, not a field. */
+export function sectorLods(f: Floor): boolean {
+  return sectorRows(f);
+}
+
+/** Cells from cell (cx, cy) to the nearest cell of sector (col, row), counted the long way. */
+export function sectorDistance(
+  size: number,
+  col: number,
+  row: number,
+  cx: number,
+  cy: number,
+): number {
+  const dx = Math.max(0, col * size - cx, cx - (col * size + size - 1));
+  const dy = Math.max(0, row * size - cy, cy - (row * size + size - 1));
+  return Math.max(dx, dy);
+}
+
+/**
+ * Whether a sector `d` cells from the Keeper draws in full detail, given whether it did:
+ * full within `lod.near`, low beyond `lod.near + lod.hold`, unchanged in between.
+ */
+export function sectorNear(d: number, was: boolean): boolean {
+  const { near, hold } = HOLLOW_PERF.lod;
+  return d <= near || (was && d <= near + hold);
 }
 
 /**
@@ -141,23 +184,36 @@ export class HollowSectors implements HollowModule {
   private meshes: THREE.Object3D[] = [];
   private floor: Floor | null = null;
   private key = -1;
+  /** Each sector's detail now (true: full), by `col * 256 + row`, for the hysteresis. */
+  private readonly hi = new Map<number, boolean>();
+  /** Whole-floor draws cut to the window on a big level (`hollow-lod.ts`), and its key. */
+  private packs: SectorPack[] = [];
+  private win = '';
 
   build(f: Floor, ctx: HollowCtx): void {
     this.floor = sectorSizeOf(f) ? f : null;
     this.key = -1;
+    this.win = '';
+    this.hi.clear();
     this.meshes = this.floor
       ? ctx.group.children.filter((o) => typeof o.userData.sectorCol === 'number')
+      : [];
+    this.packs = sectorLods(f)
+      ? ctx.group.children
+          .map((o) => o.userData.sectorPack as SectorPack | undefined)
+          .filter((p): p is SectorPack => !!p)
       : [];
   }
 
   dispose(): void {
     this.meshes = [];
+    this.packs = [];
     this.floor = null;
   }
 
   update(_t: number, keeper: { x: number; z: number }): void {
     const f = this.floor;
-    if (!f || this.meshes.length === 0) return;
+    if (!f || (this.meshes.length === 0 && this.packs.length === 0)) return;
     const size = sectorSizeOf(f);
     const rows = sectorRows(f);
     const cx = Math.floor(keeper.x / CELL + f.cols / 2);
@@ -175,11 +231,35 @@ export class HollowSectors implements HollowModule {
     if (key === this.key) return;
     this.key = key;
     const w = sectorWindow(f.cols, f.rows, size, cx, cy);
+    const win = `${w.sx0},${w.sx1},${w.sy0},${w.sy1}`;
+    if (win !== this.win) {
+      this.win = win;
+      const inside = (x: number, z: number): boolean => {
+        const sx = Math.floor((x / CELL + f.cols / 2) / size);
+        const sy = Math.floor((z / CELL + f.rows / 2) / size);
+        return sx >= w.sx0 && sx <= w.sx1 && sy >= w.sy0 && sy <= w.sy1;
+      };
+      for (const p of this.packs) p.pack(inside);
+    }
+    // Each sector's detail, worked out once a crossing against what it had (the hysteresis).
+    const seen = new Set<number>();
+    const full = (c: number, r: number): boolean => {
+      const k = c * 256 + r;
+      if (!seen.has(k)) {
+        seen.add(k);
+        this.hi.set(k, sectorNear(sectorDistance(size, c, r, cx, cy), this.hi.get(k) ?? false));
+      }
+      return this.hi.get(k)!;
+    };
     for (const m of this.meshes) {
       const c = m.userData.sectorCol as number;
       const r = m.userData.sectorRow as number | undefined;
       const b = rows && m.userData.sectorProp ? near : w;
-      m.visible = c >= b.sx0 && c <= b.sx1 && (r === undefined || (r >= b.sy0 && r <= b.sy1));
+      let on = c >= b.sx0 && c <= b.sx1 && (r === undefined || (r >= b.sy0 && r <= b.sy1));
+      const lod = m.userData.sectorLod as SectorLod | undefined;
+      // Worked out for hidden sectors too, so one coming back into the window starts fresh.
+      if (lod && r !== undefined) on = full(c, r) === (lod === 'hi') && on;
+      m.visible = on;
     }
   }
 }

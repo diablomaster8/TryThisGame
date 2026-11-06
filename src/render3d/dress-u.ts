@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { CG2_U } from '../config/tuning-u';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { pixelItem } from '../ui/item-art';
 import { setItemSource } from '../ui/item-card';
 import type { Dressing3d } from './dressings';

@@ -28,6 +28,8 @@ export interface Diary {
   hatched: number;
   /** R0448: the first rename, and whether the player chose "I know how to play". */
   firstNameMs?: number | null;
+  /** R0448: the first gentle toss (the loop's last, optional step). */
+  firstTossMs?: number | null;
   /** The current visit's length so far, in minutes. */
   sessionMin?: number;
   loopSkipped?: boolean;
@@ -55,6 +57,7 @@ export function newDiary(): Diary {
     rebirths: 0,
     hatched: 0,
     firstNameMs: null,
+    firstTossMs: null,
     sessionMin: 0,
   };
 }
@@ -103,6 +106,9 @@ export function stepGroveDiary(world: World, dtMs: number, events: readonly SimE
       case 'ate':
         d.firstFeedMs ??= world.timeMs;
         break;
+      case 'thrown':
+        d.firstTossMs ??= world.timeMs;
+        break;
       case 'rewards':
         d.expeditionRuns += 1;
         d.bestExpedition = Math.max(d.bestExpedition, e.rewards.shells);
@@ -135,7 +141,7 @@ export function cleanDiary(raw: unknown): Diary {
     return typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : (base[k] as number);
   };
   const time = (
-    k: 'firstHatchMs' | 'firstPetMs' | 'firstFeedMs' | 'firstNameMs',
+    k: 'firstHatchMs' | 'firstPetMs' | 'firstFeedMs' | 'firstNameMs' | 'firstTossMs',
   ): number | null => {
     const v = r[k];
     return typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : null;
@@ -163,6 +169,7 @@ export function cleanDiary(raw: unknown): Diary {
     rebirths: num('rebirths'),
     hatched: num('hatched'),
     firstNameMs: time('firstNameMs'),
+    firstTossMs: time('firstTossMs'),
     sessionMin: num('sessionMin'),
     ...(r['loopSkipped'] === true ? { loopSkipped: true } : {}),
   };

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
-import { V, type Prim } from '../samples/sculpted';
-import type { PartSpec, SpeciesSpec } from '../samples/species';
+import { V, type Prim } from './art/sculpted';
+import type { PartSpec, SpeciesSpec } from './art/species';
 import type { Layout } from './art-species';
 
 /**

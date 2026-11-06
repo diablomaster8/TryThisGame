@@ -141,6 +141,10 @@ export default tseslint.config(
               group: ['**/samples/*-styles', '**/samples/contact-sheet-3d'],
               message: 'The sample galleries are loaded by main.ts only.',
             },
+            {
+              group: ['**/samples', '**/samples/*'],
+              message: 'Nothing outside src/samples may import from it: runtime art is render3d/art.',
+            },
           ],
         },
       ],
@@ -150,7 +154,7 @@ export default tseslint.config(
     // TECH-37: the project's own rule is to split a file past about 800 lines. A warning, not
     // an error: the existing long files are listed by this rule until they are split.
     files: ['src/**/*.ts'],
-    ignores: ['src/content/**', 'src/samples/**'],
+    ignores: ['src/content/**', 'src/samples/**', 'src/render3d/art/**'],
     rules: { 'max-lines': ['warn', { max: 800, skipBlankLines: true, skipComments: true }] },
   },
   prettier,

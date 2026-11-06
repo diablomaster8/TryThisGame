@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { fenceSpots } from '../render/scenery';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import type { TownUnlocks } from '../sim/town';
 import { bevelBox, buildingMaterial } from './building-kit';
 import { occluders } from './occluders';

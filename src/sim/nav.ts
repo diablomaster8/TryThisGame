@@ -4,7 +4,7 @@ import { AUTO_HOP } from '../config/tuning-move';
 import { NUBBIN_STEER } from '../config/tuning-move-nub';
 import { astar, cellLine, stringPull } from './astar';
 import { blocked, colliderReach, contact, obstacles, softAt, stops } from './obstacles';
-import type { Collider, Walker } from './obstacles';
+import type { Collider, ObstacleWalker } from './obstacles';
 import { keeperPerks } from './perks';
 import { storyPropMask } from './story-props';
 import { groveHeight, hillHeight } from './terrain';
@@ -470,9 +470,9 @@ export function navDebug(world: World): {
 // Keyed by the collider list itself: the obstacle table hands back the same list until
 // something is placed or a stall or story prop comes or goes, so every world with the same
 // Grove shares one grid per walker kind.
-const nubbinGrids = new WeakMap<readonly Collider[], Map<Walker, Grid>>();
+const nubbinGrids = new WeakMap<readonly Collider[], Map<ObstacleWalker, Grid>>();
 
-function nubbinGrid(world: World, who: Walker): Grid {
+function nubbinGrid(world: World, who: ObstacleWalker): Grid {
   const list = obstacles(world);
   let byWho = nubbinGrids.get(list);
   if (!byWho) {
@@ -546,7 +546,7 @@ export interface NubbinRoute {
 export function nubbinAim(
   world: World,
   walk: { route: NubbinRoute | null },
-  who: Walker,
+  who: ObstacleWalker,
   from: Vec2,
   target: Vec2,
   want: 0 | 1 | 2,
@@ -595,7 +595,12 @@ export function nubbinAim(
  * Staged walk-ons and wandering visitors share it; it plans once per call, so callers ask
  * on a target change only.
  */
-export function walkPath(world: World, from: Vec2, target: Vec2, who: Walker = 'keeper'): Vec2[] {
+export function walkPath(
+  world: World,
+  from: Vec2,
+  target: Vec2,
+  who: ObstacleWalker = 'keeper',
+): Vec2[] {
   const g = nubbinGrid(world, who);
   if (clear(g.mask, from, target, null)) return [];
   const planned = plan(g, from, target);

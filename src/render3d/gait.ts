@@ -1,5 +1,5 @@
 import { GROVE3D } from '../config/tuning';
-import type { Rigged } from '../samples/species';
+import type { Rigged } from './art/species';
 
 /**
  * Keeps a walking rig's feet from sliding. The species format walks at its own pace: the
