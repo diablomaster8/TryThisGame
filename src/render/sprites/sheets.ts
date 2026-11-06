@@ -217,9 +217,7 @@ export class SheetCache {
   }
 
   private mayStream(): boolean {
-    return (
-      FRAME_WORK.frame !== this.streamFirstFrame && FRAME_WORK.bakes < FRAME_LOG.bakesPerFrame
-    );
+    return FRAME_WORK.frame !== this.streamFirstFrame && FRAME_WORK.bakes < FRAME_LOG.bakesPerFrame;
   }
 
   /** Whether `key` is baked (or overridden) already. */
