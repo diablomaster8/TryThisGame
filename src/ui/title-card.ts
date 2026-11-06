@@ -641,7 +641,7 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
     });
     // R0729: a sprout hears the card: "Chapter one: The Letter".
     if (world.edu?.band === 'sprout' && world.edu.readAloud)
-      speakLine(CHAPTER_SAY_TEXT.say(numberWord(f.chapter), title));
+      speakLine(CHAPTER_SAY_TEXT.say(numberWord(f.chapter), title), { channel: 'story' });
   }
   return moment;
 }

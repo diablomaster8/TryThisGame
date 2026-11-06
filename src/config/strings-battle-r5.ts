@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /**
  * Player-facing text for lane C round 5's battle screens: the pre-bout sheet (recs FIGHT-86),
  * Settings → Bouts and "Steady hands" (FIGHT-71, FIGHT-79), the timing ring (FIGHT-87), the
@@ -68,7 +70,7 @@ export const SPOILS_TEXT = {
   points: (name: string, list: string) => `${name}: ${list}`,
   stat: (label: string, n: number) => `+${Math.round(n)} ${label}`,
   hat: (hat: string) => `🎩 New hat: ${hat}`,
-  cards: (n: number) => `🃏 ${n} new move card${n === 1 ? '' : 's'}`,
+  cards: (n: number) => fmt(MESSAGES_EN.moveCards, { n }),
 } as const;
 
 /** Shown beside a stat in the spoils list. */

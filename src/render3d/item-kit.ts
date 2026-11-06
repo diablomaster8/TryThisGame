@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { EGG_PALETTES } from '../render/sprites/egg';
 import { C, color } from '../render/sprites/palette';
-import { EGG_COLOURS, JEWELS } from '../samples/nubbin-variants-colour';
+import { EGG_COLOURS, JEWELS } from './art/nubbin-variants-colour';
 import { bandOf } from '../sim/alignment';
 import { isJewel } from '../sim/nubbin';
 import { speciesOf, type Family } from '../sim/species';

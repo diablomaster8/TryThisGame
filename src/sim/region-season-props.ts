@@ -1,5 +1,7 @@
 import { SEASON_KEEPSAKE, SEASON_PROPS, type SeasonProp } from '../config/tuning-r12d2';
 import type { RegionId } from '../config/regions';
+import { LEAF_JUMP } from '../config/tuning-r13d2';
+import { regionShown } from './region-companion';
 import { drawnRegionOf } from './region-walk';
 import { regionSeason } from './region-weather';
 import { scatterSpots } from './region-spots';
@@ -51,11 +53,35 @@ export function seasonKeepsakeTaken(
   return (world.collected ?? {})[keyOf(region, season)] !== undefined;
 }
 
+const jumped = new WeakMap<World, Map<string, number>>();
+
+/**
+ * R13 d2 (R0118): a jump over an autumn leaf pile lands in it: a rustle toast and a little
+ * happiness for the Nubbins that came along, at most once a minute per pile.
+ */
+function leafJump(world: World, region: RegionId, season: Season, events: SimEvent[]): void {
+  const k = world.keeper;
+  if (season !== 'autumn' || k.y < LEAF_JUMP.minY) return;
+  const book = jumped.get(world) ?? new Map<string, number>();
+  jumped.set(world, book);
+  for (const s of seasonSpots(region, season)) {
+    if (s.kind !== 'leafpile') continue;
+    if (Math.hypot(s.x - k.pos.x, s.z - k.pos.z) > LEAF_JUMP.radius) continue;
+    const key = `${region}:${s.n}`;
+    if (world.timeMs - (book.get(key) ?? -Infinity) < LEAF_JUMP.cooldownMs) continue;
+    book.set(key, world.timeMs);
+    for (const n of regionShown(world))
+      n.needs.happiness = Math.min(100, n.needs.happiness + LEAF_JUMP.happiness);
+    events.push({ kind: 'regionGag', id: 'leaf-jump', first: true });
+  }
+}
+
 /** Walking up to the season's first prop takes its keepsake, once. */
 export function stepSeasonProps(world: World, events: SimEvent[]): void {
   const region = drawnRegionOf(world.location);
   if (!region) return;
   const season = seasonHere(world, region);
+  leafJump(world, region, season, events);
   const first = seasonSpots(region, season)[0];
   if (!first || seasonKeepsakeTaken(world, region, season)) return;
   const k = world.keeper.pos;

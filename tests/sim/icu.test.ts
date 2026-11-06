@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { fmt } from '../../src/config/icu';
 import { MESSAGES_EN } from '../../src/config/messages-en';
+import { sampleArgs } from '../tools/pseudo-locale';
 import {
   DUNGEON_TEXT,
   EDU_STORY_TEXT,
@@ -46,6 +47,6 @@ describe('ICU messages (R0345)', () => {
 
   it('every catalogue message formats with plain arguments', () => {
     for (const [k, m] of Object.entries(MESSAGES_EN))
-      expect(() => fmt(m, { n: 2, days: 2, runs: 2, best: 3 }), k).not.toThrow();
+      expect(() => fmt(m, sampleArgs(m)), k).not.toThrow();
   });
 });

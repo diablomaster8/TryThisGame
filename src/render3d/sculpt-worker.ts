@@ -4,8 +4,8 @@ import {
   transferables,
   type SculptData,
   type SurfaceArrays,
-} from '../samples/sculpt-spec';
-import { BUILDER_RULES } from '../samples/species';
+} from './art/sculpt-spec';
+import { BUILDER_RULES } from './art/species';
 import { readSurfaces } from './sculpt-cache';
 // The species modules register the named sculpt rules (stripes, spots, Fennel's fur...)
 // as they load; the worker needs the same registry the page has.

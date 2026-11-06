@@ -225,6 +225,17 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'gate',
       },
       way('lane-village', 'village', [0, 58], [0, -30], 'seamless', 0),
+      // R13 lane D (WORLD-69): the cart from the lane's far end (the village road, not built
+      // yet) to the ridge foot, and back. Each arrival stands clear of the other's rect.
+      {
+        id: 'lane-cart',
+        rect: { x: 6, z: 46, w: 3, h: 1.6 },
+        to: 'ridge',
+        arrive: { x: -18, z: 68 },
+        facing: N,
+        kind: 'vehicle',
+        ride: 'cart',
+      },
       // R12 lane D (WORLD-33): the ten garden gates.
       ...LANE_GATE_EXITS,
     ],
@@ -298,6 +309,26 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         kind: 'vehicle',
         ride: 'ferry',
       },
+      // R13 lane D (WORLD-69): the rowing ferry from the west jetty out to the island in the
+      // bay, and back. Each arrival stands clear of the other's rect.
+      {
+        id: 'shore-island',
+        rect: { x: -26, z: 13.4, w: 2.4, h: 1.4 },
+        to: 'shore',
+        arrive: { x: -10, z: 20.4 },
+        facing: 0,
+        kind: 'vehicle',
+        ride: 'ferry',
+      },
+      {
+        id: 'island-back',
+        rect: { x: -10, z: 18.2, w: 2.4, h: 1 },
+        to: 'shore',
+        arrive: { x: -26, z: 10.2 },
+        facing: Math.PI,
+        kind: 'vehicle',
+        ride: 'ferry',
+      },
     ],
     { pois: SHORE_POIS, built: true },
   ),
@@ -327,6 +358,15 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         arrive: { x: 42.8, z: -24 },
         facing: -N / 2,
         kind: 'seamless',
+      },
+      {
+        id: 'ridge-cart',
+        rect: { x: -12, z: 72, w: 3, h: 1.6 },
+        to: 'lane',
+        arrive: { x: 6, z: 50 },
+        facing: Math.PI,
+        kind: 'vehicle',
+        ride: 'cart',
       },
       way('ridge-peaks', 'peaks', [0, -78], [0, 30], 'door', N),
       // R0115 (WORLD-38): the ice caves' mouth, DUNG's floors below (the caves are not built).

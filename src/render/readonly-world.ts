@@ -9,17 +9,19 @@ import type { World } from '../sim/types';
 
 type Primitive = string | number | boolean | bigint | symbol | null | undefined;
 
-export type DeepReadonly<T> = T extends Primitive
+export type DeepReadonly<T> = unknown extends T
   ? T
-  : T extends (...args: never[]) => unknown
+  : T extends Primitive
     ? T
-    : T extends ReadonlyMap<infer K, infer V>
-      ? ReadonlyMap<DeepReadonly<K>, DeepReadonly<V>>
-      : T extends ReadonlySet<infer V>
-        ? ReadonlySet<DeepReadonly<V>>
-        : T extends readonly (infer U)[]
-          ? readonly DeepReadonly<U>[]
-          : { readonly [K in keyof T]: DeepReadonly<T[K]> };
+    : T extends (...args: never[]) => unknown
+      ? T
+      : T extends ReadonlyMap<infer K, infer V>
+        ? ReadonlyMap<DeepReadonly<K>, DeepReadonly<V>>
+        : T extends ReadonlySet<infer V>
+          ? ReadonlySet<DeepReadonly<V>>
+          : T extends readonly (infer U)[]
+            ? readonly DeepReadonly<U>[]
+            : { readonly [K in keyof T]: DeepReadonly<T[K]> };
 
 export type ReadonlyWorld = DeepReadonly<World>;
 

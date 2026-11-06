@@ -31,7 +31,10 @@ import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
 import { REGION_WALK } from '../config/tuning-r11d1';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
+import { GLIDE } from '../config/tuning-move';
+import { keeperGliding } from './glide-state';
 import { keeperSpeedMultiplier } from './perks';
+import { windGlideMul } from './region-weather-play';
 import type { Location, SimEvent, Vec2, World } from './types';
 import {
   inAirLane,
@@ -351,7 +354,9 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
   const fx = k.pos.x;
   const fz = k.pos.z;
   if (speed > 0) {
-    const step = speed * dt;
+    // A glide carries further, a windy ridge's a third more again (MOVE-27, R0137).
+    const glide = !k.grounded && keeperGliding(world) ? GLIDE.airSpeed * windGlideMul(world) : 1;
+    const step = speed * glide * dt;
     const nx = k.pos.x + dx * step;
     const nz = k.pos.z + dz * step;
     // Slide along the edge of open ground: the whole step, else either axis alone.

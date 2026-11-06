@@ -91,6 +91,10 @@ export const WILD_NUBBIN_TEXT = {
 
 /** R0137 (WORLD-71): weather gags, by id. */
 export const REGION_GAG_TEXT: Readonly<Record<string, { first: string; again: string }>> = {
+  'leaf-jump': {
+    first: '🍂 Whoomph! Straight into the leaves. Everyone feels a little lighter.',
+    again: '🍂 Whoomph.',
+  },
   'ghost-ship': {
     first: '👻 A pale ship drifts out in the fog. You blink, and it is still there. Politely.',
     again: '👻 The ghost ship is out again, as the fog likes it.',

@@ -1,6 +1,7 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { GROVE } from '../config/tuning';
 import { CG2_K } from '../config/tuning-k';
-import type { Memorial, World } from '../sim/types';
+import type { Memorial } from '../sim/types';
 import { ddLayout } from './story-b-layout';
 
 /**
@@ -11,7 +12,7 @@ import { ddLayout } from './story-b-layout';
  * Dawn & Dusk. The slot comes from the flower's place in `world.memorials` (stable: they only
  * ever append), so no flower moves when another is added. Reads only.
  */
-export function memorialSpot(world: World, m: Memorial): { x: number; z: number } {
+export function memorialSpot(world: ReadonlyWorld, m: Memorial): { x: number; z: number } {
   const line = world.campaign?.storyline;
   const slot = world.memorials.indexOf(m);
   if (slot < 0) return m.pos;

@@ -3,6 +3,7 @@ import { mountProfileBackup } from './backup'; /* Lane C r11 */
 import { shareOrDownload } from '../platform/share';
 import { mountOfflinePacks } from './offline-packs';
 import { SHARE_TEXT } from '../config/strings-r9d3';
+import { GROVE_DRESS_TEXT } from '../config/strings-r13d1';
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
 import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
@@ -23,6 +24,7 @@ import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
+import { applyVoices, resolveVoices } from '../platform/voices';
 import { persisted } from '../platform/persist';
 import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
@@ -72,6 +74,8 @@ export class SettingsMenu {
   private readonly departuresRow: HTMLLabelElement;
   private readonly sound: HTMLInputElement;
   private readonly music: HTMLInputElement;
+  private readonly voicesStory: HTMLInputElement;
+  private readonly voicesUi: HTMLInputElement;
   private readonly musicVol: HTMLInputElement;
   private readonly sfxVol: HTMLInputElement;
   private readonly matureSection: HTMLFieldSetElement;
@@ -84,6 +88,7 @@ export class SettingsMenu {
   private readonly autoRun: HTMLInputElement;
   private readonly camFollow: HTMLInputElement;
   private readonly leftHand: HTMLInputElement;
+  private readonly groveDress: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
   /** TECH-27: text size. */
@@ -224,7 +229,10 @@ export class SettingsMenu {
     this.music.type = 'checkbox';
     this.music.addEventListener('change', () => this.apply());
     const mText = el('span');
-    mText.append(el('strong', undefined, UI_TEXT.music), el('small', undefined, UI_TEXT.musicHelp));
+    mText.append(
+      el('strong', undefined, `🎵 ${UI_TEXT.music}`),
+      el('small', undefined, UI_TEXT.musicHelp),
+    );
     musicRow.append(this.music, mText);
     body.appendChild(musicRow);
 
@@ -233,9 +241,27 @@ export class SettingsMenu {
     this.sound.type = 'checkbox';
     this.sound.addEventListener('change', () => this.apply());
     const sText = el('span');
-    sText.append(el('strong', undefined, UI_TEXT.sound), el('small', undefined, UI_TEXT.soundHelp));
+    sText.append(
+      el('strong', undefined, `🔔 ${UI_TEXT.sound}`),
+      el('small', undefined, UI_TEXT.soundHelp),
+    );
     soundRow.append(this.sound, sText);
     body.appendChild(soundRow);
+
+    // The read-aloud switches: the story's lines, and everything else, each on its own.
+    const voiceRow = (icon: string, label: string, help: string): HTMLInputElement => {
+      const row = el('label', 'check-row');
+      const input = el('input');
+      input.type = 'checkbox';
+      input.addEventListener('change', () => this.apply());
+      const text = el('span');
+      text.append(el('strong', undefined, `${icon} ${label}`), el('small', undefined, help));
+      row.append(input, text);
+      body.appendChild(row);
+      return input;
+    };
+    this.voicesStory = voiceRow('📖', UI_TEXT.voicesStory, UI_TEXT.voicesStoryHelp);
+    this.voicesUi = voiceRow('🗣', UI_TEXT.voicesUi, UI_TEXT.voicesUiHelp);
 
     at('display');
     const joyRow = el('label', 'check-row');
@@ -361,6 +387,18 @@ export class SettingsMenu {
     );
     handRow.append(this.leftHand, lText);
     body.appendChild(handRow);
+    // R0096: keep the old Sun and Moon recolour of the Grove.
+    const dressRow = el('label', 'check-row');
+    this.groveDress = el('input');
+    this.groveDress.type = 'checkbox';
+    this.groveDress.addEventListener('change', () => this.apply());
+    const gdText = el('span');
+    gdText.append(
+      el('strong', undefined, GROVE_DRESS_TEXT.label),
+      el('small', undefined, GROVE_DRESS_TEXT.help),
+    );
+    dressRow.append(this.groveDress, gdText);
+    body.appendChild(dressRow);
     // R0302: the dialogue's voice blips.
     at('sound');
     const blipRow = el('label', 'check-row');
@@ -615,6 +653,11 @@ export class SettingsMenu {
     });
     this.sound.checked = g.world.settings.sound;
     this.music.checked = g.world.settings.music;
+    {
+      const v = resolveVoices(g.world.settings, g.world.edu);
+      this.voicesStory.checked = v.story;
+      this.voicesUi.checked = v.ui;
+    }
     this.musicVol.value = String(Math.round(g.world.settings.musicVolume * 100));
     this.sfxVol.value = String(Math.round(g.world.settings.sfxVolume * 100));
     this.textSpeed.value = g.world.settings.textSpeed;
@@ -625,6 +668,7 @@ export class SettingsMenu {
     this.autoRun.checked = !!g.world.settings.autoRun;
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
+    this.groveDress.checked = !!g.world.settings.groveDresses;
     this.blips.checked = g.world.settings.voiceBlips !== false;
     this.haptics.checked = hapticsOn(g.world.settings);
     this.slapstick.value = g.world.settings.slapstick ?? 'full';
@@ -783,6 +827,14 @@ export class SettingsMenu {
         allowOfflineDepartures: this.departures.checked,
       },
     };
+    // Stored only once chosen: an untouched switch keeps following the mode's default.
+    {
+      const was = resolveVoices(g.world.settings, g.world.edu);
+      if (this.voicesStory.checked !== was.story) settings.voicesStory = this.voicesStory.checked;
+      if (this.voicesUi.checked !== was.ui) settings.voicesUi = this.voicesUi.checked;
+      // Off cuts any speech in progress at once, not on the next frame.
+      applyVoices(settings, g.world.edu);
+    }
     // MOVE-24: set only once the box differs from what the Grove does now, so an unset
     // choice keeps following the Learning Grove.
     if (this.autoHop.checked !== autoHopOn(g.world)) settings.autoHop = this.autoHop.checked;
@@ -790,6 +842,8 @@ export class SettingsMenu {
       settings.autoRun = this.autoRun.checked;
     if (this.camFollow.checked !== !!g.world.settings.cameraFollowsWalk)
       settings.cameraFollowsWalk = this.camFollow.checked;
+    if (this.groveDress.checked !== !!g.world.settings.groveDresses)
+      settings.groveDresses = this.groveDress.checked;
     if (this.leftHand.checked !== !!g.world.settings.leftHanded)
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))

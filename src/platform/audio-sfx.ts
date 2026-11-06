@@ -217,6 +217,11 @@ export function playSfxVoices(name: SoundName, tone: ToneFn, burst: BurstFn): vo
       tone(400, 0, 35, 'sine', 0.06, 1400);
       burst(30, 40, 0.03, 4000);
       break;
+    case 'levelUp':
+      tone(659, 0, 70, 'triangle', 0.06);
+      tone(880, 70, 70, 'triangle', 0.06);
+      tone(1319, 140, 220, 'triangle', 0.07);
+      break;
     case 'fanfare':
       tone(523, 0, 120, 'triangle', 0.07);
       tone(659, 120, 120, 'triangle', 0.07);

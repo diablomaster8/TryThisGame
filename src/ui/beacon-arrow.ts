@@ -4,6 +4,7 @@ import { LITTLE_GROVE, WORLD_BEACON } from '../config/tuning-world';
 import { TRAVEL_TEXT, WORLD_TEXT } from '../config/strings-world';
 import type { Game } from '../game';
 import { Beacon } from '../render/beacon';
+import { BeaconBackdrop } from '../render/beacon-backdrop';
 import { buildEduFence } from '../render/edu-fence';
 import { terraceY } from '../render/scene-stage';
 import { goalTarget } from '../sim/goal-target';
@@ -56,6 +57,8 @@ export function mountBeacon(root: HTMLElement, game: () => Game | null, openMap:
   root.appendChild(arrow);
   const beacons = new WeakMap<THREE.Object3D, Beacon>();
   // R0099: the Learning Grove's fence, one per scene, shown while the Learning Grove is on.
+  // R13 d2 (R0117): backdrop cards for the neighbouring regions' beacons, one set per scene.
+  const backdrops = new WeakMap<THREE.Object3D, BeaconBackdrop>();
   const fences = new WeakMap<THREE.Object3D, THREE.Mesh>();
   // R0099: the sprout band's Home button walks the Keeper back to the cottage.
   const home = document.createElement('button');
@@ -87,6 +90,11 @@ export function mountBeacon(root: HTMLElement, game: () => Game | null, openMap:
       const f = buildEduFence(ground);
       scene.add(f);
       fences.set(scene, f);
+    }
+    if (scene && g) {
+      let bd = backdrops.get(scene);
+      if (!bd) backdrops.set(scene, (bd = new BeaconBackdrop(scene)));
+      bd.update(g.world, 0);
     }
     const fence = scene ? fences.get(scene) : undefined;
     if (fence) fence.visible = kids;
