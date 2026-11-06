@@ -25,6 +25,9 @@ const self = process.argv.includes('--self');
 const GOLD = path.join(__dirname, 'golden');
 const OUT = path.join(__dirname, 'out');
 const LIMIT = { pixel: 0.005, '3d': 0.02 };
+const HATCH = "for (const n of g.world.nubbins) g.send({ kind: 'debugHatchNow', nubbinId: n.id });";
+/** Hatch the first egg and set its alignment (a child leaning toward the Sun or the Moon). */
+const LEAN = (a) => HATCH + `g.world.nubbins[0].alignment = ${a};`;
 const SCENES = [
   { name: 'grove-egg', scenario: 'hatch-ready' },
   {
@@ -55,9 +58,51 @@ const SCENES = [
     scenario: 'fresh',
     prep: "g.send({ kind: 'debugSeason', season: 'autumn' });",
   },
+  // R0454 (r14-d2): twelve more, to the 24 asked: the other two seasons, the frozen pond with the
+  // Keeper on it, the child's Sun and Moon lean (alignment hints), the first loop's name ring,
+  // eight Nubbins in two seasons, spring rain, and three more adult spreads.
+  {
+    name: 'grove-spring',
+    scenario: 'fresh',
+    prep: "g.send({ kind: 'debugSeason', season: 'spring' });",
+  },
+  {
+    name: 'grove-summer',
+    scenario: 'fresh',
+    prep: "g.send({ kind: 'debugSeason', season: 'summer' });",
+  },
+  {
+    name: 'grove-ice',
+    scenario: 'fresh',
+    prep: "g.send({ kind: 'debugSeason', season: 'winter' }); g.world.keeper.pos.x = 5; g.world.keeper.pos.z = 6;",
+  },
+  { name: 'grove-sun-lean', scenario: 'fresh', prep: LEAN(0.45) },
+  { name: 'grove-moon-lean', scenario: 'fresh', prep: LEAN(-0.45) },
+  {
+    name: 'grove-ring-name',
+    scenario: 'fresh',
+    prep: HATCH + 'const d = g.world.diary; d.firstPetMs = 1; d.firstFeedMs = 2;',
+  },
+  {
+    name: 'eight-nubbins-winter',
+    scenario: 'eight-nubbins',
+    prep: "g.send({ kind: 'debugSeason', season: 'winter' });",
+  },
+  {
+    name: 'eight-nubbins-autumn',
+    scenario: 'eight-nubbins',
+    prep: "g.send({ kind: 'debugSeason', season: 'autumn' });",
+  },
+  {
+    name: 'grove-spring-rain',
+    scenario: 'fresh',
+    prep: "g.send({ kind: 'debugSeason', season: 'spring' }); g.send({ kind: 'debugWeather', weather: 'rain' });",
+  },
+  { name: 'adult-sun-fly', scenario: 'child-about-to-evolve:sun:fly', wait: 15000 },
+  { name: 'adult-moon-power', scenario: 'child-about-to-evolve:moon:power', wait: 15000 },
+  { name: 'adult-neutral-swim', scenario: 'child-about-to-evolve:neutral:swim', wait: 15000 },
 ];
-// The phone portrait view (375x812) is shot for the first six scenes the rest at
-// the desktop size only.
+// The phone portrait view (375x812) is shot for these scenes, the rest at the desktop size only.
 const CORE = [
   'grove-egg',
   'grove-child',
@@ -65,6 +110,14 @@ const CORE = [
   'adult-moon-swim',
   'eight-nubbins',
   'grove-rain',
+  'grove-snow',
+  'grove-autumn',
+  'grove-spring',
+  'grove-summer',
+  'grove-ice',
+  'grove-sun-lean',
+  'grove-moon-lean',
+  'grove-ring-name',
 ];
 const VIEWS = {
   desktop: { width: 800, height: 450, suffix: '' },
@@ -94,10 +147,10 @@ const SHOTS = SCENES.flatMap((s) =>
         process.env.E2E_SCENE &&
         !(sc.name + VIEWS[sc.view].suffix).includes(process.env.E2E_SCENE)
       )
-        // The long-wait adults drift on the phone in 3D (windmill sails and tree sway, 4.3% between
-        // runs against a 2% limit), so they are shot at the desktop size only there.
-        if (mode === '3d' && sc.wait && sc.view === 'phone') continue;
-      continue;
+        continue;
+      // The long-wait adults drift on the phone in 3D (windmill sails and tree sway, 4.3% between
+      // runs against a 2% limit), so they are shot at the desktop size only there.
+      if (mode === '3d' && sc.wait && sc.view === 'phone') continue;
       const ctx = await browser.newContext({
         viewport: { width: VIEWS[sc.view].width, height: VIEWS[sc.view].height },
         // R0454: one zone and (below) one wall-clock instant, so the sky, the season and any
