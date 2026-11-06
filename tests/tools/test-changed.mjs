@@ -1,3 +1,4 @@
+/* global process, console */
 /**
  * `npm run test:changed`: runs only the test files that import (directly or not) a file you
  * changed. A quick gate for intermediate checks. It is no substitute for the full `npm test`,

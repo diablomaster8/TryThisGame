@@ -1,3 +1,5 @@
+/* global require, process, console */
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Prints the slowest test files of a Vitest JSON report (`--reporter=json --outputFile=...`).
  * On GitHub Actions each line is also a `::notice` annotation, so a run's slow files can be
@@ -14,8 +16,16 @@ const file = process.argv[2];
 const top = Number(process.argv[3]) || 25;
 const skip = Number(process.argv[5]) || 0;
 const label = process.argv[4] || 'tests';
+const runningFile = process.env.RUNNING_FILE || 'vitest-running.json';
+const gha = Boolean(process.env.GITHUB_ACTIONS);
+// A hung or cancelled run writes no report; the running-reporter still says what was in flight.
 if (!file || !fs.existsSync(file)) {
   console.log(`slow-report: no report at ${file}`);
+  if (fs.existsSync(runningFile)) {
+    const line = `[${label}] still running when the run ended: ${fs.readFileSync(runningFile, 'utf8')}`;
+    console.log(line);
+    if (gha) console.log(`::error title=${label} unfinished::${line}`);
+  }
   process.exit(0);
 }
 const report = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -27,7 +37,6 @@ const rows = report.testResults.map((f) => ({
 }));
 rows.sort((a, b) => b.wall - a.wall);
 const sum = (k) => rows.reduce((a, r) => a + r[k], 0);
-const gha = Boolean(process.env.GITHUB_ACTIONS);
 const first = Math.min(...report.testResults.map((f) => f.startTime));
 const last = Math.max(...report.testResults.map((f) => f.endTime));
 const head =

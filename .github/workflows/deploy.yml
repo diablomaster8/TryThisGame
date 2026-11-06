@@ -15,7 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  # Test-speed: the checks run as parallel jobs, and deploy waits for all of them. The unit
+  # tests are split into four shards (npx vitest run --shard=N/4, files spread by path hash).
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +27,39 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npm test
       # TECH-10: content problems block a deploy.
       - run: npx tsx tests/tools/content-check.ts
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # A hang must not take the job to its six-hour limit: the step times out, and the next step
+      # reports the files still running (tests/tools/running-reporter.mjs).
+      - run: npx vitest run --shard=${{ matrix.shard }}/4 --reporter=default --reporter=json --reporter=./tests/tools/running-reporter.mjs --outputFile.json=vitest-report.json
+        timeout-minutes: 8
+      # The slowest files and any failed files, as run annotations (tests/tools/slow-report.cjs).
+      - if: always()
+        run: node tests/tools/slow-report.cjs vitest-report.json 9 shard-${{ matrix.shard }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
       - run: npm run build
         env:
           # Project sites are served from https://<user>.github.io/<repo>/
@@ -56,7 +88,7 @@ jobs:
           PERF: 1
 
   deploy:
-    needs: build
+    needs: [check, test, build]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
