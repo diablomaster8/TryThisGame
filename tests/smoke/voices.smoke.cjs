@@ -1,4 +1,4 @@
-/* global require, process, console, window, document */
+/* global require, process, console, window, document, setTimeout */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Hot fix: the read-aloud switches (Settings → Sound). A headless smoke test, run in Pixel and
