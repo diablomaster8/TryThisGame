@@ -28,6 +28,9 @@ import { stepCollectibles } from './collectibles';
 import { stepRegionCompanion } from './region-companion';
 import { stepRegionCritters } from './region-critters';
 import { stepRegionGates } from './region-gates';
+import { stepShorePlay } from './shore-play';
+import { stepGardenWalkout } from './garden-walkout';
+import { stepSnowballs } from './snowballs';
 import { stepTraces } from './regions-trace';
 import { stepWildNubbin } from './region-wild-nubbin';
 import { stepWeatherPlay } from './region-weather-play';
@@ -86,6 +89,8 @@ import {
   type World,
 } from './types';
 import { hatchInArms } from './hatch-arms';
+import { SYSTEM_THROTTLE } from '../config/tuning-r13d3';
+import { stepLevelWatch } from './level-watch';
 import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
 import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
 
@@ -376,7 +381,7 @@ const plainSys = (
  * Every step system, in the order the step has always run them. The numbers leave room to
  * slot a new one in: pick a gap, and mind that rng systems (inside `withRng`) come first.
  */
-export const SYSTEMS: readonly SimSystem[] = orderSystems([
+const SYSTEM_LIST: readonly SimSystem[] = [
   rngSys('trees', 10, ALWAYS, ({ world, dtMs, events }, rng) =>
     updateTrees(world, dtMs, rng, events),
   ),
@@ -460,6 +465,10 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   plainSys('soul-groups', 514, ALWAYS, ({ world, dtMs, events, offline }) =>
     stepSoulGroups(world, dtMs, events, offline),
   ),
+  // R0450: the level-up sound hangs on this event.
+  plainSys('level-watch', 515, ALWAYS, ({ world, events, offline }) =>
+    stepLevelWatch(world, events, offline),
+  ),
   plainSys('diary', 520, ALWAYS, ({ world, offline, events }) => stepDiary(world, events, offline)),
   plainSys('landmarks', 530, ALWAYS, ({ world, events }) => stepLandmarks(world, events)),
   plainSys('collectibles', 540, ALWAYS, ({ world, events }) => stepCollectibles(world, events)),
@@ -467,6 +476,10 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
     // R0120/R0110 (R11 d8): a region's critter spots and its stat gates.
     stepRegionCritters(world, events);
     stepRegionGates(world, dtMs, events);
+    // R0097 (R13 d1): the shore's castles and folk.
+    stepShorePlay(world, dtMs, events);
+    stepGardenWalkout(world, events);
+    stepSnowballs(world, dtMs);
     // R0120 (R12 d2): the region's shy wild Nubbin.
     stepWildNubbin(world, dtMs, events);
     // R0137 (R12 d2): the shore's ghost ship in fog.
@@ -496,7 +509,17 @@ export const SYSTEMS: readonly SimSystem[] = orderSystems([
   plainSys('old-soul-calm', 650, ALWAYS, ({ world, events }) =>
     calmEternalReactions(world, events),
   ),
-]);
+];
+
+/**
+ * R0476: systems that only scan state (where is the Keeper, what is in reach, which season)
+ * and never read this step's events run twice a second, not ten times. Their results do not
+ * depend on how often they run; the runner hands each the time it waited.
+ */
+const THROTTLED = new Set<string>(SYSTEM_THROTTLE.ids);
+export const SYSTEMS: readonly SimSystem[] = orderSystems(
+  SYSTEM_LIST.map((s) => (THROTTLED.has(s.id) ? { ...s, everyMs: SYSTEM_THROTTLE.everyMs } : s)),
+);
 
 /**
  * One fixed step with full fidelity. Returns the events that happened. `offline` is set by

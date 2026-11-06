@@ -8,7 +8,8 @@
  * (software GL) is on, so it runs anywhere. Env: E2E_PROJECT=pixel-desktop|pixel-phone|3d-desktop
  * (default: all three), E2E_ONLY=<regex of spec names>.
  * Specs boot with `?e2e&free&slot=N`, which exposes `window.grove` and `window.grove.test`
- * (src/dev/e2e-api.ts). Exit code 1 if any spec fails. */
+ * (src/dev/e2e-api.ts). A spec named in SCENARIO_OF boots a dev scenario instead
+ * (`?e2e&debug&scenario=<name>&seed=7`, src/dev/scenarios.ts, TECH-46). Exit code 1 if any spec fails. */
 const BASE = process.env.E2E_URL || 'http://localhost:4173';
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
 
@@ -18,6 +19,15 @@ const PROJECTS = {
   '3d-desktop': { w: 1280, h: 720, touch: false, gfx: '3d' },
 };
 let slot = 0;
+/** Specs that start from a dev scenario rather than a hand-built state. */
+const SCENARIO_OF = {
+  'first-loop': 'hatch-ready',
+  reload: 'fresh',
+  console: 'eight-nubbins',
+  'tap-targets': 'eight-nubbins',
+  'campaign-ch5': 'campaign-ch:5',
+  'hollow-floor6': 'hollow-floor:6',
+};
 
 async function boot(browser, proj, opts = {}) {
   const ctx = await browser.newContext({
@@ -45,7 +55,10 @@ async function boot(browser, proj, opts = {}) {
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text().slice(0, 240)));
   page.on('pageerror', (e) => errors.push('PAGEERR ' + String(e).slice(0, 240)));
   const s = opts.slot ?? ++slot;
-  await page.goto(`${BASE}/?e2e&free&slot=${s}`, {
+  const url = opts.scenario
+    ? `${BASE}/?e2e&debug&scenario=${encodeURIComponent(opts.scenario)}&seed=7`
+    : `${BASE}/?e2e&free&slot=${s}`;
+  await page.goto(url, {
     waitUntil: 'domcontentloaded',
     timeout: 120000,
   });
@@ -57,6 +70,7 @@ const SPECS = {
   async 'first-loop'({ page }) {
     // Hatch, pet and feed inside 60 s of wall time.
     const t0 = Date.now();
+    // The hatch-ready scenario has an egg at the point of hatching.
     await page.evaluate(() => {
       const g = window.grove;
       for (const n of g.world.nubbins) g.send({ kind: 'debugHatchNow', nubbinId: n.id });
@@ -109,6 +123,14 @@ const SPECS = {
     await page.waitForTimeout(ms);
     if (errors.length) throw new Error(`${errors.length} console errors: ${errors[0]}`);
   },
+  async 'campaign-ch5'({ page }) {
+    const ch = await page.evaluate(() => window.grove.world.campaign?.chapter ?? null);
+    if (ch !== 5) throw new Error(`campaign-ch:5 opened on chapter ${ch}`);
+  },
+  async 'hollow-floor6'({ page }) {
+    const loc = await page.evaluate(() => window.grove.world.location);
+    if (loc !== 'dungeon' && loc !== 'hollow') throw new Error(`hollow-floor:6 opened in ${loc}`);
+  },
   async 'tap-targets'({ page }, proj) {
     if (proj.w > 500) return;
     const small = await page.evaluate(() => {
@@ -151,7 +173,8 @@ const SPECS = {
       const t0 = Date.now();
       let env = null;
       try {
-        if (spec !== 'blocked-storage') env = await boot(browser, proj);
+        if (spec !== 'blocked-storage')
+          env = await boot(browser, proj, SCENARIO_OF[spec] ? { scenario: SCENARIO_OF[spec] } : {});
         await fn(env ?? {}, proj, browser);
         console.log(`ok   ${name} ${spec} (${Date.now() - t0} ms)`);
       } catch (e) {

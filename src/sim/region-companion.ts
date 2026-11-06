@@ -120,3 +120,12 @@ export function stepRegionCompanion(world: World, n: Nubbin, dtMs: number): bool
   if (world.timeMs >= n.behavior.untilMs) n.behavior.untilMs = world.timeMs + 4000;
   return true;
 }
+
+/** R13 d2 (R0121): what a drawn region shows: the partners and the Nubbin the Keeper carries. */
+export function regionShown(world: World): Nubbin[] {
+  const out = companions(world);
+  const c = world.keeper.carrying;
+  const n = c ? world.nubbins.find((x) => x.id === c) : undefined;
+  if (n && !out.includes(n)) out.push(n);
+  return out;
+}

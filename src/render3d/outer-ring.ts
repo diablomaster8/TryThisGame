@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OUTER_PROPS, type OuterProp } from '../config/outer-ring';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { arc, box, cyl, Parts, sph, type PartKey, type Vec3 } from './prop-kit';
 import { groveHeight, WATER_LEVEL } from './terrain';
 import { addOuterDecor } from './outer-decor';

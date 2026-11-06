@@ -1,4 +1,4 @@
-import { placeGrass, type GrassPlacement } from '../samples/grass-place';
+import { placeGrass, type GrassPlacement } from './art/grass-place';
 import { groveGrassField } from './grass-field';
 
 /**

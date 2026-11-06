@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { buildTree, pbr, repeatUv, type Tex } from '../samples/aaa-kit';
+import { buildTree, pbr, repeatUv, type Tex } from './art/aaa-kit';
 import { trainerOf } from '../sim/trainers';
 import { CrownFade, treeOf } from './crowns';
 import { occluders } from './occluders';

@@ -12,7 +12,6 @@ import { describe, expect, it } from 'vitest';
  */
 const LEGACY = [
   'Cell',
-  'Crest',
   'Expression',
   'KeeperColors',
   'Layout',
@@ -27,7 +26,6 @@ const LEGACY = [
   'Surface',
   'TileKind',
   'TraitId',
-  'Walker',
 ];
 
 const ROOT = join(__dirname, '..', '..', 'src');

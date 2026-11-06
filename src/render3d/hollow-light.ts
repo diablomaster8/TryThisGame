@@ -14,6 +14,8 @@ import {
 import { CaveLamps } from './cave-lamps';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
+import { InstancePack } from './hollow-lod';
+import { sectorLods } from './hollow-sectors';
 import {
   CELL,
   cellHash,
@@ -495,6 +497,7 @@ export class HollowLight implements HollowModule {
         roughness: 0.6,
       });
       const mesh = new THREE.InstancedMesh(mushroomGeometry(), shroom, spots.length * M.perSpot);
+      const at: Array<{ x: number; z: number }> = [];
       let i = 0;
       spots.forEach((s, si) => {
         for (let k = 0; k < M.perSpot; k++) {
@@ -506,8 +509,11 @@ export class HollowLight implements HollowModule {
           this.q.setFromAxisAngle(this.yAxis, h(3) * 6.28);
           this.scl.set(size, size, size);
           mesh.setMatrixAt(i++, this.m4.compose(this.pos, this.q, this.scl));
+          at.push({ x: this.pos.x, z: this.pos.z });
         }
       });
+      // On a big level only the sector window round the Keeper draws (R0194 part 2).
+      if (sectorLods(f)) new InstancePack(mesh, at);
       add(mesh);
       mesh.frustumCulled = true;
     }

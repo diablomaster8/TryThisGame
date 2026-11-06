@@ -9,7 +9,7 @@
  */
 
 import type { ParticleKind } from './sprites/particles-art';
-import type { PoseName } from '../samples/species';
+import type { PoseName } from '../render3d/art/species';
 
 export type Signature =
   | 'cheekSpark'

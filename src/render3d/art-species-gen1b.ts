@@ -8,8 +8,8 @@ import {
   type HeadsSpec,
 } from '../render/sprites/creature-gen1b';
 import { C, color } from '../render/sprites/palette';
-import { V, type Prim } from '../samples/sculpted';
-import type { Mark, PartSpec, PoseName, RigContext, SpeciesSpec } from '../samples/species';
+import { V, type Prim } from './art/sculpted';
+import type { Mark, PartSpec, PoseName, RigContext, SpeciesSpec } from './art/species';
 import { boxOf, type Layout } from './art-species';
 
 /**

@@ -238,6 +238,7 @@ const A1: EduQuest = quest(
         N('You step in. Dust, a gate, and a house full of lamps.'),
         NU('Come in, traveller! There is room for everyone here.', 'happy'),
         N('Your Nubbin sniffs the air. It smells bread.'),
+        N('Creak! The big gate creaks open, and lamplight spills out.'),
       ],
       [
         ask(
@@ -275,6 +276,7 @@ const A1: EduQuest = quest(
       [
         NU('Stay as long as you like. The master will thank every guest.'),
         N('She whispers the last part to herself: “When he knows.”'),
+        N('Ding! A little bell rings, to say a guest has come.'),
       ],
       [
         ask(
@@ -527,7 +529,7 @@ const A2: EduQuest = quest(
     ),
     sc(
       'a27-02-path-done',
-      [N('The storm is all around. You cannot see the city now.')],
+      [N('The storm is all around. You cannot see the city now.'), N('Whoosh! The wind whooshes, and the rain blows sideways.')],
       [
         ask(
           0,
@@ -670,7 +672,7 @@ const A3: EduQuest = quest(
     ),
     sc(
       'a27-03-descent-done',
-      [N('Up through the cloud, and out into the sun!'), N('The sky is big and blue and quiet.')],
+      [N('Up through the cloud, and out into the sun!'), N('The sky is big and blue and quiet.'), N('Whee! The big wings swoop, and your tummy goes whee!')],
       [
         doit(
           1,
@@ -691,6 +693,7 @@ const A3: EduQuest = quest(
         N('Four fluffy chicks crowd close. They are curious!'),
         N('Your Nubbin stands in front of the baby, arms wide.'),
         SI('No. Not him. He is your brother.', 'soft'),
+        N('Peep, peep! The chicks peep and shuffle in a ring.'),
       ],
       [
         ask(
@@ -744,6 +747,7 @@ const A3: EduQuest = quest(
         N('A big wing comes down like a blanket.'),
         SI('Sleep. The storm cannot reach us here.', 'soft'),
         N('The chick beside you snores. Snore, snore!'),
+        N('Snore, snore! Hee-hee! The chick snores, and your Nubbin giggles.'),
       ],
       [
         ask(
@@ -818,7 +822,7 @@ const A4: EduQuest = quest(
     ),
     sc(
       'a27-04-feed-done',
-      [N('Your Nubbin is round as an apple. It still wants more!')],
+      [N('Your Nubbin is round as an apple. It still wants more!'), N('Munch! Munch! Your Nubbin munches until its cheeks are round.')],
       [
         ask(
           0,
@@ -884,6 +888,7 @@ const A4: EduQuest = quest(
         N('But he is small. Squish!'),
         N('You scoop him up just in time. The chick sits on your Nubbin. Flump!'),
         SI('Ha! They will learn. Keep minding him.', 'happy'),
+        N('Bonk! A chick bonks into the baby, and sits down.'),
       ],
       [
         ask(
@@ -906,7 +911,7 @@ const A4: EduQuest = quest(
     ),
     sc(
       'a27-04-sitting-done',
-      [N('Your Nubbin comes out flatter than before. It does not mind.')],
+      [N('Your Nubbin comes out flatter than before. It does not mind.'), N('Thump! Thump! The chicks thump down, right on top.')],
       [
         ask(
           0,
@@ -930,6 +935,7 @@ const A4: EduQuest = quest(
         N('The baby learns to crawl in the big nest.'),
         N('His first word sounds like a bird call!'),
         N('Your Nubbin teaches him to clap.'),
+        N('Clap, clap! Pop! The baby claps, and pops a bubble.'),
       ],
       [
         ask(
@@ -978,6 +984,7 @@ const A5: EduQuest = quest(
         Y('Lots of people, buying and calling out.'),
         YO('I think I would like a market.', 'happy'),
         YO('Teach me one more word.'),
+        N('Ding! Ding! A market bell dings, and the crowd calls out.'),
       ],
       [
         notice(
@@ -1025,7 +1032,7 @@ const A5: EduQuest = quest(
     ),
     sc(
       'a27-05-words-done',
-      [N('He says the word all afternoon.'), N('Your Nubbin claps every single time.')],
+      [N('He says the word all afternoon.'), N('Your Nubbin claps every single time.'), N('Hee-hee! The baby says it wrong, and everybody giggles.')],
       [
         doit(
           1,
@@ -1080,6 +1087,7 @@ const A5: EduQuest = quest(
       [
         N('The merchant gives your Nubbin a whole round loaf.'),
         ME('By midsummer, every town will know the story.'),
+        N('Crunch! The crust of the round loaf goes crunch.'),
       ],
       [
         ask(
@@ -1102,6 +1110,7 @@ const A5: EduQuest = quest(
         N('The story goes down the mountain with the caravans.'),
         N('Your Nubbin shares the loaf with the chicks. Smallest first!'),
         N('Someone sews Nubbin a tiny white cap, to match its brother.'),
+        N('Munch! Munch! Your Nubbin munches, and shares every crumb.'),
       ],
       [
         ask(
@@ -1148,6 +1157,7 @@ const A6: EduQuest = quest(
         N('His own hair has gone white.'),
         SV('Is it true? Is he alive?', 'shock'),
         N('Your Nubbin holds up its tiny white cap.'),
+        N('Thump, thump! The bale thumps along the dusty road.'),
       ],
       [
         ask(
@@ -1177,7 +1187,7 @@ const A6: EduQuest = quest(
     ),
     sc(
       'a27-06-return-done',
-      [SV('The master does not sleep well. Stay tonight.')],
+      [SV('The master does not sleep well. Stay tonight.'), N('Creak! The old bed creaks, and the lamp burns low.')],
       [
         doit(
           0,
@@ -1201,6 +1211,7 @@ const A6: EduQuest = quest(
         ),
         N('Sam touches his own beard. It is white, like his son’s hair.'),
         SA('Then I woke up.', 'sad'),
+        N('Whoosh! Sam whooshes in with his lamp, and his shadow jumps.'),
       ],
       [
         ask(
@@ -1219,7 +1230,7 @@ const A6: EduQuest = quest(
     ),
     sc(
       'a27-06-dream-done',
-      [SA('Call the wise men. Now, before I lose my courage.')],
+      [SA('Call the wise men. Now, before I lose my courage.'), N('Bonk! A door bonks open, and the servants hurry.')],
       [
         ask(
           0,
@@ -1244,6 +1255,7 @@ const A6: EduQuest = quest(
         MO('Ask him to forgive you.'),
         N('Sam sees you by the fire.'),
         SA('Is he alive? Tell me the truth.'),
+        N('Swish! The white robes swish across the stone floor.'),
       ],
       [
         ask(
@@ -1280,6 +1292,7 @@ const A6: EduQuest = quest(
       [
         SA('Sound the drums! We march at first light!'),
         N('You and your Nubbin run ahead to the mountain.'),
+        N('Thump! The drums thump, and Nubbin runs ahead.'),
       ],
       [
         ask(
@@ -1305,6 +1318,7 @@ const A6: EduQuest = quest(
         Y('He is coming. With an army!'),
         SI('Then I had better put the kettle on.', 'think'),
         N('She has no kettle. You think she knows.'),
+        N('Splash! A little stream splashes at the foot of the rocks.'),
       ],
       [
         doit(
@@ -1348,6 +1362,7 @@ const A7: EduQuest = quest(
         Y('People. A lot of people.'),
         YO('Is it a market?', 'shock'),
         N('He lies flat and stares and stares.'),
+        N('Zoom! Your Nubbin zooms flat against the rock, and peeps.'),
       ],
       [
         ask(
@@ -1366,7 +1381,7 @@ const A7: EduQuest = quest(
     ),
     sc(
       'a27-07-army-done',
-      [YO('I did not know there were so many people.', 'soft')],
+      [YO('I did not know there were so many people.', 'soft'), N('Thump, thump! The marching feet thump far below.')],
       [
         ask(
           0,
@@ -1702,6 +1717,7 @@ const A9: EduQuest = quest(
         N('He gives his son a name: Zal. It means the old one, for the white hair.'),
         N('Sam says it with pride.'),
         ZA('Zal. I like it!', 'happy'),
+        N('Ding! Ding! A bright bell dings for the new name.'),
       ],
       [
         ask(
@@ -1724,7 +1740,7 @@ const A9: EduQuest = quest(
     ),
     sc(
       'a27-09-oath-done',
-      [N('They dress Zal in fine clothes: a shirt, a belt and boots.')],
+      [N('They dress Zal in fine clothes: a shirt, a belt and boots.'), N('Swish! The new shirt swishes, and the boots go thump.')],
       [
         doit(
           0,
@@ -1746,6 +1762,7 @@ const A9: EduQuest = quest(
         ZA('It is so loud!'),
         SA('Only when the world is happy.', 'happy'),
         N('High above, a great bird turns once, and goes home.', 'soft'),
+        N('Thump! Thump! The drums thump, and the trumpets toot.'),
       ],
       [
         doit(
@@ -1761,7 +1778,7 @@ const A9: EduQuest = quest(
     ),
     sc(
       'a27-09-road-done',
-      [N('Sistan has heard! The city is hung with cloth and flowers.')],
+      [N('Sistan has heard! The city is hung with cloth and flowers.'), N('Whee! The flags flap, and the children go whee!')],
       [
         ask(
           0,
@@ -1784,6 +1801,7 @@ const A9: EduQuest = quest(
         N('Your Nubbin eats it! Zal laughs and laughs.'),
         SA('You laugh with your whole self.', 'soft'),
         ZA('The chicks taught me.'),
+        N('Crunch! Hee-hee! Nubbin crunches the rose, and Zal giggles.'),
       ],
       [
         ask(
@@ -1832,6 +1850,7 @@ const A10: EduQuest = quest(
         SH('Champion, look after this one.'),
         SH('Teach him our ways. How would a nest boy know them?', 'think'),
         N('Zal bows, just as the Simurgh bows her head.'),
+        N('Ding! A gold bell dings, and the whole court goes quiet.'),
       ],
       [
         ask(
@@ -1858,6 +1877,7 @@ const A10: EduQuest = quest(
       [
         N('The star-readers look at the stars. They say he will be brave and wise.'),
         SH('I could tell that by looking at him.', 'happy'),
+        N('Hee-hee! A star-reader sneezes, and everyone giggles.'),
       ],
       [
         ask(
@@ -1912,7 +1932,7 @@ const A10: EduQuest = quest(
     ),
     sc(
       'a27-10-banquet-done',
-      [N('Your Nubbin falls asleep on a cushion, tummy up. Snore!')],
+      [N('Your Nubbin falls asleep on a cushion, tummy up. Snore!'), N('Thump! Plop! Your Nubbin flops on its cushion, and snores.')],
       [
         ask(
           0,
@@ -1936,6 +1956,7 @@ const A10: EduQuest = quest(
         N('A fence. A coin. A goat that ate a neighbour’s washing!'),
         N('Zal listens to both sides.'),
         N('He never judges anyone by how they look.'),
+        N('Pop! Pop! The goat pops its head out of the washing.'),
       ],
       [
         ask(
@@ -1954,7 +1975,7 @@ const A10: EduQuest = quest(
     ),
     sc(
       'a27-10-petitions-done',
-      [ZA('Tell me if I get one wrong. You are not afraid to.')],
+      [ZA('Tell me if I get one wrong. You are not afraid to.'), N('Thump! Thump! The petitioners thump their sandals on the step.')],
       [
         ask(
           0,
@@ -1978,6 +1999,7 @@ const A10: EduQuest = quest(
         N('The goat owner and the washing owner become friends!'),
         ZA('Now I want to see the rest of the kingdom.'),
         N('Your Nubbin agrees, if there is food.'),
+        N('Whoosh! The seasons whoosh by, and the goat gets fat.'),
       ],
       [
         ask(
@@ -2026,6 +2048,7 @@ const A11: EduQuest = quest(
         ZA('Ask me anything else. I cannot say yes.', 'sad'),
         N('Long ago, a cruel king was in Mehrab’s family. Zal’s father would not like it.'),
         N('Mehrab bows and goes away, sad.'),
+        N('Splash! The river splashes past the tents.'),
       ],
       [
         notice(
@@ -2043,7 +2066,7 @@ const A11: EduQuest = quest(
     ),
     sc(
       'a27-11-tents-done',
-      [ZA('I sent him away with nothing. Will you go after him for me?', 'sad')],
+      [ZA('I sent him away with nothing. Will you go after him for me?', 'sad'), N('Creak! The tent pole creaks in the evening wind.')],
       [
         ask(
           0,
@@ -2073,6 +2096,7 @@ const A11: EduQuest = quest(
         N('You carry it through Kabul at dusk. It smells of bread.'),
         N('Mehrab opens the box. He goes pink.'),
         MH('That is the nicest no I ever had!', 'happy'),
+        N('Pop! The lid of the wooden box pops open.'),
       ],
       [
         doit(
@@ -2088,7 +2112,7 @@ const A11: EduQuest = quest(
     ),
     sc(
       'a27-11-gift-done',
-      [SK('Sit down, messenger. Have something to eat.')],
+      [SK('Sit down, messenger. Have something to eat.'), N('Crunch! Crunch! A hot flatbread crunches, and smells so good.')],
       [
         ask(
           0,
@@ -2115,6 +2139,7 @@ const A11: EduQuest = quest(
         MH('He is brave, and he is kind. The white hair suits him.', 'happy'),
         N('Rudaba is quiet. She listens with her whole self.'),
         RU('What is he really like?'),
+        N('Ding! The cups ding together, and the fire crackles.'),
       ],
       [
         ask(
@@ -2145,7 +2170,7 @@ const A11: EduQuest = quest(
     ),
     sc(
       'a27-11-praise-done',
-      [N('Rudaba asks seven more questions. Sindokht watches her.')],
+      [N('Rudaba asks seven more questions. Sindokht watches her.'), N('Hee-hee! Rudaba hides a smile behind her hand.')],
       [
         doit(
           0,
@@ -2166,6 +2191,7 @@ const A11: EduQuest = quest(
         N('In a tent, a young man cannot sleep either.'),
         ZA('Did he like the cloth? What did they say?'),
         N('You tell him about Rudaba. He does not sleep at all.'),
+        N('Crunch! Crunch! Your boots crunch on the path in the dark.'),
       ],
       [
         ask(
@@ -2216,6 +2242,7 @@ const A12: EduQuest = quest(
         N('They drop petals in the river. Plip, plip!'),
         N('Zal takes his bow and goes to the water.'),
         N('He shoots one arrow across the river. It lands among the roses.'),
+        N('Plop! Plop! Petals plop into the river, one by one.'),
       ],
       [
         ask(
@@ -2234,7 +2261,7 @@ const A12: EduQuest = quest(
     ),
     sc(
       'a27-12-roses-done',
-      [ZA('Go across and fetch it. And take your time.', 'happy')],
+      [ZA('Go across and fetch it. And take your time.', 'happy'), N('Splash! Splash! You wade across, and the water splashes your knees.')],
       [
         doit(
           0,
@@ -2255,6 +2282,7 @@ const A12: EduQuest = quest(
         PG('It is the son of Sam. He is the best!', 'happy'),
         MD('Our Rudaba is the best!'),
         N('They go back and forth, taking turns.'),
+        N('Hee-hee! The maids giggle, and talk all at once.'),
       ],
       [
         ask(
@@ -2285,6 +2313,7 @@ const A12: EduQuest = quest(
       [
         ZA('What did they say? Tell me every word.'),
         N('Zal sends pearls and gold, so the maids will wait.'),
+        N('Ding! A pearl dings on the tray, and the maids go quiet.'),
       ],
       [
         ask(
@@ -2310,6 +2339,7 @@ const A12: EduQuest = quest(
         N('She looks at Zal, and nods.'),
         MD('Rudaba thinks of nothing but you.'),
         ZA('Show me a way to see her.'),
+        N('Swish! The maid swishes by, finger on her lips.'),
       ],
       [
         ask(
@@ -2335,6 +2365,7 @@ const A12: EduQuest = quest(
       [
         N('In the family rooms, the maids tell Rudaba everything.'),
         N('She takes a rose apart, petal by petal.'),
+        N('Pop! A petal pops loose, and floats down.'),
       ],
       [
         ask(
@@ -2360,6 +2391,7 @@ const A12: EduQuest = quest(
         RU('Good. I would hate to choose.', 'happy'),
         N('She gives you a cutting from the rose garden.'),
         N('Nubbin has a rose behind each ear.'),
+        N('Whee! The maids twirl, and a rose goes behind each ear.'),
       ],
       [
         ask(
@@ -2406,6 +2438,7 @@ const A13: EduQuest = quest(
         N('Rudaba waits on the roof in the last light.'),
         N('She is tall and calm, like a tree with the moon on it.'),
         RU('Welcome! Bless you for coming.'),
+        N('Creak! A garden gate creaks, and the roof lamp glows.'),
       ],
       [
         ask(
@@ -2428,7 +2461,7 @@ const A13: EduQuest = quest(
     ),
     sc(
       'a27-13-dusk-done',
-      [ZA('You are up there, and I am down here.')],
+      [ZA('You are up there, and I am down here.'), N('Hee-hee! A giggle floats down from the rooftop.')],
       [
         ask(
           0,
@@ -2452,6 +2485,7 @@ const A13: EduQuest = quest(
         N('Zal holds it gently. Then he lets go.'),
         ZA('No. That would hurt you.', 'soft'),
         N('He makes a loop in a rope and throws it up. It catches!'),
+        N('Swish! The long hair swishes down the wall like a river.'),
       ],
       [
         ask(
@@ -2470,7 +2504,7 @@ const A13: EduQuest = quest(
     ),
     sc(
       'a27-13-roof-done',
-      [N('Up on the roof, they hold hands and go in together.')],
+      [N('Up on the roof, they hold hands and go in together.'), N('Thump! The rope thumps on the roof, and holds.')],
       [
         ask(
           0,
@@ -2493,6 +2527,7 @@ const A13: EduQuest = quest(
         N('Nubbin sits on your feet, fast asleep.'),
         N('At midnight, a night porter walks round with a lamp.'),
         N('He stops at the rope. He looks up the wall.', 'shock'),
+        N('Creak! The porch creaks, and Nubbin snores on your feet.'),
       ],
       [
         ask(
@@ -2525,6 +2560,7 @@ const A13: EduQuest = quest(
       [
         N('In the camp, the morning drums begin.'),
         N('The voices upstairs say: not yet, please, not yet.'),
+        N('Thump! The camp drum thumps, and a bird goes tweet.'),
       ],
       [
         ask(
@@ -2554,6 +2590,7 @@ const A13: EduQuest = quest(
         N('Zal comes down the rope and stands in the lane.'),
         ZA('We have promised to stay together.', 'happy'),
         N('He coils the rope. You keep it.'),
+        N('Whoosh! The rope whooshes down, and Zal coils it up.'),
       ],
       [
         ask(
@@ -2607,6 +2644,7 @@ const A14: EduQuest = quest(
         ZA('I have one thing to ask. I love Rudaba. I want to marry her.'),
         ZA('You came back for me. Come with me now.'),
         N('He gives the letter to you.'),
+        N('Swish! The scribe’s pen swishes across the page.'),
       ],
       [
         ask(
@@ -2629,7 +2667,7 @@ const A14: EduQuest = quest(
     ),
     sc(
       'a27-14-letter-done',
-      [N('You ride north for four days. Nubbin rides in the saddlebag, eating.')],
+      [N('You ride north for four days. Nubbin rides in the saddlebag, eating.'), N('Munch! Munch! Nubbin munches in the saddlebag, all the way.')],
       [
         doit(
           0,
@@ -2650,6 +2688,7 @@ const A14: EduQuest = quest(
         N('He asks the wise men to read the stars. They come back smiling.'),
         MO('Good news! Zal will have a son, and he will be a great hero.', 'happy'),
         N('Sam breathes out. He has held that breath for years.'),
+        N('Ding! A little gong dings, and the wise men smile.'),
       ],
       [
         ask(
@@ -2671,6 +2710,7 @@ const A14: EduQuest = quest(
       [
         SA('It is a big surprise, but I gave my word. So it shall be done.'),
         SA('Tell him I read every line.', 'soft'),
+        N('Whoosh! Sam lets out a big breath. Whoosh!'),
       ],
       [
         ask(
@@ -2701,6 +2741,7 @@ const A14: EduQuest = quest(
         N('Long ago, a cruel king was in Rudaba’s family.'),
         N('So the Shah is cross. Soldiers may march.'),
         SK('Do not be afraid. I will talk to Sam myself.', 'soft'),
+        N('Thump! Thump! A cross fist thumps the table.'),
       ],
       [
         ask(
@@ -2726,6 +2767,7 @@ const A14: EduQuest = quest(
       [
         RU('Mother, I am sorry I did not tell you.', 'sad'),
         SK('So am I. We will talk later. Come with me, messenger.'),
+        N('Creak! The big door creaks, and Sindokht holds it wide.'),
       ],
       [
         ask(
@@ -2751,6 +2793,7 @@ const A14: EduQuest = quest(
         N('Sam promises.'),
         SK('Be fair to everyone. Nobody should be blamed for what their family did.'),
         SA('Messenger, you were there when my son was born. Is Rudaba good for him?'),
+        N('Clop, clop! Ding! The bells on the elephants go ding.'),
       ],
       [
         ask(
@@ -2778,7 +2821,7 @@ const A14: EduQuest = quest(
     ),
     sc(
       'a27-14-embassy-done',
-      [SA('My promise is safe. Kabul is safe. Your family is safe.')],
+      [SA('My promise is safe. Kabul is safe. Your family is safe.'), N('Ding! A cup dings, and the long talk is done.')],
       [
         ask(
           0,
@@ -2800,6 +2843,7 @@ const A14: EduQuest = quest(
         N('Sindokht rides home, shining like the moon.'),
         N('Sam writes to the Shah. Zal takes the letter to court.'),
         N('Nubbin rides home on an elephant! It comes down for a pomegranate.'),
+        N('Whee! Nubbin slides down the elephant’s trunk. Whee!'),
       ],
       [
         notice(
@@ -2848,6 +2892,7 @@ const A15: EduQuest = quest(
         MO('Two horses race for ever, one black, one white.'),
         ZA('Night and day, chasing each other.'),
         MO('Thirty riders. One goes missing. Then all come back. What?'),
+        N('Ding! A little bell dings for every right answer.'),
       ],
       [
         ask(
@@ -2879,7 +2924,7 @@ const A15: EduQuest = quest(
     ),
     sc(
       'a27-15-riddles-done',
-      [N('Three riddles, three answers. He did not stop to think.')],
+      [N('Three riddles, three answers. He did not stop to think.'), N('Hee-hee! The court giggles. Zal was so quick!')],
       [
         doit(
           0,
@@ -2900,6 +2945,7 @@ const A15: EduQuest = quest(
         ZA('That is time. It goes on for everyone, young and old.'),
         ZA('So we should be kind while we can.', 'soft'),
         N('Nobody speaks. Then everyone talks at once!'),
+        N('Thump! Thump! A big hush thumps, and then everyone talks.'),
       ],
       [
         ask(
@@ -2918,7 +2964,7 @@ const A15: EduQuest = quest(
     ),
     sc(
       'a27-15-hardest-done',
-      [SH('I would have needed a week and a nap.', 'happy')],
+      [SH('I would have needed a week and a nap.', 'happy'), N('Hee-hee! Zal yawns, and the whole hall giggles.')],
       [
         ask(
           0,
@@ -2944,6 +2990,7 @@ const A15: EduQuest = quest(
         N('The crowd claps. Nubbin claps loudest, standing on your head!'),
         ZA('I learned on the peak. The chicks kept dropping things over the edge.', 'happy'),
         N('The champion asks Zal to teach him.'),
+        N('Whoosh! The arrow whooshes, and the crowd goes thump, thump.'),
       ],
       [
         ask(
@@ -2966,7 +3013,7 @@ const A15: EduQuest = quest(
     ),
     sc(
       'a27-15-trials-done',
-      [SH('I am sure. He has brains and arms both.')],
+      [SH('I am sure. He has brains and arms both.'), N('Ding! The target dings, right in the middle.')],
       [
         ask(
           0,
@@ -2989,6 +3036,7 @@ const A15: EduQuest = quest(
         SH('Go and marry your princess. Bring me something from the feast!', 'happy'),
         N('Sam reads the letter, and looks ten years younger.'),
         N('Nubbin keeps a royal napkin.'),
+        N('Swish! The royal napkin swishes into Nubbin’s pocket.'),
       ],
       [
         notice(
@@ -3032,6 +3080,7 @@ const A16: EduQuest = quest(
         SK('Hide her? She is our sun. What will you give to see her?', 'happy'),
         SA('Anything you like! Name it.'),
         N('Sindokht laughs, and leads him in.'),
+        N('Boom! The drums go boom, and the cymbals go ding.'),
       ],
       [
         ask(
@@ -3050,7 +3099,7 @@ const A16: EduQuest = quest(
     ),
     sc(
       'a27-16-arrival-done',
-      [N('Sam looks at Rudaba. He has no words.'), SA('I have never had so few words.', 'happy')],
+      [N('Sam looks at Rudaba. He has no words.'), SA('I have never had so few words.', 'happy'), N('Hee-hee! Sam has no words, so he giggles instead.')],
       [
         ask(
           1,
@@ -3075,6 +3124,7 @@ const A16: EduQuest = quest(
         N('Nubbin is not pacing itself.'),
         RU('You carried every word. Thank you.'),
         ZA('What did you bring us? You may bring nothing.'),
+        N('Munch! Munch! Crunch! Nubbin munches its way down the table.'),
       ],
       [
         doit(
@@ -3103,7 +3153,7 @@ const A16: EduQuest = quest(
     ),
     sc(
       'a27-16-feast-done',
-      [N('Sindokht fills your plate. Then Nubbin’s plate. Then again!')],
+      [N('Sindokht fills your plate. Then Nubbin’s plate. Then again!'), N('Munch! Another plate comes, and Nubbin goes munch again.')],
       [
         ask(
           0,
@@ -3130,6 +3180,7 @@ const A16: EduQuest = quest(
         N('Zal rules with patience and fairness.'),
         N('Rudaba sits beside him. He puts a gold crown on her black hair.'),
         N('Nubbin has eaten its weight in wedding cake. It sleeps two days.'),
+        N('Burp! Nubbin sleeps two days. Hee-hee! It giggles in its dreams.'),
       ],
       [
         notice(
@@ -3225,6 +3276,7 @@ const A17: EduQuest = quest(
         N('He puts the feather on the fire, with a steady hand.'),
         N('It burns slowly, like a candle. It smells of sandalwood.'),
         N('Outside, all at once, the light goes strange.'),
+        N('Crack! The fire cracks, and the feather curls.'),
       ],
       [
         ask(
@@ -3243,7 +3295,7 @@ const A17: EduQuest = quest(
     ),
     sc(
       'a27-17-fire-done',
-      [N('A sound like a great wind fills the air. Every shutter rattles.')],
+      [N('A sound like a great wind fills the air. Every shutter rattles.'), N('Rattle! Whoosh! The wind whooshes, and every shutter shakes.')],
       [
         doit(
           0,
@@ -3266,6 +3318,7 @@ const A17: EduQuest = quest(
         ZA('Rudaba cannot rest. It has been days.', 'sad'),
         SI('Be easy. I came to help.', 'soft'),
         N('She tells him what to do, slowly and plainly.'),
+        N('Whoosh! Great wings whoosh over the roofs of Sistan.'),
       ],
       [
         ask(
@@ -3290,7 +3343,7 @@ const A17: EduQuest = quest(
     ),
     sc(
       'a27-17-wings-done',
-      [N('The Simurgh waits in the courtyard. You sit under her wing, like old times.')],
+      [N('The Simurgh waits in the courtyard. You sit under her wing, like old times.'), N('Whoosh! A soft wing whooshes, warm as a quilt.')],
       [
         doit(
           0,
@@ -3316,6 +3369,7 @@ const A17: EduQuest = quest(
         N('It waits at the back. Very politely.'),
         N('A feather drifts down. The Simurgh lets it stay.'),
         N('You are back in the Grove. Nubbin wants second breakfast!'),
+        N('Peep! Hee-hee! Nubbin gives a tiny peep, and giggles.'),
       ],
       [
         ask(
@@ -3490,6 +3544,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('Is Sistan home now? The place I come back to?', 'think'),
       SA('Yes. It is louder than a nest. But yes.', 'soft'),
       N('High above, a great bird turns once, and goes home.', 'soft'),
+      N('Thump! Thump! The drums thump, and the trumpets toot.'),
     ],
     [
       doit(
@@ -3514,6 +3569,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('Father, this is my friend. A friend is someone who stays.', 'happy'),
       SA('Then your friend is family now.'),
       ZA('Oh no. Then I need another word!', 'think'),
+      N('Crunch! Hee-hee! Nubbin crunches the rose, and Zal giggles.'),
     ],
     [
       ask(
@@ -3541,6 +3597,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('I have one thing to ask. I love Rudaba. I want to marry her.'),
       ZA('I learned to wait on a mountain. I can wait for you.', 'soft'),
       N('He gives the letter to you.'),
+      N('Swish! The scribe’s pen swishes across the page.'),
     ],
     [
       ask(
@@ -3572,6 +3629,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('I made you wait one night. You made me wait many.', 'happy'),
       ZA('Now we have both waited. That is fair.'),
       N('He gives the letter to you.'),
+      N('Swish! The scribe’s pen swishes across the page.'),
     ],
     [
       ask(
@@ -3605,6 +3663,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('He leans on your shoulder.'),
       N('It burns slowly, like a candle. It smells of sandalwood.'),
       N('Outside, all at once, the light goes strange.'),
+      N('Crack! The fire cracks, and the feather curls.'),
     ],
     [
       ask(
@@ -3631,6 +3690,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('He lays the feather on the fire. Nubbin holds his boot.'),
       N('It burns slowly, like a candle. It smells of sandalwood.'),
       N('Outside, all at once, the light goes strange.'),
+      N('Crack! The fire cracks, and the feather curls.'),
     ],
     [
       ask(
@@ -3663,6 +3723,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('It waits at the back. Very politely.'),
       N('A feather drifts down. The Simurgh lets it stay.'),
       N('You are back in the Grove. Nubbin wants second breakfast!'),
+      N('Peep! Hee-hee! Nubbin gives a tiny peep, and giggles.'),
     ],
     [
       ask(
@@ -3696,6 +3757,7 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('It waits at the back. Very politely.'),
       N('A feather drifts down. The Simurgh lets it stay.'),
       N('You are back in the Grove. Nubbin wants second breakfast!'),
+      N('Peep! Hee-hee! Nubbin gives a tiny peep, and giggles.'),
     ],
     [
       ask(

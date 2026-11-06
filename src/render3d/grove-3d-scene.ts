@@ -33,7 +33,7 @@ import { bigBubbles } from '../render/emote-size';
 import { applyViewShift, NO_SHIFT, type ViewShift } from '../render/view-shift';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
-import { CLAMP, PUSHERS, type Tex } from '../samples/aaa-kit';
+import { CLAMP, PUSHERS, type Tex } from './art/aaa-kit';
 import type { Floor } from '../sim/dungeon';
 import { townUnlocks } from '../sim/town';
 import type { Location, Nubbin, SimEvent, Vec2, WeatherKind, World } from '../sim/types';

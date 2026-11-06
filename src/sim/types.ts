@@ -487,6 +487,9 @@ export interface Settings {
   cameraFollowsWalk?: boolean;
   /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
   leftHanded?: boolean;
+  /** R0096 (R13 d1): "the Grove dresses for you": the Grove takes its Sun or Moon colouring as
+   * the Keeper's alignment unlocks it (the old recolour). Unset: off; the lands are real places. */
+  groveDresses?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
   /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
@@ -1648,6 +1651,7 @@ export type Command =
   | { kind: 'shakeHeld' }
   /** The jump button pressed or let go (MOVE-10); with something held it shakes instead. */
   | { kind: 'jump'; down: boolean }
+  | { kind: 'snowball' }
   | { kind: 'release'; vel: Vec2 }
   | { kind: 'switchKeeper'; alignment: KeeperAlignment }
   | { kind: 'setTrainer'; id: string }
@@ -2201,6 +2205,9 @@ export type SimEvent =
   | { kind: 'regionGag'; id: string; first: boolean }
   | { kind: 'wildNubbin'; region: string; name: string; state: 'met' | 'friend' }
   | { kind: 'gateOpened'; region: string; id: string }
+  | { kind: 'castleDown'; id: number; shells: number }
+  | { kind: 'castleRebuilt'; id: number }
+  | { kind: 'folkGreet'; id: string }
   | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }
@@ -2266,6 +2273,8 @@ export type SimEvent =
   /** R0313: Fern's stone was tapped (the `line`-th tap; the cairn has `stones`). */
   | { kind: 'fernStone'; line: number; stones: number }
   | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
+  /** R0450: a stat reached a new level (sim/level-watch.ts). */
+  | { kind: 'levelUp'; nubbinId: string; stat: StatKey; level: number }
   | { kind: 'merged'; a: string; b: string }
   | { kind: 'unmerged'; a: string; b: string }
   | { kind: 'curfew'; night: boolean }

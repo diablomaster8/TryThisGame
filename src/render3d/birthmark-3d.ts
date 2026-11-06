@@ -6,9 +6,9 @@
  * disc with a body-coloured one laid over its edge).
  */
 import { Color, Vector3 } from 'three';
-import { cloneSpec, paletteOf } from '../samples/nubbin-variants';
-import { headDome } from '../samples/nubbin-critter-parts';
-import type { Mark, SpeciesSpec } from '../samples/species';
+import { cloneSpec, paletteOf } from './art/nubbin-variants';
+import { headDome } from './art/nubbin-critter-parts';
+import type { Mark, SpeciesSpec } from './art/species';
 
 export function withBirthmark(base: SpeciesSpec, mod: string): SpeciesSpec {
   const [kind, sideText] = mod.split(':');
