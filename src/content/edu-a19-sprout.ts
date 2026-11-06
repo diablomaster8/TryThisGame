@@ -173,6 +173,7 @@ const Q01: EduQuest = quest(
         N('A big man comes down the jetty. He has a hook for a hand.'),
         GB('I am Gobber. What is that little round one?'),
         N('Your Nubbin waves a stubby wing. Gobber waves his hook.'),
+        N('Bump! The boat bumps the jetty, and gulls go peep.'),
       ],
       [
         ask(
@@ -272,6 +273,7 @@ const Q01: EduQuest = quest(
         N('Your Nubbin is asleep on the anvil. Snore, snore.'),
         GB('Good work, helper.'),
         GB('Hiccup, stay here. Stay. Here.'),
+        N('Bonk! The hammer bonks, and Hiccup yawns.'),
       ],
       [
         doit(
@@ -296,6 +298,7 @@ const Q01: EduQuest = quest(
         H('I made it. It catches a dragon in ropes.'),
         H('It is heavy. Please, can you help me push?'),
         N('Your Nubbin looks at the wheels. It wants to help, too.'),
+        N('Creak! The big wheels creak as you push.'),
       ],
       [
         ask(
@@ -362,6 +365,7 @@ const Q01: EduQuest = quest(
         H('I am a bit scared. I will take slow breaths.', 'soft'),
         N('In and out. In and out.'),
         N('High in the sky, something screeches.'),
+        N('Creak! The machine creaks up the hill. Creak, creak.'),
       ],
       [
         doit(
@@ -516,6 +520,7 @@ const Q02: EduQuest = quest(
         ST('Hiccup.'),
         H('Hi, Dad.', 'sad'),
         N('Hiccup’s shoulders go down. He looks small.'),
+        N('Thump! Stoick’s boots thump on the boards.'),
       ],
       [
         ask(
@@ -549,6 +554,7 @@ const Q02: EduQuest = quest(
         H('I know what I saw.'),
         N('Some people laugh. Hiccup looks at his feet.'),
         GB('This is our new helper. And a little hatchling.'),
+        N('Hee-hee! A few Vikings giggle behind their hands.'),
       ],
       [
         doit(
@@ -591,6 +597,7 @@ const Q02: EduQuest = quest(
         N('Hiccup goes up to his corner. He takes out his charcoal.'),
         N('Scratch, scratch, scratch. He draws what he saw.'),
         N('He does not want to forget it.'),
+        N('Crack! The forge fire cracks, and the charcoal scratches.'),
       ],
       [
         doit(
@@ -638,6 +645,7 @@ const Q03: EduQuest = quest(
         N('Nobody cheers. It is a long, cold trip.'),
         ST('Hiccup, you will go to dragon school.'),
         H('Oh dear.', 'sad'),
+        N('Crack! A log cracks in the big hearth.'),
       ],
       [
         notice(
@@ -660,6 +668,7 @@ const Q03: EduQuest = quest(
         GB('Bring the lad. And bring the hatchling.'),
         N('Gobber winks. Your Nubbin salutes with a wing.'),
         N('Who is going? Hiccup, you, and your Nubbin.'),
+        N('Ding! Gobber’s hook dings on the helmet.'),
       ],
       [
         doit(
@@ -686,6 +695,7 @@ const Q03: EduQuest = quest(
         H('I will.'),
         N('Stoick gives Hiccup a quick pat on the head. Then he goes aboard.'),
         N('The ships sail away. Hiccup watches them go.'),
+        N('Creak! The ship ropes creak at the dock.'),
       ],
       [
         ask(
@@ -758,6 +768,7 @@ const Q03: EduQuest = quest(
         N('The last page is empty. It only says: Night Fury.'),
         H('Nobody has seen one up close. Nobody can draw it.'),
         N('Hiccup looks at the empty page for a long time.'),
+        N('Swish! The pages swish as the wind turns them.'),
       ],
       [
         doit(
@@ -809,6 +820,7 @@ const Q03: EduQuest = quest(
         H('Do you want to come? You do not have to.'),
         N('Your Nubbin is already at the door.'),
         N('Nubbin, Night Fury and No: they all start with n.'),
+        N('Creak! The forge door creaks open in the dark.'),
       ],
       [
         doit(
@@ -854,6 +866,7 @@ const Q04: EduQuest = quest(
         N('The ground has a long, dark scratch in it.'),
         H('That is where it came down!', 'shock'),
         N('Something is breathing on the other side of the hill.'),
+        N('Crunch! Wet leaves crunch under Hiccup’s boots.'),
       ],
       [
         ask(
@@ -890,6 +903,7 @@ const Q04: EduQuest = quest(
         N('Hiccup cuts the ropes instead. Snip, snip, snip.'),
         N('The dragon jumps up and roars. Then it flies off.'),
         N('Your Nubbin is scared. It hides behind a stump and shakes.'),
+        N('Pop! The rope pops as the knife cuts it.'),
       ],
       [
         ask(
@@ -967,6 +981,7 @@ const Q04: EduQuest = quest(
         H('I do not know why I did not do it.'),
         N('The arena horn blows. School is starting.'),
         H('Oh good. My favourite.', 'sad'),
+        N('Crunch! Your boots crunch on the muddy path.'),
       ],
       [
         ask(
@@ -1014,6 +1029,7 @@ const Q04: EduQuest = quest(
         N('You follow, slower.'),
         N('Your Nubbin stays close. It keeps checking you are there.'),
         N('Far away in the woods, branches crash. Then it goes quiet.'),
+        N('Crack! A branch cracks far away in the woods.'),
       ],
       [
         notice(
@@ -1060,6 +1076,7 @@ const Q05: EduQuest = quest(
         A('I am Astrid. Stay out of my way.'),
         FL('I am Fishlegs! Is that a hatchling?', 'happy'),
         N('Hiccup creeps in last, in a helmet too big for him.'),
+        N('Creak! The arena gate creaks open.'),
       ],
       [
         notice(
@@ -1086,6 +1103,7 @@ const Q05: EduQuest = quest(
         N('It does its fiercest face. Grrr!'),
         N('A twin pats it on the head.'),
         N('Fish-legs, Ruff-nut, Snot-lout. Each name has two parts.'),
+        N('Whee! A twin whistles. Whee-ooh!'),
       ],
       [
         doit(
@@ -1122,6 +1140,7 @@ const Q05: EduQuest = quest(
         RF('It is mine.'),
         TF('I touched it first.'),
         N('Now there is one shield left, and two people with none.'),
+        N('Bonk! The shields bonk against each other.'),
       ],
       [
         ask(
@@ -1176,6 +1195,7 @@ const Q05: EduQuest = quest(
         N('It leaves a black mark on the wall.'),
         GB('Remember, all of you. Dragons are dangerous in here.'),
         N('Hiccup thinks about a dragon that did not hurt him.'),
+        N('Bonk! The Gronckle bonks the wall.'),
       ],
       [
         ask(
@@ -1207,6 +1227,7 @@ const Q05: EduQuest = quest(
         N('Astrid is cross. She stomps off.'),
         N('Hiccup goes up into the woods.'),
         N('You and your Nubbin go, too.'),
+        N('Thump! Astrid stomps, thump, thump, thump.'),
       ],
       [
         ask(
@@ -1327,6 +1348,7 @@ const Q06: EduQuest = quest(
         N('Hiccup drops his charcoal.'),
         N('It rolls away, down into the cove.'),
         N('Nobody moves. Everybody keeps calm.'),
+        N('Plop! The charcoal rolls and plops in the water.'),
       ],
       [
         doit(
@@ -1350,6 +1372,7 @@ const Q06: EduQuest = quest(
         H('Here. Have this one. I got the eyes wrong.', 'think'),
         H('They are not angry eyes. I keep drawing them angry.'),
         N('You look at the picture. The eyes are round and kind.'),
+        N('Squeak! The charcoal squeaks on the last page.'),
       ],
       [
         ask(
@@ -1401,6 +1424,7 @@ const Q07: EduQuest = quest(
         N('The basket is heavy and it leaks. You carry it between you.'),
         N('Plip, plip. Drips fall behind you all the way.'),
         N('At the cove, Hiccup takes a big breath and climbs down.'),
+        N('Plip! Drip! Fish water drips behind you.'),
       ],
       [
         ask(
@@ -1525,6 +1549,7 @@ const Q07: EduQuest = quest(
         H('Gobber will want his basket back.'),
         H('I will say a dragon ate it.'),
         N('You carry the empty basket home. It smells of fish.'),
+        N('Squeak! The empty basket squeaks on the path.'),
       ],
       [
         ask(
@@ -1577,6 +1602,7 @@ const Q08: EduQuest = quest(
         N('Hiccup is in the middle of the scribble.'),
         N('If he steps on a line, Toothless growls. If he lifts his foot, purr.'),
         N('So Hiccup steps over each line, one at a time.'),
+        N('Crunch! Hiccup’s boots crunch the sand.'),
       ],
       [
         doit(
@@ -1644,6 +1670,7 @@ const Q08: EduQuest = quest(
         N('Toothless bends his big head down. Sniff, sniff, sniff.'),
         N('Your Nubbin sniffs back. Then it bumps its forehead on his nose.'),
         H('He likes it! He does not like anybody.', 'happy'),
+        N('Boing! Your Nubbin bumps the big nose. Boing!'),
       ],
       [
         ask(
@@ -1668,6 +1695,7 @@ const Q08: EduQuest = quest(
         N('Hiccup sits down in the sand, grinning.'),
         H('The book says run, or hurt it. For every dragon.'),
         H('Nobody ever sat still long enough to see.', 'soft'),
+        N('Swish! The sand swishes as he sits down.'),
       ],
       [
         ask(
@@ -1718,6 +1746,7 @@ const Q09: EduQuest = quest(
         N('A board creaks. Gobber calls down the stairs.'),
         GB('Who is up? What are you making?'),
         N('You hold the lamp very still.'),
+        N('Creak! A board creaks. Gobber calls down the stairs.'),
       ],
       [
         ask(
@@ -1815,6 +1844,7 @@ const Q09: EduQuest = quest(
         H('I need to know when he wants to turn.'),
         N('Hiccup is listening with his eyes.'),
         N('A friend can tell us things without any words.'),
+        N('Whoosh! The wind whooshes past the pair of them.'),
       ],
       [
         ask(
@@ -1847,6 +1877,7 @@ const Q09: EduQuest = quest(
         N('Bang, bang, bang! Your Nubbin brings a bucket of water.'),
         N('At the cove they go up again.'),
         N('This time they miss the lake. Up they go, over the sea!'),
+        N('Bonk! Bonk! The hammers bonk in the forge.'),
       ],
       [
         doit(
@@ -1870,6 +1901,7 @@ const Q09: EduQuest = quest(
         N('They are wet through, with windy hair.'),
         N('They are both wearing the same big grin.'),
         N('Wet clothes feel cold. Dry, warm clothes help.'),
+        N('Splash! Wet boots splash on the stones.'),
       ],
       [
         ask(
@@ -1895,6 +1927,7 @@ const Q09: EduQuest = quest(
         N('Toothless pushes Hiccup over and lies on him.'),
         H('Help. He is very heavy.'),
         N('You do not help. It is too lovely to stop.'),
+        N('Whee! They swoop up. Whee!'),
       ],
       [
         ask(
@@ -1944,6 +1977,7 @@ const Q10: EduQuest = quest(
         FL('That is not in the book!', 'shock'),
         H('I read ahead?'),
         N('Astrid looks at Hiccup. She is thinking hard.'),
+        N('Thump! The Gronckle thumps to a stop.'),
       ],
       [
         ask(
@@ -1972,6 +2006,7 @@ const Q10: EduQuest = quest(
         N('Gobber claps. His hook goes clang.'),
         N('Hiccup blinks. Everyone is cheering.'),
         N('Gobber looks surprised. Fishlegs looks surprised.'),
+        N('Bonk! Gobber’s hook bonks on his shield.'),
       ],
       [
         doit(
@@ -1997,6 +2032,7 @@ const Q10: EduQuest = quest(
         N('The village comes to watch. They cheer for Hiccup!'),
         A('Where does he go every afternoon?'),
         N('Astrid has caught your elbow. She wants an answer.'),
+        N('Whoosh! The dragon whooshes by, safe and calm.'),
       ],
       [
         ask(
@@ -2049,6 +2085,7 @@ const Q10: EduQuest = quest(
         N('Stoick laughs a big laugh. He lifts Hiccup right off his feet.'),
         ST('I always knew it was in you.', 'happy'),
         N('Hiccup smiles. But it is a wobbly smile.'),
+        N('Creak! The ships creak into the harbour.'),
       ],
       [
         ask(
@@ -2073,6 +2110,7 @@ const Q10: EduQuest = quest(
         N('Gobber gives you a round shield.'),
         N('It has blue and gold scales on it. Blue, gold, blue, gold.'),
         GB('Hang it on your door. It says: a helper lives here.'),
+        N('Ding! The new shield dings when you tap it.'),
       ],
       [
         doit(
@@ -2121,6 +2159,7 @@ const Q11: EduQuest = quest(
         N('Astrid looks at Toothless. She looks at you.'),
         N('Then she turns and runs towards the village.'),
         H('Oh dear. That is very bad.', 'shock'),
+        N('Whoosh! Toothless whooshes up over the trees.'),
       ],
       [
         ask(
@@ -2168,6 +2207,7 @@ const Q11: EduQuest = quest(
         N('He sets her down on top of a tall pine tree.'),
         A('Get me down from here!', 'angry'),
         H('Let me show you. Then you can decide.'),
+        N('Plop! Astrid plops onto the top of the pine.'),
       ],
       [
         ask(
@@ -2218,6 +2258,7 @@ const Q11: EduQuest = quest(
         N('When they come down, Astrid’s hair is everywhere.'),
         N('She is not cross any more.'),
         A('That was amazing.', 'soft'),
+        N('Whee! The wind goes whee, and the clouds go round.'),
       ],
       [
         ask(
@@ -2245,6 +2286,7 @@ const Q11: EduQuest = quest(
         N('Off they go, low over the water, in the last of the sun.'),
         N('Your Nubbin’s ball glows like a lantern.'),
         N('When they land, it runs to you and sits on you.'),
+        N('Splash! Toothless skims the water. Splash!'),
       ],
       [
         ask(
@@ -2273,6 +2315,7 @@ const Q11: EduQuest = quest(
         A('I have not decided whether to tell. Show me more tomorrow.'),
         N('She punches Hiccup on the arm. Quite hard.'),
         N('Then she nods at you.'),
+        N('Bonk! Astrid bonks Hiccup’s arm. Ow!'),
       ],
       [
         ask(
@@ -2327,6 +2370,7 @@ const Q12: EduQuest = quest(
         N('Up you go, into a cloud. The cloud turns to fog.'),
         N('Fog is a cloud that touches the ground or the sea.'),
         N('Dragons come out of the fog, all flying the same way.'),
+        N('Whoosh! The fog whooshes past your ears.'),
       ],
       [
         ask(
@@ -2413,6 +2457,7 @@ const Q12: EduQuest = quest(
         A('That big dragon is dangerous.'),
         H('Give me time. I will think of something.'),
         N('Astrid looks at the back of his head. Toothless flies gently.'),
+        N('Swish! Toothless’s wings swish through the night.'),
       ],
       [
         ask(
@@ -2514,6 +2559,7 @@ const Q13: EduQuest = quest(
         N('You stand at the gate with Gobber.'),
         N('Hiccup walks into the pit in his too-big helmet.'),
         N('He looks at you. He has an idea.'),
+        N('Creak! The arena gate creaks open.'),
       ],
       [
         doit(
@@ -2560,6 +2606,7 @@ const Q13: EduQuest = quest(
         ST('Enough! Get him out!', 'angry'),
         N('Stoick bangs the bars with his hammer. CLANG!'),
         N('The loud noise frightens the dragon. Far off, a whistle comes closer.'),
+        N('Bonk! Stoick bonks the bars. Bonk, bonk!'),
       ],
       [
         ask(
@@ -2666,6 +2713,7 @@ const Q14: EduQuest = quest(
         N('Your Nubbin sits between you, facing the sea.'),
         H('Everything was going so well.', 'sad'),
         H('He came to help me. Now they have him.'),
+        N('Swish! The sea swishes far below.'),
       ],
       [
         ask(
@@ -2826,6 +2874,7 @@ const Q15: EduQuest = quest(
         TF('And hair.'),
         H('Nobody is getting eaten. I want you to meet them properly.'),
         FL('Meet them? We have been trying to beat them!', 'shock'),
+        N('Creak! The pen gates creak open.'),
       ],
       [
         ask(
@@ -2858,6 +2907,7 @@ const Q15: EduQuest = quest(
         N('The Nightmare likes noise, so it gets Snotlout.'),
         N('The Zippleback has two heads, so the twins share it.'),
         N('That leaves the Gronckle and Fishlegs.'),
+        N('Thump! The Nightmare thumps its tail.'),
       ],
       [
         ask(
@@ -2902,6 +2952,7 @@ const Q15: EduQuest = quest(
         N('Nobody laughs. Not even Snotlout.'),
         N('People cry when they are sad. People cry when they are very happy, too.'),
         N('Fishlegs has a friend at last.'),
+        N('Hee-hee! Fishlegs giggles through happy tears.'),
       ],
       [
         ask(
@@ -2931,6 +2982,7 @@ const Q15: EduQuest = quest(
         A('Which way did the ships go?'),
         H('North. Toothless is on Dad’s ship. He will show them the nest.', 'sad'),
         N('Four dragons go up out of the arena, into the grey morning.'),
+        N('Whoosh! Four dragons whoosh up out of the arena.'),
       ],
       [
         ask(
@@ -2959,6 +3011,7 @@ const Q15: EduQuest = quest(
         N('The Gronckle hums as she flies.'),
         N('Fishlegs hums back to her.'),
         N('Hum, and touch your throat. It buzzes!'),
+        N('Buzz! The Gronckle buzzes through the clouds.'),
       ],
       [
         doit(
@@ -2983,6 +3036,7 @@ const Q15: EduQuest = quest(
         RF('You were on the right head.'),
         TF('That is what I said.'),
         N('Hiccup rides at the front. He is looking north.'),
+        N('Whoosh! The wind whooshes by, high above the sea.'),
       ],
       [
         doit(
@@ -3031,6 +3085,7 @@ const Q16: EduQuest = quest(
         GB('That is not a dragon. That is a mountain with a temper.', 'shock'),
         N('Its fire makes the ships hot and smoky. Everyone must get off!'),
         ST('Everyone off! Get to the rocks!', 'angry'),
+        N('Crack! The mountain cracks, and the ships creak.'),
       ],
       [
         notice(
@@ -3055,6 +3110,7 @@ const Q16: EduQuest = quest(
         H('Then be noisy on its left side!'),
         N('The riders fly round its head, like gulls round a ship.'),
         N('Fishlegs sets you down. Your job is to help people off the ships.'),
+        N('Whoosh! The riders whoosh round its head.'),
       ],
       [
         ask(
@@ -3104,6 +3160,7 @@ const Q16: EduQuest = quest(
         N('Everyone is safe. You helped, your Nubbin helped, and Stoick helped too.'),
         N('Hiccup has turned away from the big one.'),
         N('He is flying towards the front ship.'),
+        N('Thump! The last Viking thumps down on the rocks.'),
       ],
       [
         doit(
@@ -3376,6 +3433,7 @@ const Q18: EduQuest = quest(
         N('He has a new one, made of iron and wood.'),
         GB('I made it. It has a spring to help you walk.'),
         H('It is really good, Gobber.', 'soft'),
+        N('Thump! The new foot thumps on the floor.'),
       ],
       [
         notice(
@@ -3426,6 +3484,7 @@ const Q18: EduQuest = quest(
         N('Step, clunk. Step, clunk.'),
         N('It is a lovely, steady beat.'),
         H('Come on. I want to see what is outside.'),
+        N('Thump! Step, thump. Step, thump.'),
       ],
       [
         doit(
@@ -3453,6 +3512,7 @@ const Q18: EduQuest = quest(
         ST('Well? It is all your doing. Do you like it?', 'happy'),
         A('He is up! He is awake!', 'happy'),
         FL('Hiccup! The Gronckle lets me brush her teeth now!', 'happy'),
+        N('Splash! A dragon splashes in the water barrel.'),
       ],
       [
         notice(
@@ -3475,6 +3535,7 @@ const Q18: EduQuest = quest(
         N('He greets everybody. He greets your Nubbin twice.'),
         N('Hello, hello! One time, two times.'),
         N('How many times did he greet your Nubbin?'),
+        N('Thump! Thump! Toothless bounds across the square.'),
       ],
       [
         doit(
@@ -3501,6 +3562,7 @@ const Q18: EduQuest = quest(
         N('Toothless springs! Up they go, over the roofs and the sea.'),
         N('Dragons follow them. The whole sky is full.'),
         N('Hiccup spreads his arms wide. Toothless rolls, slowly.'),
+        N('Whoosh! The fin catches the wind. Whoosh!'),
       ],
       [
         doit(
@@ -3527,6 +3589,7 @@ const Q18: EduQuest = quest(
         N('Toothless pads over. He puts a whole silver fish at your Nubbin’s feet.'),
         N('Your Nubbin is so proud. It does not eat the fish.'),
         N('The sea goes grey and you are home. The saddle smells of fish.'),
+        N('Plop! The silver fish plops at your Nubbin’s feet.'),
       ],
       [
         ask(
@@ -3563,6 +3626,7 @@ export const EDU_A19_SPROUT_VARIANTS: EduScene[] = [
       N('Then Toothless pushes his nose into Hiccup’s hand.'),
       H('Oh!', 'soft'),
       N('You did not teach him. He found it himself.', 'soft'),
+      N('Plop! Toothless plops his nose into Hiccup’s hand.'),
     ],
     [
       ask(
@@ -3663,6 +3727,7 @@ export const EDU_A19_SPROUT_VARIANTS: EduScene[] = [
       H('Not yet, then. He decides.', 'sad'),
       N('You watch them fly round the cove without you.'),
       N('Your Nubbin watches from your lap, all the way round.'),
+      N('Splash! The water splashes under their wings.'),
     ],
     [
       notice(
@@ -3686,6 +3751,7 @@ export const EDU_A19_SPROUT_VARIANTS: EduScene[] = [
       N('He goes the long way round you and your Nubbin.'),
       N('He is not unfriendly. He just keeps a little space.'),
       N('Some friends need more time. You can wait.'),
+      N('Thump! Toothless thumps, softly, from far away.'),
     ],
     [
       notice(
@@ -3746,6 +3812,7 @@ export const EDU_A19_SPROUT_VARIANTS: EduScene[] = [
       N('Toothless pads over. He puts a whole silver fish at your Nubbin’s feet.'),
       N('Your Nubbin is so proud. It does not eat the fish.'),
       N('The sea goes grey and you are home. The saddle smells of fish.'),
+      N('Plop! The silver fish plops at your Nubbin’s feet.'),
     ],
     [
       ask(

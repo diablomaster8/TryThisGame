@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** Lane C round 11, helper ui (re-exported through strings.ts): journal tabs, markers, ledger. */
 
 export const C11_TEXT = {
@@ -25,7 +27,7 @@ export const C11_TEXT = {
   size: { S: 'Short', M: 'Medium', L: 'Long' } as Readonly<Record<string, string>>,
   stepsLeft: (step: number, of: number, min: number) =>
     `Step ${step} of ${of} · about ${min} min left`,
-  length: (of: number, min: number) => `${of} step${of === 1 ? '' : 's'} · about ${min} min`,
+  length: (of: number, min: number) => fmt(MESSAGES_EN.stepsAbout, { of, min }),
   // R0610: the Now tab.
   nowGoal: 'Your goal',
   nowNothing: 'Nothing pinned. Pick a quest from the board, or just wander.',
@@ -47,7 +49,7 @@ export const C11_TEXT = {
   ledgerHead: 'Your progress',
   ledgerAll: (pct: number) => `${pct}% of everything open to you`,
   ledgerRegion: (done: number, of: number, endings: number) =>
-    `${done}/${of} quests${endings > 0 ? ` · ${endings} ending${endings === 1 ? '' : 's'}` : ''}`,
+    fmt(MESSAGES_EN.ledgerRegion, { done, of, endings }),
   ledgerLine: (n: number, of: number, ending: string | null) =>
     ending ? `Finished: ${ending}` : `Chapter ${n} of ${of}`,
   ledgerLineNew: 'Not begun',
@@ -76,10 +78,10 @@ export const C11_TEXT = {
   visit: 'Visit',
   visitHead: (name: string) => `A visit to ${name}'s Grove`,
   visitHelp: 'You are only looking. Nothing here is changed or saved.',
-  visitNubbins: (n: number) => `${n} Nubbin${n === 1 ? '' : 's'}`,
+  visitNubbins: (n: number) => fmt(MESSAGES_EN.nubbins, { n }),
   visitQuests: (n: number) => `${n} quests done`,
   visitChapter: (n: number) => `Chapter ${n}`,
-  visitLines: (n: number) => `${n} other road${n === 1 ? '' : 's'}`,
+  visitLines: (n: number) => fmt(MESSAGES_EN.otherRoads, { n }),
   visitEmpty: "There's nothing to see in this Grove yet.",
   // R0611: the title's fold of separate questline saves.
   roadsHead: 'Separate stories',
