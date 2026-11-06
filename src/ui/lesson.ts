@@ -4,6 +4,8 @@
  * read-aloud voice, and the lesson controls (ask options, the do card). The dialogue owns
  * the order of things; these only build DOM and call back. Nothing here touches the world.
  */
+import { playVoClip, stopVoClip } from '../platform/lang-audio';
+import { playUiText, stopUiClips } from '../platform/edu-audio';
 import { EDU_STORY_TEXT } from '../config/strings';
 import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
 import { lineParts } from './line-parts';
@@ -21,8 +23,11 @@ import { appendScriptText, withoutScript } from './lang-dom';
 import { sproutChoices } from './sprout-choices';
 import { renderBeat } from './do-beats'; /* Lane E r10, R0700 */
 import { doBeatFor } from './do-plan';
+import { currentVoice } from '../platform/voice';
 import { bestVoice, pauseAfterLine, shoutChunks, voiceFor } from './read-aloud';
 import { READ_ALOUD } from '../config/tuning-fun-r7';
+import { KIDS_STORY_TEXT } from '../config/strings-story-r11e';
+import { childPrompts, type CoPlayMode } from './co-play';
 
 const PROMPT = /\([^)]*\)/g;
 
@@ -75,16 +80,21 @@ export function renderLineText(
   showPrompts: boolean,
   onWord: (word: string, meaning: string) => void,
   onLangWord?: (ids: string[]) => void,
+  /** R0697: how the bracketed prompts are shown (absent: the grown-up chip as before). */
+  coPlay?: { mode: CoPlayMode; childSay?: readonly string[] | undefined },
 ): void {
   box.textContent = '';
   const plain = (t: string) => appendScriptText(box, t, onLangWord);
   // Lane E r9 (R0734 / R0736): glosses stack under their word; prompts become chips below.
   const parts = lineParts(text, showPrompts);
   const chips: HTMLElement[] = [];
+  const child = coPlay?.mode === 'alone' ? childPrompts(text, coPlay.childSay) : null;
+  let promptNo = 0;
   const words = glossary && glossary.size > 0 ? glossaryPattern(glossary) : null;
   for (const p of parts) {
     if (p.kind === 'prompt') {
-      chips.push(coPlayChip(p.text));
+      chips.push(coPlayChip(p.text, coPlay?.mode, child?.[promptNo]));
+      promptNo += 1;
       continue;
     }
     if (p.kind === 'gloss') {
@@ -121,14 +131,32 @@ export function renderLineText(
 }
 
 /** Lane E r9 (R0734 KIDS-66): a co-play prompt as a dashed "For grown-ups" chip. */
-function coPlayChip(text: string): HTMLElement {
+function coPlayChip(text: string, mode?: CoPlayMode, childText?: string): HTMLElement {
+  if (mode === 'alone') {
+    // R0697: said aloud to the child, so it is a badge with their line, not a tip.
+    const badge = el('div', 'edu-coplay edu-your-turn');
+    badge.append(
+      el('span', 'edu-coplay-icon', '🙋'),
+      el('span', 'edu-coplay-label', KIDS_STORY_TEXT.yourTurn.replace('🙋 ', '')),
+      el('span', 'edu-coplay-text', childText ?? text),
+    );
+    badge.setAttribute('aria-label', `${KIDS_STORY_TEXT.yourTurn} ${childText ?? text}`);
+    return badge;
+  }
   const chip = el('div', 'edu-coplay');
   chip.append(
     el('span', 'edu-coplay-icon', '🧑‍🏫'),
-    el('span', 'edu-coplay-label', KIDS_READ_TEXT.forGrownUps),
+    el(
+      'span',
+      'edu-coplay-label',
+      mode === 'together' ? KIDS_STORY_TEXT.grownUpTip : KIDS_READ_TEXT.forGrownUps,
+    ),
     el('span', 'edu-coplay-text', text),
   );
-  chip.setAttribute('aria-label', `${KIDS_READ_TEXT.forGrownUps}: ${text}`);
+  chip.setAttribute(
+    'aria-label',
+    `${mode === 'together' ? KIDS_STORY_TEXT.grownUpTip : KIDS_READ_TEXT.forGrownUps}: ${text}`,
+  );
   return chip;
 }
 
@@ -178,16 +206,20 @@ function glossaryPattern(glossary: Map<string, string>): RegExp {
  * only ever heard from native-speaker clips (tap the word). Silently does nothing without
  * speech support.
  */
-export function speakLine(text: string, opts: SpeakOptions = {}): void {
+export function speakLine(text: string, opts: SpeakOptions = {}): boolean {
+  if (playVoClip(opts.clipId, opts.onDone)) return true;
+  // R0699: a fixed child-facing line plays from its recording once all its clips exist.
+  if (!opts.clipId && playUiText(text, opts.onDone)) return true;
   try {
     const synth = window.speechSynthesis;
-    if (!synth || !isAudioUnlocked() || !isSoundEnabled()) return;
+    if (!synth || !isAudioUnlocked() || !isSoundEnabled()) return false;
     const said = withoutScript(text.replace(PROMPT, ' ')).replace(/\s+/g, ' ').trim();
     synth.cancel();
-    if (!said) return;
+    if (!said) return false;
     // R0342: the speaker's own pitch and rate, and the device's best English voice.
     const tone = voiceFor(opts.speaker);
-    const voice = bestVoice(synth.getVoices?.() ?? []);
+    // R0698: the grown-up's saved voice, else the best local English one.
+    const voice = currentVoice() ?? bestVoice(synth.getVoices?.() ?? []);
     // R0310: a sound word is said, then its sound plays, before the line goes on. R0342: a
     // shouted word is its own chunk, lowercased, with a pitch bump.
     const token = ++speakToken;
@@ -232,8 +264,10 @@ export function speakLine(text: string, opts: SpeakOptions = {}): void {
       synth.speak(u);
     };
     next(0);
+    return true;
   } catch {
     // No voice on this device: the grown-up reads it.
+    return false;
   }
 }
 
@@ -242,9 +276,13 @@ export interface SpeakOptions {
   speaker?: string | null;
   onWord?: (word: string, at: number) => void;
   onDone?: () => void;
+  /** R0344: the line's stable id; a recorded clip plays in place of the device voice. */
+  clipId?: string | undefined;
 }
 
 export function stopSpeaking(): void {
+  stopVoClip();
+  stopUiClips();
   try {
     speakToken++;
     holdMusicDuck('speech', false);
@@ -276,7 +314,11 @@ export function renderOptions(
         box.dataset.picked = '1';
         buttons.forEach((x, i) => {
           x.disabled = true;
-          if (options[i]?.best) x.textContent = `${EDU_STORY_TEXT.bestStar} ${options[i]!.label}`;
+          if (!options[i]?.best) return;
+          // R0677: a sprout button keeps its number dot and picture; the star joins them.
+          const pic = x.querySelector('.sprout-choice-icon');
+          if (pic) pic.after(`${EDU_STORY_TEXT.bestStar} `);
+          else x.textContent = `${EDU_STORY_TEXT.bestStar} ${options[i]!.label}`;
         });
         b.classList.add('picked');
         // A beat to see the star, then the reply.

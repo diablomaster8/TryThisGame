@@ -6,6 +6,8 @@ import type { C } from '../render/sprites/palette';
 import { HOLLOW_COSMETICS } from './cosmetics-hollow';
 import { LANE_E_R9_COSMETICS } from './cosmetics-r9e'; /* Lane E r9 */
 import { SECRETS_R9B_COSMETICS } from './cosmetics-r9b'; /* Lane B r9 */
+import { FACE_COSMETICS, RACE_BAND_COSMETICS } from './cosmetics-r11e'; /* Lane E r11 */
+import { COSTUME_COSMETICS } from './cosmetics-costumes'; /* Lane E r11 */
 import type { Season } from '../sim/types';
 
 /**
@@ -72,6 +74,14 @@ export interface Cosmetic {
   px?: readonly PxOp[];
   pxBack?: readonly PxOp[];
   mesh?: readonly MeshOp[];
+  /**
+   * R0413: a body-slot costume. `costume` recolours the body roles (palette names); `head` and
+   * `headMesh` are its head parts (antennae, a hood, a helmet), anchored like a hat while
+   * `px` and `mesh` are anchored on the body. A costume never covers the face or the eyes.
+   */
+  costume?: { body: keyof typeof C; shade: keyof typeof C; belly?: keyof typeof C };
+  head?: readonly PxOp[];
+  headMesh?: readonly MeshOp[];
 }
 
 const ring = (n: number, r: number, y: number, f: (x: number, z: number, a: number) => MeshOp) =>
@@ -578,6 +588,11 @@ export const COSMETICS: readonly Cosmetic[] = [
   ...LANE_E_R9_COSMETICS,
   // Lane B r9 (R0183, R0189): the secret levels' keepsakes.
   ...SECRETS_R9B_COSMETICS,
+  // Lane E r11 (R0400): the face slot.
+  ...FACE_COSMETICS,
+  ...RACE_BAND_COSMETICS,
+  // Lane E r11 (R0413): the five body costumes.
+  ...COSTUME_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));

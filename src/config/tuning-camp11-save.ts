@@ -7,6 +7,8 @@ export const SAVE_LAYOUT = {
   slotsPerProfile: 8,
   /** The other modes' slot count (the old SLOTS_PER_MODE). */
   slotsPerMode: 3,
+  /** R0728 (KIDS-60): the Learning Grove has this many child profiles on one device. */
+  eduSlots: 6,
   /** R0623: a live write bigger than this (UTF-16 bytes) logs a debug warning. */
   slotWarnBytes: 400_000,
   /**

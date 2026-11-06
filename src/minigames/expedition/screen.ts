@@ -2,7 +2,7 @@ import { playArea } from '../play-area';
 import { EXPEDITION_FUN_TEXT } from '../../config/strings-fun-r6';
 import { playChime, playSound } from '../../platform/audio';
 import { ExpeditionSfx } from './sfx';
-import { EXPEDITION, SIM, UI } from '../../config/tuning';
+import { SIM, UI } from '../../config/tuning';
 import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import type { Grove3dScene } from '../../render3d/grove-3d-scene';
@@ -13,6 +13,13 @@ import { ExpeditionPixelView } from './pixel-view';
 import { createRun, jumpPressed, jumpReleased, stepRun, superlative, type RunState } from './run';
 import type { ExpeditionTheme, ExpeditionView } from './view';
 import { showUpdateNotice } from '../../ui/update-notice';
+import { SHELL_DASH_TEXT } from '../../config/strings-kid-games';
+
+/** R0689: how the screen starts a sprout's Shell Dash: the flag and who says the count. */
+export interface ExpeditionOptions {
+  kid?: boolean;
+  speak?: (text: string) => void;
+}
 
 /** R0324: how long a bumped obstacle's line stays up (ms of run time). */
 const EXPEDITION_QUIP_MS = 1400;
@@ -38,6 +45,7 @@ export class ExpeditionScreen {
   private view3d: ExpeditionView | null = null;
   private view: ExpeditionView = this.pixel;
   private run: RunState | null = null;
+  private opts: ExpeditionOptions = {};
   private sfx = new ExpeditionSfx();
   private rafId = 0;
   private lastMs = 0;
@@ -139,9 +147,11 @@ export class ExpeditionScreen {
     theme: ExpeditionTheme = 'meadow',
     graphics: GraphicsMode = 'pixel',
     scene3d: Grove3dScene | null = null,
+    opts: ExpeditionOptions = {},
   ): void {
     const starts = ++this.starts;
-    this.run = createRun(seed);
+    this.opts = opts;
+    this.run = createRun(seed, !!opts.kid);
     this.sfx = new ExpeditionSfx();
     this.quipAt = -1;
     this.quip.hidden = true;
@@ -149,9 +159,15 @@ export class ExpeditionScreen {
     this.results.hidden = true;
     this.results.remove();
     this.root.hidden = false;
-    this.tip.textContent = window.matchMedia?.('(pointer: coarse)').matches
-      ? UI_TEXT.expeditionTip
-      : UI_TEXT.expeditionTipKeys;
+    const coarse = window.matchMedia?.('(pointer: coarse)').matches;
+    this.tip.textContent = opts.kid
+      ? coarse
+        ? SHELL_DASH_TEXT.tip
+        : SHELL_DASH_TEXT.tipKeys
+      : coarse
+        ? UI_TEXT.expeditionTip
+        : UI_TEXT.expeditionTipKeys;
+    if (opts.kid) opts.speak?.(SHELL_DASH_TEXT.tip);
     this.tip.hidden = false;
     clearTimeout(this.tipTimer);
     this.tipTimer = window.setTimeout(() => this.hideTip(), UI.tipMs);
@@ -239,6 +255,8 @@ export class ExpeditionScreen {
     if (!this.loading3d) this.view.draw(run, nowMs);
     this.updateHud(run, live);
     this.quipFor(run);
+    // R0689: "5! 10! 15!" said aloud as the Shells are counted.
+    for (const n of run.calls.splice(0)) this.opts.speak?.(SHELL_DASH_TEXT.call(n));
     // R0450 (TECH-08): the run's sound effects.
     for (const c of this.sfx.observe(run)) {
       if ('sound' in c) playSound(c.sound);
@@ -250,7 +268,9 @@ export class ExpeditionScreen {
 
   private updateHud(run: RunState, live: boolean): void {
     this.hud.textContent = live
-      ? `🐚 ${run.shells}  ·  ${Math.max(0, Math.ceil((EXPEDITION.durationMs - run.timeMs) / 1000))}s`
+      ? run.kid
+        ? `🐚 ${run.shells}`
+        : `🐚 ${run.shells}  ·  ${Math.max(0, Math.ceil((run.durationMs - run.timeMs) / 1000))}s`
       : this.loadTip
         ? `${UI_TEXT.stageLoading} ${this.loadTip}`
         : UI_TEXT.stageLoading;
@@ -265,6 +285,7 @@ export class ExpeditionScreen {
       return;
     }
     this.quipAt = e.atMs;
+    if (run.kid) return;
     const lines = EXPEDITION_FUN_TEXT.quips[e.thing ?? 'rock'] ?? [];
     if (lines.length === 0) return;
     this.quip.textContent = lines[run.hits % lines.length]!;
@@ -273,16 +294,28 @@ export class ExpeditionScreen {
 
   private showResults(rewards: Rewards, best: string): void {
     this.resultsBody.innerHTML = '';
-    const lines: string[] = [UI_TEXT.resultShells(rewards.shells)];
+    const kid = this.opts.kid;
+    const lines: string[] = [
+      kid ? SHELL_DASH_TEXT.resultShells(rewards.shells) : UI_TEXT.resultShells(rewards.shells),
+    ];
     for (const [type, n] of Object.entries(rewards.essences)) {
-      if (n) lines.push(`${ESSENCE_LABELS[type as NubbinType]} ×${n}`);
+      // R0689: no stat talk for a sprout: an essence is just a star.
+      if (n)
+        lines.push(
+          kid ? SHELL_DASH_TEXT.resultStar(n) : `${ESSENCE_LABELS[type as NubbinType]} ×${n}`,
+        );
     }
     for (const [species, n] of Object.entries(rewards.critters)) {
-      if (n) lines.push(`${CRITTER_LABELS[species] ?? species} ×${n}`);
+      if (n)
+        lines.push(
+          kid
+            ? `🐾 ×${n} ${SHELL_DASH_TEXT.critterHome}`
+            : `${CRITTER_LABELS[species] ?? species} ×${n}`,
+        );
     }
     if (lines.length === 1 && rewards.shells === 0) lines.push(EXPEDITION_FUN_TEXT.nothing);
     // R0324 (FUN-35): every card gets one superlative from the run.
-    lines.push(best);
+    if (!kid) lines.push(best);
     for (const line of lines) this.resultsBody.appendChild(el('p', undefined, line));
     this.root.appendChild(this.results);
     this.results.hidden = false;

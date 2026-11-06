@@ -145,12 +145,15 @@ export function gemFinishFor(
   gem: { name: string; tip?: string; belly: string } | undefined,
   egg: string,
   shiny: boolean,
+  egg_finish?: 'metal' | 'glass',
 ): GemFinish | null {
-  const metal = gem?.name === 'silver' || (!gem && egg === 'gold');
-  if (!gem && !metal && !shiny) return null;
+  const metal = gem?.name === 'silver' || egg_finish === 'metal' || (!gem && egg === 'gold');
+  const glass = egg_finish === 'glass';
+  if (!gem && !metal && !shiny && !glass) return null;
   return {
-    jewel: !!gem && !metal,
-    metal,
+    jewel: !!gem && !metal && !glass,
+    metal: metal && !glass,
+    ...(glass ? { glass } : {}),
     shiny,
     ...(gem ? { rim: gem.tip ?? gem.belly } : {}),
   };
@@ -205,4 +208,26 @@ const JEWEL = JEWELS.map((j) =>
   ),
 );
 
-export const COLOUR_VARIANTS: NubbinVariant[] = [...PLAIN, ...TWO_TONE, ...SHINY, ...JEWEL];
+// R0399: the metal and glass finishes over every egg colour, so the gallery and the colour
+// sheet show them (a metal ramp and a pale see-through body).
+const FINISHED = (['metal', 'glass'] as const).flatMap((f) =>
+  EGG_COLOURS.map((c) =>
+    entry(
+      `colour-${c.name}-${f}`,
+      `Nubbin (${cap(c.name)}, ${f})`,
+      plain(c),
+      f === 'metal'
+        ? `Egg colour ${c.name} in a banded metal finish with a hard highlight.`
+        : `Egg colour ${c.name} as pale glass: see-through, the far wall darker.`,
+      finish(gemFinishFor(undefined, c.name, false, f)),
+    ),
+  ),
+);
+
+export const COLOUR_VARIANTS: NubbinVariant[] = [
+  ...PLAIN,
+  ...TWO_TONE,
+  ...SHINY,
+  ...FINISHED,
+  ...JEWEL,
+];

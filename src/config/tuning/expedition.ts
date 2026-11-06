@@ -32,6 +32,17 @@ export const EXPEDITION = {
   obstacleChance: 0.45,
   /** Seconds of invulnerability after a hit. */
   hitCooldownMs: 700,
+  /**
+   * R0689: "Shell Dash", the Learning Grove's sprout version: 30 s, a tap to jump (no hold),
+   * obstacles that bounce the runner and cost nothing, Shells counted aloud every `countEvery`.
+   */
+  kid: {
+    durationMs: 30_000,
+    obstacleChance: 0.3,
+    bounceVelocity: 230,
+    countEvery: 5,
+    hitCooldownMs: 500,
+  },
 } as const;
 
 /**

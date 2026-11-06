@@ -428,6 +428,7 @@ export class GameInput {
     if (!e.repeat) this.rollTap(key);
     if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
     if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
+    if (key === 'p' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'shake' });
   };
 
   private readonly onDown = (e: PointerEvent): void => {

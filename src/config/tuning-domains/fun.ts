@@ -6,3 +6,4 @@
 export * from '../tuning-fun-r10';
 export * from '../tuning-fun-r7';
 export * from '../tuning-fun';
+export * from '../tuning-fun-r11e';

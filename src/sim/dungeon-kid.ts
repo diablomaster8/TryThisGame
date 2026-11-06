@@ -9,6 +9,7 @@
  * Pure sim: no DOM.
  */
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
+import { GLOW_CAVE } from '../config/tuning-kids';
 import type { Floor } from './dungeon';
 import type { World } from './types';
 
@@ -57,6 +58,8 @@ export function setHollowKid(world: World, on: boolean): void {
  */
 export function gentleFloor(f: Floor): Floor {
   f.traps = [];
+  // R0690: glowing mushrooms keep every kid floor lit.
+  f.light = Math.max(f.light, GLOW_CAVE.minLight);
   for (const p of f.packs ?? []) {
     const keep = p.kind === 'boss' || p.kind === 'unique' ? 1 : K.packMax;
     p.members = p.members.slice(0, keep).map((m) => ({ ...m, mods: [] }));

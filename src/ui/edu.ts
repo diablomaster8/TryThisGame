@@ -1,3 +1,5 @@
+import { cheerBuddy, showBuddy } from './edu-buddy'; /* R0741 */
+import { applyEduUiLanguage, markEduDialog, type EduUiLanguage } from './edu-lang'; /* R0739 */
 import { EDU, EDU_COLOUR_HEX, type EduGameId } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -12,6 +14,12 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
+import { playEduClips } from '../platform/edu-audio';
+import { clapPad } from './edu-clap';
+import { EDU_OFFLINE_TEXT } from '../config/strings-listen';
+import { groveStill } from './edu-scene';
+import { GROVE_SHAPES, GROVE_VIEW } from '../config/edu-grove-shapes';
+import { EDU_COLOUR_PATTERN } from '../config/edu-things';
 import {
   EDU_PICKER_TEXT,
   EDU_RESULTS_TEXT,
@@ -38,6 +46,8 @@ import { LangPanel } from './lang';
 import { renderGrownUp } from './grown-up'; /* Lane E r10 */
 import { appendWithIcons, eduIcon, eduIconSpan } from './edu-icons'; /* Lane E r10, R0715 */
 import { langCourses } from '../sim/lang';
+import { TraceGame } from './trace';
+import { tracedItem, tracingTarget } from './edu-tracing';
 
 /**
  * The Learning Grove screens: the game picker, a round screen with big targets and no
@@ -47,6 +57,7 @@ import { langCourses } from '../sim/lang';
 export class EduScreen {
   private readonly picker;
   private readonly lang: LangPanel;
+  private readonly tracer: TraceGame;
   private readonly root: HTMLDivElement;
   private readonly card: HTMLDivElement;
   private round: EduRound | null = null;
@@ -68,9 +79,10 @@ export class EduScreen {
     private readonly game_: () => Game | null,
     private readonly toast: (text: string) => void,
   ) {
-    this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
+    this.picker = modal(parent, EDU_TEXT.play, `🚪 ${EDU_TEXT.leave}`);
     this.picker.root.classList.add('edu-picker');
     this.lang = new LangPanel(parent, game_, toast);
+    this.tracer = new TraceGame(parent, game_);
     this.next = new NextCard(parent, () => this.showMe());
     // R0321: the sprout band's peekaboo.
     this.peek = new Peekaboo(parent, game_);
@@ -88,10 +100,22 @@ export class EduScreen {
     });
   }
 
+  /** R0739: the picker, the round card and the results take the child's interface language. */
+  private applyLanguage(lang: EduUiLanguage): void {
+    applyEduUiLanguage(lang);
+    markEduDialog(this.picker.root, lang);
+    markEduDialog(this.card, lang);
+    const title = this.picker.root.querySelector('h2');
+    if (title) title.textContent = EDU_TEXT.play;
+    const help = this.picker.body.querySelector('.edu-play-help');
+    if (help) help.textContent = EDU_TEXT.playHelp;
+  }
+
   /** The picker: one big button per switched-on game. */
   open(): void {
     const g = this.game_();
     if (!g?.world.edu) return;
+    this.applyLanguage(g.world.edu.uiLanguage ?? 'en'); // R0739
     const body = this.picker.body;
     body.querySelectorAll('.edu-grid, .help.none').forEach((n) => n.remove());
     // R0681: the help line is for grown-ups; a sprout hears the question instead.
@@ -112,6 +136,19 @@ export class EduScreen {
     );
     // Nova's postcard (CV3): the language courses, once their scripts have loaded.
     if (langCourses().length > 0) storyGrid.appendChild(this.lang.pickButton(() => this.close()));
+    else {
+      // R0721: never hide the postcard: offline without its chunk it says what is needed.
+      storyGrid.appendChild(
+        button(
+          EDU_OFFLINE_TEXT.postcard,
+          () => {
+            this.toast(EDU_OFFLINE_TEXT.postcardSay);
+            if (g.world.edu?.readAloud) speakLine(EDU_OFFLINE_TEXT.postcardSay);
+          },
+          'btn btn-choice edu-postcard-missing',
+        ),
+      );
+    }
     // R0321 (FUN-32): "Where's Kiki?" for the 3–6 band, once a Nubbin is out of its egg.
     const hider = g.world.edu.band === 'sprout' ? Peekaboo.pickNubbin(g) : null;
     if (hider) {
@@ -178,6 +215,7 @@ export class EduScreen {
 
   close(): void {
     this.picker.hide();
+    this.tracer.close();
     this.noteSitting('quit');
     if (!this.root.hidden) {
       this.root.hidden = true;
@@ -211,9 +249,41 @@ export class EduScreen {
     return this.picker.isOpen() || !this.root.hidden;
   }
 
+  /** R0702: the tracing game: each traced glyph feeds `edu.items` and pays like a round. */
+  private startTracing(): void {
+    const g = this.game_();
+    const e = g?.world.edu;
+    if (!g || !e) return;
+    this.picker.hide();
+    const target = tracingTarget(e.age, e.childName, Rng.fromSeed(Date.now()));
+    g.send({ kind: 'eduActivity', game: 'tracing', what: 'open' });
+    const at = performance.now();
+    this.tracer.open(
+      '',
+      target,
+      () => {
+        g.send({
+          kind: 'eduActivity',
+          game: 'tracing',
+          what: 'complete',
+          ms: performance.now() - at,
+        });
+      },
+      (glyph, i) =>
+        g.send({
+          kind: 'eduResult',
+          game: 'tracing',
+          stars: 3,
+          item: tracedItem(glyph),
+          first: i === 0,
+        }),
+    );
+  }
+
   private start(id: EduGameId): void {
     const g = this.game_();
     if (!g?.world.edu) return;
+    if (id === 'tracing') return this.startTracing();
     this.picker.hide();
     this.game = id;
     this.roundNo = 0;
@@ -277,13 +347,18 @@ export class EduScreen {
     head.append(
       el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, this.rounds())),
       // R0674: the prompt again, for every band.
-      button('🔊', () => speakLine(spoken(r.prompt)), 'btn edu-hear'),
+      button(
+        '🔊',
+        () => speakLine(spoken(r.prompt), { onDone: () => this.playCue(r) }),
+        'btn edu-hear',
+      ),
       this.band() === 'sprout'
         ? holdToLeave(() => this.close())
         : button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
     );
     head.querySelector('.edu-hear')?.setAttribute('aria-label', EDU_SAY_TEXT.hearAgain);
     c.appendChild(head);
+    showBuddy(c, this.game_()); // R0741
     // Lane E r10, R0715: the prompt's pictures as pixel art.
     const prompt = el('div', 'edu-prompt');
     appendWithIcons(prompt, r.prompt);
@@ -293,18 +368,55 @@ export class EduScreen {
       cue.appendChild(renderOption(r.cue, true));
       c.appendChild(cue);
     }
+    if (r.clapPad) c.appendChild(clapPad());
     const opts = el('div', `edu-options n${r.options.length}`);
     r.options.forEach((o, i) => {
       const b = button('', () => this.answer(i, b), 'btn edu-option');
       b.appendChild(renderOption(o, false, !r.hideLabels));
       if (o.kind === 'colour') b.setAttribute('aria-label', o.label);
+      if (o.kind === 'thing') b.setAttribute('aria-label', `${o.label} ${o.name}`);
       holdToHear(b, o);
       opts.appendChild(b);
     });
-    c.appendChild(opts);
+    if (r.scene === 'grove') {
+      // R0733: the options are hotspots over the Grove still.
+      const scene = el('div', 'edu-scene');
+      scene.appendChild(groveStill());
+      opts.className = 'edu-hotspots';
+      opts.querySelectorAll<HTMLElement>('.edu-option').forEach((b, i) => {
+        const o = r.options[i];
+        const p = o?.kind === 'prop' ? GROVE_SHAPES.find((x) => x.id === o.prop) : undefined;
+        if (!p) return;
+        b.classList.add('edu-hotspot');
+        b.textContent = '';
+        b.setAttribute('aria-label', `${o?.kind === 'prop' ? o.label : ''} (${p.name})`);
+        b.style.left = `${((p.x - 3) / GROVE_VIEW.w) * 100}%`;
+        b.style.top = `${((p.y - 3) / GROVE_VIEW.h) * 100}%`;
+        b.style.width = `${((p.w + 6) / GROVE_VIEW.w) * 100}%`;
+        b.style.height = `${((p.h + 6) / GROVE_VIEW.h) * 100}%`;
+      });
+      scene.appendChild(opts);
+      c.appendChild(scene);
+    } else c.appendChild(opts);
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
-    for (const line of roundSpeech(r, this.band(), this.readAloud())) speakLine(line);
+    const lines = roundSpeech(r, this.band(), this.readAloud());
+    // R0675: a listening round plays its clip after the prompt is said (the cue word, then its
+    // first sound); a round with no voice plays the clip straight away.
+    const clipped = this.cueClips(r).length > 0;
+    if (lines.length === 0) this.playCue(r);
+    lines.forEach((line, i) =>
+      speakLine(line, clipped && i === lines.length - 1 ? { onDone: () => this.playCue(r) } : {}),
+    );
+  }
+
+  private cueClips(r: EduRound): string[] {
+    return r.cueClip ? [r.cueClip, ...(r.thenClip ? [r.thenClip] : [])] : [];
+  }
+
+  private playCue(r: EduRound): void {
+    const clips = this.cueClips(r);
+    if (clips.length && r.cueAuto && this.round === r) playEduClips(clips);
   }
 
   /** R0746: this save's rounds per game. */
@@ -371,6 +483,7 @@ export class EduScreen {
       this.starsTotal += stars;
       btn.classList.add('right');
       playSound('win');
+      cheerBuddy(this.card, this.game_()); // R0741
       this.revealLabels();
       this.reply(
         `${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`,
@@ -592,10 +705,25 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
     case 'colour': {
       const sw = el('div', 'edu-swatch');
       sw.style.background = EDU_COLOUR_HEX[o.colour] ?? o.colour;
+      sw.classList.add(`edu-pat-${EDU_COLOUR_PATTERN[o.colour] ?? 'plain'}`);
       box.appendChild(sw);
       break;
     }
+    case 'thing': {
+      // R0732: the object sits on a plate in its colour, with the colour's pattern.
+      const plate = el(
+        'div',
+        `edu-swatch edu-thing edu-pat-${EDU_COLOUR_PATTERN[o.colour] ?? 'plain'}`,
+      );
+      plate.style.background = EDU_COLOUR_HEX[o.colour] ?? o.colour;
+      plate.appendChild(eduIcon(o.icon, 'edu-icon'));
+      box.appendChild(plate);
+      break;
+    }
     case 'shape':
+      box.appendChild(shapeSvg(o.shape));
+      break;
+    case 'prop':
       box.appendChild(shapeSvg(o.shape));
       break;
     case 'letter':
@@ -630,8 +758,60 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
     case 'word':
       box.appendChild(el('span', 'edu-read', o.word));
       break;
+    case 'clock':
+      box.appendChild(clockSvg(o.h, o.m));
+      break;
   }
   return box;
+}
+
+/** R0716: an analogue clock face showing h:m. */
+function clockSvg(h: number, m: number): SVGSVGElement {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  svg.classList.add('edu-clock');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'A clock');
+  const add = (tag: string, attrs: Record<string, string>): void => {
+    const n = document.createElementNS(ns, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    svg.appendChild(n);
+  };
+  add('circle', {
+    cx: '50',
+    cy: '50',
+    r: '46',
+    fill: '#fffaf0',
+    stroke: '#1b1326',
+    'stroke-width': '4',
+  });
+  for (let i = 1; i <= 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', String(50 + Math.sin(a) * 36));
+    t.setAttribute('y', String(54 - Math.cos(a) * 36));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('font-size', '11');
+    t.setAttribute('fill', '#1b1326');
+    t.textContent = String(i);
+    svg.appendChild(t);
+  }
+  const hand = (turns: number, len: number, w: number): void => {
+    const a = turns * Math.PI * 2;
+    add('line', {
+      x1: '50',
+      y1: '50',
+      x2: String(50 + Math.sin(a) * len),
+      y2: String(50 - Math.cos(a) * len),
+      stroke: '#1b1326',
+      'stroke-width': String(w),
+      'stroke-linecap': 'round',
+    });
+  };
+  hand(((h % 12) + m / 60) / 12, 22, 5);
+  hand(m / 60, 33, 3);
+  return svg;
 }
 
 function shapeSvg(shape: string): SVGSVGElement {

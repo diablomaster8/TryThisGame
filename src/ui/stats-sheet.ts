@@ -39,6 +39,8 @@ import { STATS, UI } from '../config/tuning';
 import {
   STAT_KEYS,
   type DyeColor,
+  type DyeSlot,
+  DYE_COLORS_ALL,
   type Interaction,
   type Memory,
   type Nubbin,
@@ -47,6 +49,7 @@ import {
 } from '../sim/types';
 import type { Game } from '../game';
 import { RideButton } from './ride-button';
+import { SayWordButton } from './say-word-button'; /* R0708 */
 import { BattleCard } from './battle-card';
 import { jobOfNubbin } from '../sim/battle/tactics/jobs';
 import { JOB_LAYER_TEXT, JOB_TEXT } from '../config/strings-tactics';
@@ -54,7 +57,7 @@ import { button, el, meter } from './dom';
 import { EVO_TEXT, STAGE_ICONS, STAGE_NAMES } from '../config/strings-evo';
 import { stageInfo } from '../sim/growth-stage';
 
-const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
+const DYES: readonly DyeColor[] = DYE_COLORS_ALL;
 
 /**
  * The stats sheet: opens when a Nubbin is tapped. Shows needs as meters with icon and
@@ -84,6 +87,7 @@ export class StatsSheet {
   private heartBtn!: HTMLButtonElement;
   /** R0085: Ride / Get down, and Cheer on (`ui/ride-button.ts`). */
   private rideBtn = new RideButton(() => this.game());
+  private sayWord = new SayWordButton(() => this.game());
   private catchBtn!: HTMLButtonElement;
   /** Lane C: the Bout card (battle stats, traits, move slots). */
   private readonly bout: BattleCard;
@@ -226,6 +230,7 @@ export class StatsSheet {
       this.heartBtn,
       this.rideBtn.ride,
       this.rideBtn.cheer,
+      this.sayWord.el,
     );
 
     // Accessories: dyed hat and scarf, glasses.
@@ -249,7 +254,7 @@ export class StatsSheet {
     this.readyText = el('div', 'help');
     this.life.append(this.ready.root, this.readyText, this.lifeText);
     this.acc = el('div', 'sheet-acc');
-    const dyeSelect = (label: string, slot: 'hat' | 'scarf') => {
+    const dyeSelect = (label: string, slot: DyeSlot) => {
       const sel = el('select');
       sel.setAttribute('aria-label', label);
       const none = el('option', undefined, label);
@@ -268,6 +273,8 @@ export class StatsSheet {
     };
     this.hatDye = dyeSelect(UI_TEXT.dyeHat, 'hat');
     this.scarfDye = dyeSelect(UI_TEXT.dyeScarf, 'scarf');
+    this.wingDye = dyeSelect(UI_TEXT.dyeWingTip, 'wingTip');
+    this.crownDye = dyeSelect(UI_TEXT.dyeCrownTip, 'crownTip');
     this.glassesBtn = button(
       UI_TEXT.glasses,
       () => {
@@ -277,7 +284,7 @@ export class StatsSheet {
       },
       'btn btn-small',
     );
-    this.acc.append(this.hatDye, this.scarfDye, this.glassesBtn);
+    this.acc.append(this.hatDye, this.scarfDye, this.wingDye, this.crownDye, this.glassesBtn);
 
     this.give = el('div', 'sheet-give');
     this.giveTitle = el('div', 'sheet-give-title', UI_TEXT.give);
@@ -427,6 +434,8 @@ export class StatsSheet {
   private readonly memorySel: HTMLSelectElement;
   private readonly hatDye: HTMLSelectElement;
   private readonly scarfDye: HTMLSelectElement;
+  private readonly wingDye: HTMLSelectElement;
+  private readonly crownDye: HTMLSelectElement;
   private readonly glassesBtn: HTMLButtonElement;
   private readonly giveTitle: HTMLDivElement;
   private readonly giveList: HTMLDivElement;
@@ -581,6 +590,7 @@ export class StatsSheet {
     this.refreshGive(world, n);
     this.bout.refresh(n);
     this.rideBtn.refresh(world, n);
+    this.sayWord.refresh(world, n.id, n.stage === 'child' || n.stage === 'adult');
 
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;
@@ -615,13 +625,18 @@ export class StatsSheet {
     this.acc.hidden = isEgg || n.stage === 'cocoon' || n.species !== 'chao';
     const dyes = Object.values(world.inventory.dyes).reduce((s, c) => s + (c ?? 0), 0);
     const hasDye = (d: DyeColor) => (world.inventory.dyes[d] ?? 0) > 0;
-    for (const sel of [this.hatDye, this.scarfDye]) {
+    for (const sel of [this.hatDye, this.scarfDye, this.wingDye, this.crownDye]) {
       for (const o of sel.options) {
         if (o.value) o.disabled = !hasDye(o.value as DyeColor) && o.value !== sel.value;
       }
     }
     if (document.activeElement !== this.hatDye) this.hatDye.value = n.hatDye ?? '';
     if (document.activeElement !== this.scarfDye) this.scarfDye.value = n.scarf ?? '';
+    if (document.activeElement !== this.wingDye) this.wingDye.value = n.wingDye ?? '';
+    if (document.activeElement !== this.crownDye) this.crownDye.value = n.crownDye ?? '';
+    // R0427: the wing and crown tips take dye from adulthood; children keep the yellow tip.
+    this.wingDye.hidden = n.stage !== 'adult';
+    this.crownDye.hidden = n.stage !== 'adult';
     this.hatDye.hidden = !n.hat;
     this.hatDye.title = dyes === 0 ? UI_TEXT.noDye : '';
     this.glassesBtn.classList.toggle('active', !!n.glasses);

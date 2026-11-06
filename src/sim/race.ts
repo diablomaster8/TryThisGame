@@ -3,6 +3,7 @@ import { HURDLES } from '../config/tuning-move-race';
 import { RACE_GAGS } from '../config/tuning-fun';
 import { hashSeed, Rng } from './rng';
 import { levelOf } from './stats';
+import { SPECIES } from './species';
 import type { Nubbin, Personality, StatKey, World } from './types';
 import { STAT_KEYS } from './types';
 
@@ -176,7 +177,12 @@ export interface Racer {
   gazeUntilMs?: number;
   gazes?: number;
   perkUntilMs?: number;
+  /** R0325: a joyful trip after three quick cheers: a 0.2 s tumble that costs no speed. */
+  tumbleUntilMs?: number;
+  tumbles?: number;
   quirk?: number;
+  /** R0417: a rival from another family (a species id the Keeper has met); absent: a Chao. */
+  species?: string;
 }
 
 export interface RaceState {
@@ -189,12 +195,16 @@ export interface RaceState {
   cheerReadyAtMs: number;
   /** When the player last cheered (-1: never), for the hurdle timing bonus. */
   lastCheerMs: number;
+  /** Cheers pressed in quick succession (R0325); the third trips with joy and resets it. */
+  cheerStreak: number;
   /** Track positions of the course's hurdles, and the roll that decides each jump. */
   hurdles: number[];
   hurdleRng: Rng;
   finished: boolean;
   /** Final placements by racer id once finished. */
   placements: string[];
+  /** R0688: the Learning Grove's Fun Run: no prize tiers, no placings shown, a ribbon for all. */
+  friendly?: boolean;
   /**
    * R0583: a pre-race hold, in ms, that the screen sets so the start-line poses play before
    * anyone moves. `stepRace` only waits it out: nothing else reads it, so a seed gives the
@@ -227,6 +237,13 @@ const RIVAL_NAMES = [
   'Clover',
 ];
 
+/** R0417: the other-family species the Keeper has met (seen in the book), for the rivals. */
+export function metSpeciesOf(world: World): string[] {
+  return SPECIES.filter((s) => s.family !== 'chao' && world.seen[s.id] !== undefined).map(
+    (s) => s.id,
+  );
+}
+
 export function createRace(
   course: Course,
   tier: number,
@@ -235,6 +252,8 @@ export function createRace(
   levelsOverride?: Record<StatKey, number>,
   /** Names the rivals must not take: the player's own Nubbins (the runner's is always left out). */
   taken: readonly string[] = [],
+  /** R0417: species ids of other families the Keeper has met; tier 2+ rivals may be drawn from them. */
+  metSpecies: readonly string[] = [],
 ): RaceState {
   const rng = Rng.fromSeed(seed);
   const t = Math.max(0, Math.min(2, tier - 1));
@@ -266,6 +285,13 @@ export function createRace(
   // R0325: the rivals' quirks come from their own dice, so the stat rolls are as before.
   const quirks = Rng.fromSeed(hashSeed(`quirks:${seed}`));
   const count = rng.int(minRivals, maxRivals);
+  // R0417: from tier 2, about 40% of the field (at least two) comes from the families met.
+  const others = Rng.fromSeed(hashSeed(`others:${seed}`));
+  const otherSlots = new Set<number>();
+  if (tier >= 2 && metSpecies.length > 0) {
+    const want = Math.min(count, Math.max(2, Math.round(count * 0.4)));
+    while (otherSlots.size < want) otherSlots.add(others.int(0, count - 1));
+  }
   // A rival never shares a name with one of the Keeper's own Nubbins (two racers called Pip).
   const avoid = new Set([player.name, ...taken].map((s) => s.trim().toLowerCase()));
   const names = RIVAL_NAMES.filter((s) => !avoid.has(s.toLowerCase()));
@@ -297,6 +323,7 @@ export function createRace(
       stumbleMs: 0,
       dizzyUntilMs: -1,
       quirk: quirks.int(0, RACE_GAGS.quirks - 1),
+      ...(otherSlots.has(i) ? { species: others.pick(metSpecies) } : {}),
     });
   }
   const resolved: Course = { ...course, sections: course.tierSections?.[tier] ?? course.sections };
@@ -309,6 +336,7 @@ export function createRace(
     cheerUntilMs: -1,
     cheerReadyAtMs: 0,
     lastCheerMs: -1,
+    cheerStreak: 0,
     hurdles: hurdlePositions(resolved),
     hurdleRng: Rng.fromSeed(hashSeed(`hurdles:${seed}`)),
     finished: false,
@@ -325,6 +353,16 @@ export function cheer(race: RaceState): boolean {
   if (me && (me.gazeUntilMs ?? -1) > race.timeMs) {
     me.gazeUntilMs = race.timeMs;
     me.perkUntilMs = race.timeMs + RACE_GAGS.perkMs;
+  }
+  // R0325: three quick cheers and it trips with joy: a brief tumble, no net speed loss.
+  race.cheerStreak =
+    race.lastCheerMs >= 0 && race.timeMs - race.lastCheerMs <= RACE_GAGS.streakMs
+      ? race.cheerStreak + 1
+      : 1;
+  if (me && race.cheerStreak >= RACE_GAGS.streakNeeded) {
+    race.cheerStreak = 0;
+    me.tumbleUntilMs = race.timeMs + RACE_GAGS.tumbleMs;
+    me.tumbles = (me.tumbles ?? 0) + 1;
   }
   race.cheerReadyAtMs = race.timeMs + RACE.cheerCooldownMs;
   race.lastCheerMs = race.timeMs;

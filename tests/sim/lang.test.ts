@@ -14,6 +14,7 @@ import {
 } from '../../src/sim/lang';
 import { hasScript, japaneseWords, scriptRuns } from '../../src/sim/lang-text';
 import { deserialize, serialize } from '../../src/sim/save';
+import { teachTarget } from '../../src/sim/lang';
 import { sideActable } from '../../src/sim/side-stories';
 import { registerEduContent, sceneById, sideStory } from '../../src/sim/story-scenes';
 import type { SimEvent, World } from '../../src/sim/types';
@@ -37,12 +38,24 @@ function eduWorld(): { world: World; events: SimEvent[] } {
   return r;
 }
 
+/** R0708: teach the word of an open teach step, to three distinct Nubbins. */
+function teachOpen(world: World, events: SimEvent[], id: string): void {
+  const st = c(world).fun[id];
+  const t = st && teachTarget(sideStory(id)?.steps[st.step]?.check);
+  if (!t) return;
+  while (world.nubbins.length < t.count)
+    world.nubbins.push({ ...world.nubbins[0]!, id: 'tn' + world.nubbins.length });
+  for (const n of world.nubbins.slice(0, t.count))
+    applyCommand(world, { kind: 'langTeach', nubbinId: n.id, word: t.word }, events);
+}
+
 /** Play scenes and meet every language step until `until` holds or time runs out. */
 function playCourse(world: World, events: SimEvent[], until: () => boolean): void {
   for (let i = 0; i < 4000 && !until(); i++) {
     playScenes(world, events);
     for (const id of langQuestIds()) {
       const st = c(world).fun[id];
+      if (st && st.status === 'open' && st.stage === 'check') teachOpen(world, events, id);
       if (!st || !sideActable(world, c(world), id)) continue;
       const check = sideStory(id)!.steps[st.step]!.check;
       applyCommand(
@@ -54,6 +67,29 @@ function playCourse(world: World, events: SimEvent[], until: () => boolean): voi
     tick(world, events, 5);
   }
 }
+
+describe('teach steps (R0708)', () => {
+  it('LH1 step 2 is met only after langTeach lands on 3 distinct Nubbins', () => {
+    const { world, events } = eduWorld();
+    for (let i = 0; i < 3; i++) world.nubbins.push({ ...world.nubbins[0]!, id: 'tn' + i });
+    applyCommand(world, { kind: 'langStart', course: 'hebrew' }, events);
+    const lh1 = () => c(world).fun.lh1;
+    for (let i = 0; i < 3000 && !(lh1()?.step === 1 && lh1()?.stage === 'check'); i++) {
+      playScenes(world, events);
+      tick(world, events, 30);
+    }
+    expect(lh1()?.step).toBe(1);
+    const teach = (id: string) =>
+      applyCommand(world, { kind: 'langTeach', nubbinId: id, word: 'he-shalom' }, events);
+    teach('tn0');
+    teach('tn0');
+    teach('tn1');
+    expect(lh1()!.acted).toBe(false);
+    expect(sideActable(world, c(world), 'lh1')).toBe(false);
+    teach('tn2');
+    expect(lh1()!.acted).toBe(true);
+  });
+});
 
 describe('script runs (CV3)', () => {
   it('isolates Hebrew with the punctuation that belongs to it', () => {
@@ -167,6 +203,7 @@ describe('language quests (CV3)', () => {
     // No Journal "Do it": playing the scenes alone carries LJ1 to its end.
     for (let i = 0; i < 200 && c(world).fun.lj1?.status !== 'done'; i++) {
       playScenes(world, events);
+      teachOpen(world, events, 'lj1'); // R0708: LJ1's teach step is a real action now
       tick(world, events, 2);
     }
     expect(c(world).fun.lj1?.status).toBe('done');
@@ -192,6 +229,7 @@ describe('language quests (CV3)', () => {
     const atTrace = () => c(world).fun.lj2?.step === traceStep;
     for (let i = 0; i < 3000 && !(atTrace() && c(world).fun.lj2?.stage === 'check'); i++) {
       playScenes(world, events);
+      teachOpen(world, events, 'lj1');
       tick(world, events, 30);
     }
     tick(world, events, 30);

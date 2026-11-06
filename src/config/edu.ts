@@ -4,10 +4,12 @@
  * game climbs. Content follows the review in PROGRESS.md: Head Start domains,
  * kindergarten readiness benchmarks, guided play, no fail state, no timers under 5.
  */
+import { EDU_SPELL_WORDS } from './edu-reader';
 export type EduAge = 3 | 4 | 5 | 6;
 export const EDU_AGES: readonly EduAge[] = [3, 4, 5, 6];
 
-export type EduGameId = 'colours' | 'letters' | 'counting' | 'shapes' | 'sounds' | 'animals';
+export type EduGameId =
+  'colours' | 'letters' | 'counting' | 'shapes' | 'sounds' | 'animals' | 'tracing';
 export const EDU_GAMES: readonly EduGameId[] = [
   'colours',
   'letters',
@@ -15,6 +17,7 @@ export const EDU_GAMES: readonly EduGameId[] = [
   'shapes',
   'sounds',
   'animals',
+  'tracing',
 ];
 
 /** Learning domain per game, for the grown-up progress view. */
@@ -25,14 +28,15 @@ export const EDU_DOMAIN: Record<EduGameId, 'cognition' | 'literacy' | 'language'
   shapes: 'cognition',
   sounds: 'language',
   animals: 'nature',
+  tracing: 'literacy',
 };
 
 /** Recommended set per age. Everything is available; this is the default selection. */
 export const EDU_RECOMMENDED: Record<EduAge, readonly EduGameId[]> = {
   3: ['colours', 'animals', 'shapes', 'counting'],
-  4: ['colours', 'shapes', 'counting', 'letters', 'animals'],
-  5: ['letters', 'counting', 'sounds', 'shapes', 'colours', 'animals'],
-  6: ['letters', 'sounds', 'counting', 'shapes', 'animals'],
+  4: ['colours', 'shapes', 'counting', 'letters', 'animals', 'tracing'],
+  5: ['letters', 'counting', 'sounds', 'shapes', 'colours', 'animals', 'tracing'],
+  6: ['letters', 'sounds', 'counting', 'shapes', 'animals', 'tracing'],
 };
 
 export const EDU = {
@@ -292,6 +296,8 @@ export const EDU_LADDER: Record<EduGameId, readonly RoundSpec[]> = {
   shapes: AGE_RUNGS,
   sounds: AGE_RUNGS,
   animals: AGE_RUNGS,
+  // R0702: tracing has no rounds to pick; the entry keeps the record complete.
+  tracing: AGE_RUNGS,
 };
 
 /** R0682: the starting rung by age (counting has more rungs than ages). */
@@ -326,7 +332,19 @@ export const EDU_MASTERY = {
  * limits a place to one band. Names and spoken words are `EDU_PLACES_TEXT` (strings-kids).
  */
 export type EduPlaceId =
-  'book' | 'collection' | 'decorate' | 'photo' | 'playFight' | 'kindergarten' | 'map' | 'beetle';
+  | 'book'
+  | 'collection'
+  | 'decorate'
+  | 'photo'
+  | 'playFight'
+  | 'kindergarten'
+  | 'map'
+  | 'beetle'
+  | 'funRun'
+  | 'shellDash'
+  | 'glowCave'
+  | 'atlas'
+  | 'arcade';
 
 export const PLACES_EDU: ReadonlyArray<{
   id: EduPlaceId;
@@ -342,6 +360,13 @@ export const PLACES_EDU: ReadonlyArray<{
   { id: 'kindergarten', icon: '🏫', on: false },
   { id: 'map', icon: '🗺', on: false },
   { id: 'beetle', icon: '🪲', on: false },
+  // R0688-R0690: the kid-safe race, dash and cave; R0687: Nova's Atlas and the Arcade, off
+  // until a grown-up opens each world (the Arcade is for readers).
+  { id: 'funRun', icon: '🏁', on: true },
+  { id: 'shellDash', icon: '🐚', on: true },
+  { id: 'glowCave', icon: '🍄', on: true },
+  { id: 'atlas', icon: '🌍', on: false },
+  { id: 'arcade', icon: '🕹', on: false, band: 'reader' },
 ];
 
 /** R0713 (KIDS-45): the age-4 Animals round mix: name it, who says it, where it lives. */
@@ -350,3 +375,46 @@ export const EDU_ANIMAL_MIX_4: Readonly<Record<'name' | 'sound' | 'home', number
   sound: 0.3,
   home: 0.3,
 };
+
+/**
+ * R0675 (KIDS-03): the listening clips of the Sounds and Animals games. A clip id is
+ * `animal/<name>`, `word/<word>` or `phoneme/<first sound>`; `EDU_CLIPS` maps each id to the
+ * file a recording would have under `public/`. Until a recording lands (and is listed in
+ * `EDU_RECORDED`, platform/edu-audio.ts) the clip is synthesised in code.
+ */
+export const animalClip = (name: string): string => `animal/${name}`;
+export const wordClip = (word: string): string => `word/${word.toLowerCase()}`;
+export const phonemeClip = (sound: string): string => `phoneme/${sound}`;
+
+const CLIP_DIR = { animal: 'animals', word: 'words', phoneme: 'phonemes' } as const;
+
+export function clipFile(id: string): string | null {
+  const [kind, name] = id.split('/');
+  const dir = CLIP_DIR[kind as keyof typeof CLIP_DIR];
+  return dir && name ? `audio/edu/${dir}/${name}.mp3` : null;
+}
+
+/** Every first sound a picture word can start with. */
+export const EDU_PHONEMES: readonly string[] = [
+  ...new Set(EDU_WORDS.map((w) => firstSound(w.word))),
+].sort();
+
+function buildClips(): Record<string, string> {
+  const ids = [
+    ...EDU_ANIMALS.map((a) => animalClip(a.name)),
+    ...EDU_WORDS.map((w) => wordClip(w.word)),
+    ...EDU_READER_WORDS.map((w) => wordClip(w.word)),
+    ...EDU_SPELL_WORDS.map(wordClip),
+    ...EDU_READER_RHYMES.flat().map(wordClip),
+    ...EDU_PHONEMES.map(phonemeClip),
+  ];
+  const out: Record<string, string> = {};
+  for (const id of ids) {
+    const f = clipFile(id);
+    if (f) out[id] = f;
+  }
+  return out;
+}
+
+/** Clip id -> file path under `public/`. */
+export const EDU_CLIPS: Readonly<Record<string, string>> = buildClips();

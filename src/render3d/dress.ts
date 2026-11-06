@@ -17,6 +17,7 @@ import { bellyOf, headDome } from '../samples/nubbin-critter-parts';
 import { DYE_COLORS } from '../render/sprites/chao';
 import { C, color, nearestIndex, shadeOf } from '../render/sprites/palette';
 import type { DyeColor, Nubbin } from '../sim/types';
+import { wornExtras } from '../sim/wear';
 import { specForKey } from './looks';
 import { stubOnce } from './stubs';
 import { cosmetic, eggshellColour, type CosmeticColour } from '../config/cosmetics';
@@ -249,6 +250,18 @@ export function registryItem(id: string): Item | null {
   };
 }
 
+/** R0413: a body costume's head parts (antennae, hood, helmet), built like a hat. */
+function headItem(id: string): Item | null {
+  const c = cosmetic(id);
+  if (!c?.headMesh) return null;
+  const base = registryItem(id);
+  if (!base) return null;
+  const pieces = c.headMesh.map(([geo, k, pos, scale, rot]) =>
+    p(geo, C[k as keyof typeof C], pos, scale, rot),
+  );
+  return { at: 'top', pieces };
+}
+
 /** The dye swaps the hat's main colours for the dye and its warm shades for the dye's shade. */
 const DYE_MAIN = new Set<number>([C.cream, C.sunYellow, C.teal, C.rose, C.violet]);
 const DYE_SHADE = new Set<number>([C.ember, C.moonPurple, C.plum, C.orange]);
@@ -312,6 +325,8 @@ function anchorsFor(key: string): Anchors {
 /** What a rig wears now, kept on its `userData` so an unchanged Nubbin costs a few compares. */
 interface Worn {
   hat: string | null;
+  /** R0400: the other slots' registry ids, joined. */
+  wear: string;
   dye: DyeColor | null;
   scarf: DyeColor | null;
   glasses: boolean;
@@ -341,6 +356,9 @@ export class Dresser {
       hat = null;
     }
     const dye = hat ? (n.hatDye ?? null) : null;
+    // R0400: face, neck, back and body items, each on its own anchor.
+    const extras = dressable ? wornExtras(n).filter((id) => registryItem(id)) : [];
+    const wear = extras.join('+');
     const scarf = dressable ? (n.scarf ?? null) : null;
     const glasses = dressable && !!n.glasses;
     const stars = dressable ? Math.min(4, n.rebirths) : 0;
@@ -349,6 +367,7 @@ export class Dresser {
     if (
       w &&
       w.hat === hat &&
+      w.wear === wear &&
       w.dye === dye &&
       w.scarf === scarf &&
       w.glasses === glasses &&
@@ -356,25 +375,33 @@ export class Dresser {
       w.belt === belt
     )
       return;
-    if (!w && !hat && !scarf && !glasses && !stars && !belt) return;
+    if (!w && !hat && !wear && !scarf && !glasses && !stars && !belt) return;
     this.strip(rig);
-    if (!hat && !scarf && !glasses && !stars && !belt) return;
+    if (!hat && !wear && !scarf && !glasses && !stars && !belt) return;
     const head = rig.bones.head;
     const hips = rig.bones.hips;
     if (!head || !hips) return;
     const at = (ud.dressAt ??= anchorsFor(ud.lookKey ?? 'nubbin'));
     const groups: Group[] = [];
-    if (hat && item) {
-      const g = this.build(item.pieces, (c) => dyed(c, dye));
-      if (item.at === 'top') {
+    const worn: { item: Item; dye: DyeColor | null }[] = [];
+    if (hat && item) worn.push({ item, dye });
+    for (const id of extras) worn.push({ item: registryItem(id)!, dye: null });
+    // R0413: a costume's head parts sit on the dome like a hat.
+    for (const id of extras) {
+      const head = headItem(id);
+      if (head) worn.push({ item: head, dye: null });
+    }
+    for (const { item: it, dye: dd } of worn) {
+      const g = this.build(it.pieces, (c) => dyed(c, dd));
+      if (it.at === 'top') {
         g.position.copy(at.top);
         g.scale.set(at.s, at.sy, at.s);
         head.add(g);
-      } else if (item.at === 'face' || item.at === 'neck') {
-        g.position.copy(item.at === 'neck' ? at.neck : at.eye).setX(0);
+      } else if (it.at === 'face' || it.at === 'neck') {
+        g.position.copy(it.at === 'neck' ? at.neck : at.eye).setX(0);
         g.scale.setScalar(at.s);
         head.add(g);
-      } else if (item.at === 'body') {
+      } else if (it.at === 'body') {
         g.position.copy(at.waist);
         g.scale.setScalar(at.waistS);
         hips.add(g);
@@ -466,7 +493,7 @@ export class Dresser {
       hips.add(g);
       groups.push(g);
     }
-    ud.dress = { hat, dye, scarf, glasses, stars, belt, groups };
+    ud.dress = { hat, wear, dye, scarf, glasses, stars, belt, groups };
   }
 
   /** Take everything off a rig before it goes back to the pool. */

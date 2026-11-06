@@ -56,6 +56,7 @@ describe('traps (R0161)', () => {
   it('springs every kind once, takes nothing, and re-arms after 20 s', () => {
     for (const kind of ['whoopee', 'sticky', 'leaves', 'sneeze', 'bell', 'ice'] as TrapKind[]) {
       const world = underground();
+      world.festivalSeen = world.season; // the season's free hat is not a trap's doing
       const before = JSON.stringify(world.inventory);
       const out = stepOn(world, kind);
       expect(out.filter((e) => e.kind === 'trapSprung')).toHaveLength(1);

@@ -77,6 +77,7 @@ import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
+import { tallFramePx } from './sprites/creature';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet, decorFrame } from './sprites/props';
 import { buildTapFlagSheet } from './sprites/tap-flags';
@@ -2081,6 +2082,17 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'strayFed': {
+        // R0326: a fed stray goes shy-delighted: hearts where it stood.
+        if (!e.ok || !e.pos || p.reduceMotion) break;
+        p.burst('heart', e.pos.x, 0.7, e.pos.z, 5, {
+          spread: 0.35,
+          speed: 0.1,
+          rise: 0.6,
+          lifeMs: 1200,
+        });
+        break;
+      }
       case 'keeperPoofed': {
         // R0025 (lane A r10): a cloud where the Keeper splashed down, sparkles where it is back.
         if (p.reduceMotion) break;
@@ -2782,7 +2794,8 @@ export class WorldView {
       const ball = this.emoteSprings.step(
         n.id,
         x - Math.sin(n.facing) * back,
-        y + 2.15 + em.dy,
+        // LOOK-43: over a big-grid form the ball rides as much higher as the frame is taller.
+        y + 2.15 + tallFramePx(sheet.cellH) / NATIVE_PPU + em.dy,
         z - Math.cos(n.facing) * back,
         emote,
         nowMs,
@@ -3022,7 +3035,9 @@ export function clipFor(n: Nubbin): string {
     case 'nap':
       return 'sleep';
     // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never the sleep pose.
+    // R0321: a hider crouches behind its tree (the sit), after the walk there.
     case 'shelter':
+    case 'hide':
       return n.behavior.target ? 'walk' : 'sit';
     case 'eat':
       return 'eat';
@@ -3057,7 +3072,13 @@ export function clipFor(n: Nubbin): string {
         case 'love':
           return 'love';
         case 'happy':
+        case 'giggle':
+        case 'hiccup':
+        case 'squish':
+        case 'smug':
           return 'happy';
+        case 'miss':
+          return 'surprised';
         case 'dizzy':
           return 'dizzy';
         case 'surprised':

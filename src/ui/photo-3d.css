@@ -1,0 +1,173 @@
+/* R0412 (LOOK-56): the Full 3D photo mode over the live view. */
+.photo3d {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  pointer-events: auto;
+  color: var(--hud-fg, #f4eefc);
+}
+.photo3d[hidden] {
+  display: none;
+}
+.photo3d-tint,
+.photo3d-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+.photo3d-pad {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+  cursor: grab;
+}
+.photo3d-pad:active {
+  cursor: grabbing;
+}
+.photo3d-top {
+  position: absolute;
+  top: calc(8px + var(--safe-top, 0px));
+  left: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.photo3d-top .btn,
+.photo3d-panel .btn,
+.photo3d-panel select {
+  min-height: 44px;
+  min-width: 44px;
+}
+.photo3d-snap {
+  font-size: 1.05rem;
+}
+.photo3d-panel {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: calc(8px + var(--safe-bottom, 0px));
+  max-height: 42vh;
+  overflow: auto;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  background: rgba(26, 21, 48, 0.86);
+  border: 1px solid var(--hud-border, #4b3f78);
+  border-radius: 12px;
+}
+.photo3d-panel .help {
+  margin: 2px 0 6px;
+  font-size: 0.8rem;
+}
+.photo3d-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px 10px;
+}
+.photo3d-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 6px;
+  font-size: 0.85rem;
+}
+.photo3d-field > span:first-child {
+  flex: 1 0 auto;
+}
+.photo3d-field select,
+.photo3d-field input[type='range'] {
+  width: 100%;
+}
+.photo3d-field input[type='range'] {
+  min-height: 32px;
+}
+.photo3d-out {
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+.photo3d-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 6px 0;
+}
+.photo3d-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 0.85rem;
+}
+.photo3d-check input {
+  width: 22px;
+  height: 22px;
+}
+.photo3d-stickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.photo3d-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(16px + var(--safe-bottom, 0px));
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(26, 21, 48, 0.7);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.photo3d.ui-hidden .photo3d-top,
+.photo3d.ui-hidden .photo3d-panel {
+  display: none;
+}
+.photo3d-preview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 10, 26, 0.7);
+}
+.photo3d-preview[hidden] {
+  display: none;
+}
+.photo3d-preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100% - 32px);
+  padding: 12px 14px;
+  box-sizing: border-box;
+  background: #1a1530;
+  border: 1px solid var(--hud-border, #4b3f78);
+  border-radius: 14px;
+}
+.photo3d-preview-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.photo3d-preview-card img {
+  min-height: 0;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.photo3d.flash .photo3d-pad {
+  background: rgba(255, 255, 255, 0.6);
+}
+@media (orientation: landscape) {
+  .photo3d-panel {
+    left: auto;
+    width: min(360px, 46vw);
+    top: calc(64px + var(--safe-top, 0px));
+    max-height: none;
+  }
+}

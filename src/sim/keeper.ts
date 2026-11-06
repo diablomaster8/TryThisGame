@@ -56,6 +56,7 @@ import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 import { noteBorderPush } from './border';
+import { noteCoopPet, noteCoopShake } from './coop-gags';
 import { drawnRegion, stepRegionWalk } from './region-walk';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
@@ -1320,7 +1321,7 @@ function fallsShelf(world: World, events: SimEvent[]): void {
 }
 
 /** Shake a fruit tree: the next fruit comes sooner, now and then wood, and Power drops fruit. */
-function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEvent[]): void {
+export function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEvent[]): void {
   tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
   events.push({ kind: 'treeShaken', treeId: tree.id });
   // Wood now and then, and a Power-type friend shakes fruit loose at once.
@@ -1345,6 +1346,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       const n = findNubbin(world, intent.nubbinId);
       if (!n || n.stage === 'egg') return;
       petNubbin(world, n, events);
+      noteCoopPet(world, n, 1, events);
       return;
     }
     case 'pickUp': {
@@ -1378,7 +1380,10 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     case 'shakeTree': {
       const tree = world.trees.find((t) => t.id === intent.treeId);
       // R0543 (lane A r9): a shy one hiding behind it is found instead.
-      if (tree && !findHiding(world, tree.id, events)) shakeTreeNow(world, tree, events);
+      if (tree && !findHiding(world, tree.id, events)) {
+        shakeTreeNow(world, tree, events);
+        noteCoopShake(world, tree, 1, events);
+      }
       return;
     }
     case 'collect': {

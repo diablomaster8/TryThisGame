@@ -19,11 +19,52 @@ import {
 import { noteActivity } from '../edu-report';
 import { eduSetLimits, eduUnlockLimits } from '../edu-limits';
 import { eduSetTag } from '../edu-session';
-import { langStart, langTraced, noteWord } from '../lang';
+import { langDueWave, langStart, langTeach, langTraced, noteWord, srsAnswer } from '../lang';
+import { eduNotice } from '../edu-notice';
+import { saveDrawing } from '../drawings';
+import { funRunDone } from '../fun-run';
+import { glowSolve } from '../dungeon-glow';
 import { setLossHold } from '../loss-notice';
 import type { Handlers } from './types';
 
 export const handlers: Handlers = {
+  eduSetCoPlay(world, cmd) {
+    if (world.edu) world.edu.coPlay = cmd.mode;
+    return;
+  },
+  eduSetUiLanguage(world, cmd) {
+    // R0739: the Learning Grove's interface language.
+    if (world.edu && (cmd.lang === 'en' || cmd.lang === 'he')) world.edu.uiLanguage = cmd.lang;
+    return;
+  },
+  glowSolve(world, cmd, events) {
+    glowSolve(world, cmd.depth, events);
+    return;
+  },
+  funRunDone(world, cmd) {
+    funRunDone(world, cmd.nubbinId);
+    return;
+  },
+  langDueWave(world, cmd, events) {
+    langDueWave(world, cmd.word, events);
+    return;
+  },
+  langReview(world, cmd) {
+    srsAnswer(world, cmd.word, cmd.right);
+    return;
+  },
+  langTeach(world, cmd, events) {
+    langTeach(world, cmd.nubbinId, cmd.word, events);
+    return;
+  },
+  eduNotice(world, cmd) {
+    eduNotice(world, cmd.item);
+    return;
+  },
+  saveDrawing(world, cmd) {
+    saveDrawing(world, cmd.data);
+    return;
+  },
   // Lane E r10 (R0694): a grown-up's choice for a loss chapter.
   eduLossHold(world, cmd) {
     setLossHold(world, cmd.chapter, cmd.hold);

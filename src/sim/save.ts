@@ -9,6 +9,7 @@ import { GRADES, STAT_KEYS, type Grade, type World } from './types';
 import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
+import { normaliseWear } from './wear';
 import { cleanSlotLabel } from './slot-label';
 import { isPersonality } from './personality';
 
@@ -237,6 +238,7 @@ export function deserialize(json: string): SaveFile {
   // The same deep check as an import: a Nubbin the renderers cannot draw (a crafted share
   // code saved before the check existed) sends the save down the unreadable path instead
   // of crashing every frame after load.
+  normaliseWear(valid); // Lane E r11, R0400: an item in the wrong slot moves to its own
   const problem = importProblem(valid);
   if (problem) throw new SaveError(`Save has a broken Nubbin (${problem})`);
   return { version, savedAtWallMs, world: valid };
