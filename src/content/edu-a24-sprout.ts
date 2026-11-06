@@ -243,6 +243,7 @@ const A1: EduQuest = quest(
         N('There is a cave in the hills. A big flat rock sits above it.'),
         FW('Who is at the door? A guest! A very small one.', 'happy'),
         MW('Come in, if you come politely. Mind the cubs’ tails.'),
+        N('Creak! The cave door of branches creaks, and a wolf peeps out.'),
       ],
       [
         ask(
@@ -280,6 +281,7 @@ const A1: EduQuest = quest(
         N('The cave smells of warm fur. It is cosy inside.'),
         N('Mother Wolf’s eyes shine like two little lamps.'),
         MW('This is our den. It is our home. You can sit by the wall.'),
+        N('Drip, drip! Water drips from the roof of the den.'),
       ],
       [
         ask(
@@ -310,6 +312,7 @@ const A1: EduQuest = quest(
         N('A roar rumbles in the valley. It is Shere Khan, the tiger!'),
         N('Then something rustles. A tiny brown baby toddles in.'),
         N('He is not scared. He snuggles in with the cubs to get warm.'),
+        N('Squeak! The little brown baby squeaks, and giggles.'),
       ],
       [
         ask(
@@ -342,6 +345,7 @@ const A1: EduQuest = quest(
         MW('A baby with no fur at all! And he is not scared.', 'soft'),
         N('Four wolf cubs sleep in a heap. The baby sleeps beside them.'),
         N('(Count the cubs on your fingers: one, two, three, four.)'),
+        N('Thump, thump! Four cubs flop down in one big heap.'),
       ],
       [
         ask(
@@ -400,6 +404,7 @@ const A1: EduQuest = quest(
         FW('We must show the baby to the pack.', 'think'),
         MW('We will show him at the full moon.'),
         N('A pale moon hangs above the cave. It is nearly round.'),
+        N('Whoosh! A night breeze whooshes round the cave.'),
       ],
       [
         ask(
@@ -426,6 +431,7 @@ const A1: EduQuest = quest(
         N('Your Nubbin curls up with the cubs and sleeps.'),
         MW('A pack is a family. You are in ours now.', 'happy'),
         N('You lie by the wall and hear everyone breathe. Soft and slow.'),
+        N('Tweet! A sleepy bird tweets once, then goes quiet.'),
       ],
       [
         ask(
@@ -476,6 +482,7 @@ const A2: EduQuest = quest(
         N('Your Nubbin looks at the moon. It howls! Awooo!'),
         YW('What was that?', 'shock'),
         MW('A guest. Do not stare. It is rude.', 'happy'),
+        N('Crack! A twig cracks under a big paw.'),
       ],
       [
         doit(
@@ -501,6 +508,7 @@ const A2: EduQuest = quest(
         N('You sit at the edge, among the rocks.'),
         N('Mowgli sits in the moonlight and plays with pebbles.'),
         MG('Three white pebbles. Two grey pebbles. Look!', 'happy'),
+        N('Plop! Plop! Mowgli plops the pebbles into a pile.'),
       ],
       [
         ask(
@@ -529,6 +537,7 @@ const A2: EduQuest = quest(
         N('A black panther drops down. It is Bagheera.'),
         BG('I speak for him too. I will give a gift to the pack.'),
         N('The wolves look at the baby. They decide he can stay.'),
+        N('Whoosh! The black panther drops down, quiet as a shadow.'),
       ],
       [
         ask(
@@ -565,6 +574,7 @@ const A2: EduQuest = quest(
         N('The wolves come, one by one, to look at Mowgli.'),
         AK('He is the pack’s now. Take him home.'),
         N('Baloo, Bagheera, Bear. B, B, B!'),
+        N('Pop! A tiny bubble pops on Baloo’s nose.'),
       ],
       [
         ask(
@@ -594,6 +604,7 @@ const A2: EduQuest = quest(
         BG('You were still and quiet. That is kind.'),
         BL('Lessons start soon. You too. And that!', 'happy'),
         N('“That” is your Nubbin, trying to howl again, very small.'),
+        N('Squeak! Your Nubbin tries to howl, and squeaks instead.'),
       ],
       [
         ask(
@@ -642,6 +653,7 @@ const A3: EduQuest = quest(
         BL('I am a sloth bear. I love ants, fruit and honey!', 'happy'),
         BL('Be polite to the bees. Say sorry to a bat you wake.'),
         N('Your Nubbin looks at Baloo, the bees and the bat. Its eyes cross!'),
+        N('Buzz! Buzz! The bees buzz round Baloo’s honey.'),
       ],
       [
         ask(
@@ -677,6 +689,7 @@ const A3: EduQuest = quest(
         BL('It means: may I, please?'),
         MG('Why ask? I am hungry!'),
         N('Your Nubbin tiptoes politely across the glade.'),
+        N('Tiptoe! Then a crunch, as a dry leaf crunches.'),
       ],
       [
         ask(
@@ -703,6 +716,7 @@ const A3: EduQuest = quest(
         BG('He wants you safe, little brother.', 'soft'),
         BL('You and I are family, all of us, under the same sky.'),
         N('That is the Master Word. Say it with a growl, a whistle, a hiss.'),
+        N('Thump! Baloo thumps his paw, and the leaves shake.'),
       ],
       [
         doit(
@@ -731,6 +745,7 @@ const A3: EduQuest = quest(
         N('Your Nubbin puffs up. It gives a small hiss.'),
         BL('That is not wrong! The snakes might like that.', 'shock'),
         MG('Baloo hit me. Then he praised Nubbin. It is not fair.', 'sad'),
+        N('Bonk! A coconut falls, and goes bonk on Baloo’s head.'),
       ],
       [
         ask(
@@ -755,6 +770,7 @@ const A3: EduQuest = quest(
         MG('He is the worst bird in the world!', 'happy'),
         N('Your Nubbin hisses at the bear and growls at the bird.'),
         BL('Growl. Whistle. Hiss. Growl. Whistle. Hiss.'),
+        N('Hiss! Whistle! Peep! Mowgli tries every call.'),
       ],
       [
         ask(
@@ -777,6 +793,7 @@ const A3: EduQuest = quest(
         BL('Enough. The cub knows it. The guest is learning.', 'think'),
         N('Your Nubbin hisses at a stick insect. The insect does not move.'),
         BL('A snake has no ears you can see. It feels your feet on the ground.'),
+        N('Thump, thump! The ground thumps, and the snake feels it.'),
       ],
       [
         ask(
@@ -802,6 +819,7 @@ const A3: EduQuest = quest(
         MG('Can I go now?'),
         BL('Go. But stay away from the Monkey-People!', 'think'),
         N('Mowgli looks away fast.'),
+        N('Whoosh! Mowgli whooshes away between the trees.'),
       ],
       [
         ask(
@@ -881,6 +899,7 @@ const A4: EduQuest = quest(
         N('The monkeys swing along the treetops. They are high and fast.'),
         N('Below, nobody can keep up.'),
         N('Up in the sky, a kite is circling. It sees everything.'),
+        N('Whoosh! The monkeys whoosh from branch to branch.'),
       ],
       [
         ask(
@@ -910,6 +929,7 @@ const A4: EduQuest = quest(
         MG('Watch where they take me! Tell Baloo and Bagheera!', 'shock'),
         N('Chil swings away, high up into the blue. He keeps watching.'),
         CH('They have taken him to the old city on the hill.'),
+        N('Whoosh! Chil whooshes away into the blue sky.'),
       ],
       [
         ask(
@@ -940,6 +960,7 @@ const A4: EduQuest = quest(
         BG('The old city. They are not afraid of us there.', 'angry'),
         BL('They are afraid of one friend. Kaa the snake.'),
         N('(Count who is running to find Kaa: Baloo, Bagheera, you, Nubbin.)'),
+        N('Thump, thump! Baloo thumps along, and Bagheera zooms ahead.'),
       ],
       [
         doit(
@@ -962,6 +983,7 @@ const A4: EduQuest = quest(
         KA('Have they.', 'angry'),
         N('Kaa goes very still. Every monkey in the jungle knows that stillness.'),
         KA('The monkeys have been very foolish.'),
+        N('Swish! Kaa swishes through the grass, without a sound.'),
       ],
       [
         ask(
@@ -990,6 +1012,7 @@ const A4: EduQuest = quest(
         KA('I will come by my own road. Do not wait.'),
         N('He slides off the ledge. The grass does not even move.'),
         N('On the warm stone lies Kaa’s old skin. It is long and papery.'),
+        N('Swish! Swish! The old skin swishes in the breeze.'),
       ],
       [
         ask(
@@ -1018,6 +1041,7 @@ const A4: EduQuest = quest(
         BG('You taught him the Words. He used them. That was you!'),
         N('Your Nubbin rides on Baloo’s back for the last mile.'),
         N('Baloo lets it. He is a gentle bear.'),
+        N('Whee! Mowgli goes whee on Baloo’s big, soft back.'),
       ],
       [
         ask(
@@ -1070,6 +1094,7 @@ const A5: EduQuest = quest(
         N('Inside, cobras! They spread their wide hoods.'),
         MG('You and I are family, all of us, under the same sky.'),
         N('The cobras lower their hoods. Mowgli is safe.'),
+        N('Swish! The cobras swish their hoods, then lower them.'),
       ],
       [
         ask(
@@ -1100,6 +1125,7 @@ const A5: EduQuest = quest(
         MG('The snakes are fine. I said the Words.', 'think'),
         N('The cobras sway softly. A spread hood says: keep back.'),
         N('Outside, the moon hides behind a cloud.'),
+        N('Drip! A cool drip falls into the dark water.'),
       ],
       [
         ask(
@@ -1160,6 +1186,7 @@ const A5: EduQuest = quest(
         N('Bagheera climbs out of the water, dripping. He shakes himself.'),
         N('Baloo sits down very suddenly.'),
         BL('I am not hurt. I am old. It is different.', 'think'),
+        N('Thump! Baloo sits down, with a big thump.'),
       ],
       [
         ask(
@@ -1185,6 +1212,7 @@ const A5: EduQuest = quest(
         N('Baloo and Bagheera step forward too, with dreamy eyes.'),
         MG('Do not look! Come away!', 'shock'),
         N('Mowgli pulls them out. They shake themselves awake.'),
+        N('Ding! A small bell dings, and the dance begins.'),
       ],
       [
         ask(
@@ -1215,6 +1243,7 @@ const A5: EduQuest = quest(
         N('Outside the walls, the moon is clean and bright.'),
         N('Your Nubbin rubs its eyes. It feels shaky.'),
         N('Breathe in slowly, through your nose. Breathe out, through your mouth.'),
+        N('Whoosh! You breathe out slowly. Whoosh, like the wind.'),
       ],
       [
         doit(
@@ -1237,6 +1266,7 @@ const A5: EduQuest = quest(
         BG('Jump on my back. We are going home.', 'soft'),
         N('Kaa nods slowly from the moonlit wall.'),
         KA('Come and see me, guest. My coils are very warm.'),
+        N('Swish! Kaa swishes her long tail on the warm wall.'),
       ],
       [
         ask(
@@ -1288,6 +1318,7 @@ const A6: EduQuest = quest(
         BG('Little brother, Shere Khan has not forgotten you.', 'think'),
         BG('Men keep a thing in their huts. The Red Flower. Fire.'),
         MG('They are my brothers. Why would they want me gone?', 'sad'),
+        N('Crackle! Crack! The dry branch cracks in two.'),
       ],
       [
         ask(
@@ -1318,6 +1349,7 @@ const A6: EduQuest = quest(
         MG('I know where the Red Flower is. I will go now.'),
         BG('Take the guest. Guests are good at carrying things.'),
         N('Long ago, people learned to use fire. It gave them warmth and light.'),
+        N('Pop! A spark pops up from the fire.'),
       ],
       [
         ask(
@@ -1343,6 +1375,7 @@ const A6: EduQuest = quest(
         MG('She looks like me. They all look like me.', 'think'),
         VI('My fire-pot! Where is my fire?', 'shock'),
         N('The woman looks sad. She has a cold breakfast.'),
+        N('Creak! The hut door creaks, and the pot is gone.'),
       ],
       [
         ask(
@@ -1377,6 +1410,7 @@ const A6: EduQuest = quest(
         N('Back in the jungle, Mowgli puts the pot on a flat stone.'),
         MG('If I do not feed it, it will die. Fire eats sticks.'),
         N('Under the ash, a few coals glow red.'),
+        N('Crack! Crack! A tiny stick cracks, and the coals glow.'),
       ],
       [
         ask(
@@ -1402,6 +1436,7 @@ const A6: EduQuest = quest(
         MG('It eats like a wolf cub. Always hungry!', 'happy'),
         N('A wolf passes and goes the long way round.'),
         MG('He is scared of fire. I am not. Is that what being a man means?', 'think'),
+        N('Crunch! Mowgli crunches up a handful of dry sticks.'),
       ],
       [
         doit(
@@ -1433,6 +1468,7 @@ const A6: EduQuest = quest(
         N('By evening the fire glows steadily.'),
         N('Tabaqui slinks into the clearing, grinning.'),
         TB('The young wolves want Mowgli at the Council Rock. All of them!', 'happy'),
+        N('Pop! The fire pops, and the sparks fly up.'),
       ],
       [
         ask(
@@ -1457,6 +1493,7 @@ const A6: EduQuest = quest(
         N('He lifts the pot. It lights his face from below.'),
         BG('Stay near him, guest.', 'soft'),
         N('Fire is useful, and it is serious. Matches are for grown-ups.'),
+        N('Pop! Pop! The little fire pops, bright and warm.'),
       ],
       [
         ask(
@@ -1532,6 +1569,7 @@ const A7: EduQuest = quest(
         N('Mowgli swings a burning branch round and round.'),
         N('Crackle, crackle, the flames go. Sparks fly!'),
         N('Shere Khan turns and runs into the dark.'),
+        N('Whoosh! The branch whooshes round, and sparks fly up. Pop!'),
       ],
       [
         doit(
@@ -1724,6 +1762,7 @@ const A8: EduQuest = quest(
         N('At noon the buffalo roll in the cool mud. Only their noses show!'),
         GB('Little brother! Shere Khan has gone away to heal. I came to warn you.', 'happy'),
         MG('I am not afraid. Watch for him for me.'),
+        N('Thump! The buffalo thump along the muddy path.'),
       ],
       [
         ask(
@@ -1754,6 +1793,7 @@ const A8: EduQuest = quest(
         N('Days pass in the heat. The buffalo wallow in the mud.'),
         N('Mowgli counts the buffalo every evening.'),
         N('Your Nubbin rides a buffalo. It falls off twice. Splat!'),
+        N('Splash! Your Nubbin falls off the buffalo, into the mud.'),
       ],
       [
         doit(
@@ -1776,6 +1816,7 @@ const A8: EduQuest = quest(
         N('Mowgli laughs. Everyone turns to look.'),
         MG('He is no ghost. He is just old and cross.', 'happy'),
         N('Buldeo’s face goes hot. He looks a little scared.'),
+        N('Crack! A dry branch cracks, and Buldeo jumps.'),
       ],
       [
         ask(
@@ -1806,6 +1847,7 @@ const A8: EduQuest = quest(
         N('Buldeo goes home early.'),
         N('Next day, the headman tells Mowgli to graze the buffalo far away.'),
         ME('Come home and sleep, son. Leave old men to their stories.', 'soft'),
+        N('Thump! Buldeo thumps his stick, and goes home.'),
       ],
       [
         ask(
@@ -1885,6 +1927,7 @@ const A9: EduQuest = quest(
         MG('Then he is slow. And the ravine has a mouth at each end!'),
         N('Akela rises from the long grass. He is old, with bright eyes.'),
         AK('I have waited for you to need me, little brother.', 'happy'),
+        N('Splash! The shallow water splashes at the ford.'),
       ],
       [
         ask(
@@ -1921,6 +1964,7 @@ const A9: EduQuest = quest(
         N('Akela and Grey Brother run in among the buffalo.'),
         MG('Three cows at this end. Two bulls at the other.'),
         N('You climb to the top of the ravine. You lie flat in the grass.'),
+        N('Swish! The tall grass swishes, as you lie flat.'),
       ],
       [
         ask(
@@ -1947,6 +1991,7 @@ const A9: EduQuest = quest(
         N('Red dust rises up the walls. It is very, very loud!'),
         N('You put your hands over your Nubbin’s ears. Then over your own.'),
         N('Then it is quiet. Only dust, settling.'),
+        N('Thump, thump, thump! The buffalo thump, thump, thump the ground.'),
       ],
       [
         ask(
@@ -1978,6 +2023,7 @@ const A9: EduQuest = quest(
         AK('Mowgli is safe now. We will sit with him.', 'soft'),
         N('The buffalo spread out across the plain and eat grass.'),
         N('They graze side by side, shoulder to shoulder.'),
+        N('Munch, munch! The buffalo munch the grass, side by side.'),
       ],
       [
         ask(
@@ -2004,6 +2050,7 @@ const A9: EduQuest = quest(
         MG('Akela. This man is bothering me.'),
         N('Akela stands up. Buldeo falls flat on his back. Akela does not bite.'),
         N('He only stands there, big and calm, like a heavy rug.'),
+        N('Thump! Buldeo falls over with a great big thump.'),
       ],
       [
         ask(
@@ -2034,6 +2081,7 @@ const A9: EduQuest = quest(
         N('Buldeo runs home as fast as he can.'),
         MG('He will say I am a wizard. Let him.', 'think'),
         N('Buldeo was cross, and Mowgli was kind to him anyway.'),
+        N('Whoosh! Buldeo whooshes home, as fast as he can go.'),
       ],
       [
         ask(
@@ -2061,6 +2109,7 @@ const A9: EduQuest = quest(
         AK('You did what you said you would do. Not many do.'),
         MG('I said it on the Council Rock. So it has to go there.'),
         N('Behind you, the village lights come on, one by one.'),
+        N('Pop! A light pops on in a window of the village.'),
       ],
       [
         ask(
@@ -2215,6 +2264,7 @@ const A10: EduQuest = quest(
         N('You catch up with Mowgli at the edge of the trees.'),
         N('The sun has set. Frogs croak. An owl calls. Hoo hoo!'),
         N('Your Nubbin trots between Akela and Grey Brother, proud as a wolf.'),
+        N('Splash! Hoo hoo! A frog splashes into the pond.'),
       ],
       [
         ask(
@@ -2306,6 +2356,7 @@ const A11: EduQuest = quest(
         N('Akela lifts his head and gives the old Council call.'),
         N('Your Nubbin answers. It still sounds like a kettle!'),
         N('A-ke-la. Clap the parts of his name.'),
+        N('Squeak! Your Nubbin answers with a squeak, like a kettle.'),
       ],
       [
         doit(
@@ -2362,6 +2413,7 @@ const A11: EduQuest = quest(
         GB('We will come. All four of us.'),
         N('Akela lies on the coat and looks at the hills.'),
         N('A wolf pack is a family. Mum, dad and pups share their food.'),
+        N('Munch! The pups munch their food, side by side.'),
       ],
       [
         ask(
@@ -2436,6 +2488,7 @@ const A12: EduQuest = quest(
         N('Hathi the elephant stands beside it. He has called the Water Truce.'),
         N('Elephants can dig for water in a dry river, with their feet and trunks.'),
         BL('A truce means: nobody hunts here, while there is water.'),
+        N('Swish! Hathi swishes his trunk in the dry river bed.'),
       ],
       [
         ask(
@@ -2466,6 +2519,7 @@ const A12: EduQuest = quest(
         N('At the Peace Rock the whole jungle comes to drink.'),
         N('Deer stand beside wolves. Pigs stand beside a panther.'),
         MG('Two deer and two wolves are drinking. Count them!'),
+        N('Slurp! Slurp! Everybody slurps at the Peace Rock.'),
       ],
       [
         ask(
@@ -2493,6 +2547,7 @@ const A12: EduQuest = quest(
         HA('So when the water is low, we all drink together.'),
         MG('Is that true, Hathi?', 'think'),
         HA('It is old. That is different from true, and sometimes better.'),
+        N('Splash! Hathi splashes dust off his big, grey back.'),
       ],
       [
         ask(
@@ -2521,6 +2576,7 @@ const A12: EduQuest = quest(
         BG('Good story. It is better when you are thirsty.', 'think'),
         BL('Everything is better when you are thirsty. Except being thirsty.'),
         BG('Stripes really help a tiger hide in tall grass.'),
+        N('Gulp! The tiger takes a gulp, then another.'),
       ],
       [
         ask(
@@ -2550,6 +2606,7 @@ const A12: EduQuest = quest(
         N('They drink side by side, as if they always had.'),
         MG('There. The Truce. I thought it was just words.', 'soft'),
         BL('It is words that everyone keeps. That is what a law is.'),
+        N('Slurp! The wolf slurps, and the deer slurps too.'),
       ],
       [
         ask(
@@ -2578,6 +2635,7 @@ const A12: EduQuest = quest(
         N('That night, far off, thunder rumbles.'),
         N('The first big drops fall. Plink, plink, plink!'),
         N('Then the rain comes. The Truce is over, and nobody minds.'),
+        N('Pitter, patter! The first drops go pitter, patter on the leaves.'),
       ],
       [
         ask(
@@ -2601,6 +2659,7 @@ const A12: EduQuest = quest(
         N('It covers the Peace Rock by morning.'),
         HA('Now there is plenty of water. We remember the Truce.', 'think'),
         N('Your Nubbin stands in the rain with its mouth open.'),
+        N('Splash! Your Nubbin jumps in a puddle. Splash!'),
       ],
       [
         ask(
@@ -2649,6 +2708,7 @@ const A13: EduQuest = quest(
         N('Your Nubbin wriggles. It wants to rush down to Messua.'),
         N('You hold it tight and breathe slowly.'),
         MG('Messua. It is me. Hush. I have come to take you away.', 'soft'),
+        N('Creak! The hut door creaks, just a little.'),
       ],
       [
         ask(
@@ -2679,6 +2739,7 @@ const A13: EduQuest = quest(
         N('The back door opens. Mowgli comes out with Messua and her husband.'),
         ME('My son! I knew you would come. I hoped and hoped.', 'sad'),
         N('She is shaking, but she is smiling too.'),
+        N('Ding! A small bell dings, as the door opens wide.'),
       ],
       [
         ask(
@@ -2705,6 +2766,7 @@ const A13: EduQuest = quest(
         MG('Guest, go to Hathi. Tell him: the fields.'),
         N('You run up the hill. Hathi is pulling down branches.'),
         HA('The fields. Yes. Tell him yes.', 'think'),
+        N('Crack! Hathi cracks a branch down, to hide the road.'),
       ],
       [
         ask(
@@ -2739,6 +2801,7 @@ const A13: EduQuest = quest(
         N('When you get back, Messua and her husband are far away.'),
         N('The sky is pink and grey. The sun is nearly up.'),
         N('She turns at the bend and lifts her hand. You lift yours.'),
+        N('Drip! The dew drips from the grass.'),
       ],
       [
         ask(
@@ -2765,6 +2828,7 @@ const A13: EduQuest = quest(
         N('Nobody is hurt. The jungle comes in slowly.'),
         MG('They were going to hurt Messua. Now there is no village.', 'angry'),
         MG('It is sad. I am glad Messua is safe. I feel both.', 'sad'),
+        N('Creak! The old tree creaks as its roots grow.'),
       ],
       [
         ask(
@@ -2793,6 +2857,7 @@ const A13: EduQuest = quest(
         N('By next year you can hardly tell a village was here.'),
         N('A fig tree grows out of the old stone platform.'),
         N('Its roots push the stones apart, bit by bit.'),
+        N('Crack! A little crack, and a stone shifts in the sun.'),
       ],
       [
         ask(
@@ -2895,6 +2960,7 @@ const A14: EduQuest = quest(
         MG('First, I will lead the dogs past the bees.'),
         MG('Next, I will jump in the river.'),
         KA('Last, I will be waiting in the water to pull you out.'),
+        N('Splash! Mowgli splashes a stone into the river.'),
       ],
       [
         ask(
@@ -2956,6 +3022,7 @@ const A14: EduQuest = quest(
         N('It goes on a long time. Then the river is only a river.'),
         N('The red dogs are gone. The pack holds the river.'),
         GB('Three wolves are tired. Two wolves are fine. We are all here.', 'soft'),
+        N('Splash! The wolves shake the river off their coats.'),
       ],
       [
         ask(
@@ -3086,6 +3153,7 @@ const A15: EduQuest = quest(
         MG('I feel funny. Not hungry. Just funny.', 'sad'),
         N('Mowgli throws a stone in the river, and another.'),
         MG('Why do I feel like this, guest?', 'sad'),
+        N('Plop! Plop! Mowgli plops a stone, then another, in the river.'),
       ],
       [
         ask(
@@ -3116,6 +3184,7 @@ const A15: EduQuest = quest(
         MG('I am going to run all night.', 'angry'),
         GB('I will come too. Keep the still star in front of you.', 'soft'),
         N('One star hangs low over the north. It does not move.'),
+        N('Whoosh! The night wind whooshes over the north hills.'),
       ],
       [
         ask(
@@ -3142,6 +3211,7 @@ const A15: EduQuest = quest(
         ME('Who is it? There is nothing to steal. Only me and my baby.', 'shock'),
         MG('It is me, Messua.', 'soft'),
         ME('Mowgli! Oh, how tall you are. Come in, come in!', 'happy'),
+        N('Creak! The door creaks, and warm light spills out.'),
       ],
       [
         ask(
@@ -3168,6 +3238,7 @@ const A15: EduQuest = quest(
         N('Messua gives Mowgli milk and a round loaf.'),
         N('She cuts it in two halves. Mowgli eats one half.'),
         N('A baby sleeps on a mat, with one fist in the air.'),
+        N('Squeak! The baby squeaks in his sleep.'),
       ],
       [
         ask(
@@ -3195,6 +3266,7 @@ const A15: EduQuest = quest(
         N('Messua covers him with a blanket. She sits beside him, mending.'),
         N('Grey Brother lies by the door. Your Nubbin lies with him.'),
         N('You sit on the step in the sun.'),
+        N('Creak! The old chair creaks by the door.'),
       ],
       [
         notice(
@@ -3271,6 +3343,7 @@ const A16: EduQuest = quest(
         MG('Where is Bagheera? I cannot go without him.', 'sad'),
         N('Far down the hill, something moves in the bushes.'),
         BL('A panther is silent when he wants to be. If you hear him, he wants us to.'),
+        N('Swish! The bushes swish, and a black tail disappears.'),
       ],
       [
         ask(
@@ -3300,6 +3373,7 @@ const A16: EduQuest = quest(
         N('Mowgli stands with his hands open, as if he has dropped something.'),
         MG('Guest, say the Words with me. One more time.', 'sad'),
         Y('You and I are family, all of us, under the same sky.'),
+        N('Creak! A branch creaks, and Bagheera steps out.'),
       ],
       [
         ask(
@@ -3323,6 +3397,7 @@ const A16: EduQuest = quest(
         N('He puts his hand on your Nubbin’s head.'),
         MG('Will you walk the first mile with me?', 'soft'),
         N('Mowgli, Grey Brother and three wolves: that is a team.'),
+        N('Thump! Thump! Grey Brother thumps his tail.'),
       ],
       [
         ask(
@@ -3348,6 +3423,7 @@ const A16: EduQuest = quest(
         N('Your Nubbin trots in the middle. It still thinks it is a wolf.'),
         MG('Here is the mile. The stone with the moss.', 'soft'),
         N('He does not make a speech. He just looks at you and nods.'),
+        N('Crunch! Crunch! Little stones crunch under your feet.'),
       ],
       [
         ask(
@@ -3394,6 +3470,7 @@ const A16: EduQuest = quest(
         N('He walks on up the trail with the four wolves.'),
         N('He does not look back. That is how you know he will be all right.'),
         N('Your Nubbin sits on the mossy stone. You sit with it.'),
+        N('Hee-hee! Your Nubbin giggles on the mossy stone.'),
       ],
       [
         ask(
@@ -3422,6 +3499,7 @@ const A16: EduQuest = quest(
         N('Your Nubbin looks back once, like a wolf. Then it trots on.'),
         N('The page goes soft. It is your own kitchen, and the book is on the table.'),
         N('Tucked in the back is a plank, carved by somebody patient.'),
+        N('Whoosh! The page whooshes shut, and the kitchen smells of wood.'),
       ],
       [
         notice(
@@ -3470,6 +3548,7 @@ const A17: EduQuest = quest(
         MK('Oh, look! Our baby is white! White as sea-foam!', 'shock'),
         N('The father seal snorts. “Nonsense. There has never been a white seal.”'),
         MK('There is one now.'),
+        N('Splash! A big wave splashes up the beach.'),
       ],
       [
         ask(
@@ -3501,6 +3580,7 @@ const A17: EduQuest = quest(
         N('The father seal is called Sea Catch.'),
         N('He crawls to your Nubbin. They look at each other.'),
         N('Your Nubbin decides it is a seal as well.'),
+        N('Squeak! The pup squeaks, and Sea Catch snorts.'),
       ],
       [
         ask(
@@ -3530,6 +3610,7 @@ const A17: EduQuest = quest(
         N('He tries again. And again. Three tries!'),
         N('Your Nubbin paddles beside him.'),
         KO('I am swimming! Look, Mother!', 'happy'),
+        N('Splash! Splash! Kotick splashes in the waves.'),
       ],
       [
         doit(
@@ -3580,6 +3661,7 @@ const A17: EduQuest = quest(
         KO('I do not like it. I am so sad. I am cross.', 'shock'),
         MK('It has been so for a long time, Kotick.', 'sad'),
         KO('I will find a beach where nobody takes seals away.', 'angry'),
+        N('Splash! A wave splashes over the grey rocks.'),
       ],
       [
         ask(
@@ -3608,6 +3690,7 @@ const A17: EduQuest = quest(
         KO('I will look every summer and winter until I find it.', 'angry'),
         N('Your Nubbin sits up and looks to sea, as if to help.'),
         N('Today there is a rule that keeps these seals safe.'),
+        N('Whoosh! The wind whooshes over the grey sea.'),
       ],
       [
         ask(
@@ -3636,6 +3719,7 @@ const A17: EduQuest = quest(
         MK('He is white, and different, and he will not be told.', 'sad'),
         SC('He gets that from me.'),
         MK('He gets it from both of us. Go to sleep.', 'soft'),
+        N('Squeak! A baby seal squeaks and snuggles in.'),
       ],
       [
         ask(
@@ -3717,6 +3801,7 @@ const A18: EduQuest = quest(
         KO('The Sea Cows. Nobody has seen one.', 'think'),
         N('Five summers and five winters go by. Kotick grows big and strong.'),
         N('He is still as white as the first day.'),
+        N('Splash! Kotick splashes on, past the sleepy rocks.'),
       ],
       [
         doit(
@@ -3774,6 +3859,7 @@ const A18: EduQuest = quest(
         N('Kotick hauls out on the beach in the sun.'),
         N('Your Nubbin lies down beside him.'),
         N('The Sea Cows never said a word, but they showed the way.'),
+        N('Splash! Your Nubbin splashes in the sunny shallows.'),
       ],
       [
         ask(
@@ -3806,6 +3892,7 @@ const A18: EduQuest = quest(
         MK('He gets that from you.'),
         SC('He does!', 'happy'),
         KO('Who is coming with me?', 'angry'),
+        N('Whoosh! A big wave whooshes in, and the seals cheer.'),
       ],
       [
         ask(
@@ -3836,6 +3923,7 @@ const A18: EduQuest = quest(
         N('The seals stop laughing. They look at the white seal.'),
         N('Then, ten at a time, they follow him out to sea.'),
         N('Count by tens with the seals: ten, twenty, thirty.'),
+        N('Splash! Ten seals splash into the sea, then ten more.'),
       ],
       [
         doit(
@@ -3858,6 +3946,7 @@ const A18: EduQuest = quest(
         N('The page goes soft. You are back in your kitchen.'),
         N('A small white seal sits by the pond, looking pleased.'),
         N('Kotick took them to the safe beaches. They live there still.'),
+        N('Splash! A little splash from the pond, and a white seal.'),
       ],
       [
         ask(
@@ -3924,6 +4013,7 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
       N('Your Nubbin leans against Messua’s leg.'),
       ME('You stayed. Come in. I will make something hot.', 'sad'),
       N('An owl flies over the hut. It makes no sound at all.'),
+      N('Hoo! Pop! The kettle pops on the fire.'),
     ],
     [
       ask(
@@ -3976,6 +4066,7 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
       N('You wait until the guard falls asleep. Then you start on the knots on the door.'),
       N('Your Nubbin helps. It makes it worse, then better.'),
       MG('You did it! Good. Come on, all of you.', 'happy'),
+      N('Pop! The hut door pops open, just a crack.'),
     ],
     [
       ask(
@@ -4090,6 +4181,7 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
       ME('Never mind. Sit down and eat.', 'soft'),
       ME('Are you hungry too? Come in. You came with my son.', 'soft'),
       N('You sit by the door and eat her bread.'),
+      N('Creak! The door creaks open. Come in, come in.'),
     ],
     [
       ask(
@@ -4115,6 +4207,7 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
       N('She lifts the sleeping baby into your arms.'),
       ME('Hold him. He likes being held.', 'happy'),
       N('The baby opens his eyes. He looks at your Nubbin.'),
+      N('Squeak! The baby squeaks, then holds your finger.'),
     ],
     [
       ask(
@@ -4196,6 +4289,7 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
       N('Inside, the baby is asleep on his mat.'),
       N('Babies sleep a lot, to grow big and strong.'),
       N('Your Nubbin lies down beside him, very carefully.'),
+      N('Squeak! The baby squeaks in his sleep.'),
     ],
     [
       ask(
