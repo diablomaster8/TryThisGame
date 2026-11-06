@@ -302,8 +302,17 @@ export function musicGainTarget(): number {
   return musicEnabled ? musicVolume * musicDuckLevel() : 0;
 }
 
+/** PERF: the HUD calls the setters every frame; a gain already heading to its target is left be. */
+let lastMusicTarget = -1;
+let lastMusicBus: GainNode | null = null;
+
 function applyMusicGain(tau: number = MUSIC_DUCK.tau): void {
-  if (musicBus && ctx) musicBus.gain.setTargetAtTime(musicGainTarget(), ctx.currentTime, tau);
+  if (!musicBus || !ctx) return;
+  const target = musicGainTarget();
+  if (target === lastMusicTarget && musicBus === lastMusicBus) return;
+  lastMusicTarget = target;
+  lastMusicBus = musicBus;
+  musicBus.gain.setTargetAtTime(target, ctx.currentTime, tau);
 }
 
 /** Hold the music down while `source` is on (the dialogue box, a read-aloud line). */
@@ -326,8 +335,15 @@ export function duckMusic(level: number, ms: number): void {
   }, ms);
 }
 
+/** The bus the last volume write went to (a new bus needs the write again). */
+let sfxVolBus: GainNode | null = null;
+
 export function setSfxVolume(v: number): void {
-  sfxVolume = Math.max(0, Math.min(1, v));
+  const next = Math.max(0, Math.min(1, v));
+  const same = next === sfxVolume;
+  sfxVolume = next;
+  if (same && sfxBus === sfxVolBus) return;
+  sfxVolBus = sfxBus;
   if (sfxBus && ctx && sfxEnabled) sfxBus.gain.setTargetAtTime(sfxVolume, ctx.currentTime, 0.05);
 }
 
