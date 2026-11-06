@@ -39,13 +39,22 @@ export function isOffScreen(x: number, y: number, w: number, h: number, margin: 
 }
 
 /** Where on the screen edge a chip for an off-screen point sits, inset by `inset` px. */
-export function edgePoint(x: number, y: number, w: number, h: number, inset: number): EdgePoint {
+export function edgePoint(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  inset: number,
+  topInset = inset,
+  bottomInset = inset,
+): EdgePoint {
+  // BS-03: the top and bottom insets keep a chip clear of the HUD bars, so it never sits on a button.
   const cx = w / 2;
-  const cy = h / 2;
+  const cy = (topInset + h - bottomInset) / 2;
   const dx = x - cx;
   const dy = y - cy;
   const hx = Math.max(1, cx - inset);
-  const hy = Math.max(1, cy - inset);
+  const hy = Math.max(1, (h - bottomInset - topInset) / 2);
   const k = Math.max(Math.abs(dx) / hx, Math.abs(dy) / hy, 1e-6);
   return {
     x: cx + dx / k,
@@ -166,7 +175,15 @@ export function mountWatch(
         if (watching) continue;
         wanted.set(n.id, {
           n,
-          at: edgePoint(px, py, w, h, WATCH.chipPx / 2 + WATCH.edgePad),
+          at: edgePoint(
+            px,
+            py,
+            w,
+            h,
+            WATCH.chipPx / 2 + WATCH.edgePad,
+            WATCH.chipPx / 2 + WATCH.barPad,
+            WATCH.chipPx / 2 + WATCH.barPad,
+          ),
           d: Math.hypot(p.x, p.y),
         });
       }

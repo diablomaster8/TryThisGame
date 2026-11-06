@@ -45,4 +45,18 @@ describe('edge chips (R0550)', () => {
       expect(e.y).toBeLessThanOrEqual(770 + 1e-6);
     }
   });
+  it('keeps a chip clear of the top and bottom HUD bars (BS-03)', () => {
+    for (const [x, y] of [
+      [200, -900],
+      [200, 3000],
+      [-900, -900],
+      [2000, 3000],
+    ] as const) {
+      const e = edgePoint(x, y, 400, 800, 30, 86, 86);
+      expect(e.y).toBeGreaterThanOrEqual(86 - 1e-6);
+      expect(e.y).toBeLessThanOrEqual(800 - 86 + 1e-6);
+    }
+    // Without the bar insets nothing changes: the old callers keep their behaviour.
+    expect(edgePoint(200, -500, 400, 800, 30).y).toBeCloseTo(30);
+  });
 });
