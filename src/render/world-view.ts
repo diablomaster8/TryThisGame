@@ -13,6 +13,7 @@ import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import { ledgeLift } from './hollow-ledges';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { friendOf, friendWalking } from '../sim/dungeon-friends';
 import { rumbleOpen } from '../sim/dungeon-rumble';
@@ -364,6 +365,9 @@ export class WorldView {
     return v.z > 1 ? null : v;
   }
 
+  /** R0031: the eased height of the plateau under the Keeper's feet in the Hollow. */
+  private hollowLift = 0;
+
   /** How far the drawn Keeper's feet are off the painted ground (up a jump, down a wade). */
   private keeperOffset(
     world: World,
@@ -372,7 +376,16 @@ export class WorldView {
     alpha: number,
   ): { off: number; floor: number } {
     const y = lerp(this.keeperPrev.y, world.keeper.y, this.keeperAlpha ?? alpha);
-    if (runFloor(world)) return { off: Math.max(0, y), floor: 0 };
+    const hf = runFloor(world);
+    if (hf) {
+      // R0031: on a Hollow shelf or terrace ledge the feet stand on the plateau; eased, so the
+      // hop onto the lip and the drop off it do not pop.
+      const target = ledgeLift(hf, x, z);
+      this.hollowLift += (target - this.hollowLift) * 0.35;
+      if (Math.abs(target - this.hollowLift) < 0.01) this.hollowLift = target;
+      return { off: Math.max(0, y) + this.hollowLift, floor: this.hollowLift };
+    }
+    this.hollowLift = 0;
     // R11 d7: a drawn region's own ground (flat, or its terraces in the Keeper's y), never the Grove's.
     if (world.location.startsWith('region:')) return { off: y, floor: 0 };
     const ground = paintedGround(x, z);

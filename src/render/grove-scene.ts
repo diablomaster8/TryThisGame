@@ -1,4 +1,4 @@
-import { openSky } from './cave-bands';
+import { bandForFloor, openSky } from './cave-bands';
 import {
   CircleGeometry,
   Color,
@@ -50,6 +50,7 @@ import {
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import { cellAt, WALL, type Floor } from '../sim/dungeon';
+import { buildLedgeMeshes } from './hollow-ledges';
 import { plugUp, sealDisplay, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
 import type { DungeonRun } from '../sim/types';
 import { pixelTiers, TERRACES } from '../sim/terrain';
@@ -1082,6 +1083,14 @@ export class GroveScene {
     this.dungeonGroup.add(sideMesh);
     this.dungeonParts.push(topGeo, topMat, faceTex, faceMat, sideGeo);
     this.buildDungeonPlugs(floor, w, h, topMat, faceMat);
+    // R0031/R0191: shelves and terrace ledges stand up over the flat painting.
+    const ledges = buildLedgeMeshes(floor, tex, bandForFloor(floor, depth).rock);
+    if (ledges) {
+      this.dungeonGroup.add(ledges.top, ledges.sides);
+      this.pickables.push(ledges.top);
+      this.dungeonPickables.push(ledges.top);
+      this.dungeonParts.push(...ledges.parts);
+    }
     this.dungeonTorches = floor.torches.map((t) => ({
       x: (t.x + 0.5 - floor.cols / 2) * cell,
       z: (t.y + 0.1 - floor.rows / 2) * cell,
