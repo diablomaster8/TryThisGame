@@ -120,10 +120,12 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
   }),
   // ---- shell-pup line ----
   shellpup: spec(PUP, {
-    plan: 'round',
+    // R0379 (lane F r13): an upright little turtle, so the shell shows beside it in outline.
+    plan: 'biped',
     size: 0.85,
     tail: 'curl',
     eyes: 'cute',
+    marks: ['belly'],
     addons: [ex('backShell', C.bark, C.cream)],
   }),
   shellwave: spec(pal(C.water, C.deepWater, C.cream, C.pale, C.white), {
