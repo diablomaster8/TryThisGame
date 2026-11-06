@@ -120,7 +120,7 @@ export class PoseDirector {
     });
     // Sim NPCs here, where the stager holds them.
     for (const n of world.npcs) {
-      if (!npcHere(loc, n.trainer)) continue;
+      if (!npcHere(loc, n.trainer, st.castIds)) continue;
       const c = cast.find((e) => e.who === n.trainer);
       out.push({
         key: n.id,

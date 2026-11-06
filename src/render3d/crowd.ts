@@ -231,11 +231,14 @@ export function crowdFor(
     if (only && !only.has(t)) continue;
     const here = home
       ? true
-      : underground
-        ? false
-        : location === 'corvin'
-          ? t === 'corvin' || t === 'ember'
-          : t === 'nova';
+      : location.startsWith('region:')
+        ? // R0101: a scene's cast stands in a drawn region, where the stager holds them.
+          opts.holds?.has(npc.id) === true
+        : underground
+          ? false
+          : location === 'corvin'
+            ? t === 'corvin' || t === 'ember'
+            : t === 'nova';
     if (!here) continue;
     // In a story scene everyone holds where they stood, turned to the Keeper (staging.ts).
     const held = opts.holds?.get(npc.id);

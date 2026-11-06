@@ -1428,11 +1428,13 @@ export class WorldView {
     const npcHere = (t: string) =>
       this.location === 'grove'
         ? true
-        : underground || this.location.startsWith('region:') // R11 d7: nobody follows out
-          ? false
-          : this.location === 'corvin'
-            ? t === 'corvin' || t === 'ember'
-            : t === 'nova';
+        : this.location.startsWith('region:')
+          ? this.staging?.castIds.has(t) === true // R0101: only a scene's cast, seated by the stager
+          : underground
+            ? false
+            : this.location === 'corvin'
+              ? t === 'corvin' || t === 'ember'
+              : t === 'nova';
     const cast = this.staging?.castIds;
     for (const npc of world.npcs) {
       if (!npcHere(npc.trainer) || ((bare || LOOK_STATE.tale) && !cast?.has(npc.trainer))) continue;
