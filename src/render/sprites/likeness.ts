@@ -8,6 +8,7 @@
 import { speciesArt } from './species-art';
 import { color } from './palette';
 import type { CreatureSpec } from './creature';
+import { chaoLikeness } from './likeness-chao';
 
 export interface Likeness {
   /** Three words: the shape a viewer should read at a glance. */
@@ -62,9 +63,21 @@ const hex = (i: number): string => color(i);
 function silhouetteOf(s: CreatureSpec): [string, string, string] {
   const build = s.size >= 1.15 ? 'large' : s.size <= 0.9 ? 'tiny' : 'small';
   const shape =
-    s.plan === 'round' ? 'round' : s.plan === 'tall' ? 'tall' : s.plan === 'serpent' ? 'long' : s.plan;
+    s.plan === 'round'
+      ? 'round'
+      : s.plan === 'tall'
+        ? 'tall'
+        : s.plan === 'serpent'
+          ? 'long'
+          : s.plan;
   const feature =
-    s.wings !== 'none' ? 'winged' : s.tail !== 'none' ? 'tailed' : s.ears !== 'none' ? 'eared' : 'plain';
+    s.wings !== 'none'
+      ? 'winged'
+      : s.tail !== 'none'
+        ? 'tailed'
+        : s.ears !== 'none'
+          ? 'eared'
+          : 'plain';
   return [build, shape, feature];
 }
 
@@ -80,12 +93,19 @@ function partsOf(s: CreatureSpec): string[] {
   return out.length ? out : ['plain body'];
 }
 
-/** The likeness sheet of one species, or undefined where it has no generic-drawer art. */
+/**
+ * The likeness sheet of one species, or of one Chao form (a variant id such as
+ * `first-sun-power`, `second-moon-run-swim`, `eternal-sun`, `look-fox`; derived from its 3D
+ * variant spec in `likeness-chao.ts`). Undefined where it has neither.
+ */
 export function likenessOf(id: string): Likeness | undefined {
   const spec = speciesArt(id);
-  if (!spec) return undefined;
+  if (!spec) return chaoLikeness(id);
   const c = spec.colors;
-  const colours = [...new Set([hex(c.body), hex(c.belly), hex(c.accent), hex(c.accent2)])].slice(0, 4);
+  const colours = [...new Set([hex(c.body), hex(c.belly), hex(c.accent), hex(c.accent2)])].slice(
+    0,
+    4,
+  );
   const base: Likeness = {
     silhouette: silhouetteOf(spec),
     keyColours: colours,
