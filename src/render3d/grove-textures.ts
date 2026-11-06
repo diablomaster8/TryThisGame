@@ -1,6 +1,6 @@
 import type * as THREE from 'three';
-import { cardFrom, rgbaCanvas, surfaceFrom, type Surface, type Tex } from '../samples/aaa-kit';
-import { paintJob, type PaintJob, type PaintedBytes } from '../samples/surface-paint';
+import { cardFrom, rgbaCanvas, surfaceFrom, type Surface, type Tex } from './art/aaa-kit';
+import { paintJob, type PaintJob, type PaintedBytes } from './art/surface-paint';
 import { SculptFarm } from './sculpt-farm';
 import type { PaintReply, PaintRequest } from './surface-worker';
 

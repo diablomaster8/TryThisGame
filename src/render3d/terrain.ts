@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
-import { terrainMaterial, type Tex } from '../samples/aaa-kit';
+import { terrainMaterial, type Tex } from './art/aaa-kit';
 import type { TerrainReply } from './terrain-worker';
 import { terrainArrays, type TerrainArrays } from './terrain-shape';
 

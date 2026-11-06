@@ -4,7 +4,7 @@ import { cellAt, cellCentre, CHASM, isWalkable, WALL, type Floor } from '../sim/
 import { plugUp, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
 import { onShelf, shelfRise } from '../sim/dungeon-shelves';
 import type { DungeonRun } from '../sim/types';
-import { surface, type Surface, type Tex } from '../samples/aaa-kit';
+import { surface, type Surface, type Tex } from './art/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
 import { tileLookOf } from '../render/paint/dungeon-tiles';

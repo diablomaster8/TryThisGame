@@ -26,10 +26,10 @@ import {
   type GrassField,
   type LightMood,
   type Tex,
-} from './aaa-kit';
-import { sculptedKeeper, sculptedNubbin } from './sculpted';
+} from '../render3d/art/aaa-kit';
+import { sculptedKeeper, sculptedNubbin } from '../render3d/art/sculpted';
 import { CAMERA } from '../config/tuning';
-import { outline, TOON, type Creature } from './creatures';
+import { outline, TOON, type Creature } from '../render3d/art/creatures';
 import {
   ALL_POSES,
   buildSpecies,
@@ -37,17 +37,17 @@ import {
   type PoseName,
   type Rigged,
   type SpeciesSpec,
-} from './species';
-import { ROSTER } from './species-roster';
-import { artSheet, sheetVariants, variantById } from './nubbin-variant-catalogue';
+} from '../render3d/art/species';
+import { ROSTER } from '../render3d/art/species-roster';
+import { artSheet, sheetVariants, variantById } from '../render3d/art/nubbin-variant-catalogue';
 import {
   parsePartSteps,
   parsePartsMod,
   partsTinted,
   withCritterParts,
-} from './nubbin-critter-parts';
+} from '../render3d/art/nubbin-critter-parts';
 import { sheetLabels, sheetTurns, silhouette } from './contact-sheet-3d';
-import { NUBBIN_SPEC } from './species-data';
+import { NUBBIN_SPEC } from '../render3d/art/species-data';
 import { IDLE_ROW, setUpIdleRow, stepIdleRow } from '../render3d/idle-row-3d';
 import {
   KEEPER_MOON_SPEC,
@@ -55,7 +55,7 @@ import {
   KEEPER_SPEC,
   KEEPER_THROW,
   KEEPER_WRIST,
-} from './keeper-spec';
+} from '../render3d/art/keeper-spec';
 
 /**
  * The HD-port direction taken to a AAA finish (`?aaa=1..3`): the same valley as the
@@ -75,7 +75,7 @@ import {
  * Three moods: noon, golden hour (long shadows, fireflies, lit windows) and after
  * rain (overcast, wet clearcoat ground, drizzle, lit windows).
  */
-export type { LightMood } from './aaa-kit';
+export type { LightMood } from '../render3d/art/aaa-kit';
 export const MOODS: LightMood[] = ['noon', 'golden', 'rain'];
 
 /** R0379: the species `&creature=art&silhouette` stages when no `&ids` are given. */

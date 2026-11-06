@@ -3,7 +3,7 @@ import { DUNGEON, GROVE3D } from '../config/tuning';
 import type { CaveBand } from '../render/cave-bands';
 import type { Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { fogged } from './hollow-fog';
 
 /**

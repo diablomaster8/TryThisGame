@@ -3,7 +3,7 @@ import { GROVE3D } from '../config/tuning';
 import { playChime, playKindle } from '../platform/audio';
 import { cellAt, cellCentre, FLOOR, WALL, WATER, type Floor } from '../sim/dungeon';
 import { lootHeld } from '../sim/dungeon-secrets';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import {
   CELL,
   cellHash,

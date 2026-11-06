@@ -1,7 +1,7 @@
 import type * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import type { World } from '../sim/types';
 import type { LampSource } from './lamp-pool';
 import type { ScreenRect, StageBuildings } from '../render/stage-api';
