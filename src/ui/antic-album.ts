@@ -4,7 +4,8 @@
  * reports to the sim which Nubbin is in view and doing something worth a stamp. Reads the sim;
  * its only command is `sawAntic`.
  */
-import { ALBUM_TEXT } from '../config/strings-soul-r11b';
+import '../soul-r12a.css';
+import { ALBUM_ICONS, ALBUM_TEXT } from '../config/strings-soul-r11b';
 import type { Game } from '../game';
 import { buildPerformSheet, doodleKey, PERFORM_CELL } from '../render/sprites/perform-art';
 import { ALBUM_IDS, isAlbumId, stampCount } from '../sim/antic-album';
@@ -15,6 +16,7 @@ export class AnticAlbum {
   private readonly body: HTMLDivElement;
   /** Ids already reported this session, so the sim is told once. */
   private readonly told = new Set<string>();
+  private fridgeTitle: HTMLElement | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -26,9 +28,11 @@ export class AnticAlbum {
     this.dialog.body.appendChild(this.body);
   }
 
-  open(): void {
+  /** Open the album; `fridge` scrolls to the Fridge (the cottage's door opens it that way). */
+  open(section?: 'fridge'): void {
     this.refresh();
     this.dialog.show();
+    if (section === 'fridge') this.fridgeTitle?.scrollIntoView({ block: 'start' });
   }
 
   isOpen(): boolean {
@@ -58,12 +62,20 @@ export class AnticAlbum {
       const note = el('small', undefined, seen ? '\u2605' : ALBUM_TEXT.unseen);
       const text = el('div');
       text.append(label, note);
-      row.appendChild(text);
+      // A picture thumbnail that bobs once the page is stamped (still when reduced motion).
+      const pic = el(
+        'span',
+        seen ? 'album-pic seen' : 'album-pic unseen',
+        ALBUM_ICONS[id] ?? '2605',
+      );
+      pic.setAttribute('aria-hidden', 'true');
+      row.append(pic, text);
       grid.appendChild(row);
     }
     this.body.appendChild(grid);
 
-    this.body.appendChild(el('div', 'sheet-give-title', ALBUM_TEXT.fridgeTitle));
+    this.fridgeTitle = el('div', 'sheet-give-title', ALBUM_TEXT.fridgeTitle);
+    this.body.appendChild(this.fridgeTitle);
     const fridge = w.fridge ?? [];
     if (fridge.length === 0) {
       this.body.appendChild(el('p', 'help', ALBUM_TEXT.fridgeEmpty));

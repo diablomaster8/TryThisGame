@@ -773,6 +773,8 @@ export interface ChaoLook {
   finish?: 'metal' | 'glass' | null;
   /** Extra sparkles. */
   shiny?: boolean;
+  /** Lane E r11, R0400: registry wearables outside the hat slot (face, neck, back, body). */
+  wear?: readonly string[];
   /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
   gem?: boolean;
   /** LOOK-69 (R0437): the Dojo belt round the middle, 1–5 (render/belt.ts); unset draws none. */
@@ -781,6 +783,9 @@ export interface ChaoLook {
   scarf?: DyeColor | null;
   glasses?: boolean;
   hatDye?: DyeColor | null;
+  /** R0427: an adult's dyed wing and crown tips. */
+  wingDye?: DyeColor | null;
+  crownDye?: DyeColor | null;
 }
 
 /** Palette colour for each dye, and its shade. */
@@ -791,6 +796,12 @@ export const DYE_COLORS: Record<DyeColor, number> = {
   gold: C.sunYellow,
   violet: C.violet,
   ember: C.ember,
+  teal: C.teal,
+  navy: C.nightBlue,
+  cream: C.cream,
+  black: C.ink,
+  white: C.white,
+  coral: C.blush,
 };
 
 /**
@@ -1774,11 +1785,17 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // A second evolution's tell takes its own colour: fins, wings, legs, hands or crown tip.
   const tellType = look.colors.tell === undefined ? null : (look.shape.tellType ?? null);
   const tell = look.colors.tell ?? col.tip;
-  const wingLook = tellType === 'fly' ? { ...look, colors: { ...col, wing: tell } } : look;
+  const wingBase = tellType === 'fly' ? { ...look, colors: { ...col, wing: tell } } : look;
+  const wingLook = look.wingDye
+    ? { ...wingBase, colors: { ...wingBase.colors, wing: DYE_COLORS[look.wingDye] } }
+    : wingBase;
   const armLook = tellType === 'power' ? { ...look, colors: { ...col, body: tell } } : look;
   const lift = look.shape.crownLift ?? 0;
   const crownL = lift ? { ...L, headCy: L.headCy - lift } : L;
-  const crownCol = tellType === 'normal' ? { ...col, tip: tell } : col;
+  const crownTell = tellType === 'normal' ? { ...col, tip: tell } : col;
+  const crownCol = look.crownDye
+    ? { ...crownTell, tip: DYE_COLORS[look.crownDye], tipShade: shadeOf(DYE_COLORS[look.crownDye]) }
+    : crownTell;
 
   // Back layer: wings/back part and tail behind the body for front-ish views.
   drawWings(pc, angle, pose, L, wingLook, false);
@@ -1787,6 +1804,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   if (horn) drawHorn(pc, angle, L, horn, false);
   if (look.shape.dorsal) drawDorsal(pc, angle, L, col, false);
   if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'behind');
+  for (const id of look.wear ?? []) drawCosmetic(pc, angle, L, id, 'behind');
 
   // Legs and body.
   drawLegs(pc, angle, pose, L, tellType === 'run' ? { ...col, shade: tell } : col);
@@ -1809,6 +1827,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     }
     if (look.shape.dorsal) drawDorsal(pc, angle, L, col, true);
     if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'body');
+    for (const id of look.wear ?? []) drawCosmetic(pc, angle, L, id, 'body');
   } else {
     pc.ellipse(L.bodyCx, L.bodyCy - 1, L.bodyRx, 2, col.body);
   }
@@ -1913,6 +1932,8 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       pc.blit(tmp, 0, 0);
     } else drawHat(pc, angle, L, look.hat);
   }
+  // R0400: the face, neck, back and body slots (registry items; `wear` skips the hat slot).
+  for (const id of look.wear ?? []) drawCosmetic(pc, angle, L, id, 'over');
   // LOOK-69: the Dojo belt round the belly, its knot and tails at the front.
   if (look.belt) {
     const [bc, bs] = BELT_COLOURS[Math.min(BELT_COLOURS.length, look.belt) - 1]!;

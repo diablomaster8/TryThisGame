@@ -7,10 +7,10 @@
  * drawn, so a seed gives the same field and the same finishing times whatever the
  * personality). Nothing here is read by `stepRace`, `staminaPool` or any result.
  */
-import { RACE_VOICE } from '../config/strings-soul-r11h';
+import { RACE_COUNT, RACE_VOICE } from '../config/strings-soul-r11h';
 import { RACE_PERSONA } from '../config/tuning-soul-r11h';
 import { h01 } from './soul-kit';
-import type { Racer } from './race';
+import type { Racer, RaceState } from './race';
 import type { Personality } from './types';
 
 export type StartKind = 'wave' | 'hide' | 'tongue' | 'yawn';
@@ -82,3 +82,32 @@ export function cheerVoice(p: Personality): string {
   const k = startKind(p);
   return RACE_VOICE[k ?? 'wave'];
 }
+
+/**
+ * The clock the start-line poses read: it runs through the pre-race hold (`countdownMs`) and
+ * on into the race, so a pose plays in full before the first step of movement.
+ */
+export function lineClock(
+  race: Pick<RaceState, 'timeMs' | 'countdownMs' | 'countdownTotalMs'>,
+): number {
+  const total = race.countdownTotalMs ?? 0;
+  const left = race.countdownMs ?? 0;
+  return left > 0 ? total - left : total + race.timeMs;
+}
+
+/** What the count says now ('3', '2', '1', 'Go!' for a moment after the gun) or null. */
+export function countLabel(
+  race: Pick<RaceState, 'timeMs' | 'countdownMs' | 'countdownTotalMs'>,
+): string | null {
+  const left = race.countdownMs ?? 0;
+  if (left > 0) {
+    const per = (race.countdownTotalMs ?? 3000) / 3;
+    const n = Math.min(3, Math.max(1, Math.ceil(left / per))) as 1 | 2 | 3;
+    return RACE_COUNT[n];
+  }
+  return (race.countdownTotalMs ?? 0) > 0 && race.timeMs < 700 ? RACE_COUNT.go : null;
+}
+
+/** Whether the field is still held at the line. */
+export const inCountdown = (race: Pick<RaceState, 'countdownMs'>): boolean =>
+  (race.countdownMs ?? 0) > 0;

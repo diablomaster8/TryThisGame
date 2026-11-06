@@ -1,5 +1,7 @@
 import { playArea } from '../play-area';
 import { RACE, SIM } from '../../config/tuning';
+import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { countLabel, inCountdown } from '../../sim/race-persona';
 import { UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import type { SheetCache } from '../../render/sprites/sheets';
@@ -22,6 +24,8 @@ import { UI_FX_TEXT } from '../../config/strings-ui';
 import { RacePixelView } from './pixel-view';
 import type { RaceView } from './view';
 import { showUpdateNotice } from '../../ui/update-notice';
+import { FUN_RUN_TEXT } from '../../config/strings-kid-games';
+import { FUN_RUN } from '../../config/tuning-kids';
 
 export interface RaceOutcome {
   placement: number;
@@ -68,6 +72,12 @@ export class RaceScreen {
   footer: string[] = [];
   /** R0318: a tip under "Setting the stage…", set before `start`. */
   tip = '';
+  /** R0688: a Fun Run speaks the count, the cheer and the end tip through this (read-aloud on). */
+  friendlySpeak: (text: string) => void = () => undefined;
+  /** R0688: the Fun Run's end tip ("Swimming more will make Nono faster in water"). */
+  friendlyTip = '';
+  /** R0688: when the spoken count began (0: not yet), and how many steps were shown. */
+  private countStart = 0;
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition race');
@@ -131,7 +141,18 @@ export class RaceScreen {
     this.looks = looks;
     const starts = ++this.starts;
     this.race = race;
+    this.countStart = 0;
+    // R0688: a Fun Run's cheer is a 96 px 📣; the other races keep the plain button.
+    const kid = !!race.friendly;
+    this.cheerBtn.classList.toggle('cheer-big', kid);
+    this.cheerBtn.textContent = kid ? FUN_RUN_TEXT.cheer : UI_TEXT.cheer;
+    this.cheerBtn.setAttribute('aria-label', kid ? FUN_RUN_TEXT.cheerAria : UI_TEXT.cheer);
+    if (kid) this.cheerBtn.style.setProperty('--cheer-px', `${FUN_RUN.cheerPx}px`);
     this.onDone = onDone;
+    // R0583: hold the field at the line while the start poses play (once per race).
+    if (race.countdownTotalMs === undefined) {
+      race.countdownMs = race.countdownTotalMs = RACE_PERSONA.countdownMs;
+    }
     this.watch = new RaceWatch(race);
     this.outcome = null;
     this.hatRoll = hatRoll;
@@ -181,15 +202,17 @@ export class RaceScreen {
 
   private cheer(): void {
     if (!this.race || this.loading3d || !this.view.ready) return;
+    if (inCountdown(this.race)) return;
     if (cheer(this.race)) {
       playSound('cheer');
+      if (this.race.friendly) this.friendlySpeak(FUN_RUN_TEXT.cheerSay);
       this.view.cheered(this.race, performance.now());
     }
   }
 
   private finish(): void {
     const outcome = this.outcome ?? {
-      placement: this.race?.racers.length ?? 1,
+      placement: this.race?.friendly ? 0 : (this.race?.racers.length ?? 1),
       shells: 0,
       hat: null,
     };
@@ -225,7 +248,12 @@ export class RaceScreen {
     if (!race) return;
     // A 3D stage still building: the field waits at the line.
     const live = !this.loading3d && this.view.ready;
-    const dt = this.lastMs === 0 || !live ? 0 : Math.min(RACE.maxFrameDeltaMs, nowMs - this.lastMs);
+    // R0688: a Fun Run waits at the line for "3, 2, 1, go!" (said, and tapped along).
+    const counting = live && race.friendly ? this.counting(nowMs) : false;
+    const dt =
+      this.lastMs === 0 || !live || counting
+        ? 0
+        : Math.min(RACE.maxFrameDeltaMs, nowMs - this.lastMs);
     this.lastMs = nowMs;
     this.accMs += dt;
     while (this.accMs >= SIM.stepMs) {
@@ -240,6 +268,22 @@ export class RaceScreen {
     if (!race.finished || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
   };
 
+  /** R0688: true while the start count runs; the first live frame starts it and says it. */
+  private counting(nowMs: number): boolean {
+    if (this.countStart === 0) {
+      this.countStart = nowMs;
+      this.friendlySpeak(FUN_RUN_TEXT.countSay);
+    }
+    return nowMs - this.countStart < FUN_RUN.countSteps * FUN_RUN.countGapMs;
+  }
+
+  /** R0688: which step of the count shows (0 is "3"), or -1 once the race is on. */
+  private countStep(nowMs: number): number {
+    if (this.countStart === 0) return 0;
+    const i = Math.floor((nowMs - this.countStart) / FUN_RUN.countGapMs);
+    return i < FUN_RUN.countSteps ? i : -1;
+  }
+
   private livePlacement(race: RaceState): number {
     const sorted = [...race.racers].sort((a, b) => {
       const fa = a.finishedAtMs ?? Infinity;
@@ -252,15 +296,23 @@ export class RaceScreen {
 
   private updateHud(race: RaceState, live: boolean): void {
     const place = this.livePlacement(race);
+    if (race.friendly && live) {
+      // R0688: no placings, only the count and a flag.
+      const step = this.countStep(performance.now());
+      this.hud.textContent = step >= 0 ? (FUN_RUN_TEXT.count[step] ?? '') : '🏁';
+      this.cheerBtn.disabled = step >= 0 || !cheerReady(race) || race.finished;
+      return;
+    }
     this.hud.textContent = live
-      ? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`
+      ? (countLabel(race) ?? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`)
       : this.tip
         ? `${UI_TEXT.stageLoading} ${this.tip}`
         : UI_TEXT.stageLoading;
-    this.cheerBtn.disabled = !live || !cheerReady(race) || race.finished;
+    this.cheerBtn.disabled = !live || inCountdown(race) || !cheerReady(race) || race.finished;
   }
 
   private showResults(race: RaceState): void {
+    if (race.friendly) return this.showFriendlyResults();
     const placement = playerPlacement(race);
     const shells = prizeFor(placement, race.tier);
     let hat: string | null = null;
@@ -283,6 +335,19 @@ export class RaceScreen {
     if (flutter) this.resultsBody.appendChild(el('p', 'race-tip', flutter));
     for (const line of this.footer) this.resultsBody.appendChild(el('p', 'race-footer', line));
     playSound(placement <= 3 ? 'win' : 'sad');
+    this.root.appendChild(this.results);
+    this.results.hidden = false;
+    this.resultsFocus.opened();
+  }
+
+  /** R0688: a ribbon for everyone, and one spoken tip. No rank, no prize, no standings. */
+  private showFriendlyResults(): void {
+    this.outcome = { placement: 0, shells: 0, hat: null };
+    this.resultsBody.innerHTML = '';
+    this.resultsBody.appendChild(el('p', 'celebrate-form', `🎀 ${FUN_RUN_TEXT.ribbon}`));
+    this.resultsBody.appendChild(el('p', 'race-tip', this.friendlyTip));
+    playSound('win');
+    this.friendlySpeak(`${FUN_RUN_TEXT.ribbon} ${this.friendlyTip}`);
     this.root.appendChild(this.results);
     this.results.hidden = false;
     this.resultsFocus.opened();

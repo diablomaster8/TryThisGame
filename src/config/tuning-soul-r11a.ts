@@ -4,7 +4,13 @@
  */
 export const TOY_PAIR = {
   /** Toys that take two players (friendship builds while both are playing on it). */
-  pairKinds: ['seesaw', 'sandbox'] as readonly string[],
+  pairKinds: ['seesaw', 'sandbox', 'skippingRope'] as readonly string[],
+  /** Toys any two can share: friendship builds, but nobody is pinned to an end. */
+  socialKinds: ['rubberDuck', 'kite', 'crayonBox'] as readonly string[],
+  /** Keenness for a social toy that a friend is already playing with. */
+  socialPartnerBoost: 2,
+  /** Keenness for the duck (swim types) and the kite (fly types). */
+  typeBoost: 2,
   /** Friendship points per minute of playing together. */
   friendPerMinute: 8,
   /** Keenness for a pair toy when a Nubbin is already waiting on it, and when none is. */

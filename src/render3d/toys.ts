@@ -180,6 +180,60 @@ export function buildToy(kind: ToyKind | undefined): THREE.Group {
         g.add(at(new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), bubble), x, y, z));
       break;
     }
+    case 'skippingRope': {
+      // The rope is a named arc the renderer swings about the line between the two handles.
+      for (const s of [-1, 1])
+        g.add(
+          at(
+            new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.14, 8), mat('#c0503a')),
+            s * 0.4,
+            0.07,
+            0,
+          ),
+        );
+      const swing = new THREE.Group();
+      swing.name = 'rope';
+      swing.position.set(0, 0.12, 0);
+      swing.add(
+        new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.008, 6, 24, Math.PI), mat('#e8c44a')),
+      );
+      g.add(swing);
+      break;
+    }
+    case 'rubberDuck': {
+      const y = mat('#f6d33a');
+      g.add(at(new THREE.Mesh(new THREE.SphereGeometry(0.13, 14, 10), y), 0, 0.13, 0));
+      g.add(at(new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 10), y), 0.1, 0.27, 0));
+      g.add(
+        at(new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.025, 0.06), mat('#f08a2a')), 0.18, 0.26, 0),
+      );
+      break;
+    }
+    case 'kite': {
+      const sail = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.34, 4), mat('#e04a6a'));
+      sail.rotation.y = Math.PI / 4;
+      sail.scale.z = 0.15;
+      g.add(at(sail, 0, 0.62, 0));
+      g.add(
+        at(
+          new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.5, 5), mat('#fff3d0')),
+          0,
+          0.3,
+          0,
+        ),
+      );
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.03, 0.06), mat('#3a6ea8')), 0, 0.42, 0));
+      break;
+    }
+    case 'crayonBox': {
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.1, 0.2), mat('#3a8a5a')), 0, 0.05, 0));
+      ['#e04a3a', '#f6d33a', '#3a6ea8', '#a06ad8'].forEach((c, i) => {
+        const cr = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.2, 6), mat(c));
+        cr.rotation.z = 1.45;
+        g.add(at(cr, 0.02 * i - 0.03, 0.115 + 0.005 * i, -0.06 + 0.04 * i));
+      });
+      break;
+    }
     default: {
       // The ball: red with a pale band, the classic beach ball.
       const ball = new THREE.Mesh(

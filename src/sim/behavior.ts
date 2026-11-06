@@ -58,7 +58,7 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
-import { isPairToy } from './toy-pair';
+import { isPairToy, isSocialToy } from './toy-pair';
 import { TOY_PAIR } from '../config/tuning-soul-r11a';
 import { peekAct } from './peek';
 import { callAct } from './calling';
@@ -66,9 +66,10 @@ import { nudgeArrive } from './jealousy';
 import { carryAct, carryArrive } from './carry-fruit';
 import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
 import { cottageHideAct } from './cottage-hide';
+import { hiderFound, hideAct, rewardFound } from './hide';
 import { approachAct, followFruitAct } from './care-memory';
 import { quirkAct } from './quirks';
-import { eatFlavour, napSpot, swimPace } from './state-flavour';
+import { eatFlavour, napSpot, shyTurnAway, swimPace } from './state-flavour';
 import { STATE_FLAVOUR } from '../config/tuning-soul-r10';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
@@ -615,6 +616,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       n.behavior.target = spot;
       return;
     }
+  }
+  // R0321: a shy Nubbin sometimes ducks behind a tree for a game of peekaboo.
+  const duck = hideAct(n, world, rng);
+  if (duck) {
+    startAct(n, duck, now);
+    return;
   }
   // MOVE-43: a Shy Nubbin likes to sit tucked in a bush: it goes to one, then sits there.
   if (n.personality === 'shy' && n.stage !== 'egg') {
@@ -1185,7 +1192,10 @@ function stepBehavior(
           noteTraitCare(n, 'musical', events);
         }
         if (kind === 'bubbleWand') n.typeLean.run += 1;
-        if (isPairToy(kind) && (toy.players ?? 0) >= 2)
+        if (kind === 'rubberDuck') n.typeLean.swim += 1;
+        if (kind === 'kite') n.typeLean.fly += 1;
+        if (kind === 'crayonBox') n.needs.affection = Math.min(100, n.needs.affection + 2);
+        if ((isPairToy(kind) || isSocialToy(kind)) && (toy.players ?? 0) >= 2)
           addHappiness(n, TOY_PAIR.togetherHappiness);
         if (kind === 'radio' && (n.lessons?.dance ?? 0) < 1)
           n.lessons = { ...(n.lessons ?? {}), dance: 1 };
@@ -1205,6 +1215,18 @@ function stepBehavior(
       if (b.target && walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs))
         b.target = null;
       if (world.weather.kind !== 'rain' || now >= b.untilMs) chooseIdle(n, world, rng, now);
+      break;
+    }
+    case 'hide': {
+      // R0321: walk to the spot behind the obstacle, wait there, pop out when found or bored.
+      if (b.target && walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs)) b.target = null;
+      if (!b.target && (hiderFound(world, n) || now >= b.untilMs)) {
+        const found = hiderFound(world, n);
+        if (found) rewardFound(n);
+        react(n, found ? 'giggle' : 'happy', now, events);
+      } else if (b.target && now >= b.untilMs) {
+        chooseIdle(n, world, rng, now);
+      }
       break;
     }
     case 'court': {
@@ -1314,6 +1336,10 @@ function stepBehavior(
       if (now >= b.untilMs) {
         b.reaction = null;
         chooseIdle(n, world, rng, now);
+      } else if (b.state === 'eat' && b.itemId === 'nibble') {
+        // R0558 (round 12): a shy nibbler turns its back on the others while it eats.
+        const away = shyTurnAway(n, world);
+        if (away !== null) n.facing = away;
       }
       break;
     }

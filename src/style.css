@@ -5689,6 +5689,189 @@ html.story-resting canvas {
   min-height: 44px;
 }
 
+/* R0706: the child's word list as picture tiles */
+.lang-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.lang-tile {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  text-align: center;
+}
+.lang-tile-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+/* R0675: the clap pad of the clap rounds */
+.edu-clap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+.edu-clap-pad {
+  min-width: 88px;
+  min-height: 72px;
+  font-size: 36px;
+}
+.edu-clap-hit {
+  animation: edu-clap-pop 0.18s ease-out;
+}
+.edu-clap-dots {
+  min-width: 60px;
+  font-size: 22px;
+  letter-spacing: 4px;
+}
+@keyframes edu-clap-pop {
+  50% {
+    transform: scale(1.15);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edu-clap-hit {
+    animation: none;
+  }
+}
+
+/* R0732: a pattern per colour, so colour is never the only signal */
+.edu-thing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edu-thing .edu-icon {
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 1px #000);
+}
+.edu-pat-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.55) 22%, transparent 24%);
+  background-size: 14px 14px;
+}
+.edu-pat-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.45) 0 6px,
+    transparent 6px 14px
+  );
+}
+.edu-pat-waves {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.45) 0 4px,
+    transparent 4px 12px
+  );
+}
+.edu-pat-rays {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.22) 0 4px,
+    transparent 4px 12px
+  );
+}
+.edu-pat-checks {
+  background-image:
+    linear-gradient(45deg, rgba(0, 0, 0, 0.2) 25%, transparent 25% 75%, rgba(0, 0, 0, 0.2) 75%);
+  background-size: 16px 16px;
+}
+.edu-pat-zigzag {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.4) 0 4px,
+    transparent 4px 12px
+  );
+}
+.edu-pat-rings {
+  background-image: radial-gradient(circle, transparent 40%, rgba(255, 255, 255, 0.5) 42% 52%, transparent 54%);
+  background-size: 18px 18px;
+}
+.edu-pat-cross {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.35) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.35) 2px, transparent 2px);
+  background-size: 14px 14px;
+}
+.edu-pat-solid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18));
+}
+
+/* R0733: the shape hunt */
+.edu-scene {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.edu-grove-still {
+  display: block;
+  width: 100%;
+  image-rendering: pixelated;
+  border-radius: 8px;
+}
+.edu-hotspots {
+  position: absolute;
+  inset: 0;
+}
+.btn.edu-hotspot {
+  position: absolute;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0;
+  background: transparent;
+  border: 3px dashed rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 2px rgba(27, 19, 38, 0.6);
+  border-radius: 10px;
+}
+
+/* Lane E r11, R0697: a spoken child prompt is a solid warm badge; R0698: the Read it again button. */
+.edu-coplay.edu-your-turn {
+  border-style: solid;
+  border-color: #ffd36b;
+  background: rgba(255, 211, 107, 0.16);
+}
+.edu-your-turn .edu-coplay-label {
+  color: #ffd36b;
+}
+.dialogue-again {
+  position: absolute;
+  right: 56px;
+  bottom: 100%;
+  margin-bottom: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 12px;
+  font-size: 0.9375rem;
+}
+body.edu-sprout .dialogue-again {
+  right: calc(var(--tap-min) + 8px);
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+}
+
+/*
+ * R0678: the HUD size beats the 64 px floor above (equal specificity, and the floor came
+ * later, so the 72 px phone and 80 px tablet HUD buttons were measuring 64). The extra
+ * classes put this above it. The title's kid steps are outside the body class, so their own
+ * back button carries its own floor.
+ */
+body.edu-sprout.edu-sprout.edu-sprout .topbar .btn:not(.btn-logo) {
+  min-width: var(--hud-btn);
+  min-height: var(--hud-btn);
+}
+.kids-back {
+  min-width: 64px;
+  min-height: 64px;
+  padding: 0 20px;
+  font-size: 1.1rem;
+}
+
 /* R0447: the slot picture on the title's filled slots. */
 .title-slot-has-thumb {
   display: flex;

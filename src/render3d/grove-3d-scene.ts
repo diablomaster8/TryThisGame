@@ -36,7 +36,7 @@ import type { TargetSize } from '../render/pipeline';
 import { CLAMP, PUSHERS, type Tex } from '../samples/aaa-kit';
 import type { Floor } from '../sim/dungeon';
 import { townUnlocks } from '../sim/town';
-import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
+import type { Location, Nubbin, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
 import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
@@ -53,6 +53,8 @@ import { GroveShed } from './grove-shed';
 import { GovMemory } from '../platform/gov-memory';
 import { GOV_MEMORY, TIER_BUDGET, type PerfTier } from '../config/tuning-r8d-perf';
 import { DofPass } from './dof-pass';
+import { applyPhotoCam, type PhotoCam, type PhotoSubject } from './photo-cam';
+import { Turntable } from './turntable-3d';
 import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
@@ -794,7 +796,8 @@ export class Grove3dScene {
     this.dayArgs = [hour, d, place, weather, particles];
     // A story scene that names its hour is lit at it (render/scene-stage.ts: stage.hour,
     // else its narration); the clock resumes after. Caves have no sky to stage.
-    const staged = this.staging.hour;
+    // R0412: photo mode's time-of-day slider, when no scene names its own hour.
+    const staged = this.staging.hour ?? this.photoHour;
     if (staged !== null) {
       hour = staged;
       d = daylightAt(staged);
@@ -1021,6 +1024,15 @@ export class Grove3dScene {
         b.burst('sparkle', to, n, { spread: 0.3, speed: 0.5, rise: 0.3, lifeMs: life }, now);
         continue;
       }
+      if (e.kind === 'partnerPopped') {
+        // R0048: a small pop where the lost partner left, sparkles where it lands.
+        if (this.reduceMotion) continue;
+        const from = new THREE.Vector3(e.from.x, ground(e.from.x, e.from.z) + 0.3, e.from.z);
+        b.burst('dust', from, 5, { spread: 0.3, speed: 0.5, rise: 0.3, lifeMs: 450 }, now);
+        const to = new THREE.Vector3(e.to.x, ground(e.to.x, e.to.z) + 0.4, e.to.z);
+        b.burst('sparkle', to, 4, { spread: 0.2, speed: 0.3, rise: 0.3, lifeMs: 450 }, now);
+        continue;
+      }
       if (e.kind === 'gearFound') this.gearPop.push(e.item.rarity, now);
       if (e.kind === 'portalReturned') this.r9a.portalReturned(now);
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
@@ -1078,6 +1090,16 @@ export class Grove3dScene {
         this.bursts.burst('leaf', at, 10, o, this.lastMs);
         this.bursts.burst('petal', at, 4, { ...o, spread: 1.2, speed: 0.5 }, this.lastMs);
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.tree);
+      } else if (e.kind === 'strayFed' && e.ok && e.pos) {
+        // R0326: a fed stray goes shy-delighted: a small ring of hearts where it stood.
+        const at = new THREE.Vector3(e.pos.x, ground(e.pos.x, e.pos.z) + 0.7, e.pos.z);
+        this.bursts.burst(
+          'heart',
+          at,
+          5,
+          { spread: 0.35, speed: 0.1, rise: 0.6, lifeMs: 1200 },
+          this.lastMs,
+        );
       } else if (e.kind === 'landed') {
         const p = this.actors.nubbinPosition(e.nubbinId);
         if (!p) continue;
@@ -1258,6 +1280,86 @@ export class Grove3dScene {
     cam.quaternion.copy(quat);
     this.composer.render();
     return ctx ? out : null;
+  }
+
+  /* R0412 (LOOK-56): the photo mode's hooks; the state lives in `ui/photo-3d.ts`. */
+  /** The free photo camera, laid over the Grove's each frame while set. */
+  photo: PhotoCam | null = null;
+  /** The posed subjects, drawn while `photo` is set. */
+  photoSubjects = new Map<string, PhotoSubject>();
+  private photoHour: number | null = null;
+  private turntableKit: Turntable | null = null;
+
+  /** Where a Nubbin stands and its head, for framing (null when it is not drawn). */
+  photoSpot(id: string): { feet: THREE.Vector3; head: THREE.Vector3 } | null {
+    return this.actors.nubbinSpot(id);
+  }
+
+  /** The Grove camera's orbit yaw and its look point, for the photo camera to start from. */
+  photoStart(): { yaw: number; target: THREE.Vector3 } {
+    const d = this.camera.position.clone().sub(this.camTarget);
+    return { yaw: Math.atan2(d.x, d.z), target: this.camTarget.clone() };
+  }
+
+  /** Ground height in the place shown. */
+  groundAt(x: number, z: number): number {
+    return this.location === 'grove' ? standHeight(x, z) : 0;
+  }
+
+  get dofAvailable(): boolean {
+    return this.dof.available;
+  }
+
+  /** Light the view at `hour` (0–24) while photo mode holds it; null gives the clock back. */
+  setPhotoHour(hour: number | null): void {
+    if (hour === this.photoHour) return;
+    this.photoHour = hour;
+    if (this.dayArgs) this.setDaylight(...this.dayArgs);
+  }
+
+  /** Creature outlines on or off for photo mode; null hands them back to the governor. */
+  setPhotoOutlines(on: boolean | null): void {
+    setOutlines(on ?? this.cpuApplied < 1);
+  }
+
+  /**
+   * The photo: one frame drawn at `scale` device pixels per CSS pixel (2× by default, the
+   * longer side capped), copied out in the same task, then the canvas put back at its own
+   * ratio and drawn again, as `portrait` does.
+   */
+  photoShot(scale: number, maxSide: number): HTMLCanvasElement | null {
+    if (!this.compiled) return null;
+    const css = this.renderer.getSize(new THREE.Vector2());
+    const k = Math.min(scale, maxSide / Math.max(1, css.x, css.y));
+    const was = this.renderer.getPixelRatio();
+    this.renderer.setPixelRatio(k);
+    this.composer.setPixelRatio(k);
+    let out: HTMLCanvasElement | null;
+    try {
+      this.composer.render();
+      const src = this.renderer.domElement;
+      out = document.createElement('canvas');
+      out.width = src.width;
+      out.height = src.height;
+      const ctx = out.getContext('2d');
+      if (ctx) ctx.drawImage(src, 0, 0);
+      else out = null;
+    } finally {
+      this.renderer.setPixelRatio(was);
+      this.composer.setPixelRatio(was);
+      this.composerRatio.set(this.composer, was);
+      this.composer.render();
+    }
+    return out;
+  }
+
+  /**
+   * R0411: the collection book's 3D figure: a strip of `TURNTABLE3D.frames` angles drawn
+   * offscreen once per look and cached (`turntable-3d.ts`), never per frame.
+   */
+  turntable(n: Nubbin): Promise<HTMLCanvasElement | null> {
+    this.turntableKit ??= new Turntable(this.renderer, this.actors.pool);
+    return this.turntableKit.strip(n);
   }
 
   /** Creatures under a screen point (NDC), nearest first. */
@@ -1737,6 +1839,7 @@ export class Grove3dScene {
     this.ensureTrees(world);
     this.groveKind = world.grove;
     this.lastWorld = world;
+    this.actors.photo = this.photo ? this.photoSubjects : null;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
     if (home) this.puffFlightZones(world);
@@ -1879,13 +1982,18 @@ export class Grove3dScene {
       this.shakeAmount *= Math.exp(-12 * dt);
     } else this.shakeAmount = 0;
     this.camera.lookAt(this.camTarget);
+    // R0412: photo mode's free camera over the Grove's own (`photo-cam.ts`).
+    const pc = this.photo;
+    if (pc) applyPhotoCam(this.camera, pc, ground);
     // K21: the close and over-the-shoulder shots blur what is past the speaker.
     this.dof.setShot(
-      this.staging.active &&
-        (this.staging.shotKind() === 'close' ||
-          this.staging.shotKind() === 'over' ||
-          this.reverseYaw !== null),
-      this.dofFocus(world),
+      pc
+        ? pc.dof
+        : this.staging.active &&
+            (this.staging.shotKind() === 'close' ||
+              this.staging.shotKind() === 'over' ||
+              this.reverseYaw !== null),
+      pc ? pc.dist : this.dofFocus(world),
       dt,
       this.reduceMotion,
     );
@@ -2216,6 +2324,11 @@ export class Grove3dScene {
     return p;
   }
 
+  /** R0585: ambient critters and puddles drawn last frame (debug panel). */
+  get ambientDrawn(): number {
+    return this.actors.ambientDrawn;
+  }
+
   /**
    * Feed the governor one frame interval and apply its render scale to the renderer and to
    * `composer` (the Grove's, or a minigame stage's on the same renderer).
@@ -2238,6 +2351,7 @@ export class Grove3dScene {
     // outlined part), then the second grass pass and the dusk bloom's passes, then most of
     // the shadow redraws. None of them changes a program, so a step never stalls.
     const level = this.governor.cpuLevel;
+    this.actors.shedAmbient = this.governor.shedAmbient;
     if (level !== this.cpuApplied) {
       this.cpuApplied = level;
       setOutlines(level < 1);

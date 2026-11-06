@@ -168,6 +168,8 @@ export const STATE_FLAVOUR = {
   /** A glutton gulps its fruit (eat time ×0.6) and burps after; a shy one nibbles (×1.3). */
   gulpScale: 0.6,
   nibbleScale: 1.3,
+  /** A shy nibbler turns its back on anyone this near (R0558). */
+  nibbleShyRadius: 7,
   /** A tired shy one walks to the nearest tree this near to nap under it; a cheerful one
    * to its best friend this near. Walking there may take this long at most. */
   napTreeRadius: 8,

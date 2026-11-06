@@ -1,0 +1,33 @@
+/* Lane A round 12: the Antics album thumbnails (R0564). */
+.album-pic {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  border-radius: 50%;
+  background: #fffbea;
+  box-shadow: inset 0 0 0 2px #e8d9a8;
+}
+.album-pic.unseen {
+  filter: grayscale(1);
+  opacity: 0.35;
+}
+.album-pic.seen {
+  animation: album-bob 1.6s ease-in-out infinite;
+}
+@keyframes album-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(4deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .album-pic.seen {
+    animation: none;
+  }
+}

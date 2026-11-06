@@ -98,7 +98,7 @@ describe('Learning Grove (educational mode)', () => {
         if (o.kind === 'shape') expect(['circle', 'square', 'triangle']).toContain(o.shape);
       }
       const col = makeRound('colours', 3, rng);
-      expect(col.options.every((o) => o.kind === 'colour')).toBe(true);
+      expect(col.options.every((o) => o.kind === 'colour' || o.kind === 'thing')).toBe(true);
     }
   });
 

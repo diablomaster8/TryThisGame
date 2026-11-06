@@ -11,21 +11,44 @@
  * Pure sim: no DOM.
  */
 import { DUNGEON, HOLLOW } from '../config/tuning';
-import { cellCentre, type Floor } from './dungeon';
+import { JUMP } from '../config/tuning-sim';
+import { cellAt, cellCentre, FLOOR, type Cell, type Floor } from './dungeon';
 import { setPieces } from './dungeon-set-pieces';
 import type { Vec2 } from './types';
 
 export interface PropCollider {
-  kind: 'landmark' | 'post' | 'cart';
+  kind: 'landmark' | 'post' | 'cart' | 'crystal';
   /** A soft-nav prop (a post at the rock, a cart on a path) leaves its cell open for routes. */
   softNav?: boolean;
   x: number;
   z: number;
   /** World units. */
   r: number;
+  /** A prop with a flat top the Keeper can jump onto and stand on (R0032): its height. */
+  top?: number;
 }
 
 const cache = new WeakMap<Floor, PropCollider[]>();
+
+/** Whether a crystal's cell is a dead end or has open ground all round it. */
+function crystalMaySolid(f: Floor, c: Cell): boolean {
+  const open = (x: number, y: number) => {
+    const v = cellAt(f, x, y);
+    return v === FLOOR;
+  };
+  let orth = 0;
+  for (const [dx, dy] of [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ] as const)
+    if (open(c.x + dx, c.y + dy)) orth++;
+  if (orth === 1) return true;
+  for (let dy = -1; dy <= 1; dy++)
+    for (let dx = -1; dx <= 1; dx++) if (!open(c.x + dx, c.y + dy)) return dx === 0 && dy === 0;
+  return true;
+}
 
 /** The floor's solid props, made once per floor. */
 export function floorProps(f: Floor): PropCollider[] {
@@ -57,17 +80,44 @@ export function floorProps(f: Floor): PropCollider[] {
         x: sp.cart.x + Math.sin(sp.cart.axis) * k,
         z: sp.cart.z + Math.cos(sp.cart.axis) * k,
         r: P.cartRadius,
+        top: P.cartTop,
       });
-  // Crystals stay soft: each sits at the back of a one-cell nook and chimes when brushed
-  // (item 44); a collider there walled walkers out of the nook (R0032 assumption).
+  // Crystals (R0032, round 12): solid only where a walker is never walled out, a dead end's
+  // last cell or open ground with all eight neighbours free. In a corridor or at a junction
+  // a collider would close the way, so there the crystal stays a soft, chiming thing.
+  for (const c of f.crystals) {
+    if (!crystalMaySolid(f, c)) continue;
+    const p = cellCentre(f, c);
+    out.push({ kind: 'crystal', softNav: true, x: p.x, z: p.z, r: P.crystalRadius });
+  }
   cache.set(f, out);
   return out;
 }
 
+/** Feet at or above a prop's top pass over it (R0032: the Keeper jumped onto the cart). */
+function overTop(c: PropCollider, feetY: number): boolean {
+  return c.top !== undefined && feetY >= c.top - HOLLOW.props.topSlack;
+}
+
+/**
+ * The height of the prop top the Keeper stands over (0 when none): feet must have cleared
+ * the top less `JUMP.stepUp`, and the body centre be within the prop's footprint.
+ */
+export function propStandAt(f: Floor, p: Vec2, feetY: number): number {
+  let best = 0;
+  for (const c of floorProps(f)) {
+    if (c.top === undefined || c.top <= best) continue;
+    if (feetY < c.top - JUMP.stepUp) continue;
+    if (Math.hypot(p.x - c.x, p.z - c.z) < c.r + HOLLOW.props.topEdge) best = c.top;
+  }
+  return best;
+}
+
 /** Pushes a body of `radius` out of every prop it overlaps; true when it moved. */
-export function resolveProps(p: Vec2, f: Floor, radius: number): boolean {
+export function resolveProps(p: Vec2, f: Floor, radius: number, feetY = 0): boolean {
   let moved = false;
   for (const c of floorProps(f)) {
+    if (overTop(c, feetY)) continue;
     const dx = p.x - c.x;
     const dz = p.z - c.z;
     const d = Math.hypot(dx, dz);
@@ -88,8 +138,15 @@ export function resolveProps(p: Vec2, f: Floor, radius: number): boolean {
  * to the nearest free spot just clear of the prop, trying 16 directions closest-first.
  * `walls` says whether a spot is blocked by rock alone.
  */
-export function escapeProps(p: Vec2, f: Floor, radius: number, walls: (q: Vec2) => boolean): void {
+export function escapeProps(
+  p: Vec2,
+  f: Floor,
+  radius: number,
+  walls: (q: Vec2) => boolean,
+  feetY = 0,
+): void {
   for (const c of floorProps(f)) {
+    if (overTop(c, feetY)) continue;
     if (Math.hypot(p.x - c.x, p.z - c.z) >= c.r + radius - 1e-6) continue;
     const a0 = Math.atan2(p.z - c.z, p.x - c.x);
     const d = c.r + radius + 0.02;

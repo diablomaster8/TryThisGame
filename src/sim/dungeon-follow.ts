@@ -10,7 +10,7 @@ import { HOLLOW } from '../config/tuning';
 import { cellAt, cellOf, FLOOR, isWalkable, type Floor } from './dungeon';
 import { navMask } from './dungeon-nav';
 import { propBlocked } from './dungeon-props';
-import type { DungeonRun, Nubbin, Vec2, World } from './types';
+import type { DungeonRun, Nubbin, SimEvent, Vec2, World } from './types';
 
 const lostMs = new WeakMap<DungeonRun, Record<string, number>>();
 
@@ -63,6 +63,7 @@ export function popIfLost(
   f: Floor,
   n: Nubbin,
   dtMs: number,
+  events: SimEvent[] = [],
 ): boolean {
   const k = world.keeper;
   const H = HOLLOW.follow;
@@ -80,8 +81,11 @@ export function popIfLost(
   if (table[n.id]! < H.popAfterMs) return false;
   table[n.id] = 0;
   const to = slotTarget(world, f, Math.max(0, run.party.indexOf(n.id)));
+  const from = { x: n.pos.x, z: n.pos.z };
   n.pos.x = to.x;
   n.pos.z = to.z;
   n.behavior.target = null;
+  // R0048: a small pop where it left and where it lands, and a soft sound.
+  events.push({ kind: 'partnerPopped', nubbinId: n.id, from, to: { x: to.x, z: to.z } });
   return true;
 }

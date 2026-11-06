@@ -7,6 +7,7 @@
  */
 import '../kids-r10.css';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
+import { LANG_REVIEW_TEXT } from '../config/strings-srs';
 import type { LanguageCourse } from '../content/types';
 import type { Game } from '../game';
 import { playWord } from '../platform/lang-audio';
@@ -65,6 +66,9 @@ export interface FriendCardParts {
   stamps: boolean[];
   onMeet: () => void;
   onWords: () => void;
+  /** R0701: the review game, with how many words are due (absent: no button). */
+  onReview?: () => void;
+  dueCount?: number;
 }
 
 /** One friend's card: the face (tap to meet or visit), the hello, the stamps and 📚. */
@@ -102,6 +106,15 @@ export function friendCard(g: Game, course: LanguageCourse, p: FriendCardParts):
   const words = button(`📚 ${T.words}`, p.onWords, 'btn postcard-words');
   const row = el('div', 'postcard-row');
   row.append(hello, words);
+  if (p.onReview && (p.dueCount ?? 0) > 0) {
+    const review = button(
+      `🔁 ${LANG_REVIEW_TEXT.button}`,
+      p.onReview,
+      'btn postcard-words postcard-review',
+    );
+    review.setAttribute('aria-label', LANG_REVIEW_TEXT.due(p.dueCount ?? 0));
+    row.appendChild(review);
+  }
   card.append(meet, stamps, row);
   return card;
 }

@@ -1,5 +1,5 @@
 import { RACE_PERSONA } from '../config/tuning-soul-r11h';
-import { racerPersonality, startKind, type StartKind } from '../sim/race-persona';
+import { lineClock, racerPersonality, startKind, type StartKind } from '../sim/race-persona';
 import * as THREE from 'three';
 import { RACE_LOOK } from '../config/campaign-look';
 import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
@@ -11,6 +11,9 @@ import { sectionAt, type RaceState, type Racer } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
+import { Dresser } from './dress';
+import { raceBandId } from '../config/cosmetics-r11e';
+import { speciesArt } from '../render/sprites/species-art';
 import { buildStoryRace } from './dress-f-sets';
 import { gaitTime } from './gait';
 import type { Grove3dScene } from './grove-3d-scene';
@@ -86,6 +89,9 @@ export class Race3dView implements RaceView {
   /** R0325 (FUN-36): the butterfly a gazing runner stopped for, and where it looks. */
   private butterfly: RaceButterfly | null = null;
   private readonly gaze = new THREE.Vector3();
+  /** R0437: dresses the player's rig with the race headband. */
+  private readonly dresser = new Dresser();
+  private player: Nubbin | null = null;
 
   constructor(private readonly host: Grove3dScene) {
     // The 3D race keeps its HUD in the screen's own elements; this holds nothing yet.
@@ -96,6 +102,8 @@ export class Race3dView implements RaceView {
     this.stop();
     const stage = new MiniStage(this.host, RACE3D.hour);
     this.stage = stage;
+    const band = raceBandId(race.course.id);
+    this.player = band ? { ...player, wear: { ...player.wear, face: band } } : null;
     this.spans = sectionSpans(race.course);
     this.openedMs = performance.now();
     this.lastMs = 0;
@@ -144,6 +152,8 @@ export class Race3dView implements RaceView {
   }
 
   stop(): void {
+    for (const r of this.runners) if (r.rig && r.racer.isPlayer) this.dresser.strip(r.rig);
+    this.player = null;
     // Rival looks are a race's own; their rigs would otherwise pile up in the pool.
     const keep = new Set(this.runners.filter((r) => r.racer.isPlayer).map((r) => r.look.key));
     const rivals = this.runners.filter((r) => !keep.has(r.look.key)).map((r) => r.look.key);
@@ -218,6 +228,8 @@ export class Race3dView implements RaceView {
         continue;
       }
       r.rig = rig;
+      // R0437: the player's headband, in the course colour, for the length of the race.
+      if (r.racer.isPlayer && this.player) this.dresser.update(rig, this.player);
       r.compiling = true;
       rig.ground = (x) => trackHeight(this.spans, x / U);
       rig.setPose('idle');
@@ -272,26 +284,29 @@ export class Race3dView implements RaceView {
     const live = !race.finished && r.racer.finishedAtMs === null;
     const gazing = live && race.timeMs < (r.racer.gazeUntilMs ?? -1);
     const perked = live && race.timeMs < (r.racer.perkUntilMs ?? -1);
+    const tumbling = live && race.timeMs < (r.racer.tumbleUntilMs ?? -1);
     // R0583: the start-line pose by personality (looks only; the times never read it).
     const atLine =
-      live && !flying && race.timeMs < RACE_PERSONA.startLineMs
+      live && !flying && lineClock(race) < RACE_PERSONA.startLineMs
         ? START_POSE[startKind(racerPersonality(r.racer)) ?? 'wave']
         : null;
     const pose = resting
       ? 'sleep'
-      : atLine
-        ? atLine
-        : stumbling
-          ? 'dizzy'
-          : gazing
-            ? 'idle'
-            : perked && !flying
-              ? 'surprised'
-              : flying
-                ? 'happy'
-                : race.finished || r.racer.finishedAtMs !== null
-                  ? 'idle'
-                  : 'walk';
+      : tumbling
+        ? 'tumble'
+        : atLine
+          ? atLine
+          : stumbling
+            ? 'dizzy'
+            : gazing
+              ? 'idle'
+              : perked && !flying
+                ? 'surprised'
+                : flying
+                  ? 'happy'
+                  : race.finished || r.racer.finishedAtMs !== null
+                    ? 'idle'
+                    : 'walk';
     if (r.racer.isPlayer && this.butterfly) {
       const face = gazing ? this.gaze.set(x + 0.45, y + r.look.height * 0.85, z + 0.2) : null;
       const at = this.butterfly.update(face, nowMs, this.stage?.reduceMotion ?? false);
@@ -590,6 +605,9 @@ export class Race3dView implements RaceView {
 
 /** A rival's look from its sim hint: the first evolution of its band and type. */
 function rivalLook(r: Racer): Look {
+  // R0417: a rival from another family wears its own art.
+  const art = r.species ? speciesArt(r.species) : undefined;
+  if (r.species && art) return { key: `art:${r.species}`, height: GROVE3D.nubbinHeight * art.size };
   const id = `first-${r.look.band}-${r.look.type}`;
   return {
     key: variantById(id) ? `variant:${id}` : 'nubbin',

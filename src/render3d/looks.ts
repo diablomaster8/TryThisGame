@@ -30,7 +30,10 @@ import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
 import { RADIANT_ART_PREFIX } from '../render/sprites/stage-art';
-import { color, shadeOf } from '../render/sprites/palette';
+import { C, color, shadeOf } from '../render/sprites/palette';
+import { cosmetic } from '../config/cosmetics';
+import { DYE_COLORS } from '../render/sprites/chao';
+import type { DyeColor } from '../sim/types';
 import { keeperOutfit } from '../render/keeper-look';
 import { EXTRA_LOOKS } from '../sim/extra-looks';
 import { TRAINERS } from '../sim/trainers';
@@ -123,6 +126,7 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
   const band = /-(sun|moon)(-|$)/.exec(baseKey)?.[1] ?? null;
   const colors: Partial<NubbinColors> = {};
   let shiny = false;
+  let eggFinish: 'metal' | 'glass' | undefined;
   let gem: Gem | undefined;
   let eggName = '';
   for (const m of mods) {
@@ -153,8 +157,10 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
       colors.tip = t.body;
       colors.pad = t.crownShade;
     } else if (m === 'shiny') shiny = true;
+    else if (m === 'finish:metal' || m === 'finish:glass')
+      eggFinish = m.slice(7) as 'metal' | 'glass';
   }
-  const finish = gemFinishFor(gem, eggName, shiny);
+  const finish = gemFinishFor(gem, eggName, shiny, eggFinish);
   return variant(base, `${base.name} (tinted)`, {
     colors: byRole(base, colors),
     // Painted in the body's shader, so it reads under the toon ramp (LOOK-29, LOOK-30).
@@ -197,6 +203,18 @@ function lookPalette(base: SpeciesSpec, lookId: string): SpeciesSpec {
   return variant(base, `${base.name} (${lookId})`, {
     colors: byRole(base, paletteOf(look.spec)),
   });
+}
+
+/** R0413: a costume's colours over a body, by role. */
+function costumeSpec(base: SpeciesSpec, id: string): SpeciesSpec {
+  const c = cosmetic(id)?.costume;
+  if (!c) return base;
+  const colors: Partial<NubbinColors> = {
+    body: color(C[c.body]),
+    crownShade: color(C[c.shade]),
+  };
+  if (c.belly) colors.belly = color(C[c.belly]);
+  return variant(base, `${base.name} (${id})`, { colors: byRole(base, colors) });
 }
 
 /** Shadow-touched: every colour to an ash lilac of the same lightness, any species. */
@@ -306,10 +324,22 @@ export function specForKey(key: string): SpeciesSpec {
     if (hint) spec = leanBlend(spec, Number(hint) / CHILD_HINT.steps3d);
     const look = mod('look:');
     if (look) spec = lookPalette(spec, look);
+    // R0427: the adult's dyed wing and crown tips (wings and the `tip` role).
+    const dyedTips: Partial<NubbinColors> = {};
+    const wingTip = mod('wingtip:');
+    const crownTip = mod('crowntip:');
+    if (wingTip && wingTip in DYE_COLORS) dyedTips.wing = color(DYE_COLORS[wingTip as DyeColor]);
+    if (crownTip && crownTip in DYE_COLORS) dyedTips.tip = color(DYE_COLORS[crownTip as DyeColor]);
     const colour = mods.filter(
-      (m) => m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny',
+      (m) =>
+        m.startsWith('egg:') || m.startsWith('tone:') || m === 'shiny' || m.startsWith('finish:'),
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
+    // R0413: a body costume recolours the body, crown shade and belly.
+    const costume = mod('costume:');
+    if (costume) spec = costumeSpec(spec, costume);
+    if (Object.keys(dyedTips).length)
+      spec = variant(spec, `${spec.name} (dyed)`, { colors: byRole(spec, dyedTips) });
     // Lane F r11 (EVO): the Chaos-tier stage over a second form, while the spec still knows
     // its palette roles (critter parts and birthmarks clone it without them).
     const radiant = mod('radiant:');
@@ -338,6 +368,7 @@ export function tintMods(n: {
   eggColor: string;
   tone: string | null;
   shiny: boolean;
+  finish?: 'metal' | 'glass';
   heirloom?: boolean;
   shadow?: boolean;
 }): string {
@@ -345,6 +376,7 @@ export function tintMods(n: {
   if (eggColour(n.eggColor) || jewel(n.eggColor)) mods.push(`egg:${n.eggColor}`);
   if (n.tone && (eggColour(n.tone) || jewel(n.tone))) mods.push(`tone:${n.tone}`);
   if (n.shiny || n.heirloom) mods.push('shiny');
+  if (n.finish) mods.push(`finish:${n.finish}`);
   if (n.shadow) mods.push('shadow');
   if (n.id && WEATHERED.ids.has(n.id)) mods.push('weathered');
   return mods.map((m) => `~${m}`).join('');

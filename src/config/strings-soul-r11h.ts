@@ -14,6 +14,9 @@ export const RACE_POSE_TEXT = {
   lazy: 'yawns',
 } as const;
 
+/** R0583 (round 12): the pre-race count, by seconds left (rounded up). */
+export const RACE_COUNT = { 3: '3', 2: '2', 1: '1', go: 'Go!' } as const;
+
 /** R0583: the small voice a cheer draws from each start-line kind. */
 export const RACE_VOICE = {
   wave: 'Yay!',

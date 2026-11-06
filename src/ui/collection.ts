@@ -14,6 +14,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { sproutNote } from '../config/field-notes-sprout';
 import { CURIOSITY_UI, FLAVOUR, fieldNote } from '../config/strings-look';
 import { CURIOSITY_IDS, curiositiesFound } from '../sim/curiosities';
 import { BOOK_TEXT } from '../config/strings-look';
@@ -36,7 +37,14 @@ import { tally } from '../sim/collectibles';
 import { button, el, modal } from './dom';
 import { newestWith } from '../platform/photo-album';
 import { ALBUM_TEXT } from '../config/strings-look';
+import { PAINT_TEXT } from '../config/strings-paint';
+import { PAINT } from '../config/tuning-kids-r11e';
+import { PaintPad } from './paint-pad';
 import '../look.css';
+import { SHELF_TEXT, TURNTABLE_TEXT } from '../config/strings-photo3d';
+import { BookShelf } from './shelf';
+import './shelf.css';
+import { TURNTABLE3D } from '../config/tuning-photo3d';
 
 const bandLabel = (b: string | undefined): string =>
   b === 'sun' ? NAMES.alignmentSun : b === 'moon' ? NAMES.alignmentMoon : NAMES.alignmentNeutral;
@@ -73,11 +81,12 @@ export function keyLabel(key: string): string {
 }
 
 /** FUN-28, FUN-69: a book entry's dry line (a hat, look or critter part) or Hazel's field note. */
-export function keyFlavour(key: string): string {
+export function keyFlavour(key: string, sprout = false): string {
   const parts = key.split(':');
   if (parts[0] === 'hat' || parts[0] === 'look') return FLAVOUR.wear[parts[1] ?? ''] ?? '';
   if (parts[0] === 'part') return FLAVOUR.critter[parts[1] ?? ''] ?? '';
-  return fieldNote(key);
+  // R0358: a sprout gets one short line per entry (`field-notes-sprout.ts`).
+  return sprout ? sproutNote(key, fieldNote(key)) : fieldNote(key);
 }
 
 /**
@@ -139,11 +148,16 @@ export class CollectionBook {
     maxSheets: 48,
     idleMs: 60000,
   });
-  private tab: BookTab = 'forms';
+  /** A book tab, or R0440's Shelf (a display, not a tab of keys to collect). */
+  private tab: BookTab | 'shelf' = 'forms';
+  private readonly shelf: BookShelf;
   private observer: IntersectionObserver | null = null;
   private spin = 0;
   /** The Battle Book's pages (FIGHT-84), under the species. */
   private readonly battle: HTMLDivElement;
+  /** R0743: the child's drawings, and the paint pad that makes them. */
+  private readonly drawings: HTMLDivElement;
+  private readonly pad: PaintPad;
 
   constructor(
     parent: HTMLElement,
@@ -156,6 +170,21 @@ export class CollectionBook {
     this.grid = el('div', 'book-grid');
     this.battle = el('div', 'book-battle');
     this.dialog.body.append(this.summary, this.tabs, this.page, this.grid, this.battle);
+    this.drawings = el('div', 'book-drawings');
+    this.dialog.body.appendChild(this.drawings);
+    this.pad = new PaintPad(parent, game);
+    this.shelf = new BookShelf(parent, {
+      game,
+      forKey: nubbinForKey,
+      sheet: (n) => {
+        try {
+          return this.cache.forNubbin(n);
+        } catch {
+          return null;
+        }
+      },
+      label: keyLabel,
+    });
   }
 
   open(): void {
@@ -211,6 +240,7 @@ export class CollectionBook {
   /** The open page: the figure turning through the five drawn angles and their mirrors. */
   private showPage(key: string, world: World): void {
     this.stopSpin();
+    this.refreshDrawings(world);
     this.page.innerHTML = '';
     const c = document.createElement('canvas');
     c.width = 128;
@@ -223,17 +253,75 @@ export class CollectionBook {
     };
     tick();
     if (!reducedMotion()) this.spin = window.setInterval(tick, 400);
+    this.turn3d(c, key);
+    const sprout = world.edu?.band === 'sprout';
     const at = world.seen[key];
     const by = world.seenBy?.[key];
     this.page.append(
       c,
       el('h3', undefined, keyLabel(key)),
-      ...(keyFlavour(key) ? [el('p', 'flavour', keyFlavour(key))] : []),
+      ...(keyFlavour(key, sprout) ? [el('p', 'flavour', keyFlavour(key, sprout))] : []),
       ...(at !== undefined
         ? [el('p', 'help', BOOK_TEXT.firstSeen(formatDuration(world.timeMs - at)))]
         : []),
       ...(by ? [el('p', 'help', BOOK_TEXT.earnedBy(by))] : []),
     );
+  }
+
+  /**
+   * R0411: in Full 3D the page's figure is the 3D one: a turntable strip drawn offscreen once
+   * per look and cached (`render3d/turntable-3d.ts`); until it lands, the pixel figure turns.
+   */
+  private turn3d(c: HTMLCanvasElement, key: string): void {
+    const s = this.game()?.scene3d;
+    if (!s) return;
+    const page = (this.pageKey = key);
+    c.title = TURNTABLE_TEXT.loading;
+    void s.turntable(nubbinForKey(key)).then((strip) => {
+      if (!strip || this.pageKey !== page || !c.isConnected) return;
+      this.stopSpin();
+      c.title = '';
+      const { px, frames, frameMs } = TURNTABLE3D;
+      const ctx = c.getContext('2d');
+      if (!ctx) return;
+      c.width = c.height = Math.min(256, px);
+      // A smooth 3D render, shown at the page's 128 CSS px (crisp on a 2× screen).
+      c.style.imageRendering = 'auto';
+      let i = 0;
+      const tick = () => {
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.drawImage(strip, (i % frames) * px, 0, px, px, 0, 0, c.width, c.height);
+        i++;
+      };
+      tick();
+      if (!reducedMotion()) this.spin = window.setInterval(tick, frameMs);
+    });
+  }
+
+  private pageKey = '';
+
+  /** R0743: the drawings shelf (Learning Grove saves, or any save that has drawings). */
+  private refreshDrawings(world: World): void {
+    this.drawings.textContent = '';
+    const list = world.drawings ?? [];
+    if (!world.edu && list.length === 0) return;
+    this.drawings.appendChild(
+      el('h3', undefined, PAINT_TEXT.shelf(list.length, PAINT.maxDrawings)),
+    );
+    if (world.edu)
+      this.drawings.appendChild(
+        button(PAINT_TEXT.open, () => this.pad.open(() => this.refresh()), 'btn'),
+      );
+    if (list.length === 0) this.drawings.appendChild(el('p', 'help', PAINT_TEXT.none));
+    const row = el('div', 'book-drawing-row');
+    list.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = PAINT_TEXT.drawingAlt(i + 1);
+      img.style.cssText = 'width:96px;height:96px;image-rendering:pixelated;margin:4px';
+      row.appendChild(img);
+    });
+    this.drawings.appendChild(row);
   }
 
   refresh(): void {
@@ -261,8 +349,26 @@ export class CollectionBook {
       b.setAttribute('aria-pressed', String(tab === this.tab));
       this.tabs.appendChild(b);
     }
+    // R0440: the Shelf, after the tabs of keys.
+    const sb = button(
+      `🗄 ${SHELF_TEXT.tab}`,
+      () => {
+        this.tab = 'shelf';
+        this.refresh();
+      },
+      `btn btn-small${this.tab === 'shelf' ? ' btn-primary' : ''}`,
+    );
+    sb.setAttribute('aria-pressed', String(this.tab === 'shelf'));
+    this.tabs.appendChild(sb);
     this.stopSpin();
     this.page.innerHTML = '';
+    if (this.tab === 'shelf') {
+      this.observer?.disconnect();
+      this.grid.innerHTML = '';
+      this.shelf.render(this.page, world);
+      this.battleBook(g);
+      return;
+    }
     if (world.bookTabs?.includes(this.tab)) this.page.append(el('p', 'help', BOOK_TEXT.tabDone));
     this.observer?.disconnect();
     const pending = new Map<Element, () => void>();

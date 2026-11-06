@@ -1203,6 +1203,7 @@ const CH8: EduScene[] = [
       NOVA('Gran could have spent her year at home, with you.'),
       NOVA('She came here to help the lost Nubbins instead.'),
       NOVA('Do you mind? It’s all right if you do.', 'soft'),
+      N('Pop! One firefly blinks on, then off, then on.'),
     ],
     [
       {

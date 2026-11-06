@@ -29,6 +29,7 @@ import {
 } from './chao';
 import { speciesOf } from '../../sim/species';
 import { isJewel } from '../../sim/nubbin';
+import { costumeOf, wornExtras } from '../../sim/wear';
 import { buildCreatureSheet } from './creature';
 import { buildEggSheet } from './egg';
 import { buildCocoonFor, cocoonKey } from './cocoon';
@@ -99,6 +100,18 @@ function childLook(alignment: number): { id: string; colors: ChaoColors } {
   return { id: 'neutral', colors: CHILD_NEUTRAL };
 }
 
+/** R0413: a costume recolours the body, shade and belly roles. */
+function costumeColors(colors: ChaoColors, n: Nubbin): ChaoColors {
+  const c = costumeOf(n)?.costume;
+  if (!c) return colors;
+  return {
+    ...colors,
+    body: C[c.body],
+    shade: C[c.shade],
+    belly: c.belly ? C[c.belly] : colors.belly,
+  };
+}
+
 export class SheetCache {
   private readonly sheets = new Map<string, { sheet: SpriteSheet; usedMs: number }>();
   private readonly overrides = new Map<string, SpriteSheet>();
@@ -145,6 +158,18 @@ export class SheetCache {
     return this.overrides.has(key) || this.sheets.has(key);
   }
 
+  /** R0585: the soul sheets (perform, ambient) baked so far, for the debug panel. */
+  soulSheets(): { sheets: number; frames: number } {
+    let sheets = 0;
+    let frames = 0;
+    for (const [k, v] of this.sheets) {
+      if (!k.startsWith('soul:')) continue;
+      sheets++;
+      frames += v.sheet.frames.size;
+    }
+    return { sheets, frames };
+  }
+
   /** How many generated sheets are held (for tests and the debug panel). */
   get size(): number {
     return this.sheets.size;
@@ -189,7 +214,8 @@ export class SheetCache {
       return id ? `${id}@${steps[s] ?? 1}` : '-';
     }).join(',');
     const hat = n.hat ?? '-';
-    const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
+    const wear = wornExtras(n).join('+') || '-';
+    const acc = `${wear}:${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}:${n.stage === 'adult' ? `${n.wingDye ?? '-'}.${n.crownDye ?? '-'}` : '-'}`;
     const shiny = n.shiny || n.heirloom;
     const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}:b${beltOf(n)}`;
     if (n.stage === 'adult' && n.form) {
@@ -243,12 +269,16 @@ export class SheetCache {
       const build = (look: ChaoLook): SpriteSheet =>
         buildChaoSheet({
           ...look,
+          colors: n.shadow ? look.colors : costumeColors(look.colors, n),
           partSteps: partSteps(n),
           gem,
           finish: n.shadow ? null : (n.finish ?? null),
           scarf: n.scarf ?? null,
           glasses: !!n.glasses,
+          wear: wornExtras(n),
           hatDye: n.hatDye ?? null,
+          wingDye: n.stage === 'adult' ? (n.wingDye ?? null) : null,
+          crownDye: n.stage === 'adult' ? (n.crownDye ?? null) : null,
           stars: Math.min(4, n.rebirths),
           wary: n.shadow && !n.bond,
           mark: birthmarkOf(n),
@@ -351,6 +381,14 @@ export class SheetCache {
   /** The grey Nubbins of the Hollow and Corvin's garden. */
   ambientShadow(): SpriteSheet {
     return this.get('ambient:shadow', () => buildChaoSheet(lookOf(shadowColors(CHILD_NEUTRAL))));
+  }
+
+  /** R0417: a race rival from another family, in its own art (the Chao rival look if it has none). */
+  rivalSpecies(id: string, band: 'sun' | 'moon' | 'neutral', type: string): SpriteSheet {
+    const art = speciesArt(id);
+    return art
+      ? this.get(`rival:art:${id}`, () => buildCreatureSheet(art, null))
+      : this.rival(band, type);
   }
 
   /** A generic adult look for race rivals. */

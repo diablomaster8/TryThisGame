@@ -438,8 +438,15 @@ function frameLine(g: Game): string {
   const r = g.pipeline.renderer.info.render;
   const size = g.pipeline.currentSize;
   const things = g.scene3d ? `nubbins ${g.world.nubbins.length}` : `sprites ${g.view.batch.drawn}`;
+  // R0585: what the soul sprites cost: sheets and frames in the atlas, or ambient sprites drawn.
+  const soul = g.scene3d
+    ? `ambient ${g.scene3d.ambientDrawn}`
+    : (() => {
+        const s = g.view.sheets.soulSheets();
+        return `soul atlas ${s.sheets} pages ${s.frames} frames`;
+      })();
   return (
-    `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
+    `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  ${soul}  frame ${size.width}×${size.height} ×${size.scale}` +
     `\n${worldLine(g)}` +
     hollowLine(g) +
     spikeLine(g) +

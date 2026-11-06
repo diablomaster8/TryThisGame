@@ -30,6 +30,10 @@ interface Base {
   face: number;
   back: boolean;
   dir: 1 | -1;
+  /** The grid frame (creature.ts `gridFrame`): scale, centre column, offset rounding (LOOK-43). */
+  k: number;
+  mid: number;
+  u: (n: number) => number;
 }
 
 export function birdOf(spec: CreatureSpec): Required<BirdOpts> {
@@ -38,21 +42,22 @@ export function birdOf(spec: CreatureSpec): Required<BirdOpts> {
 
 /** Head and body placement: a small head high on a long neck over an egg-shaped body. */
 export function birdAnchors(spec: CreatureSpec, pose: ChaoPose, b: Base): Anchors {
-  const s = spec.size;
+  const { k, mid, u } = b;
+  const s = spec.size * k;
   const side = b.face >= 1;
   const quarter = b.angle === 'frontQuarter' || b.angle === 'backQuarter';
   const legH = Math.round(6 * s);
   const bodyRx = Math.round((side ? 6 : quarter ? 5 : 4) * s);
   const bodyRy = Math.round((side ? 4.5 : 5.5) * s * pose.squash);
-  const bodyCx = side ? 13 : 16;
-  const bodyCy = b.feetY - legH - bodyRy + 2;
+  const bodyCx = side ? mid - u(3) : mid;
+  const bodyCy = b.feetY - legH - bodyRy + u(2);
   const headRx = Math.round(3.6 * s);
   const headRy = Math.round(3.3 * s * pose.squash);
   const neck = Math.round(5 * s);
-  let headCx = 16;
-  if (side) headCx = bodyCx + bodyRx - 1;
-  else if (quarter) headCx = b.back ? 14 : 18;
-  const headCy = Math.max(headRy + 1, bodyCy - bodyRy - neck + 1) + pose.headDrop;
+  let headCx = mid;
+  if (side) headCx = bodyCx + bodyRx - u(1);
+  else if (quarter) headCx = b.back ? mid - u(2) : mid + u(2);
+  const headCy = Math.max(headRy + u(1), bodyCy - bodyRy - neck + u(1)) + pose.headDrop;
   return {
     headCx,
     headCy,

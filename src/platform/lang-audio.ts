@@ -89,3 +89,34 @@ export function playWord(id: string): void {
     // No audio element on this device: the word still shows its romanisation.
   }
 }
+
+/**
+ * R0344 (FUN-55): recorded voice-over for scripted lines. A line's stable id (`Line.id`) is
+ * listed here once its file lands at `audio/vo/<id>.mp3`; until then the read-aloud falls
+ * back to the device voice. Hazel's letter and sprout chapter 1 are recorded first.
+ */
+export const VO_RECORDED: ReadonlySet<string> = new Set<string>([]);
+
+let voCurrent: HTMLAudioElement | null = null;
+
+/** Play a line's recording; false when there is none (the caller speaks it instead). */
+export function playVoClip(id: string | undefined, onEnded?: () => void): boolean {
+  if (!id || !VO_RECORDED.has(id) || !isAudioUnlocked() || !isSoundEnabled()) return false;
+  try {
+    voCurrent?.pause();
+    voCurrent = new Audio(`${base()}audio/vo/${id}.mp3`);
+    if (onEnded) voCurrent.addEventListener('ended', onEnded, { once: true });
+    void voCurrent.play().catch(() => undefined);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function stopVoClip(): void {
+  try {
+    voCurrent?.pause();
+  } catch {
+    // Nothing was playing.
+  }
+}

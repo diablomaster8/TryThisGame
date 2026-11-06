@@ -1,7 +1,8 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { caveReturn } from './cave-entrances';
 import { hashString } from './hash-string';
-import { CRITTER_SPECIES } from './critters';
+import { CRITTER_SPECIES, RARE_CRITTERS } from './critters';
+import { RARE_CRITTER_DROP } from '../config/tuning-look'; /* Lane E r11, R0402 */
 import { dayKey } from './daily';
 import { tzOf } from './local-time';
 import { createEgg, EGG_COLORS } from './nubbin';
@@ -31,6 +32,7 @@ import { stepPicnic } from './dungeon-picnic';
 import { noteSplit } from './dungeon-speed';
 import { fillRooms, quietScan } from './dungeon-rooms';
 import { forfeitBattleCmd } from './battle';
+import { isBridged } from './dungeon-bridged';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
 import { acornInFind, goToLevel, stepWaypoint } from './dungeon-travel';
@@ -92,6 +94,8 @@ import { noteDailyDepth, noteLevelDone, notePickup, noteTripEnd } from './dungeo
 // Lane B r9 (helper d): kid mode, raised shelves, authored story floors.
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { gentleFloor, hollowKid } from './dungeon-kid';
+import { glowBlocks, glowFollow, glowSticker } from './dungeon-glow';
+import { GLOW_CAVE } from '../config/tuning-kids';
 import { stepKidBerries } from './dungeon-kid-play';
 import { raiseShelves, type Shelf } from './dungeon-shelves';
 import type { Hop } from './dungeon-hops';
@@ -826,11 +830,18 @@ function blocks(f: Floor, x: number, y: number, solid: Solid): boolean {
   const v = cellAt(f, x, y);
   if (v === WALL) return true;
   if (solid === 'rock') return false;
-  return v === CHASM || (solid === 'all' && v === WATER && f.version >= 4);
+  if (v === CHASM) return !isBridged(f, y * f.cols + x);
+  return (solid === 'all' && v === WATER && f.version >= 4);
 }
 
 /** Push a circle out of the wall cells around it. Returns true when it moved. */
-export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid = 'rock'): boolean {
+export function resolveDungeon(
+  p: Vec2,
+  f: Floor,
+  radius: number,
+  solid: Solid = 'rock',
+  feetY = 0,
+): boolean {
   let moved = false;
   const c = cellOf(f, p);
   if (blocks(f, c.x, c.y, solid)) {
@@ -840,7 +851,8 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid =
       const q = cellCentre(f, near);
       p.x = q.x;
       p.z = q.z;
-      if (resolveProps(p, f, radius)) escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+      if (resolveProps(p, f, radius, feetY))
+        escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius), feetY);
       return true;
     }
   }
@@ -875,9 +887,9 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid =
     }
   }
   // Solid set pieces (R0032), then the walls once more so a prop never pushes into rock.
-  if (resolveProps(p, f, radius)) {
+  if (resolveProps(p, f, radius, feetY)) {
     moved = true;
-    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius), feetY);
   }
   return moved;
 }
@@ -1083,6 +1095,8 @@ export function enterDungeon(
     ...(story ? { story: true as const } : {}),
     // R0188: kid mode (story floors are the story's own).
     ...(!story && hollowKid(world) ? { kid: true as const } : {}),
+    // R0690: a sprout's cave is the Glow Cave (short, lit, nothing snatched, a puzzle a floor).
+    ...(!story && world.edu?.band === 'sprout' ? { glow: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
     // R0185 (round 9): today's shared Hollow is a fixed act chain, the same for everyone.
     ...(daily ? { dailyAct: dailyActOf(today.seed) } : {}),
@@ -1283,6 +1297,8 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
   world.keeper.moveTarget = null;
   // Camps, fields and side caves have their own ways in and out (R0147, R0152).
   if ((pending === 'up' || pending === 'down') && zoneStairs(world, run, pending, events)) return;
+  // R0690: the Glow Cave's way down and its chest wait for the floor's puzzle.
+  if ((pending === 'down' || pending === 'chest') && glowBlocks(run, pending)) return;
   if (pending === 'up') {
     // Inside an act the stairs up climb a level; from its top they lead home.
     if (run.act !== undefined && !run.story && run.depth > actStartDepth(run.act))
@@ -1305,6 +1321,7 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     const egg = rng.chance(DUNGEON.chestEggChance + run.depth * 0.03) && hasRoom(world);
     if (egg) grantEgg(world, rng);
     events.push({ kind: 'chestOpened', shells, egg });
+    glowSticker(world, run, events);
   } else if (pending?.startsWith('stray:')) {
     const s = run.strays.find((x) => x.id === pending.slice('stray:'.length));
     if (!s || world.inventory.fruit < 1) return;
@@ -1314,7 +1331,7 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     const rng = Rng.fromSeed(`${run.seed}:${run.depth}:${s.id}`);
     const name = uniqueName(world, rng.pick(STRAY_NAMES), rng);
     addRecruit(world, name, 'chao', events);
-    events.push({ kind: 'strayFed', ok: true, name });
+    events.push({ kind: 'strayFed', ok: true, name, pos: { x: s.pos.x, z: s.pos.z } });
   }
 }
 
@@ -1328,6 +1345,13 @@ function grantEgg(world: World, rng: Rng): Nubbin | null {
   const egg = createEgg(newId(world, 'nubbin'), { x: 2, z: 0 }, rng, color, species);
   world.nubbins.push(egg);
   return egg;
+}
+
+/** R0402: below the first floor a critter find may be a rare one (a phoenix, a dragon). */
+export function critterFind(rng: Rng, depth: number, id: string): string {
+  if (depth >= RARE_CRITTER_DROP.minDepth && rng.chance(RARE_CRITTER_DROP.chance))
+    return rng.pick(RARE_CRITTERS).id;
+  return id;
 }
 
 function takeLoot(
@@ -1368,7 +1392,11 @@ function takeLoot(
       if (loot.param) inv.essences[loot.param] = (inv.essences[loot.param] ?? 0) + amount;
       break;
     case 'critter':
-      if (loot.param) inv.critters[loot.param] = (inv.critters[loot.param] ?? 0) + amount;
+      if (loot.param) {
+        // R0402: below the first floor a critter find may be a rare one (phoenix, dragon).
+        loot = { ...loot, param: critterFind(rng, run.depth, loot.param) };
+        inv.critters[loot.param!] = (inv.critters[loot.param!] ?? 0) + amount;
+      }
       break;
     case 'egg':
       if (!grantEgg(world, rng)) {
@@ -1500,7 +1528,17 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     const fleeing = s.cooldownMs > 0;
     // R0281: a stray that bumped the Keeper holds still and asks before it snatches.
     const touching =
-      !fleeing && maySnatch(s, settling) && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0;
+      !fleeing &&
+      !run.glow &&
+      maySnatch(s, settling) &&
+      dist(s.pos, k.pos) < 0.9 &&
+      world.inventory.shells > 0;
+    // R0690: a shy glowbug follows the Keeper and waits for a fruit; it never takes anything.
+    if (run.glow) {
+      glowFollow(s.pos, k.pos, DUNGEON.straySpeed, dt, GLOW_CAVE.followDistance * DUNGEON.cell);
+      resolveDungeon(s.pos, f, 0.3, 'all');
+      continue;
+    }
     if (stepStrayAsk(world, run, s, touching, dtMs, events)) continue;
     if (s.cooldownMs > 0 && !fleeing) {
       // It just snatched after asking: off it runs.
@@ -1539,7 +1577,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       continue;
     }
     // R0048: a follower left far behind and out of sight pops to its slot behind the Keeper.
-    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs);
+    if (!run.fetch[id]) popIfLost(world, run, f, n, dtMs, events);
     let target: Vec2 | null = null;
     let fetching = run.fetch[id] ? f.loot.find((l) => l.id === run.fetch[id]) : undefined;
     if (fetching && !available(fetching)) fetching = undefined;

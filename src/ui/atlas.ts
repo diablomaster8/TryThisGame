@@ -24,7 +24,9 @@ import {
 import { crossSavesFrom, type CrossSaves } from '../sim/cross-saves';
 import { derivedUnlocks, setDerivedUnlocks } from '../sim/derived-unlocks';
 import { audienceContext } from '../sim/fun-quests';
-import { speakerNameIn } from '../sim/story-scenes';
+import { choiceToSend, eduContent, sceneFor, speakerNameIn } from '../sim/story-scenes';
+import { speakLine } from './lesson';
+import type { EduBand } from '../content/types';
 import {
   E6_CORE_SCENE,
   E6_GATE_SCENE,
@@ -54,6 +56,18 @@ import { DO_IT_BY, DOSSIER_TEXT } from '../config/strings-fun-r6';
 import { playLabel } from './journal-step';
 import { showSkipCard, stepSummary } from './skip-card';
 import { hashSeed } from '../sim/rng';
+
+/**
+ * R0687: whether a page has a Learning Grove version for the band: one of its quests' scenes
+ * is in the edu content (`eduContent()`), so a child only ever sees pages written for them.
+ * The edu chunk for the band's Atlas part loads on the first lookup, so this can be false at
+ * first; the shelf looks again a moment later.
+ */
+export function hasEduPage(line: StoryLine, band: EduBand): boolean {
+  const edu = eduContent();
+  if (!edu) return false;
+  return line.quests.some((q) => q.steps.some((s) => !!edu.eduSceneFor(band, s.scene.id)));
+}
 
 /**
  * A fresh read-only snapshot of the side saves and the Grove save in play (R0626: every
@@ -90,6 +104,7 @@ export class StoryShelf {
   private readonly body: HTMLDivElement;
   private lines: StoryLine[] | null = null;
   private page: StoryLine | null = null;
+  private eduRetries = 0;
 
   private readonly micro: MicroScreen;
 
@@ -119,6 +134,7 @@ export class StoryShelf {
 
   private show(): void {
     this.page = null;
+    this.eduRetries = 0;
     this.dialog.show();
     if (this.lines) {
       this.refresh();
@@ -228,9 +244,18 @@ export class StoryShelf {
     const progress = sideLines(save);
     const ctx = this.context(save);
     const audience = audienceContext(g.world);
+    const edu = g.world.edu;
     const shown = this.lines!.filter(
-      (l) => lineAvailable(l, audience) && !lineClosed(l, progress[l.id], ctx),
+      (l) =>
+        lineAvailable(l, audience) &&
+        !lineClosed(l, progress[l.id], ctx) &&
+        (!edu || hasEduPage(l, edu.band)),
     );
+    // R0687: the edu chunk may still be on its way; look again a few times.
+    if (edu && shown.length === 0 && this.eduRetries < 6) {
+      this.eduRetries += 1;
+      window.setTimeout(() => this.dialog.isOpen() && !this.page && this.refresh(), 700);
+    }
     this.body.replaceChildren(el('p', 'help', this.config.help));
     // R0335 (FUN-46): Neopia's masthead, its caption worn down by the plots (canon 44).
     if (this.config.which === 'neopia') {
@@ -258,10 +283,12 @@ export class StoryShelf {
         else file.append(wrong);
         list.appendChild(file);
       }
+      // R0687: in a Learning Grove each page is a picture postcard that says its title.
       list.appendChild(
         button(
-          `${ATLAS_TEXT.page(line.title, done, total)}${mark}`,
+          edu ? `🌍 ${line.title}${mark}` : `${ATLAS_TEXT.page(line.title, done, total)}${mark}`,
           () => {
+            if (edu?.readAloud) speakLine(line.title);
             this.page = line;
             this.refresh();
           },
@@ -334,12 +361,28 @@ export class StoryShelf {
               if (scene.id === E6_GATE_SCENE) openLastEndgame();
               // The scene plays over the Grove; the shelf comes back when it ends.
               this.dialog.hide();
-              this.dialogue.playScene(scene, names, (choice) => {
-                this.update(line, (pr, ctx) => lineSceneDone(line, pr, scene.id, choice, ctx));
-                if (scene.id === E6_CORE_SCENE && choice === 'eternal') endLastEndgameEternal();
-                this.dialog.show();
-                this.refresh();
-              });
+              // R0687: a Learning Grove child gets the band's version, with its lessons.
+              const gw = this.game()?.world;
+              const play = gw?.edu ? sceneFor(gw, scene.id) : undefined;
+              this.dialogue.playScene(
+                play ?? scene,
+                names,
+                (choice) => {
+                  this.update(line, (pr, ctx) =>
+                    lineSceneDone(
+                      line,
+                      pr,
+                      scene.id,
+                      play ? choiceToSend(play, choice) : choice,
+                      ctx,
+                    ),
+                  );
+                  if (scene.id === E6_CORE_SCENE && choice === 'eternal') endLastEndgameEternal();
+                  this.dialog.show();
+                  this.refresh();
+                },
+                play?.lessons ?? [],
+              );
             },
             'btn btn-primary',
           ),

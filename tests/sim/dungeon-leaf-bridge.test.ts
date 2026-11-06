@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { SIM } from '../../src/config/tuning';
 import { cellCentre, cellOf, CHASM, FLOOR, runFloor, type Floor } from '../../src/sim/dungeon';
 import { assistBridges } from '../../src/sim/dungeon-falls';
+import { navMask } from '../../src/sim/dungeon-nav';
+import { resolveDungeon } from '../../src/sim/dungeon';
 import { createEdu } from '../../src/sim/edu';
 import { hatch } from '../../src/sim/lifecycle';
 import type { SimEvent } from '../../src/sim/types';
@@ -75,5 +77,25 @@ describe('the sprout leaf-bridge (R0025)', () => {
     const { dry, gap } = edge(f);
     for (let i = 0; i < 4; i++) expect(tryGap(world, f, gap, dry)).toBe(true);
     expect(assistBridges(f)).toHaveLength(0);
+  });
+
+  it('the planner and the party treat a bridged gap as ground (R0025, round 12)', () => {
+    const world = underground(true);
+    const f = runFloor(world)!;
+    const { dry, gap } = edge(f);
+    const at = gap.y * f.cols + gap.x;
+    stepWorld(world, SIM.stepMs); // a new run drops what an earlier run grew on the cached floor
+    expect(navMask(f, false)[at]).toBe(0);
+    const before = cellCentre(f, gap);
+    const p = { ...before };
+    resolveDungeon(p, f, 0.3, 'chasm');
+    expect(Math.hypot(p.x - before.x, p.z - before.z)).toBeGreaterThan(0.1);
+    tryGap(world, f, gap, dry);
+    tryGap(world, f, gap, dry);
+    expect(assistBridges(f).length).toBeGreaterThan(0);
+    expect(navMask(f, false)[at]).toBe(1);
+    const q = { ...before };
+    resolveDungeon(q, f, 0.3, 'chasm');
+    expect(q).toEqual(before);
   });
 });

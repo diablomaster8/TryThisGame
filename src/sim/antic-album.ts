@@ -11,6 +11,7 @@
  * Pure rules: no DOM, no Three.js, no rng.
  */
 import { ALBUM } from '../config/tuning-soul-r11b';
+import { inConcert } from './jam';
 import type { Nubbin, SimEvent, World } from './types';
 
 /** The pages, in album order: the behaviour item that shows each. */
@@ -59,7 +60,30 @@ export const ALBUM_IDS: readonly string[] = [
   'callFruit',
   'cryStomp',
   'flinch',
+  // Group games and the weather's play (round 12).
+  'gatherJam',
+  'concert',
+  'ringDance',
+  'pondParty',
+  'huddle',
+  'snowball',
+  'snowBuild',
+  'puddleStomp',
+  'sunbathe',
+  'leafPileJump',
+  'flowerSniff',
+  'tagRun',
+  'seekCount',
+  'sled',
+  'bondHug',
 ];
+
+/** The album page a Nubbin's act earns: a concert member earns the concert, else its item. */
+export function albumIdOf(world: Pick<World, 'timeMs'>, n: Nubbin): string | null {
+  if (inConcert(n, world.timeMs)) return 'concert';
+  const id = n.behavior.itemId;
+  return isAlbumId(id) ? id : null;
+}
 
 export const isAlbumId = (id: string | null | undefined): boolean => !!id && ALBUM_IDS.includes(id);
 
@@ -77,8 +101,8 @@ export function prizeAt(count: number): number {
  * the id stamped, else null. Pays the prize once per milestone.
  */
 export function sawAntic(world: World, n: Nubbin, events: SimEvent[]): string | null {
-  const id = n.behavior.itemId;
-  if (!isAlbumId(id) || n.stage === 'egg') return null;
+  const id = albumIdOf(world, n);
+  if (!id || n.stage === 'egg') return null;
   const album = (world.album ??= {});
   if (album[id!] !== undefined) return null;
   album[id!] = world.timeMs;

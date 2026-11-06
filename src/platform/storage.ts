@@ -2,8 +2,7 @@
  * localStorage behind try/catch. Private browsing, blocked storage and quota errors
  * must never crash the game; they just mean nothing is kept.
  *
- * Saves live in slots: three per mode (the campaign, the Free Grove, the Learning
- * Grove). Slot 1 of each mode keeps the key the game used before slots existed, so
+ * Saves live in slots: three per mode (the campaign has eight, the Learning Grove six). Slot 1 of each mode keeps the key the game used before slots existed, so
  * nobody loses a Grove.
  */
 import { C11_CHOICE_FLAGS, SAVE_SAFETY } from '../config/tuning';
@@ -53,11 +52,16 @@ export const SLOTS_PER_MODE = SAVE_LAYOUT.slotsPerMode;
 
 /** R0621 (CAMP-29): Hazel's Grove has 8 slots; every other mode keeps 3. */
 export function slotsFor(mode: SaveMode): number {
+  if (mode === 'edu') return SAVE_LAYOUT.eduSlots;
   return mode === 'campaign' ? SAVE_LAYOUT.slotsPerProfile : SLOTS_PER_MODE;
 }
 
 /** The most slots any mode has. */
-export const MAX_SLOTS = Math.max(SAVE_LAYOUT.slotsPerProfile, SLOTS_PER_MODE);
+export const MAX_SLOTS = Math.max(
+  SAVE_LAYOUT.slotsPerProfile,
+  SLOTS_PER_MODE,
+  SAVE_LAYOUT.eduSlots,
+);
 
 function clampIndex(slot: SaveSlot): number {
   return Math.max(1, Math.min(slotsFor(slot.mode), Math.floor(slot.index) || 1));

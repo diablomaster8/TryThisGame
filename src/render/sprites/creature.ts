@@ -40,7 +40,8 @@ import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
  * A generic chibi creature drawer for the non-Chao families. Every species is a body
  * plan plus a handful of parametric features and a palette, so dozens of species share
  * one drawer and still read as themselves at 32 px: colour, silhouette, ears, tail,
- * crest, wings and markings carry the likeness. Frames are 32×32 with feet on row 30.
+ * crest, wings and markings carry the likeness. Frames are 32×32 with feet on row 30, or
+ * 48×48 with feet on row 46 for a big final form (`grid: 48`, LOOK-43).
  */
 export type BodyPlan =
   'round' | 'biped' | 'tall' | 'shell' | 'serpent' | 'slug' | 'stalk' | 'bird' | KitPlan;
@@ -124,9 +125,50 @@ export interface CreatureSpec {
   bird?: BirdOpts;
   /** LOOK-45: moves by hopping (the in-training blobs): the walk clip squashes and lifts, no legs. */
   move?: 'hop';
+  /**
+   * LOOK-43 (R0409): the design grid. 32 (default) for everyone; 48 gives a big final form
+   * (size ≥ CREATURE_GRID_MIN_SIZE) half again the pixels, rasterised at the same 2× (96 px).
+   * Body anchors scale by grid/32; feature drawers keep their pixel offsets, so the extra room
+   * is for extra parts. Babies stay at 32 so the size difference itself tells the story.
+   */
+  grid?: 32 | 48;
 }
 
 export const CREATURE_SIZE = 32;
+/** The big grid (LOOK-43) and the smallest `size` allowed to use it. */
+export const CREATURE_GRID_BIG = 48;
+export const CREATURE_GRID_MIN_SIZE = 1.15;
+
+/** A spec's design grid in design pixels: the frame is grid×grid, feet on row grid−2. */
+export function gridOf(spec: Pick<CreatureSpec, 'grid'>): number {
+  return spec.grid ?? CREATURE_SIZE;
+}
+
+/**
+ * The anchor frame for a grid: `k` scales body radii and anchor offsets, `mid` is the centre
+ * column and `u` rounds an offset to whole design pixels. At grid 32, k is exactly 1 and every
+ * expression reduces to the original constants, so existing sheets stay pixel-identical.
+ */
+export interface GridFrame {
+  k: number;
+  mid: number;
+  feet: number;
+  u: (n: number) => number;
+}
+
+/**
+ * How many physical pixels a sheet's cells stand taller than the standard 32-grid frame (0
+ * for every Chao and 32-grid sheet): views lift the emote ball by this much over a big form.
+ */
+export function tallFramePx(cellH: number): number {
+  return Math.max(0, cellH - CREATURE_SIZE * PX);
+}
+
+export function gridFrame(spec: Pick<CreatureSpec, 'grid'>): GridFrame {
+  const g = gridOf(spec);
+  const k = g / CREATURE_SIZE;
+  return { k, mid: g / 2, feet: g - 2, u: (n: number) => Math.round(n * k) };
+}
 
 export interface Anchors {
   headCx: number;
@@ -151,12 +193,15 @@ export interface Anchors {
 }
 
 function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors {
-  const s = spec.size;
+  const g = gridFrame(spec);
+  const { k, u } = g;
+  const s = spec.size * k;
   // Ghosts ride above the ground row; the world's shadow stays on the ground under them.
-  const feetY = 30 + pose.lift - (spec.gen1b?.includes('float') ? GHOST_LIFT : 0);
+  const feetY = g.feet + pose.lift * k - (spec.gen1b?.includes('float') ? GHOST_LIFT * k : 0);
   const face = angle === 'front' ? 0 : angle === 'frontQuarter' ? 0.5 : angle === 'side' ? 1 : 0;
   const back = angle === 'back' || angle === 'backQuarter';
   const dir: 1 | -1 = -1;
+  const base0 = { angle, feetY, face, back, dir, k, mid: g.mid, u };
   let headRx = Math.round(7 * s);
   let headRy = Math.round(6.5 * s * pose.squash);
   let bodyRx = Math.round(5.5 * s);
@@ -166,36 +211,45 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
   switch (spec.plan) {
     case 'quad':
     case 'fish':
-      return kitAnchors(spec.plan, spec, pose, { angle, feetY, face, back, dir });
+      return kitAnchors(spec.plan, spec, pose, base0);
     case 'bird':
-      return birdAnchors(spec, pose, { angle, feetY, face, back, dir });
+      return birdAnchors(spec, pose, base0);
     case 'round':
       headRx = Math.round(9 * s);
       headRy = Math.round(8.5 * s * pose.squash);
       bodyRx = 0;
       bodyRy = 0;
-      headCy = feetY - headRy - (spec.legs === 'none' ? 0 : 2) + pose.headDrop;
-      bodyCy = headCy + headRy - 2;
+      headCy = feetY - headRy - (spec.legs === 'none' ? 0 : u(2)) + pose.headDrop;
+      bodyCy = headCy + headRy - u(2);
       break;
     case 'tall':
       headRx = Math.round(6 * s);
       headRy = Math.round(5 * s * pose.squash);
       bodyRx = Math.round(6.5 * s);
       bodyRy = Math.round(8 * s * pose.squash);
-      bodyCy = feetY - bodyRy + 1 - (spec.legs === 'none' ? 0 : 1);
-      headCy = bodyCy - bodyRy - headRy + 3 + pose.headDrop;
+      bodyCy = feetY - bodyRy + u(1) - (spec.legs === 'none' ? 0 : u(1));
+      headCy = bodyCy - bodyRy - headRy + u(3) + pose.headDrop;
       break;
     case 'shell':
       headRx = Math.round(8 * s);
       headRy = Math.round(6 * s * pose.squash);
       bodyRx = 0;
       bodyRy = 0;
-      headCy = feetY - headRy - 1 + pose.headDrop;
-      bodyCy = feetY - 1;
+      headCy = feetY - headRy - u(1) + pose.headDrop;
+      bodyCy = feetY - u(1);
       break;
     case 'serpent': {
       // The body chain sets the head and body anchors; see creature-serpent.ts.
-      const l = serpentLayout(face, back, spec, feetY, pose.squash, pose.headDrop, pose.step ?? 0);
+      const l = serpentLayout(
+        face,
+        back,
+        spec,
+        feetY,
+        pose.squash,
+        pose.headDrop,
+        pose.step ?? 0,
+        g,
+      );
       const b = serpentBodyAnchors(l);
       return {
         headCx: Math.round(l.headCx),
@@ -225,19 +279,20 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
       bodyRx = Math.round(2.5 * s);
       bodyRy = Math.round(7 * s);
       bodyCy = feetY - bodyRy;
-      headCy = bodyCy - bodyRy - headRy + 3 + pose.headDrop;
+      headCy = bodyCy - bodyRy - headRy + u(3) + pose.headDrop;
       break;
     default: {
       // biped
-      bodyCy = feetY - bodyRy + 1 - (spec.legs === 'long' ? 4 : spec.legs === 'none' ? 0 : 1);
-      headCy = bodyCy - bodyRy - headRy + 3 + pose.headDrop;
+      bodyCy =
+        feetY - bodyRy + u(1) - (spec.legs === 'long' ? u(4) : spec.legs === 'none' ? 0 : u(1));
+      headCy = bodyCy - bodyRy - headRy + u(3) + pose.headDrop;
     }
   }
   if (spec.girth) {
     bodyRx = Math.round(bodyRx * spec.girth);
     headRx = Math.round(headRx * (1 + (spec.girth - 1) * 0.6));
   }
-  const headCx = 16 + (angle === 'side' ? -1 : 0);
+  const headCx = g.mid + (angle === 'side' ? -u(1) : 0);
   const many = spec.heads && spec.heads.count > 1 ? spec.heads : null;
   if (many) {
     // Equal heads: shrink the main one to the shared size; the slots then place it.
@@ -245,14 +300,14 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
     headRx = Math.round(headRx * k);
     const tall = headTall(many);
     headRy = Math.round(tall ? headRx * tall * pose.squash : headRy * k);
-    if (bodyRx === 0) headCy = feetY - headRy - (spec.legs === 'none' ? 0 : 2) + pose.headDrop;
+    if (bodyRx === 0) headCy = feetY - headRy - (spec.legs === 'none' ? 0 : u(2)) + pose.headDrop;
   }
   const base: Anchors = {
     headCx,
     headCy,
     headRx,
     headRy,
-    bodyCx: 16,
+    bodyCx: g.mid,
     bodyCy,
     bodyRx,
     bodyRy,
@@ -831,14 +886,17 @@ function leanPixels(pc: PixelCanvas, a: Anchors): void {
   }
 }
 
-/** Draw one frame of a species into a fresh 32×32 canvas, wearing `hat` when given (LOOK-61). */
+/**
+ * Draw one frame of a species into a fresh grid×grid canvas (32×32 unless the spec asks for
+ * the big grid), wearing `hat` when given (LOOK-61).
+ */
 export function drawCreature(
   angle: DrawnAngle,
   pose: ChaoPose,
   spec: CreatureSpec,
   hat: string | null = null,
 ): PixelCanvas {
-  const pc = new PixelCanvas(CREATURE_SIZE, CREATURE_SIZE);
+  const pc = new PixelCanvas(gridOf(spec), gridOf(spec));
   const a = anchors(angle, pose, spec);
   drawExtras(pc, a, spec, pose, true);
   drawWings(pc, a, spec, pose, true);
@@ -865,7 +923,8 @@ export function drawCreature(
   if (hat && !hat.startsWith('look-') && !pose.waterline)
     drawHat(pc, angle, { ...a, legLength: 0 }, hat);
   if (pose.waterline) {
-    pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
+    const { u } = gridFrame(spec);
+    pc.line(a.headCx - u(8), a.bodyCy - 1, a.headCx + u(8), a.bodyCy - 1, C.shallows);
   }
   // The love pose's rosy cheeks, on the face side of the head.
   if (pose.blush && angle !== 'back' && angle !== 'backQuarter') {
@@ -898,7 +957,9 @@ function clipPose(spec: CreatureSpec, clip: ClipName, f: number): ChaoPose {
 
 /** Every clip at every drawn angle, baked into one sheet, with the same keys as the Chao. */
 export function buildCreatureSheet(spec: CreatureSpec, hat: string | null = null): SpriteSheet {
-  const atlas = new AtlasBuilder(CREATURE_SIZE, CREATURE_SIZE, 10);
+  // Each sheet has one cell size; a big-grid species gets 96 px cells on its own sheet, and
+  // the mega-atlas shelf-packs sheets of any size side by side (LOOK-43).
+  const atlas = new AtlasBuilder(gridOf(spec), gridOf(spec), 10);
   for (const clip of Object.keys(CLIPS) as ClipName[]) {
     for (const angle of isBattleClip(clip) ? BATTLE_CLIP_ANGLES : DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {

@@ -30,10 +30,10 @@ export function soulLive(): boolean {
 
 /**
  * R0593 (SOUL-76): Settings → Liveliness scales the quirks and antics (never needs or stats):
- * calm ×0.5, normal ×1, lively ×1.5. Unset is normal, and lively for the sprout band.
+ * calm ×0.5, normal ×1, lively ×1.5. Unset is normal, and lively in any Learning Grove band (R0567).
  */
 export function livelinessOf(world: World): 'calm' | 'normal' | 'lively' {
-  return world.settings.liveliness ?? (world.edu?.band === 'sprout' ? 'lively' : 'normal');
+  return world.settings.liveliness ?? (world.edu ? 'lively' : 'normal');
 }
 
 /** The multiplier for the chosen liveliness. */

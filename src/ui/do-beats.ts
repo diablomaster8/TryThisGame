@@ -12,6 +12,8 @@ import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
 import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
 import { playSound } from '../platform/audio';
 import { playWord } from '../platform/lang-audio';
+import { listenOnce } from '../platform/listen';
+import { LISTEN_TEXT } from '../config/strings-listen';
 import { langCourses } from '../sim/lang';
 import type { VocabItem } from '../content/types';
 import { button, el } from './dom';
@@ -477,7 +479,13 @@ function sayBeat(card: HTMLElement, ask: Ask, finish: Finish): void {
   const ring = el('div', 'do-beat-ring', T.sayWait);
   ring.style.setProperty('--say', `${KIDS_R10_TUNING.sayMs}ms`);
   card.appendChild(ring);
-  // No microphone: the pause is the child's turn, then the beat goes on.
+  // R0744: with the grown-up's opt-in the microphone listens for voice and cheers it; it never
+  // judges, and the pause below goes on whether or not anything was heard.
+  listenOnce(() => {
+    if (card.querySelector('.do-beat-heard')) return;
+    card.appendChild(el('p', 'do-beat-cheer do-beat-heard', LISTEN_TEXT.heard));
+  });
+  // The pause is the child's turn, then the beat goes on.
   window.setTimeout(() => {
     ring.classList.add('do-on');
     finish();

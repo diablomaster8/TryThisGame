@@ -19,6 +19,12 @@ export const LANG = {
   nextQuestAfterMs: 120_000,
   /** A word counts as learned once used, or once heard this many times. */
   learnedAfterHeard: 3,
+  /**
+   * R0701: Leitner review. A word moves up a box on a right answer and back to box 1 on a
+   * wrong one. `intervals[box]` is the play-days until it is due again; a play-day is a
+   * calendar day the child reviewed on, so a missed day costs nothing.
+   */
+  srs: { maxBox: 4, learnedBox: 3, intervals: [0, 1, 2, 4, 8], perSitting: 5, options: 3 },
   /** Nubbins this close to the Keeper react to a learned word, at most this many. */
   reactRadius: 9,
   reactMax: 3,

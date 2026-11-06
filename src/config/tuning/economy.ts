@@ -99,6 +99,10 @@ export const TOYS = {
     sandbox: 80,
     drum: 55,
     bubbleWand: 35,
+    skippingRope: 50,
+    rubberDuck: 40,
+    kite: 65,
+    crayonBox: 45,
   } as const,
   maxPlaced: 6,
 } as const;

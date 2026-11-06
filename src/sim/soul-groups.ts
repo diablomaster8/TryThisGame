@@ -5,6 +5,8 @@
  */
 import { stepAmbient } from './ambient';
 import { stepGames } from './group-games';
+import { stepFondFollow } from './fond-follow';
+import { stepHums } from './hum';
 import { stepJams } from './jam';
 import { stepKin } from './kin-play';
 import { stepOldSouls } from './old-soul';
@@ -20,6 +22,8 @@ export function stepSoulGroups(
 ): void {
   stepAmbient(world, dtMs, events, offline);
   stepJams(world, dtMs, events, offline);
+  stepHums(world, dtMs, events, offline);
+  stepFondFollow(world, dtMs, events, offline);
   stepGames(world, dtMs, events, offline);
   stepWeatherPlay(world, dtMs, events, offline);
   stepSeasonMoods(world, dtMs, events, offline);

@@ -51,54 +51,64 @@ export function serpentLayout(
   squash: number,
   headDrop: number,
   step: number,
+  /** The grid frame (creature.ts `gridFrame`, LOOK-43): every length scales by g.k. */
+  g: { k: number; mid: number } = { k: 1, mid: 16 },
 ): SerpentLayout {
   const o = spec.serpent ?? {};
-  const s = spec.size;
+  const G = g.k;
+  const s = spec.size * G;
   const n = Math.max(7, Math.min(10, o.segments ?? 8));
   const taper = o.taper ?? 0.35;
   const rise = Math.max(1, Math.min(n - 3, o.rise ?? 2));
   const headRx = Math.round(4.5 * s);
   const headRy = Math.round(4.2 * s * squash);
-  const r0 = Math.max(2.5, headRy * 0.95);
+  const r0 = Math.max(2.5 * G, headRy * 0.95);
   const radius = (i: number) => r0 * (1 - ((1 - taper) * i) / (n - 1));
   // Discs that stand up climb from the ground at disc `rise` to RISE_PX under the head.
-  const lift = (i: number) => (i < rise ? ((rise - i) / rise) * RISE_PX * Math.min(1, s) : 0);
+  // The size caps read the species' own size; the grid scale applies after.
+  const lift = (i: number) =>
+    i < rise ? ((rise - i) / rise) * RISE_PX * Math.min(1, spec.size) * G : 0;
   const discs: SerpentDisc[] = [];
   if (face >= 0.5 && !back) {
     // Side (and three-quarter, foreshortened): the body trails off behind the head.
     const k = face >= 1 ? 1 : 0.62;
-    const headCx = face >= 1 ? 30 - headRx : 23 - headRx * 0.5;
-    const x0 = headCx - 1;
-    const tailX = face >= 1 ? 2 + radius(n - 1) : 16 - (16 - 2) * k + radius(n - 1);
+    const headCx = face >= 1 ? 30 * G - headRx : 23 * G - headRx * 0.5;
+    const x0 = headCx - G;
+    const tailX = face >= 1 ? 2 * G + radius(n - 1) : g.mid - (g.mid - 2 * G) * k + radius(n - 1);
     const sp = (x0 - tailX) / (n - 1);
     for (let i = 0; i < n; i++) {
       const r = radius(i);
       // The travelling wave: small humps that move one disc back per walk frame.
-      const hump = i >= rise ? Math.max(0, Math.sin((i - step) * 1.05)) * 1.3 : 0;
+      const hump = i >= rise ? Math.max(0, Math.sin((i - step) * 1.05)) * 1.3 * G : 0;
       // The three-quarter view sees the body run away from the camera, so it climbs a little.
-      const away = face >= 1 ? 0 : i * 0.35;
+      const away = face >= 1 ? 0 : i * 0.35 * G;
       discs.push({ x: x0 - sp * i, y: feetY - r - lift(i) - hump - away, r, z: n - i });
     }
     const top = discs[0]!;
-    return { discs, headCx, headCy: top.y - 3 + headDrop, headRx, headRy };
+    return { discs, headCx, headCy: top.y - 3 * G + headDrop, headRx, headRy };
   }
   // Front or back: the neck stands under the head and the rest coils round behind it.
-  const headCx = 16;
+  const headCx = g.mid;
   const ring = n - rise;
   for (let i = 0; i < n; i++) {
     const r = radius(i);
     if (i < rise) {
-      discs.push({ x: headCx + Math.sin(i - step * 0.5) * 0.6, y: feetY - r - lift(i), r, z: 0 });
+      discs.push({
+        x: headCx + Math.sin(i - step * 0.5) * 0.6 * G,
+        y: feetY - r - lift(i),
+        r,
+        z: 0,
+      });
       continue;
     }
     // Round an ellipse from the near side, phase stepping a disc per frame.
     const t = ((i - rise) / ring) * Math.PI * 1.7 + Math.PI / 2 + step * 0.25;
-    const x = headCx + Math.cos(t) * 9 * Math.min(1.1, s);
+    const x = headCx + Math.cos(t) * 9 * Math.min(1.1, spec.size) * G;
     const depth = Math.sin(t);
-    discs.push({ x, y: feetY - r - 1 - (1 - depth) * 1.2, r, z: back ? -depth : depth });
+    discs.push({ x, y: feetY - r - G - (1 - depth) * 1.2 * G, r, z: back ? -depth : depth });
   }
   const top = discs[0]!;
-  return { discs, headCx, headCy: top.y - 3 + headDrop, headRx, headRy };
+  return { discs, headCx, headCy: top.y - 3 * G + headDrop, headRx, headRy };
 }
 
 /** Body anchors for features that hang off the body: the middle at disc 2, the tail end at the last disc. */

@@ -9,6 +9,7 @@ import {
   type PlaceRefusal,
   type DecorKind,
   type DyeColor,
+  DYE_COLORS_ALL,
   type TileKind,
   type ToyKind,
 } from '../sim/types';
@@ -27,8 +28,12 @@ const TOY_KINDS: ToyKind[] = [
   'sandbox',
   'drum',
   'bubbleWand',
+  'skippingRope',
+  'rubberDuck',
+  'kite',
+  'crayonBox',
 ];
-const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
+const DYES: readonly DyeColor[] = DYE_COLORS_ALL;
 
 /**
  * The garden panel: buy and place pieces, paint tiles, plant seeds, place toys and

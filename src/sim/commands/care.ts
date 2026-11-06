@@ -19,6 +19,8 @@ import { isFree } from '../nubbin';
 import { merge, setPartner } from '../partners';
 import { harvest, plant, waterPlant } from '../plants';
 import { mayWear } from '../remembrance';
+import { wearInSlot } from '../wear'; /* Lane E r11, R0400 */
+import { cosmetic } from '../../config/cosmetics'; /* Lane E r11, R0400 */
 import { convertScan } from '../scans';
 import { holdSlips } from '../slips';
 import { joinTeam } from '../teams';
@@ -104,9 +106,23 @@ export const handlers: Handlers = {
     if (!n) return;
     if (cmd.hat && !world.inventory.hats.includes(cmd.hat) && !hasDerivedHat(cmd.hat)) return;
     if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
+    // Lane E r11, R0400: an item for another slot goes to its own slot, not the hat.
+    const slot = cmd.hat ? (cosmetic(cmd.hat)?.slot ?? 'hat') : 'hat';
+    if (slot !== 'hat') {
+      wearInSlot(world, n.id, slot, cmd.hat);
+      noteNubbin(world, n, events);
+      return;
+    }
     n.hat = cmd.hat;
     // Lane E, R0411: the book notes the hat or look.
     noteNubbin(world, n, events);
+    return;
+  },
+  wearSlot(world, cmd, events) {
+    if (wearInSlot(world, cmd.nubbinId, cmd.slot, cmd.id)) {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n) noteNubbin(world, n, events);
+    }
     return;
   },
   rename(world, cmd) {

@@ -97,13 +97,26 @@ export type BehaviorState =
   | 'lesson'
   | 'perform'
   | 'shelter'
+  /** R0321: a shy Nubbin ducked behind a tree, rock or lantern (peekaboo). */
+  | 'hide'
   | 'court'
   | 'fetch'
   | 'held'
   | 'carried'
   | 'thrown';
 
-export type Reaction = 'happy' | 'sad' | 'surprised' | 'dizzy' | 'love' | 'confused';
+export type Reaction =
+  | 'happy'
+  | 'sad'
+  | 'surprised'
+  | 'dizzy'
+  | 'love'
+  | 'confused'
+  | 'giggle'
+  | 'hiccup'
+  | 'squish'
+  | 'smug'
+  | 'miss';
 
 export type Mood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
 
@@ -235,6 +248,8 @@ export interface Nubbin {
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: NubbinParts;
   hat: string | null;
+  /** Lane E r11, R0400: what is worn outside the hat slot (face, neck, back, body); absent: nothing. */
+  wear?: Partial<Record<'face' | 'neck' | 'back' | 'body', string>>;
   /* Lane E r9 */
   /** R0424: names of departed bonded friends this Nubbin remembers (the remembrance hat). */
   remembers?: string[];
@@ -279,6 +294,9 @@ export interface Nubbin {
   scarf: DyeColor | null;
   glasses: boolean;
   hatDye: DyeColor | null;
+  /** R0427: the wing and crown tips, dyed once adult (children keep the yellow tip). */
+  wingDye?: DyeColor | null;
+  crownDye?: DyeColor | null;
   /** Care slips (sim/slips.ts): the last few, the lifetime count, and the running timers. */
   slips: Array<{ kind: SlipKind; atMs: number }>;
   slipCount: number;
@@ -649,8 +667,40 @@ export type ToyKind =
   | 'seesaw'
   | 'sandbox'
   | 'drum'
-  | 'bubbleWand';
-export type DyeColor = 'rose' | 'sky' | 'mint' | 'gold' | 'violet' | 'ember';
+  | 'bubbleWand'
+  | 'skippingRope'
+  | 'rubberDuck'
+  | 'kite'
+  | 'crayonBox';
+export type DyeColor =
+  | 'rose'
+  | 'sky'
+  | 'mint'
+  | 'gold'
+  | 'violet'
+  | 'ember'
+  | 'teal'
+  | 'navy'
+  | 'cream'
+  | 'black'
+  | 'white'
+  | 'coral';
+/** R0427: where a dye goes; the wing and crown tips are for adults. */
+export type DyeSlot = 'hat' | 'scarf' | 'wingTip' | 'crownTip';
+export const DYE_COLORS_ALL: readonly DyeColor[] = [
+  'rose',
+  'sky',
+  'mint',
+  'gold',
+  'violet',
+  'ember',
+  'teal',
+  'navy',
+  'cream',
+  'black',
+  'white',
+  'coral',
+];
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
 
@@ -742,6 +792,8 @@ export interface EduState {
   lossHolds?: Record<string, LossHold>;
   /** Lane E r10 (R0718): whole minutes played per local day, the last 14 (sim/edu-report.ts). */
   daily?: Record<string, number>;
+  /** R0708: per word id, the Nubbins taught it by a `langTeach` (distinct ids, for teach steps). */
+  taught?: Record<string, string[]>;
   /** R0591: personalities whose reader-band card has been shown (once each). */
   cardsSeen?: Personality[];
   /** Lane E r10 (R0745): per game, opens, finishes, mid-round quits and time (local only). */
@@ -751,6 +803,8 @@ export interface EduState {
   sessionMinutes: number;
   /** The child's name, for the letter games. */
   childName: string;
+  /** R0739: the Learning Grove's interface language (absent: English). */
+  uiLanguage?: 'en' | 'he';
   progress: Record<EduGameId, { plays: number; stars: number }>;
   stickers: number;
   /** Live play time this session, toward the break screen. */
@@ -773,6 +827,8 @@ export interface EduState {
   readToMe?: boolean;
   /** Lane E r9, R0730: Little Sprouts' story turns its own pages after the voice (grown-up switch, default off). */
   autoAdvance?: boolean;
+  /** R0697: bracketed prompts as spoken child prompts (`alone`) or grown-up tips (`together`); absent: alone for ages 3-4. */
+  coPlay?: 'together' | 'alone';
   /** Lane E r9, R0737: the grown-up's "skip to Grove morning" for language visits (world time it was pressed). */
   langSkipAt?: number;
   /** Lane E r10, R0735: a reader's age, 7 to 10, from the grown-up area (absent: "7–10"). */
@@ -780,7 +836,14 @@ export interface EduState {
   /** Lane E r10, R0679: the sprout HUD's spoken one-time tutorial has been said. */
   tutorialSaid?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
-  words: Record<string, { heard: number; used: number }>;
+  words: Record<string, { heard: number; used: number; box?: number; due?: number }>;
+  /** R0701: the child's play-day count (a day counts only when they review), and its date key. */
+  srsDay?: number;
+  /** R0688: Fun Run ribbons earned (one per finished run; no placings, no tiers). */
+  ribbons?: number;
+  /** R0690: cave stickers found in Glow Cave chests. */
+  caveStickers?: number;
+  srsKey?: string;
   /** The language courses the child has started from Nova's postcard. */
   courses: Record<LangCourseId, boolean>;
 }
@@ -1047,6 +1110,9 @@ export interface DungeonRun {
   // Lane B round 9.
   /** R0188: a kid run: small floors, no traps, gentle packs. */
   kid?: true;
+  /** R0690: a sprout's Glow Cave run, and the floors whose puzzle is solved. */
+  glow?: true;
+  glowSolved?: number[];
   /** R0191: the depth whose shelf a flying party Nubbin already lifted the Keeper onto. */
   flyLiftDepth?: number;
   /** Lane B r10 (R0191): the depth where a flying party Nubbin already carried the Keeper over a pit. */
@@ -1351,6 +1417,8 @@ export interface World {
   seenBy?: Record<string, string>;
   /** Lane E, R0411: book tabs completed, each rewarded once. */
   bookTabs?: string[];
+  /** R0743: the child's saved drawings, small PNG data URLs, newest last (capped, sim/drawings.ts). */
+  drawings?: string[];
   /** Lane E, R0332: the curiosities (easter eggs) found, by id, with the sim time first found. */
   curiosities?: Record<string, number>;
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
@@ -1589,6 +1657,13 @@ export type Command =
       rival?: { name: string; species: string };
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
+  /** Lane E r11, R0400: put on or take off one slot's item (the hat slot included). */
+  | {
+      kind: 'wearSlot';
+      nubbinId: string;
+      slot: 'hat' | 'face' | 'neck' | 'back' | 'body';
+      id: string | null;
+    }
   | { kind: 'setSettings'; settings: Settings }
   /** TECH-45: the device's time zone, minutes east of UTC. */
   | { kind: 'setTimeZone'; offsetMin: number }
@@ -1694,13 +1769,13 @@ export type Command =
   | { kind: 'visit'; trainer: string | null }
   | { kind: 'neighbourGift' }
   | { kind: 'feedWild'; id: string }
-  | { kind: 'dye'; nubbinId: string; slot: 'hat' | 'scarf'; color: DyeColor | null }
+  | { kind: 'dye'; nubbinId: string; slot: DyeSlot; color: DyeColor | null }
   | { kind: 'wearGlasses'; nubbinId: string; on: boolean }
   /** Lane E r7, R0437: wear or take off the Dojo belt. */
   | { kind: 'wearBelt'; nubbinId: string; on: boolean }
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
-  | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
+  | { kind: 'keeper2Act'; action: 'pet' | 'feed' | 'shake' }
   // MOVE-54: Keeper 2's jump, pressed and let go.
   | { kind: 'keeper2Jump'; down: boolean }
   // MOVE-55: look around from a lookout.
@@ -1738,10 +1813,23 @@ export type Command =
   | { kind: 'eduSetReadToMe'; on: boolean }
   /* Lane E r9: the read-aloud auto-advance switch, and skip to the next language visit. */
   | { kind: 'eduSetAutoAdvance'; on: boolean }
+  /** R0697: the grown-up's playing-alone switch. */
+  | { kind: 'eduSetCoPlay'; mode: 'together' | 'alone' }
   | { kind: 'langSkipWait' }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
+  | { kind: 'langReview'; word: string; right: boolean }
+  /** R0701: a due word is waved at in Grove life (sim/lang.ts `langDueWave`). */
+  | { kind: 'langDueWave'; word: string }
+  | { kind: 'funRunDone'; nubbinId: string }
+  | { kind: 'glowSolve'; depth: number }
   | { kind: 'langTraced'; quest: string }
+  /** R0708: the child says a word to one Nubbin, which copies the gesture (a teach step). */
+  | { kind: 'langTeach'; nubbinId: string; word: string }
+  /** R0723: a Grove noticing moment was spoken; logs an `edu.items` hit (sim/edu-notice.ts). */
+  | { kind: 'eduNotice'; item: string }
+  /** R0743: a drawing from the paint pad, as a PNG data URL (sim/drawings.ts). */
+  | { kind: 'saveDrawing'; data: string }
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
   /** Lane E r10, R0735: a reader's age, 7 to 10. */
   | { kind: 'eduSetReaderAge'; age: 7 | 8 | 9 | 10 }
@@ -1750,6 +1838,8 @@ export type Command =
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
+  /** R0739: the Learning Grove's interface language. */
+  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' }
   /* Lane E r9, R0696 */
   | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
   | {
@@ -1956,6 +2046,8 @@ export type SimEvent =
   | { kind: 'keeperDipped'; shells: number }
   // R0025 (lane A r10): a splash-down without the Swim perk puffed the Keeper back ashore.
   | { kind: 'keeperPoofed'; from: Vec2; to: Vec2 }
+  // R0048 (round 12): a lost Hollow partner pops to its slot behind the Keeper.
+  | { kind: 'partnerPopped'; nubbinId: string; from: Vec2; to: Vec2 }
   // R0026 item 4 (lane A r10): the hidden keepsake on the shelf behind the waterfall, found.
   | { kind: 'fallsKeepsake'; id: string }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
@@ -1996,6 +2088,8 @@ export type SimEvent =
   /** Lane A r10: a lesson performed (R0525); one bubble of a friend chat (R0540). */
   | { kind: 'performStart'; nubbinId: string; lesson: LessonId; level: number }
   | { kind: 'chatTurn'; nubbinId: string; turn: number; topic: string }
+  /** R0589: a content Nubbin near the Keeper hums its motif. */
+  | { kind: 'hum'; nubbinId: string }
   /** R0539: a missed buddy came back and the two hugged. */
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
@@ -2136,10 +2230,18 @@ export type SimEvent =
   | { kind: 'rideSat'; nubbinId: string }
   | { kind: 'rideHopped'; nubbinId: string }
   | { kind: 'swimHint' }
-  | { kind: 'festival'; season: Season }
+  | { kind: 'festival'; season: Season; giftHat?: string }
   | { kind: 'sledding'; nubbinId: string }
-  | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }
+  | { kind: 'dyed'; nubbinId: string; slot: DyeSlot }
   | { kind: 'coop'; active: boolean }
+  /** R0364: a two-Keeper gag: a double-happy spin, a fruit avalanche, an "after you" bow. */
+  | {
+      kind: 'coopGag';
+      gag: 'spin' | 'avalanche' | 'bow';
+      nubbinId?: string;
+      treeId?: string;
+      who: 1 | 2;
+    }
   | { kind: 'eduStarted'; age: EduAge }
   | { kind: 'eduResult'; game: EduGameId; stars: number; sticker: boolean }
   | { kind: 'recruited'; name: string; role: TownRole; prosperity: number }
@@ -2163,6 +2265,8 @@ export type SimEvent =
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
   | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
+  | { kind: 'glowSolved'; depth: number }
+  | { kind: 'glowSticker'; count: number }
   | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {
@@ -2174,7 +2278,7 @@ export type SimEvent =
       by: string | null;
     }
   | { kind: 'chestOpened'; shells: number; egg: boolean }
-  | { kind: 'strayFed'; ok: boolean; name: string | null }
+  | { kind: 'strayFed'; ok: boolean; name: string | null; pos?: { x: number; z: number } }
   | { kind: 'strayStartled'; shells: number }
   /** R0162: a party Nubbin chased a stray off; or the Keeper picked up a dropped Shell. */
   | { kind: 'strayShooed'; by: string | null }

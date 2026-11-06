@@ -8,6 +8,8 @@
 import { HOLLOW } from '../config/tuning';
 import { cellAt, cellCentre, cellOf, CHASM, FLOOR, WATER, type Cell, type Floor } from './dungeon';
 import { keeperPerks } from './perks';
+import { setBridged } from './dungeon-bridged';
+import { resetNav } from './dungeon-nav';
 import { flier } from './dungeon-shelves';
 import { R10B4 } from '../config/tuning-r10b4';
 import type { DungeonRun, SimEvent, World } from './types';
@@ -22,14 +24,16 @@ const lastSafe = new WeakMap<DungeonRun, Cell>();
 interface Assist {
   fails: Map<number, number>;
   bridges: Set<number>;
+  /** The run it grew in: floors are cached per seed, a new run starts with no bridges. */
+  run?: DungeonRun;
 }
-const assists = new WeakMap<Floor, Assist>();
+const assists = new WeakMap<object, Assist>();
 
 function assistOf(f: Floor): Assist {
-  let a = assists.get(f);
+  let a = assists.get(f.gaps ?? f);
   if (!a) {
     a = { fails: new Map(), bridges: new Set() };
-    assists.set(f, a);
+    assists.set(f.gaps ?? f, a);
   }
   return a;
 }
@@ -41,7 +45,7 @@ function gapIndexOf(f: Floor, c: Cell): number {
 
 /** The cells a leaf-bridge covers on this floor right now (empty outside the sprout band). */
 export function assistBridges(f: Floor): Cell[] {
-  const a = assists.get(f);
+  const a = assists.get(f.gaps ?? f);
   if (!a || !a.bridges.size) return [];
   return [...a.bridges].flatMap((i) => f.gaps?.[i]?.cells ?? []);
 }
@@ -49,7 +53,7 @@ export function assistBridges(f: Floor): Cell[] {
 /** Whether the Keeper can stand at this cell: not a chasm, not deep water unless it swims. */
 function hazardAt(world: World, f: Floor, c: Cell): 'chasm' | 'water' | null {
   const v = cellAt(f, c.x, c.y);
-  if (v === CHASM && assists.get(f)?.bridges.has(gapIndexOf(f, c))) return null;
+  if (v === CHASM && assists.get(f.gaps ?? f)?.bridges.has(gapIndexOf(f, c))) return null;
   if (v === CHASM) return 'chasm';
   if (v === WATER && f.version >= 4 && !keeperPerks(world).wade) return 'water';
   return null;
@@ -70,6 +74,16 @@ function nearestDry(f: Floor, c: Cell): Cell {
  * there at once. Airborne over a gap is fine.
  */
 export function stepFall(world: World, run: DungeonRun, f: Floor, events: SimEvent[]): void {
+  const mine = assistOf(f);
+  if (mine.run !== run) {
+    if (mine.bridges.size) {
+      setBridged(f, new Set());
+      resetNav(f);
+    }
+    mine.fails.clear();
+    mine.bridges.clear();
+    mine.run = run;
+  }
   const k = world.keeper;
   const c = cellOf(f, k.pos);
   const hazard = hazardAt(world, f, c);
@@ -87,7 +101,12 @@ export function stepFall(world: World, run: DungeonRun, f: Floor, events: SimEve
       const a = assistOf(f);
       const n = (a.fails.get(gi) ?? 0) + 1;
       a.fails.set(gi, n);
-      if (n >= HOLLOW.gaps.bridgeAfter) a.bridges.add(gi);
+      if (n >= HOLLOW.gaps.bridgeAfter && !a.bridges.has(gi)) {
+        a.bridges.add(gi);
+        // The planner, the party and the painters now treat the gap's cells as ground.
+        setBridged(f, new Set(assistBridges(f).map((q) => q.y * f.cols + q.x)));
+        resetNav(f);
+      }
     }
   }
   const back = saved && cellAt(f, saved.x, saved.y) === FLOOR ? saved : nearestDry(f, c);

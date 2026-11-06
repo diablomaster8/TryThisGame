@@ -47,6 +47,62 @@ describe('sprout choices (R0677)', () => {
     expect(choiceIcon(undefined, 1)).toBe('2️⃣');
   });
 
+  it('makes one speech call per option, in order, each after the last is done', async () => {
+    const { speakChoiceSet, choicesSpeechParts } = await import('../../src/ui/sprout-choices');
+    const labels = ['Smile and say shalom', 'Run away and hide', 'Wave'];
+    const said: string[] = [];
+    const lit: number[] = [];
+    speakChoiceSet(
+      labels,
+      (t, o) => {
+        said.push(t);
+        o?.onDone?.();
+      },
+      (i) => lit.push(i),
+    );
+    expect(said).toEqual(choicesSpeechParts(labels));
+    expect(said).toHaveLength(labels.length);
+    expect(said[0]).toMatch(/^You can say: one, Smile/);
+    expect(said[2]).toBe('three, Wave.');
+    expect(lit).toEqual([0, 1, 2, -1]);
+    // A voice that never finishes (none on the device) stops after the first call.
+    const once: string[] = [];
+    speakChoiceSet(labels, (t) => once.push(t));
+    expect(once).toHaveLength(1);
+    // A picked set stops being read.
+    let alive = true;
+    const cut: string[] = [];
+    speakChoiceSet(
+      labels,
+      (t, o) => {
+        cut.push(t);
+        alive = false;
+        o?.onDone?.();
+      },
+      undefined,
+      () => alive,
+    );
+    expect(cut).toHaveLength(1);
+  });
+
+  it('gives every option a picture from its words, never twice in a set, else its number', async () => {
+    const { resolveChoiceIcons, labelIcons, countIcon } =
+      await import('../../src/config/choice-icons');
+    expect(labelIcons('Smile and say shalom')[0]).toBe('😊');
+    expect(labelIcons('Run away and hide')[0]).toBe('🏃');
+    expect(labelIcons('3')).toEqual(['⭐⭐⭐']);
+    expect(labelIcons('Four')).toEqual(['⭐⭐⭐⭐']);
+    expect(countIcon(7)).toBe('🖐️⭐⭐');
+    expect(labelIcons('the constructor toString')).toEqual([]);
+    const set = resolveChoiceIcons([
+      { label: 'Hug the Nubbin', icon: '🤗' },
+      { label: 'Give a hug' },
+      { label: 'Zzyzx qwv' },
+    ]);
+    expect(set.map((r) => r.icon)).toEqual(['🤗', '🎁', '3️⃣']);
+    expect(set.map((r) => r.fromWords)).toEqual([null, true, false]);
+  });
+
   it('chapter 1 sprout choices all carry an icon', async () => {
     const { EDU_CAMPAIGN_1_SPROUT } = await import('../../src/content/edu-campaign-1-sprout');
     for (const s of EDU_CAMPAIGN_1_SPROUT.scenes.filter((x) => x.of.startsWith('c1-')))

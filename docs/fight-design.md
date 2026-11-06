@@ -46,3 +46,25 @@ a Dizzy self-bonk boings, a tuckered Nubbin yawns. Turn bouts play `battle`, the
 
 - `tests/sim/battle-r6.test.ts`: the fumble share and the rival's lost turn.
 - `tests/sim/battle-balance.test.ts`: the balance harness, which runs with fumbles on.
+
+## Child-profile skin: the Friendly Match (R0747, KIDS-79)
+
+A requirement for whoever builds the turn-based fight system (CAMP or COMBAT). A child
+profile (`isChildProfile`, the Learning Grove) never sees fighting. It gets the same turn
+engine under a "Friendly Match" skin:
+
+- Actions are tricks: Splash, Twirl, Big Jump. Each is resolved from the same stats as the
+  fight moves (Swim, Fly, Run, Power, Stamina), so growth still matters.
+- The opponent giggles instead of losing HP. Its "fun meter" fills as tricks land. The
+  skin's text and sounds never use hurt, hit, faint, defeat or knockout words.
+- No knockouts, ever: a match ends when the fun meter is full or the turns run out, and the
+  closing card always says "Everyone had fun!". Both sides get a prize; a rematch is offered.
+- An optional learning twist doubles a trick's power: a sum (sprout counting up to 5,
+  reader sums to 20), a rhyme, or a Hebrew or Japanese word from the courses. Skipping the
+  twist is always fine, and a wrong answer only means a normal-power trick.
+- The engine takes a `friendly: boolean` flag on the match. With it set, `defeat` is not a
+  reachable state: damage is replaced by fun points, `matchResult()` can only return
+  `'fun'`, and no event of kind `defeat` or `faint` is emitted. A sim test must assert this
+  over a thousand seeded matches.
+- Unavailable to a child profile: Mature content, chance-based prizes (KIDS-24), and any
+  stake of Nubbins or Shells.

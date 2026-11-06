@@ -3,6 +3,7 @@ import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from
 import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
 import { CG_C } from '../config/tuning-c';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
+import { propStandAt } from './dungeon-props';
 import { holdAtShelves } from './dungeon-shelves';
 import { keeperWaypoint } from './dungeon-nav';
 import { hopWaypoint } from './dungeon-hops';
@@ -55,6 +56,7 @@ import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 import { noteBorderPush } from './border';
+import { noteCoopPet, noteCoopShake } from './coop-gags';
 import { drawnRegion, stepRegionWalk } from './region-walk';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
@@ -478,7 +480,7 @@ function stepRoll(world: World, dtMs: number, events: SimEvent[]): boolean {
   k.pos.z += r.dz * speed * dt;
   const floor = runFloor(world);
   if (floor) {
-    resolveDungeon(k.pos, floor, 0.35);
+    resolveDungeon(k.pos, floor, 0.35, 'rock', k.y);
     holdAtShelves(world, fromX, fromZ, events);
   } else {
     resolve(k.pos, world, 0.35, 'keeper', k.y);
@@ -694,7 +696,12 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
     if (dip.ms >= POND_DIP.ms || k.bufferMs > 0 || !k.grounded) dips.delete(world);
   }
   const tune = jumpTuning(world);
-  const ground = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
+  const floor = dungeon ? runFloor(world) : null;
+  const ground = dungeon
+    ? floor
+      ? propStandAt(floor, k.pos, k.y)
+      : 0
+    : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.grounded) {
     if (ground < k.y - JUMP.stepUp) {
       // Walked off a ledge: fall, with a moment's grace to still jump.
@@ -742,7 +749,11 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   k.y += k.vy * dt;
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
-  const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
+  const under = dungeon
+    ? floor
+      ? propStandAt(floor, k.pos, k.y)
+      : 0
+    : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (!dungeon && k.vy < 0 && poofOverWater(world, under, events)) return;
   if (k.y <= under) {
     // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
@@ -1161,7 +1172,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   // inside one is dropped.
   if (dungeonFloor) {
     if (
-      resolveDungeon(k.pos, dungeonFloor, 0.35) &&
+      resolveDungeon(k.pos, dungeonFloor, 0.35, 'rock', k.y) &&
       k.moveTarget &&
       dungeonBlocked(k.moveTarget, dungeonFloor, 0.3)
     ) {
@@ -1310,7 +1321,7 @@ function fallsShelf(world: World, events: SimEvent[]): void {
 }
 
 /** Shake a fruit tree: the next fruit comes sooner, now and then wood, and Power drops fruit. */
-function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEvent[]): void {
+export function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEvent[]): void {
   tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
   events.push({ kind: 'treeShaken', treeId: tree.id });
   // Wood now and then, and a Power-type friend shakes fruit loose at once.
@@ -1335,6 +1346,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       const n = findNubbin(world, intent.nubbinId);
       if (!n || n.stage === 'egg') return;
       petNubbin(world, n, events);
+      noteCoopPet(world, n, 1, events);
       return;
     }
     case 'pickUp': {
@@ -1368,7 +1380,10 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     case 'shakeTree': {
       const tree = world.trees.find((t) => t.id === intent.treeId);
       // R0543 (lane A r9): a shy one hiding behind it is found instead.
-      if (tree && !findHiding(world, tree.id, events)) shakeTreeNow(world, tree, events);
+      if (tree && !findHiding(world, tree.id, events)) {
+        shakeTreeNow(world, tree, events);
+        noteCoopShake(world, tree, 1, events);
+      }
       return;
     }
     case 'collect': {

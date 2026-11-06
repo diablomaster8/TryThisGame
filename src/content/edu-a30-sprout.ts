@@ -209,6 +209,7 @@ const A1: EduQuest = quest(
         N('Rabbi Loew was a real teacher here. The clay man is only in the story.'),
         N('You step into the page. A kind man with a ring of keys waves at you.'),
         AV('I am Avram. I look after the keys. You can be our lodger.', 'happy'),
+        N('Plop! A drop of rain lands on the wavy water line.'),
       ],
       [
         ask(
@@ -247,6 +248,7 @@ const A1: EduQuest = quest(
         N('Rivka hops from one foot to the other. She cannot wait.'),
         RI('That is Shmuel, my little brother. He is five. He asks questions.'),
         N('Shmuel waves from under the table.'),
+        N('Creak! The gate creaks. Come in, come in!'),
       ],
       [
         ask(
@@ -296,6 +298,7 @@ const A1: EduQuest = quest(
       [
         DV('Good. Now you are guests. Rivka, take them to the bakery before it shuts.'),
         N('Rivka grins. She loves the bakery.'),
+        N('Splash! Water slops over the edge of the bucket.'),
       ],
       [
         ask(
@@ -326,6 +329,7 @@ const A1: EduQuest = quest(
         RI('She burns one every day!'),
         HA('Shh!'),
         N('Your Nubbin holds the crust in both paws, as if it were a medal.'),
+        N('Munch! Your Nubbin nibbles a warm crust in its sleep.'),
       ],
       [
         ask(
@@ -355,6 +359,7 @@ const A1: EduQuest = quest(
         N('Across the lane, a lamp still burns in the study house. Someone is reading.'),
         RI('That is the rabbi. He reads all night sometimes.'),
         N('Your Nubbin falls asleep with flour on its nose.'),
+        N('Creak! The loft ladder creaks, rung by rung.'),
       ],
       [
         ask(
@@ -398,6 +403,7 @@ const A2: EduQuest = quest(
         N('At the front sits an old man with a grey beard.'),
         LO('Here is a very old story. A man made of clay was spoken to, and he did not answer.'),
         LO('So the wise man knew he was only clay.'),
+        N('Hee-hee! Two students giggle over one page.'),
       ],
       [
         ask(
@@ -419,6 +425,7 @@ const A2: EduQuest = quest(
       [
         N('The rabbi lets the story sit in the room.'),
         N('It is like bread that must rest before you cut it.'),
+        N('Pop! A crumb of bread pops in the oven. Not yet!'),
       ],
       [
         ask(
@@ -443,6 +450,7 @@ const A2: EduQuest = quest(
         LO('An old prayer says: before I was made, you saw me.'),
         LO('So we were all clay once, and someone saw us. What makes the difference?', 'think'),
         N('He looks at the back bench. At you.'),
+        N('Ding! The study house bell rings once.'),
       ],
       [
         ask(
@@ -485,6 +493,7 @@ const A2: EduQuest = quest(
         AV('Never, Rabbi! It is a great comfort to the house.'),
         LO('Good! I would worry otherwise.', 'happy'),
         N('He goes out, and leaves his coat behind on the peg.'),
+        N('Creak! The heavy door creaks shut.'),
       ],
       [
         ask(
@@ -528,6 +537,7 @@ const A3: EduQuest = quest(
         N('Dvora puts her hand on his shoulder, and leaves it there.'),
         RI('Will they come in?'),
         DV('The gates shut at night. We look after each other.'),
+        N('Thump! Avram’s log lands on the woodpile.'),
       ],
       [
         ask(
@@ -552,6 +562,7 @@ const A3: EduQuest = quest(
         AV('Bar the shutters at dusk. Then we rest, if we can.'),
         N('There are four shutters on the house.'),
         N('(Count the shutters with your finger: one, two, three, four.)'),
+        N('Creak! Creak! Creak! Creak! Four shutters, four creaks.'),
       ],
       [
         doit(
@@ -573,6 +584,7 @@ const A3: EduQuest = quest(
         N('Shmuel climbs into his sister’s bed, and she lets him.'),
         SH('Is the rabbi scared?'),
         RI('The rabbi is thinking. It looks the same from outside.'),
+        N('Squeak! A little mouse squeaks under the bed.'),
       ],
       [
         ask(
@@ -616,6 +628,7 @@ const A3: EduQuest = quest(
         N('Your Nubbin comes out wearing the rabbi’s coat. Most of it trails behind.'),
         DV('He leaves his coat on a peg. Every week!'),
         LO('Ah! I wondered where I had got to.', 'happy'),
+        N('Crunch! A fresh crust crunches. Good morning!'),
       ],
       [
         ask(
@@ -659,6 +672,7 @@ const A4: EduQuest = quest(
         LO('I asked how to keep my town safe. That was all.', 'think'),
         LO('The answer is: be patient, be careful, be kind, and wait.'),
         N('Your Nubbin pushes the soup an inch closer. It is a good suggestion.'),
+        N('Slurp! The rabbi sips the soup, slow and quiet.'),
       ],
       [
         ask(
@@ -684,6 +698,7 @@ const A4: EduQuest = quest(
       [
         N('In the morning the bowl is empty.'),
         N('The rabbi is asleep at the table, with his cheek on a book.'),
+        N('Snore… Plop! A page flips over by itself.'),
       ],
       [
         ask(
@@ -707,6 +722,7 @@ const A4: EduQuest = quest(
         N('Isaac is broad and quiet. Jacob is thin and quick.'),
         LO('Isaac, Jacob: be ready tonight. Wear old clothes.'),
         LO('Keep a lantern lit in Avram’s window. Do not follow us.', 'soft'),
+        N('Thump! Isaac sets down a very big spade.'),
       ],
       [
         ask(
@@ -741,6 +757,7 @@ const A4: EduQuest = quest(
         RI('Who is it for?'),
         N('You tell her it is for the rabbi. She sits down beside it to mind it.'),
         N('Your Nubbin sits too, and copies her exactly.'),
+        N('Pop! The flame gives one little pop, then stands tall.'),
       ],
       [
         doit(
@@ -764,6 +781,7 @@ const A4: EduQuest = quest(
         N('Three shapes go down the lane towards the river.'),
         N('Rivka is still awake, and watches the lantern.'),
         RI('I will mind it. You are not very good at not following, are you?'),
+        N('Creak! The study house door creaks, ever so softly.'),
       ],
       [
         ask(
@@ -807,6 +825,7 @@ const A5: EduQuest = quest(
         N('You stop in the willows. Your Nubbin holds on to your trouser leg.'),
         N('Below you, three people kneel on the mud with their sleeves rolled up.'),
         N('They dig clay out of the river bank with their hands.'),
+        N('Splash! The river talks to itself, splish, splash.'),
       ],
       [
         ask(
@@ -865,6 +884,7 @@ const A5: EduQuest = quest(
         N('Near dawn Isaac carries your Nubbin up the bank himself.'),
         N('It is muddy up to its ears.'),
         IS('Go home. He knows you are here.', 'soft'),
+        N('Plop! Your Nubbin drips mud on Isaac’s boots.'),
       ],
       [
         ask(
@@ -887,6 +907,7 @@ const A5: EduQuest = quest(
         N('You go home first. The lantern is still burning in the loft window.'),
         N('Rivka is asleep beside it. She has been minding it all night.'),
         N('You put a blanket over her. Your Nubbin curls up on the end of it.'),
+        N('Pop! The lantern flame gives a sleepy flicker.'),
       ],
       [
         ask(
@@ -933,6 +954,7 @@ const A6: EduQuest = quest(
         LO(
           'Here, I will write one plain word on his brow: truth. A word anyone can read. Three letters.',
         ),
+        N('Whoosh! The wind blows through the reeds.'),
       ],
       [
         ask(
@@ -976,6 +998,7 @@ const A6: EduQuest = quest(
         OR('(Put your finger on the right, and slide it left: alef, mem, tav.)'),
         N('The clay man opens his eyes. He sits up slowly, and waits to be told what to do.'),
         LO('Get up, then, my friend. We will walk home.', 'soft'),
+        N('Splash! The rabbi dips his finger in the river.'),
       ],
       [
         doit(
@@ -996,6 +1019,7 @@ const A6: EduQuest = quest(
         N('There were three letters on his brow: alef, mem, tav.'),
         JA('What do we call him?'),
         LO('Josef. A good plain name.'),
+        N('Thump! A big clay foot steps onto the bank.'),
       ],
       [
         ask(
@@ -1020,6 +1044,7 @@ const A6: EduQuest = quest(
         N('Your Nubbin walks one step behind the clay man, like a duckling.'),
         N('By noon the children of the lane have met him. They call him Yossele.'),
         LO('He has a name the children gave him. That is worth more than mine.', 'happy'),
+        N('Thump! Thump! The clay man walks, one step at a time.'),
       ],
       [
         ask(
@@ -1072,6 +1097,7 @@ const A7: EduQuest = quest(
         N('Your Nubbin sweeps too. It uses a feather.'),
         N('The step is now a little dirtier.'),
         AV('Only the step! He never does the next step. Neither does the little one.'),
+        N('Splash! Yossele hauls water, splash, splash, splash.'),
       ],
       [
         ask(
@@ -1110,6 +1136,7 @@ const A7: EduQuest = quest(
         DV('Yossele! That is enough!', 'shock'),
         N('He does not stop. He only stops for the rabbi, and the rabbi is not here.'),
         N('Then the rabbi says, “Stop,” and Yossele puts the bucket down.'),
+        N('Glug, glug! The barrel fills, and fills, and fills.'),
       ],
       [
         ask(
@@ -1133,6 +1160,7 @@ const A7: EduQuest = quest(
         DV('My kitchen. My good floor. My onions are floating!', 'sad'),
         N('She hands you an apron. It is too late to keep dry, but it is kindly meant.'),
         DV('Keep it. You have earned it.'),
+        N('Splash! An onion bobs by like a little boat.'),
       ],
       [
         ask(
@@ -1160,6 +1188,7 @@ const A7: EduQuest = quest(
         ),
         LO('One standing order, for when no one has told him anything. You choose it.'),
         N('Yossele has stopped sweeping. Your Nubbin, a step behind, has stopped too.'),
+        N('Swish! Yossele sweeps the step. Swish, swish.'),
       ],
       [
         ask(
@@ -1212,6 +1241,7 @@ const A7: EduQuest = quest(
         N('Dvora hangs the onions up to dry, all in a row.'),
         AV('He fills barrels very well. Nobody can say he does not.'),
         N('You go up to the loft in your new apron, still damp.'),
+        N('Plop! One last onion drops into the basket.'),
       ],
       [
         ask(
@@ -1254,6 +1284,7 @@ const A8: EduQuest = quest(
         N('At every gate he puts his hand flat on the wood.'),
         N('Your Nubbin keeps up for three lanes. On the fourth lane it sits down.'),
         N('You lift it onto his shoulder. It holds his ear and falls asleep.'),
+        N('Thump! Thump! Yossele’s big feet on the cobbles.'),
       ],
       [
         doit(
@@ -1275,6 +1306,7 @@ const A8: EduQuest = quest(
         N('He does nothing at all. Your Nubbin sleeps on his shoulder.'),
         N('The voices stop. Then the lanterns turn and go away up the hill.'),
         N('Nobody is hurt. Yossele stays until the last light is gone.'),
+        N('Whoosh! A night wind flaps the lantern flame.'),
       ],
       [
         ask(
@@ -1306,6 +1338,7 @@ const A8: EduQuest = quest(
         AV('I slept so well! I dreamt about keys.', 'happy'),
         LO('He did not have to do anything. That is the best kind of guard.', 'soft'),
         N('Avram gives you a small lantern with a horn window. Your Nubbin will not give it back.'),
+        N('Hee-hee! Avram laughs at his own key dream.'),
       ],
       [
         ask(
@@ -1350,6 +1383,7 @@ const A9: EduQuest = quest(
         N('Your Nubbin knows exactly where he is. It runs, and you follow.'),
         N('You find him at the caretaker’s door, with the children.'),
         N('The rabbi is already coming down the lane.'),
+        N('Swish! Brooms swish, all down the lane.'),
       ],
       [
         ask(
@@ -1380,6 +1414,7 @@ const A9: EduQuest = quest(
         N('Two letters are left on the brow.'),
         N('The warmth goes out of him, slowly, like a stove at night. Now he is only clay.'),
         N('Your Nubbin puts its paw on his arm, and keeps it there.'),
+        N('Creak! The back-room bed creaks as he lies down.'),
       ],
       [
         ask(
@@ -1420,6 +1455,7 @@ const A9: EduQuest = quest(
         N('On Saturday night, when three stars are out, the rabbi writes the alef again.'),
         N('Yossele sits up and looks around.'),
         N('Your Nubbin waits by the door. It falls in a step behind him.'),
+        N('Ding! The first Saturday-night star seems to ring.'),
       ],
       [
         ask(
@@ -1445,6 +1481,7 @@ const A9: EduQuest = quest(
         N('It happens every Friday after that. You learn to hold his head, gently.'),
         LO('You have good hands for it. Slow ones.', 'soft'),
         N('Dvora lights the candles. The lane goes quiet, as if the whole town has sat down.'),
+        N('Thump! The clay head rests on the pillow.'),
       ],
       [
         ask(
@@ -1491,6 +1528,7 @@ const A10: EduQuest = quest(
         LO('Of course I will come.'),
         N('He goes at once, with his coat half on.'),
         N('Yossele stands in the courtyard, waiting. Nobody has told him anything.'),
+        N('Pitter! Pitter! A boy’s boots run up the lane.'),
       ],
       [
         ask(
@@ -1520,6 +1558,7 @@ const A10: EduQuest = quest(
       [
         DV('He will be back. He has never been late for the Sabbath.'),
         N('You trust Dvora. She sounds sure.'),
+        N('Ding! Dvora taps the pot with her spoon.'),
       ],
       [
         ask(
@@ -1547,6 +1586,7 @@ const A10: EduQuest = quest(
           'The rabbi had forgotten. Yossele had not been put to rest, and the day of rest had come.',
         ),
         N('Down the lane, in the rabbi’s courtyard, something begins to move.'),
+        N('Ding, dong! The synagogue bell rings for the Sabbath.'),
       ],
       [
         doit(
@@ -1597,6 +1637,7 @@ const A10: EduQuest = quest(
         N('The rabbi stands beside it, out of breath, with his hand on the clay.'),
         LO('I forgot. A baby was born, and I was so glad, and I forgot him.', 'sad'),
         LO('Come. The Sabbath does not wait, and neither should we.', 'soft'),
+        N('Thump! The rabbi pats the clay, very gently.'),
       ],
       [
         ask(
@@ -1637,6 +1678,7 @@ const A11: EduQuest = quest(
         N('It comes through the old wall as a low murmur, like rain.'),
         N('People say they still say it twice in that synagogue, to this day.'),
         N('Your Nubbin leans against you. It shivers a little, though the evening is warm.'),
+        N('Creak! The synagogue door creaks shut.'),
       ],
       [
         doit(
@@ -1662,6 +1704,7 @@ const A11: EduQuest = quest(
         ),
         N('Shmuel thinks about this, and nods, and eats his bread.'),
         N('Beside the loaf is one small burnt crust, for your Nubbin. Your Nubbin looks at it with great hope.'),
+        N('Munch! Hannah’s plaited loaf is warm and soft.'),
       ],
       [
         ask(
@@ -1692,6 +1735,7 @@ const A11: EduQuest = quest(
         N('Late, the rabbi comes by, and looks in at the window.'),
         LO('Good. Rest. That is the whole of it.', 'soft'),
         N('He goes home slowly, and walks round the place where the clay is.'),
+        N('Creak! The window creaks as the rabbi peeks in.'),
       ],
       [
         ask(
@@ -1739,6 +1783,7 @@ const A12: EduQuest = quest(
         N('It fits! You hold the lantern at the foot of the steps.'),
         N('Up there, worn-out books lie in rows. They lay the clay among them, gently.'),
         N('People say the clay is up there, resting among the old books.'),
+        N('Ding! Three stars come out, one, two, three.'),
       ],
       [
         ask(
@@ -1768,6 +1813,7 @@ const A12: EduQuest = quest(
         N('Isaac and Jacob take the steps away. The attic door is high in the wall.'),
         N('Your Nubbin sits at the foot of the wall and looks up.'),
         N('It does not move when you call. So you sit down next to it, and wait.'),
+        N('Thump! The steps are set down in the yard.'),
       ],
       [
         ask(
@@ -1804,6 +1850,7 @@ const A12: EduQuest = quest(
         LO('I thought there would be someone here. I hoped so.', 'soft'),
         N('Your Nubbin’s ears droop.'),
         N('The three of you sit a long time. Then your Nubbin gets up, and lets you take it home.'),
+        N('Plop! The rabbi sits down on the step.'),
       ],
       [
         ask(
@@ -1825,6 +1872,7 @@ const A12: EduQuest = quest(
       [
         N('In the morning there is a little heap of river clay by the wall.'),
         N('Nobody sweeps it away. Not Avram, not Dvora, not anyone, all week.'),
+        N('Plop! A bit of clay drops off the wall.'),
       ],
       [
         ask(
@@ -1870,6 +1918,7 @@ const A13: EduQuest = quest(
         LO('In Chełm, people say, a rabbi made a clay man before me. It grew and grew.'),
         LO('So he rubbed out the word, very gently. His clay man lay down to rest for good.'),
         LO('He had more sense than me. He did it before anyone had to run.'),
+        N('Creak! The old bench creaks as he sits.'),
       ],
       [
         ask(
@@ -1906,6 +1955,7 @@ const A13: EduQuest = quest(
         N('She holds out a small square tile, with three wobbly letters on it.'),
         N('אמת, emet. Alef first, on the right.'),
         RI('There is a clay bird for your Nubbin, too. It has a fat tummy and no feet.'),
+        N('Hee-hee! Rivka giggles. She can hardly wait.'),
       ],
       [
         ask(
@@ -1933,6 +1983,7 @@ const A13: EduQuest = quest(
         N('The attic shutter is shut and barred. It looks like a door holding itself shut.'),
         N('Your Nubbin looks up at the window for a long time. Then it takes your hand.'),
         N('You are back in the Grove. A clay tile is in your pocket, still cool.'),
+        N('Whoosh! The page turns, thin and brown.'),
       ],
       [
         ask(
@@ -1972,6 +2023,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Your Nubbin carries a little lantern with a red pebble inside. It glows.'),
       DV('A little glowing coal! Keep it away from my curtains, please.'),
       N('Your Nubbin hugs the lantern close, like something it has been lent.'),
+      N('Pop! The little coal pops, and glows a bit more.'),
     ],
     [
       ask(
@@ -2001,6 +2053,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       SH('He will not let us out! We only want to see the bread!', 'angry'),
       N('Gently, he lifts them back in, every time.'),
       DV('He does that at every door, all afternoon. They are very safe.', 'think'),
+      N('Creak! The big door creaks, but Yossele holds it.'),
     ],
     [
       ask(
@@ -2028,6 +2081,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Neighbours keep asking, “Yossele, would you…” and he always does.'),
       RI('Look! He has moved six chairs that nobody asked him to move.'),
       N('The chairs stand in a neat row. He has started helping before he is asked.'),
+      N('Swish! The step is swept, swish, swish.'),
     ],
     [
       doit(
@@ -2048,6 +2102,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Shmuel is on one knee. Mirele, the littlest, is on the other. Rivka leans on his arm.'),
       N('Your Nubbin is asleep in his lap, with its paws in the air.'),
       MI('He does not talk. But he listens properly!', 'happy'),
+      N('Hee-hee! Mirele giggles on the big clay knee.'),
     ],
     [
       ask(
@@ -2099,6 +2154,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Each time he moves he is a little taller. Two brooms snap in his hands.'),
       N('The water barrel splits. Nobody asked him. He just keeps helping.'),
       DV('My pots! He is scrubbing them into pieces!', 'shock'),
+      N('Thump! Thump! Every step is a bit louder.'),
     ],
     [
       ask(
@@ -2123,6 +2179,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('He grows a little as you watch. The step cracks under him.'),
       N('He stands up. First, very carefully, he sets your Nubbin down on its feet.'),
       RI('He put it down first! Did you see?', 'shock'),
+      N('Crack! The step cracks, but only a little.'),
     ],
     [
       ask(
@@ -2144,6 +2201,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     [
       N('In your Nubbin’s little lantern, the red pebble flares up, bright and hot.'),
       N('Your Nubbin holds the lantern out at arm’s length, and looks at you.'),
+      N('Pop! The red pebble pops and flares.'),
     ],
     [
       ask(
@@ -2165,6 +2223,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     [
       N('In the lantern, the red pebble dims, slowly, back to its own small glow.'),
       N('It settles, like someone sitting down. Your Nubbin hugs it close again.'),
+      N('Plop! Your Nubbin sits down with its pebble.'),
     ],
     [
       ask(
@@ -2189,6 +2248,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Beside the window, in faint pencil, there is a note in the margin. You know the hand.'),
       N('“A clay man, a word, and one forgotten Friday.” It is Gran Hazel’s writing.'),
       N('Your Nubbin puts one paw on the drawing of the attic window.'),
+      N('Swish! The faint pencil note is soft as a whisper.'),
     ],
     [
       ask(
@@ -2216,6 +2276,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       LO('You told him to keep everyone safe. And he kept the whole lane in.', 'soft'),
       LO('A guard who keeps everyone in is like a wall. And a wall is not a home.', 'think'),
       LO('A home has a door that opens.'),
+      N('Thump! The rabbi taps the wall to show you.'),
     ],
     [
       ask(
@@ -2239,6 +2300,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('He smiles a little, sadly.'),
       LO('He was a very good servant. That was the trouble.', 'sad'),
       LO('Help nobody asked for can make a mess. Asking first is best.'),
+      N('Ding! The rabbi’s ring rings on the table.'),
     ],
     [
       ask(
@@ -2269,6 +2331,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       LO('Everything in him, I put there. The clay, the word, the work.'),
       LO('But at the end, he put your little one down on the step.'),
       LO('Nobody told him to do that. I did not put that in him.', 'soft'),
+      N('Plop! The rabbi sits down beside you.'),
     ],
     [
       ask(
@@ -2295,6 +2358,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('The rabbi looks at your pocket, where the stone is.'),
       N('Your pocket has a small grey stone in it. It hums.'),
       LO('You carry something heavy for its size. What is it?'),
+      N('Ding! The little stone hums in your pocket.'),
     ],
     [
       ask(
@@ -2337,6 +2401,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     [
       N('Beside the three letters is a tiny pawprint in the corner.'),
       RI('Your Nubbin did that. It put its paw on, and I did not smooth it.', 'happy'),
+      N('Plop! A tiny pawprint, pressed in clay.'),
     ],
     [
       ask(
@@ -2365,6 +2430,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('On the sill, high up, a broom leans against the wall. Nobody has tried to fetch it down.'),
       N('Your Nubbin looks up at the window for a long time. Then it takes your hand.'),
       N('You are back in the Grove. A clay tile is in your pocket, still cool.'),
+      N('Whoosh! The page turns, thin and brown.'),
     ],
     [
       ask(
@@ -2389,6 +2455,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('On the sill, high up, there is a small clay bird. A child’s.'),
       N('Your Nubbin looks up at the window for a long time. Then it takes your hand.'),
       N('You are back in the Grove. A clay tile is in your pocket, still cool.'),
+      N('Whoosh! The page turns, thin and brown.'),
     ],
     [
       ask(
@@ -2413,6 +2480,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Moss comes in from the step, and stops beside it.'),
       M('Cinder would have liked him. She loved too hard, and that made trouble.', 'soft'),
       N('Your Nubbin puts its little lantern down beside the tile.'),
+      N('Crackle, pop! The hearth fire warms the tile.'),
     ],
     [
       ask(
@@ -2440,6 +2508,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('Moss comes in from the step. You tell him the word: emet, truth.'),
       M('Truth. A good word to keep by the fire.', 'soft'),
       N('Your Nubbin sits by the hearth and looks at the tile until dark.'),
+      N('Crackle, pop! The hearth fire warms the tile.'),
     ],
     [
       ask(
@@ -2462,6 +2531,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
       N('You set the clay tile on the cottage hearth, beside Hazel’s old clay tablets.'),
       N('The cottage is quiet. You say the word out loud: emet. Truth.'),
       N('Your Nubbin sits by the hearth and looks at the tile until dark.'),
+      N('Plop! The tile sits down on the hearth, safe and sound.'),
     ],
     [
       ask(

@@ -12,6 +12,8 @@
 import { LANG } from '../config/tuning';
 import type { LanguageCourse, Quest, VocabItem } from '../content/types';
 import { react } from './behavior';
+import { isFree } from './nubbin';
+import { localDayKey, tzOf } from './local-time';
 import { bare, scriptRuns, wordsInLine } from './lang-text';
 import { isMorning, type StoryRule } from './side-rule-kit';
 import { queueScene } from './story-state';
@@ -94,6 +96,31 @@ export function langQuestOpens(world: World, c: CampaignState, quest: Quest): bo
   return world.timeMs >= st.sinceMs + LANG.nextQuestAfterMs && isMorning(world.timeMs);
 }
 
+/** A teach step's check: `lang:he:teach:nubbins:shalom:3` is word `he-shalom`, three Nubbins. */
+export function teachTarget(check: string | undefined): { word: string; count: number } | null {
+  const m = /^lang:(he|ja):teach:nubbins:([a-z-]+):(\d+)$/.exec(check ?? '');
+  return m ? { word: `${m[1]}-${m[2]}`, count: Number(m[3]) } : null;
+}
+
+/**
+ * R0708: the child says a word to a Nubbin. It hears it (and copies the gesture), and the
+ * Nubbin counts once toward a teach step for that word, however often it is asked.
+ */
+export function langTeach(world: World, nubbinId: string, word: string, events: SimEvent[]): void {
+  if (!world.edu || !WORDS.has(word)) return;
+  if (!world.nubbins.some((n) => n.id === nubbinId)) return;
+  const n = world.nubbins.find((x) => x.id === nubbinId)!;
+  noteWord(world, word, 'used', events);
+  const gesture = gestureFor(word);
+  if (gesture) {
+    react(n, GESTURE_FACE[gesture], world.timeMs, events);
+    events.push({ kind: 'langReact', nubbinId: n.id, word, gesture });
+  }
+  const taught = (world.edu.taught ??= {});
+  const list = (taught[word] ??= []);
+  if (!list.includes(nubbinId)) list.push(nubbinId);
+}
+
 /** A language quest's rule: nothing moves outside a Learning Grove save. */
 export function langRule(quest: Quest): StoryRule {
   const edu = (world: World): boolean => world.edu !== null;
@@ -101,18 +128,22 @@ export function langRule(quest: Quest): StoryRule {
     id: quest.id,
     opens: (w, c) => langQuestOpens(w, c, quest),
     gate: (w) => edu(w),
-    canAct: (w) => edu(w),
+    canAct: (w, _c, _st, i) => edu(w) && !teachTarget(quest.steps[i ?? -1]?.check),
     completeGate: (w) => edu(w),
     // A finished tracing game meets the step it was opened for.
-    note: (_w, _c, st, _i, cmd) => {
+    note: (w, _c, st, i, cmd) => {
       if (cmd.kind === 'langTraced' && cmd.quest === quest.id) st.acted = true;
+      // R0708: a teach step is met once enough distinct Nubbins have been taught its word.
+      const t = teachTarget(quest.steps[i]?.check);
+      if (t && cmd.kind === 'langTeach' && (w.edu?.taught?.[t.word]?.length ?? 0) >= t.count)
+        st.acted = true;
     },
     // Every other step is met by playing its own scene: the greeting, the bow and the
     // "oyasumi" are choices in it, and the Grove has no separate Say action (review
     // 2026-10-21, bug 8). Only a tracing step waits, for the tracing game.
     auto: (_w, _c, _st, i) => {
       const check = quest.steps[i]?.check;
-      return check !== undefined && !TRACE_TARGETS[check];
+      return check !== undefined && !TRACE_TARGETS[check] && !teachTarget(check);
     },
   };
 }
@@ -169,7 +200,7 @@ export function langStart(world: World, course: LangCourseId): void {
 
 /** What a tracing step asks for: glyphs in writing order, and the word it uses, if any. */
 export interface TraceTarget {
-  lang: 'he' | 'ja';
+  lang: 'he' | 'ja' | 'en';
   glyphs: string[];
   word?: string;
 }
@@ -254,7 +285,87 @@ export function gestureFor(id: string): LangGesture | null {
 
 export function wordLearned(world: World, id: string): boolean {
   const s = world.edu?.words[id];
-  return s !== undefined && (s.used > 0 || s.heard >= LANG.learnedAfterHeard);
+  // R0701: a word recalled often enough in review (box 3 or more) counts too.
+  return (
+    s !== undefined &&
+    (s.used > 0 || s.heard >= LANG.learnedAfterHeard || (s.box ?? 0) >= LANG.srs.learnedBox)
+  );
+}
+
+// ------------------------------------------------------------------ spaced review (R0701)
+
+/**
+ * The child's play-day number, moved on once per calendar day they review. Days they do not
+ * play are not counted, so a word is never overdue for a week away and nothing is lost.
+ */
+export function srsDay(world: World): number {
+  const e = world.edu;
+  if (!e) return 0;
+  const key = localDayKey(world.lastWallMs, tzOf(world));
+  if (e.srsKey !== key) {
+    e.srsKey = key;
+    e.srsDay = (e.srsDay ?? 0) + 1;
+  }
+  return e.srsDay ?? 0;
+}
+
+/** The play-day number a review made now would use, without moving it (for the screens). */
+export function peekSrsDay(world: World): number {
+  const e = world.edu;
+  if (!e) return 0;
+  const key = localDayKey(world.lastWallMs, tzOf(world));
+  return (e.srsDay ?? 0) + (e.srsKey === key ? 0 : 1);
+}
+
+/** A review answer on a word the child has met: right goes up a box, wrong back to box 1. */
+export function srsAnswer(world: World, id: string, right: boolean, day = srsDay(world)): void {
+  const s = world.edu?.words[id];
+  if (!world.edu || !s || !WORDS.has(id)) return;
+  const box = right ? Math.min(LANG.srs.maxBox, (s.box ?? 0) + 1) : 1;
+  s.box = box;
+  s.due = day + LANG.srs.intervals[box]!;
+}
+
+/**
+ * The words due for review on a play-day, soonest first: words met but never reviewed, and
+ * reviewed words whose date has come. Ties go by box (weakest first), then id.
+ */
+export function dueWords(world: World, day: number): string[] {
+  const words = world.edu?.words ?? {};
+  return Object.entries(words)
+    .filter(([id, s]) => WORDS.has(id) && s.heard + s.used > 0 && (s.due ?? 0) <= day)
+    .sort(
+      ([a, x], [b, y]) =>
+        (x.due ?? 0) - (y.due ?? 0) || (x.box ?? 0) - (y.box ?? 0) || (a < b ? -1 : 1),
+    )
+    .map(([id]) => id);
+}
+
+/**
+ * R0701: a due word for Grove life: the soonest due word, and the free Nubbin nearest the
+ * Keeper (within the reaction radius) that will wave at it. Null when nothing is due or no
+ * Nubbin is near. Pure: nothing moves until `langDueWave` is applied.
+ */
+export function pickDueWave(world: World, day: number): { word: string; nubbinId: string } | null {
+  const word = dueWords(world, day)[0];
+  if (!word) return null;
+  const k = world.keeper.pos;
+  const near = world.nubbins
+    .filter((n) => (n.stage === 'child' || n.stage === 'adult') && isFree(n))
+    .map((n) => ({ n, d: Math.hypot(n.pos.x - k.x, n.pos.z - k.z) }))
+    .filter((e) => e.d <= LANG.reactRadius)
+    .sort((a, b) => a.d - b.d)[0];
+  return near ? { word, nubbinId: near.n.id } : null;
+}
+
+/** R0701: the Nubbin waves at a due word (its clip is the friend's to say, in the UI). */
+export function langDueWave(world: World, word: string, events: SimEvent[]): void {
+  const pick = pickDueWave(world, peekSrsDay(world));
+  if (!world.edu || !pick || pick.word !== word) return;
+  const n = world.nubbins.find((x) => x.id === pick.nubbinId);
+  if (!n) return;
+  react(n, GESTURE_FACE.wave, world.timeMs, events);
+  events.push({ kind: 'langReact', nubbinId: n.id, word, gesture: 'wave' });
 }
 
 /** Count a word heard or used; a learned word heard makes nearby Nubbins react. */

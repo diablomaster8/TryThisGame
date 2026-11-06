@@ -2,6 +2,7 @@ import { memorialSpot } from '../render/memorial-spot';
 import { rockTilt } from '../sim/toy-pair';
 import { ridePose } from '../render/ride-pose';
 import { rideScale } from './ride-scale';
+import { photoWave, type PhotoSubject } from './photo-cam';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
 import { KEEPER_JUMP_FX, KEEPER_SLOPE, POND_DIP, ROLL } from '../config/tuning-move';
@@ -448,6 +449,8 @@ export class Actors {
   keeperHold: Vec2 | null = null;
   /** A story scene's drawn spots for cast Nubbins, by id, or null. */
   nubbinHolds: ReadonlyMap<string, Vec2> | null = null;
+  /** R0412: photo mode's subjects (spot, facing, pose, face, gaze), or null (`photo-cam.ts`). */
+  photo: ReadonlyMap<string, PhotoSubject> | null = null;
   /** K5, K40: the story stager, for walk-ons' facing and pose and the partner's reactions. */
   stager: SceneStager | null = null;
   /** A story scene's drawn facing for the held Keeper (H7), or null for the sim's. */
@@ -494,8 +497,15 @@ export class Actors {
             : spot;
   }
 
+  /** R0585: ambient sprites and puddles the last frame drew (debug panel). */
+  get ambientDrawn(): number {
+    return this.ambient3d.drawn;
+  }
+
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** R0585: set by the frame governor; hides the ambient critters first. */
+  shedAmbient = false;
   /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
   sigFx: SignatureFx | null = null;
   /** LOOK-21 (lane E r10): the crying Nubbins' tear streams, set by the scene. */
@@ -1082,7 +1092,8 @@ export class Actors {
       }
       this.tryRig(a);
       // A scene that seats Moss or Sable on a mark draws them there (scene-stage.ts).
-      const held = this.nubbinHolds?.get(n.id);
+      const ph = this.photo?.get(n.id);
+      const held = ph ?? this.nubbinHolds?.get(n.id);
       const x = held?.x ?? lerp(a.prev.pos.x, n.pos.x, alpha);
       const z = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
       // LOOK-24: a strong flier on a flight leg flies (drawn only, sim/flight.ts).
@@ -1192,6 +1203,7 @@ export class Actors {
         // R0540 (lane A r10): a chatter speaks with the happy pose, listens idle, hugs.
         const cc = held ? null : chatClip(n, world.timeMs - (1 - alpha) * SIM.stepMs);
         if (cc) pose = cc;
+        if (ph?.pose) pose = ph.pose;
         a.gagEmote = gag && gag.look.emote !== 'none' ? gag.look.emote : null;
         /* Lane E r10 */ if (!gag && act && act.emote !== 'none' && pose === act.pose3d)
           a.gagEmote = act.emote;
@@ -1238,19 +1250,22 @@ export class Actors {
           this.sigFx?.play(n.id, sig!, this.nubbinSpot(n.id), nowMs, this.calm);
         /* Lane E r10 */ if (pose === 'cry' && this.cryFx)
           this.cryFx.play(n.id, this.nubbinSpot(n.id), this.nubbinFront(n.id), nowMs, this.calm);
-        a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
-        a.rig.lookAt =
-          pose === 'pet'
+        a.rig.face(ph ? ph.yaw : ((held && this.stager?.faces.get(n.id)) ?? n.facing));
+        a.rig.lookAt = ph
+          ? ph.look
+          : pose === 'pet'
             ? hand
             : GLANCE_POSES.has(pose) &&
                 Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
               ? this.glanceAt
               : this.glanceOf(n, world, nowMs);
+        a.rig.faceOverride = ph?.face ?? null;
         if (n.behavior.state === 'pet' && near) petted = true;
         this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         if (hm) heldSwing(a.rig, hm, t);
         if (hs) heldStyleSwing(a.rig, hs, t, this.calm);
+        if (ph?.wave) photoWave(a.rig, t, this.calm);
         // LOOK-62: a newly evolved form spins one turn as it lands (put back next frame).
         const pp = this.pops.get(n.id);
         const turn =
@@ -1439,7 +1454,8 @@ export class Actors {
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
     this.perform3d.finish(world, this.location === 'grove', live, nowMs);
-    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm);
+    this.ambient3d.burst = this.beatBurst;
+    this.ambient3d.frame(world, this.location === 'grove', nowMs, this.calm, this.shedAmbient);
 
     // The Keeper.
     if (this.keeperSquash) {
@@ -1539,6 +1555,11 @@ export class Actors {
       const x = lerp(v.prev.pos.x, i.pos.x, alpha);
       const z = lerp(v.prev.pos.z, i.pos.z, alpha);
       v.mesh.position.set(x, this.ground(x, z) + v.lift + lerp(v.prev.y, i.y, alpha), z);
+      // R0574: the rope turns while two skip.
+      if (i.toy === 'skippingRope') {
+        const rope = v.mesh.getObjectByName('rope');
+        if (rope) rope.rotation.x = (rockTilt(i, world.timeMs) + 1) * Math.PI * 0.5;
+      }
       // R0574: the seesaw's plank rocks while two Nubbins play on it.
       if (i.toy === 'seesaw') {
         const plank = v.mesh.getObjectByName('plank');
