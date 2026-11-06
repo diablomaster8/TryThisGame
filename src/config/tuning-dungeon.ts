@@ -42,7 +42,7 @@ export const HOLLOW = {
    * Strays (R0162): snatches per stray per floor, a dropped Shell every `dropEveryMs` while
    * it flees, the energy a party Nubbin spends to shoo one, how near counts as seeing one.
    */
-  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 0.1, seeRadius: 7 },
+  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 0.1, seeRadius: 7, fedMs: 1800 },
   /**
    * Shrines (R0159): per level, cells from the stairs and between shrines, how near counts as
    * walking onto one, each buff's seconds (0 is instant), and the effect sizes.

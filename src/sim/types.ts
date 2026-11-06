@@ -1002,6 +1002,8 @@ export interface DungeonRun {
   taken: string[];
   chestOpen: boolean;
   strays: DungeonStray[];
+  /** R0326: strays just fed a fruit, shy and delighted for `leftMs` more, then gone up to the square. */
+  fedStrays?: Array<{ id: string; pos: Vec2; leftMs: number; king?: true }>;
   /** R0162: single Shells a fleeing stray dropped, waiting to be picked up. */
   shellTrail?: Array<{ id: string; x: number; z: number }>;
   /** R0159: shrines used on this level, and the shrine buffs still running (paused in fights). */
