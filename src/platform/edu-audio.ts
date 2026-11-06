@@ -12,6 +12,7 @@
 import { EDU_CLIPS } from '../config/edu';
 import { planUiClips, uiClipFile } from '../config/edu-clips';
 import { isAudioUnlocked, isSoundEnabled, sfxOut } from './audio';
+import { isVoiceOn, onVoiceStop } from './voices';
 import { EDU_RECIPES, recipeLength, renderRecipe, type Seg } from './edu-synth';
 
 /** Clip ids with a real recording under `public/audio/edu/`. Add an id when its file lands. */
@@ -46,6 +47,14 @@ export function resolveClip(
 
 let current: HTMLAudioElement | null = null;
 let token = 0;
+onVoiceStop(() => {
+  token++;
+  try {
+    current?.pause();
+  } catch {
+    // Nothing playing.
+  }
+});
 
 function speak(text: string, done: () => void): void {
   try {
@@ -77,8 +86,10 @@ function playSynth(recipe: readonly Seg[], done: () => void): void {
 function playOne(id: string, done: () => void): void {
   const run = (s: ClipSource | null, fallback: () => void): void => {
     if (!s) return done();
-    if (s.kind === 'synth') return playSynth(s.recipe, done);
-    if (s.kind === 'speech') return speak(s.text, done);
+    // The code-made animal and first-sound clips are sound effects: the effects switch.
+    if (s.kind === 'synth') return isSoundEnabled() ? playSynth(s.recipe, done) : done();
+    // A whole word said by the device voice is read-aloud: the "everything else" switch.
+    if (s.kind === 'speech') return isVoiceOn('ui') ? speak(s.text, done) : done();
     try {
       const a = new Audio(s.url);
       current = a;
@@ -103,7 +114,7 @@ export function playEduClip(id: string, onDone?: () => void): void {
 
 /** Play clips one after another (the cue word, then its first sound). */
 export function playEduClips(ids: readonly string[], onDone?: () => void): void {
-  if (!isAudioUnlocked() || !isSoundEnabled()) return;
+  if (!isAudioUnlocked()) return;
   const mine = ++token;
   try {
     current?.pause();
@@ -152,7 +163,8 @@ export function playUiText(
   recorded: ReadonlySet<string> = EDU_UI_RECORDED,
   make: (url: string) => HTMLAudioElement = (url) => new Audio(url),
 ): boolean {
-  if (!isAudioUnlocked() || !isSoundEnabled()) return false;
+  // Spoken lines only; `speakLine` has already checked the voices switch.
+  if (!isAudioUnlocked()) return false;
   const ids = planUiClips(text, recorded);
   if (!ids) return false;
   stopUiClips();

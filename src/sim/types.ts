@@ -464,6 +464,13 @@ export interface Settings {
   joystick: boolean;
   sound: boolean;
   music: boolean;
+  /**
+   * Read-aloud, each on its own (platform/voices.ts): the story's lines and choices, and
+   * everything else the game says. Unset: off in the main game, on in a Learning Grove that
+   * reads aloud (sprout band, or reader with "read to me"). An explicit value always wins.
+   */
+  voicesStory?: boolean;
+  voicesUi?: boolean;
   /** 0..1 */
   musicVolume: number;
   sfxVolume: number;

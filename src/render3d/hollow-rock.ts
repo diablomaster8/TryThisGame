@@ -421,7 +421,8 @@ function groundHeight(f: Floor, x: number, z: number): number {
     const e =
       cx < 0 || cy < 0 || cx >= f.cols || cy >= f.rows
         ? 0
-        : (f.elevation[cy * f.cols + cx] ?? 0) - (onShelf(f, cx, cy) ? shelfRise() : 0);
+        : (f.elevation[cy * f.cols + cx] ?? 0) -
+          (onShelf(f, cx, cy) ? shelfRise(f, { x: cx, y: cy }) : 0);
     all += e * 0.25;
     if (!isWalkable(f, cx, cy) || w <= 0) continue;
     sum += e * w;
@@ -440,8 +441,11 @@ function shelfLift(f: Floor, x: number, z: number): number {
   const gz = z / CELL + f.rows / 2;
   const e = 1e-4;
   for (const ox of [-e, e])
-    for (const oz of [-e, e])
-      if (onShelf(f, Math.floor(gx + ox), Math.floor(gz + oz))) return shelfRise();
+    for (const oz of [-e, e]) {
+      const sx = Math.floor(gx + ox);
+      const sz = Math.floor(gz + oz);
+      if (onShelf(f, sx, sz)) return shelfRise(f, { x: sx, y: sz });
+    }
   return 0;
 }
 
