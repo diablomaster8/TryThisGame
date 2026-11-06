@@ -989,7 +989,9 @@ export const EDU_TEXT = {
     `To continue, work out ${a} × ${b}, type the answer, then press and hold Enter.`,
   gateHold: 'Keep holding…',
   gateWrong: 'Not quite. Here is a new one. Ask a grown-up.',
-  gateEnter: 'Enter',
+  gateTooShort: 'Keep holding Enter until the bar fills.',
+  gateTypeFirst: 'Type the answer first, then hold Enter.',
+  gateEnter: 'Hold to enter',
   parentTitle: 'Grown-up area',
   parentHelp:
     'The age sets which games are suggested and how hard they are. Switch any game on or off to make it yours.',
