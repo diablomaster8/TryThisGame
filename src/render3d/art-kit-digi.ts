@@ -2,8 +2,8 @@ import type * as THREE from 'three';
 import { C, color } from '../render/sprites/palette';
 import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-quad';
 import { leansForward, type CreatureSpec } from '../render/sprites/creature';
-import { V, type Prim } from '../samples/sculpted';
-import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
+import { V, type Prim } from './art/sculpted';
+import type { Mark, PartSpec, SpeciesSpec } from './art/species';
 import type { Layout } from './art-species';
 import { CHEST_MISSILE, DINO_LEAN_DEG, STRIPE_WRAP } from '../config/tuning-look-r10e';
 

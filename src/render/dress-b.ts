@@ -27,7 +27,7 @@ import {
   paintWheel,
   ruinFrame,
   tallySpot,
-  type Crest,
+  type StoryCrest,
 } from './paint/story-b';
 import { SCENERY } from './scenery';
 import { setHiddenScenery } from './scenery-hide';
@@ -94,7 +94,7 @@ export const dressB: PixelDressing = (() => {
     STORY_B.dawnDusk.houses.forEach((h, i) =>
       atlas.add(
         `crest:${h.crest}`,
-        paintCrestHouse(h.crest as Crest, h.roof, i * 7, CG2_K.plaque.creatures[i]),
+        paintCrestHouse(h.crest as StoryCrest, h.roof, i * 7, CG2_K.plaque.creatures[i]),
       ),
     );
     for (let k = 0; k < 4; k++)

@@ -101,7 +101,8 @@ function standGrid(f: Floor): Float32Array {
   if (had) return had;
   const g = new Float32Array(f.elevation);
   // R0191 (lane B r10): shelves blend in at ground level; `standAt` adds their rise sharply.
-  for (const s of f.shelves ?? []) for (const c of s.cells) g[c.y * f.cols + c.x]! -= shelfRise();
+  for (const s of f.shelves ?? [])
+    for (const c of s.cells) g[c.y * f.cols + c.x]! -= shelfRise(f, c);
   for (const c of f.crossings) {
     const a = g[c.from.y * f.cols + c.from.x] ?? 0;
     const b = g[c.to.y * f.cols + c.to.x] ?? 0;
@@ -160,7 +161,7 @@ export function standAt(f: Floor, x: number, z: number): number {
   }
   const cx = Math.floor(x / CELL + f.cols / 2);
   const cz = Math.floor(z / CELL + f.rows / 2);
-  const lift = onShelf(f, cx, cz) ? shelfRise() : 0;
+  const lift = onShelf(f, cx, cz) ? shelfRise(f, { x: cx, y: cz }) : 0;
   if (weight > 0) return sum / weight + lift;
   return (g[cz * f.cols + cx] ?? 0) + lift;
 }

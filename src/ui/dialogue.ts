@@ -549,13 +549,18 @@ export class Dialogue {
     this.lockUntil = 0;
     this.lockTapped = false;
     this.speakAgain = null;
+    // The Voices > Story switch wins: on in Settings reads any band's lines (platform/voices.ts
+    // decides at `speakLine`; off there means no speech, so `reads` only shapes the buttons).
     const reads =
-      (band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true);
+      (band === 'sprout' && e?.readAloud) ||
+      (band === 'reader' && e?.readToMe === true) ||
+      g.world.settings.voicesStory === true;
     this.againBtn.hidden = !reads;
     if (reads) {
       const said = spokenLine(this.fullText, alone ? 'alone' : 'together', line.childSay);
       const speakNow = (onDone: (() => void) | undefined): boolean =>
         speakLine(said, {
+          channel: 'story',
           speaker: chorus ? 'narrator' : who,
           // A recording holds the line without its child prompts.
           clipId: prompts > 0 ? undefined : (line.id ?? frozenVoId(line.text)),

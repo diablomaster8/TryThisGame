@@ -1,8 +1,8 @@
 import type * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
 import { BIRD_RIBBON, birdOf } from '../render/sprites/creature-bird';
-import { V, type Prim } from '../samples/sculpted';
-import type { PartSpec, SpeciesSpec } from '../samples/species';
+import { V, type Prim } from './art/sculpted';
+import type { PartSpec, SpeciesSpec } from './art/species';
 import type { Layout } from './art-species';
 
 /**

@@ -11,6 +11,8 @@ export const C12C = {
     timeoutMs: 9_000,
     /** A guest giver who is not in the Grove yet comes in from this far off (units). */
     spawnAt: 7,
+    /** R0608: a guest giver comes from this side of the Keeper (rad; the default camera's, 45 degrees). */
+    viewAngle: Math.PI / 4,
     /** No walk when another offer was made within this long (sim ms). */
     gapMs: 10_000,
   },

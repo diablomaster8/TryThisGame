@@ -1,6 +1,6 @@
 import { Color } from 'three';
-import { cloneSpec } from '../samples/nubbin-variants';
-import type { SpeciesSpec } from '../samples/species';
+import { cloneSpec } from './art/nubbin-variants';
+import type { SpeciesSpec } from './art/species';
 import { CG2_P } from '../config/tuning-p';
 
 /**

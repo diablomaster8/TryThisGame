@@ -18,6 +18,7 @@
     "smoke:mobile": "node tests/smoke/mobile-a11y.smoke.cjs",
     "test:e2e": "node tests/e2e/run.cjs",
     "test:visual": "node tests/e2e/visual.cjs",
+    "test:soak": "node tests/e2e/soak.cjs",
     "golden:update": "node tests/e2e/visual.cjs --update",
     "test:watch": "vitest",
     "lint": "eslint . --cache --cache-strategy content --cache-location .cache/eslint/",

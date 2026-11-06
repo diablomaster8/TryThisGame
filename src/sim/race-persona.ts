@@ -111,3 +111,22 @@ export function countLabel(
 /** Whether the field is still held at the line. */
 export const inCountdown = (race: Pick<RaceState, 'countdownMs'>): boolean =>
   (race.countdownMs ?? 0) > 0;
+
+/**
+ * The sprite clip each start-line kind plays when the racer's sheet has real frames for it
+ * (the Chao-faithful sheets do: `wave`, `peek`, `tease`, `yawn`, drawn for the side view).
+ * Sheets without them fall back to the offset and emote of `startLook`.
+ */
+export const START_CLIP: Record<StartKind, { clip: string; frames: number; ms: number }> = {
+  wave: { clip: 'wave', frames: 2, ms: 240 },
+  hide: { clip: 'peek', frames: 2, ms: 420 },
+  tongue: { clip: 'tease', frames: 2, ms: 300 },
+  yawn: { clip: 'yawn', frames: 2, ms: 700 },
+};
+
+/** The frame of a start clip at `timeMs`; reduced motion holds frame 0 (or the peak, for a yawn). */
+export function startFrameIndex(kind: StartKind, timeMs: number, reduce: boolean): number {
+  const c = START_CLIP[kind];
+  if (reduce) return kind === 'yawn' ? 0 : 1 % c.frames;
+  return Math.floor(Math.max(0, timeMs) / c.ms) % c.frames;
+}

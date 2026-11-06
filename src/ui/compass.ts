@@ -7,8 +7,10 @@
  */
 import { WORLD_TEXT } from '../config/strings-world';
 import { COMPASS, LANDMARKS } from '../config/tuning';
+import { BEACON_BACKDROP } from '../config/tuning-r13d2';
 import type { Game } from '../game';
-import { compassTicks, roseAngle, type TickKind } from './hud-world-math';
+import { compassTicks, roseAngle, screenBearing, type TickKind } from './hud-world-math';
+import { neighbourBeacons } from '../sim/beacons';
 import { OBJECTIVE_TARGET } from './beacon-arrow';
 
 const GLYPH: Record<TickKind, string> = { home: '⌂', landmark: '?', objective: '★' };
@@ -65,7 +67,17 @@ export function mountCompass(
         range: COMPASS.landmarkRangeU,
         maxTicks: COMPASS.maxTicks,
       });
-      const key = list.map((t) => `${t.kind}:${t.angle.toFixed(2)}`).join('|');
+      // R13 d2 (R0117): the neighbouring regions' beacons ride the rim as their own icons.
+      const beacons = neighbourBeacons(w)
+        .slice(0, BEACON_BACKDROP.max)
+        .map((b) => ({
+          angle: screenBearing(Math.sin(b.bearing), Math.cos(b.bearing), yaw),
+          icon: b.icon,
+          name: b.name,
+        }));
+      const key =
+        list.map((t) => `${t.kind}:${t.angle.toFixed(2)}`).join('|') +
+        beacons.map((b) => `b${b.icon}:${b.angle.toFixed(2)}`).join('|');
       if (key !== lastTicks) {
         lastTicks = key;
         ticks.replaceChildren(
@@ -77,6 +89,17 @@ export function mountCompass(
             inner.textContent = GLYPH[t.kind];
             inner.style.transform = `rotate(${-t.angle}rad)`;
             inner.title = TICK_LABEL[t.kind];
+            s.appendChild(inner);
+            return s;
+          }),
+          ...beacons.map((b) => {
+            const s = document.createElement('span');
+            s.className = 'compass-tick compass-tick-beacon';
+            s.style.transform = `rotate(${b.angle}rad) translateY(-${COMPASS.size / 2 - 7}px)`;
+            const inner = document.createElement('span');
+            inner.textContent = b.icon;
+            inner.style.transform = `rotate(${-b.angle}rad)`;
+            inner.title = b.name;
             s.appendChild(inner);
             return s;
           }),

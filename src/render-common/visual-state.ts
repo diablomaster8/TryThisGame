@@ -8,7 +8,7 @@
  * R0455 (r12-d3): `visualStateFor` is the one rule from a Nubbin's behaviour to its state; Full
  * 3D's `poseFor` is that state's pose (`poseOfState`), and Pixel names the petted state too.
  */
-import type { PoseName } from '../samples/species';
+import type { PoseName } from '../render3d/art/species';
 import { performClip } from '../render/perform-look';
 import { chaseClip } from '../render/ambient-look';
 import { moodOf } from '../sim/needs';
@@ -84,6 +84,8 @@ const POSE_STATE: Record<string, VisualState | null> = {
   surprised: 'surprised',
   tumble: 'tumble',
   pet: 'held',
+  // R0583: the start-line yawn reads as an idle body.
+  yawn: 'idle',
   carry: null,
   throw: null,
   kneel: null,

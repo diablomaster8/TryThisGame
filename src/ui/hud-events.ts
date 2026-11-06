@@ -33,6 +33,7 @@ import {
   WILD_NUBBIN_TEXT,
 } from '../config/strings-r12d2';
 import { REGION_LIFE_TEXT } from '../config/strings-r11d8';
+import { SHORE_FOLK_TEXT, SHORE_PLAY_TEXT } from '../config/strings-r13d1';
 import {
   ACT_TEXT,
   CAMP_TEXT,
@@ -674,6 +675,16 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
       // R0110: a stat gate gave way to the right partner.
       toast(REGION_LIFE_TEXT.gate);
       playSound('pickup');
+    } else if (e.kind === 'castleDown') {
+      // R0097: a Power partner flattened a sandcastle.
+      toast(SHORE_PLAY_TEXT.castleDown(e.shells));
+      playSound('pickup');
+    } else if (e.kind === 'castleRebuilt') {
+      toast(SHORE_PLAY_TEXT.rebuilt);
+    } else if (e.kind === 'folkGreet') {
+      // R0097: a Kettleby local has a word.
+      const f = SHORE_FOLK_TEXT[e.id as keyof typeof SHORE_FOLK_TEXT];
+      if (f) toast(`${f.name}: ${f.line}`);
     } else if (e.kind === 'companionReacts') {
       // R0121: a partner's reaction to a new place (the picture is the sprite).
       const n = game()?.world.nubbins.find((x) => x.id === e.id);

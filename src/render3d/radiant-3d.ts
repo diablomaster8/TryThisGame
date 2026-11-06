@@ -1,7 +1,7 @@
-import { V } from '../samples/sculpted';
-import type { SpeciesSpec } from '../samples/species';
-import { variant } from '../samples/nubbin-variants';
-import { cone } from '../samples/nubbin-lineup-kit';
+import { V } from './art/sculpted';
+import type { SpeciesSpec } from './art/species';
+import { variant } from './art/nubbin-variants';
+import { cone } from './art/nubbin-lineup-kit';
 import { RADIANT3D } from '../config/tuning';
 
 /**
