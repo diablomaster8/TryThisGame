@@ -242,6 +242,7 @@ const A01 = quest(
         MER('Go and wash your hands, Vasilisa.', 'soft'),
         N('She goes up slowly. She keeps looking back at your Nubbin.'),
         N('The house is made of big logs, laid one on another.'),
+        N('Creak! The big log door creaks as you step in.'),
       ],
       [
         ask(
@@ -430,6 +431,7 @@ const A02 = quest(
         V('Oh! It is you. Shut the door. Properly, it sticks.'),
         N('You shut it properly. Thud! It does stick.'),
         N('Door. Floor. They sound the same at the end.'),
+        N('Thud! The sticky door thuds shut.'),
       ],
       [
         doit(
@@ -456,6 +458,7 @@ const A02 = quest(
         DOLL('Go up and sleep. Tomorrow you will feel a little lighter.'),
         N('Your Nubbin stares at the doll. The doll stares back.'),
         V('She ate! She always eats. Mother said she would.', 'happy'),
+        N('Squeak! The cellar door squeaks, and the candle flickers.'),
       ],
       [
         ask(
@@ -491,6 +494,7 @@ const A02 = quest(
         V('She will not help on an empty tummy. Mother said so.'),
         V('Nobody should have to.', 'soft'),
         N('Your candle makes a little ring of light in the dark cellar.'),
+        N('Drip! A drip falls somewhere in the dark cellar.'),
       ],
       [
         notice(
@@ -517,6 +521,7 @@ const A02 = quest(
         N('She shows you twice. Your Nubbin watches as if there will be a test.'),
         V('Now promise. Never tell. Not Father. Not anybody.', 'think'),
         V('You are not anybody. You are my guest. I decided.'),
+        N('Creak! The cellar steps creak, one, two, three.'),
       ],
       [
         doit(
@@ -552,6 +557,7 @@ const A02 = quest(
         N('Climbing the steps, you think of a rule in Gran Hazel’s writing.'),
         N('Feed them before you feed yourself.', 'soft'),
         N('Vasilisa gives her own best food away.'),
+        N('Crunch! The pickle jar crunches as it is put back.'),
       ],
       [
         ask(
@@ -587,6 +593,7 @@ const A02 = quest(
         N('You lay out the food in a row. You wait, and do not poke.'),
         N('The eyes glow. The food is gone.'),
         N('Your Nubbin checks the empty napkin every single time.'),
+        N('Munch! The little doll goes munch, munch, munch.'),
       ],
       [
         doit(
@@ -636,6 +643,7 @@ const A03 = quest(
         YNG('Too pretty. It is not fair!', 'angry'),
         STEP('Pretty fades, my loves. Sun and wind and work will see to that.'),
         N('Vasilisa curtsies and says nothing. One hand is in her pocket.'),
+        N('Creak! The cart creaks, and the wheels go round.'),
       ],
       [
         ask(
@@ -673,6 +681,7 @@ const A03 = quest(
         STEP('Vasilisa will do the garden, the water, the stove and the floors.'),
         ELD('And we will do the sitting down.', 'happy'),
         N('Vasilisa curtsies again. In her pocket, something small is very still.'),
+        N('Thump! The stepmother’s bags thump down on the floor.'),
       ],
       [
         ask(
@@ -731,6 +740,7 @@ const A03 = quest(
       [
         V('Now I have to look tired. Can you look tired? I cannot.', 'think'),
         N('Vasilisa keeps a happy secret. It keeps her safe.'),
+        N('Squeak! The broom squeaks across the cabbage patch.'),
       ],
       [
         notice(
@@ -795,6 +805,7 @@ const A03 = quest(
         N('The stepmother walks round the garden. She finds nothing wrong.'),
         N('This makes her crosser than anything.'),
         STEP('Sun and wind. Every day. We shall see.', 'angry'),
+        N('Swish! Swish! The garden gate swishes in the wind.'),
       ],
       [
         ask(
@@ -826,6 +837,7 @@ const A03 = quest(
         N('Vasilisa works in the sun, or seems to. She grows strong.'),
         ELD('It is not fair. She works and gets prettier.', 'angry'),
         N('Your Nubbin, napping in the cabbages, looks well too.'),
+        N('Hee-hee! Vasilisa giggles among the cabbages.'),
       ],
       [
         ask(
@@ -910,6 +922,7 @@ const A04 = quest(
       [
         N('Behind her, down at the gate, somebody is knocking.'),
         N('Knock, knock, knock! Wood makes a sound when it is tapped.'),
+        N('Knock! Thump! Someone knocks at the gate.'),
       ],
       [
         doit(
@@ -935,6 +948,7 @@ const A04 = quest(
         ELD('Nobody comes for us. It is her face.', 'sad'),
         YNG('It is her fault for having it.', 'angry'),
         N('Upstairs, a window closes very quietly.'),
+        N('Creak! The gate creaks open a little way.'),
       ],
       [
         ask(
@@ -967,6 +981,7 @@ const A04 = quest(
       [
         STEP('Guest. You will keep that gate tomorrow. Nobody comes in for her.', 'angry'),
         N('Gate. Wait. Late. They all rhyme.'),
+        N('Thump! The gate bar thumps into its place.'),
       ],
       [
         doit(
@@ -989,6 +1004,7 @@ const A04 = quest(
         N('The stepmother watches from one window. Vasilisa watches from another.'),
         SU('I suppose it is no. It was always going to be no.', 'sad'),
         N('Your Nubbin holds the gate with both paws, as if that could help.'),
+        N('Creak! Your Nubbin holds the gate. It creaks.'),
       ],
       [
         ask(
@@ -1107,6 +1123,7 @@ const A05 = quest(
         MER('We both think we won.'),
         V('Bring me back something small, Father. For my pocket.'),
         MER('Something small for your pocket. I will remember.', 'soft'),
+        N('Ding! The sledge bells ding in the cold yard.'),
       ],
       [
         doit(
@@ -1161,6 +1178,7 @@ const A05 = quest(
         ELD('Everybody says a hut stands in there.', 'shock'),
         YNG('Everybody says somebody lives in it.'),
         STEP('Hush, both of you. It is only stories.', 'think'),
+        N('Swish! The birches swish as you go by.'),
       ],
       [
         ask(
@@ -1188,6 +1206,7 @@ const A05 = quest(
       [
         N('Vasilisa unpacks the blanket last. She puts it on her bed.'),
         N('Her hand goes to her pocket. It stays there.'),
+        N('Thump! The last box thumps down in the new house.'),
       ],
       [
         ask(
@@ -1225,6 +1244,7 @@ const A05 = quest(
         N('Vasilisa touches her pocket. Then she turns, sure of the way.'),
         V('She tells me. Only after she has eaten.'),
         N('Far off, you see white sticks with round lights. Then a birch hides them.'),
+        N('Crunch! Leaves crunch under Vasilisa’s boots.'),
       ],
       [
         ask(
@@ -1267,6 +1287,7 @@ const A05 = quest(
         N('The doll brings you both home by dusk with a full basket.'),
         N('The stepmother watches from the window. She does not look pleased.'),
         N('In the basket sit four red mushrooms and three brown ones.'),
+        N('Plop! Plop! Mushrooms plop into the basket.'),
       ],
       [
         doit(
@@ -1293,6 +1314,7 @@ const A05 = quest(
         ELD('Or something in her pocket.', 'think'),
         N('Vasilisa goes still. Then she laughs and shows them a handkerchief.'),
         N('They lose interest. That night you keep the cellar door till morning.'),
+        N('Squeak! The cellar door squeaks open, then shut.'),
       ],
       [
         ask(
@@ -1346,6 +1368,7 @@ const A06 = quest(
         N('One candle on the table, and four people round it.'),
         N('Your Nubbin keeps trying to sit on the warm bit.'),
         N('Vasilisa’s spindle turns and turns. Her thread is thin and even.'),
+        N('Pitter, patter! Rain goes pitter-patter on the window.'),
       ],
       [
         ask(
@@ -1381,6 +1404,7 @@ const A06 = quest(
       [
         N('The elder sister looks at the candle. Then at her mother.'),
         N('Her mother nods, very slightly.'),
+        N('Crack! A log cracks on the fire.'),
       ],
       [
         notice(
@@ -1410,6 +1434,7 @@ const A06 = quest(
         YNG('I am not going. I can see by my pins.'),
         ELD('Vasilisa can fetch it. Into the wood, to Baba Yaga!', 'angry'),
         N('Both sisters push her out into the dark.'),
+        N('Pop! The candle pops and smokes.'),
       ],
       [
         notice(
@@ -1430,6 +1455,7 @@ const A06 = quest(
       [
         V('Wait for me at the cellar door. I have to ask somebody first.', 'soft'),
         N('It was not her idea. The sisters sent her, and that is not fair.'),
+        N('Creak! The cellar door creaks open.'),
       ],
       [
         ask(
@@ -1637,6 +1663,7 @@ const A07 = quest(
         N('Then a rider all in red, on a red horse. He trots by.'),
         N('The sun rises. Everything goes red, then gold, then bright day.'),
         V('White, then red. Somebody is counting out the day.', 'think'),
+        N('Swish! The white horse swishes its tail.'),
       ],
       [
         ask(
@@ -1666,6 +1693,7 @@ const A07 = quest(
       [
         N('All day you walk. The wood gets older and darker.'),
         N('Two riders have passed. One more is coming.'),
+        N('Crunch! The dry leaves crunch under your boots.'),
       ],
       [
         doit(
@@ -1688,6 +1716,7 @@ const A07 = quest(
         N('The rider reaches the gate. Then he is gone.'),
         N('And night falls, all at once, like a lid.'),
         V('That was night! They were all one thing. Day, and sun, and night!', 'shock'),
+        N('Whoosh! Night whooshes down like a lid.'),
       ],
       [
         notice(
@@ -1791,6 +1820,7 @@ const A08 = quest(
         V('Do not look back at them. Look at the gate.', 'sad'),
         N('Your Nubbin looks back anyway. One lantern looks surprised.'),
         N('Behind the fence, the hut is old and black and leaning.'),
+        N('Creak! The lanterns creak on their white sticks.'),
       ],
       [
         notice(
@@ -1861,6 +1891,7 @@ const A08 = quest(
       [
         N('Vasilisa curtsies right down to the ground.'),
         N('Her hand does not go to her pocket, not where Baba Yaga can see.'),
+        N('Whoosh! The mortar whooshes past, over the trees.'),
       ],
       [
         ask(
@@ -1922,6 +1953,7 @@ const A08 = quest(
         BY('Same rules for you as for her. Work, and you go home.', 'angry'),
         N('She lifts one hand. The gate swings open.'),
         N('Clack, clack, clack, clack. Four bolts slide back.'),
+        N('Clack! The gate bolts go clack, clack, clack.'),
       ],
       [
         doit(
@@ -1943,6 +1975,7 @@ const A08 = quest(
         N('A great white stove takes up half the room.'),
         N('Baba Yaga stretches on a bench and puts her feet up.'),
         BY('I am home and hungry. Bring me everything in the oven.', 'happy'),
+        N('Creak! The door creaks, and the warm room waits.'),
       ],
       [
         notice(
@@ -1992,6 +2025,7 @@ const A09 = quest(
         BY('Ah. Better. That is what an old woman needs.', 'happy'),
         N('She leaves a little soup, a crust and a tiny scrap of pork.'),
         BY('That is yours, girl. And a crust for you, since you carried.'),
+        N('Crunch! Crunch! Baba Yaga crunches her crust.'),
       ],
       [
         ask(
@@ -2017,6 +2051,7 @@ const A09 = quest(
       [
         N('Baba Yaga climbs on the stove and pulls a quilt over her.'),
         N('She snores like a saw going through a log. Zzzrrr!'),
+        N('Pfft! Baba Yaga snores. Pfft, pfft!'),
       ],
       [
         doit(
@@ -2044,6 +2079,7 @@ const A09 = quest(
         N('Your crust sits on the table. It is the only food left.'),
         N('Your Nubbin climbs up and looks at the crust. It does not touch it.'),
         N('Tomorrow will be very long.'),
+        N('Creak! The old bench creaks as Vasilisa sits.'),
       ],
       [
         notice(
@@ -2095,6 +2131,7 @@ const A09 = quest(
         N('The fire in the stove sinks to red.'),
         N('Vasilisa curls up on the bench with one hand in her pocket.'),
         N('A crust can be shared, and broken in half.'),
+        N('Crack! A log cracks, and the red fire glows.'),
       ],
       [
         doit(
@@ -2117,6 +2154,7 @@ const A09 = quest(
         BY('Last, sift the oats. Every husk, every bit of chaff.'),
         BY('If it is not done when I come back, we shall see.', 'happy'),
         N('She starts snoring again, right where she stopped.'),
+        N('Thump! The mortar thumps down in the yard.'),
       ],
       [
         ask(
@@ -2170,6 +2208,7 @@ const A10 = quest(
         DOLL('Things look better when you wake.'),
         V('That is what Mother used to say. The same thing.', 'soft'),
         N('She lies down on the bench. She is asleep in a blink.'),
+        N('Squeak! The little doll squeaks as it climbs down.'),
       ],
       [
         ask(
@@ -2203,6 +2242,7 @@ const A10 = quest(
       [
         N('At first light the white rider goes past the window.'),
         N('Baba Yaga whistles, her mortar comes, and she is gone.'),
+        N('Whoosh! The mortar whooshes off into the dawn.'),
       ],
       [
         doit(
@@ -2229,6 +2269,7 @@ const A10 = quest(
         N('Your Nubbin picks out the black grains and spits them in a pile.'),
         N('The doll looks at the pile and nods like a foreman.'),
         N('By noon the oats are clean. Your Nubbin sleeps on the sack.'),
+        N('Pop! Pop! Your Nubbin spits out the black grains, pop, pop.'),
       ],
       [
         doit(
@@ -2247,6 +2288,7 @@ const A10 = quest(
       [
         N('At dusk Vasilisa wakes. The doll climbs back into her pocket.'),
         N('The black rider crosses the clearing.'),
+        N('Whoosh! The black rider whooshes across the clearing.'),
       ],
       [
         notice(
@@ -2273,6 +2315,7 @@ const A10 = quest(
         BY('Servants of mine! Take the oats and grind them.', 'happy'),
         N('Three pairs of hands appear in the air. Just hands.'),
         N('They lift the sack and carry it off into the dark.'),
+        N('Swish! The sack swishes away into the dark.'),
       ],
       [
         doit(
@@ -2302,6 +2345,7 @@ const A10 = quest(
       [
         BY('Same again tomorrow. Different job. Go to sleep.'),
         N('You think of the hands. Three pairs of them.'),
+        N('Thump! The sack thumps down far away.'),
       ],
       [
         doit(
@@ -2325,6 +2369,7 @@ const A10 = quest(
         N('Vasilisa looks at the empty air where the hands were.'),
         V('I am not going to ask. I do not want to know.', 'think'),
         N('She feeds the doll what she has. The little lights come on.'),
+        N('Slurp! Baba Yaga slurps her soup.'),
       ],
       [
         notice(
@@ -2372,6 +2417,7 @@ const A11 = quest(
         BY('Get every speck of earth out. I will know.'),
         N('She whistles, her mortar comes, and she is gone.'),
         V('Every speck. You cannot even see which are specks.', 'sad'),
+        N('Whoosh! The mortar whooshes off again.'),
       ],
       [
         ask(
@@ -2405,6 +2451,7 @@ const A11 = quest(
       [
         N('Vasilisa takes out the doll. She feeds it the last of her bread.'),
         N('She listens with her head on one side.'),
+        N('Crunch! Vasilisa crunches the last of her bread.'),
       ],
       [
         doit(
@@ -2428,6 +2475,7 @@ const A11 = quest(
         N('Your Nubbin blows two away, very gently. Puff, puff!'),
         N('By noon there is seed in one sack and earth in a heap.'),
         N('Vasilisa sleeps through it all, smiling.'),
+        N('Puff! Puff! Your Nubbin blows the seeds. Pfft!'),
       ],
       [
         doit(
@@ -2446,6 +2494,7 @@ const A11 = quest(
       [
         N('The black rider crosses the clearing. The fence’s eyes come on.'),
         N('A poppy seed is tiny, and blue-black, almost the colour of night.'),
+        N('Whoosh! The black rider whooshes by.'),
       ],
       [
         doit(
@@ -2474,6 +2523,7 @@ const A11 = quest(
         BY('I pay for work. Here.'),
         N('She hands you a tiny cracked mortar and pestle.'),
         BY('Too small for flying. Plant something in it.'),
+        N('Ding! The tiny mortar dings when you tap it.'),
       ],
       [
         ask(
@@ -2511,6 +2561,7 @@ const A11 = quest(
       [
         N('By morning there is a jar of golden poppy oil on the table.'),
         N('Nobody saw it arrive.'),
+        N('Plop! A golden drop plops into the jar.'),
       ],
       [
         notice(
@@ -2534,6 +2585,7 @@ const A11 = quest(
         V('Tomorrow she will let me go. Or not. I feel it coming, like weather.', 'think'),
         N('Your Nubbin climbs into the cracked mortar. It fits exactly.'),
         N('It goes to sleep there.'),
+        N('Creak! The cracked mortar creaks, and your Nubbin sleeps.'),
       ],
       [
         ask(
@@ -2589,6 +2641,7 @@ const A12 = quest(
         V('And one all in black, at your gate?'),
         BY('My dark night. All three are mine, and faithful.', 'happy'),
         N('Vasilisa thinks of the hands. She shuts her mouth.'),
+        N('Slurp! Baba Yaga slurps the last of her soup.'),
       ],
       [
         notice(
@@ -2607,7 +2660,7 @@ const A12 = quest(
     ),
     sc(
       'a18-12-supper-done',
-      [BY('Is that all? Nothing else?'), N('Bright day, red sun, dark night. A pattern of three!')],
+      [BY('Is that all? Nothing else?'), N('Bright day, red sun, dark night. A pattern of three!'), N('Ding! Ding! The clock dings three times.')],
       [
         doit(
           1,
@@ -2628,6 +2681,7 @@ const A12 = quest(
         N('Baba Yaga turns her wet-stone eyes on you.'),
         BY('And you? Anything you want to know?'),
         N('You think of the hands. They are waving in your head.'),
+        N('Crack! Baba Yaga cracks a nut, and looks at you.'),
       ],
       [
         ask(
@@ -2671,6 +2725,7 @@ const A12 = quest(
       [
         N('Baba Yaga leans back. She has eaten everything.'),
         N('Birch bark is white and papery. It peels in thin strips.'),
+        N('Crunch! Baba Yaga crunches a bone from the pot.'),
       ],
       [
         notice(
@@ -2698,6 +2753,7 @@ const A12 = quest(
         N('In the yard she lifts a lantern on a stick. Its eyes glow warm.'),
         BY('Here is your fire. That is what you came for. Go!'),
         N('Herbs land on your Nubbin. It wears them as a hat home.'),
+        N('Plop! Herbs plop down on your Nubbin’s head.'),
       ],
       [
         notice(
@@ -2721,6 +2777,7 @@ const A12 = quest(
         BY('Someone here feeds others first. I can smell it.', 'think'),
         BY('Here, a bag of my oats for whoever it was. Do not come back.'),
         N('Your Nubbin carries the bag in its mouth all the way home.'),
+        N('Munch! Your Nubbin munches on the way, and carries the bag.'),
       ],
       [
         notice(
@@ -2744,6 +2801,7 @@ const A12 = quest(
         V('I said it. I did not know it would make her so cross.', 'shock'),
         Y('You did not say anything wrong.'),
         V('No. I did not, did I.', 'soft'),
+        N('Creak! The gate creaks shut behind you.'),
       ],
       [
         doit(
@@ -2793,6 +2851,7 @@ const A13 = quest(
         V('Look! It is not frightened at all. How is it not frightened?', 'shock'),
         V('Mother said: a fed child sleeps. A hungry one sees wolves.', 'soft'),
         N('You walk all night and all the next day. The light never goes out.'),
+        N('Crunch! Crunch! Your boots crunch in the snow.'),
       ],
       [
         doit(
@@ -2815,6 +2874,7 @@ const A13 = quest(
         N('At dusk on the second day you see the stepmother’s house.'),
         N('There is no light in it at all.'),
         N('Long ago there were no electric lights. Homes used candles, lamps and fires.'),
+        N('Crunch! Snow crunches under every step.'),
       ],
       [
         ask(
@@ -2851,6 +2911,7 @@ const A13 = quest(
         V('Oh.', 'shock'),
         N('The lantern says: And mind you do not swing me.'),
         N('Vasilisa holds the stick very still. Your Nubbin peeks to see lantern manners.'),
+        N('Creak! The lantern stick creaks in her hands.'),
       ],
       [
         ask(
@@ -2885,7 +2946,7 @@ const A13 = quest(
     ),
     sc(
       'a18-13-throw-done',
-      [N('She lowers the stick. Her arms tremble.'), N('The light shakes on the snow.')],
+      [N('She lowers the stick. Her arms tremble.'), N('The light shakes on the snow.'), N('Swish! The light swishes on the white snow.')],
       [
         doit(
           1,
@@ -2911,6 +2972,7 @@ const A13 = quest(
         N('The lantern looks at the dark house. Its eyes get brighter.'),
         N('The lantern says: Nearly there.', 'think'),
         N('Your Nubbin climbs on your shoulder to see.'),
+        N('Crunch! The snow crunches under your boots.'),
       ],
       [
         ask(
@@ -2941,6 +3003,7 @@ const A13 = quest(
       [
         N('At the gate you give the stick back to Vasilisa.'),
         N('It should be her who carries it in.'),
+        N('Crunch! The snow crunches near the gate.'),
       ],
       [
         notice(
@@ -3011,6 +3074,7 @@ const A14 = quest(
         N('The lantern on the stick does not go out. The sisters glare at it.'),
         STEP('Never mind that. Put it on the table. It will do for a lamp.'),
         N('Vasilisa sets the lantern on the table, facing the room.'),
+        N('Bonk! The door bonks on the wall.'),
       ],
       [
         notice(
@@ -3131,6 +3195,7 @@ const A14 = quest(
         N('The lantern sits on the table, dim, as if it were tired.'),
         V('It did its job. It should rest in the ground, under a tree.'),
         N('You dig under the birch by the gate. Your Nubbin digs too.'),
+        N('Thump! Thump! The spade thumps into the ground.'),
       ],
       [
         notice(
@@ -3160,6 +3225,7 @@ const A14 = quest(
         N('Vasilisa locks the door.'),
         N('She hangs the key on a string round her neck.'),
         N('She does not look back at the house.'),
+        N('Click! The key clicks in the lock.'),
       ],
       [
         ask(
@@ -3184,6 +3250,7 @@ const A14 = quest(
         N('Halfway, she feeds the doll some bread. The little lights glow, even in daylight.'),
         V('She says we will be all right. We will find a kind old woman.', 'happy'),
         DOLL('Go on, Vasilisa. It is not far now.', 'soft'),
+        N('Crunch! The road crunches under your boots.'),
       ],
       [
         doit(
@@ -3232,6 +3299,7 @@ const A15 = quest(
         V('I wait for my father, far away. May I stay? I will work.'),
         OLD('Stay. I have a bench and a stove and a rude cat.', 'happy'),
         N('The cat looks at your Nubbin. Your Nubbin looks at the cat.'),
+        N('Creak! The little cottage door creaks open.'),
       ],
       [
         ask(
@@ -3269,6 +3337,7 @@ const A15 = quest(
         V('Granny, I cannot sit idle. Please buy me flax to spin.'),
         N('Flax is a plant with tall, thin stems and blue flowers.'),
         N('Its stems hold long, strong fibres. Fibres can be spun into thread.'),
+        N('Swish! The flax swishes in the wind.'),
       ],
       [
         ask(
@@ -3298,6 +3367,7 @@ const A15 = quest(
         N('The doll eats, and its lights come on. It talks to Vasilisa, low.'),
         V('She wants an old comb, a shuttle and a horse’s mane.', 'think'),
         V('Will you find them? I cannot ask Granny for a horse’s mane.'),
+        N('Creak! The loom creaks, soft and slow.'),
       ],
       [
         doit(
@@ -3328,6 +3398,7 @@ const A15 = quest(
         N('By morning there is a loom in the corner, small and neat.'),
         N('Nobody heard it being made.'),
         N('Your Nubbin falls asleep in the heap of combed flax.'),
+        N('Creak! The little loom creaks as it works.'),
       ],
       [
         doit(
@@ -3357,6 +3428,7 @@ const A15 = quest(
         N('It gets whiter by the day.'),
         N('Your Nubbin lies at the edge with one paw on the linen.'),
         V('I made this myself. Well, with her, and with you carrying.', 'happy'),
+        N('Swish! The linen swishes in the spring wind.'),
       ],
       [
         notice(
@@ -3382,7 +3454,7 @@ const A15 = quest(
     ),
     sc(
       'a18-15-bleach-done',
-      [OLD('Whiter than snow. Finer than anything. I have never seen the like.', 'happy')],
+      [OLD('Whiter than snow. Finer than anything. I have never seen the like.', 'happy'), N('Swish! The white linen swishes on the grass.')],
       [
         ask(
           0,
@@ -3406,6 +3478,7 @@ const A15 = quest(
         N('It has two round eye holes. It looks like a kind, sleepy face.'),
         OLD('For the light that brought her home. A friendly one.', 'soft'),
         N('Put a candle inside, and the eyes glow warm.'),
+        N('Crack! A log cracks, and the carved face glows.'),
       ],
       [
         notice(
@@ -3457,6 +3530,7 @@ const A16 = quest(
         N('He holds the linen up. The light goes through it.'),
         TS('What do you want for it?'),
         OLD('Nothing. It is a gift.', 'soft'),
+        N('Ding! A palace bell dings in the hall.'),
       ],
       [
         ask(
@@ -3490,6 +3564,7 @@ const A16 = quest(
       [
         N('The Tsar thanks her and sends her home with presents.'),
         N('A Tsar is the old word for a ruler, a bit like a king.'),
+        N('Ding! The palace bell dings as she leaves.'),
       ],
       [
         ask(
@@ -3520,6 +3595,7 @@ const A16 = quest(
         N('She sews twelve shirts at the window where the light is best.'),
         N('You thread her needles. Your Nubbin sorts the buttons into rows.'),
         N('The doll works at night. In the morning there is one more seam done.'),
+        N('Swish! The thread swishes through the cloth.'),
       ],
       [
         doit(
@@ -3539,6 +3615,7 @@ const A16 = quest(
         N('Twelve shirts lie folded on the table, white as first snow.'),
         N('Vasilisa rubs her tired eyes.'),
         N('The old woman carries the shirts to the palace.'),
+        N('Swish! The white shirts swish as they are folded.'),
       ],
       [
         notice(
@@ -3565,6 +3642,7 @@ const A16 = quest(
         V('Yes, Majesty. With help.'),
         TS('Then I do not want to let you go. Would you mind very much?', 'soft'),
         V('I would not mind at all.', 'happy'),
+        N('Ding! The bells ding in the hall.'),
       ],
       [
         ask(
@@ -3600,6 +3678,7 @@ const A16 = quest(
       [
         N('They marry within the month.'),
         N('Bells ring, and somebody throws grain. Your Nubbin eats a good deal of it.'),
+        N('Ding! Dong! The wedding bells ding, dong.'),
       ],
       [
         doit(
@@ -3627,6 +3706,7 @@ const A16 = quest(
         N('The page settles under your hand. You are back in the Grove.'),
       N('The doll goes in with the rest of its collection, in your coat.'),
       N('Your coat pocket has stopped trying.'),
+      N('Thump! The old atlas page thumps shut.'),
       ],
       [
         ask(
@@ -3662,6 +3742,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('“Feed them first. Somebody’s mother said it before I did.”', 'soft'),
       N('Under it is one letter: H.'),
       N('Your Nubbin puts its chin on the H.'),
+      N('Squeak! Your pencil squeaks on the page.'),
     ],
     [
       doit(
@@ -3687,6 +3768,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('In the barn, the oats are already sifted. Your share is done.'),
       N('You pick up the broom. The doll takes it away.'),
       N('It gives you a stool, so you sit. It is very strange.'),
+      N('Swish! The broom swishes away, all by itself.'),
     ],
     [
       doit(
@@ -3708,6 +3790,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('You sift three scoops, then three more. Your Nubbin watches from the sack.'),
       N('The doll does its share, and Vasilisa’s. Yours it leaves to you.'),
       N('By evening your hands are sore, and every husk is gone. You checked twice.'),
+      N('Swish! Swish! The oats swish through the sieve.'),
     ],
     [
       doit(
@@ -3731,6 +3814,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('You pick earth out of the seeds with a pin. Four specks are left.'),
       N('You pick out one. Your Nubbin noses the rest towards you.'),
       N('By dusk your eyes water. It is done.'),
+      N('Squeak! The pin squeaks against the little seeds.'),
     ],
     [
       doit(
@@ -3752,6 +3836,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('She sniffs your pockets, and Vasilisa’s, and frowns.'),
       BY('Twice the work done, and nobody tired. I do not ask how.', 'think'),
       BY('Go on. Do not come back.'),
+      N('Creak! The gate creaks, and Baba Yaga sniffs.'),
     ],
     [
       notice(
@@ -3775,6 +3860,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       BY('Hm. Honest, at least.', 'think'),
       BY('You worked. I pay for work.'),
       N('She tips a fair handful of oats into your palm. She pushes you out.'),
+      N('Crunch! The oats crunch softly in your palm.'),
     ],
     [
       notice(
@@ -3800,6 +3886,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       V('It keeps looking at me. Not at the path. At me.', 'sad'),
       N('In her pocket the doll is warm and full. Her steps are sure.'),
       N('You walk all night and all the next day. The light never goes out.'),
+      N('Crunch! Crunch! The snow crunches all night.'),
     ],
     [
       notice(
@@ -3824,6 +3911,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('It eats them all, and stops shivering. Late, but not too late.', 'soft'),
       V('You gave it your wages.', 'soft'),
       N('You walk all night and all the next day. The light never goes out.'),
+      N('Munch! The little lantern munches up your wages.'),
     ],
     [
       notice(
@@ -3847,6 +3935,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('Beside it is a second loom, tiny as a slipper.'),
       N('On it is a cloth the size of a handkerchief.'),
       V('That one is not for me. I can guess who it is for.', 'happy'),
+      N('Creak! The tiny loom creaks like a mouse.'),
     ],
     [
       doit(
@@ -3866,6 +3955,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('By morning there is a loom in the corner, small and neat.'),
       N('Your Nubbin is awake and helping. It hands up the bobbins one by one.'),
       N('It has stayed close to your hands ever since the oats.'),
+      N('Creak! The loom creaks as the bobbins go up.'),
     ],
     [
       doit(
@@ -3891,6 +3981,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('So you sew one of the twelve, slowly. It comes out plain and straight.'),
       N('Vasilisa sews eleven. You sew one.'),
       N('Your Nubbin sorts the buttons. It keeps the plainest two for your shirt.'),
+      N('Swish! The needle swishes through the plain cloth.'),
     ],
     [
       doit(
@@ -3920,6 +4011,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('The page settles under your hand. You are back in the Grove.'),
       N('The doll goes in with the rest of its collection, in your coat.'),
       N('Your coat pocket has stopped trying.'),
+      N('Thump! The old atlas page thumps shut.'),
     ],
     [
       ask(
@@ -3955,6 +4047,7 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
       N('The page settles under your hand. You are back in the Grove.'),
       N('The doll goes in with the rest of its collection, in your coat.'),
       N('Your coat pocket has stopped trying.'),
+      N('Thump! The old atlas page thumps shut.'),
     ],
     [
       ask(
