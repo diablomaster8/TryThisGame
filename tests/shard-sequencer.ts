@@ -1,7 +1,7 @@
 import { BaseSequencer, type TestSpecification } from 'vitest/node';
 import { DEFAULT_WEIGHT, SHARD_WEIGHTS } from './shard-weights';
 
-const slash = (p: string): string => p.replace(/\/g, '/');
+const slash = (p: string): string => p.replaceAll('\\', '/');
 
 /**
  * `vitest run --shard=N/M` normally deals files out by a hash of their path, so a handful of
