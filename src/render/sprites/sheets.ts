@@ -46,6 +46,7 @@ import { buildPaintedScenery } from '../paint/scenery';
 import { SHEET_CACHE } from '../../config/tuning-px';
 import { FRAME_LOG } from '../../config/tuning-r8d-perf';
 import { FRAME_WORK } from '../../platform/frame-spikes';
+import { dyeToken, rainbowStep } from './rainbow-dye';
 
 /**
  * C6: a copy of `src` through a stone-grey ramp. Every pixel keeps its lightness and loses
@@ -282,7 +283,10 @@ export class SheetCache {
     }).join(',');
     const hat = n.hat ?? '-';
     const wear = wornExtras(n).join('+') || '-';
-    const acc = `${wear}:${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}:${n.stage === 'adult' ? `${n.wingDye ?? '-'}.${n.crownDye ?? '-'}` : '-'}`;
+    // R0427: the rainbow dye's token carries the ring step, so the sheet re-bakes as it drifts.
+    const rs = rainbowStep();
+    const dk = (d: string | null | undefined): string => dyeToken(d, rs) ?? '-';
+    const acc = `${wear}:${dk(n.scarf)}:${n.glasses ? 'g' : '-'}:${dk(n.hatDye)}:${n.stage === 'adult' ? `${dk(n.wingDye)}.${dk(n.crownDye)}` : '-'}`;
     const shiny = n.shiny || n.heirloom;
     const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}:b${beltOf(n)}`;
     if (n.stage === 'adult' && n.form) {
@@ -346,6 +350,7 @@ export class SheetCache {
           hatDye: n.hatDye ?? null,
           wingDye: n.stage === 'adult' ? (n.wingDye ?? null) : null,
           crownDye: n.stage === 'adult' ? (n.crownDye ?? null) : null,
+          rainbowStep: rainbowStep(),
           stars: Math.min(4, n.rebirths),
           wary: n.shadow && !n.bond,
           mark: birthmarkOf(n),

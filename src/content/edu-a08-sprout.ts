@@ -192,6 +192,7 @@ const Q1 = quest(
         N('One is small, with a winged helmet. One is very big.'),
         O('Dogmatix! You found a little round friend!', 'happy'),
         N('The dog wags his whole body.'),
+        N('Hee-hee! Dogmatix wags so hard that his whole bottom wiggles.'),
       ],
       [
         dd(
@@ -217,6 +218,7 @@ const Q1 = quest(
         V('Twelve? Ha! We will do them all, and have lunch.', 'happy'),
         A('Who will say if we pass? Not a Roman. Not a Gaul.'),
         N('Everyone looks at you. You are neither!'),
+        N('Thump! A very big hand thumps a very big table.'),
       ],
       [
         dd(
@@ -254,6 +256,7 @@ const Q1 = quest(
         N('Down the side are marks. I, II, III, IV, V…'),
         N('The Romans wrote numbers with letters. I means one.'),
         N('One line for every task. Twelve in all.'),
+        N('Plop! A wax tablet plops into your Nubbin’s paws.'),
       ],
       [
         nt(
@@ -277,6 +280,7 @@ const Q1 = quest(
         G('You fell in it as a baby. You do not need more.'),
         N('Obelix is sad for a moment. Then he thinks of boar.'),
         N('Your Nubbin and the dog curl up asleep by the fire.'),
+        N('Bubble, bubble, pop! The cauldron pops, and everyone sniffs.'),
       ],
       [
         ak(
@@ -325,6 +329,7 @@ const Q2 = quest(
         A('How nice.'),
         N('Your Nubbin and the dog crouch down at the stone.'),
         N('Their bottoms wiggle. They think they are racing too.'),
+        N('Whoosh! The runner whooshes past, and the dust spins.'),
       ],
       [
         nt(
@@ -363,6 +368,7 @@ const Q2 = quest(
         N('You lift your hand. The runner is still as a statue.'),
         N('Asterix yawns a very big yawn.'),
         N('Everyone waits for you to say the words.'),
+        N('Hee-hee! Your Nubbin giggles at the statue-still runner.'),
       ],
       [
         ak(
@@ -409,6 +415,7 @@ const Q2 = quest(
         N('Far away, a speck is still running.'),
         N('Obelix shades his eyes and watches.'),
         O('He is very fast. He just was not first.'),
+        N('Zoom! A tiny speck zooms along, far away.'),
       ],
       [
         ak(
@@ -440,6 +447,7 @@ const Q2 = quest(
         P('I! One twig!', 'happy'),
         P('One task done. Eleven to go.'),
         N('Your Nubbin and the dog look proud, as if they won.'),
+        N('Ding! The tablet gives a tiny, proud ding.'),
       ],
       [
         dd(
@@ -483,6 +491,7 @@ const Q3 = quest(
         VE('This one is Swift. This one is Patient.'),
         VE('And this one is saving herself for later.', 'happy'),
         N('You will carry them to the line. Three long javelins!'),
+        N('Swish! The long javelins swish as you carry them.'),
       ],
       [
         dd(
@@ -519,6 +528,7 @@ const Q3 = quest(
         N('You lay the javelins down by the line.'),
         N('Your Nubbin sits beside the one called Patient.'),
         N('Swift is long, and Patient is longer. The third one is longest of all.'),
+        N('Thump! The third javelin thumps down in the grass.'),
       ],
       [
         ak(
@@ -553,6 +563,7 @@ const Q3 = quest(
         VE('What is your javelin called?'),
         A('Er... Stick.'),
         N('Dogmatix drops a twig at your feet. It is his eleventh today.'),
+        N('Whoosh! Swift whooshes over the field like a bird.'),
       ],
       [
         ak(
@@ -600,6 +611,7 @@ const Q3 = quest(
         N('You make a mark on the tablet: II.'),
         N('Dogmatix drops another twig. He wags at both.'),
         N('Two twigs, I and I. Two tasks done!'),
+        N('Plop! A twig plops by each of your feet.'),
       ],
       [
         nt(
@@ -638,6 +650,7 @@ const Q4 = quest(
         N('The rule book is as thick as a loaf of bread.'),
         CI('Rule one: bow. Rule two: bow again.', 'happy'),
         N('Rules help everyone play fairly. Even long ones.'),
+        N('Thump! The rule book thumps down on the rope ring.'),
       ],
       [
         ak(
@@ -678,6 +691,7 @@ const Q4 = quest(
         N('You close the book. Cilindric bows to it.'),
         N('Then he bows to you, and to Asterix.'),
         N('Then he bows to the meadow.'),
+        N('Boing! Your Nubbin bounces up and bows back, boing!'),
       ],
       [
         dd(
@@ -703,6 +717,7 @@ const Q4 = quest(
         N('He turns and tucks, and turns again.'),
         N('Oh! He has tied himself in a knot!', 'shock'),
         CI('I beat myself. The rule book says whoever beats himself loses!', 'shock'),
+        N('Thump! The wrestler thumps down in his own knot.'),
       ],
       [
         ak(
@@ -746,6 +761,7 @@ const Q4 = quest(
         N('He folds his towel and walks away.'),
         N('You make a mark: III. Three twigs, I, I, I.'),
         O('He was nice too.'),
+        N('Swish! Cilindric’s towel swishes as he walks away.'),
       ],
       [
         nt(
@@ -832,6 +848,7 @@ const Q5 = quest(
         N('Your Nubbin and the dog roll in the clover, sleepy.'),
         O('Excuse me. Is there any boar?'),
         O('No boar? Then I am leaving.', 'angry'),
+        N('Pop! A little cake pops open, sticky and sweet.'),
       ],
       [
         ak(
@@ -875,6 +892,7 @@ const Q5 = quest(
         N('He carries him back to the boat.'),
         O('Sorry. Lovely island. No boar.'),
         N('Far behind, the soft music plays on. It is very quiet.'),
+        N('Whoosh! The boat whooshes off over the water.'),
       ],
       [
         dd(
@@ -901,6 +919,7 @@ const Q5 = quest(
         N('Dogmatix drops a fourth twig. Pupus writes IV instead.'),
         N('Dogmatix looks betrayed.', 'sad'),
         N('Four tasks done. Only eight to go!'),
+        N('Hee-hee! Dogmatix drops a twig, and everybody giggles.'),
       ],
       [
         nt(
@@ -939,6 +958,7 @@ const Q6 = quest(
         IR('I am Iris, from Egypt. Look into my eyes.'),
         N('His eyes are big and dark. You look, and oh!'),
         IR('Whoever looks away first, loses.'),
+        N('Creak! A branch creaks, and the painted eyes blink.'),
       ],
       [
         dd(
@@ -978,6 +998,7 @@ const Q6 = quest(
         N('Iris looks puzzled. Then he sniffs the cushion.'),
         N('He thinks he is a boar! He trots out, grunting.'),
         A('Iris is a person. Iris will be himself by supper.'),
+        N('Squeak! Iris squeaks, sniffs, and trots out grunting.'),
       ],
       [
         ak(
@@ -1028,6 +1049,7 @@ const Q6 = quest(
         P('It wears off. I will bring him a cushion.', 'soft'),
         N('You make a mark on the tablet: V.'),
         N('V looks like a hand with the fingers open. V is five!'),
+        N('Crunch! Iris crunches an acorn, very happy.'),
       ],
       [
         dd(
@@ -1070,6 +1092,7 @@ const Q7 = quest(
         MK('I am Mannekenpix. Nobody goes hungry here.', 'happy'),
         O('Is this task mine? Oh good.', 'happy'),
         N('You carry soup. It is as big as a bath!'),
+        N('Splash! The big soup splashes as you carry it in.'),
       ],
       [
         dd(
@@ -1106,6 +1129,7 @@ const Q7 = quest(
         N('First comes soup. Then comes fish.'),
         N('Then come three pies. Pie, pie, pie!'),
         N('Last come crisp fried potatoes.'),
+        N('Munch! Crunch! Everybody munches the crisp fried potatoes.'),
       ],
       [
         ak(
@@ -1130,6 +1154,7 @@ const Q7 = quest(
         O('That was a lovely starter. When is the main course?', 'happy'),
         N('The chef laughs until he must sit on a flour sack.'),
         N('Your Nubbin and the dog look at the clean plates. Hungry!'),
+        N('Slurp! Obelix slurps up the last of the soup.'),
       ],
       [
         ak(
@@ -1173,6 +1198,7 @@ const Q7 = quest(
         N('Obelix holds the parcel like a baby.'),
         N('You make a mark on the tablet: VI.'),
         N('V is five, and one more twig makes VI. That is six!'),
+        N('Pop! A hot potato pops out of the parcel.'),
       ],
       [
         nt(
@@ -1211,6 +1237,7 @@ const Q8 = quest(
         N('A long, low rumble comes from deep inside.'),
         N('The dog’s ears go flat. Your Nubbin holds your leg.'),
         N('You light the lantern. A warm glow!'),
+        N('Thump! A deep, slow thump comes from the dark.'),
       ],
       [
         dd(
@@ -1249,6 +1276,7 @@ const Q8 = quest(
         N('The passage opens into a huge room.'),
         N('The rumble is very near now.'),
         N('You can feel it in your tummy.'),
+        N('Thump, thump! The rumble thumps up through your tummy.'),
       ],
       [
         dd(
@@ -1275,6 +1303,7 @@ const Q8 = quest(
         N('The dog sits, and your Nubbin sits. Then Obelix sits, very gently.'),
         N('A soft nose sniffs your Nubbin. Your Nubbin sniffs back.'),
         N('The rumble stops. The Beast is calm.', 'soft'),
+        N('Sniff! Then pfft! A big nose gives a soft, snuffly pfft.'),
       ],
       [
         ak(
@@ -1317,6 +1346,7 @@ const Q8 = quest(
         A('Nothing you need to worry about.'),
         N('You make a mark on the tablet: VII.'),
         N('V is five, and II is two more. Five and two make seven!'),
+        N('Whee! Your Nubbin scrambles out into the bright day, whee!'),
       ],
       [
         nt(
@@ -1363,6 +1393,7 @@ const Q9 = quest(
         P('You must get a paper called Permit A38.'),
         PO('Go to counter one. It will send you to counter two.'),
         N('The stairs on the right go up, round, and back down.'),
+        N('Creak! The great door creaks wide, then wider.'),
       ],
       [
         nt(
@@ -1384,6 +1415,7 @@ const Q9 = quest(
         N('The dog lies down beside the porter’s desk.'),
         N('Your Nubbin lies down too. They will wait.'),
         N('Waiting is hard. Even for a dog.'),
+        N('Thump! The dog sighs and thumps down on the stone.'),
       ],
       [
         ak(
@@ -1414,6 +1446,7 @@ const Q9 = quest(
         CL('Counter three? Go back to counter one.'),
         N('You write it down: one, two, three, one, two, three.'),
         N('The arrows make a circle. Round and round!'),
+        N('Ding! A little counter bell dings, round and round.'),
       ],
       [
         ak(
@@ -1457,6 +1490,7 @@ const Q9 = quest(
         A('This place says no to everything.'),
         A('So let us ask for something that does not exist!', 'happy'),
         N('If one way does not work, try another way.'),
+        N('Pop! A little cork pops out of an inkwell.'),
       ],
       [
         nt(
@@ -1480,6 +1514,7 @@ const Q9 = quest(
         N('You find a fresh page. Obelix leans over your shoulder.'),
         O('Make it the silliest one ever!', 'happy'),
         P('It must look very serious. Then it will work.', 'think'),
+        N('Swish! Obelix’s big finger swishes the ink.'),
       ],
       [
         dd(
@@ -1533,6 +1568,7 @@ const Q9 = quest(
         P('Here is a sheet of papyrus. Copy your form out neatly.'),
         N('You write a big A for Asterix at the top.'),
         N('Asterix straightens his helmet and walks to counter one.'),
+        N('Thump! Stamp! A fresh paper thumps down on the desk.'),
       ],
       [
         dd(
@@ -1559,6 +1595,7 @@ const Q9 = quest(
         N('The whisper runs up the stairs. Clerks run everywhere!'),
         N('You slide your form across. Stamp, and it is passed on!'),
         N('Papers fly like birds. A bell rings at the top.'),
+        N('Bonk! Bonk! The stamps bonk, and papers flutter.'),
       ],
       [
         dd(
@@ -1581,6 +1618,7 @@ const Q9 = quest(
         PF('Take what you want, and please go away!', 'angry'),
         A('Permit A38, please.'),
         N('Asterix says please, even to a grumpy prefect.'),
+        N('Hee-hee! Asterix says please, and a clerk giggles.'),
       ],
       [
         ak(
@@ -1616,6 +1654,7 @@ const Q9 = quest(
         N('V is five and III is three. Five and three make eight!'),
         O('That was the best one. Can we do it again?', 'happy'),
         A('Never, Obelix.'),
+        N('Ding! The prefect’s bell dings, and the paper flutters down.'),
       ],
       [
         nt(
@@ -1694,6 +1733,7 @@ const Q10 = quest(
         N('A big old pine lies on its side. It fell by itself, long ago.'),
         N('Obelix gives it one punch. It swings across the ravine.'),
         N('A perfect bridge! The crocodiles look cross.'),
+        N('Creak! The old pine creaks, and then it swings across.'),
       ],
       [
         nt(
@@ -1750,6 +1790,7 @@ const Q10 = quest(
         N('Pupus looks at the empty air for a long time.'),
         P('Fine. Write it down.'),
         N('You make a mark: IX. It is X, with a twig before it.'),
+        N('Plop! A coil of rope plops into the river.'),
       ],
       [
         nt(
@@ -1788,6 +1829,7 @@ const Q11 = quest(
         P('A very wise Old Man lives at the top.'),
         N('Near the top, the air is cold.'),
         N('You pull on your warm jumper.'),
+        N('Crunch! Snow crunches under every boot.'),
       ],
       [
         nt(
@@ -1822,6 +1864,7 @@ const Q11 = quest(
         N('At the top, an old man sits on a rock.'),
         N('You feel tired. Your legs are wobbly.'),
         N('Obelix gives your Nubbin a ride on his shoulder.'),
+        N('Whee! Your Nubbin rides high on Obelix’s shoulder, whee!'),
       ],
       [
         ak(
@@ -1855,6 +1898,7 @@ const Q11 = quest(
         A('Is it soap?'),
         OM('Yes! My Own Mountain Soap! Gentle on the beard!', 'happy'),
         N('It was not a riddle. It was an advert!'),
+        N('Hee-hee! The old man giggles into his soapy beard.'),
       ],
       [
         ak(
@@ -1904,6 +1948,7 @@ const Q11 = quest(
         O('I smell like a lamb!', 'sad'),
         A('You smell lovely.'),
         N('You make a mark on the tablet: X.'),
+        N('Whee! Down you slide, quick as a sled, whee!'),
       ],
       [
         dd(
@@ -1946,6 +1991,7 @@ const Q12 = quest(
         P('At midnight, ghosts come. Nobody has ever stayed.'),
         N('You make a small fire. Obelix shares his potatoes.'),
         N('Far off, something clanks. Clank, clank, clank!'),
+        N('Crack! The little fire cracks, and a spark pops up.'),
       ],
       [
         nt(
@@ -1981,6 +2027,7 @@ const Q12 = quest(
         N('The mist parts. Out marches a line of ghosts.'),
         N('They glow a faint green. Their chains go clank!'),
         N('They are more silly than scary.'),
+        N('Bonk! The ghosts’ chains bonk together as they march.'),
       ],
       [
         ak(
@@ -2010,6 +2057,7 @@ const Q12 = quest(
         A('Your chains need oil. And you are standing in our potatoes.'),
         O('And your sheets are grubby at the hem.'),
         N('The ghost looks down. It is a bit grey at the hem.', 'think'),
+        N('Squeak! The ghosts’ chains squeak for want of oil.'),
       ],
       [
         ak(
@@ -2058,6 +2106,7 @@ const Q12 = quest(
         GH('If we are not wanted, we will go.', 'sad'),
         N('They shuffle off into the mist, chains dragging.'),
         N('Clank, clank, clank. Then quiet.'),
+        N('Whoosh! The mist whooshes in, and the ghosts are gone.'),
       ],
       [
         nt(
@@ -2080,6 +2129,7 @@ const Q12 = quest(
         P('One more task. It is in Rome.', 'think'),
         N('You make a mark on the tablet: XI.'),
         N('X is ten, and one more twig makes XI. That is eleven!'),
+        N('Ding! The tablet rings its tiny, proud ding.'),
       ],
       [
         nt(
@@ -2119,6 +2169,7 @@ const Q13 = quest(
         BD('Shall I sing something to make Rome weep?'),
         V('No.'),
         N('Through a gate, you hear the crowd roar.'),
+        N('Ding, dong! Bells ring all across the city of Rome.'),
       ],
       [
         nt(
@@ -2158,6 +2209,7 @@ const Q13 = quest(
         N('Someone brings a boar. Now it is a feast.'),
         N('Up in the crowd, you see the champions, cheering.'),
         N('The crowd comes down to join the party.'),
+        N('Whee! The crowd pours down, cheering, whee!'),
       ],
       [
         dd(
@@ -2180,6 +2232,7 @@ const Q13 = quest(
         N('Up on the balcony, Caesar stands. All is quiet.'),
         CS('Well. That is the twelfth. I had better be a good loser.', 'think'),
         N('He looks down at the party, and almost smiles.'),
+        N('Thump! Caesar sits down on his chair with a thump.'),
       ],
       [
         ak(
@@ -2210,6 +2263,7 @@ const Q13 = quest(
         P('You were fair, and very strange. I would watch you again.', 'soft'),
         N('You make the last mark on the tablet: XII.'),
         N('X is ten, II is two. Ten and two make twelve!'),
+        N('Ding! The last mark goes on the tablet with a ding.'),
       ],
       [
         dd(
@@ -2253,6 +2307,7 @@ const Q14 = quest(
         N('Your Nubbin and the dog carry a bone. They lose it.'),
         BD('I have a new song! It has forty-two verses!', 'happy'),
         N('Everyone goes very quiet.'),
+        N('Crunch! Dogmatix crunches the bone he lost, then lost again.'),
       ],
       [
         dd(
@@ -2292,6 +2347,7 @@ const Q14 = quest(
         N('From a hut comes the sound of a lyre being tuned.'),
         N('Twang, twang! The strings wobble.'),
         A('Referee, do you still have your form?'),
+        N('Ding! A lyre string dings, and everyone ducks.'),
       ],
       [
         dd(
@@ -2316,6 +2372,7 @@ const Q14 = quest(
         BD('What are you doing? I have not started the overture!', 'shock'),
         G('Hold still, Cacofonix. It is an honour.'),
         N('Getafix reads the form, and his eyebrows go up.'),
+        N('Pop! Cacofonix pops up, red in the face.'),
       ],
       [
         ak(
@@ -2344,6 +2401,7 @@ const Q14 = quest(
         N('The village gathers to see what you wrote.'),
         N('First you made the form. Next it was stamped.'),
         N('Last, it comes out at the party.'),
+        N('Bonk! A stamp bonks down on the last page.'),
       ],
       [
         ak(
@@ -2376,6 +2434,7 @@ const Q14 = quest(
         N('Far away, a javelin is still flying. Verses is still following Stick.'),
         P('Vale, referee! Come back soon.', 'soft'),
         N('The map closes round you. You are home in the Grove.'),
+        N('Whoosh! The map whooshes shut, and you are home.'),
       ],
       [
         ak(
@@ -2406,6 +2465,7 @@ export const EDU_A08_SPROUT_VARIANTS: EduScene[] = [
       N('They wind it round the bard and the oak tree.'),
       BD('This is an outrage! I shall write a song about it!', 'angry'),
       O('You cannot. Your arms are inside a form.', 'happy'),
+      N('Squeak! The bard squeaks when the form winds round him.'),
     ],
     [
       dd(
@@ -2431,6 +2491,7 @@ export const EDU_A08_SPROUT_VARIANTS: EduScene[] = [
       N('They wind it round the bard and the oak tree.'),
       BD('I am not a boar. I wish to say so loudly!', 'angry'),
       G('It is all right. Now you have it in writing.', 'happy'),
+      N('Squeak! The bard squeaks when the form winds round him.'),
     ],
     [
       dd(
@@ -2456,6 +2517,7 @@ export const EDU_A08_SPROUT_VARIANTS: EduScene[] = [
       A('It did not win. It was too sensible.'),
       G('Sensible things often lose on the day. Then people use them for years.', 'soft'),
       N('They use an old fishing net for the bard instead.'),
+      N('Pop! A little knot pops open in the old net.'),
     ],
     [
       ak(

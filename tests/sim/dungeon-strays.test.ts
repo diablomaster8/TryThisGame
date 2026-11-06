@@ -93,3 +93,23 @@ describe('strays as a chase (R0162)', () => {
     expect(out.some((e) => e.kind === 'strayStartled')).toBe(false);
   });
 });
+
+describe('a fed stray lingers shy-delighted (R0326)', () => {
+  it('leaves a short-lived fed-stray state at its spot, then it is gone', () => {
+    const world = underground();
+    const run = world.dungeon!;
+    const s = run.strays[0]!;
+    world.inventory.fruit = 1;
+    world.keeper.pos = { x: s.pos.x + 0.2, z: s.pos.z };
+    const at = { ...s.pos };
+    const events: SimEvent[] = [];
+    applyCommand(world, { kind: 'feedStray', id: s.id }, events);
+    expect(run.strays.find((x) => x.id === s.id)).toBeUndefined();
+    expect(run.fedStrays).toHaveLength(1);
+    expect(run.fedStrays![0]!.pos).toEqual(at);
+    for (let t = 0; t < HOLLOW.strays.fedMs / 2; t += SIM.stepMs) stepWorld(world, SIM.stepMs);
+    expect(run.fedStrays).toHaveLength(1);
+    for (let t = 0; t < HOLLOW.strays.fedMs; t += SIM.stepMs) stepWorld(world, SIM.stepMs);
+    expect(run.fedStrays ?? []).toHaveLength(0);
+  });
+});

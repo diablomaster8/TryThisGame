@@ -73,6 +73,8 @@ export interface Cosmetic {
   /** Pixel shapes for the front and side views, and for the back views when they differ. */
   px?: readonly PxOp[];
   pxBack?: readonly PxOp[];
+  /** R0437: drawn in place of `px` in the side view, where a race is always seen from. */
+  pxSide?: readonly PxOp[];
   mesh?: readonly MeshOp[];
   /**
    * R0413: a body-slot costume. `costume` recolours the body roles (palette names); `head` and

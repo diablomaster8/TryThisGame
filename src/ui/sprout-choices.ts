@@ -12,7 +12,8 @@ import { resolveChoiceIcons } from '../config/choice-icons';
 import { numberWord, spoken } from './edu-voice';
 import { el } from './dom';
 import { speakLine } from './lesson';
-import { isAudioUnlocked, isSoundEnabled } from '../platform/audio';
+import { isAudioUnlocked } from '../platform/audio';
+import { isVoiceOn } from '../platform/voices';
 
 /** The line read as the choices appear, as one string. Pure, for the tests. */
 export function choicesSpeech(labels: readonly string[]): string {
@@ -35,13 +36,18 @@ export function choiceIcon(icon: string | undefined, i: number): string {
 /** The speech hook, swappable in tests. */
 type Say = (text: string, opts?: { onDone?: () => void }) => void;
 
+/** A story choice is read on the story switch. */
+const sayStory: Say = (text, opts) => {
+  speakLine(text, { ...opts, channel: 'story' });
+};
+
 /**
  * Read a choice set out, one call per option, each starting when the last is done; `onItem`
  * hears which option is being said (-1 at the end). Stops if `alive` turns false.
  */
 export function speakChoiceSet(
   labels: readonly string[],
-  say: Say = speakLine,
+  say: Say = sayStory,
   onItem: (i: number) => void = () => undefined,
   alive: () => boolean = () => true,
 ): void {
@@ -82,7 +88,7 @@ export function sproutChoices(
   let lit: HTMLButtonElement | null = null;
   speakChoiceSet(
     items.map((x) => x.label),
-    speakLine,
+    sayStory,
     (i) => {
       if (lit) lit.style.outline = '';
       lit = i >= 0 && voiced ? (buttons[i] ?? null) : null;
@@ -96,7 +102,7 @@ export function sproutChoices(
 /** True when speakLine would actually be heard. */
 function canSpeak(): boolean {
   try {
-    return !!window.speechSynthesis && isAudioUnlocked() && isSoundEnabled();
+    return !!window.speechSynthesis && isAudioUnlocked() && isVoiceOn('story');
   } catch {
     return false;
   }
@@ -116,7 +122,7 @@ function holdToSay(b: HTMLButtonElement, label: string): void {
     timer = window.setTimeout(() => {
       timer = 0;
       held = true;
-      speakLine(spoken(label));
+      speakLine(spoken(label), { channel: 'story' });
     }, EDU_VOICE.holdMs);
   });
   for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const)
