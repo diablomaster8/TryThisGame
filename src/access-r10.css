@@ -218,3 +218,41 @@ html.a11y-simple-touch .btn {
     break-inside: avoid;
   }
 }
+
+/*
+ * Phone pass (hot/mobile-a11y, 2026-11-06). Text fields, selects and disclosure rows stay 44 px
+ * tall on a touch screen or a narrow window; the audit found a 36 px share-code box and 21 px
+ * debug inputs. The tab strips (Settings, Map) scroll sideways, so they say so: a soft fade
+ * and a thin scrollbar show on whichever edge has more tabs behind it.
+ */
+@media (pointer: coarse), (max-width: 820px) {
+  input:not([type='checkbox'], [type='radio'], [type='range'], [type='hidden'], [type='color']),
+  select,
+  textarea {
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  summary {
+    min-height: 44px;
+    padding-block: 12px;
+    box-sizing: border-box;
+  }
+}
+.settings-tabs,
+.wm-tabs {
+  scrollbar-width: thin;
+  background:
+    linear-gradient(to right, #1a1530 30%, rgba(26, 21, 48, 0)) left center / 28px 100% no-repeat
+      local,
+    linear-gradient(to left, #1a1530 30%, rgba(26, 21, 48, 0)) right center / 28px 100% no-repeat
+      local,
+    radial-gradient(farthest-side at 0 50%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0))
+      left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0))
+      right center / 12px 100% no-repeat scroll;
+}
+/* High contrast paints the panels black, so the purple fade would show: leave the strip plain. */
+html.a11y-contrast .settings-tabs,
+html.a11y-contrast .wm-tabs {
+  background: none;
+}

@@ -94,6 +94,7 @@ export function worldControls(game: () => Game | null): HTMLElement {
   row.appendChild(el('span', undefined, 'World'));
   const poi = document.createElement('select');
   poi.className = 'btn btn-small';
+  poi.setAttribute('aria-label', 'Teleport to a place');
   poi.append(new Option('Teleport…', ''));
   for (const p of REGIONS.grove.pois) poi.append(new Option(p.id, `${p.x},${p.z}`));
   poi.addEventListener('change', () => {
@@ -104,6 +105,7 @@ export function worldControls(game: () => Game | null): HTMLElement {
   });
   const lod = document.createElement('select');
   lod.className = 'btn btn-small';
+  lod.setAttribute('aria-label', 'Level of detail');
   lod.append(new Option('LOD auto', ''));
   for (let i = 0; i <= 3; i++) lod.append(new Option(`LOD ${i}`, String(i)));
   lod.addEventListener('change', () => {

@@ -35,6 +35,7 @@ export function pieceEditor(): HTMLElement {
   const grid = el('div', 'debug-pieces-grid');
   const status = el('small');
   const out = el('textarea', 'debug-pieces-json');
+  out.setAttribute('aria-label', T.title);
   out.readOnly = true;
   out.rows = 6;
   let base: Piece = all[0]!;
