@@ -280,19 +280,23 @@ export class RacePixelView implements RaceView {
       const { section } = sectionAt(race.course, Math.min(r.pos, race.length - 0.001));
       const done = r.finishedAtMs !== null;
       const resting = r.restMs > 0 && !done;
-      const clip: ClipName = done
-        ? race.timeMs - (r.finishedAtMs ?? 0) > RUNOUT_MS
-          ? place <= 3
-            ? 'happy'
-            : 'idle'
-          : 'walk'
-        : resting
-          ? 'sad'
-          : section.kind === 'swim'
-            ? 'swim'
-            : section.kind === 'fly'
-              ? 'flap'
-              : 'walk';
+      // R0325 (FUN-36): the third quick cheer trips the runner with joy (the 3D pose, drawn here too).
+      const tumbling = !done && !resting && race.timeMs < (r.tumbleUntilMs ?? -1);
+      const clip: ClipName = tumbling
+        ? 'tumble'
+        : done
+          ? race.timeMs - (r.finishedAtMs ?? 0) > RUNOUT_MS
+            ? place <= 3
+              ? 'happy'
+              : 'idle'
+            : 'walk'
+          : resting
+            ? 'sad'
+            : section.kind === 'swim'
+              ? 'swim'
+              : section.kind === 'fly'
+                ? 'flap'
+                : 'walk';
       const f = frameAt(CLIPS[clip], still ? 0 : nowMs + lane * 90);
       const walkRect = sheet.frames.get(frameKey(clip, 'side', f));
       if (!walkRect) continue;
