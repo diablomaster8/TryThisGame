@@ -2,6 +2,7 @@ import { SPEAKERS } from '../config/story';
 import { STORY } from '../config/tuning';
 import { clampToWorld } from './behavior';
 import { walkPath } from './nav';
+import { heightAt } from './height';
 import { spawnNpc } from './npcs';
 import { resolve } from './obstacles';
 import { sceneById, sideStory } from './story-scenes';
@@ -90,9 +91,7 @@ export function syncSceneGuests(world: World, c: CampaignState): void {
  */
 export function spawnOfferGuest(world: World, who: string, angle: number, reach: number): Npc {
   const k = world.keeper;
-  const pos = { x: k.pos.x + Math.sin(angle) * reach, z: k.pos.z + Math.cos(angle) * reach };
-  clampToWorld(pos);
-  resolve(pos, world);
+  const pos = guestSpot(world, angle, reach);
   const npc: Npc = spawnNpc(world, who);
   npc.id = `offer-${who}`;
   npc.pos = pos;
@@ -101,6 +100,47 @@ export function spawnOfferGuest(world: World, who: string, angle: number, reach:
   npc.target = null;
   npc.guest = true;
   return npc;
+}
+
+/** The ground `reach` units from the Keeper in direction `angle`, pushed out of anything solid. */
+export function guestSpot(world: World, angle: number, reach: number): Vec2 {
+  const k = world.keeper;
+  const pos = { x: k.pos.x + Math.sin(angle) * reach, z: k.pos.z + Math.cos(angle) * reach };
+  clampToWorld(pos);
+  resolve(pos, world);
+  return pos;
+}
+
+/**
+ * R0608: the direction an offer guest comes from. Of eight compass points it takes the one on
+ * the camera's side of the Keeper (the default view looks from `towardView`), unless that ground
+ * is solid (it would be pushed far off its spot) or a hill stands there (the guest would be
+ * hidden behind its terrace); so the walker is in sight from the first step.
+ */
+export function offerSpawnAngle(world: World, reach: number, towardView: number): number {
+  const k = world.keeper;
+  const base = heightAt(world.location, k.pos.x, k.pos.z);
+  let best = towardView;
+  let bestScore = Infinity;
+  for (let i = 0; i < 8; i++) {
+    const a = towardView + (i * Math.PI) / 4;
+    const raw = { x: k.pos.x + Math.sin(a) * reach, z: k.pos.z + Math.cos(a) * reach };
+    const spot = guestSpot(world, a, reach);
+    const moved = Math.hypot(spot.x - raw.x, spot.z - raw.z);
+    const rise = heightAt(world.location, spot.x, spot.z) - base;
+    const away = Math.cos(a - towardView);
+    // Lower is better: toward the view first, but never blocked, up a hill or behind a rise.
+    const score =
+      -away +
+      (moved > 1 ? 10 : 0) +
+      (rise > 0.6 ? 10 : 0) +
+      (walkPath(world, spot, k.pos, 'keeper').length > 0 ? 2 : 0);
+    if (score < bestScore) {
+      bestScore = score;
+      best = a;
+    }
+  }
+  return best;
 }
 
 /**

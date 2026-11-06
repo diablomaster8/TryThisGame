@@ -3,7 +3,7 @@ import { bandFor, bandForFloor } from '../render/cave-bands';
 import type { Floor } from '../sim/dungeon';
 import { lootHeld, sealDisplay } from '../sim/dungeon-secrets';
 import type { DungeonRun } from '../sim/types';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { HollowChasm } from './hollow-chasm';

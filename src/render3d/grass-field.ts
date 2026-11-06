@@ -1,5 +1,5 @@
 import { GROVE, GROVE3D } from '../config/tuning';
-import type { GrassField } from '../samples/grass-place';
+import type { GrassField } from './art/grass-place';
 import { exactHeight, pathDistance, riverDistance } from './terrain-shape';
 
 /**

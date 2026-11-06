@@ -1,6 +1,7 @@
 import { resolve } from './obstacles';
 import { runFloor } from './dungeon';
 import { KEEPER2 } from '../config/tuning-move';
+import { KEEPER2_PULL } from '../config/tuning-r13d2';
 import { KEEPER, NEEDS } from '../config/tuning';
 import { addTrust } from './trust';
 import { createKeeper, keeperJump, petNubbin, shakeTreeNow, updateKeeper } from './keeper';
@@ -43,6 +44,27 @@ function asKeeper2(world: World, k: Keeper): World {
   return view;
 }
 
+const pulling = new WeakSet<Keeper>();
+
+/**
+ * R13 d2 (R0140): the come-here pull. With Keeper 2's stick idle and Keeper 1 beyond the leash,
+ * a gentle input toward Keeper 1 walks it back until it is close; a held stick always wins.
+ * The camera still follows Keeper 1 (the camera rule), so this keeps both on the screen.
+ */
+export function comeHere(world: World, k: Keeper): { x: number; z: number } | null {
+  const T = KEEPER2_PULL;
+  const dx = world.keeper.pos.x - k.pos.x;
+  const dz = world.keeper.pos.z - k.pos.z;
+  const d = Math.hypot(dx, dz);
+  if (k.input.x !== 0 || k.input.z !== 0 || d <= T.stopAt) {
+    pulling.delete(k);
+    return null;
+  }
+  if (d > T.leash) pulling.add(k);
+  if (!pulling.has(k)) return null;
+  return { x: (dx / d) * T.strength, z: (dz / d) * T.strength };
+}
+
 /** Keeper 2's move for one sim step. Its own jump and landing events stay its own. */
 export function stepKeeper2(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper2;
@@ -52,12 +74,16 @@ export function stepKeeper2(world: World, dtMs: number, events: SimEvent[]): voi
     Object.assign(k, createKeeper(k.pos), { input: k.input, facing: k.facing });
   k.moveTarget = null;
   k.intent = null;
+  const saved = k.input;
+  const pull = comeHere(world, k);
+  if (pull) k.input = pull;
   const own: SimEvent[] = [];
   updateKeeper(asKeeper2(world, k), dtMs, own);
   // The renderers read keeper* events as Keeper 1's (dust, sounds, the camera's dip).
   for (const e of own)
     if (!e.kind.startsWith('keeper') && e.kind !== 'moveUnreachable' && e.kind !== 'cantReach')
       events.push(e);
+  if (pull) k.input = saved;
   if (separateKeepers(world)) noteCoopBump(world, events);
 }
 

@@ -4,6 +4,7 @@ import { playSound } from '../platform/audio';
 import { elevationAt, WALL, WATER, type Floor } from '../sim/dungeon';
 import { caveShed } from './cave-shed';
 import { looksWet } from './hollow-dress-path';
+import { windowed } from './hollow-lod';
 import {
   CELL,
   cellHash,
@@ -336,7 +337,8 @@ export class HollowAtmos implements HollowModule {
       this.glow.renderOrder = 1;
       this.glow.frustumCulled = false;
       this.glow.name = 'hollow-water-glow';
-      ctx.group.add(this.glow);
+      // Only the sector window round the Keeper on a big level (R0194 part 2), one draw.
+      ctx.group.add(windowed(f, this.glow));
     }
     const heights = Array.from({ length: A.fog.layers }, (_, i) => 0.12 + i * A.fog.height);
     const fogGeo = sheet(f, isBasin, heights, elev);
@@ -366,7 +368,7 @@ export class HollowAtmos implements HollowModule {
       this.fog.renderOrder = 1;
       this.fog.frustumCulled = false;
       this.fog.name = 'hollow-basin-fog';
-      ctx.group.add(this.fog);
+      ctx.group.add(windowed(f, this.fog));
     }
 
     this.offShed = caveShed.register({

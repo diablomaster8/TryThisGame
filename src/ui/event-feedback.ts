@@ -16,9 +16,11 @@ import {
   STORYLINE_TEXT,
   TEN_TEXT,
   UI_TEXT,
+  STAT_LABELS,
   EDU_TEXT,
 } from '../config/strings';
 import { MOVE_R10_TEXT } from '../config/strings-move-r10';
+import { LEVEL_TEXT } from '../config/strings-r13d3';
 import { BORDER_TEXT } from '../config/strings-r9d2';
 import { STORY_TEXT } from '../config/story';
 import { ALBUM_TEXT, KINDER_R11 } from '../config/strings-soul-r11b';
@@ -149,6 +151,13 @@ export const FEEDBACK: FeedbackTable = {
       e.shells,
     ),
     sfx: 'win',
+  }),
+  // R0450: a chime for every new level; the toast only on each fifth, so training stays quiet.
+  levelUp: (e, ctx) => ({
+    sfx: 'levelUp',
+    ...(e.level % 5 === 0
+      ? { toast: LEVEL_TEXT.levelUp(nameOf(ctx, e.nubbinId), STAT_LABELS[e.stat], e.level) }
+      : {}),
   }),
   questDone: () => ({ toast: UI_TEXT.questDone, sfx: 'cheer' }),
   friendsMade: (e, c) => ({

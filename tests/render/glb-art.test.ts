@@ -5,8 +5,8 @@ import { BufferGeometry, Group, type Mesh } from 'three';
 // R0439 (LOOK-71): an `art:<id>` look resolves a .glb first and falls back to the sculpt.
 // The sculpt side is mocked; the model is the tiny fixture from tests/tools/make-test-glb.ts.
 let sculpted = 0;
-vi.mock('../../src/samples/species', async (orig) => ({
-  ...(await orig<typeof import('../../src/samples/species')>()),
+vi.mock('../../src/render3d/art/species', async (orig) => ({
+  ...(await orig<typeof import('../../src/render3d/art/species')>()),
   buildSpecies: () => {
     sculpted++;
     return { group: new Group() };

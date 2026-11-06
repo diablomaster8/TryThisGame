@@ -12,6 +12,10 @@ import {
 import { ridgeSheet } from './paint/ridge';
 import type { GroundLook, GroundPaint } from './region-ground';
 import { kitModule, type KitPiece } from './region-kit-px';
+import { snowballs } from '../sim/snowballs';
+import type { World } from '../sim/types';
+import type { SpriteBatch, SpriteDraw } from './sprite-batch';
+import type { SpriteSheet } from './sprites/atlas';
 
 /**
  * WORLD-36 (R11 lane D, d7): the ridge in the pixel view, on the region kit. The ground lifts
@@ -95,3 +99,34 @@ const mod = kitModule({
 
 export const createRegionPx = mod.createRegionPx;
 export const drawEntrance = mod.drawEntrance;
+
+const ball: SpriteDraw = {
+  sheet: undefined as unknown as SpriteSheet,
+  rect: undefined as unknown as SpriteDraw['rect'],
+  flip: false,
+  x: 0,
+  y: 0,
+  z: 0,
+  mode: 'billboard',
+  w: 0.45,
+  h: 0.45,
+};
+
+/** R0113 (R13 d1): the snowballs in the air (the sim's, read only) and the kit's own dynamics. */
+export function drawDynamic(batch: SpriteBatch, world: World, tint: number): void {
+  mod.drawDynamic(batch, world, tint);
+  const list = snowballs(world);
+  if (list.length === 0) return;
+  const sheet = ridgeSheet();
+  const rect = sheet.frames.get('snowball');
+  if (!rect) return;
+  ball.sheet = sheet;
+  ball.rect = rect;
+  for (const b of list) {
+    ball.x = b.x;
+    ball.z = b.z;
+    ball.y = b.y;
+    ball.tint = tint;
+    batch.draw(ball);
+  }
+}

@@ -48,18 +48,18 @@ export const MUSIC_DUCK = {
  * Trims stay within ±`maxTrimDb`, so a sparse cue is never pushed into the compressor.
  */
 export const SONG_TRIM_DB: Readonly<Record<string, number>> = {
-  title: -1,
-  grove: -1.5,
-  night: -0.5,
-  race: -2,
-  expedition: -1,
+  title: -2.8,
+  grove: -4.7,
+  night: -3.9,
+  race: -2.7,
+  expedition: -3.8,
   story: 6,
-  sorrow: 0.5,
-  tense: 2.5,
-  hollow: 2,
-  karate: 0,
-  battle: 0,
-  circuit: 0.5,
+  sorrow: -3,
+  tense: 0.8,
+  hollow: -1.4,
+  karate: 1.2,
+  battle: -2.8,
+  circuit: -2.4,
   calm: 6,
 };
 
@@ -118,3 +118,31 @@ export const SFX_TARGETS = {
   /** Names held to the tick target. */
   ticks: ['tickOpen', 'tickClose', 'tap'] as readonly string[],
 } as const;
+
+/** R0507 (TECH-64): the `?audiolab` song table's target, in measured LUFS (K-weighted, ungated). */
+export const SONG_LUFS = {
+  targetLufs: -20,
+  toleranceLu: 1.5,
+  /** How many seconds of each song the lab renders. */
+  renderSec: 30,
+} as const;
+
+/**
+ * R0507 (TECH-64): each song's measured level (LUFS, 30 s offline through the trim and the bus,
+ * `?audiolab`, 2026-11-05). Re-run the lab and update this after any trim or mix change.
+ */
+export const SONG_MEASURED_LUFS: Readonly<Record<string, number>> = {
+  title: -19.9,
+  grove: -19.9,
+  night: -22,
+  race: -20,
+  expedition: -19.9,
+  story: -28.5,
+  sorrow: -21.9,
+  tense: -19.9,
+  hollow: -19.9,
+  karate: -20.1,
+  battle: -19.9,
+  circuit: -19.9,
+  calm: -29.5,
+};

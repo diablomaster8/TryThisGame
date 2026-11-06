@@ -116,14 +116,22 @@ function paintMill(): Raster {
   r.tri(8, base - 50, 49, base - 92, 49, base - 50, shade(ROOF, 1.2));
   r.rect(40, base - 26, 16, 26, DBARK);
   r.rect(24, base - 42, 10, 10, hex('#f2d58a'));
-  // The water wheel on the stream side.
-  r.disc(90, base - 26, 22, PLANK);
-  r.disc(90, base - 26, 16, shade(PLANK, 0.6));
+  // The water wheel on the stream side is its own sprite (`paintWheel`), turned by the region.
+  return finish(r);
+}
+
+/** R0089 (R13 d1): the mill's wheel, two frames half a spoke apart so it can turn. */
+function paintWheel(frame: number): Raster {
+  const r = canvas(46, 46);
+  const c = 23;
+  r.disc(c, c, 22, PLANK);
+  r.disc(c, c, 16, shade(PLANK, 0.6));
   for (let i = 0; i < 8; i++) {
-    const a = (i / 8) * Math.PI * 2;
-    r.line(90, base - 26, 90 + Math.cos(a) * 21, base - 26 + Math.sin(a) * 21, shade(PLANK, 1.2));
+    const a = ((i + frame * 0.5) / 8) * Math.PI * 2;
+    r.line(c, c, c + Math.cos(a) * 21, c + Math.sin(a) * 21, shade(PLANK, 1.2));
+    r.rect(c + Math.cos(a) * 19 - 1, c + Math.sin(a) * 19 - 1, 3, 3, shade(DBARK, 1.1));
   }
-  r.disc(90, base - 26, 4, DBARK);
+  r.disc(c, c, 4, DBARK);
   return finish(r);
 }
 
@@ -238,6 +246,8 @@ function sheetFor(season: Season): SpriteSheet {
   const atlas = new RasterAtlas(1024);
   paintCrowns((k, r) => atlas.add(k, r));
   atlas.add('mill', paintMill());
+  atlas.add('wheel-0', paintWheel(0));
+  atlas.add('wheel-1', paintWheel(1));
   atlas.add('vines', paintVineWall());
   atlas.add('lookout', paintLookout());
   for (const k of [0, 1, 2, 3, 4]) atlas.add(`prop-${k}`, paintProp(k));

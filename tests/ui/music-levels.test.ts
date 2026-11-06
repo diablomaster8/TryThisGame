@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { SONG_NAMES } from '../../src/platform/audio';
-import { trimmedSongLevelDb } from '../../src/platform/mix-level';
-import { SONG_LEVEL, SONG_TRIM_DB } from '../../src/config/tuning-r8d-audio';
+import {
+  SONG_LEVEL,
+  SONG_LUFS,
+  SONG_MEASURED_LUFS,
+  SONG_TRIM_DB,
+} from '../../src/config/tuning-r8d-audio';
 
-/** R0507 (TECH-64): the songs sit level once trimmed (an estimate from the score, not LUFS). */
+/** R0507 (TECH-64): the songs sit level once trimmed (the levels are the `?audiolab` offline measurements in LUFS). */
 describe('music levels', () => {
   it('every song has a trim within the cap', () => {
     for (const s of SONG_NAMES) {
@@ -12,11 +16,11 @@ describe('music levels', () => {
     }
   });
 
-  it('every trimmed song sits within tolerance of its target', () => {
+  it('each song measured level sits within tolerance of its LUFS target', () => {
     for (const s of SONG_NAMES) {
-      const target = SONG_LEVEL.targetDb + (SONG_LEVEL.offsetDb[s] ?? 0);
-      expect(Math.abs(trimmedSongLevelDb(s) - target), s).toBeLessThanOrEqual(
-        SONG_LEVEL.toleranceDb,
+      const target = SONG_LUFS.targetLufs + (SONG_LEVEL.offsetDb[s] ?? 0);
+      expect(Math.abs(SONG_MEASURED_LUFS[s]! - target), s).toBeLessThanOrEqual(
+        SONG_LUFS.toleranceLu,
       );
     }
   });
