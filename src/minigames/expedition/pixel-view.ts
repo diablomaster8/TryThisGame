@@ -7,6 +7,7 @@ import { CLIPS, frameAt, frameKey } from '../../render/sprites/animations';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import { C, color } from '../../render/sprites/palette';
 import { startLook } from '../../sim/race-persona';
+import { startRect } from '../../render/start-pose';
 import type { Nubbin, Personality } from '../../sim/types';
 import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
 import { el } from '../../ui/dom';
@@ -173,15 +174,13 @@ export class ExpeditionPixelView implements ExpeditionView {
       const sheet = this.runner.sheet;
       const clip = run.onGround ? 'walk' : 'flap';
       const f = frameAt(CLIPS[clip], run.timeMs);
-      const rect = sheet.frames.get(frameKey(clip, 'side', f));
-      if (rect) {
+      const walkRect = sheet.frames.get(frameKey(clip, 'side', f));
+      if (walkRect) {
         // R0324 (FUN-35): a hit is a cartoon spin (a blink under reduced motion).
         const since = run.lastEvent?.kind === 'hit' ? run.timeMs - run.lastEvent.atMs : Infinity;
         const spin = since < HIT_SPIN_MS && !this.reduceMotion;
         if (spin || since >= 300 || Math.floor(nowMs / 60) % 2 === 0) {
           const image = sheet.texture.image as HTMLCanvasElement;
-          const w = rect.w / PX;
-          const h = rect.h / PX;
           // R0583: the personality's start pose (looks only; the run never reads it).
           const pose =
             this.runner.personality && run.onGround
@@ -192,9 +191,17 @@ export class ExpeditionPixelView implements ExpeditionView {
                   RACE_PERSONA.expeditionStartMs,
                 )
               : null;
-          const dx = Math.round(EXPEDITION.runnerX - w / 2) + Math.round(pose?.dx ?? 0);
-          const dy = Math.round(run.runnerY - RUNNER_H - 4) + Math.round(pose?.dy ?? 0);
-          if (pose)
+          // The sheet's own wave, peek, tongue-out or yawn frame when it has one; the offset
+          // and emote stay as the fallback for sheets without them.
+          const real = pose ? startRect(sheet, pose.kind, run.timeMs, this.reduceMotion) : null;
+          const rect = real ?? walkRect;
+          const w = rect.w / PX;
+          const h = rect.h / PX;
+          const dx =
+            Math.round(EXPEDITION.runnerX - w / 2) + Math.round(real ? 0 : (pose?.dx ?? 0));
+          const dy =
+            Math.round(run.runnerY - RUNNER_H - 4) + Math.round(real ? 0 : (pose?.dy ?? 0));
+          if (pose && !real)
             drawShadowText(
               ctx,
               pose.glyph,

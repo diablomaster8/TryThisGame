@@ -29,6 +29,22 @@ export const HOLLOW_R9D = {
     /** Feet at least this high (world units) can step onto a shelf: a jump does it. */
     climbHeight: 0.45,
   },
+  /** R0031 (lane A r13): terrace ledges, bigger 0.5 u plateaus on the side of the walking way. */
+  ledges: {
+    fromDepth: 2,
+    count: [1, 3] as const,
+    tries: 60,
+    sizes: [
+      [3, 3],
+      [4, 3],
+      [3, 4],
+      [4, 4],
+    ] as const,
+    fromStairs: 5,
+    spacing: 6,
+    /** One terrace step: 0.5 u, under a jump's height, over a walking step. */
+    riseSteps: 1,
+  },
   /** R0193: the Hollow's phone layout. */
   phone: {
     /** Widest screen (CSS px) that gets the one-thumb bar underground. */

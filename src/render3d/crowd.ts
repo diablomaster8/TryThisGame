@@ -296,6 +296,18 @@ export function crowdFor(
           sad: !s.target,
           ...(s.target ? { gait: strayGait(s, world.keeper.pos, world.inventory.shells) } : {}),
         });
+    // R0326: a fed stray stands shy-delighted for a beat (the love pose), then leaves.
+    for (const s of run.fedStrays ?? [])
+      if (shown(s.pos))
+        out.push({
+          id: `fed-${s.id}`,
+          kind: 'stray',
+          look: SHADOW_LOOK(GROVE3D.nubbinHeight),
+          x: s.pos.x,
+          z: s.pos.z,
+          facing: 0,
+          pose: 'love',
+        });
     // Monster packs (lane B, R0146): up to three of a pack's members in a huddle; a hop is
     // the beat of surprise when one notices the Keeper. Beaten packs have gone home.
     for (const p of run.packs ?? []) {

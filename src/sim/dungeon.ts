@@ -18,6 +18,8 @@ import {
   maySnatch,
   pickTrail,
   shooStray,
+  startFed,
+  stepFedStrays,
   stepStray,
   stepStrayAsk,
   strayBoutEnded,
@@ -1327,6 +1329,7 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     if (!s || world.inventory.fruit < 1) return;
     world.inventory.fruit -= 1;
     run.strays = run.strays.filter((x) => x !== s);
+    startFed(run, s);
     kingHat(world, s, events);
     const rng = Rng.fromSeed(`${run.seed}:${run.depth}:${s.id}`);
     const name = uniqueName(world, rng.pick(STRAY_NAMES), rng);
@@ -1556,6 +1559,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     // R0162: the snatched Shells drop as a trail behind it; twice a floor at most.
     stepStray(world, run, f, s, dtMs);
   }
+  stepFedStrays(run, dtMs);
   pickTrail(world, run, events);
 
   // The party: fetch loot nearby, otherwise keep close to the Keeper.

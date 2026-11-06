@@ -9,7 +9,8 @@ import { speakLine } from './lesson';
  * toast and spoken with the device's voice. Only in a kid run. Speech follows the game's
  * rules: `speakLine` stays silent until sound is on and unlocked by a first tap, and in a
  * Learning Grove it follows the grown-up's Read aloud (Little Sprouts) or Read to me (Grove
- * Readers) switch. Outside a Learning Grove, kid mode reads aloud whenever sound is on.
+ * Readers) switch. Outside a Learning Grove it reads aloud only when Settings → Sound → "Read everything else
+ * aloud" is on (off by default).
  */
 
 /** The caption for one event in a kid run, or null. */
@@ -37,10 +38,10 @@ export function hollowKidLine(world: World, e: SimEvent): string | null {
   }
 }
 
-/** Whether captions are spoken: the Learning Grove's switch for its band, else always. */
+/** Whether captions are spoken: the Learning Grove's switch for its band, else the explicit setting. */
 export function kidSpeaks(world: World): boolean {
   const e = world.edu;
-  if (!e) return true;
+  if (!e) return world.settings.voicesUi === true;
   return e.band === 'sprout' ? e.readAloud : e.readToMe === true;
 }
 

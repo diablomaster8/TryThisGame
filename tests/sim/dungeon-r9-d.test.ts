@@ -128,7 +128,7 @@ describe('raised shelves (R0191)', () => {
           if (flat[i]) expect(reach[i], `${seed} key ${c.x},${c.y}`).toBe(1);
         }
         // Each shelf holds its find, a visible two steps up.
-        for (const s of f.shelves) {
+        for (const s of f.shelves.filter((x) => !x.ledge)) {
           const find = f.loot.find((l) => l.id === s.find)!;
           expect(shelfAt(f, find.cell)).toBeGreaterThanOrEqual(0);
         }

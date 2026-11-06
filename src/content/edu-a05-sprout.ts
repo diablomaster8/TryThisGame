@@ -145,6 +145,7 @@ const SCENES: EduScene[] = [
       B('I’m a griot. A griot remembers stories.'),
       B('Will you be my helper?'),
       N('Your Nubbin sits on Balla’s balafon. Balla smiles.'),
+      N('Ding! Balla’s balafon rings when your Nubbin sits on a key.'),
     ],
     [
       note(
@@ -174,6 +175,7 @@ const SCENES: EduScene[] = [
       B('Come! The king sits under a big tree.'),
       N('Something is going to happen there today.'),
       N('(Look at the page. Can you see round houses?)'),
+      N('Creak, creak! A cart creaks past, loaded with red clay pots.'),
     ],
     [
       act(
@@ -197,6 +199,7 @@ const SCENES: EduScene[] = [
       N('The hunter throws the shells on a goatskin. Clatter!'),
       HU('A strong woman will come to your gate.'),
       HU('She will have a son. He will make Manding great.'),
+      N('Thump, thump! Drums thump softly under the big tree.'),
     ],
     [
       ask(
@@ -237,6 +240,7 @@ const SCENES: EduScene[] = [
     [
       DO('Hunter, thank you. Please eat before you go.'),
       B('Did you get all that? Say it back to me tonight.'),
+      N('Munch! The hunter munches a warm flatbread, thank you very much.'),
     ],
     [
       note(
@@ -261,6 +265,7 @@ const SCENES: EduScene[] = [
       N('Balla taps one key with his thumb. A low, round sound!'),
       N('Your Nubbin taps it too. Its sound is flat and very proud.'),
       B('We’ll work on it.'),
+      N('Ding! Your Nubbin taps a key, and the key goes ding.'),
     ],
     [
       act(
@@ -290,6 +295,7 @@ const SCENES: EduScene[] = [
       B('She asked for one thing. “Choose Sogolon. She is strong.”', 'soft'),
       N('Your Nubbin’s feet are warm by the fire.'),
       B('Some say the old woman was the buffalo. Some say she was Sogolon’s aunt.'),
+      N('Crack! A log cracks in the fire, and sparks pop up.'),
     ],
     [
       ask(
@@ -326,6 +332,7 @@ const SCENES: EduScene[] = [
       N('Out on the road, a dog barks. Woof!'),
       N('Another dog barks, woof! Then a third, woof!'),
       B('That’s them! Come on!'),
+      N('Thump, thump! Running feet thump along the dusty road.'),
     ],
     [
       act(
@@ -349,6 +356,7 @@ const SCENES: EduScene[] = [
       SO('People look at me. It doesn’t stop me walking.'),
       BR('We offered her a donkey. She said it looked tired!'),
       SO('It did look tired.'),
+      N('Hee-hee! Even the guards giggle about the tired donkey.'),
     ],
     [
       ask(
@@ -382,6 +390,7 @@ const SCENES: EduScene[] = [
       N('Under the big tree, the court laughs. The king does not.'),
       K('Doua. Do you remember what the hunter said?'),
       DO('Every word, my king.'),
+      N('Creak! The big gate creaks shut behind the hunters.'),
     ],
     [
       act(
@@ -406,6 +415,7 @@ const SCENES: EduScene[] = [
       SO('I will. And please stop staring. I have only one head.', 'angry'),
       N('Doua laughs kindly, and the king laughs. Then everyone does.'),
       B('She made them laugh with her, not at her!', 'happy'),
+      N('Hee-hee! Laughter bubbles up under the big tree.'),
     ],
     [
       note(
@@ -466,6 +476,7 @@ const SCENES: EduScene[] = [
     [
       B('Mark this, helper. He isn’t waiting to become someone.', 'think'),
       B('He is someone already. He is just not finished.'),
+      N('Ding! One soft note drifts from the balafon, and then it fades.'),
     ],
     [
       note(
@@ -487,6 +498,7 @@ const SCENES: EduScene[] = [
       SA('Take them. My son picked them. He climbed up himself.'),
       SA('Your son only crawls.'),
       N('The women laugh. Sogolon takes the leaves, and she is hurt.'),
+      N('Swish! Big green leaves swish in the basket.'),
     ],
     [
       ask(
@@ -518,6 +530,7 @@ const SCENES: EduScene[] = [
     [
       N('At her door, Sogolon sits down. She cries, with her face in the leaves.'),
       N('Her son crawls over. Your Nubbin leans on her other side.'),
+      N('Plop! One leaf plops down into her lap.'),
     ],
     [
       note(
@@ -541,6 +554,7 @@ const SCENES: EduScene[] = [
       SU('Dry your eyes, Mother. Today I stand up.', 'angry'),
       SU('Ask the smiths for a rod of iron. The heaviest one.'),
       N('Balla says the words over to himself, to keep them.'),
+      N('Thump! A small boy thumps his feet on the floor, ready.'),
     ],
     [
       act(
@@ -568,6 +582,7 @@ const SCENES: EduScene[] = [
       SM('My father made it long ago. It waited for this day.'),
       N('It is as long as two of you. It is dark as night.'),
       SM('Smiths keep secrets, helper. And we are patient.', 'think'),
+      N('Clang, ding! The hammers ding all down the smiths’ street.'),
     ],
     [
       note(
@@ -597,6 +612,7 @@ const SCENES: EduScene[] = [
       N('Your Nubbin sits on the end to help. The rod does not notice.'),
       N('Half the children in town follow.'),
       B('Everyone wants to see. Stay close to me.'),
+      N('Thump, thump! Little feet thump after the rod up the hill.'),
     ],
     [
       act(
@@ -620,6 +636,7 @@ const SCENES: EduScene[] = [
       B('He’s standing!', 'shock'),
       N('Balla sings a praise song. The whole hill joins in.'),
       SO('My son is standing.', 'happy'),
+      N('Whee! The children cheer, and the whole hill goes whee!'),
     ],
     [
       act(
@@ -647,6 +664,7 @@ const SCENES: EduScene[] = [
     [
       B('Some tellers say it was a stick. Some say a branch.'),
       B('I was there. It was iron. But I’ll tell the stick one too.'),
+      N('Hee-hee! Balla winks, and the children giggle at the stick.'),
     ],
     [
       note(
@@ -670,6 +688,7 @@ const SCENES: EduScene[] = [
       N('In some tellings, he pulls it up and carries it home.'),
       N('He sets it down at his mother’s door.'),
       SO('That’s enough for one day, my son. Sit down.', 'happy'),
+      N('Thump! A great baobab root thumps out of the ground.'),
     ],
     [
       act(
@@ -693,6 +712,7 @@ const SCENES: EduScene[] = [
       N('You gather the leaves. Basket one has 3 leaves.'),
       N('Basket two has 5 leaves.'),
       N('Across the yard, Sassouma’s door is shut.'),
+      N('Plop, plop! Leaves plop into the basket, one by one.'),
     ],
     [
       ask(
@@ -720,6 +740,7 @@ const SCENES: EduScene[] = [
       N('Sogolon gives you a baobab seed. It is hard and round.'),
       SO('For your yard. They grow slowly. Don’t worry.', 'soft'),
       N('Your Nubbin tries to eat it, so you take it back. Sogolon laughs.'),
+      N('Pop! The baobab seed pops into your pocket.'),
     ],
     [
       ask(
@@ -748,6 +769,7 @@ const SCENES: EduScene[] = [
       DO('You need someone to remember you.'),
       B('And I’ll tell you when you’re being a fool!', 'happy'),
       SU('Then stay close. I’ll need telling.'),
+      N('Thump! Two boys thump through the grass on a hunt.'),
     ],
     [
       ask(
@@ -771,6 +793,7 @@ const SCENES: EduScene[] = [
       N('Sundiata and Balla shake hands, very seriously.'),
       N('Then Sundiata gives him a playful push into the grass.'),
       N('They both laugh.'),
+      N('Whee! They tumble in the grass, laughing.'),
     ],
     [
       note(
@@ -796,6 +819,7 @@ const SCENES: EduScene[] = [
       B('There’s the hunters’ tune: quick and stamping.'),
       B('Or Sogolon’s humming tune: slow and rocking.', 'soft'),
       B('Which one?'),
+      N('Ding, ding! Your Nubbin taps two keys, quick, then slow.'),
     ],
     [
       act(
@@ -840,6 +864,7 @@ const SCENES: EduScene[] = [
       N('Your Nubbin plays its tune all evening.'),
       N('By night it plays the whole tune without stopping.'),
       N('Sogolon’s door is open. She sits just inside, listening.'),
+      N('Ding! One last note rings, and the night is quiet.'),
     ],
     [
       ask(
@@ -862,6 +887,7 @@ const SCENES: EduScene[] = [
       B('Keep that tune. One day it will open a door for us.'),
       B('I won’t say which door yet.', 'think'),
       N('Your Nubbin plays the first three notes. They’re still there.'),
+      N('Ding, ding, dong! Three notes, just as before.'),
     ],
     [
       act(
@@ -890,6 +916,7 @@ const SCENES: EduScene[] = [
       SU('Grandmothers, you needn’t creep. Take what you like.', 'soft'),
       SU('These ones are better. Those are still green.'),
       N('He fills their baskets. Your Nubbin brings a gourd each.'),
+      N('Creak! A gate creaks, and nine shawls tiptoe in.'),
     ],
     [
       act(
@@ -911,6 +938,7 @@ const SCENES: EduScene[] = [
     [
       EL('We came to make you cross. You made us ashamed instead.', 'sad'),
       EL('From tonight, we watch over you.'),
+      N('Plop! A ripe gourd plops into a grandmother’s basket.'),
     ],
     [
       note(
@@ -936,6 +964,7 @@ const SCENES: EduScene[] = [
       DT('I am king now, brother.'),
       N('Balla touches Sundiata’s arm. Sundiata shakes, but stays.'),
       B('Helper, listen. Remember it all for me. Then tell it back.', 'soft'),
+      N('Thump, thump! Hooves thump on the dusty road.'),
     ],
     [
       ask(
@@ -967,6 +996,7 @@ const SCENES: EduScene[] = [
     [
       N('The horses leave. Your Nubbin plays three notes after them.'),
       N('Far down the road, Balla’s balafon answers with three more.'),
+      N('Ding, ding, dong! Three notes go out, three notes come back.'),
     ],
     [
       ask(
@@ -994,6 +1024,7 @@ const SCENES: EduScene[] = [
       SO('Walk quietly.'),
       N('Sundiata looks back at the dark baobab.'),
       SU('I’ll come back. Remember I said so.'),
+      N('Creak! The gate creaks as it swings shut for the night.'),
     ],
     [
       ask(
@@ -1026,6 +1057,7 @@ const SCENES: EduScene[] = [
       N('You count things to remember: hills, sky, who carried what.'),
       SU('You’re doing what Balla does. Your lips move.'),
       SU('Remember this. My mother walked out with her head up.'),
+      N('Thump, thump! Your feet thump along the sunrise road.'),
     ],
     [
       note(
@@ -1052,6 +1084,7 @@ const SCENES: EduScene[] = [
       KO('The king is tricky, brother. Watch him closely.'),
       N('Your Nubbin stares at the king’s hands.'),
       N('Sundiata watches carefully. Then he starts to win.'),
+      N('Pop! A little stone pops into its hole on the game board.'),
     ],
     [
       ask(
@@ -1081,7 +1114,7 @@ const SCENES: EduScene[] = [
   ),
   sc(
     'a05-07-djedeba-done',
-    [DJ('You play well. You think before you move.', 'think'), DJ('Stay the night. Then go on.')],
+    [DJ('You play well. You think before you move.', 'think'), DJ('Stay the night. Then go on.'), N('Ding! A bell rings when the last stone is placed.')],
     [
       note(
         1,
@@ -1105,6 +1138,7 @@ const SCENES: EduScene[] = [
       N('The king listens to every one, even the goat men.'),
       SU('Why do you let them talk so long?'),
       WG('They came to be heard. Listening is how we keep people.'),
+      N('Hee-hee! Even the goat laughs in the corner.'),
     ],
     [
       ask(
@@ -1128,6 +1162,7 @@ const SCENES: EduScene[] = [
       N('That night, Sundiata sits up late, thinking.'),
       SU('Put that one near the top of the list for Balla.'),
       N('(Think of the two men and their goat.)'),
+      N('Creak! A stool creaks as Sundiata leans in to think.'),
     ],
     [
       ask(
@@ -1154,6 +1189,7 @@ const SCENES: EduScene[] = [
       SU('We go at my mother’s pace, so we all arrive.'),
       N('Sundiata walks beside his mother. The whole family follows.'),
       KO('He used to be the slowest. Now he’s the one who waits.', 'think'),
+      N('Crunch, crunch! Dry thorns crunch under every foot.'),
     ],
     [
       ask(
@@ -1186,6 +1222,7 @@ const SCENES: EduScene[] = [
       N('Sundiata is a man now, broad as a door.'),
       KO('Tellers disagree about the order of this road.', 'happy'),
       SU('I learned: patience, then listening, then my mother’s pace.'),
+      N('Thump! A heavy bag thumps down, and Sundiata smiles.'),
     ],
     [
       act(
@@ -1213,6 +1250,7 @@ const SCENES: EduScene[] = [
       N('From the mound you watch them go, a line of dust.'),
       N('They come back at dusk. Twenty went, and twenty came back!'),
       MT('Nobody missing. Well done!', 'happy'),
+      N('Thump, thump! Twenty horses thump home at dusk.'),
     ],
     [
       act(
@@ -1240,6 +1278,7 @@ const SCENES: EduScene[] = [
     [
       N('Year by year, the king gives Sundiata more to lead.'),
       MT('I am getting old. I have no son.', 'think'),
+      N('Ding! A bell rings the end of another good day.'),
     ],
     [
       note(
@@ -1342,6 +1381,7 @@ const SCENES: EduScene[] = [
       B('Helper? You’re not meant to be here!', 'shock'),
       B('A griot goes where the story goes.'),
       B('At the top of this tower is a door nobody opens.'),
+      N('Creak! A grey tower door creaks, just a little.'),
     ],
     [
       act(
@@ -1391,6 +1431,7 @@ const SCENES: EduScene[] = [
       B('Oh, look at that.', 'soft'),
       B('A griot can’t see a balafon like that and not play it.'),
       B('Your tune. Let’s hear it on a king’s balafon.'),
+      N('Ding! A single key of the balafon gives a soft ding.'),
     ],
     [
       note(
@@ -1414,6 +1455,7 @@ const SCENES: EduScene[] = [
       N('Soumaoro fills the doorway, in a cloak the colour of iron.'),
       SK('That is a hunters’ tune. My father’s hunters played it when I was small.', 'think'),
       ...A09_SPARED,
+      N('Ding, ding! The great tune rings off the stone walls.'),
     ],
     [
       note(
@@ -1437,6 +1479,7 @@ const SCENES: EduScene[] = [
       N('Far off, the king, Dankaran, rides the other way. He has run away.'),
       B('Manding has no king now.'),
       B('Go back to Sundiata, helper. I’ll keep the tune going here.'),
+      N('Thump, thump! Soldiers thump away over the grey hills.'),
     ],
     [
       ask(
@@ -1462,6 +1505,7 @@ const SCENES: EduScene[] = [
       B('Remember that too.'),
       B('I’m his griot now. I sing him well. He loves music.', 'think'),
       N('The pages riffle, and grey smoke turns to red earth. You are in Mema.'),
+      N('Whoosh! The grey smoke whooshes away, and the red earth returns.'),
     ],
     [
       note(
@@ -1489,6 +1533,7 @@ const SCENES: EduScene[] = [
       ME('These are Manding leaves! Is Sogolon’s son here?', 'shock'),
       KO('Sogolon’s daughter sells them.'),
       ME('Then he’s here! Manding needs him.'),
+      N('Ding! A trader’s bell rings over the stalls.'),
     ],
     [
       ask(
@@ -1517,6 +1562,7 @@ const SCENES: EduScene[] = [
     [
       SU('I said I’d come back. My mother heard me.'),
       SU('Now I must go. I wish she could see.', 'sad'),
+      N('Hee-hee! A little girl giggles by the leaf stall.'),
     ],
     [
       note(
@@ -1542,6 +1588,7 @@ const SCENES: EduScene[] = [
       SU('Put in broken pots, old straw and some feathers.'),
       N('Your Nubbin adds one big feather.'),
       SU('Set it before the king’s council. Say nothing.'),
+      N('Crunch! Old straw crunches as your Nubbin packs the basket.'),
     ],
     [
       act(
@@ -1574,6 +1621,7 @@ const SCENES: EduScene[] = [
       CO('He says: be kind to his mother. Then your town stays whole.'),
       MT('I know what it says.', 'sad'),
       MT('Give her the best ground. Give him horsemen. I’d rather be his friend.'),
+      N('Thump! The basket thumps on the council floor.'),
     ],
     [
       note(
@@ -1656,6 +1704,7 @@ const SCENES: EduScene[] = [
       SK('You’ve grown, son of the buffalo.'),
       N('He is not there any more. He is on the far hill, watching.'),
       N('Your Nubbin hides its face. Then it peeks out.'),
+      N('Boing! Your Nubbin bounces up, peeks out, and ducks again.'),
     ],
     [
       act(
@@ -1686,6 +1735,7 @@ const SCENES: EduScene[] = [
       N('By evening, the pass is Sundiata’s.'),
       N('Sosso’s army goes back over the hills.'),
       N('The horns are quiet. The drums are soft.'),
+      N('Thump! One soft drum thumps, and then it stops.'),
     ],
     [
       act(
@@ -1710,6 +1760,7 @@ const SCENES: EduScene[] = [
       SU('Then he has a secret. Every great sorcerer has one.'),
       MB('Nobody knows it. Except Soumaoro.'),
       SU('And whoever he trusts.', 'think'),
+      N('Creak! The tent flap creaks in the evening wind.'),
     ],
     [
       ask(
@@ -1734,6 +1785,7 @@ const SCENES: EduScene[] = [
       SU('So we wait. Waiting is hard.'),
       N('Your Nubbin plays three notes towards Sosso.'),
       N('Nobody answers. It plays them again anyway.'),
+      N('Ding! Three notes ring out, and the wind carries them.'),
     ],
     [
       note(
@@ -1760,6 +1812,7 @@ const SCENES: EduScene[] = [
       B('Helper. You kept the fire lit.', 'soft'),
       N('Your Nubbin leaps up Balla’s front!'),
       B('I played your tune every night. Soumaoro got tired of it!', 'happy'),
+      N('Crack! The fire cracks and sparks, and your Nubbin wakes up.'),
     ],
     [
       note(
@@ -1780,6 +1833,7 @@ const SCENES: EduScene[] = [
     [
       N('Sundiata comes out of his tent. He says nothing.'),
       N('He just holds on to Balla for a long time.'),
+      N('Thump! One warm thump of a hug on a big back.'),
     ],
     [
       note(
@@ -1803,6 +1857,7 @@ const SCENES: EduScene[] = [
       N('Mema, and the dust, and the mat in the shade.'),
       B('The goat men! I wish I’d seen them.', 'happy'),
       B('Where do you want to start?'),
+      N('Ding! Balla taps a key for each part of the list.'),
     ],
     [
       act(
@@ -1836,6 +1891,7 @@ const SCENES: EduScene[] = [
     [
       B('Now I have it. Now it won’t be lost.', 'soft'),
       B('Thank you, helper. You’ve carried so much.'),
+      N('Pop! A bright spark pops up from the fire.'),
     ],
     [
       ask(
@@ -1861,6 +1917,7 @@ const SCENES: EduScene[] = [
       NT('One night he told me his secret. A white rooster’s spur.'),
       SU('Your mother was unkind to mine. Why help me?'),
       NT('Your mother gave me leaves once. I did not forget.', 'soft'),
+      N('Creak! The tent flap creaks as the hood comes down.'),
     ],
     [
       ask(
@@ -1886,6 +1943,7 @@ const SCENES: EduScene[] = [
       N('A smith fixes it to an arrow point. You hold the shaft still.'),
       B('Some say Balla found the secret. Some say Triban. Some say both.'),
       B('Tonight I tell it as it happened. Tomorrow, as it’s told.'),
+      N('Ding! The little arrow point rings against the anvil.'),
     ],
     [
       act(
@@ -1913,6 +1971,8 @@ const SCENES: EduScene[] = [
       FK('Soumaoro was very unkind to my family.', 'angry'),
       B('In Sosso they’ll call Fakoli a traitor. In Manding, a hero.', 'think'),
       FK('I walked all night. My mouth is dry.'),
+      N('Clang! The hammers clang, and the road shakes a bit.'),
+      N('Bonk! The big smith’s hammers bonk together on his shoulder.'),
     ],
     [
       ask(
@@ -1947,6 +2007,7 @@ const SCENES: EduScene[] = [
       N('Sundiata draws his bow. A white spur is tied to the arrow.'),
       N('The arrow only brushes Soumaoro’s shoulder.'),
       SK('Who told you?', 'shock'),
+      N('Swish! The arrow swishes over the dusty plain.'),
     ],
     [
       ask(
@@ -1969,6 +2030,7 @@ const SCENES: EduScene[] = [
       N('Soumaoro turns his horse and rides away.'),
       N('His army runs after him. Sundiata’s riders chase it.'),
       B('Leave him to Sundiata. Follow the end of the story, helper.'),
+      N('Thump, thump! Hooves thump away over the hill.'),
     ],
     [
       note(
@@ -1990,6 +2052,7 @@ const SCENES: EduScene[] = [
       N('The cave is dark. Nothing makes a sound.'),
       B('Some say he’s still in there. Some say he became stone.', 'think'),
       B('Everyone agrees: he was never seen again.'),
+      N('Drip, drip. Water drips in the dark cave.'),
     ],
     [
       note(
@@ -2021,6 +2084,7 @@ const SCENES: EduScene[] = [
       B('He won’t be. Not by me.'),
       N('Sundiata leads the black horse down the hill.'),
       N('He walks beside it. He does not ride.'),
+      N('Thump, thump! The black horse thumps down the hill beside him.'),
     ],
     [
       note(
@@ -2047,6 +2111,7 @@ const SCENES: EduScene[] = [
       FK('The smiths give their skill. It stays theirs.'),
       SU('Manding is one. A stranger is a guest. Nobody hurts a messenger.'),
       SU('Every person matters. Even the smallest. Even one who crawled.', 'soft'),
+      N('Ding! A great bell rings, and the ring falls quiet.'),
     ],
     [
       ask(
@@ -2070,6 +2135,7 @@ const SCENES: EduScene[] = [
       B('The rules agreed here are remembered. They are called the Manden Charter.'),
       N('The ring roars. They name him Mansa, king of kings.'),
       N('Kolonkan is crying happy tears.'),
+      N('Whee! The people cheer, and the cheer goes whee up the hill.'),
     ],
     [
       note(
@@ -2094,6 +2160,7 @@ const SCENES: EduScene[] = [
       B('I’ll tell this story ten thousand times, a little different each time.'),
       B('But there is one thing I’ll never leave out.'),
       B('Helper, what should I never leave out?'),
+      N('Ding! Balla’s balafon gives one last ding.'),
     ],
     [
       note(
@@ -2143,6 +2210,7 @@ const SCENES: EduScene[] = [
       N('Your Nubbin plays the hunters’ tune. The whole ring stamps along!'),
       SU('My hunting tune! The one they played when I came home.', 'happy'),
       ...A14_END,
+      N('Ding! Your Nubbin taps one last key, and it goes ding.'),
     ],
     [
       act(
@@ -2168,6 +2236,7 @@ const EDU_A05_SPROUT_VARIANTS_BASE: EduScene[] = [
       N('Soumaoro fills the doorway, in a cloak the colour of iron.'),
       SK('My mother hummed that. At night, when she thought I was asleep.', 'soft'),
       ...A09_SPARED,
+      N('Ding, ding! The soft song rings off the stone walls.'),
     ],
     [
       note(
@@ -2192,6 +2261,7 @@ const EDU_A05_SPROUT_VARIANTS_BASE: EduScene[] = [
       KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
       SU('She’d be cross to come first. Then she’d be very pleased.', 'happy'),
       ...A14_END,
+      N('Ding! Your Nubbin taps one last key, and it goes ding.'),
     ],
     [
       act(
