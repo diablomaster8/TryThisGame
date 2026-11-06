@@ -4706,7 +4706,6 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
       ],
       'Learned that a cutting needs water to grow roots and become a new tree.',
     ),
-    N('Ding! Your Nubbin taps a bowl with its spoon, ding!'),
   ]),
   sc(
     'a14-close-family',
