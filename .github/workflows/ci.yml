@@ -28,6 +28,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
     steps:
@@ -47,7 +48,10 @@ jobs:
   # TECH-45: the sim reads no time zone, so its suite must pass outside UTC too.
   test-tokyo:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -55,9 +59,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx vitest run tests/sim
+      - run: npx vitest run tests/sim --shard=${{ matrix.shard }}/3 --reporter=default --reporter=json --reporter=./tests/tools/running-reporter.mjs --outputFile.json=vitest-report.json
+        timeout-minutes: 8
         env:
           TZ: Asia/Tokyo
+      - if: always()
+        run: node tests/tools/slow-report.cjs vitest-report.json 5 tokyo-${{ matrix.shard }}
 
   # HOT-CI: the sim's wall-clock budgets, alone and one file at a time, at the CI scale
   # (TIMING_BUDGET in src/config/tuning-sim.ts). The main suite skips those asserts on CI,
