@@ -9,7 +9,7 @@
 const BASE = process.env.E2E_URL || 'http://localhost:4173';
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
 const TRIPS = Number(process.env.TRIPS || 20);
-const WARM = Number(process.env.WARM || 3);
+const WARM = Number(process.env.WARM || 8);
 const GEO_TEX_GROWTH = 0.1;
 const HEAP_GROWTH = 0.25;
 

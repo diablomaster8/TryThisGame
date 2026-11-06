@@ -866,7 +866,10 @@ export class Actors {
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
     a.veil?.removeFromParent();
-    if (a.shell) this.kit.release(a.shell);
+    if (a.shell) {
+      updateCracks(a.shell, 0); // R0456: a pooled shell must not keep its crack line geometry
+      this.kit.release(a.shell);
+    }
     a.emote.removeFromParent();
     this.nubbins.delete(id);
   }
