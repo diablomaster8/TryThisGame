@@ -12,6 +12,7 @@ import { trainerLook } from './keeper-look';
 import { TRAINERS } from '../sim/trainers';
 import type { Vec2, World } from '../sim/types';
 import { npcHere, SceneStager } from './scene-stage';
+import { cachedQuery } from '../platform/dom-cache';
 
 /**
  * Campaign graphics 2, package p: the shared, renderer-neutral half of the stage actors
@@ -58,7 +59,7 @@ export const SPEAKER_NOW: { who: string | null } = { who: null };
  */
 export function liveSpeaker(): string | null {
   if (typeof document === 'undefined') return null;
-  const box = document.querySelector('.dialogue');
+  const box = cachedQuery('.dialogue');
   if (!box || (box as HTMLElement).hidden) return null;
   // Narration, the chorus, and a chapter postcard holding the first line back (the box
   // still wears the last scene's speaker then) have no one speaking in the world.

@@ -4,6 +4,8 @@
  * the two). The dialogue box is the one place that knows; this reads whether it is open.
  * Render-only: it never touches the world. Without a DOM (tests) the scene's own clock runs.
  */
+
+import { cachedQuery } from '../platform/dom-cache';
 export class LineClock {
   private id: string | null = null;
   private t = -1;
@@ -23,6 +25,6 @@ export class LineClock {
 
 function lineShowing(): boolean {
   if (typeof document === 'undefined') return true;
-  const box = document.querySelector('.dialogue') as HTMLElement | null;
+  const box = cachedQuery('.dialogue') as HTMLElement | null;
   return !!box && !box.hidden;
 }
