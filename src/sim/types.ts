@@ -684,7 +684,9 @@ export type DyeColor =
   | 'cream'
   | 'black'
   | 'white'
-  | 'coral';
+  | 'coral'
+  /** R0427: the kid-safe rainbow dye; it cycles hue slowly (render/sprites/rainbow-dye.ts). */
+  | 'rainbow';
 /** R0427: where a dye goes; the wing and crown tips are for adults. */
 export type DyeSlot = 'hat' | 'scarf' | 'wingTip' | 'crownTip';
 export const DYE_COLORS_ALL: readonly DyeColor[] = [
@@ -700,6 +702,7 @@ export const DYE_COLORS_ALL: readonly DyeColor[] = [
   'black',
   'white',
   'coral',
+  'rainbow',
 ];
 export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
 export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
