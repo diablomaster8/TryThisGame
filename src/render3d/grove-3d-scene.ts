@@ -1405,10 +1405,10 @@ export class Grove3dScene {
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
   pickSculptRes(): number {
-    // Dev builds take `?sculptRes=64` so a desktop probe can build what a phone would.
-    const forced = import.meta.env.DEV
-      ? Number(new URLSearchParams(location.search).get('sculptRes'))
-      : 0;
+    // Dev builds (and `?e2e` loads, for the perf harness) take `?sculptRes=64` so a desktop
+    // probe can build what a phone would.
+    const q = new URLSearchParams(location.search);
+    const forced = import.meta.env.DEV || q.has('e2e') ? Number(q.get('sculptRes')) : 0;
     return forced > 0 ? forced : pickSculptRes();
   }
 
