@@ -763,6 +763,7 @@ export const UI_TEXT = {
     black: 'Black',
     white: 'White',
     coral: 'Coral',
+    rainbow: 'Rainbow',
   },
   dyeWingTip: 'Wing tips',
   dyeCrownTip: 'Crown tip',

@@ -102,6 +102,14 @@ export const RACE_BAND_COSMETICS: readonly Cosmetic[] = (
       ['px', 9, -1, k],
       ['rect', -6, -4, 13, 1, 'white'],
     ],
+    // The side view (every race frame): the band wraps the whole head, its tails trailing behind.
+    pxSide: [
+      ['rect', -6, -5, 13, 3, k],
+      ['rect', -5, -5, 11, 1, 'white'],
+      ['rect', -9, -4, 3, 1, k],
+      ['px', -9, -3, k],
+      ['px', -10, -2, k],
+    ],
     mesh: [['torus', k, [0, 0.45, -0.7], [0.74, 0.74, 0.12], [Math.PI / 2, 0, 0]]],
   } satisfies Cosmetic;
 });

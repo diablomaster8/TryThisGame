@@ -170,3 +170,18 @@ describe('the Quills and Shade looks', () => {
     }
   });
 });
+
+describe('the race headband in the side view (R0437)', () => {
+  it('shows as a wide band across the head, not just the tail, in every course colour', () => {
+    const side = (face: string | null) =>
+      drawChao('side', poseFor('walk', 0), { ...lookOf(CHILD_NEUTRAL), wear: face ? [face] : [] }).data;
+    const bare = side(null);
+    for (const course of ['meadow', 'cliffs', 'lagoon']) {
+      const worn = side(`race-band-${course}`);
+      let changed = 0;
+      for (let i = 0; i < worn.length; i++) if (worn[i] !== bare[i]) changed++;
+      // The old front-view shape left only a 3 px tail here; the band wraps the head.
+      expect(changed).toBeGreaterThan(40);
+    }
+  });
+});

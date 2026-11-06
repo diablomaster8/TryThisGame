@@ -44,11 +44,18 @@ export function drawCosmetic(
   }
   if (!c || c.bespoke || !c.px || layerOf(c.slot, angle) !== layer) return;
   if (c.slot === 'face' && BACK_VIEW.has(angle)) return; // the face is not seen from behind
-  const ops = BACK_VIEW.has(angle) ? (c.pxBack ?? c.px) : c.px;
+  const ops = BACK_VIEW.has(angle)
+    ? (c.pxBack ?? c.px)
+    : angle === 'side' && c.pxSide
+      ? c.pxSide
+      : c.px;
   const side = angle === 'side' ? -1 : 0;
   // R0400: a face item is drawn around both eyes (at -4 and +4); the side view has the one
   // eye at +4 and the three-quarter view eyes at -1 and +5, so it keeps the right half there.
-  const faceOps = c.slot === 'face' && (angle === 'side' || angle === 'frontQuarter');
+  const faceOps =
+    c.slot === 'face' &&
+    !(angle === 'side' && c.pxSide) &&
+    (angle === 'side' || angle === 'frontQuarter');
   const [ax, ay] =
     c.slot === 'hat'
       ? [L.headCx + side, L.headCy - L.headRy]
