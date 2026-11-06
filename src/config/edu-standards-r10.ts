@@ -14,4 +14,10 @@ export const EDU_ROUND_STANDARDS: Readonly<Record<EduGameId, readonly string[]>>
   sounds: ['RF.K.2', 'ELOF: Language and Communication'],
   animals: ['K-LS1-1', 'ELOF: Scientific Reasoning'],
   tracing: ['RF.K.1d', 'ELOF: Literacy'],
+  // R0716 (KIDS-48): the reader band's games.
+  times: ['3.OA.C.7', '3.OA.A.1', '3.OA.A.3'],
+  timeMoney: ['2.MD.C.7', '3.MD.A.1', '2.MD.C.8'],
+  numbers: ['2.NBT.A.1', '3.NF.A.1'],
+  reading: ['RL.2.1', 'RL.3.3'],
+  science: ['K-LS1-1', '2-PS1-1', '2-ESS2-3', '2-LS4-1'],
 };

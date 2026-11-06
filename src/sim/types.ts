@@ -804,7 +804,7 @@ export interface EduState {
   /** The child's name, for the letter games. */
   childName: string;
   /** R0739: the Learning Grove's interface language (absent: English). */
-  uiLanguage?: 'en' | 'he';
+  uiLanguage?: 'en' | 'he' | 'es' | 'ja';
   progress: Record<EduGameId, { plays: number; stars: number }>;
   stickers: number;
   /** Live play time this session, toward the break screen. */
@@ -1839,7 +1839,7 @@ export type Command =
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
   /** R0739: the Learning Grove's interface language. */
-  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' }
+  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' | 'es' | 'ja' }
   /* Lane E r9, R0696 */
   | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
   | {
