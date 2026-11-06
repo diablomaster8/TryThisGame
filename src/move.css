@@ -139,3 +139,12 @@
   left: auto;
   right: 0;
 }
+
+/* R0113: the snowball button sits beside the jump button, only on the ridge's snow. */
+.snow-btn {
+  margin-right: 76px;
+}
+.left-handed .snow-btn {
+  margin-right: 0;
+  margin-left: 76px;
+}

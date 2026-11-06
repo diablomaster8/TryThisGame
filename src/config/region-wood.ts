@@ -121,6 +121,14 @@ export const WOOD_JUMPS: readonly JumpRoute[] = [
     from: { x: 26, z: -24 },
     to: { x: 28, z: -30 },
     walkAround: 'lookout',
+    // R13 d1: built. Three 0.8, 1.6 and 2.4 u steps of fallen log up to the platform at 3.0 u
+    // (each a single jump, the last a 0.6 rise); the platform itself stands on its posts.
+    ledges: [
+      { x: 26.5, z: -25.5, w: 1.6, h: 1.5, y: 0.8 },
+      { x: 26.9, z: -26.7, w: 1.6, h: 1.5, y: 1.6 },
+      { x: 27.3, z: -27.9, w: 1.6, h: 1.5, y: 2.4 },
+      { x: 28, z: -30, w: 2.4, h: 2.4, y: 3 },
+    ],
   },
   {
     id: 'root-shortcut',
@@ -131,6 +139,9 @@ export const WOOD_JUMPS: readonly JumpRoute[] = [
     from: { x: -18, z: 6 },
     to: { x: -16, z: 0 },
     walkAround: 'hollow-tree',
+    // R13 d1: built. The hollow tree's root mound, 1.4 u: a double jump gets over the roots and
+    // the far side drops back to the path (a short cut across the trunk's side).
+    ledges: [{ x: -17, z: 3, w: 2.6, h: 2, y: 1.4 }],
   },
   {
     id: 'lookout-glide',
@@ -141,6 +152,9 @@ export const WOOD_JUMPS: readonly JumpRoute[] = [
     from: { x: 28, z: -30 },
     to: { x: 31, z: -27 },
     walkAround: 'lookout',
+    // R13 d1: built. Off the platform with a Fly partner, jump held: the glide (MOVE-27)
+    // carries the Keeper over the fence of ferns to the path; the lane lets it pass in the air.
+    ledges: [],
   },
 ];
 

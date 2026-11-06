@@ -170,6 +170,34 @@ function paintCastle(): Raster {
   return finish(r);
 }
 
+/** A knocked-down castle: a low heap with the flag lying on it. */
+function paintCastleDown(): Raster {
+  const r = canvas(40, 14);
+  const b = r.h - 1;
+  r.ellipse(20, b - 3, 17, 5, shade(SAND, 0.85));
+  r.ellipse(20, b - 5, 12, 4, SAND);
+  r.line(10, b - 6, 20, b - 8, PLANK);
+  r.tri(20, b - 8, 26, b - 6, 20, b - 4, RED);
+  return finish(r);
+}
+
+const FOLK_COAT = ['#4a6f8c', '#a85a4a', '#5a8a5a', '#c8a24a'] as const;
+
+/** A Kettleby local: a round-shouldered figure with a hat, the coat's colour by `tone`. */
+function paintFolk(tone: number): Raster {
+  const r = canvas(16, 28);
+  const b = r.h - 1;
+  const coat = hex(FOLK_COAT[tone % 4]!);
+  r.ellipse(8, b - 1, 6, 2, shade(SAND, 0.8));
+  r.rect(5, b - 16, 7, 14, coat);
+  r.rect(5, b - 3, 3, 3, shade(PLANK, 0.8));
+  r.rect(9, b - 3, 3, 3, shade(PLANK, 0.8));
+  r.disc(8, b - 19, 4, hex('#e8b98a'));
+  r.rect(3, b - 24, 11, 2, shade(coat, 0.8));
+  r.rect(5, b - 27, 7, 4, shade(coat, 0.8));
+  return finish(r);
+}
+
 function paintRock(): Raster {
   const r = canvas(44, 30);
   const b = r.h - 1;
@@ -226,6 +254,8 @@ export function coastSheet(): SpriteSheet {
   for (const k of [0, 1, 2]) atlas.add(`house-${k}`, paintHouse(k));
   atlas.add('light', paintLighthouse());
   atlas.add('castle', paintCastle());
+  atlas.add('castle-down', paintCastleDown());
+  for (const k of [0, 1, 2, 3]) atlas.add(`folk-${k}`, paintFolk(k));
   atlas.add('rock', paintRock());
   atlas.add('sign', paintSign());
   atlas.add('stones', paintStones());

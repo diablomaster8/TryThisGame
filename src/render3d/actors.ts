@@ -98,7 +98,7 @@ import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
-import { regionShown } from '../sim/region-companion';
+import { regionShown } from '../sim/region-gardens';
 import { noteDue, performLook } from '../render/perform-look';
 import { poseOfState, visualStateFor } from '../render-common/visual-state';
 import { Perform3D } from './perform-3d';
@@ -876,7 +876,11 @@ export class Actors {
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
     a.veil?.removeFromParent();
-    if (a.shell) this.kit.release(a.shell);
+    if (a.shell) {
+      // R0081 (R13 d1): the egg's crack line goes with it (its geometry was left undisposed).
+      updateCracks(a.shell, 0);
+      this.kit.release(a.shell);
+    }
     a.emote.removeFromParent();
     this.nubbins.delete(id);
   }

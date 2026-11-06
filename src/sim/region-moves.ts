@@ -20,6 +20,8 @@ import { RIDGE_FLIGHTS, type RegionFlightDef } from '../config/region-ridge';
 import type { RegionId } from '../config/regions';
 import { REGION_MOVES } from '../config/tuning-r12d1';
 import { JUMP } from '../config/tuning-sim';
+import { GLIDE } from '../config/tuning-move';
+import { glided, keeperGliding } from './glide-state';
 import { FLIGHT_ZONES } from '../config/tuning-r11d2';
 import { levelOf } from './stats';
 import type { SimEvent, Vec2, World } from './types';
@@ -178,11 +180,18 @@ export function stepRegionVertical(
   }
   const g = tune.gravity * (k.vy < 0 ? JUMP.fallGravityScale : 1);
   k.vy = Math.max(-JUMP.maxFall, k.vy - g * dt);
+  // R0113 (R13 d1): the Fly perk's glide works in a region as in the Grove (MOVE-27).
+  if (k.vy < 0 && keeperGliding(world)) {
+    k.vy = Math.max(k.vy, -GLIDE.maxFall);
+    glided.set(world, (glided.get(world) ?? 0) + dt * 1000);
+  }
   k.y += k.vy * dt;
   if (k.y > ground) return;
   k.y = ground;
   k.vy = 0;
   k.grounded = true;
+  k.airJumps = JUMP.airJumps;
+  glided.delete(world);
   if (!standable(id, k.pos.x, k.pos.z, walkable)) {
     const back = takeOff.get(world);
     if (back) {

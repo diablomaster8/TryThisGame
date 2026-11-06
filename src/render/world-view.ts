@@ -124,7 +124,7 @@ import { PixelHollowPoofs } from './hollow-poof-pixel';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
 import { PixelHollowR9a } from './hollow-r9a';
 import { drawPuddles } from './puddles';
-import { regionShown } from '../sim/region-companion';
+import { regionShown } from '../sim/region-gardens';
 import { ambientAwake } from './ambient-life';
 import { WORLD_LOD } from '../config/tuning-world';
 import { drawAmbientPx } from './ambient-px';
