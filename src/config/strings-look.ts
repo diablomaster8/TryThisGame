@@ -11,6 +11,9 @@ export const COSMETIC_LABELS: Record<string, string> = {
   'woolly-hat': 'Woolly hat',
   'look-quills': 'Quills look',
   'look-shade': 'Shade look',
+  'look-angel': 'Angel look',
+  'look-devil': 'Devil look',
+  'look-chaos': 'Chaos look',
   pot: 'Flower pot',
   box: 'Cardboard box',
   pumpkin: 'Pumpkin',
@@ -241,6 +244,9 @@ export const FLAVOUR = {
     'look-dream': 'Wakes up smiling. Nobody knows why.',
     'look-quills': 'Was here first. Will mention it.',
     'look-shade': 'Dark, brooding and asleep by eight.',
+    'look-angel': 'Four wings, one halo, and not a single bad thought. Probably.',
+    'look-devil': 'Horns, a spade tail and a soft spot it denies.',
+    'look-chaos': 'Water that remembers being a Nubbin. The green is its heart.',
     'hop-hat': 'There is a spring on it. You will hear about it.',
     pot: 'Was a pot. Is a hat. Will be a pot again.',
     box: 'It fits, so it sits.',
@@ -452,3 +458,8 @@ export const PHOTO_STICKER_GLYPHS: readonly string[] = [
   '~',
   '@',
 ];
+
+/** R0414: the toast when becoming Eternal unlocks a character look. */
+export const LOOK_UNLOCK_TEXT = {
+  unlocked: (look: string) => `New look unlocked: ${look}!`,
+} as const;

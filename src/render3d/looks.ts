@@ -203,6 +203,10 @@ function lookPalette(base: SpeciesSpec, lookId: string): SpeciesSpec {
   if (!look) return base;
   return variant(base, `${base.name} (${lookId})`, {
     colors: byRole(base, paletteOf(look.spec)),
+    // R0414: the Chaos look's body is glass whatever it is worn over.
+    ...(lookId === 'look-chaos'
+      ? { patch: (s: SpeciesSpec) => withGemFinish(s, { glass: true }) }
+      : {}),
   });
 }
 
