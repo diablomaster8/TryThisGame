@@ -252,6 +252,7 @@ const A1: EduQuest = quest(
         MS('A good house always welcomes a stranger.', 'think'),
         N('A young man sees you. His cheeks go red.'),
         TM('Oh! Strangers at the gate! Please come in and eat.'),
+        N('Creak! The big gate swings open, slow and kind.'),
       ],
       [
         notice(
@@ -285,6 +286,7 @@ const A1: EduQuest = quest(
         N('Telemachus puts the traveller’s spear in a rack.'),
         N('The other spears are dusty. They were his dad’s.'),
         TM('Come this way, away from the noisy men.'),
+        N('Thump! A spear thumps into the rack, next to dusty ones.'),
       ],
       [
         ask(
@@ -316,6 +318,7 @@ const A1: EduQuest = quest(
         TM('My dad went away when I was a baby.'),
         TM('Some men eat our food every day. It makes me sad.'),
         MS('Your dad is alive. He is trying to get home.'),
+        N('Splash! Water splashes over your hands from the pretty jug.'),
       ],
       [
         doit(
@@ -348,6 +351,7 @@ const A1: EduQuest = quest(
         N('A bird flies up through the roof.'),
         N('Mentes was Athena, a goddess who helps Telemachus!'),
         TM('Athena can look like anybody. Even a bird. Even a man with a beard.', 'shock'),
+        N('Whoosh! A bird whooshes up through the roof.'),
       ],
       [
         ask(
@@ -382,6 +386,7 @@ const A1: EduQuest = quest(
         PN('Please sing a different song.'),
         TM('Mother, let him sing.', 'soft'),
         N('Penelope goes back up. You spot a big loom with cloth on it.'),
+        N('Ding! A lyre string dings, and the song goes on.'),
       ],
       [
         notice(
@@ -402,6 +407,7 @@ const A1: EduQuest = quest(
       [
         TM('That cloth has been on the loom for ages.'),
         TM('Ask Antinous. He loves to tell that story.', 'angry'),
+        N('Creak! The loom creaks, in the quiet room above.'),
       ],
       [
         ask(
@@ -426,6 +432,7 @@ const A1: EduQuest = quest(
         TM('Tomorrow I will call a big meeting. Will you stand with me?'),
         N('You and your Nubbin sleep on soft fleeces in the porch.'),
         N('Upstairs, a loom is working, very quietly.'),
+        N('Creak! The big hall door creaks shut for the night.'),
       ],
       [
         ask(
@@ -481,6 +488,7 @@ const A2: EduQuest = quest(
         TM('Please go home. You are eating our food.', 'angry'),
         N('He puts down the speaker’s staff. His eyes are wet.'),
         N('Some men laugh. Telemachus feels very small.'),
+        N('Thump! The speaker’s staff thumps on the ground.'),
       ],
       [
         ask(
@@ -525,6 +533,7 @@ const A2: EduQuest = quest(
       [
         N('A tall man stands up. He is Antinous.'),
         AN('It is not our fault! It is Penelope’s fault!', 'angry'),
+        N('Hee-hee! Someone at the back giggles, and gets shushed.'),
       ],
       [
         ask(
@@ -553,6 +562,7 @@ const A2: EduQuest = quest(
         AN('So all day, she wove the cloth.'),
         AN('Then at night, she took it all apart!'),
         N('The page goes soft. Now you are upstairs, holding a torch.'),
+        N('Swish! The thread swishes, over, under, over, under.'),
       ],
       [
         ask(
@@ -577,7 +587,7 @@ const A2: EduQuest = quest(
     ),
     sc(
       'a14-02-antinous-done',
-      [N('In front of you stands the great loom. Penelope sits at it, with a small knife.')],
+      [N('In front of you stands the great loom. Penelope sits at it, with a small knife.'), N('Creak! The great loom creaks, as the small knife snips.')],
       [
         ask(
           0,
@@ -606,6 +616,7 @@ const A2: EduQuest = quest(
         PN('Over, under, over, under.'),
         N('Your Nubbin holds the end of the thread, very seriously.'),
         N('Out in the dark, a floorboard creaks. Someone is listening.'),
+        N('Swish! The shuttle swishes through the threads.'),
       ],
       [
         doit(
@@ -637,6 +648,7 @@ const A2: EduQuest = quest(
         N('Now it is daytime again. You are back at the meeting.'),
         AN('A maid told us the secret.', 'angry'),
         AN('Penelope had to finish the cloth.'),
+        N('Ding! A little bell rings, and the meeting wakes up.'),
       ],
       [
         ask(
@@ -666,6 +678,7 @@ const A2: EduQuest = quest(
         EC('Take care, my dear. Come home safe.', 'sad'),
         N('At nightfall the ship sails out of the harbour.'),
         N('The wind blows from behind. It fills the sail.'),
+        N('Splash! The oars splash as the ship slips out of the harbour.'),
       ],
       [
         ask(
@@ -708,6 +721,7 @@ const A3: EduQuest = quest(
         NE('Eat first. Then we talk.', 'soft'),
         TM('Please, do you know where my dad is?'),
         NE('I am sorry. I do not know. Menelaus might.', 'sad'),
+        N('Crack! A log cracks on the fire, and sparks pop up.'),
       ],
       [
         ask(
@@ -748,6 +762,7 @@ const A3: EduQuest = quest(
         N('Your Nubbin checks every bird in the sky for a beard.'),
         N('The people on the beach are praying quietly.'),
         N('You stand back and keep quiet.'),
+        N('Whoosh! A great sea-eagle whooshes over the beach.'),
       ],
       [
         ask(
@@ -779,6 +794,7 @@ const A3: EduQuest = quest(
         HE('You look just like Odysseus! You have his feet and hands.', 'shock'),
         ML('Yes. You are his son.', 'soft'),
         N('Telemachus holds his cloak up to hide his tears.'),
+        N('Thump, thump! The chariot wheels thump over the stones.'),
       ],
       [
         doit(
@@ -803,7 +819,7 @@ const A3: EduQuest = quest(
     ),
     sc(
       'a14-03-sparta-done',
-      [ML('Eat and rest now. In the morning I will tell you something.')],
+      [ML('Eat and rest now. In the morning I will tell you something.'), N('Creak! The guest bed creaks, soft and deep.')],
       [
         ask(
           0,
@@ -832,6 +848,7 @@ const A3: EduQuest = quest(
         N('He becomes a lion: roar! Then a snake: sss!'),
         N('At last he is an old man again, and he answers.'),
         ML('Odysseus is alive. He is on an island.', 'soft'),
+        N('Roar! Hss! Splash! The old man splashes and changes shape.'),
       ],
       [
         doit(
@@ -860,6 +877,7 @@ const A3: EduQuest = quest(
         TM('He is alive! I must go home and tell my mum!', 'happy'),
         ML('Take a gift: a silver bowl with a gold rim.'),
         ML('A guest always goes home with a gift.'),
+        N('Ding! The silver bowl dings when it is set down.'),
       ],
       [
         notice(
@@ -882,6 +900,7 @@ const A3: EduQuest = quest(
         N('Helen waves from the gate until you are far away.'),
         N('Telemachus stands at the front of the ship.'),
         N('Then the atlas turns its page. You are somewhere new.'),
+        N('Thump, thump! The chariot thumps back toward the shore.'),
       ],
       [
         ask(
@@ -929,6 +948,7 @@ const A4: EduQuest = quest(
         N('She is Calypso. She gives you bread and figs to eat.'),
         HM('Zeus says: let the man go home.'),
         CA('I am sad. But I will let him go.', 'sad'),
+        N('Munch! Bread and figs go munch, munch, munch.'),
       ],
       [
         ask(
@@ -964,6 +984,7 @@ const A4: EduQuest = quest(
       [
         N('Hermes goes away over the sea.'),
         N('Calypso puts down her loom. She goes to find Odysseus.'),
+        N('Whoosh! Hermes whooshes away over the sea.'),
       ],
       [
         notice(
@@ -989,6 +1010,7 @@ const A4: EduQuest = quest(
         OD('I miss my home. I miss it so much.', 'sad'),
         OD('Every morning I come here and look at the sea.'),
         N('Your Nubbin sits beside him and looks at the sea too.'),
+        N('Splash! Waves splash on the beach below the rock.'),
       ],
       [
         ask(
@@ -1026,6 +1048,7 @@ const A4: EduQuest = quest(
         CA('Build a raft. I will give you food and a fair wind.'),
         OD('Promise it, please.', 'think'),
         CA('I promise. I am sorry you are sad.', 'soft'),
+        N('Crunch! Her sandals crunch on the pebbles.'),
       ],
       [
         doit(
@@ -1051,6 +1074,7 @@ const A4: EduQuest = quest(
         CA('Stay with me, and nothing bad will ever happen.', 'soft'),
         OD('I want to go home. My family is there.'),
         OD('Would you stay, little guest?'),
+        N('Bonk! The bronze axe bonks on every tree.'),
       ],
       [
         ask(
@@ -1082,6 +1106,7 @@ const A4: EduQuest = quest(
         N('On the fifth day, he sails.'),
         N('At night he steers by the stars.'),
         N('You watch the island get small, and then it is gone.'),
+        N('Splash! The little raft splashes out beyond the bay.'),
       ],
       [
         notice(
@@ -1104,6 +1129,7 @@ const A4: EduQuest = quest(
         N('She goes back to her loom.'),
         N('Many days later, new hills rise out of the sea.'),
         OD('Land! I see land!', 'happy'),
+        N('Creak! The loom creaks as Calypso goes back to work.'),
       ],
       [
         ask(
@@ -1145,6 +1171,7 @@ const A5: EduQuest = quest(
         N('A white sea bird lands on the raft. She is a kind goddess.'),
         IN('Here, take my scarf. It will help you float.'),
         OD('I will hold on to the raft, and trust her too.', 'think'),
+        N('Whoosh! The storm wind whooshes, and the raft tips.'),
       ],
       [
         doit(
@@ -1176,6 +1203,7 @@ const A5: EduQuest = quest(
         N('The biggest wave breaks the raft apart.'),
         N('Odysseus holds one wooden beam.'),
         N('He ties the scarf round him, and swims. You follow.'),
+        N('Crack! The big beam cracks, and the raft comes apart.'),
       ],
       [
         ask(
@@ -1207,6 +1235,7 @@ const A5: EduQuest = quest(
         N('The shore is rocky. You swim along the coast.'),
         N('There is the mouth of a river, calm and quiet.'),
         N('He crawls up the bank and kisses the ground.'),
+        N('Splash! Splash! You swim, and swim, and swim.'),
       ],
       [
         ask(
@@ -1254,6 +1283,7 @@ const A5: EduQuest = quest(
         N('He lies down and covers himself with leaves.'),
         N('You and your Nubbin snuggle in too.'),
         OD('Two olives from one root. Goodnight.', 'soft'),
+        N('Crunch! Dry leaves crunch under his tired back.'),
       ],
       [
         ask(
@@ -1287,6 +1317,7 @@ const A5: EduQuest = quest(
         N('Athena pours sleep over his eyes, so he can rest.'),
         N('Up the hill, a princess has a dream.'),
         N('Your Nubbin sneezes once and goes back to sleep.'),
+        N('Achoo! Your Nubbin sneezes once, then curls up.'),
       ],
       [
         ask(
@@ -1375,6 +1406,7 @@ const A6: EduQuest = quest(
         N('Nausicaa throws the ball. It lands in the deep water.'),
         N('Everyone shrieks!'),
         N('In the bushes, the leaves wiggle. Someone gets up.'),
+        N('Plop! The ball plops into the deep water.'),
       ],
       [
         doit(
@@ -1398,6 +1430,7 @@ const A6: EduQuest = quest(
         N('The maids run away. Nausicaa stays.'),
         OD('Hello, lady. Please may I have some clothes and some food?', 'soft'),
         N('He stays far back and asks politely.'),
+        N('Crack! The bushes crack, and out steps a salty man.'),
       ],
       [
         ask(
@@ -1433,6 +1466,7 @@ const A6: EduQuest = quest(
         NA('Come back! Give him clothes and food!'),
         N('He washes the salt off in the river.'),
         N('When he comes back, he looks clean and tall.'),
+        N('Splash! He splashes the salt off in the river.'),
       ],
       [
         ask(
@@ -1460,6 +1494,7 @@ const A6: EduQuest = quest(
         NA('Then wait in the quiet grove.'),
         NA('Then ask for the palace. Then go to my mother.'),
         NA('She sits by the fire. Be polite to her.', 'happy'),
+        N('Creak! The cart creaks along the road to town.'),
       ],
       [
         ask(
@@ -1492,6 +1527,7 @@ const A6: EduQuest = quest(
         N('You wait in the quiet grove until sunset.'),
         N('Odysseus talks quietly to Athena, all alone.'),
         N('You walk a little way off to give him room.'),
+        N('Hee-hee! You hum a little tune, far off in the grove.'),
       ],
       [
         ask(
@@ -1521,6 +1557,7 @@ const A6: EduQuest = quest(
         N('A girl with a water jar shows you the way.'),
         N('She has grey eyes, and walks very lightly.'),
         N('When Odysseus looks back, she is gone!'),
+        N('Creak! The big gate creaks as you walk in after dark.'),
       ],
       [
         doit(
@@ -1564,6 +1601,7 @@ const A7: EduQuest = quest(
         N('Odysseus kneels before the queen.'),
         OD('Please help me get home. I have been away so long.', 'sad'),
         AC('Stand up, friend. Come and sit beside me. Have some dinner.', 'soft'),
+        N('Ding! A golden door dings against its bronze frame.'),
       ],
       [
         notice(
@@ -1586,6 +1624,7 @@ const A7: EduQuest = quest(
         OD('Your daughter gave them to me.'),
         N('You open your mouth, and close it again.'),
         N('Arete sees. She nearly smiles.'),
+        N('Swish! The soft cloak swishes round his shoulders.'),
       ],
       [
         ask(
@@ -1614,6 +1653,7 @@ const A7: EduQuest = quest(
         N('He has no book. He sings it all from memory!'),
         N('Odysseus pulls his cloak up over his face. He is crying.'),
         N('Only the king sees.'),
+        N('Ding! The lyre rings out, and the hall goes still.'),
       ],
       [
         notice(
@@ -1643,6 +1683,7 @@ const A7: EduQuest = quest(
       [
         AC('Stop the song, please. A guest is sad.'),
         AC('Stranger, who are you? Tell us your name.', 'soft'),
+        N('Thump! The lyre is put down with a soft thump.'),
       ],
       [
         ask(
@@ -1671,6 +1712,7 @@ const A7: EduQuest = quest(
         OD('It is a rocky island with goats. I love it.'),
         AC('Odysseus! Here! Tell us all about it.', 'shock'),
         AC('And you, the other guest. Where are you from?'),
+        N('Pop! A lamp flame pops, and he starts to speak.'),
       ],
       [
         ask(
@@ -1705,6 +1747,7 @@ const A7: EduQuest = quest(
         N('He begins. The lamps go dim.'),
         N('The tables turn into rocks. You smell sheep.'),
         N('You go inside his story. Your Nubbin holds your tunic.'),
+        N('Baa! Squeak! The lamps flicker, and you smell sheep.'),
       ],
       [
         ask(
@@ -1783,6 +1826,7 @@ const A8: EduQuest = quest(
         N('Odysseus thinks and thinks.'),
         OD('The stone is too big for us to move.'),
         OD('We need a clever plan.', 'think'),
+        N('Thump! The great stone thumps, and will not move.'),
       ],
       [
         ask(
@@ -1812,6 +1856,7 @@ const A8: EduQuest = quest(
         CY('Thank you! What is your name?', 'happy'),
         OD('My name is Nobody.', 'think'),
         N('The giant yawns, and falls asleep.'),
+        N('Gulp! The giant gulps the wine, and yawns.'),
       ],
       [
         ask(
@@ -1835,6 +1880,7 @@ const A8: EduQuest = quest(
         N('There is a loud roar! The giant has a sore eye.'),
         N('He cannot see where you are.'),
         N('Your Nubbin hides its face in your side.'),
+        N('Thump! The giant thumps and roars, and the cave shakes.'),
       ],
       [
         ask(
@@ -1866,6 +1912,7 @@ const A8: EduQuest = quest(
         N('A man hangs under each middle sheep.'),
         N('You hold on under a woolly sheep. Your Nubbin holds on too.'),
         N('The giant feels their backs, but not underneath!'),
+        N('Thump, thump! Woolly sheep thump out through the opening.'),
       ],
       [
         doit(
@@ -1888,6 +1935,7 @@ const A8: EduQuest = quest(
         N('Out in the daylight, you let go and run.'),
         N('You drive the fat sheep to the ship.'),
         OD('Row! Row now!'),
+        N('Splash! The oars splash. Row! Row now!'),
       ],
       [
         ask(
@@ -1987,6 +2035,7 @@ const A8: EduQuest = quest(
         OD('Here, for the little one. It was so brave.', 'soft'),
         N('The word is Nobody.'),
         OD('I will not use that name again.', 'think'),
+        N('Splash! The oars splash, and nobody talks for a while.'),
       ],
       [
         doit(
@@ -2029,6 +2078,7 @@ const A9: EduQuest = quest(
         AE('Now you can go home. Here is a bag of winds.'),
         N('He ties the bag with a silver thread.'),
         AE('Do not open it. Not ever.', 'think'),
+        N('Whoosh! A bag full of winds whooshes and wriggles.'),
       ],
       [
         ask(
@@ -2060,7 +2110,7 @@ const A9: EduQuest = quest(
     ),
     sc(
       'a14-09-aeolia-done',
-      [N('The west wind fills the sail.'), N('Odysseus steers the ship all by himself.')],
+      [N('The west wind fills the sail.'), N('Odysseus steers the ship all by himself.'), N('Whoosh! The west wind whooshes in the sail.')],
       [
         doit(
           1,
@@ -2084,6 +2134,7 @@ const A9: EduQuest = quest(
         N('He is so tired, he falls asleep.'),
         SA('What is in that bag? I want to look.'),
         SA('Just one little peek!'),
+        N('Pop! The silver thread pops loose from the bag.'),
       ],
       [
         ask(
@@ -2141,6 +2192,7 @@ const A9: EduQuest = quest(
         OD('My crew opened the bag. Please help us again.', 'sad'),
         AE('No. I cannot help you now.', 'angry'),
         N('No one offers you dinner. It is the first shut door.'),
+        N('Whoosh! The winds whoosh you back the way you came.'),
       ],
       [
         ask(
@@ -2174,6 +2226,7 @@ const A9: EduQuest = quest(
         N('Big grumpy giants chase them out of a harbour. Only one ship gets away.'),
         OD('I was so close to home. I could see the smoke.', 'sad'),
         OD('It hurts more to be close, and not get home.', 'sad'),
+        N('Splash! The oars splash, day after day.'),
       ],
       [
         ask(
@@ -2215,6 +2268,7 @@ const A10: EduQuest = quest(
         N('On the path stands Hermes, with a wand.'),
         HM('Take this flower. It will keep you safe.'),
         N('It has a dark root and a white flower.'),
+        N('Crack! A twig cracks, and Hermes steps from the trees.'),
       ],
       [
         ask(
@@ -2252,6 +2306,7 @@ const A10: EduQuest = quest(
         N('Wolves and lions come up, wagging their tails.'),
         N('Your Nubbin peeks out. A lion licks it from head to toe.'),
         N('It comes out shiny, and very surprised.'),
+        N('Thump! A big happy tail thumps on the stones.'),
       ],
       [
         ask(
@@ -2275,6 +2330,7 @@ const A10: EduQuest = quest(
         N('There are lots of pigs in the pens. Four are by the fence.'),
         N('They look sad. They are really sailors, under a spell.'),
         N('You feed them acorns. Your Nubbin sits with them.'),
+        N('Squeak! The pigs squeak, sad and small, in their pens.'),
       ],
       [
         doit(
@@ -2305,6 +2361,7 @@ const A10: EduQuest = quest(
       [
         N('From inside the house comes a shout.'),
         N('Then a woman cries, Oh! She sounds very surprised.'),
+        N('Crash! Bonk! A pot bonks onto the floor in the house.'),
       ],
       [
         doit(
@@ -2326,6 +2383,7 @@ const A10: EduQuest = quest(
         N('She touches each pig gently.'),
         N('They turn back into sailors, laughing and crying.'),
         N('The youngest sailor shakes your hand. He remembers the acorns.'),
+        N('Pop! One by one, the pigs pop back into sailors.'),
       ],
       [
         ask(
@@ -2350,6 +2408,7 @@ const A10: EduQuest = quest(
         N('Spring, summer, autumn, winter.'),
         OD('A whole year! I did not count.', 'sad'),
         N('Odysseus sits down. He puts his head in his hands.'),
+        N('Munch! Everybody munches the warm bread, quite happy.'),
       ],
       [
         ask(
@@ -2586,6 +2645,7 @@ const A12: EduQuest = quest(
         CI('Put soft wax in your friends’ ears. Then they cannot hear.'),
         CI('If you want to listen, your friends can tie you to the mast.'),
         N('Odysseus promises to be careful.'),
+        N('Pop! A lump of wax pops open in her hands.'),
       ],
       [
         ask(
@@ -2618,7 +2678,7 @@ const A12: EduQuest = quest(
     ),
     sc(
       'a14-12-advice-done',
-      [N('In the morning, Circe waves goodbye.'), N('A fair wind pushes the ship out to sea.')],
+      [N('In the morning, Circe waves goodbye.'), N('A fair wind pushes the ship out to sea.'), N('Whoosh! A fair wind whooshes the ship out to sea.')],
       [
         ask(
           1,
@@ -2643,6 +2703,7 @@ const A12: EduQuest = quest(
         N('He puts wax in the sailors’ ears.'),
         N('Then in your ears, and in your Nubbin’s. The world goes quiet.'),
         N('The sailors tie Odysseus to the mast.'),
+        N('Plop! Soft wax plops into the sailors’ ears.'),
       ],
       [
         doit(
@@ -2661,7 +2722,7 @@ const A12: EduQuest = quest(
     ),
     sc(
       'a14-12-wax-done',
-      [N('Your Nubbin keeps touching its ears, in case they have gone.')],
+      [N('Your Nubbin keeps touching its ears, in case they have gone.'), N('Hee-hee! Your Nubbin giggles, tapping its waxy ears.')],
       [
         ask(
           0,
@@ -2690,6 +2751,7 @@ const A12: EduQuest = quest(
         N('His friends keep rowing, all together.'),
         N('They tie the rope tighter, just as he asked.'),
         N('Soon the meadow is far behind.'),
+        N('Creak! The rope creaks as they tie it tighter.'),
       ],
       [
         ask(
@@ -2724,6 +2786,7 @@ const A12: EduQuest = quest(
       [
         N('The men take the wax out of their ears, and untie him.'),
         OD('They sang so sweetly! They sang high, like birds.', 'soft'),
+        N('Pop! The wax pops out of their ears.'),
       ],
       [
         ask(
@@ -2747,6 +2810,7 @@ const A12: EduQuest = quest(
         OD('Was it quiet on your side?'),
         Y('Very.'),
         OD('Quiet is peaceful. I am glad you are safe.', 'think'),
+        N('Hee-hee! Odysseus laughs and rubs his sore wrists.'),
       ],
       [
         ask(
@@ -2812,6 +2876,7 @@ const A13: EduQuest = quest(
       [
         N('The strait opens out. Behind you, the sea swirls and roars.'),
         N('Ahead is a green island, with cows on it.'),
+        N('Whoosh! The swirl whooshes quietly behind you.'),
       ],
       [
         ask(
@@ -2838,6 +2903,7 @@ const A13: EduQuest = quest(
         N('The wind blows the wrong way for a month. The food runs out.'),
         N('Odysseus goes to ask the gods for help, and falls asleep.'),
         N('The sailors are very hungry.'),
+        N('Moo! Thump! The fat cows go thump along the grass.'),
       ],
       [
         ask(
@@ -2882,6 +2948,7 @@ const A13: EduQuest = quest(
         N('Odysseus comes back. The hungry sailors have eaten some of the cows!'),
         N('He cries out. Far above, the Sun is sad too.'),
         N('The Sun goes down, and the sky turns dark. The stars come out.'),
+        N('Thump! The hungry sailors’ feet thump back on the sand.'),
       ],
       [
         ask(
@@ -2910,6 +2977,7 @@ const A13: EduQuest = quest(
         N('At dawn you are at the swirl again.'),
         N('Odysseus grabs a fig tree and hangs on. You hold his hand.'),
         N('You can only hang on, and wait.'),
+        N('Whoosh! The great swirl whooshes up beside the tree.'),
       ],
       [
         notice(
@@ -2943,6 +3011,7 @@ const A13: EduQuest = quest(
         N('The swirl spits the mast out. Up it pops, because wood floats!'),
         N('Odysseus drops onto the wood, and you follow.'),
         N('He paddles away with his hands.'),
+        N('Pop! The mast pops up out of the swirl, because wood floats.'),
       ],
       [
         doit(
@@ -2976,6 +3045,7 @@ const A13: EduQuest = quest(
         OD('That is my story. I do not like to tell it twice.', 'soft'),
         N('No one speaks for a long time.'),
         AC('Tomorrow you go home, with gifts from all of us.'),
+        N('Creak! The logs creak, and nobody wants to say it twice.'),
       ],
       [
         ask(
@@ -3049,6 +3119,7 @@ const A14: EduQuest = quest(
         N('You sit beside him and watch the stars.'),
         N('Before dawn, you see a dark shape: an island.'),
         N('It is Ithaca, his home.'),
+        N('Swish! The smooth ship swishes through the dark.'),
       ],
       [
         ask(
@@ -3085,6 +3156,7 @@ const A14: EduQuest = quest(
         N('Bees keep honey there.'),
         N('The sailors lay Odysseus gently on the sand, still asleep.'),
         N('They leave his gifts under the olive tree, and go.'),
+        N('Buzz! Bees buzz round the olive tree by the cave.'),
       ],
       [
         ask(
@@ -3103,7 +3175,7 @@ const A14: EduQuest = quest(
     ),
     sc(
       'a14-14-harbour',
-      [...HARBOUR_SPROUT, BG('You told me once to keep my name. I am keeping it now.', 'soft')],
+      [...HARBOUR_SPROUT, BG('You told me once to keep my name. I am keeping it now.', 'soft'), N('Hee-hee! Your Nubbin giggles into its paws.')],
       harbourBeatsS(),
     ),
     sc(
@@ -3113,6 +3185,7 @@ const A14: EduQuest = quest(
         N('Athena puts a stone across the door.'),
         AT('Go to the swineherd. He is true.'),
         N('She is gone. The beggar leans on his staff.'),
+        N('Thump! A stone thumps across the cave door.'),
       ],
       [
         doit(
@@ -3136,6 +3209,7 @@ const A14: EduQuest = quest(
         BG('I fell off that rock when I was six!', 'soft'),
         N('He touches an olive tree. Your Nubbin does too.'),
         BG('I am home. But I cannot tell anyone yet.', 'sad'),
+        N('Crunch! The rough track crunches under your boots.'),
       ],
       [
         ask(
@@ -3182,6 +3256,7 @@ const A15: EduQuest = quest(
         N('He gives you the best food he has.'),
         BG('Thank you, friend.', 'soft'),
         EU('Everyone is welcome here, even when I have little.'),
+        N('Munch! Everybody munches the best food in the hut.'),
       ],
       [
         doit(
@@ -3216,6 +3291,7 @@ const A15: EduQuest = quest(
         BG('He will come home, between the old moon and the new.'),
         BG('If he comes, give me a cloak.'),
         EU('Ha! No, old man. Eat.', 'happy'),
+        N('Hee-hee! Eumaeus snorts, and a giggle bursts out.'),
       ],
       [
         ask(
@@ -3252,6 +3328,7 @@ const A15: EduQuest = quest(
         N('The night is cold and wet. The beggar shivers.'),
         N('Eumaeus finds him a warm cloak.'),
         N('Then Eumaeus goes out into the rain, to sleep by the pigs.'),
+        N('Squeak! The pigs squeak and snuffle into their pens.'),
       ],
       [
         ask(
@@ -3293,6 +3370,7 @@ const A15: EduQuest = quest(
       [
         N('In the hut, the beggar lies under the borrowed cloak.'),
         N('He lies awake, watching the door.'),
+        N('Creak! The hut creaks, and the wind taps at the door.'),
       ],
       [
         ask(
@@ -3325,6 +3403,7 @@ const A15: EduQuest = quest(
         N('The beggar goes out to her.'),
         N('When he comes back, he is tall, in clean clothes.'),
         OD('I am your father. I came home.', 'soft'),
+        N('Whee! The dogs whine and wag, whee, whee, whee!'),
       ],
       [
         ask(
@@ -3356,6 +3435,7 @@ const A15: EduQuest = quest(
       [
         N('Telemachus and his dad hug and cry.'),
         N('You and your Nubbin sit on the wall, and let them be.'),
+        N('Hee-hee! Two happy sobs turn into one little laugh.'),
       ],
       [
         ask(
@@ -3379,6 +3459,7 @@ const A15: EduQuest = quest(
         TM('There are lots of bad guests, and only two of us.', 'sad'),
         OD('Two, and the guest. That makes three.'),
         N('Three friends, and Athena helping.'),
+        N('Thump! Three friends thump hands together on it.'),
       ],
       [
         ask(
@@ -3473,6 +3554,7 @@ const A16: EduQuest = quest(
         N('The beggar does not hit back. He stays calm.'),
         EU('One day the master will come home.', 'angry'),
         N('Your Nubbin stares at the goatherd until he is out of sight.'),
+        N('Thump! Eumaeus’s stick thumps on the path.'),
       ],
       [
         ask(
@@ -3497,7 +3579,7 @@ const A16: EduQuest = quest(
     ),
     sc(
       'a14-16-road-done',
-      [N('The house comes into sight.'), N('You hear a lyre, and smell meat cooking.')],
+      [N('The house comes into sight.'), N('You hear a lyre, and smell meat cooking.'), N('Ding! A lyre string dings, and meat sizzles.')],
       [
         ask(
           1,
@@ -3520,12 +3602,13 @@ const A16: EduQuest = quest(
         N('The beggar whispers his giant-trick name, so only the dog hears.'),
         BG('Nobody. It is me, old friend.', 'soft'),
         ...GATE_S_END,
+        N('Creak! The gate creaks as they go in.'),
       ],
       gateBeatsS(),
     ),
     sc(
       'a14-16-gate-done',
-      [N('You stay at the gate with your Nubbin. Somebody should.')],
+      [N('You stay at the gate with your Nubbin. Somebody should.'), N('Creak! The gate creaks softly in the wind beside you.')],
       [
         ask(
           0,
@@ -3642,6 +3725,7 @@ const A17: EduQuest = quest(
         BG('A purple cloak, with a brooch. A dog holding a fawn.', 'soft'),
         N('Penelope cries. She made that cloak herself.'),
         BG('He is near. He will be home this year.', 'soft'),
+        N('Pop! The hearth fire pops, and the room glows.'),
       ],
       [
         ask(
@@ -3676,6 +3760,7 @@ const A17: EduQuest = quest(
       [
         PN('You are my guest. Nurse, please wash this man’s feet.'),
         BG('Only an old nurse, please.', 'think'),
+        N('Splash! A wash-basin splashes as the old nurse comes.'),
       ],
       [
         ask(
@@ -3740,7 +3825,7 @@ const A17: EduQuest = quest(
     ),
     sc(
       'a14-17-scar-done',
-      [EC('I will keep your secret.', 'soft'), BG('Thank you, nurse.', 'soft')],
+      [EC('I will keep your secret.', 'soft'), BG('Thank you, nurse.', 'soft'), N('Pop! A candle pops, and the room is still.')],
       [
         ask(
           1,
@@ -3778,6 +3863,7 @@ const A17: EduQuest = quest(
         PN('Then the eagle spoke: I am your husband, home again.'),
         BG('The eagle told you himself.', 'soft'),
         PN('I will set a test tomorrow: a bow and twelve axes.'),
+        N('Whoosh! A great eagle whooshes through the dream.'),
       ],
       [
         doit(
@@ -3796,6 +3882,7 @@ const A17: EduQuest = quest(
       [
         N('Penelope cries until she falls asleep.'),
         N('The beggar lies on the porch. He cannot sleep.'),
+        N('Creak! The porch boards creak under the sleepless beggar.'),
       ],
       [
         ask(
@@ -3825,6 +3912,7 @@ const A17: EduQuest = quest(
         N('His heart growls like a dog guarding her puppies.'),
         BG('I waited before. I can wait one more night.', 'soft'),
         N('Your Nubbin falls asleep against his back.'),
+        N('Pop! The embers pop, and he waits.'),
       ],
       [
         ask(
@@ -3875,6 +3963,7 @@ const A18: EduQuest = quest(
         TM('Leave it there. It is holding the floor down.'),
         TM('I will try first.'),
         N('He nearly does it. Then his dad shakes his head, so he stops.'),
+        N('Thump! The old bow thumps down on the hall floor.'),
       ],
       [
         doit(
@@ -3905,7 +3994,7 @@ const A18: EduQuest = quest(
     ),
     sc(
       'a14-18-axes-done',
-      [N('The men line up to try the bow, one at a time.')],
+      [N('The men line up to try the bow, one at a time.'), N('Thump! Men’s boots thump in line, one by one.')],
       [
         ask(
           0,
@@ -3930,6 +4019,7 @@ const A18: EduQuest = quest(
         N('He shows him his scar. Eumaeus is so happy, he hugs him.'),
         BG('Tie the yard gate shut, my friend.'),
         N('Eumaeus ties it with a rope.'),
+        N('Creak! The gate creaks, tied shut from the inside.'),
       ],
       [
         ask(
@@ -3961,7 +4051,7 @@ const A18: EduQuest = quest(
     ),
     sc(
       'a14-18-suitors-done',
-      [N('Antinous says it is a holy day. They will try again tomorrow.')],
+      [N('Antinous says it is a holy day. They will try again tomorrow.'), N('Ding! A bell rings for the holy day.')],
       [
         notice(
           0,
@@ -3990,6 +4080,7 @@ const A18: EduQuest = quest(
         N('He plucks the string. It sings sweetly.'),
         N('He shoots an arrow. It goes through all twelve axes!'),
         BG('Your guest has not shamed you, Telemachus.', 'soft'),
+        N('Ding! The bowstring dings, sweet as a harp. Swish!'),
       ],
       [
         notice(
@@ -4012,6 +4103,7 @@ const A18: EduQuest = quest(
         N('Telemachus stands by his father.'),
         N('The beggar stands tall. He is not stooping now.'),
         N('You hold your Nubbin tight. It is very quiet.'),
+        N('Swish! A last arrow swishes past, and the hall is still.'),
       ],
       [
         ask(
@@ -4172,6 +4264,7 @@ const A19: EduQuest = quest(
         OD('Come out. You are safe.', 'soft'),
         N('Everyone helps tidy the hall.'),
         N('You collect cups from under the tables.'),
+        N('Clink, clank! Then ding! Cups ding into a pile.'),
       ],
       [
         ask(
@@ -4201,7 +4294,7 @@ const A19: EduQuest = quest(
     ),
     sc(
       'a14-19-clean-done',
-      [N('The hall is clean. The fire burns bright.'), N('Eurycleia goes to wake Penelope.')],
+      [N('The hall is clean. The fire burns bright.'), N('Eurycleia goes to wake Penelope.'), N('Crack! The fire crackles bright in the clean hall.')],
       [
         ask(
           0,
@@ -4228,6 +4321,7 @@ const A19: EduQuest = quest(
         N('He gives you the great bow, with no string.'),
         OD('A friend gave it to me. Keep it over your door.'),
         OD('Remember you have a friend on Ithaca.', 'soft'),
+        N('Thump! The great bow thumps into your arms, quite heavy.'),
       ],
       [
         notice(
@@ -4256,6 +4350,7 @@ const BED_S: Line[] = [
   N('Penelope runs to him and hugs him.'),
   PN('I had to be sure it was you.', 'sad'),
   N('They hug and cry.'),
+  N('Creak! The old bed creaks, as it has for years.'),
 ];
 const bedBeatsS = (): Beat[] => [
   ask(
@@ -4299,6 +4394,7 @@ const A20: EduQuest = quest(
         TM('Mother, why do you not hug him?'),
         PN('I must be sure it is really him.', 'soft'),
         N('Odysseus smiles. He knows her.'),
+        N('Creak! The door creaks as the old nurse hurries in.'),
       ],
       [
         ask(
@@ -4335,6 +4431,7 @@ const A20: EduQuest = quest(
       [
         N('He goes to bathe. Athena makes him tall and strong.'),
         N('His hair curls like hyacinth petals.'),
+        N('Splash! Water splashes in the bath, warm and deep.'),
       ],
       [
         ask(
@@ -4357,12 +4454,13 @@ const A20: EduQuest = quest(
         ...BED_S,
         OD('Penelope. It is me. It is Odysseus.', 'soft'),
         N('He says his own name out loud, at home.'),
+        N('Creak! The old bed creaks, as it has for years.'),
       ],
       bedBeatsS(),
     ),
     sc(
       'a14-20-bed-done',
-      [N('You leave them by the fire, quietly.')],
+      [N('You leave them by the fire, quietly.'), N('Pop! The fire pops softly as you tiptoe out.')],
       [
         notice(
           0,
@@ -4390,6 +4488,7 @@ const A20: EduQuest = quest(
         LA('Show me a sign.', 'think'),
         OD('You gave me thirteen pear trees and ten apple trees.', 'soft'),
         N('Laertes hugs his son.'),
+        N('Thump! Laertes’s spade thumps into the earth.'),
       ],
       [
         doit(
@@ -4414,7 +4513,7 @@ const A20: EduQuest = quest(
     ),
     sc(
       'a14-20-orchard-done',
-      [LA('Now everything will be well.', 'soft'), N('But angry families come up the road.')],
+      [LA('Now everything will be well.', 'soft'), N('But angry families come up the road.'), N('Thump, thump! Angry feet thump up the road.')],
       [
         ask(
           1,
@@ -4445,6 +4544,7 @@ const A20: EduQuest = quest(
         OD('Plant it by your water.', 'soft'),
         N('You are home, with the atlas on your knee.'),
         N('Your Nubbin holds the corner of a very large loom.'),
+        N('Ding! Your Nubbin taps a bowl with its spoon, ding!'),
       ],
       [
         ask(
@@ -4479,6 +4579,7 @@ const COMPLETE_20_S: Line[] = [
   OD('Thank you for saying nothing on the ship.', 'soft'),
   N('You are home, with the atlas on your knee.'),
   N('Your Nubbin holds the corner of a very large loom.'),
+  N('Ding! Your Nubbin taps a bowl with its spoon, ding!'),
 ];
 
 export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
@@ -4490,6 +4591,7 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
       CV('I saw the atlas open. There is no gate on a page, so I could not knock.', 'soft'),
       CV('I know a little about the long way home.', 'soft'),
       N('Your Nubbin walks on ahead. That means he can come.'),
+      N('Bonk! Corvin bonks his knuckles on the page, and nobody answers.'),
     ],
     [
       ask(
@@ -4514,22 +4616,22 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
   ),
   sc(
     'a14-14-harbour-shout',
-    [...HARBOUR_SPROUT, BG('And you. Not a word this time, not even a little one.', 'happy')],
+    [...HARBOUR_SPROUT, BG('And you. Not a word this time, not even a little one.', 'happy'), N('Hee-hee! Your Nubbin giggles into its paws.')],
     harbourBeatsS(),
   ),
   sc(
     'a14-14-harbour-silence',
-    [...HARBOUR_SPROUT, BG('You will not say a word. You never do. I am counting on it.', 'soft')],
+    [...HARBOUR_SPROUT, BG('You will not say a word. You never do. I am counting on it.', 'soft'), N('Hee-hee! Your Nubbin giggles into its paws.')],
     harbourBeatsS(),
   ),
   sc(
     'a14-16-gate-shout',
-    [...GATE_S, N('The beggar turns away and wipes a tear.'), ...GATE_S_END],
+    [...GATE_S, N('The beggar turns away and wipes a tear.'), ...GATE_S_END, N('Creak! The gate creaks as they go in.')],
     gateBeatsS(),
   ),
   sc(
     'a14-16-gate-silence',
-    [...GATE_S, N('The beggar looks at you, once.'), ...GATE_S_END],
+    [...GATE_S, N('The beggar looks at you, once.'), ...GATE_S_END, N('Creak! The gate creaks as they go in.')],
     gateBeatsS(),
   ),
   sc(
@@ -4604,6 +4706,7 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
       ],
       'Learned that a cutting needs water to grow roots and become a new tree.',
     ),
+    N('Ding! Your Nubbin taps a bowl with its spoon, ding!'),
   ]),
   sc(
     'a14-close-family',
