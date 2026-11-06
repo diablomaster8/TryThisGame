@@ -75,7 +75,7 @@ describe('Hollow ledges, corner map', () => {
       beginPath: () => calls.push('begin'),
       moveTo: () => calls.push('move'),
       lineTo: () => calls.push('line'),
-      stroke() {
+      stroke(this: { lineWidth: number; strokeStyle: unknown }) {
         calls.push('stroke');
         widths.push(this.lineWidth);
         style = this.strokeStyle as string;
