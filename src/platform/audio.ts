@@ -86,7 +86,9 @@ export type SoundName =
   | 'snore'
   | 'chirp'
   // Lane E r10 (R0326): a Hollow stray's tiptoe, four soft plucked steps.
-  | 'sneak';
+  | 'sneak'
+  // Lane D r13 (R0450): a stat reached a new level.
+  | 'levelUp';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [

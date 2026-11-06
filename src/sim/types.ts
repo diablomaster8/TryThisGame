@@ -2261,6 +2261,8 @@ export type SimEvent =
   /** R0313: Fern's stone was tapped (the `line`-th tap; the cairn has `stones`). */
   | { kind: 'fernStone'; line: number; stones: number }
   | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
+  /** R0450: a stat reached a new level (sim/level-watch.ts). */
+  | { kind: 'levelUp'; nubbinId: string; stat: StatKey; level: number }
   | { kind: 'merged'; a: string; b: string }
   | { kind: 'unmerged'; a: string; b: string }
   | { kind: 'curfew'; night: boolean }

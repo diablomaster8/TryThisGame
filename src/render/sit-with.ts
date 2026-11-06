@@ -5,8 +5,9 @@
  * that swells and pops. Pure flavour: it reads the sim and never changes it, and the sit
  * lasts as long as it would have without them.
  */
+import type { ReadonlyWorld } from './readonly-world';
 import { SIT_WITH } from '../config/tuning-fun-r7';
-import type { Nubbin, World } from '../sim/types';
+import type { Nubbin } from '../sim/types';
 
 export interface SitWithBeat {
   /** 0..1: how far it leans toward the Keeper. */
@@ -20,7 +21,7 @@ export interface SitWithBeat {
 }
 
 /** The beat for this Nubbin now, or null when it is not sitting with the Keeper. */
-export function sitWithBeat(world: World, n: Nubbin, simMs: number): SitWithBeat | null {
+export function sitWithBeat(world: ReadonlyWorld, n: Nubbin, simMs: number): SitWithBeat | null {
   const k = world.keeper;
   if (k.sitWith !== n.id || k.sitBesideMs === undefined || n.behavior.state !== 'sit') return null;
   const t = simMs - k.sitBesideMs;
@@ -40,7 +41,7 @@ export function sitWithBeat(world: World, n: Nubbin, simMs: number): SitWithBeat
 }
 
 /** The direction from the Nubbin to the Keeper, for the lean. */
-export function towardKeeper(world: World, n: Nubbin): { x: number; z: number } {
+export function towardKeeper(world: ReadonlyWorld, n: Nubbin): { x: number; z: number } {
   const dx = world.keeper.pos.x - n.pos.x;
   const dz = world.keeper.pos.z - n.pos.z;
   const d = Math.hypot(dx, dz) || 1;
