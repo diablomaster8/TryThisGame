@@ -37,7 +37,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx vitest run --shard=${{ matrix.shard }}/3
+      - run: npx vitest run --shard=${{ matrix.shard }}/3 --reporter=default --reporter=json --outputFile=vitest-report.json
+      - if: always()
+        run: node tests/tools/slow-report.cjs vitest-report.json 30 shard-${{ matrix.shard }}
 
   # TECH-45: the sim reads no time zone, so its suite must pass outside UTC too.
   test-tokyo:
