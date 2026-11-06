@@ -45,6 +45,7 @@ import { poofBursts, POOF3D } from './foe-poof-3d';
 import { GearPop3D } from './hollow-gear-pop';
 import { HollowR9a3D } from './hollow-r9a-3d';
 import { crackWarmObject } from './egg-crack';
+import { uniqueStandIns } from './compile-unique';
 import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
@@ -129,6 +130,11 @@ export { prewarmCreatures } from './prewarm';
  * each is linked before it is drawn.
  */
 type LightSet = 'grove' | 'groveNight' | 'cave' | 'plain';
+
+/** HOT-3 (load time): the background linking's numbers, in `GROVE3D.boot`. */
+const GROVE3D_LINK_MS = GROVE3D.boot.linkMs;
+const GROVE3D_LINK_PACK = GROVE3D.boot.linkPack;
+const GROVE3D_OPEN_AFTER_MS = GROVE3D.boot.openAfterMs;
 
 /** Burst shapes, after the pixel view's numbers (3D sparkles live a little longer). */
 const BURST = {
@@ -347,6 +353,19 @@ export class Grove3dScene {
   /** Light sets whose programs are linked, and the compiles under way (see `warm`). */
   private readonly warmed = new Set<LightSet>();
   private readonly warms = new Map<LightSet, Promise<void>>();
+  /**
+   * HOT-3: links that wait for the veil to lift (the other light sets' warm-ups and the
+   * other sets of each new rig or dressing), then run a few milliseconds a frame (`pumpLinks`)
+   * so no frame stalls on a whole set. `opened` is set once the veil lifts (`loadState`).
+   */
+  private readonly links: Array<{
+    set: LightSet;
+    run: () => Promise<unknown>;
+    done: (p: Promise<unknown>) => void;
+  }> = [];
+  private opened = false;
+  /** When `loadState` was last asked; nobody asking any more means the veil is gone. */
+  private askedMs = 0;
   /** How long `render` has held the last frame for a place still linking, and the dimming. */
   private holdMs = 0;
   private fade = 0;
@@ -454,7 +473,7 @@ export class Grove3dScene {
       const map = ((m as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined)?.map;
       if (map) this.renderer.initTexture(map);
     });
-    return Promise.all([this.warm('plain'), this.compileAs('plain', [o])]);
+    return Promise.all([this.warm('plain', true), this.compileAs('plain', [o])]);
   }
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
@@ -1419,17 +1438,42 @@ export class Grove3dScene {
 
   /** How far the opening build has got, for the loading bar. */
   loadState(): { progress: number; done: boolean } {
+    this.askedMs = performance.now();
     const a = this.actors.loadState();
+    const done =
+      a.done &&
+      this.textures.done &&
+      this.terrain.ready &&
+      this.props.grass.ready &&
+      this.sky.ready &&
+      this.compiled;
+    if (done) this.open();
     return {
       progress: a.progress * 0.8 + this.textures.progress * 0.15 + (this.compiled ? 0.05 : 0),
-      done:
-        a.done &&
-        this.textures.done &&
-        this.terrain.ready &&
-        this.props.grass.ready &&
-        this.sky.ready &&
-        this.compiled,
+      done,
     };
+  }
+
+  /**
+   * HOT-3: the veil is lifting (or lifted by its safety window). The crowd now builds at the
+   * pool's one-rig-a-frame pace, and the other places' light sets link in the background, a
+   * slice a frame: in the Grove the other half of the day first (HOT-2: the lamps coming on
+   * must not stall), then the Hollow Below, then the plain set.
+   */
+  private open(): void {
+    if (this.opened) return;
+    this.opened = true;
+    if (this.actors.pool.burst) this.actors.pool.loaded();
+    const night = this.lamps.on;
+    const order: LightSet[] = this.world3d.visible
+      ? [night ? 'grove' : 'groveNight', 'cave', 'plain', night ? 'groveNight' : 'grove']
+      : ['cave', 'plain', 'grove', 'groveNight'];
+    for (const set of order) {
+      // A set the opening frame linked already needs only the egg crack's line.
+      if (this.warmed.has(set)) {
+        if (set === 'grove' || set === 'groveNight') void this.queueAs(set, [crackWarmObject()]);
+      } else void this.warm(set);
+    }
   }
 
   /** Build the trees once the world is known, so taps reach the sim's tree ids. */
@@ -2084,12 +2128,16 @@ export class Grove3dScene {
     const interval = t0 - (this.lastRenderMs || t0);
     const dt = Math.min(100, interval);
     this.lastRenderMs = t0;
+    // HOT-3: nobody has asked for the load state in a while (a veil lifted by its safety
+    // window, or a host with no veil): open all the same.
+    if (!this.opened && t0 - this.askedMs > GROVE3D_OPEN_AFTER_MS) this.open();
+    this.pumpLinks(t0);
     // A place whose light set is not linked yet (the first trip down the stairs, if the
     // background warm-up has not finished): keep the last frame up, dim it after a beat,
     // and draw again once the programs are ready, rather than stall on linking them.
     const set = this.lightSet();
     const hold = !this.warmed.has(set);
-    if (hold) void this.warm(set);
+    if (hold) void this.warm(set, true);
     this.holdMs = hold ? this.holdMs + dt : 0;
     const { delayMs, ms } = GROVE3D.placeFade;
     const step = dt / ms;
@@ -2175,8 +2223,11 @@ export class Grove3dScene {
           }
     const prev = this.renderer.getRenderTarget();
     this.renderer.setRenderTarget(this.composer.readBuffer);
+    // HOT-3: one stand-in per material and layout (`compile-unique.ts`), same programs.
     const done = [
-      this.renderer.compileAsync(this.scene, this.camera),
+      ...uniqueStandIns([this.scene]).map((o) =>
+        this.renderer.compileAsync(o, this.camera, this.scene),
+      ),
       this.renderer.compileAsync(post, this.camera),
     ];
     this.renderer.setRenderTarget(null);
@@ -2192,12 +2243,7 @@ export class Grove3dScene {
         quad.dispose();
         this.compiled = true;
         this.warmed.add(this.lightSet());
-        // Then, in the background, the other places' sets, the Hollow Below's first (a game
-        // that boots in a story place or a visit still needs the Grove's for the way home).
-        void this.warm('cave')
-          .then(() => this.warm('plain'))
-          .then(() => this.warm('grove'))
-          .then(() => this.warm('groveNight'));
+        // The other places' sets link in the background once the veil lifts (`open`).
       });
   }
 
@@ -2208,7 +2254,7 @@ export class Grove3dScene {
    * first frame after the lamps came on, a 0.2–0.6 s stall.
    */
   private compileSets(): Set<LightSet> {
-    const sets = new Set<LightSet>([this.lightSet(), ...this.warmed]);
+    const sets = new Set<LightSet>([this.lightSet(), ...this.warmed, ...this.warms.keys()]);
     if (this.world3d.visible) {
       sets.add('grove');
       sets.add('groveNight');
@@ -2224,16 +2270,59 @@ export class Grove3dScene {
    * the first frame they were drawn in each light set.
    */
   private compilePiece(o: THREE.Object3D): Promise<unknown> {
-    const hidden: THREE.Object3D[] = [];
-    o.traverse((c) => {
-      if (!c.visible) hidden.push(c);
-    });
-    for (const c of hidden) c.visible = true;
+    // HOT-3: hidden parts need no showing, as three's compile walks every child and the
+    // stand-ins (`compile-unique.ts`) are made from all of them. The set on screen links now
+    // (the promise); the others wait for the veil and then link a slice a frame. A piece
+    // already in the scene before the opening compile is covered by that compile.
+    const now = this.lightSet();
+    const packs = uniqueStandIns([o]);
+    const first =
+      !this.compiling && this.inScene(o) ? Promise.resolve() : this.linkAs(now, packs, true);
+    for (const set of this.compileSets())
+      if (set !== now) void this.enqueue(set, () => this.linkAs(set, packs, true));
+    return first;
+  }
+
+  private inScene(o: THREE.Object3D): boolean {
+    for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === this.scene) return true;
+    return false;
+  }
+
+  /** HOT-3: run `run` for `set` once the veil is up, in its turn (see `pumpLinks`). */
+  private enqueue(set: LightSet, run: () => Promise<unknown>): Promise<unknown> {
+    return new Promise((done) => this.links.push({ set, run, done }));
+  }
+
+  /** HOT-3: run queued links for a few milliseconds (none before the veil lifts). */
+  private pumpLinks(t0: number): void {
+    if (!this.opened) return;
+    while (this.links.length && performance.now() - t0 < GROVE3D_LINK_MS) this.runLink(0);
+  }
+
+  private runLink(i: number): void {
+    const [job] = this.links.splice(i, 1);
+    if (!job) return;
+    let p: Promise<unknown>;
     try {
-      return Promise.all([...this.compileSets()].map((set) => this.compileAs(set, [o], true)));
-    } finally {
-      for (const c of hidden) c.visible = false;
+      p = job.run();
+    } catch (err) {
+      p = Promise.reject(err);
     }
+    job.done(p);
+  }
+
+  /** HOT-3: run every queued link for `set` now (a place on screen is waiting for it). */
+  private rush(set: LightSet): void {
+    const mine = this.links.filter((j) => j.set === set);
+    for (const job of mine) this.runLink(this.links.indexOf(job));
+  }
+
+  /** HOT-3: `compileAs` spread over the frames, in packs of `GROVE3D_LINK_PACK` stand-ins. */
+  private queueAs(set: LightSet, objects: THREE.Object3D[]): Promise<unknown> {
+    const packs = uniqueStandIns(objects, GROVE3D_LINK_PACK);
+    return Promise.all(
+      packs.map((pack, i) => this.enqueue(set, () => this.linkAs(set, [pack], false, i === 0))),
+    );
   }
 
   /**
@@ -2275,6 +2364,16 @@ export class Grove3dScene {
    * for the cave. Both are put back before this returns, so no frame sees the change.
    */
   private compileAs(set: LightSet, objects: THREE.Object3D[], impostor = false): Promise<unknown> {
+    return this.linkAs(set, uniqueStandIns(objects), impostor);
+  }
+
+  /** `compileAs` for objects already cut to stand-ins; `shadows` adds the shadow samples. */
+  private linkAs(
+    set: LightSet,
+    objects: THREE.Object3D[],
+    impostor: boolean,
+    shadows = true,
+  ): Promise<unknown> {
     const shown = this.world3d.visible;
     this.world3d.visible = set === 'grove' || set === 'groveNight';
     const prev = this.renderer.getRenderTarget();
@@ -2290,7 +2389,10 @@ export class Grove3dScene {
           if (impostor)
             for (const o of objects)
               done.push(this.renderer.compileAsync(o, this.camera, this.scene));
-          done.push(this.renderer.compileAsync(this.hollow.shadowSamples, this.camera, this.scene));
+          if (shadows)
+            done.push(
+              this.renderer.compileAsync(this.hollow.shadowSamples, this.camera, this.scene),
+            );
           return Promise.all(done);
         }),
       );
@@ -2301,9 +2403,14 @@ export class Grove3dScene {
     }
   }
 
-  /** Link `set`'s programs for everything it can show; once per set. */
-  private warm(set: LightSet): Promise<void> {
+  /**
+   * Link `set`'s programs for everything it can show; once per set. HOT-3: in the
+   * background a slice a frame after the veil lifts; `rush` (a place on screen is waiting)
+   * links it, or what is left of it, at once.
+   */
+  private warm(set: LightSet, rush = false): Promise<void> {
     let p = this.warms.get(set);
+    if (p && rush) this.rush(set);
     if (!p) {
       // Off the home ground the Grove's own props are hidden, so they are left out.
       const objects =
@@ -2312,7 +2419,7 @@ export class Grove3dScene {
           : this.scene.children.filter((c) => c !== this.world3d);
       // A failed warm-up still counts as warm: the first frame compiles what is left, where
       // waiting would hold the place dark for good.
-      p = this.compileAs(set, objects).then(
+      p = (rush ? this.compileAs(set, objects) : this.queueAs(set, objects)).then(
         () => void this.warmed.add(set),
         (err: unknown) => {
           console.warn('Grove: shader warm-up failed.', err);

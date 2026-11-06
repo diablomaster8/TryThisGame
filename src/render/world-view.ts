@@ -55,6 +55,7 @@ import { visibleStoryProps } from '../sim/story-props';
 import { fernStones } from '../sim/fern-stone';
 import { townUnlocks } from '../sim/town';
 import { drawVillage } from './region-village';
+import { villageSheetReady } from './paint/village';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch, type SpriteDraw } from './sprite-batch';
 import { RegionHostPx } from './region-host-px';
@@ -180,6 +181,9 @@ const OCCLUDER_ALPHA = 0.55;
 /** R0125: the Keeper's feet on screen, for a wood's canopy cut (scratch, reused). */
 const CANOPY_FEET = new Vector3();
 const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
+
+/** HOT load time: where a Nubbin stands, for the culler's on-screen test (reused). */
+const NUB_PROBE = { x: 0, y: 0, z: 0, mode: 'billboard' } as SpriteDraw;
 
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
@@ -880,10 +884,11 @@ export class WorldView {
         Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx,
         this.particles.reduceMotion,
       );
-    const props = this.sheets.props();
+    // HOT load time: scenery, props, the cast and visitors stream in a sheet a frame.
+    const props = this.sheets.streamed((s) => s.props());
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
-      const scenery = this.sheets.scenery();
+      const scenery = this.sheets.streamed((s) => s.scenery());
       const lampsOn = this.lights.length > 0;
       const gc = this.groveChunks;
       gc.scenery.update(this.culler);
@@ -986,7 +991,9 @@ export class WorldView {
         }
       }
       // R0095: the village square at the lane's end (`render/region-village.ts`).
-      drawVillage(batch, world, scenery, shadow, (x, z) => this.lightAt(x, z));
+      // HOT load time: its painting streams in like the other sheets.
+      if (villageSheetReady() || this.sheets.claimStreamTurn())
+        drawVillage(batch, world, scenery, shadow, (x, z) => this.lightAt(x, z));
       // Lantern posts: painted, lit at dusk or when the Keeper lights them, tappable.
       for (const l of this.lanterns()) {
         const lrect = scenery.frames.get(
@@ -1060,7 +1067,7 @@ export class WorldView {
     }
     const flower = props.frames.get(frameKey('flower', 'front', 0));
     // Placed garden pieces, tappable so they can be picked up again.
-    const scenerySheet = this.sheets.scenery();
+    const scenerySheet = this.sheets.streamed((s) => s.scenery());
     for (const d of home && !bare ? world.placed : []) {
       if (d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop') {
         const brect =
@@ -1255,7 +1262,7 @@ export class WorldView {
     }
     // Wild visitors looking around their patch.
     for (const w of home && !bare ? world.wild : []) {
-      const wsheet = this.sheets.species(w.species);
+      const wsheet = this.sheets.streamed((s) => s.species(w.species));
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
       const wrect = wsheet.frames.get(
@@ -1298,10 +1305,9 @@ export class WorldView {
       if (this.garden?.trainer !== this.visiting)
         this.garden = { trainer: this.visiting, list: neighbourGarden(this.visiting) };
       for (const nb of this.garden.list) {
-        const sheet =
-          nb.species === 'chao'
-            ? this.sheets.rival(nb.band, nb.type)
-            : this.sheets.species(nb.species);
+        const sheet = this.sheets.streamed((s) =>
+          nb.species === 'chao' ? s.rival(nb.band, nb.type) : s.species(nb.species),
+        );
         const facing = Math.sin(nowMs / 3100 + nb.x) * 1.4;
         const view = viewAngle(facing, yaw);
         const rect = sheet.frames.get(
@@ -1320,7 +1326,8 @@ export class WorldView {
           tint: this.dim,
         });
       }
-      const hsheet = this.sheets.keeper(this.visiting);
+      const visiting = this.visiting;
+      const hsheet = this.sheets.streamed((s) => s.keeper(visiting));
       const hview = viewAngle(Math.PI, yaw);
       const hrect = hsheet.frames.get(frameKey('idle', hview.angle, frameAt(CLIPS.idle, nowMs)));
       if (hrect) {
@@ -1436,7 +1443,7 @@ export class WorldView {
     const cast = this.staging?.castIds;
     for (const npc of world.npcs) {
       if (!npcHere(npc.trainer) || ((bare || LOOK_STATE.tale) && !cast?.has(npc.trainer))) continue;
-      const nsheet = this.sheets.keeper(storyId(npc.trainer));
+      const nsheet = this.sheets.streamed((s) => s.keeper(storyId(npc.trainer)));
       // In a story scene the cast is drawn on its marks, or brought in beside the Keeper
       // (render/scene-stage.ts); the sim's NPC stays where it is.
       const held = this.staging?.active ? this.staging.holds.get(npc.id) : undefined;
@@ -1687,7 +1694,7 @@ export class WorldView {
     // R0181 (lane B round 9): a friend hired at a camp walks with the party underground.
     const friend = runFloor(world) ? friendOf(world) : null;
     if (friend) {
-      const fsheet = this.sheets.keeper(friend.trainer, 'sun');
+      const fsheet = this.sheets.streamed((s) => s.keeper(friend.trainer, 'sun'));
       const fwalk = friendWalking(world, friend);
       const fclip: ClipName = fwalk ? 'walk' : 'idle';
       const fview = viewAngle(friend.facing, yaw);
@@ -1969,7 +1976,7 @@ export class WorldView {
     for (const w of run.wild) {
       if (w.scanned) continue;
       if (actorFog(run, f, world.keeper.pos, w.pos) === 0) continue;
-      const wsheet = this.sheets.species(w.species);
+      const wsheet = this.sheets.streamed((s) => s.species(w.species));
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
       const wrect = wsheet.frames.get(
@@ -2357,7 +2364,15 @@ export class WorldView {
     shadow: (x: number, y: number, z: number, r: number, at?: number) => void,
   ): void {
     // TECH-31: at most one new sheet baked a frame; a changed look may wait a frame.
-    const sheet = this.sheets.forNubbin(n, true);
+    // HOT load time: a Nubbin off screen streams its first sheet in like the scenery; only
+    // the ones in view bake on a cold start's first frame.
+    const c = this.culler;
+    NUB_PROBE.x = n.pos.x;
+    NUB_PROBE.z = n.pos.z;
+    const sheet =
+      c && !c.visible(NUB_PROBE, 1.5, 1.5)
+        ? this.sheets.streamed((s) => s.forNubbin(n, true))
+        : this.sheets.forNubbin(n, true);
     const merged = isMerged(world, n.id);
     // A scene that seats Moss or Sable on a mark draws them there (render/scene-stage.ts).
     const held = this.staging?.active ? this.staging.nubbinHolds.get(n.id) : undefined;

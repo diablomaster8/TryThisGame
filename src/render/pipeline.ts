@@ -101,6 +101,27 @@ export class LowResPipeline implements FrameStats {
     this.renderer.render(scene, camera);
   }
 
+  /**
+   * HOT (load time): start linking the frame's programs now, against the same targets as
+   * `render`, so the driver links them in the background (KHR_parallel_shader_compile)
+   * while the first frame's sprites bake, instead of the first draw waiting on every link.
+   */
+  warm(scene: Scene, camera: Camera): void {
+    const r = this.renderer;
+    const prev = r.getRenderTarget();
+    try {
+      const done =
+        this.post && camera instanceof OrthographicCamera
+          ? this.post.warm(r, scene, camera)
+          : [r.compileAsync(scene, camera)];
+      void Promise.all(done).catch(() => undefined);
+    } catch {
+      // A program that will not link now still gets its chance in the first frame.
+    } finally {
+      r.setRenderTarget(prev);
+    }
+  }
+
   /** Attach the HD-2D pass; it follows the frame size. */
   private post: PostPass | null = null;
 

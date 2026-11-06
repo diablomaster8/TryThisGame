@@ -443,7 +443,9 @@ export class Crowd {
         this.members.set(f.id, m);
       }
       if (!m.rig) {
-        const rig = this.pool.acquire(m.look);
+        // HOT-3: while the veil is up the pool builds only the Keeper and the Nubbins; the
+        // crowd stands in until it lifts, then builds at the pool's one-rig-a-frame pace.
+        const rig = this.pool.burst ? null : this.pool.acquire(m.look);
         if (rig) {
           m.rig = rig;
           m.stand?.removeFromParent();

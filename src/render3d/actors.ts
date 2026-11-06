@@ -400,10 +400,12 @@ export class Actors {
 
   /**
    * The opening build, for the loading bar: surfaces back (most of the wait) and figures
-   * rigged. Done once the Keeper (both in co-op), every Nubbin the world will draw here
-   * and the crowd all stand as themselves, no stand-ins left. Nubbins are counted from
-   * the world, not from the actors already made, so a frame that has not reached them
-   * yet (or one that just swapped a look) does not count as finished.
+   * rigged. Done once the Keeper (both in co-op) and every Nubbin the world will draw here
+   * stand as themselves, no stand-ins left. Nubbins are counted from the world, not from the
+   * actors already made, so a frame that has not reached them yet (or one that just swapped
+   * a look) does not count as finished. HOT-3: the crowd is not waited for; it stands in
+   * and builds a rig a frame once the veil lifts (`Crowd.update` holds off while the pool
+   * is in its loading burst).
    */
   loadState(): { progress: number; done: boolean } {
     const world = this.world;
@@ -414,7 +416,6 @@ export class Actors {
       const a = this.nubbins.get(n.id);
       figures.push(!!a && a.key === this.wantKey(n) && !!(a.rig || a.shell));
     }
-    figures.push(...this.crowd.readiness());
     const rigged = figures.filter(Boolean).length;
     if (rigged === figures.length && this.pool.burst) this.pool.loaded();
     return {

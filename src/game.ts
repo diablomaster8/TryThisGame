@@ -626,6 +626,8 @@ export class Game {
       this.grove = new GroveScene(this.world.tiles, this.view);
       this.picker = new Picker(canvas);
       this.grove.scene.add(this.view.root);
+      // HOT load time: the programs link in the background while the first frame's sprites bake.
+      this.lowRes.warm(this.grove.scene, this.camera.camera);
       // The pixel view draws the story cast where the stager puts them, and the Grove
       // scene's dressings join its sprite pass (render/dressings.ts).
       this.view.staging = this.stager;

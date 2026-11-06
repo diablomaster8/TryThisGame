@@ -1,3 +1,4 @@
+import { CanvasTexture } from 'three';
 import { buildShinyGlintSheet } from './shiny-glint';
 import { RADIANT_PX } from '../../config/tuning';
 import { nubbinArtId } from './stage-art';
@@ -112,9 +113,31 @@ function costumeColors(colors: ChaoColors, n: Nubbin): ChaoColors {
   };
 }
 
+/** HOT load time: the stand-in a streamed sheet returns before it is baked (no frames). */
+let emptySheet: SpriteSheet | null = null;
+function streamingStandIn(): SpriteSheet {
+  if (!emptySheet) {
+    emptySheet = {
+      // Never drawn (it has no frames), so it needs no image.
+      texture: new CanvasTexture(null as unknown as HTMLCanvasElement),
+      width: 1,
+      height: 1,
+      frames: new Map(),
+      cellW: 1,
+      cellH: 1,
+      // Shared and never cached: nothing may dispose it.
+      dispose: () => undefined,
+    };
+  }
+  return emptySheet;
+}
+
 export class SheetCache {
   private readonly sheets = new Map<string, { sheet: SpriteSheet; usedMs: number }>();
   private readonly overrides = new Map<string, SpriteSheet>();
+  /** HOT load time: inside `streamed`, and the first frame (`FRAME_WORK.frame`) it ran in. */
+  private streaming = false;
+  private streamFirstFrame = -1;
   /** TECH-31: the sheet each Nubbin was last drawn with, and its key, for deferred bakes. */
   private readonly lastFor = new Map<string, { key: string; sheet: SpriteSheet }>();
 
@@ -143,14 +166,60 @@ export class SheetCache {
       hit.usedMs = now;
       return hit.sheet;
     }
+    if (this.streaming && !this.mayStream()) return streamingStandIn();
     // TECH-31: bakes are timed into the frame log, which names them in a long frame.
     const t0 = performance.now();
-    const sheet = build();
+    // A sheet built from other sheets builds them in full.
+    const streaming = this.streaming;
+    this.streaming = false;
+    let sheet: SpriteSheet;
+    try {
+      sheet = build();
+    } finally {
+      this.streaming = streaming;
+    }
     FRAME_WORK.bakes++;
     FRAME_WORK.bakeMs += performance.now() - t0;
     this.sheets.set(key, { sheet, usedMs: now });
     if (this.sheets.size > this.limits.maxSheets) this.evict(now);
     return sheet;
+  }
+
+  /**
+   * HOT (load time): a sheet the Grove can do without for a frame or two: scenery, props,
+   * the cast, visitors and wild creatures. A baked sheet comes back as ever. An unbaked one
+   * bakes only on a frame after the first that has baked nothing yet; otherwise `get` hands
+   * back an empty stand-in (no frames, so those sprites are skipped this frame) and it bakes
+   * on a later frame. A cold start used to bake every sheet in its first frame (17 s at 4x
+   * CPU); now the Keeper and the Nubbins come first and the rest streams in a sheet a frame.
+   * Only the world view's own draw uses this: one-shot drawings always get the real sheet.
+   */
+  streamed(get: (sheets: SheetCache) => SpriteSheet): SpriteSheet {
+    if (this.streamFirstFrame < 0) this.streamFirstFrame = FRAME_WORK.frame;
+    this.streaming = true;
+    try {
+      return get(this);
+    } finally {
+      this.streaming = false;
+    }
+  }
+
+  /**
+   * HOT (load time): for a drawing with a cache of its own (the village square), the same
+   * turn `streamed` gives a sheet: true when it may bake this frame, and then it counts as
+   * this frame's bake.
+   */
+  claimStreamTurn(): boolean {
+    if (this.streamFirstFrame < 0) this.streamFirstFrame = FRAME_WORK.frame;
+    if (!this.mayStream()) return false;
+    FRAME_WORK.bakes++;
+    return true;
+  }
+
+  private mayStream(): boolean {
+    return (
+      FRAME_WORK.frame !== this.streamFirstFrame && FRAME_WORK.bakes < FRAME_LOG.bakesPerFrame
+    );
   }
 
   /** Whether `key` is baked (or overridden) already. */

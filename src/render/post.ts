@@ -173,6 +173,19 @@ export class PostPass {
     if (s.tintAmount !== undefined) u.tintAmount!.value = s.tintAmount;
   }
 
+  /** HOT (load time): link `render`'s programs ahead of the first frame (see the pipeline). */
+  warm(renderer: WebGLRenderer, scene: Scene, camera: OrthographicCamera): Promise<unknown>[] {
+    if (!this.enabled) {
+      renderer.setRenderTarget(null);
+      return [renderer.compileAsync(scene, camera)];
+    }
+    renderer.setRenderTarget(this.target);
+    const done = [renderer.compileAsync(scene, camera)];
+    renderer.setRenderTarget(null);
+    done.push(renderer.compileAsync(this.scene, this.camera));
+    return done;
+  }
+
   /** Render `scene` through the pass to the screen. */
   render(renderer: WebGLRenderer, scene: Scene, camera: OrthographicCamera): void {
     if (!this.enabled) {
