@@ -17,6 +17,7 @@ async function soak(browser, mode) {
   const ctx = await browser.newContext({
     viewport: { width: 375, height: 812 },
     timezoneId: 'UTC',
+    bypassCSP: true,
   });
   if (mode === '3d')
     await ctx.addInitScript(() => {
