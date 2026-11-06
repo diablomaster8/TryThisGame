@@ -890,8 +890,8 @@ export function mountHud(
   window.addEventListener('pointerdown', offerJoystick, true);
   // The Grove whose festivals were last checked against the side saves.
   let festivalsFor: unknown = null;
-  if (import.meta.env.DEV) {
-    // Console access during development, alongside `window.grove`.
+  if (import.meta.env.DEV || new URLSearchParams(location.search).has('e2e')) {
+    // Console access during development (or `?e2e`), alongside `window.grove`.
     (window as unknown as { groveUi: unknown }).groveUi = {
       shop,
       expedition,
