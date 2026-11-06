@@ -1,3 +1,4 @@
+import { pondIsIce } from './ice';
 import {
   BEHAVIOR,
   CURFEW,
@@ -822,7 +823,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       wary: isWary(n),
       toy: toyOk,
       shroom: shroomOk,
-      canSwim: n.stage !== 'egg',
+      canSwim: n.stage !== 'egg' && !pondIsIce(world),
       // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
       // R0568 (lane A r11): its favourite Keeper is greeted half as often again.
       mult: {
@@ -917,7 +918,7 @@ export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
     wary: isWary(n),
     toy: !!toy && toy.id !== skipping(n, now),
     shroom: !!shroom && shroom.id !== skipping(n, now),
-    canSwim: n.stage !== 'egg',
+    canSwim: n.stage !== 'egg' && !pondIsIce(world),
     // R0582 (lane A r11): a Swim form or a strong Swim lean swims far more often.
     // R0568 (lane A r11): its favourite Keeper is greeted half as often again.
     mult: {
