@@ -28,6 +28,7 @@ import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
+import { holdInSlice } from './edu-region-bounds';
 import { REGION_WALK } from '../config/tuning-r11d1';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
@@ -283,6 +284,7 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
   const id = drawnRegion(world);
   const l = id ? layoutOf(id) : null;
   if (!l || !id) return;
+  holdInSlice(world, id);
   if (regionFlightStep(world, l, id, dtMs)) return;
   const k = world.keeper;
   const walk = (x: number, z: number) => standsIn(l, x, z, r);
@@ -386,6 +388,7 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
   // R11 d7 (WORLD-36): a terraced region carries the Keeper up its ramps; R12: and jumps.
   stepRegionVertical(world, l, id, dt, events, walk);
   regionFlightTrigger(world, id, fx, fz);
+  holdInSlice(world, id);
 }
 
 // ---------------------------------------------------------------- borders
