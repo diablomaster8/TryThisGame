@@ -9,15 +9,26 @@ import { ICE } from '../config/tuning-r14d2';
 import { WATER_LEVEL } from './terrain';
 import type { Vec2, World } from './types';
 
+/**
+ * Worlds whose season comes from a real calendar this session (live play steps with a wall
+ * clock every step). A world made at wall time 0 reads as winter, and a scripted run that
+ * never passes a wall clock must not find its pond frozen, so the ice waits for this or for
+ * the debug panel's forced winter. Not saved: the first live step marks the world again.
+ */
+const calendarWorlds = new WeakSet<object>();
+
+/** Called by the step that sets the season from the wall clock. */
+export function noteCalendarSeason(world: World): void {
+  calendarWorlds.add(world);
+}
+
 /** True while the Grove's pond is frozen for walking on: a free-play winter, at home. */
 export function pondIsIce(
   world: Pick<World, 'season' | 'debugSeason' | 'location' | 'campaign'>,
 ): boolean {
-  return (
-    world.location === 'grove' &&
-    !world.campaign &&
-    (world.debugSeason ?? world.season) === 'winter'
-  );
+  if (world.location !== 'grove' || world.campaign) return false;
+  if (world.debugSeason) return world.debugSeason === 'winter';
+  return world.season === 'winter' && calendarWorlds.has(world);
 }
 
 /** Whether a point is over the pond's water (not its shore ring). */
