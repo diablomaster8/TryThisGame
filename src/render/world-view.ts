@@ -189,6 +189,11 @@ const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
 /** HOT load time: where a Nubbin stands, for the culler's on-screen test (reused). */
 const NUB_PROBE = { x: 0, y: 0, z: 0, mode: 'billboard' } as SpriteDraw;
 
+/** R0112: fence post x positions along the visit garden's south edge, with the gate gap. */
+const VISIT_FENCE_XS: number[] = [];
+for (let x = -VISIT_GARDEN.halfW; x <= VISIT_GARDEN.halfW + 0.01; x += 1.5)
+  if (Math.abs(x) > 2.2) VISIT_FENCE_XS.push(x);
+
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
   /**
@@ -1384,6 +1389,29 @@ export class WorldView {
           h: (3.2 * gate.h) / gate.w,
           tint: this.dim,
         });
+      }
+      // R0112: a fence along the garden's south edge (the +-16 line), open at the gate.
+      const fp = scen.frames.get(frameKey('fencePost', 'front', 0));
+      if (fp) {
+        for (let fi = 0; fi < VISIT_FENCE_XS.length; fi++) {
+          const fx = VISIT_FENCE_XS[fi]!;
+          batch.draw(
+            reuseDraw(
+              SCENERY_DRAW,
+              scen,
+              fp,
+              false,
+              fx,
+              0,
+              VISIT_GARDEN.gate.z,
+              'billboard',
+              0.75,
+              (0.75 * fp.h) / fp.w,
+              undefined,
+              this.dim,
+            ),
+          );
+        }
       }
       const visiting = this.visiting;
       const hsheet = this.sheets.streamed((s) => s.keeper(visiting));

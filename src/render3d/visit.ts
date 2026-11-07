@@ -73,9 +73,9 @@ export class VisitSet {
     const flat = () => 0;
     // Three trees, out of the way of where the neighbour's Nubbins wander (|x| < 8, z in -6..8).
     const trees: Array<[number, number, number]> = [
-      [-20, -6, 1],
-      [20, -9, 2],
-      [-19, 11, 3],
+      [-15, -6, 1],
+      [15, -9, 2],
+      [-14.5, 11, 3],
     ];
     for (const [x, z, seed] of trees) {
       const parts = buildTree(this.group, tex, x, z, 1.05, seed, flat);
@@ -84,7 +84,7 @@ export class VisitSet {
       if (tree) this.crowns.add(tree);
     }
     // The front fence with a gate gap in the middle, where the Keeper stands on arrival.
-    for (let i = -12; i <= 12; i++) {
+    for (let i = -10; i <= 10; i++) {
       if (Math.abs(i) < 1) continue;
       const post = decorModel('fence');
       post.scale.setScalar(FENCE_SCALE);
