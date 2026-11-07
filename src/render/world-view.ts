@@ -1866,8 +1866,8 @@ export class WorldView {
         spread: 0.2,
         speed: 0.7,
         rise: 0.5,
-        lifeMs: 480,
-        size: 0.4,
+        lifeMs: 600,
+        size: 0.65,
       });
 
     this.onDraw?.(world, nowMs);
