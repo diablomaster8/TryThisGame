@@ -15,6 +15,7 @@ import type { Nubbin } from '../sim/types';
 import { nubbinPortrait } from './battle-party-pick';
 import { el } from './dom';
 import './watch.css';
+import { viewportSize } from '../platform/viewport';
 
 /** "Pip is chasing a butterfly": by `state:itemId`, then `state`, then a plain wander. */
 export function activityCaption(n: Pick<Nubbin, 'name' | 'behavior'>): string {
@@ -134,8 +135,7 @@ export function mountWatch(
     const g = game();
     const now = performance.now();
     if (!g || document.hidden) return;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const { w, h } = viewportSize();
     const watching = g.watching;
     const dreaming = new Set<string>();
     const wanted = new Map<string, { n: Nubbin; at: EdgePoint; d: number }>();

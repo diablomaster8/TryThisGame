@@ -57,7 +57,7 @@ import {
   hollowPartySize,
   leadFirst,
   lightBonus,
-  mayFetch,
+  mayFetchFor,
   stepScout,
 } from './dungeon-roles';
 import { noteTrail } from './dungeon-speed';
@@ -1590,9 +1590,11 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       let best: FloorLoot | undefined;
       // R0167: Fetch reaches further, Lazy stays close, only a Swim Nubbin swims to an island.
       let bestD: number = fetchRadiusOf(world, n);
+      const taken = new Set(Object.values(run.fetch));
+      const may = mayFetchFor(world, f, n);
       for (const l of f.loot) {
-        if (!available(l) || Object.values(run.fetch).includes(l.id)) continue;
-        if (!mayFetch(world, f, n, l.cell)) continue;
+        if (!available(l) || taken.has(l.id)) continue;
+        if (!may(l.cell)) continue;
         const d = dist(n.pos, cellCentre(f, l.cell));
         if (d < bestD) {
           bestD = d;
