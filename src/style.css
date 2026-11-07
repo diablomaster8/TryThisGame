@@ -1822,7 +1822,11 @@ button,
 }
 
 /* The gate opens over the title screen too (z-index 20 there). */
-.modal.grown-up-modal {
+.modal.grown-up-modal,
+.title ~ .modal,
+.title ~ .sheet {
+  /* BS-01: any panel opened while the title is up (Your saves moved, rename, compare, visit)
+     sits after .title in the same layer, so it must paint above it too. */
   z-index: 30;
 }
 

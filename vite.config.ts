@@ -240,6 +240,10 @@ export default defineConfig({
     // own band loads) and the bands' Atlas and Arcade versions (~2.0 MB and ~4.0 MB, loaded
     // only when asked for). The warning on those is expected; a new one is worth a look.
     chunkSizeWarningLimit: 700,
+    // BS-05: the CSP says `font-src 'self'`, so a tiny Klee One subset that Vite inlined as a
+    // data: URI was refused with a console error. Fonts always stay separate same-origin files.
+    assetsInlineLimit: (file: string): boolean | undefined =>
+      /\.(woff2?|ttf|otf)$/i.test(file) ? false : undefined,
   },
   server: {
     // `npm run dev -- --host` exposes the dev server on the LAN for phone testing.
