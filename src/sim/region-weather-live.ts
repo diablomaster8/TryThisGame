@@ -1,5 +1,5 @@
 import { REGION_WEATHER, type RegionWeatherKind } from '../config/region-weather';
-import { REGION_WEATHER_LIVE } from '../config/tuning-r11d8';
+import { REGION_WEATHER_LIVE } from '../config/tuning-more/world-region-sky';
 import type { RegionId } from '../config/regions';
 import { regionOf } from './regions';
 import { regionSpell, regionSeason } from './region-weather';

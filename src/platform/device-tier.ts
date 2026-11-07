@@ -1,11 +1,11 @@
 /**
- * TECH-09: which performance tier this device is in (`TIER_BUDGET` in config/tuning-r8d-perf).
+ * TECH-09: which performance tier this device is in (`TIER_BUDGET` in config/tuning-more/perf-tiers).
  * `detectTier` is pure so tests can feed it made-up devices; `readDeviceTier` gathers the real
  * signals: `navigator.deviceMemory` (Chrome and Edge only), the WebGL renderer string, the
  * first-run sculpt benchmark's tier when Full 3D ran it, and whether the screen is a phone's.
  * A Quality override in Settings (`settings.qualityTier`) wins over all of them.
  */
-import { TIER_DETECT, type PerfTier } from '../config/tuning-r8d-perf';
+import { TIER_DETECT, type PerfTier } from '../config/tuning-more/perf-tiers';
 import type { DeviceTier } from '../config/tuning-world';
 
 export interface TierInputs {

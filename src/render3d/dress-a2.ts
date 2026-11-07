@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
-import { CG4_A2 } from '../config/tuning-a2';
+import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
 import type { Daylight } from '../render/daylight';
 import { stageFlags } from '../render/scene-stage';
 import { StageTracker } from '../render/stage-actors';

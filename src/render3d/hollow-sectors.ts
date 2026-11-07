@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { HOLLOW_PERF } from '../config/tuning-dungeon-tap';
-import { FIELD_R10 } from '../config/tuning-r10b2';
+import { FIELD_R10 } from '../config/tuning-more/dungeon-field-streaming';
 import { sectorWindow } from '../render/field-sectors';
 import { CELL, type HollowCtx, type HollowModule } from './hollow-ctx';
 import type { SectorPack } from './hollow-lod';

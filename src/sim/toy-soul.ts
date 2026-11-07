@@ -6,7 +6,7 @@
  * row of the idle table, so toys no longer swallow the whole day. Deterministic: no rng.
  */
 import { TOY_SOUL } from '../config/tuning';
-import { TOY_PAIR } from '../config/tuning-soul-r11a';
+import { TOY_PAIR } from '../config/tuning-more/soul-toy-pairs';
 import { likesOf } from './likes';
 import { isPairToy, isSocialToy, playersOn } from './toy-pair';
 import { hasTrait } from './traits';

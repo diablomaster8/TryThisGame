@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NEEDS } from '../../src/config/tuning';
-import { FAV_SPOT } from '../../src/config/tuning-soul-r11';
+import { FAV_SPOT } from '../../src/config/tuning-more/soul-quirks-gait';
 import { soulLookKind } from '../../src/render/soul-looks';
 import { favSpot } from '../../src/sim/fav-spot';
 import { petNubbin } from '../../src/sim/keeper';

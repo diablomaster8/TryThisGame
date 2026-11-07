@@ -8,10 +8,10 @@
 export type PieceTag =
   'hub' | 'corridor' | 'deadEnd' | 'treasure' | 'boss' | 'entry' | 'exit' | 'secret';
 
-export type Side = 'n' | 'e' | 's' | 'w';
+export type PieceSide = 'n' | 'e' | 's' | 'w';
 
 export interface PieceSocket {
-  dir: Side;
+  dir: PieceSide;
   /** First cell of the run along its side (x for n/s, y for e/w). */
   offset: number;
   width: number;
@@ -35,7 +35,7 @@ export function socketsOf(rows: readonly string[]): PieceSocket[] {
   const h = rows.length;
   const w = rows[0]?.length ?? 0;
   const out: PieceSocket[] = [];
-  const scan = (dir: Side, len: number, at: (i: number) => string | undefined) => {
+  const scan = (dir: PieceSide, len: number, at: (i: number) => string | undefined) => {
     for (let i = 0; i < len; i++) {
       if (at(i) !== 'D' || at(i - 1) === 'D') continue;
       let n = 0;

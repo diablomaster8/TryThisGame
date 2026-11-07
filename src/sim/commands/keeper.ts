@@ -41,7 +41,7 @@ function dressGrove(world: World): void {
   world.grove = open ? a : 'main';
 }
 
-export const handlers: Handlers = {
+export const handlers = {
   // Lane C r10 agent B (R0619): the game wrote this chapter's checkpoint.
   checkpointKept(world, cmd) {
     noteCheckpoint(world, cmd.key, cmd.id);
@@ -299,4 +299,4 @@ export const handlers: Handlers = {
     noteQuest(world, 'photo', events, cmd.species);
     return;
   },
-};
+} satisfies Handlers;

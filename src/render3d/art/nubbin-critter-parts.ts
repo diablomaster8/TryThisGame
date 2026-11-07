@@ -5,7 +5,7 @@ import { ALL_PART_SLOTS, partStepScale, type PartStep } from '../../render/sprit
 import { PART_SIZE } from '../../config/tuning-look';
 import type { AnyPartSlot, NubbinParts } from '../../sim/types';
 import { V, type Prim } from './sculpted';
-import type { Mark } from './species';
+import type { SpeciesMark } from './species';
 import { variant, type Slot } from './nubbin-variants';
 import type { PartSpec, SpeciesSpec } from './species';
 import { NUBBIN_SPEC } from './species-data';
@@ -582,7 +582,7 @@ function face(spec: SpeciesSpec, st: PartStyle, k: number): Prim[] {
 }
 
 /** A raccoon's mask: a dark band painted across the eyes. */
-function maskMark(spec: SpeciesSpec, st: PartStyle): Mark {
+function maskMark(spec: SpeciesSpec, st: PartStyle): SpeciesMark {
   const e = spec.eyes;
   return {
     kind: 'ellipsoid',
@@ -705,7 +705,7 @@ export function withCritterParts(
 ): SpeciesSpec {
   const slots: Partial<Record<Slot, PartSpec[]>> = {};
   const headPrims: Prim[] = [];
-  const hints: Mark[] = [];
+  const hints: SpeciesMark[] = [];
   // A child wears its parts smaller and softer (LOOK-66); children keep the base Nubbin's
   // scale, which every adult form raises.
   const child = base.scale <= NUBBIN_SPEC.scale ? CHILD_PART_SCALE : 1;

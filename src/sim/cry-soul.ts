@@ -13,7 +13,7 @@
  * Nubbin and second (`roll`), so no world rng is drawn.
  */
 import { ALIGNMENT, BEHAVIOR, SIM } from '../config/tuning';
-import { CRY_SOUL } from '../config/tuning-soul-r11';
+import { CRY_SOUL } from '../config/tuning-more/soul-quirks-gait';
 import { soulLive } from './antics';
 import { isFree } from './nubbin';
 import { roll } from './traits';

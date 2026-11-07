@@ -2,7 +2,7 @@
  * Lane D round 9: the world hints (R0127), the Grove's secret (R0111) and the debug season
  * control (R0118). Narrator lines: second person, present tense, under 100 characters.
  */
-import type { HintId } from './tuning-r9d4';
+import type { HintId } from './tuning-more/ui-world-hints';
 
 export const WORLD_HINT_TEXT: Record<Exclude<HintId, 'clue'> | 'nook', string> = {
   shake: 'Fruit trees rattle when shaken. Tap a trunk and see what drops.',

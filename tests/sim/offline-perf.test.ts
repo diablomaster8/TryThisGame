@@ -2,8 +2,8 @@
  * budgets with a full Grove: eight adults, the campaign running and a Hollow run underway. */
 import { describe, expect, it } from 'vitest';
 import { budgetMs } from './timing-budget';
-import { PERF_GLOBAL } from '../../src/config/tuning-r8d-perf';
-import { CATCHUP_PERF } from '../../src/config/tuning-r11d3';
+import { PERF_GLOBAL } from '../../src/config/tuning-more/perf-tiers';
+import { CATCHUP_PERF } from '../../src/config/tuning-more/perf-catchup';
 import { catchUp } from '../../src/sim/offline';
 import { serialize } from '../../src/sim/save';
 import { startCampaign } from '../../src/sim/campaign';

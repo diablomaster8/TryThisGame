@@ -4,7 +4,7 @@
  * the six walk frames.
  */
 import { writeFileSync } from 'node:fs';
-import { KEEPER_ACTS } from '../../src/config/tuning-soul-r11g';
+import { KEEPER_ACTS } from '../../src/config/tuning-more/soul-ambient-games';
 import { describe, expect, it } from 'vitest';
 import { poseFor } from '../../src/render/sprites/chao';
 import { drawCreature, type CreatureSpec } from '../../src/render/sprites/creature';

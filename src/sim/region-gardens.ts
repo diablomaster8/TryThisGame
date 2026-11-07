@@ -1,4 +1,4 @@
-import { LAND_GARDENS } from '../config/tuning-r13d1';
+import { LAND_GARDENS } from '../config/tuning-more/world-region-content';
 import { regionShown as travellers } from './region-companion';
 import { regionOf } from './regions';
 import type { Nubbin, World } from './types';

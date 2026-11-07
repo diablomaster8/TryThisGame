@@ -1,5 +1,5 @@
 /**
- * Player-facing text for lane C round 6's battle work (see `tuning-battle-r6.ts`).
+ * Player-facing text for lane C round 6's battle work (see `tuning-more/battle-ladder-fusion.ts`).
  */
 export const LADDER_TEXT = {
   title: 'Dojo Ladder',

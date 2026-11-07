@@ -5,7 +5,7 @@
  * IndexedDB has confirmed (same text) is ever removed. A write that still does not fit is
  * reported as `full`, and the HUD offers a backup file. A big write logs a debug warning.
  */
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import { kv } from './idb';
 
 export type SaveProblem = 'full' | 'blocked' | null;

@@ -1,6 +1,6 @@
 import type { SceneStage } from '../config/story';
 import { viewportSize } from '../platform/viewport';
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { moonPhaseFor, rainingNow, WetTracker, WindState, type MoonPhase } from './d4-state';

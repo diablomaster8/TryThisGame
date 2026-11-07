@@ -1,4 +1,4 @@
-import { R10B3 } from '../config/tuning-r10b3';
+import { R10B3 } from '../config/tuning-more/dungeon-poof-kid-mode';
 import { cellCentre, cellOf, WALL, type Floor } from '../sim/dungeon';
 import type { Vec2 } from '../sim/types';
 

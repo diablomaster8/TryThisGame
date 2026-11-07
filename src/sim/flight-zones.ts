@@ -10,7 +10,7 @@
  * The flight is transient: a reload mid-glide leaves the Keeper where the save caught it,
  * and `updateKeeper` drops it to the ground there.
  */
-import { FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { JUMP } from '../config/tuning-sim';
 import { keeperFooting } from './keeper';
 import { terraceAt } from './height';

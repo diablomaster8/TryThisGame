@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { neighbourBeacons, type BeaconBearing } from '../sim/beacons';
-import { BEACON_BACKDROP } from '../config/tuning-r13d2';
+import { BEACON_BACKDROP } from '../config/tuning-more/world-backdrops';
 import type { World } from '../sim/types';
 
 /**

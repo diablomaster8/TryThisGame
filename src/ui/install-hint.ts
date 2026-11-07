@@ -8,7 +8,7 @@
  * (`continueSlot`).
  */
 import { INSTALL_TEXT } from '../config/strings-r10d4';
-import { INSTALL_HINT } from '../config/tuning-r10d4';
+import { INSTALL_HINT } from '../config/tuning-more/perf-offline-packs';
 import { hasSave, readSlotIndex, type SaveMode, type SaveSlot } from '../platform/storage';
 import { button, el } from './dom';
 

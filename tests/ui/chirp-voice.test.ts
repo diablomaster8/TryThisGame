@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { chirpNotes } from '../../src/platform/audio';
 import { chirpVoice, PLAIN_VOICE } from '../../src/platform/chirp-voice';
-import { CHIRP_VOICE } from '../../src/config/tuning-r8d-audio';
+import { CHIRP_VOICE } from '../../src/config/tuning-more/audio-mix';
 
 /** R0462 (TECH-65): each Nubbin chirps in its own voice, the same after a reload. */
 describe('chirp voice', () => {

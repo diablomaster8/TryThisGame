@@ -1,7 +1,7 @@
 import { frozenVoId } from '../content/vo-hash';
 import { TRAINER_LABELS } from '../config/strings';
 import { StageReact } from './stage-react';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood, type Scene } from '../config/story';
 import type { Game } from '../game';
 import type { Lesson } from '../content/types';
@@ -39,7 +39,7 @@ import { holdMusicDuck, playBlip, playSound } from '../platform/audio';
 import { renderLineAct, sayItButton } from './line-act';
 import { refrainOf } from '../config/edu-refrains';
 import { AutoAdvance } from './auto-advance'; /* Lane E r9 */
-import { KIDS_STORY } from '../config/tuning-story-r11e';
+import { KIDS_STORY } from '../config/tuning-more/story-read-aloud';
 import { KIDS_STORY_TEXT } from '../config/strings-story-r11e';
 import { childPrompts, coPlayMode, spokenLine } from './co-play';
 import '../fun.css';

@@ -7,7 +7,7 @@
  */
 import { SHEET_TABS_TEXT } from '../config/strings-r8d';
 import { EGG } from '../config/tuning';
-import { SHEET_TABS } from '../config/tuning-r8d';
+import { SHEET_TABS } from '../config/tuning-more/ui-shake-sheet';
 import type { Interaction, Nubbin } from '../sim/types';
 
 export type SheetTab = 'care' | 'inside' | 'grow';

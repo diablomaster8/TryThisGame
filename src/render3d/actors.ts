@@ -91,7 +91,7 @@ import {
   keeperRoll,
   keeperRunningNow,
 } from '../sim/keeper';
-import { RUN_ARMS } from '../config/tuning-move-r10';
+import { RUN_ARMS } from '../config/tuning-more/move-keeper-ui';
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
 import { sitWithBeat, towardKeeper } from '../render/sit-with';
@@ -1385,7 +1385,8 @@ export class Actors {
       this.rarityGlow.set(
         n.id,
         a.rig && n.stage !== 'egg' && rarityOf(n) === 'legendary'
-          ? 0.22 + (this.calm ? 0 : 0.1 * Math.sin(nowMs / 600))
+          ? // An Eternal's glow is steady (R0404); the others breathe, unless calm.
+            0.22 + (this.calm || n.eternal ? 0 : 0.1 * Math.sin(nowMs / 600))
           : 0,
         o.position,
         tall,

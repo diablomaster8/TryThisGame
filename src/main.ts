@@ -477,6 +477,7 @@ function boot(
       let t = 0;
       const clock = Object.assign(() => (clock.run ? (t += 1000 / 60) : t), { run: false });
       game.frameClock = clock;
+      void import('./minigames/frame-time').then((m) => m.useStillTime());
     }
     // TECH-11: the browser specs' hooks (`grove.test`), only on a `?e2e` load.
     void import('./dev/e2e-api').then((m) => {
@@ -560,8 +561,11 @@ function boot(
       reg.active?.postMessage({ type: 'cache-urls', urls });
     });
     // R0461 (TECH-20): keep the ticked offline packs, and the one this slot needs.
+    // R0721: boot() runs as soon as a new Learning Grove slot is created (eduAge is set), so
+    // that creation asks for the whole edu pack here, online only and silently, without
+    // waiting for a later load of the slot.
     void navigator.serviceWorker.ready.then((reg) => {
-      const m = currentSlot().mode;
+      const m = eduAge ? 'edu' : currentSlot().mode;
       refreshOfflinePacks(reg.active, m === 'edu' ? 'edu' : m === 'free' ? null : 'story');
     });
   }

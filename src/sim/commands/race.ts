@@ -18,7 +18,7 @@ import { isWary } from '../trust';
 import { findNubbin, withRng } from '../world';
 import type { Handlers } from './types';
 
-export const handlers: Handlers = {
+export const handlers = {
   raceResult(world, cmd, events) {
     // The UI reports the result, so the sim checks it: a known course, a tier that is open,
     // no more shells than the placement pays, and a hat only for a win (review C, 28).
@@ -103,4 +103,4 @@ export const handlers: Handlers = {
     });
     return;
   },
-};
+} satisfies Handlers;

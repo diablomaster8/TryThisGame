@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { FRIENDS } from '../../src/config/tuning';
-import { RIVALS } from '../../src/config/tuning-soul-r10';
+import { RIVALS } from '../../src/config/tuning-more/soul-friends-rivals';
 import { evolve, hatch } from '../../src/sim/lifecycle';
 import { areRivals, compat, stepRivals, topRival } from '../../src/sim/rivals';
 import { createWorld, stepWorld } from '../../src/sim/world';

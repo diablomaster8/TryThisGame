@@ -1,0 +1,86 @@
+/* R0742: the Nubbins at little desks, under a Play and learn round. */
+.edu-desks {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 14px;
+  margin-top: 4px;
+  min-height: 64px;
+}
+
+.edu-desk {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 52px;
+  height: 64px;
+}
+
+.edu-desk-pupil {
+  width: 44px;
+  height: 44px;
+  image-rendering: pixelated;
+  z-index: 1;
+  margin-bottom: -10px;
+}
+
+.edu-desk-top {
+  position: relative;
+  width: 52px;
+  height: 12px;
+  border-radius: 3px;
+  background: #b9824a;
+  border-bottom: 3px solid #8a5a2e;
+  z-index: 2;
+}
+
+.edu-desk-top::before,
+.edu-desk-top::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  width: 4px;
+  height: 8px;
+  background: #8a5a2e;
+}
+
+.edu-desk-top::before {
+  left: 6px;
+}
+
+.edu-desk-top::after {
+  right: 6px;
+}
+
+/* The child's own Nubbin sits at the front desk, a touch bigger. */
+.edu-desk.own .edu-desk-pupil {
+  width: 48px;
+  height: 48px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edu-desk-pupil {
+    animation: edu-desk-bob 3.2s ease-in-out infinite;
+  }
+  .edu-desk:nth-child(2) .edu-desk-pupil {
+    animation-delay: -0.8s;
+  }
+  .edu-desk:nth-child(3) .edu-desk-pupil {
+    animation-delay: -1.6s;
+  }
+  .edu-desk:nth-child(4) .edu-desk-pupil {
+    animation-delay: -2.4s;
+  }
+}
+
+@keyframes edu-desk-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}

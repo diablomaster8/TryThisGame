@@ -1,4 +1,4 @@
-import { DERIVED_HATS } from '../config/tuning-camp11c';
+import { DERIVED_HATS } from '../config/tuning-more/story-open-lines';
 import { arcadeDone, atlasDone, type CrossSaves } from './cross-saves';
 import { festivalsUnlocked } from './atlas';
 import type { World } from './types';

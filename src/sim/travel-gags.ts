@@ -12,7 +12,7 @@
  * the same answer (`rollWalk`). Gags never change stats.
  */
 import { GROVE } from '../config/tuning';
-import { TRAVEL_GAGS } from '../config/tuning-fun-r10';
+import { TRAVEL_GAGS } from '../config/tuning-more/fun-keeper-gags';
 import { leaningPersonality } from './personality';
 import { hashSeed } from './rng';
 import { riverDistance } from './terrain';

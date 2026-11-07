@@ -23,7 +23,7 @@ import { heightAt, mapOf, tileAt } from '../sim/battle/tactics';
 import { chargeTiles } from '../sim/battle/tactics/engine';
 import {
   TILE,
-  type Cell,
+  type TacticsCell,
   type Dir,
   type GridMap,
   type TacticsState,
@@ -66,7 +66,7 @@ const OVERLAY = {
 } as const;
 type OverlayKind = keyof typeof OVERLAY;
 
-const DIR_VEC: Record<Dir, Cell> = {
+const DIR_VEC: Record<Dir, TacticsCell> = {
   n: { x: 0, y: -1 },
   e: { x: 1, y: 0 },
   s: { x: 0, y: 1 },
@@ -106,7 +106,7 @@ export class Tactics3dView implements TacticsBoardView {
   private ready = false;
   private mapKey = '';
   private map: GridMap | null = null;
-  private tiles: { mesh: THREE.InstancedMesh; cells: Cell[] }[] = [];
+  private tiles: { mesh: THREE.InstancedMesh; cells: TacticsCell[] }[] = [];
   private overlay: THREE.InstancedMesh | null = null;
   private props: THREE.Object3D[] = [];
   private readonly units = new Map<string, UnitView>();
@@ -167,7 +167,7 @@ export class Tactics3dView implements TacticsBoardView {
     this.clearBoard();
     const m = mapOf(s);
     this.map = m;
-    const byKind = new Map<number, Cell[]>();
+    const byKind = new Map<number, TacticsCell[]>();
     for (let y = 0; y < m.h; y++)
       for (let x = 0; x < m.w; x++) {
         const t = tileAt(m, x, y);
@@ -333,7 +333,7 @@ export class Tactics3dView implements TacticsBoardView {
     const ov = this.overlay;
     if (!ov) return;
     let n = 0;
-    const put = (c: Cell, kind: OverlayKind, size = 1) => {
+    const put = (c: TacticsCell, kind: OverlayKind, size = 1) => {
       if (n >= ov.instanceMatrix.count) return;
       this.world(m, c.x, c.y, this.tmp.position);
       this.tmp.position.y += 0.02 + n * 0.0005;
@@ -442,7 +442,7 @@ export class Tactics3dView implements TacticsBoardView {
       }
   }
 
-  pick(_s: TacticsState, bx: number, by: number): Cell | null {
+  pick(_s: TacticsState, bx: number, by: number): TacticsCell | null {
     const c = this.stage.renderer.domElement.getBoundingClientRect();
     const ndc = new THREE.Vector2(
       ((bx - c.left) / c.width) * 2 - 1,
@@ -468,7 +468,7 @@ export class Tactics3dView implements TacticsBoardView {
     return Math.hypot(a.x - b.x, a.y - b.y);
   }
 
-  centreOn(s: TacticsState, c: Cell): void {
+  centreOn(s: TacticsState, c: TacticsCell): void {
     const m = this.map ?? mapOf(s);
     this.world(m, c.x, c.y, this.focus);
     this.panX = 0;
@@ -481,7 +481,7 @@ export class Tactics3dView implements TacticsBoardView {
     return { x: c.left + ((v.x + 1) / 2) * c.width, y: c.top + ((1 - v.y) / 2) * c.height };
   }
 
-  clientOf(s: TacticsState, c: Cell): { x: number; y: number } {
+  clientOf(s: TacticsState, c: TacticsCell): { x: number; y: number } {
     const m = this.map ?? mapOf(s);
     return this.clientAt(this.world(m, c.x, c.y));
   }

@@ -12,7 +12,7 @@
  * jump on that plan: walk to the take-off spot, then jump for the landing (`hopWaypoint`).
  * Pure sim; plans and hop state are runtime only, never saved.
  */
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import {
   cellAt,
   cellCentre,

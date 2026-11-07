@@ -1,7 +1,7 @@
 import { resolve } from './obstacles';
 import { runFloor } from './dungeon';
 import { KEEPER2 } from '../config/tuning-move';
-import { KEEPER2_PULL } from '../config/tuning-r13d2';
+import { KEEPER2_PULL } from '../config/tuning-more/world-backdrops';
 import { KEEPER, NEEDS } from '../config/tuning';
 import { addTrust } from './trust';
 import { createKeeper, keeperJump, petNubbin, shakeTreeNow, updateKeeper } from './keeper';

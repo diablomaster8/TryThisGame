@@ -5,10 +5,10 @@
  */
 export * from '../tuning-ui';
 export * from '../tuning-hud-world';
-export * from '../tuning-r8d';
-export * from '../tuning-r9d2';
-export * from '../tuning-r9d3';
-export * from '../tuning-r9d4';
-export * from '../tuning-r10d2';
-export * from '../tuning-r11d4';
-export * from '../tuning-r13d3';
+export * from '../tuning-more/ui-shake-sheet';
+export * from '../tuning-more/ui-tap-prints-border';
+export * from '../tuning-more/ui-shake-hint';
+export * from '../tuning-more/ui-world-hints';
+export * from '../tuning-more/ui-inspect-egg';
+export * from '../tuning-more/ui-first-loop';
+export * from '../tuning-more/ui-system-throttle';

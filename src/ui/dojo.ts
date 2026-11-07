@@ -15,7 +15,7 @@ import { battleScreen, type BattleScreen } from './battle-screen';
 import { PLAYDAY_SEEN, playBattleScene, playPlayDay, storyBoutRows } from './battle-scenes';
 import { FRIENDLY_TEXT, LADDER_TEXT, TRIAL_TEXT } from '../config/strings-battle-r6';
 import { TrialsMenu } from './trials';
-import { BATTLE_R6 } from '../config/tuning-battle-r6';
+import { BATTLE_R6 } from '../config/tuning-more/battle-ladder-fusion';
 import { ladderBelt, ladderContext, ladderOf } from '../sim/battle/ladder';
 import { PartyPick } from './battle-party-pick';
 import { button, el, modal } from './dom';

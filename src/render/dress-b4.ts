@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import { LOOK_STATE, storyId } from '../config/npc-looks';
 import { TALE_GRADE } from '../config/campaign-look';
 import type { SceneStage } from '../config/story';
-import { CG4_B4 } from '../config/tuning-b4';
+import { CG4_B4 } from '../config/tuning-more/campaign4-people-tale-grade';
 import type { Memorial, World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';

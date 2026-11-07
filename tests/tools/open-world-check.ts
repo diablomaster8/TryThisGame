@@ -5,7 +5,7 @@
  */
 import { GATES } from '../../src/config/gates';
 import { QUEST_OFFERS } from '../../src/config/tuning';
-import { QUESTS_CHILD } from '../../src/config/tuning-camp11c';
+import { QUESTS_CHILD } from '../../src/config/tuning-more/story-open-lines';
 import { EPILOGUE_CALLBACKS } from '../../src/content/epilogue';
 import type { Scene } from '../../src/config/story';
 import type { Quest, Storyline } from '../../src/content/types';

@@ -4,7 +4,7 @@
  * "firsts" (sim/grove-diary.ts), so nothing new is saved beyond two diary fields, and an old
  * save whose Nubbin is past the window never sees it. "I know how to play" ends it.
  */
-import { FIRST_LOOP, FIRST_MINUTE } from '../config/tuning-r11d4';
+import { FIRST_LOOP, FIRST_MINUTE } from '../config/tuning-more/ui-first-loop';
 import type { Nubbin, World } from './types';
 
 export type FirstLoopStep = 'pat' | 'name' | 'toss';

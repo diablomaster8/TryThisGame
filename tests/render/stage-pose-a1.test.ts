@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CG4_A1 } from '../../src/config/tuning-a1';
+import { CG4_A1 } from '../../src/config/tuning-more/campaign4-stage-poses';
 import {
   headTurnToward,
   moodGesture,

@@ -11,7 +11,7 @@ import { keeperPerks } from './perks';
 import { setBridged } from './dungeon-bridged';
 import { resetNav } from './dungeon-nav';
 import { flier } from './dungeon-shelves';
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import type { DungeonRun, SimEvent, World } from './types';
 
 const lastSafe = new WeakMap<DungeonRun, Cell>();

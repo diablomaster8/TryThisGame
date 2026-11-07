@@ -1,7 +1,7 @@
 import { Vector3 } from 'three';
 import { storyId, WEATHERED } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
-import { CG2_P } from '../config/tuning-p';
+import { CG2_P } from '../config/tuning-more/campaign2-actors-pip';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
