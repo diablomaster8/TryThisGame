@@ -1,0 +1,58 @@
+/* R0741: the Nubbin that learns beside the child (ui/edu-buddy.ts). */
+.edu-buddy-host {
+  position: relative;
+}
+.edu-buddy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.edu-buddy-pic {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+.edu-buddy-say {
+  min-height: 1.2em;
+}
+/* The pointing hand: top-left of the card, moved into place by its transform. */
+.edu-buddy-pointer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.edu-buddy-pointer polygon {
+  fill: #ffd84a;
+  stroke: #3b2416;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+/* A ring and a dash outline, so the answer is marked by shape as well as by the hand. */
+.edu-buddy-target {
+  outline: 4px dashed #3b2416;
+  outline-offset: 2px;
+}
+.edu-buddy-fingers {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.edu-buddy-hand {
+  display: flex;
+  gap: 2px;
+}
+.edu-buddy-finger {
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid #3b2416;
+  background: #fff1c9;
+}
+.edu-buddy-finger.lit {
+  background: #ffd84a;
+}
