@@ -1,5 +1,5 @@
 import { GROVE } from '../../config/tuning';
-import { STORY_B } from '../../config/tuning-b';
+import { STORY_B } from '../../config/tuning-more/campaign-gate-fold';
 import { hash } from './raster';
 import {
   eaveShadow,
@@ -15,7 +15,7 @@ import { ridged, vnoise } from './noise';
 import { hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
 import { shoreDistance } from './shore';
 import { paintPlaque } from './campaign-k';
-import type { PlaqueCreature } from '../../config/tuning-k';
+import type { PlaqueCreature } from '../../config/tuning-more/campaign2-landmarks';
 
 /**
  * Campaign-graphics package b, pixel painters (C4, C6, C7, M9, M10, N7): the Grove's gate

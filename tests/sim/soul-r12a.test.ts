@@ -4,7 +4,7 @@ import { hatch, evolve } from '../../src/sim/lifecycle';
 import { kinSeen } from '../../src/sim/kin-play';
 import { canHum } from '../../src/sim/hum';
 import { noteFondness } from '../../src/sim/keeper-fondness';
-import { TOY_PAIR } from '../../src/config/tuning-soul-r11a';
+import { TOY_PAIR } from '../../src/config/tuning-more/soul-toy-pairs';
 import { isPairToy, isSocialToy, playersOn, rockTilt, stepToyPairs } from '../../src/sim/toy-pair';
 import { favouredToy } from '../../src/sim/toy-soul';
 import { buyToy, placeToy } from '../../src/sim/craft';

@@ -4,7 +4,7 @@
  * twice as often. Pure and read-only: a function of the Nubbin and the sim clock, so both
  * renderers (and the HUD) agree without a stored field.
  */
-import { DREAMS } from '../config/tuning-soul-r11b';
+import { DREAMS } from '../config/tuning-more/soul-wider-kindergarten';
 import { bestFriend } from './friendships';
 import { likesOf } from './likes';
 import { basePersonality } from './personality';

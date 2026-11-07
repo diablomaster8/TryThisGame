@@ -19,7 +19,7 @@ import {
   twinTail,
   widen,
 } from './nubbin-lineup-kit';
-import type { Mark } from './species';
+import type { SpeciesMark } from './species';
 
 /**
  * The six unlockable character looks on the child body, matched to Maor's "Chao World" line-up
@@ -120,8 +120,8 @@ export const LINEUP_LOOKS: NubbinVariant[] = [
         V(x, y, 0.9 * Math.sqrt(Math.max(0, 1 - (x / 0.95) ** 2 - ((y - 2.25) / 0.85) ** 2)) + out);
       // The V: from the temples at y 2.25 down to an apex at y 1.72, as short capsules that
       // follow the dome (a straight chord would cut inside it and paint nothing).
-      const vLine = (r: number, lift: number, color: string): Mark[] => {
-        const out: Mark[] = [];
+      const vLine = (r: number, lift: number, color: string): SpeciesMark[] => {
+        const out: SpeciesMark[] = [];
         for (const dx of [-1, 1])
           for (let i = 0; i < 4; i++) {
             const x0 = (i / 4) * 0.94;

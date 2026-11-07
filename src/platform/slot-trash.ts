@@ -4,7 +4,7 @@
  * wrapped; with storage blocked nothing is kept and nothing throws. One copy per slot: a
  * second erase of the same slot replaces the first.
  */
-import { SLOT_TRASH } from '../config/tuning-r9d3';
+import { SLOT_TRASH } from '../config/tuning-more/ui-shake-hint';
 import {
   clearSlot,
   indexRestored,

@@ -6,12 +6,12 @@
  * read them, so the preview always matches the hit.
  */
 import { TACTICS } from '../../../config/tuning-tactics';
-import type { Cell, Dir } from './types';
+import type { TacticsCell, Dir } from './types';
 
 const F = TACTICS.facing;
 
 export const DIRS: readonly Dir[] = ['n', 'e', 's', 'w'];
-export const DIR_VEC: Readonly<Record<Dir, Cell>> = {
+export const DIR_VEC: Readonly<Record<Dir, TacticsCell>> = {
   n: { x: 0, y: -1 },
   e: { x: 1, y: 0 },
   s: { x: 0, y: 1 },
@@ -19,7 +19,7 @@ export const DIR_VEC: Readonly<Record<Dir, Cell>> = {
 };
 
 /** The way to face to look from `a` towards `b` (the longer axis wins; ties go north-south). */
-export function dirTo(a: Cell, b: Cell): Dir {
+export function dirTo(a: TacticsCell, b: TacticsCell): Dir {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? 'e' : 'w';
@@ -33,7 +33,7 @@ export type Side = 'front' | 'side' | 'back';
  * Which side of the target the attacker hits: the front when it stands in the half the target
  * faces (on or inside the diagonals), the back in the opposite half, a side otherwise.
  */
-export function sideOf(attacker: Cell, target: Cell, face: Dir): Side {
+export function sideOf(attacker: TacticsCell, target: TacticsCell, face: Dir): Side {
   const f = DIR_VEC[face];
   const vx = attacker.x - target.x;
   const vy = attacker.y - target.y;

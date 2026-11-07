@@ -9,7 +9,7 @@ import {
   tideAt,
   waterlineZ,
 } from '../config/region-shore';
-import { SHORE_LOOK } from '../config/tuning-r11d7';
+import { SHORE_LOOK } from '../config/tuning-more/world-region-lands';
 import { deckMesh, disposeDecks } from '../render/region-kit-px';
 import { hourNow, paintShore, SHORE_GROUND } from '../render/region-shore';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';

@@ -24,7 +24,7 @@ import {
   olderSaves,
   swapOlder,
 } from '../../src/platform/unified-after';
-import { PROFILES } from '../../src/config/tuning-camp11-profiles';
+import { PROFILES } from '../../src/config/tuning-more/story-profiles-packs';
 import { startCampaign } from '../../src/sim/campaign';
 import { chapterOfScene, chapterSelect, currentChapterKeys } from '../../src/sim/chapter-select';
 import { grantPackReward, packOf, packProgress, packQuests } from '../../src/sim/pack-rewards';

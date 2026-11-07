@@ -1,4 +1,4 @@
-import { GROVE_SHED } from '../config/tuning-r8d-perf';
+import { GROVE_SHED } from '../config/tuning-more/perf-tiers';
 
 /**
  * TECH-52: what the Grove gives up above ground before the render scale when frames run

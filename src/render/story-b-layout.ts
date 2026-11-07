@@ -1,5 +1,5 @@
 import { markAt } from '../config/stage-marks';
-import { STORY_B } from '../config/tuning-b';
+import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 
 /**
  * Where package b places things, read from the story marks (stage-marks.ts) so the scenes'

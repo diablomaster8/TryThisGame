@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { holoClear, type BuntingShape } from '../config/campaign-look';
 import { TITLE_CARD_TEXT } from '../config/strings';
-import { LOOK_F } from '../config/tuning-f';
+import { LOOK_F } from '../config/tuning-more/campaign-looks-titles';
 import { fadeNearCamera } from './bunting-fade';
 import { windBend } from './wind-d4';
 

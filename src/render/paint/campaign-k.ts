@@ -1,4 +1,4 @@
-import { PLAQUE_OUTLINES, type Outline, type PlaqueCreature } from '../../config/tuning-k';
+import { PLAQUE_OUTLINES, type Outline, type PlaqueCreature } from '../../config/tuning-more/campaign2-landmarks';
 import { hex, Raster, rimObjects, shade, type RGB } from './raster';
 
 /**

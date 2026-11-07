@@ -6,7 +6,7 @@
  * Times are sim milliseconds (`world.timeMs`), so a fast-forwarded test reads the same.
  */
 import { EGG } from '../config/tuning';
-import { FIRST_LOOP } from '../config/tuning-r11d4';
+import { FIRST_LOOP } from '../config/tuning-more/ui-first-loop';
 import type { SimEvent, World } from './types';
 
 export interface Diary {

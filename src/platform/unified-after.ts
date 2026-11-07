@@ -6,7 +6,7 @@
  * campaign's ending and keepsakes copied into a Hazel's Grove slot (sim/save-unify.ts), the
  * roster never merged. Nothing here deletes a legacy key or an archive copy.
  */
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import { deserialize, serialize } from '../sim/save';
 import { combineEndings, shapeOf } from '../sim/save-unify';
 import { MIGRATED_KEY, unifiedJson, unifiedKey } from './migrate-unified';

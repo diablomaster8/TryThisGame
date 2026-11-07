@@ -6,7 +6,7 @@ import { litLanterns } from './sim/campaign';
 import type { SimEvent } from './sim/types';
 import { playIris } from './ui/travel-iris';
 import { playSound } from './platform/audio';
-import { REGION_BORDER } from './config/tuning-r11d1';
+import { REGION_BORDER } from './config/tuning-more/world-region-engine';
 import { regionFar } from './render/region-host-px';
 import type { Game } from './game';
 

@@ -6,8 +6,8 @@
  * in the sim (Keepers and Nubbins still walk round it).
  */
 import { Vector3, type Camera } from 'three';
-import { STAGE4 } from '../config/tuning-f4';
-import { VIEW_RECT_CACHE } from '../config/tuning-r10d1';
+import { STAGE4 } from '../config/tuning-more/campaign4-fit-shots';
+import { VIEW_RECT_CACHE } from '../config/tuning-more/perf-view-cache';
 import { cachedQuery } from '../platform/dom-cache';
 
 /** A screen rectangle in CSS pixels, viewport coordinates (y down). */

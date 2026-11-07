@@ -12,6 +12,7 @@ import { startLesson, startVariantLesson } from '../kindergarten';
 import { helpQuest } from '../kid-flow';
 import { chooseCastHome } from '../line-rewards';
 import { visit } from '../neighbourhood';
+import { visitWalk } from '../visit-walk';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from '../quest-offers';
 import { abandonLine } from '../story-book';
 import type { Command, SimEvent, World } from '../types';
@@ -42,7 +43,7 @@ function campaignGroup1(
   return;
 }
 
-export const handlers: Handlers = {
+export const handlers = {
   startLesson(world, cmd, events) {
     const n = findNubbin(world, cmd.nubbinId);
     if (n && cmd.variant) startVariantLesson(world, n, cmd.variant, events);
@@ -73,6 +74,12 @@ export const handlers: Handlers = {
   },
   visit(world, cmd, events) {
     visit(world, cmd.trainer, events);
+    return;
+  },
+  visitWalk(world, cmd, events) {
+    // No lane to walk (the Hollow, a far region): fall back to the quick visit.
+    if (!visitWalk(world, cmd.trainer, events) && world.location === 'grove')
+      visit(world, cmd.trainer, events);
     return;
   },
   campaignStart: campaignGroup1,
@@ -147,4 +154,4 @@ export const handlers: Handlers = {
       react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
     return;
   },
-};
+} satisfies Handlers;

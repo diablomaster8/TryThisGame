@@ -11,7 +11,7 @@ import { C, color } from '../../render/sprites/palette';
 import type { SheetCache } from '../../render/sprites/sheets';
 import { sectionAt, type RaceState, type Racer } from '../../sim/race';
 import type { Nubbin } from '../../sim/types';
-import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../../config/tuning-more/soul-old-souls';
 import {
   cheerVoice,
   lineClock,

@@ -1,5 +1,5 @@
 import type * as THREE from 'three';
-import { cardFrom, rgbaCanvas, surfaceFrom, type Surface, type Tex } from './art/aaa-kit';
+import { cardFrom, rgbaCanvas, surfaceFrom, type AaaSurface, type Tex } from './art/aaa-kit';
 import { paintJob, type PaintJob, type PaintedBytes } from './art/surface-paint';
 import { SculptFarm } from './sculpt-farm';
 import type { PaintReply, PaintRequest } from './surface-worker';
@@ -122,7 +122,7 @@ export class GroveTextures {
     if (this.poured.has(name)) return;
     this.poured.add(name);
     const t = this.tex[name];
-    const map = 'map' in t ? (t as Surface).map : (t as THREE.CanvasTexture);
+    const map = 'map' in t ? (t as AaaSurface).map : (t as THREE.CanvasTexture);
     // The GPU copy is sized for the placeholder; dispose it so the upload allocates anew.
     map.dispose();
     map.image = rgbaCanvas(b.size, b.albedo);

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SCENE_STAGES } from '../../src/config/scene-stages';
 import { stageHides } from '../../src/config/stage-sets';
-import { CG2_K, PLAQUE_OUTLINES } from '../../src/config/tuning-k';
+import { CG2_K, PLAQUE_OUTLINES } from '../../src/config/tuning-more/campaign2-landmarks';
 import { memorialSpot } from '../../src/render/memorial-spot';
 import { insideOutline, paintPlaqueSprite } from '../../src/render/paint/campaign-k';
 import { createWorld } from '../../src/sim/world';

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import { CG2_X } from '../config/tuning';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import { FROST_PX, paintFrostDecal } from '../render/paint/frost-w';
 import type { Dress3dCtx } from './dressings';
 import { FrostDecals } from './frost-fx';

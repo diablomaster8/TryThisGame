@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { HOLLOW_KID, HOLLOW_KID_LESSON } from '../../src/content/edu-hollow-kid';
-import { R10B3 } from '../../src/config/tuning-r10b3';
+import { R10B3 } from '../../src/config/tuning-more/dungeon-poof-kid-mode';
 import { HOLLOW, SIM } from '../../src/config/tuning';
 import { actStartDepth } from '../../src/config/dungeon-acts';
 import { battleAct } from '../../src/sim/battle/core';

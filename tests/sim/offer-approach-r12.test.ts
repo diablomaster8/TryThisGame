@@ -1,7 +1,7 @@
 /** Lane C r12 (R0651, R0608): the giver walks up before the card; the quest markers. */
 import { describe, expect, it } from 'vitest';
 import { REGIONS } from '../../src/config/regions';
-import { C12C } from '../../src/config/tuning-camp12c';
+import { C12C } from '../../src/config/tuning-more/story-quest-markers';
 import { questMarkers } from '../../src/render/quest-markers';
 import { offerGiver } from '../../src/sim/offer-approach';
 import { sideStory } from '../../src/sim/story-scenes';

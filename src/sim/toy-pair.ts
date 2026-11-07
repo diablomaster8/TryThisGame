@@ -4,7 +4,7 @@
  * renderers to rock (`rockTilt`). One Nubbin alone just plays; the others see a waiting
  * one as a reason to come (see `toyWeight`). Deterministic: no rng.
  */
-import { TOY_PAIR } from '../config/tuning-soul-r11a';
+import { TOY_PAIR } from '../config/tuning-more/soul-toy-pairs';
 import type { Item, Nubbin, World } from './types';
 
 export function isSocialToy(kind: string | undefined): boolean {

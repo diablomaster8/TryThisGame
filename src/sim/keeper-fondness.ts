@@ -5,7 +5,7 @@
  * when there is fruit. The first time the other Keeper comes near after a switch, it tilts
  * its head ("?"). Behaviour only; optional fields, no save bump.
  */
-import { FONDNESS } from '../config/tuning-soul-r11';
+import { FONDNESS } from '../config/tuning-more/soul-quirks-gait';
 import { soulLive } from './antics';
 import type { IdleAct } from './soul-idle';
 import type { KeeperAlignment, Nubbin, World } from './types';

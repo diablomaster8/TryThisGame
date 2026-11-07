@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { REGIONS } from '../../src/config/regions';
 import { inBoxes, regionLayout, walkableAt } from '../../src/config/region-layout';
 import { SHORE_SPEC, tideAt, waterlineZ } from '../../src/config/region-shore';
-import { SHORE_LOOK } from '../../src/config/tuning-r11d7';
+import { SHORE_LOOK } from '../../src/config/tuning-more/world-region-lands';
 import { planRegionWalk, seamlessOffset } from '../../src/sim/region-walk';
 
 // WORLD-35 (R11 d7): the shore as a drawn region.

@@ -29,7 +29,7 @@ import { addTrust, isWary } from '../trust';
 import { findNubbin, withRng } from '../world';
 import type { Handlers } from './types';
 
-export const handlers: Handlers = {
+export const handlers = {
   // Lane E r10 (R0710): Simple touch's one-tap care.
   tapCare(world, cmd, events) {
     tapCare(world, cmd.nubbinId, events);
@@ -231,4 +231,4 @@ export const handlers: Handlers = {
     addRecruit(world, cmd.name, cmd.species, events);
     return;
   },
-};
+} satisfies Handlers;

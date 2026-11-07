@@ -1,4 +1,4 @@
-import { C12C } from '../config/tuning-camp12c';
+import { C12C } from '../config/tuning-more/story-quest-markers';
 import { STORY } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { EXTRA_LOOKS } from './extra-looks';

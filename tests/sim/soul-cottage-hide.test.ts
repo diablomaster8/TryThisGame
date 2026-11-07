@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EDU_SOUL } from '../../src/config/tuning-fun-r7';
+import { EDU_SOUL } from '../../src/config/tuning-more/fun-voice-antics';
 import { TRUST } from '../../src/config/tuning';
 import { cottageWindow } from '../../src/sim/cottage-hide';
 import { createEdu } from '../../src/sim/edu';

@@ -1,5 +1,5 @@
 import { GROVE, NEEDS, WEATHER } from '../config/tuning';
-import { PUDDLES } from '../config/tuning-r11d6';
+import { PUDDLES } from '../config/tuning-more/world-overview-puddles';
 import { addHappiness } from './needs';
 import type { Rng } from './rng';
 import { localParts } from './local-time';

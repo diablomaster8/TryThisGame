@@ -3,7 +3,7 @@
  * jump there does not reach it; a double jump finds it, once, into the keepsakes.
  */
 import { describe, expect, it } from 'vitest';
-import { FALLS_SHELF } from '../../src/config/tuning-move-r10';
+import { FALLS_SHELF } from '../../src/config/tuning-more/move-keeper-ui';
 import { fallsShelfSpot, keeperFooting, keeperJump, updateKeeper } from '../../src/sim/keeper';
 import { blocked } from '../../src/sim/obstacles';
 import { TERRACES } from '../../src/sim/terrain';

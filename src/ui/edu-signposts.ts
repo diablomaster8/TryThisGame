@@ -1,6 +1,7 @@
 import '../world-hud.css';
 import { EDU_SIGNPOST_TEXT } from '../config/strings-r13d2';
 import { BEACON_LANDMARKS } from '../config/region-extras-r11d6';
+import { EDU_SLICE_SIGNS } from '../config/tuning-r15d1';
 import { REGIONS } from '../config/regions';
 import type { Game } from '../game';
 import { regionOf } from '../sim/regions';
@@ -41,10 +42,11 @@ export function mountEduSignposts(root: HTMLElement, game: () => Game | null): v
           b.type = 'button';
           b.className = 'btn edu-signpost';
           const home = e.to === 'grove';
-          const name = EDU_SIGNPOST_TEXT.names[e.to] ?? e.to;
+          const sign = EDU_SLICE_SIGNS[e.to];
+          const name = sign?.name ?? EDU_SIGNPOST_TEXT.names[e.to] ?? e.to;
           b.textContent = home
             ? '🏠'
-            : (BEACON_LANDMARKS[e.to as keyof typeof BEACON_LANDMARKS]?.icon ?? '🪧');
+            : (sign?.icon ?? BEACON_LANDMARKS[e.to as keyof typeof BEACON_LANDMARKS]?.icon ?? '🪧');
           b.setAttribute(
             'aria-label',
             home ? EDU_SIGNPOST_TEXT.home : EDU_SIGNPOST_TEXT.label(name),

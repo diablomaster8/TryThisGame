@@ -8,7 +8,7 @@
  * Deterministic like any bout: seeded from the world as the played bout would be, with the
  * Keeper side's picks from a second generator derived from that seed.
  */
-import { BATTLE_R5 } from '../../config/tuning-battle-r5';
+import { BATTLE_R5 } from '../../config/tuning-more/battle-doors';
 import { Rng } from '../rng';
 import type { SimEvent, World } from '../types';
 import { bestAllyAction, chooseAction } from './ai';

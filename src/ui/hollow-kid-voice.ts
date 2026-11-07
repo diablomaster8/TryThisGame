@@ -1,5 +1,5 @@
 import { HOLLOW_KID } from '../content/edu-hollow-kid';
-import { R10B3 } from '../config/tuning-r10b3';
+import { R10B3 } from '../config/tuning-more/dungeon-poof-kid-mode';
 import type { SimEvent, World } from '../sim/types';
 import { speakLine } from './lesson';
 

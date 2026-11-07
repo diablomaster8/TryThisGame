@@ -2,7 +2,7 @@
  * R0743: a child's saved drawings, small PNG data URLs kept in the save. The UI sends
  * `saveDrawing`; this validates it and keeps only the newest `PAINT.maxDrawings`.
  */
-import { PAINT } from '../config/tuning-kids-r11e';
+import { PAINT } from '../config/tuning-more/kids-noticing';
 import type { World } from './types';
 
 const PREFIX = 'data:image/png;base64,';

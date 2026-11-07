@@ -5,7 +5,7 @@
  * left alone cracks the same way. Render-only: reads the Nubbin, writes nothing.
  */
 import { EGG } from '../config/tuning';
-import { EGG_CRACK } from '../config/tuning-r10d2';
+import { EGG_CRACK } from '../config/tuning-more/ui-inspect-egg';
 import type { Nubbin } from '../sim/types';
 
 export type CrackStage = 0 | 1 | 2 | 3 | 4 | 5;

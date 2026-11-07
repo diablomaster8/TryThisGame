@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { GROVE } from '../../src/config/tuning';
-import { ICE } from '../../src/config/tuning-r14d2';
+import { ICE } from '../../src/config/tuning-more/world-edu-trail-ice';
 import { ICE_Y, keeperOnIce, pondIsIce } from '../../src/sim/ice';
 import { keeperFooting } from '../../src/sim/keeper';
 import { createWorld, stepWorld } from '../../src/sim/world';

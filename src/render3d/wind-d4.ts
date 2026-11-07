@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import type { WindState } from '../render/d4-state';
 
 /**

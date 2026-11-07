@@ -9,7 +9,7 @@
  *
  * Live play only (`soulLive`), so time away is simulated exactly as before.
  */
-import { STATE_FLAVOUR } from '../config/tuning-soul-r10';
+import { STATE_FLAVOUR } from '../config/tuning-more/soul-friends-rivals';
 import { soulLive } from './antics';
 import { bestFriend } from './friendships';
 import { hasTrait } from './traits';

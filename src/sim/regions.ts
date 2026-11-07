@@ -6,6 +6,7 @@
  * travel never touches them or the random stream, so leaving and coming back changes nothing
  * at home.
  */
+import { inSlice } from './edu-region-bounds';
 import { companionsArrive } from './region-companion';
 import { REGIONS, REGION_ORDER, type RegionDef, type RegionId } from '../config/regions';
 import { setLocation } from './campaign';
@@ -63,6 +64,13 @@ export function travelBlock(
   if (exitLocked(world, exit)) return 'locked';
   // R13 d2 (R0099): the Learning Grove only goes to kid-safe places.
   if (world.edu && !to.kidsSafe) return 'not-for-kids';
+  // R0099: and only within the slice of each place it may walk: the way out must stand in the
+  // slice of this region, and the arrival in the slice of the next.
+  if (world.edu) {
+    const at = { x: exit.rect.x + exit.rect.w / 2, z: exit.rect.z + exit.rect.h / 2 };
+    if (!inSlice(regionOf(world.location), at) || !inSlice(exit.to, exit.arrive))
+      return 'not-for-kids';
+  }
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   // R12 lane D (WORLD-33): a garden gate on the lane names its own sub-place; without one

@@ -10,7 +10,7 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
-import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-r8d-audio';
+import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-more/audio-mix';
 import { PLAIN_VOICE, type ChirpVoice } from './chirp-voice';
 import { playSfxVoices } from './audio-sfx';
 import { SONGS, type Inst, type Note, type Song, type Track } from './audio-songs';
