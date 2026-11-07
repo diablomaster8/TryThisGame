@@ -20,6 +20,7 @@ import { EDU_OFFLINE_TEXT } from '../config/strings-listen';
 import { groveStill } from './edu-scene';
 import { GROVE_SHAPES, GROVE_VIEW } from '../config/edu-grove-shapes';
 import { EDU_COLOUR_PATTERN } from '../config/edu-things';
+import { patternClass, patternToggle } from './edu-patterns'; /* R0732 */
 import {
   EDU_PICKER_TEXT,
   EDU_RESULTS_TEXT,
@@ -381,7 +382,22 @@ export class EduScreen {
     if (r.scene === 'grove') {
       // R0733: the options are hotspots over the Grove still.
       const scene = el('div', 'edu-scene');
-      scene.appendChild(groveStill());
+      // Each option's own colour, and no unlisted prop of the asked shape (a second right answer).
+      const colours: Record<string, string> = {};
+      for (const o of r.options) if (o.kind === 'prop' && o.colour) colours[o.prop] = o.colour;
+      const ans = r.options[r.answer];
+      scene.appendChild(
+        groveStill({
+          colours,
+          without:
+            ans?.kind === 'prop'
+              ? {
+                  shape: ans.shape,
+                  keep: r.options.flatMap((o) => (o.kind === 'prop' ? [o.prop] : [])),
+                }
+              : undefined,
+        }),
+      );
       opts.className = 'edu-hotspots';
       opts.querySelectorAll<HTMLElement>('.edu-option').forEach((b, i) => {
         const o = r.options[i];
@@ -398,6 +414,8 @@ export class EduScreen {
       scene.appendChild(opts);
       c.appendChild(scene);
     } else c.appendChild(opts);
+    // R0732: the "Show patterns on colours" switch sits under every colour round.
+    if (r.game === 'colours') c.appendChild(patternToggle(c));
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
     const lines = roundSpeech(r, this.band(), this.readAloud());
@@ -483,7 +501,7 @@ export class EduScreen {
       this.starsTotal += stars;
       btn.classList.add('right');
       playSound('win');
-      cheerBuddy(this.card, this.game_()); // R0741
+      cheerBuddy(this.card, this.game_(), r); // R0741
       this.revealLabels();
       this.reply(
         `${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`,
@@ -704,18 +722,16 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
   switch (o.kind) {
     case 'colour': {
       const sw = el('div', 'edu-swatch');
-      sw.style.background = EDU_COLOUR_HEX[o.colour] ?? o.colour;
-      sw.classList.add(`edu-pat-${EDU_COLOUR_PATTERN[o.colour] ?? 'plain'}`);
+      // backgroundColor, not `background`: the shorthand would wipe the pattern's image.
+      sw.style.backgroundColor = EDU_COLOUR_HEX[o.colour] ?? o.colour;
+      sw.className += patternClass(EDU_COLOUR_PATTERN[o.colour]);
       box.appendChild(sw);
       break;
     }
     case 'thing': {
       // R0732: the object sits on a plate in its colour, with the colour's pattern.
-      const plate = el(
-        'div',
-        `edu-swatch edu-thing edu-pat-${EDU_COLOUR_PATTERN[o.colour] ?? 'plain'}`,
-      );
-      plate.style.background = EDU_COLOUR_HEX[o.colour] ?? o.colour;
+      const plate = el('div', `edu-swatch edu-thing${patternClass(EDU_COLOUR_PATTERN[o.colour])}`);
+      plate.style.backgroundColor = EDU_COLOUR_HEX[o.colour] ?? o.colour;
       plate.appendChild(eduIcon(o.icon, 'edu-icon'));
       box.appendChild(plate);
       break;
