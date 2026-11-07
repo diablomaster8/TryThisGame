@@ -42,7 +42,10 @@ import '../r12d2.css';
 import { MAP_LAYER_TEXT } from '../config/strings-world';
 import { MAP_LAYERS, mapOverlay, type MapLayer } from '../sim/map-overlays';
 
-const MARK_GLYPH_STATE = { available: '!', tracked: '◆', active: '◇', done: '✓' } as const;
+/** Place names, found landmarks and layer spots give way on a narrow map; quest marks never. */
+const MINOR_CHIPS = ['wm-mark', 'wm-found', 'wm-spot'];
+
+const MARK_GLYPH_STATE ={ available: '!', tracked: '◆', active: '◇', done: '✓' } as const;
 
 interface Chip {
   key: string;
@@ -80,12 +83,14 @@ export function overlaps(a: Rect, b: Rect, gap = 2): boolean {
 }
 
 /**
- * Place label boxes near their anchors without overlaps, inside the view. Greedy: the most
- * crowded anchors choose first, each tries below, above, right, left, then rings further out.
- * Returns the chosen top-left per box, or null for one with no anchor on screen.
+ * Place label boxes near their anchors without overlaps, inside the view. Greedy: required
+ * boxes before minor ones, then the most crowded anchors first; each tries below, above,
+ * right, left, then rings further out. Returns the chosen top-left per box, or null for one
+ * with no anchor on screen, or a minor one with no free spot near its pin (a narrow phone
+ * hides it rather than stacking it on another label; zooming in brings it back).
  */
 export function layoutChips(
-  boxes: ReadonlyArray<{ ax: number; ay: number; w: number; h: number }>,
+  boxes: ReadonlyArray<{ ax: number; ay: number; w: number; h: number; minor?: boolean }>,
   viewW: number,
   viewH: number,
 ): Array<{ x: number; y: number } | null> {
@@ -100,7 +105,12 @@ export function layoutChips(
       const b = boxes[i]!;
       return b.ax >= 0 && b.ay >= 0 && b.ax <= viewW && b.ay <= viewH;
     })
-    .sort((i, j) => crowd[j]! - crowd[i]! || boxes[i]!.ay - boxes[j]!.ay);
+    .sort(
+      (i, j) =>
+        Number(!!boxes[i]!.minor) - Number(!!boxes[j]!.minor) ||
+        crowd[j]! - crowd[i]! ||
+        boxes[i]!.ay - boxes[j]!.ay,
+    );
   for (const i of order) {
     const b = boxes[i]!;
     const cands: Array<{ x: number; y: number }> = [
@@ -123,6 +133,8 @@ export function layoutChips(
       pick = c;
       break;
     }
+    // A minor label with nothing free near its pin stays hidden.
+    if (!pick && b.minor) continue;
     // Nothing near is free: take the nearest free spot anywhere in the view, and only if the
     // view is full, clamp the first choice in (it may overlap; the phone check catches it).
     if (!pick) {
@@ -704,7 +716,12 @@ export class WorldMapPanel {
       c.w = c.node.offsetWidth;
       c.h = c.node.offsetHeight;
     }
-    const anchors = this.chips.map((c) => ({ ...this.anchor(c), w: c.w, h: c.h }));
+    const anchors = this.chips.map((c) => ({
+      ...this.anchor(c),
+      w: c.w,
+      h: c.h,
+      minor: MINOR_CHIPS.some((m) => c.cls.split(' ').includes(m)),
+    }));
     const spots = layoutChips(anchors, size, size);
     let svg = '';
     this.chips.forEach((c, i) => {
