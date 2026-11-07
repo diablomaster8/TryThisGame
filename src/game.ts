@@ -26,7 +26,6 @@ import {
   visitingProfile,
   watchOtherTabs,
   claimSlot,
-  writeSave,
   writeThumb,
 } from './platform/storage';
 import { OrbitCamera } from './render/camera';
@@ -37,7 +36,6 @@ import { LowResPipeline, type FrameStats } from './render/pipeline';
 import { SceneStager, type FitPoint } from './render/scene-stage';
 
 import { WorldView } from './render/world-view';
-import { paintGrade } from './ui/look-paint';
 
 import { currentGrade } from './ui/title-card';
 
@@ -54,6 +52,14 @@ import { DebugOverlay } from './render/debug-colliders';
 import { SpriteCuller } from './render/chunks';
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { AutosaveQueue, browserIdle, writeWorld } from './platform/autosave';
+import {
+  cropFrame,
+  dropShot,
+  queueAutosave,
+  THUMB_EVERY_MS,
+  type FrameShot,
+} from './game-autosave';
 
 import { PixelGovernor } from './render/pixel-gov';
 import { FAST_TIME } from './config/tuning-more/perf-tiers';
@@ -195,26 +201,9 @@ export class Game {
     else if (this.lowRes && this.grove) this.lowRes.render(this.grove.scene, this.camera.camera);
     else return null;
     const src = this.canvas;
-    if (!src.width || !src.height) return null;
-    const out = document.createElement('canvas');
-    out.width = w;
-    out.height = h;
-    const ctx = out.getContext('2d');
-    if (!ctx) return null;
-    const k = Math.min(src.width / w, src.height / h);
-    const sw = w * k;
-    const sh = h * k;
-    ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
     // K30: the DOM grade layers (tint, split grade, desaturation, ground tint) are not in the
-    // canvas, so paint them on the copy; the grid's 48 CSS px spacing scales with the crop.
-    paintGrade(
-      ctx,
-      w,
-      h,
-      currentGrade(),
-      48 * (h / Math.max(1, src.clientHeight || src.height / k)),
-    );
-    return out;
+    // canvas, so `cropFrame` paints them on the copy.
+    return cropFrame(src, src.width, src.height, src.clientHeight, w, h, currentGrade());
   }
 
   /** Decorating: the piece a ground tap places, or null. */
@@ -519,9 +508,8 @@ export class Game {
 
   /** R0447: a 160x90 picture of the Grove for the title's slot list, at most every 2 minutes. */
   saveThumb(): void {
-    const now = performance.now();
-    if (document.hidden || now < this.nextThumbMs || this.world.dungeon) return;
-    this.nextThumbMs = now + 120_000;
+    if (!this.thumbDue()) return;
+    this.nextThumbMs = performance.now() + THUMB_EVERY_MS;
     try {
       const c = this.captureFrame(160, 90);
       if (c) writeThumb(currentSlot(), c.toDataURL('image/jpeg', 0.5));
@@ -532,17 +520,40 @@ export class Game {
 
   nextThumbMs = 15_000;
 
+  /** Is the slot list's picture due (never of a hidden page or the Hollow). */
+  thumbDue(): boolean {
+    return !document.hidden && performance.now() >= this.nextThumbMs && !this.world.dungeon;
+  }
+
+  /** hot/perf-leaks E4: the periodic autosave waits for idle time (`game-autosave.ts`). */
+  readonly autosave = new AutosaveQueue({ idle: browserIdle, now: () => performance.now() });
+  /** The frame copy a waiting autosave will turn into the slot picture. */
+  autosaveShot: FrameShot | null = null;
+
+  /**
+   * Save now, synchronously (tab hidden, page hide, slot switch, import, Settings). A waiting
+   * autosave is dropped: this save writes the newer state.
+   */
   save(): boolean {
+    this.autosave.drop();
+    dropShot(this.autosaveShot);
+    this.autosaveShot = null;
+    const ok = this.writeNow();
+    if (ok) this.saveThumb();
+    return ok;
+  }
+
+  /** Serialise and write the world as it stands; the slot picture is the caller's. */
+  writeNow(): boolean {
     if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
       this.lastSaveMs = performance.now();
       return false;
     }
-    const ok = writeSave(serialize(this.world, Date.now()));
+    const ok = writeWorld(this.world, Date.now());
     if (!ok && this.storageOk) this.hooks.onStorageBlocked();
     // Storage that recovers (space freed, a setting changed) warns again if it fails later.
     this.storageOk = ok;
     this.lastSaveMs = performance.now();
-    if (ok) this.saveThumb();
     return ok;
   }
 
@@ -732,7 +743,10 @@ export class Game {
     // R0091: findable collectibles twinkle near the Keeper, in either renderer.
     this.glintKeepsakes(nowMs);
 
-    if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
+    // hot/perf-leaks E4: the frame only asks; the write runs in idle time after it.
+    if (nowMs - this.lastSaveMs >= SIM.autosaveMs) {
+      queueAutosave(this, !this.renderPaused && (!!this.scene3d || !!(this.grove && this.lowRes)));
+    }
     this.spikes.lap('save');
   }
 
