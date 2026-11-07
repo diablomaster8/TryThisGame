@@ -547,6 +547,82 @@ export function applyGen1b3d(
         );
         mouth = { ...mouth, width: 0.01 };
         break;
+      case 'trunk': {
+        // R0405: a palm's trunk in the bark colour, ringed, slimmer toward the top.
+        torso.push(
+          ell(V(0, b.y - b.r.y * 0.05, 0), b.r.clone().multiplyScalar(1.05), c.accent2!, 0.02),
+        );
+        for (let i = 0; i < 5; i++) {
+          const k = (i + 0.5) / 5;
+          torso.push(
+            ell(
+              V(0, b.y - b.r.y + b.r.y * 2 * k, 0),
+              V(b.r.x * 1.1, 0.035, b.r.z * 1.1),
+              c.shade!,
+              0.01,
+            ),
+          );
+        }
+        break;
+      }
+      case 'seahorse': {
+        // R0405: a belly that bulges toward the face with pale rings, a back fin, a tail
+        // that curls forward and up, and a longer tube snout.
+        const sp = art.crest === 'spikesTop';
+        torso.push(
+          ell(
+            V(0, b.y + b.r.y * 0.35, b.r.z * 0.9),
+            V(b.r.x * 1.25, b.r.y * 0.55, b.r.z * 1.5),
+            c.body!,
+            0.12,
+          ),
+        );
+        for (let i = 0; i < 4; i++)
+          torso.push(
+            ell(
+              V(0, b.y + b.r.y * (0.75 - i * 0.28), b.r.z * 1.35),
+              V(b.r.x * 1.1, 0.04, b.r.z * 1.2),
+              c.belly!,
+              0.01,
+            ),
+          );
+        torso.push(
+          ell(V(0, b.y + b.r.y * 0.3, -b.r.z * 1.4), V(0.05, b.r.y * 0.4, 0.4), c.accent!, 0.03),
+        );
+        if (sp)
+          for (let i = 0; i < 4; i++) {
+            const y = b.y + b.r.y * (0.6 - i * 0.28);
+            torso.push(
+              cone(
+                V(0, y, -b.r.z * 1.2),
+                V(0, y + 0.18, -b.r.z * 1.2 - 0.55),
+                0.1,
+                0.02,
+                c.accent!,
+                0.03,
+              ),
+            );
+          }
+        // The tail spiral (z forward, y up): down, forward, up, narrowing.
+        const cz = 0.3;
+        const cy = 0.5;
+        for (let k = 0; k <= 1.0001; k += 0.1) {
+          const ang = Math.PI + k * Math.PI * 2.05;
+          const rad = 0.34 - k * 0.2;
+          torso.push(
+            sphere(
+              V(0, cy + Math.sin(ang) * rad, cz + Math.cos(ang) * rad),
+              0.17 - k * 0.09,
+              c.body!,
+              0.1,
+            ),
+          );
+        }
+        head.push(
+          cap(V(0, h.y - 0.22, front + 0.3), V(0, h.y - 0.28, front + 0.8), 0.1, c.body!, 0.05),
+        );
+        break;
+      }
       case 'snout':
         head.push(
           cap(V(0, h.y - 0.18, front - 0.2), V(0, h.y - 0.22, front + 0.3), 0.14, c.body!, 0.06),

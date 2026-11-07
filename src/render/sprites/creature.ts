@@ -14,6 +14,7 @@ import {
 import {
   drawGas,
   drawGen1b,
+  drawSeahorseBody,
   drawHeads,
   headScale,
   headSlots,
@@ -34,6 +35,17 @@ import { C, shadeOf } from './palette';
 import { PixelCanvas, PX } from './pixel-canvas';
 import { DINO_LEAN_PX } from '../../config/tuning-more/look-creature-fx';
 import { drawExtras, type Extra } from './creature-extras';
+import {
+  bigHas,
+  drawBigClaw,
+  drawBigTail,
+  drawBigWings,
+  drawNeck,
+  drawWhiskers,
+  headroomPx,
+  neckPx,
+  type BigPart,
+} from './creature-big';
 import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
 
 /**
@@ -132,6 +144,8 @@ export interface CreatureSpec {
    * is for extra parts. Babies stay at 32 so the size difference itself tells the story.
    */
   grid?: 32 | 48;
+  /** Parts only a grid-48 form draws (`creature-big.ts`): a long neck, big wings, a thick tail. */
+  big?: BigPart[];
 }
 
 export const CREATURE_SIZE = 32;
@@ -227,8 +241,10 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
       headRy = Math.round(5 * s * pose.squash);
       bodyRx = Math.round(6.5 * s);
       bodyRy = Math.round(8 * s * pose.squash);
+      // A long neck (grid 48): the torso gives up height, the head keeps its place.
+      bodyRy -= neckPx(spec) + headroomPx(spec);
       bodyCy = feetY - bodyRy + u(1) - (spec.legs === 'none' ? 0 : u(1));
-      headCy = bodyCy - bodyRy - headRy + u(3) + pose.headDrop;
+      headCy = bodyCy - bodyRy - headRy + u(3) + pose.headDrop - 2 * neckPx(spec);
       break;
     case 'shell':
       headRx = Math.round(8 * s);
@@ -465,6 +481,10 @@ function drawTail(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, behind: boole
     y = a.headCy + a.headRy - 1;
   }
   const d: 1 | -1 = a.face >= 1 ? -1 : 1;
+  if (bigHas(spec, 'bigTail')) {
+    drawBigTail(pc, a, spec, x, y, d);
+    return;
+  }
   switch (spec.tail) {
     case 'lightning':
       pc.line(x, y, x + d * 3, y - 2, col.accent2);
@@ -522,6 +542,10 @@ function drawWings(
   behind: boolean,
 ): void {
   if (spec.wings === 'none' || spec.plan === 'bird') return;
+  if (bigHas(spec, 'wingBones')) {
+    drawBigWings(pc, a, spec, pose.wings === 1 ? 3 : 0, behind);
+    return;
+  }
   if (behind === a.back) return;
   const col = spec.colors;
   const raise = pose.wings === 1 ? 3 : 0;
@@ -593,6 +617,10 @@ function drawArmsLegs(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: Cha
         pc.disc(hx + d, hy + 2, 1.6, col.body);
         break;
       case 'claws':
+        if (bigHas(spec, 'clawArms')) {
+          drawBigClaw(pc, a, spec, sx, sy, hx, hy, d);
+          break;
+        }
         pc.line(sx, sy, hx, hy, col.body);
         pc.tri(hx - 1, hy, hx + 1, hy, hx + d * 3, hy + 3, col.accent2);
         pc.tri(hx - 1, hy - 1, hx + 1, hy - 1, hx + d * 3, hy - 3, col.accent2);
@@ -770,6 +798,18 @@ function drawMarks(pc: PixelCanvas, a: Anchors, spec: CreatureSpec): void {
         }
         break;
       case 'spots':
+        // R0405: the seed line wears dark-green blotches, not single dots.
+        if (spec.addons?.some((e) => e.kind === 'bulb' || e.kind === 'bud' || e.kind === 'bloom')) {
+          for (const [dx, dy, r] of [
+            [-4, -3, 1.6],
+            [4, -1, 1.4],
+            [-1, 4, 1.4],
+            [3, 4, 1],
+          ] as const)
+            if (!a.back || dy < 3)
+              pc.disc(a.headCx + dx * (a.face >= 1 ? 0.5 : 1), a.headCy + dy, r, C.forest);
+          break;
+        }
         pc.px(a.headCx - 3, a.headCy - 3, col.shade);
         pc.px(a.headCx + 4, a.headCy - 1, col.shade);
         pc.px(a.headCx + 1, a.headCy + 4, col.shade);
@@ -831,6 +871,11 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
       return;
     }
     case 'stalk': {
+      if (spec.gen1b?.includes('seahorse')) {
+        drawSeahorseBody(pc, a, spec);
+        blob(a.headCx, a.headCy, a.headRx, a.headRy);
+        return;
+      }
       pc.rect(a.bodyCx - a.bodyRx, a.bodyCy - a.bodyRy, a.bodyRx * 2, a.bodyRy * 2, col.shade);
       pc.rect(
         a.bodyCx - a.bodyRx + 1,
@@ -909,12 +954,14 @@ export function drawCreature(
   drawHeads(pc, a, spec, pose, false, face);
   if (spec.plan === 'biped' || spec.plan === 'tall' || spec.plan === 'round')
     drawArmsLegs(pc, a, spec, pose);
+  drawNeck(pc, a, spec);
   drawBody(pc, a, spec, pose);
   drawMarks(pc, a, spec);
   drawGen1b(pc, a, spec, pose, 'mid');
   drawEars(pc, a, spec);
   drawCrest(pc, a, spec);
   drawFace(pc, a, spec, pose);
+  if (bigHas(spec, 'whiskers')) drawWhiskers(pc, a, spec);
   drawKitExtras(pc, a, spec, false);
   drawWings(pc, a, spec, pose, false);
   drawTail(pc, a, spec, false);

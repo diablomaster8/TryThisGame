@@ -77,7 +77,9 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
   // Kabuterimon (LOOK-41): the insect recipe: four arms, a big horn, four see-through wings.
   thunderbug: insect(pal(C.water, C.deepWater, C.shallows, C.sunYellow, C.skyLight, C.ember), {
     crest: 'horn',
+    grid: 48,
     marks: ['chest'],
+    addons: [ex('batWings2', C.skyLight, C.deepWater)],
   }),
   frostwolf: spec(pal(C.pale, C.lilacGrey, C.white, C.water, C.white, C.ink, C.deepWater), {
     plan: 'quad',
