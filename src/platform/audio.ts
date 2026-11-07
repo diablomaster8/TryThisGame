@@ -10,6 +10,7 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
+import { HOLLOW_CUE_NOTES, type HollowNoteCue } from '../config/tuning-r17d1';
 import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-more/audio-mix';
 import { PLAIN_VOICE, type ChirpVoice } from './chirp-voice';
 import { playSfxVoices } from './audio-sfx';
@@ -1188,7 +1189,9 @@ export type HollowCue =
   | 'shrine'
   | 'waypoint'
   | `drop:${'plain' | 'shiny' | 'fancy' | 'legendary' | 'set'}`
-  | `boss:${number}`;
+  | `boss:${number}`
+  /** R0450 (R17 d1): the Hollow's own sounds beyond the encounter set (`HOLLOW_CUE_NOTES`). */
+  | HollowNoteCue;
 
 export function playHollowCue(cue: HollowCue): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
@@ -1220,6 +1223,9 @@ export function playHollowCue(cue: HollowCue): void {
       [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 70, 160, 'triangle', 0.05));
     } else if (cue === 'drop:set') {
       for (const f of [523, 659, 784, 1047]) tone(f, 0, 600, 'triangle', 0.035);
+    } else if (cue in HOLLOW_CUE_NOTES) {
+      for (const [f, at, dur, wave, gain, slide] of HOLLOW_CUE_NOTES[cue as HollowNoteCue])
+        tone(f, at, dur, wave, gain, slide);
     } else if (cue.startsWith('boss:')) {
       const root = [110, 98, 123, 87, 73][Number(cue.slice(5))] ?? 110;
       tone(root, 0, 500, 'sawtooth', 0.05);

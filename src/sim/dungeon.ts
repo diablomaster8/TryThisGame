@@ -1,5 +1,8 @@
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
-import { caveReturn } from './cave-entrances';
+import { caveBack, caveReturn, caveWayOf } from './cave-entrances';
+import { regionLocation, resetCrossing } from './region-walk';
+import { noteRegion } from './regions';
+import type { RegionExit } from '../config/regions';
 import { hashString } from './hash-string';
 import { CRITTER_SPECIES, RARE_CRITTERS } from './critters';
 import { RARE_CRITTER_DROP } from '../config/tuning-look'; /* Lane E r11, R0402 */
@@ -1123,6 +1126,60 @@ export function enterDungeon(
   return true;
 }
 
+/**
+ * R0115 (R17 d1): in by a `stairs` way of a drawn region (the ridge's ice caves, the ruins'
+ * door) into a small cave: a short run of the Hollow's own floors (`caves:<id>`), the same
+ * every visit, whose last stairs and Leave both come back out at the way's pair, facing away.
+ * It never counts as a Hollow trip (no best depth, no run tally).
+ */
+export function enterCave(
+  world: World,
+  exit: RegionExit,
+  from: RegionExit['to'],
+  events: SimEvent[],
+): boolean {
+  const def = caveWayOf(exit.id);
+  const back = def ? caveBack(def) : null;
+  if (!def || !back || world.dungeon || world.location === 'dungeon') return false;
+  const party = choosePartyFor(world);
+  const run: DungeonRun = {
+    seed: def.seed,
+    depth: 1,
+    daily: null,
+    party,
+    returnKeeper: { x: back.arrive.x, z: back.arrive.z },
+    returnParty: Object.fromEntries(
+      party.map((id) => {
+        const n = world.nubbins.find((x) => x.id === id)!;
+        return [id, { x: n.pos.x, z: n.pos.z }];
+      }),
+    ),
+    taken: [],
+    chestOpen: false,
+    strays: [],
+    wild: [],
+    pending: null,
+    pendingPos: null,
+    fetch: {},
+    haul: { shells: 0, items: 0 },
+    startedMs: world.timeMs,
+    genVersion: HOLLOW.genVersion,
+    explored: '',
+    keepers: [],
+    cave: { id: def.id, from, way: exit.id, floors: def.floors },
+  };
+  const f = floorOfRun(run);
+  populate(run, f);
+  run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
+  world.dungeon = run;
+  world.location = 'dungeon';
+  placeParty(world, run, f);
+  resetCrossing(world);
+  events.push({ kind: 'dungeonEntered', depth: 1, daily: false, cave: def.id });
+  events.push({ kind: 'located', location: 'dungeon' });
+  return true;
+}
+
 export function leaveDungeon(world: World, events: SimEvent[]): boolean {
   const run = world.dungeon;
   if (!run || world.location !== 'dungeon') return false;
@@ -1133,28 +1190,38 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
   // R0175: the sack banks on the way in; R0185 and R0211 note the trip.
   bankSack(world, run, 'home', events);
   noteTripEnd(world, run);
+  const cave = run.cave;
   returnHome(world, run);
-  world.hollow.runs += 1;
-  world.hollow.best = Math.max(world.hollow.best, run.depth);
+  // R0115: a small cave is not a Hollow trip: no run tally, no best depth.
+  if (!cave) {
+    world.hollow.runs += 1;
+    world.hollow.best = Math.max(world.hollow.best, run.depth);
+  }
   events.push({
     kind: 'dungeonLeft',
     depth: run.depth,
     shells: run.haul.shells,
     items: run.haul.items,
+    ...(cave ? { cave: cave.id } : {}),
   });
-  events.push({ kind: 'located', location: 'grove' });
+  events.push({ kind: 'located', location: world.location });
+  if (cave) noteRegion(world, events);
   return true;
 }
 
 /** Back up to the Grove where everyone was before the Hollow; the run itself is left alone. */
 export function returnHome(world: World, run: DungeonRun): void {
-  world.location = 'grove';
+  const cave = run.cave;
+  world.location = cave ? regionLocation(cave.from as RegionExit['to']) : 'grove';
   world.dungeon = null;
   const k = world.keeper;
   k.pos = { x: run.returnKeeper.x, z: run.returnKeeper.z };
-  // R0115 (lane D): back out by a mouth, facing away from it.
-  const out = caveReturn('grove', k.pos);
+  // R0115 (lane D): back out by a mouth, facing away from it. A small cave comes out at its
+  // own pair's spot in the region it was entered from (R17 d1).
+  const def = cave ? caveWayOf(cave.way) : null;
+  const out = def ? caveBack(def) : caveReturn('grove', k.pos);
   if (out) k.facing = out.facing;
+  if (cave) resetCrossing(world);
   k.moveTarget = null;
   k.intent = null;
   run.party.forEach((id, i) => {
@@ -1172,6 +1239,11 @@ export function returnHome(world: World, run: DungeonRun): void {
 }
 
 function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
+  // R0115 (R17 d1): a small cave's last floor leads straight back out.
+  if (run.cave && run.depth >= run.cave.floors) {
+    leaveDungeon(world, events);
+    return;
+  }
   // The bottom of an act: the boss guards the way on; once it is beaten the way leads home
   // with the haul, and the next act is open from the cave mouth (R0145).
   if (run.act !== undefined && run.depth >= actBossDepth(run.act)) {
@@ -1205,7 +1277,7 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
     const p = actProgress(world, run.act);
     p.deepest = Math.max(p.deepest, run.depth - actStartDepth(run.act) + 1);
   }
-  world.hollow.best = Math.max(world.hollow.best, run.depth);
+  if (!run.cave) world.hollow.best = Math.max(world.hollow.best, run.depth);
   if (run.daily && run.daily === world.hollow.dailyDay)
     world.hollow.dailyDepth = Math.max(world.hollow.dailyDepth, run.depth);
   noteDailyDepth(world, run);

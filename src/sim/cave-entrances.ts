@@ -6,6 +6,7 @@
  * mouth comes back out (`caveReturn`), so DUNG's floors attach to the world's entrances.
  */
 import { REGIONS, type RegionExit, type RegionId } from '../config/regions';
+import { CAVE_WAYS, type CaveWayDef } from '../config/tuning-r17d1';
 import type { Vec2 } from './types';
 
 /** How near the mouth the Keeper stands when it counts as going in by it. */
@@ -38,4 +39,21 @@ export function caveReturn(region: RegionId, from: Vec2): { pos: Vec2; facing: n
     return { pos: { x: c.back.arrive.x, z: c.back.arrive.z }, facing: c.back.facing };
   }
   return null;
+}
+
+// ---------------------------------------------------------------- R17 d1: the caves' floors
+
+/** The cave a mouth's exit leads into (`ridge-ice`, `ruins-door`), or null for any other way. */
+export function caveWayOf(exitId: string): CaveWayDef | null {
+  return CAVE_WAYS[exitId] ?? null;
+}
+
+/** The place a cave is, as the world names it: `caves:<id>`. */
+export function cavePlace(def: Pick<CaveWayDef, 'id'>): string {
+  return `caves:${def.id}`;
+}
+
+/** The cave region's own way back out of a cave: its `arrive` is the mouth's spot, facing out. */
+export function caveBack(def: CaveWayDef): RegionExit | null {
+  return REGIONS.caves.exits.find((e) => e.id === def.back) ?? null;
 }
