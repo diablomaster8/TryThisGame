@@ -14,7 +14,7 @@ import {
 } from '../../config/edu';
 import type { EduBand } from '../../content/types';
 import type { Rng } from '../../sim/rng';
-import { readerRhymeRound, readerSpellingRound, readerSumRound } from './reader-games';
+import { READER_ROUNDS } from './reader-games';
 import { GROVE_HUNT_SHAPES, GROVE_SHAPES } from '../../config/edu-grove-shapes';
 import { EDU_COLOUR_THINGS, EDU_COLOUR_THING_SHARE } from '../../config/edu-things';
 import { animalClip, firstSound, phonemeClip, wordClip } from '../../config/edu';
@@ -641,12 +641,9 @@ function makeOne(
   band: EduBand,
   ladder?: LadderOpts,
 ): EduRound {
-  // Readers (7–10) get reader-level rounds in the three games they are offered.
-  if (band === 'reader') {
-    if (game === 'counting') return readerSumRound(rng);
-    if (game === 'letters') return readerSpellingRound(rng);
-    if (game === 'sounds') return readerRhymeRound(rng);
-  }
+  // Readers (7–10) get reader-level rounds in the eight games they are offered (R0716).
+  const reader = READER_ROUNDS[game];
+  if (band === 'reader' && reader) return reader(rng);
   const weigh = ladder?.weigh;
   const rungs = EDU_LADDER[game];
   const spec =
@@ -670,6 +667,8 @@ function makeOne(
       return soundRound(at, rng, weigh);
     case 'animals':
       return animalRound(at, rng, weigh);
+    default: // a reader-only game asked of a sprout: its reader round is still a valid round
+      return reader ? reader(rng) : letterRound(at, rng, ownName, weigh);
   }
 }
 

@@ -19,6 +19,8 @@ import {
   STAT_LABELS,
   EDU_TEXT,
 } from '../config/strings';
+import { cosmeticLabel } from '../config/cosmetics';
+import { LOOK_UNLOCK_TEXT } from '../config/strings-look';
 import { MOVE_R10_TEXT } from '../config/strings-move-r10';
 import { LEVEL_TEXT } from '../config/strings-r13d3';
 import { BORDER_TEXT } from '../config/strings-r9d2';
@@ -115,6 +117,7 @@ export const FEEDBACK: FeedbackTable = {
     ),
   }),
   eternal: (e, c) => ({ toast: UI_TEXT.eternal(nameOf(c, e.nubbinId)) }),
+  lookUnlocked: (e) => ({ toast: LOOK_UNLOCK_TEXT.unlocked(cosmeticLabel(e.look)), sfx: 'pickup' }),
   turnedShadow: (e, c) => ({ toast: STORY_TEXT.turnedShadow(nameOf(c, e.nubbinId)), sfx: 'sad' }),
   shadowBonded: (e, c) => ({
     toast: STORY_TEXT.shadowBonded(nameOf(c, e.nubbinId)),

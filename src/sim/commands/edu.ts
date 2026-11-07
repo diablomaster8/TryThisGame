@@ -34,7 +34,8 @@ export const handlers: Handlers = {
   },
   eduSetUiLanguage(world, cmd) {
     // R0739: the Learning Grove's interface language.
-    if (world.edu && (cmd.lang === 'en' || cmd.lang === 'he')) world.edu.uiLanguage = cmd.lang;
+    const langs: readonly string[] = ['en', 'he', 'es', 'ja'];
+    if (world.edu && langs.includes(cmd.lang)) world.edu.uiLanguage = cmd.lang;
     return;
   },
   glowSolve(world, cmd, events) {

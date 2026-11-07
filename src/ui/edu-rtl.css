@@ -1,0 +1,64 @@
+/*
+ * R0739 (KIDS-71, round 13): right-to-left rules for the Learning Grove's dialogs. `dir="rtl"`
+ * is set on the picker and the round card (`markEduDialog`), which already turns flex rows
+ * and grids around. These rules finish the job: help text reads from the right, and the
+ * parts of a round that are not Hebrew (the round prompts and their letters, words and
+ * sums, the counting dots and the digits) keep their left-to-right order so "2 + 3" and
+ * "c-a-t" never read backwards. The break screen is its own root, so it is reached through
+ * the body's `data-edu-lang`.
+ */
+[dir='rtl'] .help,
+[dir='rtl'] .edu-play-help,
+[dir='rtl'] .modal-body {
+  text-align: right;
+}
+[dir='rtl'] .edu-card,
+[dir='rtl'] .edu-prompt,
+[dir='rtl'] .edu-feedback {
+  text-align: center;
+}
+
+/* The head row: "3 of 5" on the right, Leave on the left, by the flipped flex order. */
+[dir='rtl'] .edu-head {
+  flex-direction: row;
+}
+/* Option rows and the picker's tiles run from the right (grid follows `dir`). */
+[dir='rtl'] .edu-options,
+[dir='rtl'] .edu-grid {
+  direction: rtl;
+}
+[dir='rtl'] .edu-results-actions {
+  flex-direction: row;
+}
+
+/* Round content is not Hebrew: keep it left to right and isolated from the chrome. */
+[dir='rtl'] .edu-letter,
+[dir='rtl'] .edu-word,
+[dir='rtl'] .edu-read,
+[dir='rtl'] .edu-big,
+[dir='rtl'] .edu-plus,
+[dir='rtl'] .edu-opt.edu-sum,
+[dir='rtl'] .edu-cue {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+/* A prompt takes the direction of its own first letter, English now and Hebrew later. */
+[dir='rtl'] .edu-prompt {
+  unicode-bidi: plaintext;
+}
+/* Number dots count from the left, like the numeral beside them. */
+[dir='rtl'] .edu-icons {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+/* Digits in the progress line and the star count stay together as one unit. */
+[dir='rtl'] .edu-progress,
+[dir='rtl'] .edu-pick-stars,
+[dir='rtl'] .edu-results-stars {
+  unicode-bidi: plaintext;
+}
+
+body[data-edu-lang='he'] .edu-break-card {
+  direction: rtl;
+  text-align: center;
+}

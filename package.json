@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:unit": "vitest run --project unit",
+    "test:changed": "node tests/tools/test-changed.mjs",
     "probe:world": "node tests/tools/world-probe.cjs",
     "check:bundle": "node tests/tools/bundle-budget.cjs",
     "smoke:kids": "node tests/smoke/learning-grove.smoke.cjs",

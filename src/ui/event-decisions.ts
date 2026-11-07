@@ -77,6 +77,7 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   ending: 'elsewhere',
   essenceGiven: 'elsewhere',
   eternal: 'table',
+  lookUnlocked: 'table',
   evolved: 'elsewhere',
   fallsKeepsake: 'table',
   fernStone: 'elsewhere',
