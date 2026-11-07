@@ -340,6 +340,10 @@ export class Grove3dScene {
   private caveShadowOff = false;
   /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
   private shadowMerge!: ShadowMerge;
+  /** Round 2: leave dormant rigs out of the render walk (an A/B and kill switch). */
+  skipDormant = true;
+  /** Scratch: the creature group's children minus this frame's dormant rigs. */
+  private readonly awakeKids: THREE.Object3D[] = [];
   /** Round 2: the sun's shadow map drawn from a cached static layer plus the movers. */
   readonly shadowCache: ShadowCache;
   private caveShadowCleared = false;
@@ -2203,7 +2207,23 @@ export class Grove3dScene {
             : 0;
       imp.render(this.renderer, this.scene, this.camera);
     }
-    this.composer.render();
+    // Round 2: rigs wholly outside the view and its shadow reach (`CreatureLod.dormant`) sit out
+    // the frame's matrix update and culling walk; they draw nothing and cast nothing either way.
+    // Their matrices are rebuilt the first frame they are back (every rig part recomposes).
+    const group = this.actors.group;
+    const all = group.children;
+    const dormant = NO_LOD ? null : this.creatureLod.dormant;
+    if (this.skipDormant && dormant?.length) {
+      const awake = this.awakeKids;
+      awake.length = 0;
+      for (const c of all) if (!dormant.includes(c)) awake.push(c);
+      group.children = awake;
+    }
+    try {
+      this.composer.render();
+    } finally {
+      group.children = all;
+    }
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();

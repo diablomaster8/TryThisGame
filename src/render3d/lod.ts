@@ -72,6 +72,12 @@ export class CreatureLod {
   private readonly changed = new Set<THREE.Object3D>();
   /** Rigs seen this frame. */
   private readonly seen = new Set<THREE.Object3D>();
+  /**
+   * Round 2: rigs whose bounds, grown by their longest shadow, are outside the view this frame.
+   * Nothing of them can be drawn (they cast no shadow either), so the scene leaves them out of
+   * the frame's matrix update and culling walk (`Grove3dScene.render`).
+   */
+  readonly dormant: THREE.Object3D[] = [];
   /** Creatures casting and hulls drawn after the last update, for the debug readout. */
   casting = 0;
   hulls = 0;
@@ -146,6 +152,7 @@ export class CreatureLod {
       : 0;
     const cfg = WORLD_LOD.creature;
     this.seen.clear();
+    this.dormant.length = 0;
     this.casting = this.hulls = this.inView = this.proxied = this.far = 0;
     this.built = 0;
     this.capFull(roots, camera);
@@ -159,6 +166,7 @@ export class CreatureLod {
       const near = frustum.intersectsSphere(sphere);
       sphere.radius = r;
       const onScreen = near && frustum.intersectsSphere(sphere);
+      if (!near) this.dormant.push(root);
       if (onScreen) this.inView++;
       // On-screen height in CSS pixels, from the distance along the view.
       const depth = Math.max(0.1, at.distanceTo(camera.position));
