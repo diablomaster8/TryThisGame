@@ -1,18 +1,21 @@
+import {
+  fruitIntervalMs,
+  dropFruit,
+  stepKeeperSystem,
+  stepNubbins,
+  updateItems,
+  updateTrees,
+} from './world-step';
+import { createWorld, defaultSettings, uniqueName } from './world-create';
+import { findNubbin, hatchSpeed, heldNubbin, newId, positionOf, withRng } from './world-util';
 import { stepGroveDiary } from './grove-diary';
 import { runHandler } from './commands';
 import { orderSystems, runSystems, type SimSystem, type StepCtx, type SystemRuns } from './systems';
-import { AUDIO_MIX } from '../config/tuning-r8d-audio';
-import { isRidden, stepRide } from './ride';
-import { stepSwimTow } from './swim-tow';
 import { stepBattleMoves } from './battle';
 import { holdBattleNeeds } from './battle/resume';
-import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES } from '../config/tuning';
-import { decayNeeds } from './needs';
-import { fruitOnHead, sampleAll, updateBehavior } from './behavior';
-import { createKeeper, updateKeeper } from './keeper';
+import { sampleAll } from './behavior';
 import { stepTrust } from './trust';
-import { createWeather, seasonAt, stepWeather } from './weather';
+import { seasonAt, stepWeather } from './weather';
 import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
 import { stepCollection } from './collection';
@@ -22,10 +25,7 @@ import { queueQuestEvents, stepQuests } from './quests';
 import { stepHabitats } from './habitats';
 import { stepKeeper2 } from './coop';
 import { stepLandmarks } from './landmarks';
-import { travel } from './regions';
-import { crossExits } from './region-walk';
 import { stepCollectibles } from './collectibles';
-import { stepRegionCompanion } from './region-companion';
 import { stepRegionCritters } from './region-critters';
 import { stepRegionGates } from './region-gates';
 import { stepShorePlay } from './shore-play';
@@ -47,7 +47,7 @@ import { calmEternalReactions } from './old-soul';
 import { stepSoulGroups } from './soul-groups';
 import { stepFriendships } from './friendships';
 import { stepKeeperIdle } from './keeper-idle';
-import { stepSeasons, fruitIntervalMultiplier } from './seasons';
+import { stepSeasons } from './seasons';
 import { stepAchievements } from './achievements';
 import { stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
@@ -58,9 +58,6 @@ import { separateBodies } from './separation';
 import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
 import { stepHopCourse } from './hop-course';
-import { DEFAULT_TRAINER, rollEggSpecies, trainerOf } from './trainers';
-import { advanceStage, hatch, keepEggshell } from './lifecycle';
-import { createEgg, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { stepTown } from './town';
 import { stepSlips } from './slips';
@@ -69,208 +66,15 @@ import { setAnticsLive } from './antics';
 import { stepDiary } from './diary';
 import { stepPartners } from './partners';
 import { stepCurfew } from './curfew';
-import { hollowBattleEnded, inParty, stepDungeon } from './dungeon';
-import { stepGearNeeds } from './dungeon-gear-effects';
-import { hasSkill, stepSkillPoints } from './skills';
+import { hollowBattleEnded, stepDungeon } from './dungeon';
+import { stepSkillPoints } from './skills';
 import { stepScans } from './scans';
 import { stepTeams } from './teams';
-import { resolve } from './obstacles';
-import { resolveNubbin } from './nubbin-hop';
-import { collideThrown } from './throw-collide';
 import { stepEdu } from './edu';
 /* Lane E r9 */
-import {
-  type Command,
-  type Item,
-  type Nubbin,
-  type Settings,
-  type SimEvent,
-  type Tree,
-  type Vec2,
-  type World,
-} from './types';
-import { hatchInArms } from './hatch-arms';
+import { type Command, type SimEvent, type World } from './types';
 import { SYSTEM_THROTTLE } from '../config/tuning-r13d3';
 import { stepLevelWatch } from './level-watch';
-import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
-import { flightStep, flightTrigger } from './flight-zones'; /* R0109 (lane D r11) */
-
-/** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
-export function hatchSpeed(world: World): number {
-  return hasSkill(world, 'warmHands') ? 1.1 : 1;
-}
-
-export function defaultSettings(): Settings {
-  return {
-    offlineAging: {
-      mode: OFFLINE.defaultMode,
-      capHours: OFFLINE.defaultCapHours,
-      allowOfflineDepartures: OFFLINE.defaultAllowDepartures,
-    },
-    matureContent: 'off',
-    riftConfirmed: false,
-    joystick: false,
-    sound: true,
-    music: true,
-    // R0464 (TECH-22): music sits under the effects by default.
-    musicVolume: AUDIO_MIX.defaultMusic,
-    sfxVolume: 0.8,
-    textSpeed: 'normal',
-    screenShake: true,
-    gentleJumps: false,
-    particles: 'full',
-    reducedMotion: 'system',
-    jukebox: null,
-    ambience: true,
-    graphics: 'pixel',
-    sculptRes: null,
-  };
-}
-
-export function createWorld(seed: number, wallMs: number): World {
-  const rng = Rng.fromSeed(seed);
-  const world: World = {
-    seed,
-    rngState: 0,
-    timeMs: 0,
-    lastWallMs: wallMs,
-    nubbins: [],
-    items: [],
-    trees: [],
-    keeper: createKeeper(GROVE.keeperStart),
-    inventory: {
-      shells: 0,
-      fruit: EGG.startFruit,
-      critters: {},
-      essences: {},
-      hats: [],
-      heartFruit: 0,
-      decor: {},
-      wood: 0,
-      stone: 0,
-      reeds: 0,
-      seeds: {},
-      dyes: {},
-      toys: {},
-      twine: 0,
-      keepsakes: [],
-    },
-    settings: defaultSettings(),
-    memorials: [],
-    gatherReadyMs: 0,
-    unlocks: { sunGrove: false, moonGrove: false },
-    creator: false,
-    grove: 'main',
-    races: {},
-    raceRuns: 0,
-    trainer: DEFAULT_TRAINER,
-    nextId: 1,
-    selected: null,
-    strays: [],
-    npcs: [],
-    campaign: null,
-    lines: {},
-    weather: createWeather(),
-    season: seasonAt(wallMs, 0),
-    placed: [],
-    seen: {},
-    visits: { lastDay: '', count: 0, gifted: [] },
-    location: 'grove',
-    karate: { belt: 0, wins: 0, losses: 0 },
-    plants: [],
-    tiles: {},
-    achievements: {},
-    title: null,
-    quests: [],
-    questDay: '',
-    plots: 0,
-    wild: [],
-    landmarks: {},
-    coop: { active: false, trainer: 'nova' },
-    keeper2: null,
-    edu: null,
-    town: { prosperity: 0, recruits: [] },
-    partners: [null, null],
-    merge: null,
-    skillPoints: 0,
-    skills: {},
-    scans: {},
-    team: null,
-    night: false,
-    tank: { runs: 0, best: 0 },
-    dungeon: null,
-    hollow: {
-      runs: 0,
-      best: 0,
-      dailyDay: '',
-      dailyDepth: 0,
-      acts: [],
-      actSeeds: [],
-      rerollDay: '',
-      waypoints: [],
-      acorns: 0,
-      portal: null,
-      camp: { shells: 0, items: {}, questsPaid: [] },
-      uniquesBeaten: [],
-      lastParty: [],
-      // Lane B round 6 (save version 12).
-      bossChests: [],
-      today: { day: '', deepest: 0, bestMs: 0, finds: 0 },
-      stats: { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 },
-    },
-    neighbours: {},
-    festivalSeen: '',
-    atlasFestivals: [],
-  };
-  for (const t of GROVE.trees) {
-    world.trees.push({
-      id: newId(world, 'tree'),
-      pos: { x: t.x, z: t.z },
-      fruitTimerMs: TREES.fruitIntervalMs / 2,
-    });
-  }
-  for (let i = 0; i < EGG.startCount; i++) {
-    const spot = GROVE.eggSpots[i] ?? { x: i * 2 - 1, z: 0 };
-    const egg = createEgg(
-      newId(world, 'nub'),
-      spot,
-      rng,
-      'plain',
-      rollEggSpecies(trainerOf(world.trainer), rng),
-    );
-    egg.name = uniqueName(world, egg.name, rng);
-    world.nubbins.push(egg);
-  }
-  world.rngState = rng.state;
-  return world;
-}
-
-/** Avoid two Nubbins sharing a random name. */
-export function uniqueName(world: World, name: string, rng: Rng): string {
-  const taken = new Set(world.nubbins.map((n) => n.name));
-  if (!taken.has(name)) return name;
-  const free = NUBBIN_NAMES.filter((n) => !taken.has(n));
-  if (free.length > 0) return rng.pick(free);
-  return `${name} ${world.nubbins.length + 1}`;
-}
-
-export function newId(world: World, prefix: string): string {
-  const id = `${prefix}-${world.nextId}`;
-  world.nextId += 1;
-  return id;
-}
-
-export function findNubbin(world: World, id: string): Nubbin | undefined {
-  return world.nubbins.find((n) => n.id === id);
-}
-
-/** Take the world's RNG, use it, and store the state back. */
-export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
-  const rng = new Rng(world.rngState);
-  const out = fn(rng);
-  world.rngState = rng.state;
-  return out;
-}
 
 // ---------- commands ----------
 
@@ -297,73 +101,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
   runHandler(world, cmd, events);
 }
 
-export function heldNubbin(world: World): Nubbin | undefined {
-  return world.nubbins.find((n) => n.behavior.state === 'held');
-}
-
 // ---------- stepping ----------
 
 const LIVE_ONLY: SystemRuns = { live: true, offline: false, coarse: false };
 const ALWAYS: SystemRuns = { live: true, offline: true, coarse: true };
-
-/** The Nubbins' own step: eggs incubate, needs decay, ages advance, behaviour runs. */
-function stepNubbins({ world, dtMs, offline, events }: StepCtx, rng: Rng): void {
-  // Iterate a copy: a departure removes its Nubbin from the list.
-  for (const n of [...world.nubbins]) {
-    if (n.stage === 'egg') {
-      // Eggs incubate on the ground, held and carried alike.
-      n.hatchRemainingMs -= dtMs * hatchSpeed(world);
-      // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
-      // hug; a thrown egg waits to land.
-      if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
-      if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
-        hatch(n, events, world.timeMs);
-        // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
-        keepEggshell(n, world);
-      }
-      if (n.behavior.state === 'thrown') {
-        updateBehavior(n, world, dtMs, rng, events);
-        // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
-        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-        else resolve(n.pos, world, 0.25, 'nubbin');
-      }
-      continue;
-    }
-    decayNeeds(n, dtMs);
-    // R0164: Snug and Naps from worn gear.
-    stepGearNeeds(world, n, dtMs);
-    advanceStage(n, dtMs, events, world, offline);
-    // Party members underground are moved by the Hollow step instead.
-    // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
-    // R0121: a partner in a drawn region follows the Keeper there instead.
-    if (stepRegionCompanion(world, n, dtMs)) continue;
-    if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
-      updateBehavior(n, world, dtMs, rng, events);
-      // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
-      if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-      resolveNubbin(n, world);
-    }
-  }
-}
-
-/** The Keeper's own step: intent, ride, tow, dodge. Live play only (catch-up never acts). */
-function stepKeeperSystem({ world, dtMs, events }: StepCtx): void {
-  // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
-  const fx = world.keeper.pos.x;
-  const fz = world.keeper.pos.z;
-  // R0109: an updraft or a glide moves the Keeper in place of its walking step.
-  if (!flightStep(world, dtMs)) {
-    updateKeeper(world, dtMs, events);
-    flightTrigger(world, fx, fz);
-  }
-  const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
-  stepRide(world, dtMs, moved, events);
-  stepSwimTow(world);
-  stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
-  // R11 lane D (WORLD-39): a border walked into: seamless now, loaded through the iris.
-  const seam = crossExits(world, events);
-  if (seam) travel(world, seam.id, events);
-}
 
 const rngSys = (
   id: string,
@@ -552,54 +293,16 @@ export function stepWorld(
   return events;
 }
 
-/**
- * The time between fruit drops now: the season (autumn) and Green Thumb change it. Live play
- * and offline catch-up both read it, so time away grows the same fruit as time here.
- */
-export function fruitIntervalMs(world: World): number {
-  const thumb = hasSkill(world, 'greenThumb') ? SKILLS.greenThumbFruitInterval : 1;
-  return TREES.fruitIntervalMs * fruitIntervalMultiplier(world) * thumb;
-}
-
-function updateTrees(world: World, dtMs: number, rng: Rng, events: SimEvent[]): void {
-  for (const tree of world.trees) {
-    tree.fruitTimerMs -= dtMs;
-    if (tree.fruitTimerMs <= 0) {
-      tree.fruitTimerMs += fruitIntervalMs(world);
-      if (world.items.filter((i) => i.kind === 'fruit').length >= TREES.maxFruitOnGround) continue;
-      dropFruit(world, tree, rng, events);
-    }
-  }
-}
-
-export function dropFruit(world: World, tree: Tree, rng: Rng, events: SimEvent[]): Item {
-  const a = rng.float(0, Math.PI * 2);
-  const r = rng.float(0.8, TREES.dropRadius);
-  const item: Item = {
-    id: newId(world, 'fruit'),
-    kind: 'fruit',
-    pos: { x: tree.pos.x + Math.cos(a) * r, z: tree.pos.z + Math.sin(a) * r },
-    y: 2.4,
-    vel: { x: 0, y: 0, z: 0 },
-  };
-  world.items.push(item);
-  events.push({ kind: 'fruitDropped', treeId: tree.id, itemId: item.id });
-  // R0300: a Nubbin under the tree may get it on the head.
-  fruitOnHead(world, item, tree.pos, events);
-  return item;
-}
-
-function updateItems(world: World, dtMs: number): void {
-  const dt = dtMs / 1000;
-  for (const item of world.items) {
-    if (item.y > 0) {
-      item.vel.y -= THROW.gravity * dt;
-      item.y = Math.max(0, item.y + item.vel.y * dt);
-      if (item.y === 0) item.vel.y = 0;
-    }
-  }
-}
-
-export function positionOf(world: World, id: string): Vec2 | null {
-  return findNubbin(world, id)?.pos ?? world.items.find((i) => i.id === id)?.pos ?? null;
-}
+export {
+  createWorld,
+  defaultSettings,
+  uniqueName,
+  dropFruit,
+  fruitIntervalMs,
+  findNubbin,
+  hatchSpeed,
+  heldNubbin,
+  newId,
+  positionOf,
+  withRng,
+};
