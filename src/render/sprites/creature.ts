@@ -798,6 +798,18 @@ function drawMarks(pc: PixelCanvas, a: Anchors, spec: CreatureSpec): void {
         }
         break;
       case 'spots':
+        // R0405: the seed line wears dark-green blotches, not single dots.
+        if (spec.addons?.some((e) => e.kind === 'bulb' || e.kind === 'bud' || e.kind === 'bloom')) {
+          for (const [dx, dy, r] of [
+            [-4, -3, 1.6],
+            [4, -1, 1.4],
+            [-1, 4, 1.4],
+            [3, 4, 1],
+          ] as const)
+            if (!a.back || dy < 3)
+              pc.disc(a.headCx + dx * (a.face >= 1 ? 0.5 : 1), a.headCy + dy, r, C.forest);
+          break;
+        }
         pc.px(a.headCx - 3, a.headCy - 3, col.shade);
         pc.px(a.headCx + 4, a.headCy - 1, col.shade);
         pc.px(a.headCx + 1, a.headCy + 4, col.shade);
@@ -831,18 +843,6 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
       return;
     case 'shell': {
       // Legs or tentacles under a domed shell, face below the rim.
-        // R0405: the seed line wears dark-green blotches, not single dots.
-        if (spec.addons?.some((e) => e.kind === 'bulb' || e.kind === 'bud' || e.kind === 'bloom')) {
-          for (const [dx, dy, r] of [
-            [-4, -3, 1.6],
-            [4, -1, 1.4],
-            [-1, 4, 1.4],
-            [3, 4, 1],
-          ] as const)
-            if (!a.back || dy < 3)
-              pc.disc(a.headCx + dx * (a.face >= 1 ? 0.5 : 1), a.headCy + dy, r, C.forest);
-          break;
-        }
       if (!pose.waterline) {
         for (const dx of [-5, -2, 1, 4])
           pc.line(
@@ -871,6 +871,11 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
       return;
     }
     case 'stalk': {
+      if (spec.gen1b?.includes('seahorse')) {
+        drawSeahorseBody(pc, a, spec);
+        blob(a.headCx, a.headCy, a.headRx, a.headRy);
+        return;
+      }
       pc.rect(a.bodyCx - a.bodyRx, a.bodyCy - a.bodyRy, a.bodyRx * 2, a.bodyRy * 2, col.shade);
       pc.rect(
         a.bodyCx - a.bodyRx + 1,
@@ -904,11 +909,6 @@ export function leansForward(spec: CreatureSpec): boolean {
  * R0377: the Pixel lean. The 3D figure shears everything above the hips forward by
  * DINO_LEAN_DEG; a 32 px frame cannot take the full slope, so rows above the hips slide
  * toward the face (+x in the side and front quarter views) by `DINO_LEAN_PX.slope` design pixels per row (the full share from the
-      if (spec.gen1b?.includes('seahorse')) {
-        drawSeahorseBody(pc, a, spec);
-        blob(a.headCx, a.headCy, a.headRx, a.headRy);
-        return;
-      }
  * side, half from the quarter views including the back quarter, none head-on or from behind), in whole design pixels so the art stays
  * crisp, capped so the snout stays in the frame. The legs and feet stay planted.
  */
