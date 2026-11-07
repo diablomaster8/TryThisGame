@@ -399,8 +399,8 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
             : DUNGEON_TEXT.entered(e.daily),
       );
     } else if (e.kind === 'descended') {
+      // R0450: the stairs have their own steps cue (ui/hollow-sounds.ts), so no pickup here.
       toast(DUNGEON_TEXT.descended(e.depth));
-      playSound('pickup');
     } else if (e.kind === 'dungeonLeft') {
       // R0115: a small cave comes back out into the region, not "home".
       toast(
