@@ -8,7 +8,9 @@ import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import type { Game } from '../game';
 import { snapYaw } from '../sim/decorate';
+import { coarsePointer } from '../platform/viewport';
 import { button, el } from './dom';
+import { joystickWanted } from './joystick-math';
 
 export interface Chips {
   placingChip: HTMLElement;
@@ -57,6 +59,10 @@ export function mountChips(
   // The first touch offers the floating joystick once, in a toast (R0028).
   const offerJoystick = (e: PointerEvent): void => {
     if (e.pointerType !== 'touch') return;
+    // Not while the stick is already on (the setting, or the Hollow's default on a touch
+    // device): the offer waits for a touch somewhere it would help.
+    const g = game();
+    if (g && joystickWanted(!!g.world.settings.joystick, g.world.location, coarsePointer())) return;
     window.removeEventListener('pointerdown', offerJoystick, true);
     try {
       if (localStorage.getItem(JOYSTICK_TUNING.offerKey)) return;
@@ -64,7 +70,7 @@ export function mountChips(
     } catch {
       /* storage blocked: offer it this session only */
     }
-    if (!game()?.world.settings.joystick) toast(JOYSTICK_TEXT.offer, UI.toastLongMs);
+    toast(JOYSTICK_TEXT.offer, UI.toastLongMs);
   };
   window.addEventListener('pointerdown', offerJoystick, true);
   return { placingChip, placingText, rotateBtn, homeBtn };
