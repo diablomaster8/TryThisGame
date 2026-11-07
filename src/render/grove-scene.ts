@@ -1,3 +1,4 @@
+import { freezeWanted, StaticFreezer } from '../render3d/static-freeze';
 import { bandForFloor, openSky } from './cave-bands';
 import {
   CircleGeometry,
@@ -181,6 +182,14 @@ function remapUv(geo: ShapeGeometry, half: number): void {
  */
 export class GroveScene {
   readonly scene = new Scene();
+  /**
+   * PERF: the Pixel Grove's ~500 terrain, hill and pond meshes never move, yet three recomposed
+   * every matrix every frame (about 0.8 ms a frame on a 4x phone). The 3D mode's automatic
+   * freezer (static-freeze.ts) does the same job here: it freezes only what held still for a
+   * sweep, and any write to a frozen object thaws it before the next draw.
+   */
+  private readonly freezer = freezeWanted() ? new StaticFreezer(this.scene, () => false) : null;
+  private freezeAt = 0;
   /** Everything that belongs to the home Grove, hidden in the other places. */
   private readonly groveGroup = new Group();
   private readonly hollowGroup = new Group();
@@ -826,6 +835,10 @@ export class GroveScene {
   update(wallMs: number, reduceMotion = false): void {
     this.holdStill = reduceMotion;
     const nowMs = reduceMotion ? 0 : wallMs;
+    if (this.freezer) {
+      this.freezer.tick(this.freezeAt > 0 ? Math.min(250, wallMs - this.freezeAt) : 0);
+      this.freezeAt = wallMs;
+    }
     this.water.offset.set((nowMs / 7000) % 1, (nowMs / 10000) % 1);
     this.glint.offset.set((-nowMs / 5000) % 1, (nowMs / 12000) % 1);
     this.falls.offset.set(0, (-nowMs / 400) % 1);
