@@ -3,10 +3,10 @@
  * (R0546) and the shy one's hide and seek (R0543). Bands follow the toasts: main, reader
  * (7–10) and sprout (3–6).
  */
-import type { TraitId } from './tuning-soul-r9';
+import type { SoulTraitId } from './tuning-soul-r9';
 
 /** R0528: each trait's icon, word and one-line blurb for the sheet. */
-export const TRAIT_LABELS: Record<TraitId, { icon: string; word: string; blurb: string }> = {
+export const TRAIT_LABELS: Record<SoulTraitId, { icon: string; word: string; blurb: string }> = {
   clumsy: { icon: '🌀', word: 'Clumsy', blurb: 'Trips over its own feet. Gets up every time.' },
   glutton: { icon: '🍑', word: 'Glutton', blurb: 'Never too full for one more fruit.' },
   sleepyhead: { icon: '💤', word: 'Sleepyhead', blurb: 'Yawns a lot and naps long.' },

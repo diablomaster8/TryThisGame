@@ -3,7 +3,7 @@ import type { CreatureSpec } from '../render/sprites/creature';
 import { extraPrims } from './art-species-extras';
 import { color } from '../render/sprites/palette';
 import { V, type Prim } from './art/sculpted';
-import type { Mark, PartSpec, SpeciesSpec } from './art/species';
+import type { SpeciesMark, PartSpec, SpeciesSpec } from './art/species';
 import { kitLayout, patchKitSpec } from './art-kit-digi';
 import { quadOf } from '../render/sprites/creature-kit-quad';
 import { applyGen1b3d } from './art-species-gen1b';
@@ -445,10 +445,10 @@ function tail(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec
   return [part('tail', root, prims, 56)];
 }
 
-function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): Mark[] {
+function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): SpeciesMark[] {
   const h = L.head;
   const b = L.body;
-  const out: Mark[] = [];
+  const out: SpeciesMark[] = [];
   for (const m of art.marks) {
     switch (m) {
       case 'cheeks':

@@ -34,7 +34,7 @@ import {
   socketsOf,
   type Piece,
   type PieceTag,
-  type Side,
+  type PieceSide,
 } from './dungeon-pieces';
 import { Rng } from './rng';
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
@@ -43,14 +43,14 @@ import { HOLLOW_TOUR } from '../config/tuning-r10b1';
 import { tourOf } from './dungeon-tour';
 
 const V = HOLLOW.v3;
-const SIDES: readonly Side[] = ['n', 'e', 's', 'w'];
-const STEP: Record<Side, readonly [number, number]> = {
+const SIDES: readonly PieceSide[] = ['n', 'e', 's', 'w'];
+const STEP: Record<PieceSide, readonly [number, number]> = {
   n: [0, -1],
   e: [1, 0],
   s: [0, 1],
   w: [-1, 0],
 };
-const OPP: Record<Side, Side> = { n: 's', e: 'w', s: 'n', w: 'e' };
+const OPP: Record<PieceSide, PieceSide> = { n: 's', e: 'w', s: 'n', w: 'e' };
 /** R0205: the four steps as plain arrays (destructuring step pairs in hot loops was slow). */
 const DX4 = [1, -1, 0, 0] as const;
 const DY4 = [0, 0, 1, -1] as const;
@@ -116,7 +116,7 @@ interface Turned {
   rows: string[];
   w: number;
   h: number;
-  sides: Set<Side>;
+  sides: Set<PieceSide>;
 }
 
 const turnedCache = new Map<string, Turned>();
@@ -299,7 +299,7 @@ function generateV3Roll(seed: number, depth: number, opts: V3Options, roll: numb
   const used = new Map<string, number>();
   const cells = new Uint8Array(cols * rows);
   const owner = new Int16Array(cols * rows).fill(-1);
-  const dirTo = (a: number, b: number): Side => {
+  const dirTo = (a: number, b: number): PieceSide => {
     const dx = (b % sx) - (a % sx);
     const dy = Math.floor(b / sx) - Math.floor(a / sx);
     return dx > 0 ? 'e' : dx < 0 ? 'w' : dy > 0 ? 's' : 'n';
@@ -383,7 +383,7 @@ function generateV3Roll(seed: number, depth: number, opts: V3Options, roll: numb
         const i = (y + py) * cols + (x + px);
         const c = { x: x + px, y: y + py };
         owner[i] = index;
-        const edgeSide: Side | null =
+        const edgeSide: PieceSide | null =
           py === 0 ? 'n' : py === t.h - 1 ? 's' : px === 0 ? 'w' : px === t.w - 1 ? 'e' : null;
         if (ch === '#' || (ch === 'D' && (!edgeSide || !need.has(edgeSide)))) {
           cells[i] = WALL;
@@ -408,7 +408,7 @@ function generateV3Roll(seed: number, depth: number, opts: V3Options, roll: numb
     if (owner[i]! >= 0) return;
     dug[i] = 1;
   };
-  const socketCells = (p: Placed, side: Side): Cell[] => {
+  const socketCells = (p: Placed, side: PieceSide): Cell[] => {
     const out: Cell[] = [];
     const { t } = p;
     for (let py = 0; py < t.h; py++)

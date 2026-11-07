@@ -9,7 +9,7 @@ import {
 } from '../render/sprites/creature-gen1b';
 import { C, color } from '../render/sprites/palette';
 import { V, type Prim } from './art/sculpted';
-import type { Mark, PartSpec, PoseName, RigContext, SpeciesSpec } from './art/species';
+import type { SpeciesMark, PartSpec, PoseName, RigContext, SpeciesSpec } from './art/species';
 import { boxOf, type Layout } from './art-species';
 
 /**
@@ -73,7 +73,7 @@ function place(p: Prim, from: THREE.Vector3, k: THREE.Vector3, to: THREE.Vector3
   };
 }
 
-function placeMark(m: Mark, from: THREE.Vector3, k: THREE.Vector3, to: THREE.Vector3): Mark {
+function placeMark(m: SpeciesMark, from: THREE.Vector3, k: THREE.Vector3, to: THREE.Vector3): SpeciesMark {
   const f = (v: THREE.Vector3) => v.clone().sub(from).multiply(k).add(to);
   return {
     ...m,
@@ -153,9 +153,9 @@ function headFace(
   mouth: SpeciesSpec['mouth'],
   c: Colors,
   full: boolean,
-): { prims: Prim[]; marks: Mark[] } {
+): { prims: Prim[]; marks: SpeciesMark[] } {
   const prims: Prim[] = [];
-  const marks: Mark[] = [];
+  const marks: SpeciesMark[] = [];
   const er = eyes.r * k.x;
   const xs = eyes.x < 0.05 ? [0] : [-eyes.x, eyes.x];
   for (const x of xs) {
@@ -167,7 +167,7 @@ function headFace(
     // Painted, like the main face's crisp look: white, iris, glint, then the lid over them.
     // Rods through the skin along the view axis paint clean discs (an ellipsoid's distance
     // is too rough when it is this flat).
-    const paint = (dx: number, dy: number, r: number, col: string): Mark => ({
+    const paint = (dx: number, dy: number, r: number, col: string): SpeciesMark => ({
       kind: 'capsule',
       a: e.clone().add(V(dx, dy, -er * 2)),
       b: e.clone().add(V(dx, dy, er * 2)),
@@ -234,7 +234,7 @@ export function applyGen1b3d(
   const top = h.y + h.r.y;
   const head: Prim[] = [];
   const torso: Prim[] = [];
-  const marks: Mark[] = [];
+  const marks: SpeciesMark[] = [];
   const handProps: Array<(hand: THREE.Vector3, s: number) => Prim[]> = [];
   // Rings around the main head only: never copied onto the extra heads.
   const halo: Prim[] = [];
@@ -896,7 +896,7 @@ function chainExtras(prev: SpeciesSpec['extras'], next: ExtrasHook): ExtrasHook 
 }
 
 /** Painted zigzag cracks on an egg's crown. */
-function eggCracks3d(at: THREE.Vector3, R: THREE.Vector3, c: Colors): Mark[] {
+function eggCracks3d(at: THREE.Vector3, R: THREE.Vector3, c: Colors): SpeciesMark[] {
   const pts = [
     [-0.55, 0.62],
     [-0.2, 0.5],

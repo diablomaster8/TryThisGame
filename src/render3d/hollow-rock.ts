@@ -4,7 +4,7 @@ import { cellAt, cellCentre, CHASM, isWalkable, WALL, type Floor } from '../sim/
 import { plugUp, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
 import { onShelf, shelfRise } from '../sim/dungeon-shelves';
 import type { DungeonRun } from '../sim/types';
-import { surface, type Surface, type Tex } from './art/aaa-kit';
+import { surface, type AaaSurface, type Tex } from './art/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
 import { tileLookOf } from '../render/paint/dungeon-tiles';
@@ -493,7 +493,7 @@ export class HollowRock implements HollowModule {
   readonly depth: THREE.MeshDepthMaterial;
   private readonly u: RockUniforms;
   private readonly objs: THREE.Object3D[] = [];
-  private readonly surfaces = new Map<string, Surface>();
+  private readonly surfaces = new Map<string, AaaSurface>();
   private ctx: HollowCtx | null = null;
   /** The merged wall mesh; `wallH` holds each block's height now, in world units. */
   private wallMesh: THREE.Mesh | null = null;
@@ -538,7 +538,7 @@ export class HollowRock implements HollowModule {
   }
 
   /** The painted texture a band's rock wears: sandstone is the shared one, the rest are painted once. */
-  private surfaceFor(name: RockTex | TileLook['rock'] | TileLook['ground']): Surface {
+  private surfaceFor(name: RockTex | TileLook['rock'] | TileLook['ground']): AaaSurface {
     if (name === 'sandstone' || name === 'rock') return this.tex.rock;
     // R0144: the Grove's own painted textures, shared rather than painted again.
     if (name === 'cobble' || name === 'plaster' || name === 'dirt') return this.tex[name];

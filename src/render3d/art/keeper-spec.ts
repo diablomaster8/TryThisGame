@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { V, type Prim } from './sculpted';
 import { digits, tuft, tuftRow } from './species-kit';
-import type { GestureName, Mark, PoseContext, PoseName, RigContext, SpeciesSpec } from './species';
+import type { GestureName, SpeciesMark, PoseContext, PoseName, RigContext, SpeciesSpec } from './species';
 
 /**
  * The Keeper in the species format: a kid adventurer in the Saturday-morning manner
@@ -14,7 +14,7 @@ import type { GestureName, Mark, PoseContext, PoseName, RigContext, SpeciesSpec 
  * leans in) and is the only species with `carry` and `throw`; `idle` and `walk` are the
  * stock biped poses, and the Keeper sleeps sitting up.
  */
-export interface KeeperColors {
+export interface KeeperSpecColors {
   skin: string;
   blush: string;
   hair: string;
@@ -35,7 +35,7 @@ export interface KeeperColors {
   emblem: 'sun' | 'moon';
 }
 
-export const KEEPER_SUN: KeeperColors = {
+export const KEEPER_SUN: KeeperSpecColors = {
   skin: '#ffd2ad',
   blush: '#ffb0a0',
   hair: '#8a5a2a',
@@ -54,7 +54,7 @@ export const KEEPER_SUN: KeeperColors = {
   emblem: 'sun',
 };
 
-export const KEEPER_MOON: KeeperColors = {
+export const KEEPER_MOON: KeeperSpecColors = {
   skin: '#f3cdb2',
   blush: '#e8a0b0',
   hair: '#3a2a4e',
@@ -87,7 +87,7 @@ export const KEEPER_HAND_FROM_ELBOW = KEEPER_WRIST.clone().add(V(0.03, -0.09, 0.
 const smooth = (k: number) => k * k * (3 - 2 * k);
 
 /** One arm with an elbow: a short tee sleeve, bare forearm, a hand with four fingers and a thumb. */
-function arm(side: -1 | 1, c: KeeperColors) {
+function arm(side: -1 | 1, c: KeeperSpecColors) {
   const s = side;
   const shoulder = V(s * 0.56, 1.95, 0);
   const elbow = V(s * 0.8, 1.5, 0.06);
@@ -141,7 +141,7 @@ function arm(side: -1 | 1, c: KeeperColors) {
 }
 
 /** One leg with a knee: shorts to the knee, a bare shin, a chunky sneaker. The knee sits a touch forward so it bends like a knee. */
-function leg(side: -1 | 1, c: KeeperColors) {
+function leg(side: -1 | 1, c: KeeperSpecColors) {
   const s = side;
   const hip = V(s * 0.27, 1.0, 0);
   const knee = V(s * 0.27, 0.6, 0.08);
@@ -460,13 +460,13 @@ export interface KeeperFigure {
   vest?: boolean;
   wristbands?: boolean;
   head?: Prim[];
-  marks?: Mark[];
+  marks?: SpeciesMark[];
   eyes?: Partial<SpeciesSpec['eyes']>;
   notes?: string;
 }
 
 /** Build the Keeper in one colour set. */
-export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure = {}): SpeciesSpec {
+export function keeperSpec(c: KeeperSpecColors, name = 'Keeper', fig: KeeperFigure = {}): SpeciesSpec {
   const stockHair: Prim[] = [
     // A spiky mop: a cap over the skull, big tufts sweeping up and back over the crown,
     // side spikes out over the ears, and a short fringe under the goggle band.
@@ -539,7 +539,7 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure =
       blend: 0.04,
     },
   ];
-  const badge: Mark[] =
+  const badge: SpeciesMark[] =
     c.emblem === 'sun'
       ? [{ kind: 'sphere', a: V(0, 1.7, 0.5), r: 0.12, color: c.badge }]
       : [
@@ -547,11 +547,11 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure =
           // The second disc, in the tee colour, cuts the crescent.
           { kind: 'sphere', a: V(0.065, 1.74, 0.52), r: 0.1, color: c.tee },
         ];
-  const glass: Mark[] = [
+  const glass: SpeciesMark[] = [
     { kind: 'sphere', a: V(-0.21, 3.03, 0.66), r: 0.11, color: c.goggleGlass, soft: 0 },
     { kind: 'sphere', a: V(0.21, 3.03, 0.66), r: 0.11, color: c.goggleGlass, soft: 0 },
   ];
-  const vest: Mark[] = [
+  const vest: SpeciesMark[] = [
     // The open vest: two panels down the sides of the tee, meeting at the back, with
     // a pale trim along their front edges and a collar at the neck.
     {
@@ -586,7 +586,7 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure =
     },
     { kind: 'ellipsoid', a: V(0, 2.15, 0), radii: V(0.42, 0.07, 0.42), color: c.trim, soft: 0 },
   ];
-  const stripes: Mark[] = [
+  const stripes: SpeciesMark[] = [
     // Shorts: a stripe down each outer thigh.
     {
       kind: 'capsule',
@@ -605,7 +605,7 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure =
       soft: 0,
     },
   ];
-  const wrists: Mark[] = [
+  const wrists: SpeciesMark[] = [
     // Wristbands, and a sleeve band where the tee sleeve ends.
     {
       kind: 'ellipsoid',
@@ -622,7 +622,7 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure =
       soft: 0,
     },
   ];
-  const sneakers: Mark[] = [
+  const sneakers: SpeciesMark[] = [
     // Sneakers: a pale sole and toe cap, a sock band at the ankle.
     {
       kind: 'ellipsoid',

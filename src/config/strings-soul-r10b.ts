@@ -2,7 +2,7 @@
  * Lane A round 10 (SOUL, kindergarten and expression): the fortune teller's readings
  * (R0557) and the doctor's check-up (R0556). British spelling, the dry voice of STYLE.
  */
-import type { TraitId } from './tuning-soul-r9';
+import type { SoulTraitId } from './tuning-soul-r9';
 
 type Flavour = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moon' | 'plain';
 type Toy = 'ball' | 'radio' | 'blocks' | 'mirror' | 'tv';
@@ -63,7 +63,7 @@ export const FORTUNE_TEXT = {
     copycat: 'It will be whatever its friends are. Choose them well.',
     ticklish: 'One feather and it falls over giggling. The cards agree.',
     sneezy: 'Flowers ahead. Bless it in advance.',
-  } as Record<TraitId, string>,
+  } as Record<SoulTraitId, string>,
   /** Two per alignment band it is heading toward. */
   band: {
     sun: ['The light finds it easily. Keep it that way.', 'A warm road, and the sun on it.'],

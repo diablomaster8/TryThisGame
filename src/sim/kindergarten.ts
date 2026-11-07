@@ -4,7 +4,7 @@ import { likesOf, type Taste } from './likes';
 import { decidePersonality } from './personality';
 import { hashSeed } from './rng';
 import { hasSkill } from './skills';
-import { traitsOf, type TraitId } from './traits';
+import { traitsOf, type SoulTraitId } from './traits';
 import { bandOf, childHint, winningType } from './alignment';
 import { addHappiness } from './needs';
 import { isVariantId, knowsVariant, variantById } from './lesson-variants';
@@ -223,7 +223,7 @@ export function nextReveal(n: Pick<Nubbin, 'tasteSeen'>): RevealKind | null {
 
 export interface Reading {
   /** Keys into FORTUNE_TEXT: the character line, then the road ahead. */
-  character: { kind: 'personality'; id: string; pick: number } | { kind: 'trait'; id: TraitId };
+  character: { kind: 'personality'; id: string; pick: number } | { kind: 'trait'; id: SoulTraitId };
   band: { id: 'sun' | 'moon' | 'neutral'; pick: number };
   /** The like this visit reveals (what the sim marks seen once paid), or null when all known. */
   reveal:

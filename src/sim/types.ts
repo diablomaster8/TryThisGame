@@ -118,7 +118,7 @@ export type Reaction =
   | 'smug'
   | 'miss';
 
-export type Mood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
+export type NubbinMood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
 
 export interface NubbinForm {
   band: AlignmentBand;
@@ -327,7 +327,7 @@ export interface Nubbin {
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Lane A r9 (SOUL), optional with defaults, no save bump:
   /** R0528: the trait earned by care before evolution (the first comes from the seed). */
-  earnedTrait?: import('../config/tuning-soul-r9').TraitId;
+  earnedTrait?: import('../config/tuning-soul-r9').SoulTraitId;
   /** R0528: counts toward the earned trait; cleared once one is earned. */
   traitCare?: Partial<
     Record<keyof typeof import('../config/tuning-soul-r9').TRAIT_TUNING.earn, number>
@@ -2115,7 +2115,7 @@ export type SimEvent =
   | { kind: 'albumPrize'; count: number; shells: number }
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
-  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
+  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').SoulTraitId }
   | { kind: 'peekFound'; nubbinId: string }
   | { kind: 'burp'; nubbinId: string }
   /** R0545: a mischievous one snatched another's fruit. */

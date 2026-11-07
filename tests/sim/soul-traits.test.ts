@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { TRAIT_IDS, TRAIT_TUNING, type TraitId } from '../../src/config/tuning';
+import { TRAIT_IDS, TRAIT_TUNING, type SoulTraitId } from '../../src/config/tuning';
 import { eat } from '../../src/sim/behavior';
 import { evolve, hatch } from '../../src/sim/lifecycle';
 import { interact } from '../../src/sim/keeper';
@@ -18,7 +18,7 @@ import type { Nubbin, SimEvent, World } from '../../src/sim/types';
 // R0528 (SOUL-10) traits and R0546 (SOUL-28) the glutton's snacks and full belly.
 
 /** The first seed from `from` whose rolled trait is `t`. */
-function seedFor(t: TraitId, from = 1): number {
+function seedFor(t: SoulTraitId, from = 1): number {
   for (let s = from; s < from + 5000; s++) if (seedTrait({ seed: s }) === t) return s;
   throw new Error(`no seed for ${t}`);
 }
@@ -67,7 +67,7 @@ function topQuirk(row: Record<string, number> | undefined): string | null {
 
 describe('R0528 traits', () => {
   it('every Nubbin rolls one trait from its seed, and all 14 occur', () => {
-    const seen = new Set<TraitId>();
+    const seen = new Set<SoulTraitId>();
     for (let s = 1; s < 400; s++) seen.add(seedTrait({ seed: s }));
     expect(seen.size).toBe(TRAIT_IDS.length);
     expect(traitsOf({ seed: 3 })).toEqual([seedTrait({ seed: 3 })]);
@@ -138,14 +138,14 @@ describe('R0528 traits', () => {
 });
 
 describe('R0546 glutton', () => {
-  function orchard(seed: number, trait: TraitId): { w: World; n: Nubbin } {
+  function orchard(seed: number, trait: SoulTraitId): { w: World; n: Nubbin } {
     const w = createWorld(seed, 0);
     const n = adult(w, 'g', seedFor(trait, seed * 10), 0);
     n.pos = { x: 0, z: 4 };
     w.nubbins = [n];
     return { w, n };
   }
-  function eaten(trait: TraitId): number {
+  function eaten(trait: SoulTraitId): number {
     let total = 0;
     for (const seed of [1, 2, 3]) {
       const { w, n } = orchard(seed, trait);

@@ -35,7 +35,7 @@ import {
 } from '../sim/battle/tactics';
 import { moveById } from '../sim/battle/tactics/engine';
 import { KEEPER_UNIT } from '../sim/battle/tactics/keeper-unit';
-import type { Cell } from '../sim/battle/tactics/types';
+import type { TacticsCell } from '../sim/battle/tactics/types';
 import { button, el } from './dom';
 import { playSound } from '../platform/audio';
 import { TacticsBar } from './tactics-bar';
@@ -65,7 +65,7 @@ export class TacticsScreen {
   private view: TacticsBoardView;
   private readonly bar: TacticsBar;
   private mode: Mode = 'busy';
-  private tile: Cell | null = null;
+  private tile: TacticsCell | null = null;
   private move: string | null = null;
   private turnKey = '';
   private seenLog = 0;
@@ -261,7 +261,7 @@ export class TacticsScreen {
 
   /** A tap on a board tile, by mode. */
   /** A tile's client point (for the drivers). */
-  pointOf(c: Cell): { x: number; y: number } | null {
+  pointOf(c: TacticsCell): { x: number; y: number } | null {
     const s = this.state();
     return s ? this.view.clientOf(s, c) : null;
   }
@@ -271,9 +271,9 @@ export class TacticsScreen {
     mine: boolean;
     moved: boolean;
     acted: boolean;
-    reach: Cell[];
-    aims: Array<{ move: number; at: Cell; kind: string; boss: boolean }>;
-    boss: Cell | null;
+    reach: TacticsCell[];
+    aims: Array<{ move: number; at: TacticsCell; kind: string; boss: boolean }>;
+    boss: TacticsCell | null;
     plan: TacticsAction[];
     moves: string[];
   } | null {
@@ -281,7 +281,7 @@ export class TacticsScreen {
     const u = s && activeUnit(s);
     if (!s || !u || s.result) return null;
     const m = mapOf(s);
-    const aims: Array<{ move: number; at: Cell; kind: string; boss: boolean }> = [];
+    const aims: Array<{ move: number; at: TacticsCell; kind: string; boss: boolean }> = [];
     movesOf(u).forEach((id, move) => {
       const def = moveById(id);
       if (!def || def.puff > u.c.puff || def.kind === 'support') return;
@@ -311,7 +311,7 @@ export class TacticsScreen {
     return this.view.zoom;
   }
 
-  private tap(c: Cell): void {
+  private tap(c: TacticsCell): void {
     const s = this.state();
     const u = s && activeUnit(s);
     if (!s || !u) return;
@@ -472,7 +472,7 @@ export class TacticsScreen {
       const def = moveById(this.move);
       if (def) {
         const p = gridOf(def);
-        const aim: Cell[] = [];
+        const aim: TacticsCell[] = [];
         for (let y = 0; y < m.h; y++)
           for (let x = 0; x < m.w; x++)
             if (canAim(m, u, { x, y }, p, u.jump, u.job === 'glider')) aim.push({ x, y });

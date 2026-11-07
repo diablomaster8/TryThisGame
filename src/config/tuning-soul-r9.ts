@@ -4,7 +4,7 @@
  * never stats.
  */
 
-export type TraitId =
+export type SoulTraitId =
   | 'clumsy'
   | 'glutton'
   | 'sleepyhead'
@@ -20,7 +20,7 @@ export type TraitId =
   | 'ticklish'
   | 'sneezy';
 
-export const TRAIT_IDS: readonly TraitId[] = [
+export const TRAIT_IDS: readonly SoulTraitId[] = [
   'clumsy',
   'glutton',
   'sleepyhead',
@@ -42,7 +42,7 @@ export const TRAIT_IDS: readonly TraitId[] = [
  * chance per idle choice of its own quirk act. Unlisted multipliers are 1.
  */
 export const TRAITS: Record<
-  TraitId,
+  SoulTraitId,
   { mult?: Partial<Record<'greet' | 'play' | 'sit' | 'swim', number>>; quirk: number }
 > = {
   clumsy: { quirk: 0 },

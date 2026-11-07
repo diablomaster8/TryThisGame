@@ -1,5 +1,5 @@
 import { V, type Prim } from './sculpted';
-import type { Mark, PartSpec, SpeciesSpec } from './species';
+import type { SpeciesMark, PartSpec, SpeciesSpec } from './species';
 
 /**
  * The shared pieces of the special Nubbin forms: cones and balls, toy proportions (`widen`,
@@ -132,7 +132,7 @@ export const twinTail = (name: string, dx: number, color: string): PartSpec => (
  * Aviator goggles pushed up on the right side of the hood: a dark rim, a glass lens and a
  * small bright highlight standing off the glass (final head coordinates, after `headScale`).
  */
-export function gogglesUp(glass: string, rim: string): { prims: Prim[]; marks: Mark[] } {
+export function gogglesUp(glass: string, rim: string): { prims: Prim[]; marks: SpeciesMark[] } {
   const at = V(0.62, 2.78, 0.42);
   const lens = (c: Prim['a'], radii: Prim['a'], color: string, tag: string): Prim => ({
     kind: 'ellipsoid',
@@ -262,7 +262,7 @@ export const foldedArm = (dx: number, body: string): PartSpec => ({
 // ---- the line-up match (Part G8b): pieces tuned against the reference ----
 
 /** Darker shade on the underside of each quill, so the cluster reads as separate spikes. */
-export function quillShades(quills: Prim[], color: string): Mark[] {
+export function quillShades(quills: Prim[], color: string): SpeciesMark[] {
   return quills.map((q) => {
     const d = q.b!.clone().sub(q.a).normalize();
     // The underside: straight down, less the part of down that runs along the quill.

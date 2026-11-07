@@ -6,23 +6,11 @@ import { describe, expect, it } from 'vitest';
  * TECH-39: an exported type name declared in two places lets an auto-import pick the wrong
  * one without a sound. `src/content` is left out (its story types are one family).
  *
- * The names below were already declared twice when the check landed, each pair in unrelated
- * corners (a battle `Cell` and a dungeon `Cell`, say). They are frozen here: a new duplicate
- * fails, and so does a listed name that stops being duplicated, so the list only shrinks.
+ * Names that were already declared twice when the check landed have all been renamed, so
+ * the list is empty. A new duplicate fails, and so does a listed name that stops being
+ * duplicated, so the list only shrinks.
  */
-const LEGACY = [
-  'Cell',
-  'Expression',
-  'KeeperColors',
-  'Look',
-  'Mark',
-  'Mood',
-  'RecipeId',
-  'Side',
-  'Surface',
-  'TileKind',
-  'TraitId',
-];
+const LEGACY: string[] = [];
 
 const ROOT = join(__dirname, '..', '..', 'src');
 const DECL = /^export (?:type|interface) ([A-Za-z0-9_]+)/gm;

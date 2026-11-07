@@ -117,7 +117,7 @@ export const ALL_POSES: PoseName[] = [
 export type GestureName = 'nod' | 'shrug' | 'point' | 'down' | 'chest';
 
 /** A deliberate marking: a shape in body space, a colour, and how soft its edge is. */
-export interface Mark {
+export interface SpeciesMark {
   kind: 'ellipsoid' | 'sphere' | 'capsule';
   a: THREE.Vector3;
   b?: THREE.Vector3;
@@ -256,7 +256,7 @@ export interface SpeciesSpec {
   /** Blend radius for the body sculpts. */
   blend: number;
   shade: { top: number; bottom: number; yMax: number };
-  marks: Mark[];
+  marks: SpeciesMark[];
   colorRules?: (p: THREE.Vector3, nearest: Prim) => string | null;
   extraShades?: Shade[];
   eyes: {
@@ -315,7 +315,7 @@ export interface SpeciesSpec {
   /** Cheek blush colour, shown only while petted (the Chao line has none at rest). */
   blush?: string;
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
-  expressions?: Partial<Record<PoseName, Partial<Expression>>>;
+  expressions?: Partial<Record<PoseName, Partial<SpeciesExpression>>>;
   /**
    * A species' own poses, replacing the stock one of the same name: the Keeper reaches
    * out for `pet` where a creature leans in, and is the only one with `carry` and `throw`.
@@ -369,7 +369,7 @@ export interface SpeciesSpec {
 }
 
 /** One face state: lids closed 0..1, lower-lid squint 0..1, brow tilt and lift, the happy arc. */
-export interface Expression {
+export interface SpeciesExpression {
   lid: number;
   squint: number;
   /** Brow tilt in radians: positive raises the outer end (soft), negative knits it (focused). */
@@ -386,7 +386,7 @@ export interface Expression {
   spin?: boolean;
 }
 
-export const EXPRESSIONS: Record<PoseName, Expression> = {
+export const EXPRESSIONS: Record<PoseName, SpeciesExpression> = {
   idle: { lid: 0, squint: 0, brow: 0, browLift: 0, arc: false },
   happy: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true },
   pet: { lid: 1, squint: 0.35, brow: 0.35, browLift: 0.1, arc: true },
@@ -449,7 +449,7 @@ export interface Rigged extends Creature {
    * R0412: set by the stage: a face laid over the pose's own (photo mode's expression
    * picker); `wink` shuts the first eye only. Null or unset keeps the pose's face.
    */
-  faceOverride?: (Partial<Expression> & { wink?: boolean }) | null;
+  faceOverride?: (Partial<SpeciesExpression> & { wink?: boolean }) | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
   /**
@@ -659,7 +659,7 @@ function shadowBlob(): THREE.CanvasTexture {
 /** A mark as plain data: its shape as a primitive, and its edge width. */
 type MarkData = PrimData & { soft?: number };
 
-const markData = (m: Mark): MarkData => ({
+const markData = (m: SpeciesMark): MarkData => ({
   ...primData({
     kind: m.kind,
     a: m.a,

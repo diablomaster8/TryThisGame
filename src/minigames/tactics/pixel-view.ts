@@ -19,7 +19,7 @@ import { heightAt, mapOf, tileAt } from '../../sim/battle/tactics';
 import { chargeTiles } from '../../sim/battle/tactics/engine';
 import {
   TILE,
-  type Cell,
+  type TacticsCell,
   type Dir,
   type GridMap,
   type TacticsState,
@@ -169,7 +169,7 @@ export class TacticsPixelView implements TacticsBoardView {
   }
 
   /** A grid cell in the rotated frame. */
-  private rotated(m: GridMap, x: number, y: number): Cell {
+  private rotated(m: GridMap, x: number, y: number): TacticsCell {
     switch (this.rot & 3) {
       case 1:
         return { x: m.h - 1 - y, y: x };
@@ -209,8 +209,8 @@ export class TacticsPixelView implements TacticsBoardView {
   }
 
   /** Tiles from the back to the front of the current view. */
-  private order(m: GridMap): Cell[] {
-    const out: Array<Cell & { d: number }> = [];
+  private order(m: GridMap): TacticsCell[] {
+    const out: Array<TacticsCell & { d: number }> = [];
     for (let y = 0; y < m.h; y++)
       for (let x = 0; x < m.w; x++) {
         const r = this.rotated(m, x, y);
@@ -312,7 +312,7 @@ export class TacticsPixelView implements TacticsBoardView {
     const ctx = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, W, H);
     let empty = true;
-    const tint = (cells: Cell[] | undefined, fill: string, mark: 'dot' | 'x' | 'foot') => {
+    const tint = (cells: TacticsCell[] | undefined, fill: string, mark: 'dot' | 'x' | 'foot') => {
       if (!cells) return;
       for (const c of cells) {
         empty = false;
@@ -621,7 +621,7 @@ export class TacticsPixelView implements TacticsBoardView {
   }
 
   /** The tile under a board point, front tiles first (heights included). */
-  pick(s: TacticsState, bx: number, by: number): Cell | null {
+  pick(s: TacticsState, bx: number, by: number): TacticsCell | null {
     const m = mapOf(s);
     const { ox, oy } = this.origin(m);
     const tiles = this.order(m).reverse();
@@ -654,7 +654,7 @@ export class TacticsPixelView implements TacticsBoardView {
   }
 
   /** Pans so a tile sits in the middle. */
-  centreOn(s: TacticsState, c: Cell): void {
+  centreOn(s: TacticsState, c: TacticsCell): void {
     const m = mapOf(s);
     this.panX = 0;
     this.panY = 0;
@@ -665,7 +665,7 @@ export class TacticsPixelView implements TacticsBoardView {
   }
 
   /** The client point at a tile's top centre (tests and the auto-zoom). */
-  clientOf(s: TacticsState, c: Cell): { x: number; y: number } {
+  clientOf(s: TacticsState, c: TacticsCell): { x: number; y: number } {
     const m = mapOf(s);
     const { ox, oy } = this.origin(m);
     const p = this.iso(m, c.x, c.y, ox, oy);
