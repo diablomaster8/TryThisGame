@@ -9,3 +9,4 @@ export * from '../tuning-more/dungeon-field-streaming';
 export * from '../tuning-more/dungeon-poof-kid-mode';
 export * from '../tuning-more/dungeon-champions-wires';
 export * from '../tuning-dungeon-tap';
+export * from '../tuning-r17d1';

@@ -1113,6 +1113,8 @@ export interface DungeonRun {
   // Lane B round 8 (party and run UI).
   /** R0167: packs a Scout has already called out with a "!". */
   scouted?: string[];
+  /** R0115 (R17 d1): a small cave run behind a `stairs` way (place `caves:<id>`), and where it came from. */
+  cave?: { id: string; from: string; way: string; floors: number };
   /** R0187: the Keeper's cells on each level this run (key `seed:depth`), for the ghost line. */
   trail?: Record<string, number[]>;
   // Lane B round 8 (floors).
@@ -2287,10 +2289,10 @@ export type SimEvent =
   | { kind: 'missionDone'; team: TeamId; points: number }
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
-  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
+  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true; cave?: string }
   | { kind: 'glowSolved'; depth: number }
   | { kind: 'glowSticker'; count: number }
-  | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
+  | { kind: 'dungeonLeft'; depth: number; shells: number; items: number; cave?: string }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {
       kind: 'dungeonFound';

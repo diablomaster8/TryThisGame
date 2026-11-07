@@ -29,6 +29,7 @@ import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
 import { slideOnSnow, stopSlide } from './snow-slide';
+import { caveWayOf } from './cave-entrances';
 import { holdInSlice } from './edu-region-bounds';
 import { REGION_WALK } from '../config/tuning-more/world-region-engine';
 import { KEEPER } from '../config/tuning';
@@ -415,6 +416,11 @@ function inRect(e: RegionExit, p: Vec2): boolean {
 }
 
 /** Whether an exit leads somewhere drawn that walking into it may take (not the lane or the Hollow). */
+/** R0115: the ways into a small cave are walked into too (the renderers draw no arch or region for them). */
+export function crossableExit(e: RegionExit): boolean {
+  return walkableExit(e) || caveWayOf(e.id) !== null;
+}
+
 export function walkableExit(e: RegionExit): boolean {
   return e.to === 'grove' || !!REGION_SPECS[e.to];
 }
@@ -464,7 +470,7 @@ export function crossExits(world: World, events: SimEvent[]): RegionExit | null 
   const here = hereRegion(world);
   if (!here) return null;
   const k = world.keeper;
-  const hit = REGIONS[here].exits.find((e) => walkableExit(e) && inRect(e, k.pos)) ?? null;
+  const hit = REGIONS[here].exits.find((e) => crossableExit(e) && inRect(e, k.pos)) ?? null;
   const was = inside.get(world);
   inside.set(world, hit ? hit.id : null);
   if (!hit || was === hit.id || was === undefined || world.ride) return null;
