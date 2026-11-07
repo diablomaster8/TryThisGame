@@ -40,6 +40,8 @@ import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
 import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
 import { Footfall } from './footfall';
+import { SnowSlideFx } from './snow-slide-fx';
+import { SLIDE_FX } from '../config/tuning-r16d1';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -189,6 +191,11 @@ const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
 /** HOT load time: where a Nubbin stands, for the culler's on-screen test (reused). */
 const NUB_PROBE = { x: 0, y: 0, z: 0, mode: 'billboard' } as SpriteDraw;
 
+/** R0112: fence post x positions along the visit garden's south edge, with the gate gap. */
+const VISIT_FENCE_XS: number[] = [];
+for (let x = -VISIT_GARDEN.halfW; x <= VISIT_GARDEN.halfW + 0.01; x += 1.5)
+  if (Math.abs(x) > 2.2) VISIT_FENCE_XS.push(x);
+
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
   /**
@@ -231,6 +238,8 @@ export class WorldView {
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
+  /** R0118: the snow slide's swish and spray. */
+  private readonly slideFx = new SnowSlideFx();
   /** MOVE-43: bushes the Keeper rustled, by spot, and when. */
   private readonly bushShakes = new Map<string, number>();
   /** MOVE-44: the tap walk's footprint dots and target marker. */
@@ -1385,6 +1394,29 @@ export class WorldView {
           tint: this.dim,
         });
       }
+      // R0112: a fence along the garden's south edge (the +-16 line), open at the gate.
+      const fp = scen.frames.get(frameKey('fencePost', 'front', 0));
+      if (fp) {
+        for (let fi = 0; fi < VISIT_FENCE_XS.length; fi++) {
+          const fx = VISIT_FENCE_XS[fi]!;
+          batch.draw(
+            reuseDraw(
+              SCENERY_DRAW,
+              scen,
+              fp,
+              false,
+              fx,
+              0,
+              VISIT_GARDEN.gate.z,
+              'billboard',
+              0.75,
+              (0.75 * fp.h) / fp.w,
+              undefined,
+              this.dim,
+            ),
+          );
+        }
+      }
       const visiting = this.visiting;
       const hsheet = this.sheets.streamed((s) => s.keeper(visiting));
       const hview = viewAngle(Math.PI, yaw);
@@ -1828,6 +1860,15 @@ export class WorldView {
           size: 0.4,
         });
     }
+
+    if (this.slideFx.tick(world, nowMs))
+      this.particles.burst('snow', kx, 0.1, kz, SLIDE_FX.count, {
+        spread: 0.2,
+        speed: 0.7,
+        rise: 0.5,
+        lifeMs: 600,
+        size: 0.65,
+      });
 
     this.onDraw?.(world, nowMs);
 
