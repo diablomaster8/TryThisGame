@@ -60,12 +60,15 @@ function open(): Promise<IDBDatabase | null> {
   return opening;
 }
 
-/** Mirror one slot's save. Never throws, never waits. */
-export function mirrorWrite(key: string, json: string): void {
+/**
+ * Mirror one slot's save. Never throws, never waits. `savedAtWallMs`, when the caller knows
+ * it (the save it just serialised), spares parsing the whole text back (hot/perf-leaks E4).
+ */
+export function mirrorWrite(key: string, json: string, savedAtWallMs?: number): void {
   void open().then((db) => {
     if (!db) return;
     try {
-      const record: MirrorRecord = { json, savedAtWallMs: savedAtOf(json) };
+      const record: MirrorRecord = { json, savedAtWallMs: savedAtWallMs ?? savedAtOf(json) };
       db.transaction(STORE, 'readwrite').objectStore(STORE).put(record, key);
     } catch {
       // Mirror only: the localStorage copy is the one the game uses.
