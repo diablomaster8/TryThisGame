@@ -1,11 +1,12 @@
 /**
- * The grown-up gate: "work out a × b, type it, then hold Enter". The Learning Grove's
+ * The grown-up gate: "work out a × b, type it, then press Enter". The Learning Grove's
  * grown-up area opens behind it, and so do anything that raises Mature content (the
  * Settings radios and a save import that carries 13+ or 18+) and erasing or starting over
  * a Learning Grove slot on the title. A two-digit by one-digit product is beyond most 7–10
- * readers, a wrong answer brings new numbers (so guessing through one sum does not work),
- * and the held Enter stops a mashed key. It is still a gate, not a lock, which is all a
- * parental gate on a static site can be (review C, item 5).
+ * readers, and a wrong answer brings new numbers (so guessing through one sum does not work).
+ * It is still a gate, not a lock, which is all a parental gate on a static site can be
+ * (review C, item 5). Maor (2026-11-07): one tap or one Enter press confirms; the earlier
+ * hold-to-enter was dropped because a plain tap then did nothing and read as a refusal.
  */
 import { GROWN_UP_GATE } from '../config/tuning';
 import { EDU_TEXT } from '../config/strings';
@@ -26,6 +27,12 @@ export function gateAnswerOk(typed: string, a: number, b: number): boolean {
   return /^\d+$/.test(t) && Number(t) === a * b;
 }
 
+/** What one press of Enter means: nothing typed yet, the right product, or a wrong answer. */
+export function gateVerdict(typed: string, a: number, b: number): 'empty' | 'right' | 'wrong' {
+  if (typed.trim() === '') return 'empty';
+  return gateAnswerOk(typed, a, b) ? 'right' : 'wrong';
+}
+
 /** Draw the gate into `container` (emptied first); `onPass` runs on the right answer. */
 export function renderSumGate(
   container: HTMLElement,
@@ -37,11 +44,10 @@ export function renderSumGate(
   container.appendChild(el('h3', undefined, EDU_TEXT.gateTitle));
   const help = el('p', 'help', EDU_TEXT.gateHelp(a, b));
   container.appendChild(help);
-  // Said in the dialog too, where no toast row exists (the title screen). Also carries the
-  // "keep holding" hint: a quick tap on Enter used to do nothing at all, which read as a refusal.
+  // Said in the dialog too, where no toast row exists (the title screen).
   const wrong = el('p', 'help edu-gate-wrong');
   wrong.setAttribute('aria-live', 'polite');
-  const hint = (text: string) => {
+  const say = (text: string) => {
     toast(text);
     wrong.textContent = text;
   };
@@ -51,69 +57,34 @@ export function renderSumGate(
   input.inputMode = 'numeric';
   input.className = 'edu-gate-input';
   input.setAttribute('aria-label', EDU_TEXT.gateTitle);
-  const enter = button(EDU_TEXT.gateEnter, () => undefined, 'btn btn-primary edu-gate-hold');
-  const fill = el('span', 'edu-gate-fill');
-  enter.appendChild(fill);
 
+  // One tap on the button, or one Enter press in the box, confirms.
+  let passed = false;
   const check = () => {
-    if (gateAnswerOk(input.value, a, b)) {
+    if (passed) return;
+    const verdict = gateVerdict(input.value, a, b);
+    if (verdict === 'right') {
+      passed = true;
       onPass();
       return;
     }
-    hint(EDU_TEXT.gateWrong);
+    if (verdict === 'empty') {
+      say(EDU_TEXT.gateTypeFirst);
+      input.focus();
+      return;
+    }
+    say(EDU_TEXT.gateWrong);
     ({ a, b } = gateProblem(Math.random));
     help.textContent = EDU_TEXT.gateHelp(a, b);
     input.value = '';
     input.focus();
   };
-
-  // Hold to confirm: pointer or keyboard, with a fill that shows the hold running.
-  let timer = 0;
-  const start = () => {
-    if (timer) return;
-    if (input.value.trim() === '') {
-      hint(EDU_TEXT.gateTypeFirst);
-      return;
-    }
-    enter.classList.add('holding');
-    enter.setAttribute('aria-label', EDU_TEXT.gateHold);
-    fill.style.transitionDuration = `${GROWN_UP_GATE.holdMs}ms`;
-    timer = window.setTimeout(() => {
-      timer = 0;
-      cancel();
-      check();
-    }, GROWN_UP_GATE.holdMs);
-  };
-  const cancel = () => {
-    if (timer) window.clearTimeout(timer);
-    timer = 0;
-    enter.classList.remove('holding');
-    enter.removeAttribute('aria-label');
-  };
-  // Let go before the bar filled: say so, instead of silently doing nothing.
-  const release = () => {
-    if (!timer) return;
-    cancel();
-    hint(EDU_TEXT.gateTooShort);
-  };
-  enter.addEventListener('pointerdown', (e) => {
+  const enter = button(EDU_TEXT.gateEnter, check, 'btn btn-primary edu-gate-enter');
+  input.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
     e.preventDefault();
-    start();
+    check();
   });
-  for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const) {
-    enter.addEventListener(ev, release);
-  }
-  enter.addEventListener('contextmenu', (e) => e.preventDefault());
-  for (const target of [input, enter] as HTMLElement[]) {
-    target.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter' && !(target === enter && e.key === ' ')) return;
-      e.preventDefault();
-      if (!e.repeat) start();
-    });
-    target.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') release();
-    });
-  }
   row.append(input, enter);
   container.append(row, wrong);
   setTimeout(() => input.focus(), 50);
