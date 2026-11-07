@@ -1132,7 +1132,7 @@ export const NO_PARTS: NubbinParts = {
 function drawLookWings(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   hat: string | null | undefined,
   front: boolean,
 ): void {
