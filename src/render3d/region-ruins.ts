@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import {
   RUINS_COLUMNS,
@@ -12,7 +13,7 @@ import {
 } from '../config/region-ruins';
 import type { RegionLayout } from '../config/region-layout';
 import { paintRuins, RUINS_GROUND, ruinsHeight } from '../render/region-ruins';
-import type { World } from '../sim/types';
+
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
 
 /**
@@ -223,7 +224,7 @@ function story(group: THREE.Group, mat: THREE.Material): Kit3dDecor {
   for (const m of [ice, open, flames, cold]) group.add(m);
   let was: RuinsState | null = null;
   return {
-    sync(world: World) {
+    sync(world: ReadonlyWorld) {
       const s = ruinsState(world.campaign);
       if (s === was) return;
       was = s;

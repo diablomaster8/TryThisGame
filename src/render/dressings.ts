@@ -1,6 +1,7 @@
+import type { ReadonlyWorld } from './readonly-world';
 import type { Group, Object3D, Scene, Texture } from 'three';
 import type { SceneStage } from '../config/story';
-import type { World } from '../sim/types';
+
 import type { Daylight } from './daylight';
 import type { SpriteBatch } from './sprite-batch';
 import type { ScreenRect, StageBuildings, Vec2xy } from './stage-api';
@@ -71,7 +72,7 @@ export interface PixelDressCtx {
 export interface PixelDressing {
   id: string;
   build(ctx: PixelDressCtx): void;
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void;
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void;
   dispose?(): void;
 }
 
@@ -133,7 +134,7 @@ export class PixelDressings {
     this.pending = ctx;
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.pending;
     if (ctx && this.frames++ > 0) {
       this.list[this.ready]!.build(ctx);

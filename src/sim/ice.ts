@@ -4,6 +4,7 @@
  * slides across: the stick runs at x1.4 with low steering. Nubbins keep off it. Pure; the
  * keeper, nav and behaviour read it.
  */
+import type { ReadonlyWorld } from './readonly';
 import { GROVE } from '../config/tuning';
 import { ICE } from '../config/tuning-more/world-edu-trail-ice';
 import { WATER_LEVEL } from './terrain';
@@ -29,7 +30,7 @@ export function noteCalendarSeason(world: World): void {
  * for its shot; the sim keeps it frozen through the chapter, as the Long Night's cold does.
  */
 export function pondIsIce(
-  world: Pick<World, 'season' | 'debugSeason' | 'location' | 'campaign'>,
+  world: Pick<ReadonlyWorld, 'season' | 'debugSeason' | 'location' | 'campaign'>,
 ): boolean {
   if (world.location !== 'grove') return false;
   const c = world.campaign;

@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import {
   GATE_LEVEL,
   GATE_RULES,
@@ -71,7 +72,7 @@ export function gatesOf(region: string): readonly RegionGate[] {
 }
 
 /** The gates still shut in the region the Keeper is in. */
-export function closedGates(world: World): RegionGate[] {
+export function closedGates(world: ReadonlyWorld): RegionGate[] {
   const region = regionOf(world.location);
   return gatesOf(region).filter((g) => !gateIsOpen(world, region, g.id));
 }

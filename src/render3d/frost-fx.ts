@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { CG_C } from '../config/tuning-more/campaign-story-places';
 import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
 import { FROST_PX, paintFrostDecal } from '../render/paint/frost-w';
-import type { World } from '../sim/types';
+
 import { QuadCloud } from './quad-particles';
 import { groveHeight } from './terrain';
 
@@ -79,7 +80,7 @@ export class FrostFx {
   }
 
   update(
-    world: World,
+    world: ReadonlyWorld,
     o: { breath: boolean; prints: boolean },
     time: number,
     still: boolean,
@@ -91,7 +92,7 @@ export class FrostFx {
   }
 
   private puffs(
-    world: World,
+    world: ReadonlyWorld,
     on: boolean,
     time: number,
     ground: (x: number, z: number) => number,
@@ -127,7 +128,7 @@ export class FrostFx {
     this.breath.flush();
   }
 
-  private trail(world: World, on: boolean, ground: (x: number, z: number) => number): void {
+  private trail(world: ReadonlyWorld, on: boolean, ground: (x: number, z: number) => number): void {
     const m = this.prints;
     if (!m) return;
     // Prints belong to one place; leaving it clears them.

@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from './readonly-world';
 import type { Vector3 } from 'three';
 import type { SceneStage } from '../config/story';
 import { GROVE, STORY } from '../config/tuning';
 import { LOOK_F } from '../config/tuning-more/campaign-looks-titles';
 import { CG2_K } from '../config/tuning-more/campaign2-landmarks';
-import type { World } from '../sim/types';
+
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { RasterAtlas } from './paint/atlas';
@@ -79,7 +80,7 @@ export const dressK: PixelDressing = (() => {
       ctx = c;
       sheets = null;
     },
-    update(world: World, stage: SceneStage, daylight: Daylight) {
+    update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight) {
       if (!ctx?.sprites) return;
       const st = Object.keys(stage).length ? stage : null;
       const f = stageFlags(world, st);

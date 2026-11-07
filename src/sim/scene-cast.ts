@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { SPEAKERS } from '../config/story';
 import { STORY } from '../config/tuning';
 import { clampToWorld } from './behavior';
@@ -148,7 +149,7 @@ export function offerSpawnAngle(world: World, reach: number, towardView: number)
  * crosses no solid, or the place has no Grove colliders (the Hollow, Corvin's garden).
  * Computed here, once per walk at scene start; the stagers only read the result.
  */
-export function walkOnRoute(world: World, from: Vec2, to: Vec2): Vec2[] {
+export function walkOnRoute(world: ReadonlyWorld, from: Vec2, to: Vec2): Vec2[] {
   const loc = world.location;
   if (loc !== 'grove' && !loc.startsWith('visit:')) return [];
   return walkPath(world, from, to, 'keeper');

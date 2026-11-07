@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { crackStage } from './egg-crack-stage';
 import { openSky } from './cave-bands';
 import { gaitOf } from '../sim/soul-gait';
@@ -12,7 +13,7 @@ import { DUNGEON, EGG, FERN_STONE, GRACE, LIFECYCLE, UI } from '../config/tuning
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
-import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import type { DungeonRun, Location, Nubbin, SimEvent, Vec2 } from '../sim/types';
 import { ledgeLift } from './hollow-ledges';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { friendOf, friendWalking } from '../sim/dungeon-friends';
@@ -291,7 +292,7 @@ export class WorldView {
   }
 
   /** Call right before stepping the sim, so the next frame can interpolate from here. */
-  snapshot(world: World): void {
+  snapshot(world: ReadonlyWorld): void {
     for (const n of world.nubbins) {
       const v = this.nubbins.get(n.id);
       if (v) {
@@ -312,7 +313,7 @@ export class WorldView {
   }
 
   /** Call right before each of the Keeper's own fine steps (MOVE-15). */
-  snapshotKeeper(world: World): void {
+  snapshotKeeper(world: ReadonlyWorld): void {
     this.keeperPrev.pos.x = world.keeper.pos.x;
     this.keeperPrev.pos.z = world.keeper.pos.z;
     this.keeperPrev.y = world.keeper.y;
@@ -331,7 +332,7 @@ export class WorldView {
    * Runs inside the sprite pass, before the particles: the Grove scene's dressings draw
    * their billboards here (render/dressings.ts).
    */
-  onDraw: ((world: World, nowMs: number) => void) | null = null;
+  onDraw: ((world: ReadonlyWorld, nowMs: number) => void) | null = null;
   /** Which neighbour is being visited, if any (their Nubbins are render-only). */
   get visiting(): string | null {
     return this.location.startsWith('visit:') ? this.location.slice('visit:'.length) : null;
@@ -341,7 +342,7 @@ export class WorldView {
    * Centre the building fade's dither circle (campaign graphics 2) on the framed cast, or
    * the Keeper, and keep the camera for the dressings' world-to-screen function.
    */
-  private aimDither(world: World, camera: OrbitCamera, alpha: number): void {
+  private aimDither(world: ReadonlyWorld, camera: OrbitCamera, alpha: number): void {
     PIXEL_VIEW.camera = camera.camera;
     const st = this.staging;
     const pts = st?.active ? st.frame(world) : [this.keeperDrawPos(world, alpha)];
@@ -377,7 +378,7 @@ export class WorldView {
   };
 
   /** The Keeper's head in NDC for the occluder fade; null when there is no Keeper to show. */
-  private keeperHeadNdc(world: World, camera: OrbitCamera, alpha: number): Vector3 | null {
+  private keeperHeadNdc(world: ReadonlyWorld, camera: OrbitCamera, alpha: number): Vector3 | null {
     if (this.staging?.active && this.staging.keeperHold) return null;
     const p = this.keeperDrawPos(world, alpha);
     const v = new Vector3(p.x, KEEPER_HEAD_Y, p.z).project(camera.camera);
@@ -389,7 +390,7 @@ export class WorldView {
 
   /** How far the drawn Keeper's feet are off the painted ground (up a jump, down a wade). */
   private keeperOffset(
-    world: World,
+    world: ReadonlyWorld,
     x: number,
     z: number,
     alpha: number,
@@ -420,7 +421,7 @@ export class WorldView {
    */
   /** R0041 (lane A r10): walking up a Grove hill, the Pixel Keeper leans into it. */
   private keeperClimbing(
-    world: World,
+    world: ReadonlyWorld,
     x: number,
     z: number,
     sheet: SpriteSheet,
@@ -434,7 +435,7 @@ export class WorldView {
     return rise / r >= PIXEL_LEAN.minSlope;
   }
 
-  private keeperJumpClip(world: World, nowMs: number, gap: number): KeeperJumpClip | null {
+  private keeperJumpClip(world: ReadonlyWorld, nowMs: number, gap: number): KeeperJumpClip | null {
     const k = world.keeper;
     if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
     // A roll (MOVE-64) tucks into the crouch frame all the way along.
@@ -478,7 +479,7 @@ export class WorldView {
    * R0109: a swirl of three leaves over each flying zone near the Keeper (an updraft at a
    * cliff's foot, a glide line's lookout), rising and turning; still under reduced motion.
    */
-  private drawFlightZones(world: World, nowMs: number): void {
+  private drawFlightZones(world: ReadonlyWorld, nowMs: number): void {
     this.leafSheet ??= buildParticleSheet();
     const sheet = this.leafSheet;
     const rect = sheet.frames.get(frameKey('leaf', 'front', 0));
@@ -518,7 +519,7 @@ export class WorldView {
   }
 
   /** The Keeper's position as drawn this frame (between sim steps). */
-  keeperDrawPos(world: World, alpha: number): Vec2 {
+  keeperDrawPos(world: ReadonlyWorld, alpha: number): Vec2 {
     // A scene that puts the Keeper on a mark draws them there (render/scene-stage.ts).
     const held = this.staging?.active ? this.staging.keeperHold : null;
     if (held) return { x: held.x, z: held.z };
@@ -733,7 +734,7 @@ export class WorldView {
     return best;
   }
 
-  update(world: World, camera: OrbitCamera, alpha: number, nowMs: number): void {
+  update(world: ReadonlyWorld, camera: OrbitCamera, alpha: number, nowMs: number): void {
     // R0549 (lane A r8): mood bubbles read on a phone at the far zoom, or when set big.
     this.emoteBig = camera.currentZoomIndex === 0 || bigBubbles(world);
     const yaw = camera.currentYaw;
@@ -1884,7 +1885,7 @@ export class WorldView {
   private drawCave(
     f: Floor,
     run: DungeonRun,
-    world: World,
+    world: ReadonlyWorld,
     nowMs: number,
     yaw: number,
     alpha: number,
@@ -2501,7 +2502,7 @@ export class WorldView {
   private drawNubbin(
     v: NubbinView,
     n: Nubbin,
-    world: World,
+    world: ReadonlyWorld,
     yaw: number,
     alpha: number,
     nowMs: number,
@@ -3082,7 +3083,7 @@ export class WorldView {
   }
 
   /** R0547 and R0555 (lane A r11): the ambient critters, and the hearts a concert raises. */
-  private drawSoulCritters(world: World, nowMs: number): void {
+  private drawSoulCritters(world: ReadonlyWorld, nowMs: number): void {
     if (world.location !== 'grove') return;
     const rows = ambientDraws(world, nowMs, this.particles.reduceMotion);
     if (rows.length) {
@@ -3121,7 +3122,7 @@ export class WorldView {
   private readonly heartedJams = new WeakSet<object>();
 
   /** R0525 (lane A r10): crayon doodles left on the Grove's ground, fading after a while. */
-  private drawDoodles(world: World): void {
+  private drawDoodles(world: ReadonlyWorld): void {
     // R0421 (LOOK-51, lane E r10): the idle acts' crayon scribbles, fading after 30 s.
     if (world.location === 'grove') {
       const sheet = this.sheets.get('soul:perform', buildPerformSheet);

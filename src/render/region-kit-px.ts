@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import * as THREE from 'three';
 import type { LayoutChunk, LayoutTree, RegionBox, RegionLayout } from '../config/region-layout';
 import { WORLD_STREAM } from '../config/tuning-world';
@@ -11,7 +12,7 @@ import {
 } from './region-ground';
 import type { RegionPx, RegionPxModule } from './region-host-px';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
-import type { World } from '../sim/types';
+
 
 /**
  * R11 lane D (d7): the pixel half of a region built on the engine, from a style: the Wood's
@@ -50,7 +51,7 @@ export interface KitPxStyle {
   /** Extra meshes on the ground plane; returns their disposer. */
   decorate?: (ground: THREE.Mesh, l: RegionLayout) => () => void;
   /** Sprites that change with the world, drawn every frame (region-local, never many). */
-  dynamic?: (world: World) => readonly KitPiece[];
+  dynamic?: (world: ReadonlyWorld) => readonly KitPiece[];
   /** The arch over a loaded way in: its key and width. */
   arch: { key: string; w: number };
   /** The painting clears ground a seamless neighbour shows through (alpha-tested). */
@@ -150,7 +151,7 @@ class KitPx implements RegionPx {
 
 /** A region's pixel module from its style (what `REGION_PX` loads). */
 export function kitModule(s: KitPxStyle): RegionPxModule & {
-  drawDynamic(batch: SpriteBatch, world: World, tint: number): void;
+  drawDynamic(batch: SpriteBatch, world: ReadonlyWorld, tint: number): void;
 } {
   const dyn = new Map<KitPiece, SpriteDraw | null>();
   return {

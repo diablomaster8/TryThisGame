@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
 import { ICE } from '../config/tuning-more/world-edu-trail-ice';
 import { ICE_Y, keeperOnIce, overPond, pondIsIce } from './ice';
@@ -152,7 +153,7 @@ export function unstickKeeper(world: World): boolean {
 }
 
 /** Progress of the current care walk, per world; transient, so it is not saved. */
-const careWalk = new WeakMap<World, { intent: KeeperIntent; at: Vec2; sinceMs: number }>();
+const careWalk = new WeakMap<ReadonlyWorld, { intent: KeeperIntent; at: Vec2; sinceMs: number }>();
 
 /**
  * A care walk where the Keeper stops moving (wedged where steering cannot get round)
@@ -264,7 +265,7 @@ function careApproach(world: World, intent: KeeperIntent, n: Vec2): Vec2 | null 
 /** One fine Keeper step, in ms (MOVE-15). */
 const SUB_MS = 1000 / KEEPER_MOTION.hz;
 /** Fine steps game.ts has already run inside the coming sim step, per world; not saved. */
-const ahead = new WeakMap<World, number>();
+const ahead = new WeakMap<ReadonlyWorld, number>();
 
 /**
  * Move the Keeper through one sim step, in fine substeps (MOVE-15): a jump's rise is about
@@ -309,7 +310,7 @@ export function stepKeeperMotion(world: World, events: SimEvent[]): boolean {
 }
 
 /** Where the Keeper's feet would rest at (x, z), coming from feet at `fromY`. */
-export function keeperFooting(world: World, x: number, z: number, fromY = Infinity): Footing {
+export function keeperFooting(world: ReadonlyWorld, x: number, z: number, fromY = Infinity): Footing {
   const f = footing(x, z, fromY, (px, pz) => standTopAt(world, px, pz));
   // R0118: a frozen pond holds the feet at the ice, not the bed.
   if (f.on === 'water' && pondIsIce(world) && overPond({ x, z }))
@@ -375,7 +376,7 @@ export function standInTap(target: Vec2): Vec2 | undefined {
   return standIns.get(target);
 }
 /** When a stand-in walk last asked whether its real tap had come within reach (sim ms). */
-const tapRecheck = new WeakMap<World, number>();
+const tapRecheck = new WeakMap<ReadonlyWorld, number>();
 /** How often (ms) a stand-in walk looks again at its real tap. */
 const RECHECK_MS = 1000;
 
@@ -389,9 +390,9 @@ export interface TapVerdict {
   /** 'cant': nowhere near it is reachable; 'jump': a jump from here would get up there. */
   kind: 'cant' | 'jump';
 }
-const tapVerdicts = new WeakMap<World, TapVerdict>();
+const tapVerdicts = new WeakMap<ReadonlyWorld, TapVerdict>();
 /** The latest unreachable-tap verdict (read only, for the tap markers). */
-export function tapVerdict(world: World): TapVerdict | undefined {
+export function tapVerdict(world: ReadonlyWorld): TapVerdict | undefined {
   return tapVerdicts.get(world);
 }
 
@@ -406,13 +407,13 @@ function autoPress(world: World): void {
 export { keeperGliding };
 
 /** MOVE-64: a roll under way (its heading and time), and when the last one ended. */
-const rolls = new WeakMap<World, { dx: number; dz: number; ms: number }>();
-const rolledAt = new WeakMap<World, number>();
+const rolls = new WeakMap<ReadonlyWorld, { dx: number; dz: number; ms: number }>();
+const rolledAt = new WeakMap<ReadonlyWorld, number>();
 /** Per Nubbin, when it last giggled at a roll (sim ms). */
 const giggledAt = new WeakMap<Nubbin, number>();
 
 /** MOVE-64: how far through a roll the Keeper is (0..1), or null when not rolling. */
-export function keeperRoll(world: World): number | null {
+export function keeperRoll(world: ReadonlyWorld): number | null {
   const r = rolls.get(world);
   return r ? Math.min(1, r.ms / ROLL.ms) : null;
 }
@@ -504,19 +505,19 @@ interface Mantle {
   x1: number;
   z1: number;
 }
-const mantles = new WeakMap<World, Mantle>();
+const mantles = new WeakMap<ReadonlyWorld, Mantle>();
 
 /** MOVE-50: how far through a mantle the Keeper is (0..1), or null when not mantling. */
-export function keeperMantle(world: World): number | null {
+export function keeperMantle(world: ReadonlyWorld): number | null {
   const m = mantles.get(world);
   return m ? Math.min(1, m.ms / MANTLE.ms) : null;
 }
 
 /** MOVE-65: a dip under the pond under way (its time), transient. */
-const dips = new WeakMap<World, { ms: number }>();
+const dips = new WeakMap<ReadonlyWorld, { ms: number }>();
 
 /** MOVE-65: how far through a pond dip the Keeper is (0..1), or null. Drawn only. */
-export function keeperDip(world: World): number | null {
+export function keeperDip(world: ReadonlyWorld): number | null {
   const d = dips.get(world);
   return d ? Math.min(1, d.ms / POND_DIP.ms) : null;
 }
@@ -615,7 +616,7 @@ function stepMantle(world: World, dtMs: number, events: SimEvent[]): void {
  * R0025 (MOVE-25, lane A r10): the last spot the Keeper stood ashore in the Grove, transient.
  * A splash-down in the pond without the Swim perk puffs back here, with nothing lost.
  */
-const lastSafe = new WeakMap<World, Vec2>();
+const lastSafe = new WeakMap<ReadonlyWorld, Vec2>();
 
 /** R0025: where a bad landing puts the Keeper back (read only, for tests and the debug panel). */
 export function keeperLastSafe(world: World): Vec2 | undefined {
@@ -680,7 +681,7 @@ const noteLeft = (world: World, jumped: boolean): void => {
 };
 
 /** The highest the feet got since they left the ground, for the landing's fall height. */
-const peakY = new WeakMap<World, number>();
+const peakY = new WeakMap<ReadonlyWorld, number>();
 
 /** Gravity, jumping and landing for one substep (MOVE-10/11). */
 function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEvent[]): void {
@@ -782,7 +783,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
 }
 
 /** The Keeper's ground velocity (MOVE-20): transient, so it is never saved. */
-const vel = new WeakMap<World, Vec2>();
+const vel = new WeakMap<ReadonlyWorld, Vec2>();
 /** Worlds whose Keeper is mid-skid, so a reversal sends one skid, not one per substep. */
 const skidding = new WeakSet<World>();
 
@@ -895,7 +896,7 @@ export function slopePace(x: number, z: number, dx: number, dz: number): number 
 }
 
 // MOVE-43: the bush the Keeper is in, so only stepping into one rustles it.
-const inBush = new WeakMap<World, string>();
+const inBush = new WeakMap<ReadonlyWorld, string>();
 
 /** Rustle a bush the Keeper has just pushed into; maybe shed leaves, maybe find its shell. */
 function rustleBush(world: World, bush: { id: string; x: number; z: number }, events: SimEvent[]) {
@@ -915,7 +916,7 @@ function rustleBush(world: World, bush: { id: string; x: number; z: number }, ev
 }
 
 // MOVE-42: the tap target a walk was judged for, and whether it runs (Auto-run, long walks).
-const tapRuns = new WeakMap<World, { at: Vec2; run: boolean }>();
+const tapRuns = new WeakMap<ReadonlyWorld, { at: Vec2; run: boolean }>();
 
 /** R0102: Travel assist marks its walk as a run (`sim/travel.ts`). */
 export function markRunWalk(world: World, at: Vec2): void {
@@ -926,7 +927,7 @@ export function markRunWalk(world: World, at: Vec2): void {
  * R0042 (lane A r10), for the renderers: whether the Keeper is running now (the Run toggle
  * or Shift, or a tap walk Auto-run or Travel assist runs). Reads only.
  */
-export function keeperRunningNow(world: World): boolean {
+export function keeperRunningNow(world: ReadonlyWorld): boolean {
   const k = world.keeper;
   if (k.running) return true;
   const t = tapRuns.get(world);
@@ -1254,7 +1255,7 @@ function rideCarried(world: World): void {
 }
 
 /** Per world: when each tree was last jumped into and each Nubbin last leapt over (MOVE-26). */
-const playCooldowns = new WeakMap<World, Map<string, number>>();
+const playCooldowns = new WeakMap<ReadonlyWorld, Map<string, number>>();
 
 /**
  * What a jump does on its way (MOVE-26), checked only while the Keeper is in the air: a

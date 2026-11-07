@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from './readonly-world';
 import type { SceneStage } from '../config/story';
 import { markAt, type StageMark } from '../config/stage-marks';
 import { CG2_S } from '../config/tuning-more/campaign2-white-room';
 import { DUNGEON } from '../config/tuning';
 import { FLOOR, WALL, type Floor } from '../sim/dungeon';
-import type { World } from '../sim/types';
+
 import { stageFlags } from './scene-stage';
 
 /**
@@ -31,7 +32,7 @@ export const NO_SETS: SetsS = {
   door: false,
 };
 
-export function setsS(world: World, stage: SceneStage): SetsS {
+export function setsS(world: ReadonlyWorld, stage: SceneStage): SetsS {
   const ex = stage.exclusive === true;
   const root = ex && stage.place === 'rootNode';
   // K16 (campaign graphics 4): on a real Hollow Below floor the floor itself is the set;

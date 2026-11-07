@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
@@ -6,7 +7,7 @@ import { stageFlags } from '../render/scene-stage';
 import { StageTracker } from '../render/stage-actors';
 import { groundType } from '../render/walk-on';
 import { PrintTrail, type Print } from '../render/walk-prints';
-import type { World } from '../sim/types';
+
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { groveHeight } from './terrain';
 
@@ -94,7 +95,7 @@ class Dress3dA2 implements Dressing3d {
     void ctx.compile(mesh);
   }
 
-  update(world: World, stage: SceneStage, _daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     const mesh = this.mesh;
     if (!ctx || !mesh) return;

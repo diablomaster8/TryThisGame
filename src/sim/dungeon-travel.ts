@@ -6,6 +6,7 @@
  *
  * Pure sim: no DOM.
  */
+import type { ReadonlyWorld } from './readonly';
 import { HOLLOW } from '../config/tuning';
 import { actOpen, actProgress } from './dungeon-acts';
 import { actStartDepth } from '../config/dungeon-acts';
@@ -243,7 +244,7 @@ function frozenCopy(run: DungeonRun): DungeonRun {
 }
 
 /** Whether the Keeper is in the camp of the act an open acorn portal leads back into. */
-export function campPortalHere(world: World): boolean {
+export function campPortalHere(world: ReadonlyWorld): boolean {
   const run = world.dungeon;
   const portal = world.hollow.portal;
   return (

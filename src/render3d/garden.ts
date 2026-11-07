@@ -1,6 +1,7 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { visibleStoryProps, type StoryPropKind } from '../sim/story-props';
-import type { DecorKind, Plant, TileKind, World } from '../sim/types';
+import type { DecorKind, Plant, TileKind } from '../sim/types';
 import type { Tex } from './art/aaa-kit';
 import { KIT_SHARED, kitCabin, kitHouse, kitMaterials } from './kit-buildings';
 import { buildStoryProp } from './prop-kit';
@@ -352,7 +353,7 @@ export class Garden {
   }
 
   /** Rebuild when the decor, plants or tiles change; cheap otherwise. */
-  update(world: World, ground: Ground, nowMs: number, home: boolean): void {
+  update(world: ReadonlyWorld, ground: Ground, nowMs: number, home: boolean): void {
     this.group.visible = home;
     if (!home || nowMs - this.checkedMs < 500) return;
     this.checkedMs = nowMs;
@@ -376,7 +377,7 @@ export class Garden {
     this.rebuild(world, ground);
   }
 
-  private rebuild(world: World, ground: Ground): void {
+  private rebuild(world: ReadonlyWorld, ground: Ground): void {
     for (const c of [...this.group.children]) {
       c.removeFromParent();
       disposeModel(c);
@@ -446,7 +447,7 @@ export class Garden {
   }
 
   /** Painted tiles: one instanced quad per tile kind, laid on the ground. */
-  private buildTiles(world: World, ground: Ground): void {
+  private buildTiles(world: ReadonlyWorld, ground: Ground): void {
     const byKind = new Map<TileKind, Array<[number, number]>>();
     for (const [key, kind] of Object.entries(world.tiles)) {
       const [x, z] = key.split(',').map(Number) as [number, number];

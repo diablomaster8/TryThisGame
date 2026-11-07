@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { STORY_PROPS } from '../config/tuning';
 import type { CampaignState, World } from './types';
 
@@ -33,10 +34,10 @@ export interface StoryPropDef {
 
 const step = (c: CampaignState, id: string): number => c.side[id]?.step ?? -1;
 // Read here rather than from story-rewards.ts, which would close an import cycle at load.
-const hasKeepsake = (world: World, id: string): boolean => world.inventory.keepsakes.includes(id);
+const hasKeepsake = (world: ReadonlyWorld, id: string): boolean => world.inventory.keepsakes.includes(id);
 
 /** Whether `id` stands in the Grove right now. Props not listed stand always. */
-function standing(world: World, c: CampaignState, id: string): boolean {
+function standing(world: ReadonlyWorld, c: CampaignState, id: string): boolean {
   switch (id) {
     case 'old-trowel':
       // Dusty's trowel, from Fossil's walk, until it is given to Hazel (S10's first wish).
@@ -61,7 +62,7 @@ function standing(world: World, c: CampaignState, id: string): boolean {
 }
 
 /** The props standing in the Grove now (none outside the campaign or away from home). */
-export function visibleStoryProps(world: World): StoryPropDef[] {
+export function visibleStoryProps(world: ReadonlyWorld): StoryPropDef[] {
   const c = world.campaign;
   if (!c || c.chapter === 0 || world.location !== 'grove') return [];
   return STORY_PROPS.filter((p) => standing(world, c, p.id));
@@ -77,7 +78,7 @@ export function storyPropMeets(id: string, checkTokens: string[]): boolean {
  * The props standing now as bits in `STORY_PROPS` order, for the collider table's cache key
  * (MOVE-16): it is asked for every walker on every step, so it must not allocate.
  */
-export function storyPropMask(world: World): number {
+export function storyPropMask(world: ReadonlyWorld): number {
   const c = world.campaign;
   if (!c || c.chapter === 0 || world.location !== 'grove') return 0;
   let mask = 0;

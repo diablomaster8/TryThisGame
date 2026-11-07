@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import { memorialSpot } from '../render/memorial-spot';
 import { rockTilt } from '../sim/toy-pair';
 import { ridePose } from '../render/ride-pose';
@@ -252,7 +253,7 @@ export class Actors {
   /** Hats, scarves and glasses on the Chao line's rigs. */
   private readonly dresser = new Dresser();
   /** The world of the last frame, so the loading bar can count every Nubbin to be drawn. */
-  private world: World | null = null;
+  private world: ReadonlyWorld | null = null;
   private keeperPrev: Vec2 = { x: 0, z: 0 };
   private keeperPrevY = 0;
   /**
@@ -396,7 +397,7 @@ export class Actors {
   }
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
-  warm(world: World): void {
+  warm(world: ReadonlyWorld): void {
     this.warmed = true;
     this.world = world;
     this.pool.warm(openingLooks(world));
@@ -430,7 +431,7 @@ export class Actors {
     };
   }
 
-  snapshot(world: World): void {
+  snapshot(world: ReadonlyWorld): void {
     for (const n of world.nubbins) {
       const a = this.nubbins.get(n.id);
       if (a) {
@@ -466,13 +467,13 @@ export class Actors {
   private keeperTurn: number | null = null;
 
   /** Call right before each of the Keeper's own fine steps (MOVE-15). */
-  snapshotKeeper(world: World): void {
+  snapshotKeeper(world: ReadonlyWorld): void {
     this.keeperPrev.x = world.keeper.pos.x;
     this.keeperPrev.z = world.keeper.pos.z;
     this.keeperPrevY = world.keeper.y;
   }
 
-  keeperDrawPos(world: World, alpha: number): Vec2 {
+  keeperDrawPos(world: ReadonlyWorld, alpha: number): Vec2 {
     if (this.keeperHold) return { x: this.keeperHold.x, z: this.keeperHold.z };
     const a = this.keeperAlpha ?? alpha;
     return {
@@ -599,7 +600,7 @@ export class Actors {
   }
 
   /** R0580 (lane A r11): the point a Nubbin glances at (eyes and head), or null. */
-  private glanceOf(n: Nubbin, world: World, nowMs: number): THREE.Vector3 | null {
+  private glanceOf(n: Nubbin, world: ReadonlyWorld, nowMs: number): THREE.Vector3 | null {
     const p = this.glances.at(n, world, nowMs);
     if (!p) return null;
     let v = this.glanceAts.get(n.id);
@@ -863,7 +864,7 @@ export class Actors {
   }
 
   /** The Nubbins drawn here: none on a visit, the party in the Hollow, else all. */
-  private shownNubbins(world: World): World['nubbins'] {
+  private shownNubbins(world: ReadonlyWorld): World['nubbins'] {
     if (this.location.startsWith('visit:')) return [];
     // R0121: in a drawn region only the partners that came along.
     if (this.location.startsWith('region:')) return regionShown(world);
@@ -968,7 +969,7 @@ export class Actors {
     return k ?? { key: look.key, look, rig: null, stand: this.standIn(look) };
   }
 
-  private ensureKeeper(world: World): Rigged | null {
+  private ensureKeeper(world: ReadonlyWorld): Rigged | null {
     this.keeper = this.fitKeeper(this.keeper, keeperLook(world.keeper, world.trainer));
     return this.keeper.rig;
   }
@@ -1045,7 +1046,7 @@ export class Actors {
    * while its stick is held, interpolated between steps like the first. Released when
    * co-op ends.
    */
-  private updateKeeper2(world: World, alpha: number, t: number, dt: number): void {
+  private updateKeeper2(world: ReadonlyWorld, alpha: number, t: number, dt: number): void {
     const k2 = world.coop.active ? world.keeper2 : null;
     if (!k2) {
       this.keeper2 = this.dropKeeper(this.keeper2);
@@ -1060,7 +1061,7 @@ export class Actors {
     this.driveKeeper(this.keeper2, moving ? 'walk' : 'idle', p, k2.facing, t, dt, lift);
   }
 
-  update(world: World, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {
+  update(world: ReadonlyWorld, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {
     const t = nowMs / 1000;
     const keeper = world.keeper;
     this.world = world;
@@ -1727,7 +1728,7 @@ export class Actors {
 }
 
 /** R0352: the idle Keeper's pose in Full 3D: the letter held up to read, or sitting down. */
-function keeperIdle3d(world: World): PoseName | null {
+function keeperIdle3d(world: ReadonlyWorld): PoseName | null {
   const p = keeperIdlePose(world);
   return p === 'sit' ? 'sit' : p === 'letter' ? 'itemGet' : null;
 }

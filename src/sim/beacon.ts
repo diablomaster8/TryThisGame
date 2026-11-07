@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { REGIONS } from '../config/regions';
 import type { Vec2, World } from './types';
 
@@ -35,7 +36,7 @@ export function poiPos(id: string): Vec2 | null {
   return p ? { x: p.x, z: p.z } : null;
 }
 
-function target(world: World, name: string): Vec2 | null {
+function target(world: ReadonlyWorld, name: string): Vec2 | null {
   const k = world.keeper.pos;
   const own = world.nubbins.filter(
     (n) => n.id !== world.campaign?.mossId && n.id !== world.campaign?.sableId,
@@ -58,7 +59,7 @@ function target(world: World, name: string): Vec2 | null {
 }
 
 /** The place objective `key` points at in the Grove, or null when it has none. */
-export function objectivePoi(world: World, key: string | null): Vec2 | null {
+export function objectivePoi(world: ReadonlyWorld, key: string | null): Vec2 | null {
   if (!key || world.location !== 'grove') return null;
   for (const [prefix, name] of Object.entries(OBJECTIVE_POIS))
     if (key === prefix || key.startsWith(`${prefix}:`)) return target(world, name);

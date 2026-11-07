@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import { GROVE } from '../config/tuning';
@@ -6,7 +7,7 @@ import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { storyBState } from '../render/story-b-state';
 import { ddLayout, foldExtras } from '../render/story-b-layout';
-import type { World } from '../sim/types';
+
 import { type Dress3dCtx, type Dressing3d } from './dressings';
 import {
   buildGate,
@@ -373,7 +374,7 @@ export const dress3dB: Dressing3d = (() => {
       c.scene.add(corvinMill);
       void c.compile(corvinMill);
     },
-    update(world: World, stage: SceneStage, _daylight: Daylight, dt: number) {
+    update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number) {
       if (!ctx || !gate) return;
       const st = storyBState(world, Object.keys(stage).length ? stage : null);
       // The gate eases to its state, and cuts under reduced motion.

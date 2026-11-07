@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import {
   CircleGeometry,
   DoubleSide,
@@ -12,7 +13,7 @@ import { markAt } from '../config/stage-marks';
 import { DUNGEON } from '../config/tuning';
 import { CG2_S } from '../config/tuning-more/campaign2-white-room';
 import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
-import type { World } from '../sim/types';
+
 import { buildArtS, gridTexture, ovalMaskTexture, US, type ArtS } from './art-s';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { buildDungeonProps, paintFloorTexture } from './paint/dungeon';
@@ -180,7 +181,7 @@ export const dressS: PixelDressing = {
     if (grid) c.groups.grove.add(grid);
   },
 
-  update(world: World, stage, daylight, dt) {
+  update(world: ReadonlyWorld, stage, daylight, dt) {
     if (!ctx) return;
     const reduce = ctx.reduceMotion();
     clock += dt;

@@ -7,6 +7,7 @@
  * their tier numbers from `pixelTiers`. The noise is a copy of `render/paint/noise.ts`
  * (whose `raster.ts` imports three), kept bit-identical so the 3D mesh does not move.
  */
+import type { ReadonlyWorld } from './readonly';
 import { GROVE, GROVE3D } from '../config/tuning';
 import { BRIDGE_DECK, BRIDGE_YAW, JUMP, KEEPER_WADE, TERRACE } from '../config/tuning-sim';
 import type { World } from './types';
@@ -366,7 +367,7 @@ const STONE_HEIGHT = 7.5;
  * stream wherever the bed dips below WATER_LEVEL, and `y` is then the water surface.
  * Stone and path follow the 3D terrain's own rock and dirt blends at their midpoints.
  */
-export function groundAt(world: World | null, x: number, z: number): Ground {
+export function groundAt(world: ReadonlyWorld | null, x: number, z: number): Ground {
   // The world is not read yet; the tops of standable colliders come in through `keeperFooting`.
   void world;
   const deck = deckY(x, z);

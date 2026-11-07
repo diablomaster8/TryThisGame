@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
@@ -6,7 +7,7 @@ import type { ChunkLRU } from '../render/chunks';
 import { dappleMarks } from '../render/paint/wood';
 import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from '../render/region-ground';
 import type { Region3d } from './region-host';
-import type { Season, Vec2, World } from '../sim/types';
+import type { Season, Vec2 } from '../sim/types';
 import { millWheelMul } from '../sim/region-weather-play';
 import { regionLook } from '../render/region-look';
 import { SEASON_LOOK } from '../config/region-season-look';
@@ -302,7 +303,7 @@ class Wood3d implements Region3d {
   }
 
   /** R0089: rain turns the wheel faster (the sim's `millWheelMul`). */
-  sync(world: World): void {
+  sync(world: ReadonlyWorld): void {
     this.wheelMul = millWheelMul(world);
   }
 

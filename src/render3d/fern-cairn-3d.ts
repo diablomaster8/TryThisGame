@@ -1,7 +1,8 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { FERN_STONE } from '../config/tuning';
 import { fernStones } from '../sim/fern-stone';
-import type { World } from '../sim/types';
+
 
 /**
  * R0313 (FUN-24): Fern's cairn in Full 3D: a stack of squashed pebbles by the signpost, one a
@@ -47,7 +48,7 @@ export class FernCairn3D {
     this.group.add(this.eyes);
   }
 
-  update(world: World, ground: (x: number, z: number) => number): void {
+  update(world: ReadonlyWorld, ground: (x: number, z: number) => number): void {
     const n = fernStones(world);
     this.group.visible = n > 0;
     if (n === 0) return;

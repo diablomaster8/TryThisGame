@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import {
   COLLECT,
   COLLECTIBLES,
@@ -54,12 +55,12 @@ export function collectiblesIn(region: RegionId): readonly Collectible[] {
 }
 
 /** The region whose collectibles are on show: the Grove, or the drawn region the Keeper is in. */
-function hereRegion(world: Pick<World, 'location'>): RegionId | null {
+function hereRegion(world: Pick<ReadonlyWorld, 'location'>): RegionId | null {
   return world.location === 'grove' ? 'grove' : drawnRegionOf(world.location);
 }
 
 /** Uncollected ones in the Keeper's region (where the renderers sparkle and the step looks). */
-export function openHere(world: World): Collectible[] {
+export function openHere(world: ReadonlyWorld): Collectible[] {
   const region = hereRegion(world);
   if (!region) return [];
   const got = world.collected ?? {};
@@ -79,7 +80,7 @@ export function tally(
 }
 
 /** Where the Keeper stood at the last look, per world: a still Keeper picks up nothing new. */
-const lastAt = new WeakMap<World, { x: number; z: number }>();
+const lastAt = new WeakMap<ReadonlyWorld, { x: number; z: number }>();
 
 /** Pick up whatever the Keeper stands on. */
 export function stepCollectibles(world: World, events: SimEvent[]): void {

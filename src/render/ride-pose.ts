@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { RIDE } from '../config/tuning';
 import { rider, rideSeat, rideTows } from '../sim/ride';
 import type { World } from '../sim/types';
@@ -22,7 +23,7 @@ export interface RidePose {
 }
 
 export function ridePose(
-  world: World,
+  world: ReadonlyWorld,
   nowMs: number,
   moving: boolean,
   reduceMotion: boolean,

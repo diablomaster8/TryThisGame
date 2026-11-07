@@ -1,8 +1,9 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { Vector3 } from 'three';
 import { storyId, WEATHERED } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
 import { CG2_P } from '../config/tuning-more/campaign2-actors-pip';
-import type { World } from '../sim/types';
+
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { terraceY } from './scene-stage';
@@ -55,7 +56,7 @@ class PixelP implements PixelDressing {
     this.time = 0;
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     this.time += dt;

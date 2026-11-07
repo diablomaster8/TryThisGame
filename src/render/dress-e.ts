@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { AdditiveBlending, CanvasTexture, Sprite, SpriteMaterial, type Vector3 } from 'three';
 import { lanternCarriers } from '../config/npc-looks';
 import { markAt } from '../config/stage-marks';
@@ -5,7 +6,7 @@ import type { SceneStage } from '../config/story';
 import { LANTERN_POSTS } from '../config/tuning';
 import { HAND_LANTERN, HUSH, LANTERN_E, LANTERN_IDS } from '../config/tuning-more/campaign-people-lanterns';
 import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
-import type { World } from '../sim/types';
+
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { hushTexture } from './hush-art';
@@ -204,7 +205,7 @@ class PixelE implements PixelDressing {
     }
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { FOLLOW_SLOT } from '../config/tuning-move-nub';
 import { KEEPER } from '../config/tuning';
 import {
@@ -24,7 +25,7 @@ import type { Nubbin, Personality, SimEvent, World } from './types';
  */
 
 /** The partners that travel (free, not eggs), in slot order. */
-export function companions(world: World): Nubbin[] {
+export function companions(world: ReadonlyWorld): Nubbin[] {
   const out: Nubbin[] = [];
   for (const id of world.partners) {
     const n = id ? world.nubbins.find((x) => x.id === id) : undefined;
@@ -122,7 +123,7 @@ export function stepRegionCompanion(world: World, n: Nubbin, dtMs: number): bool
 }
 
 /** R13 d2 (R0121): what a drawn region shows: the partners and the Nubbin the Keeper carries. */
-export function regionShown(world: World): Nubbin[] {
+export function regionShown(world: ReadonlyWorld): Nubbin[] {
   const out = companions(world);
   const c = world.keeper.carrying;
   const n = c ? world.nubbins.find((x) => x.id === c) : undefined;

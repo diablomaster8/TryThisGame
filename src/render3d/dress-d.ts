@@ -1,8 +1,9 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { dressItems, itemSignature, type DressItem } from '../render/dress-d-rules';
-import type { World } from '../sim/types';
+
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { isDoorKey } from '../render/story-doors';
 import { buildDressItem } from './dress-shapes';
@@ -60,7 +61,7 @@ export const dress3dD: Dressing3d = {
     glints = new Glints();
     c.scene.add(glints.mesh);
   },
-  update(world: World, stage: SceneStage, daylight: Daylight) {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight) {
     const c = ctx;
     if (!c || !grove || !corvin || !glints) return;
     const still = c.reduceMotion();

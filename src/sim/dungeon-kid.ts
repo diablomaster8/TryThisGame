@@ -8,6 +8,7 @@
  * - "Show me the way" on unless the grown-up switched it off.
  * Pure sim: no DOM.
  */
+import type { ReadonlyWorld } from './readonly';
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { GLOW_CAVE } from '../config/tuning-kids';
 import type { Floor } from './dungeon';
@@ -16,7 +17,7 @@ import type { World } from './types';
 const K = HOLLOW_R9D.kid;
 
 /** Whether new Hollow runs are kid runs: always in a Learning Grove, else the toggle. */
-export function hollowKid(world: World): boolean {
+export function hollowKid(world: ReadonlyWorld): boolean {
   return !!world.edu || world.hollow.kid === true;
 }
 
@@ -26,12 +27,12 @@ export function kidRun(world: World): boolean {
 }
 
 /** Whether the guide defaults to on: kid mode, or gentle bouts (R0208). */
-function guideDefault(world: World): boolean {
+function guideDefault(world: ReadonlyWorld): boolean {
   return hollowKid(world) || world.settings.bouts === 'gentle';
 }
 
 /** "Show me the way": the Keeper's choice, else on in kid mode and off otherwise. */
-export function guideOn(world: World): boolean {
+export function guideOn(world: ReadonlyWorld): boolean {
   return world.hollow.guide ?? guideDefault(world);
 }
 

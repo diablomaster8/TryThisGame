@@ -1,10 +1,11 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { R10B3 } from '../config/tuning-more/dungeon-poof-kid-mode';
 import { actSparkColour, FoePoofs, poofFrame, type Poof } from '../render/foe-poof';
 import { foeArtId } from '../render/sprites/foe-family-art';
 import { uniqueArtId } from '../render/sprites/unique-art';
 import type { Floor } from '../sim/dungeon';
-import type { World } from '../sim/types';
+
 import type { Bursts } from './bursts';
 
 /**
@@ -40,7 +41,7 @@ const reduced = (): boolean =>
 
 /** The figures of every live beat on the floor (fills `out`). */
 export function poofFigures(
-  world: World,
+  world: ReadonlyWorld,
   floor: Floor | null,
   nowMs: number,
   out: PoofFigure[],

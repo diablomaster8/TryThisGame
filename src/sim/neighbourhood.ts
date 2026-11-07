@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { VISITS } from '../config/tuning';
 import { Rng } from './rng';
 import { isCommonSpecies, SPECIES } from './species';
@@ -82,7 +83,7 @@ export function neighbourGarden(trainer: string): NeighbourNubbin[] {
   return out;
 }
 
-export function visitingTrainer(world: World): string | null {
+export function visitingTrainer(world: ReadonlyWorld): string | null {
   return world.location.startsWith('visit:') ? world.location.slice('visit:'.length) : null;
 }
 

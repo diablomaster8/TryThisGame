@@ -5,6 +5,7 @@
  * up, or it gets bored, it pops out with a giggle. All bands; the sprout "Where's Kiki?" toy
  * is a separate overlay.
  */
+import type { ReadonlyWorld } from './readonly';
 import { HIDE } from '../config/tuning-fun';
 import { addHappiness } from './needs';
 import { obstacles, resolve } from './obstacles';
@@ -26,7 +27,7 @@ export interface HideCover {
  * The cover a hider is tucked behind: the nearest hiding place round it. The renderers use it to
  * seat the peek on the side away from the camera (the sim's own spot is away from the Keeper).
  */
-export function hideCover(world: World, n: Nubbin): HideCover | null {
+export function hideCover(world: ReadonlyWorld, n: Nubbin): HideCover | null {
   let best: HideCover | null = null;
   let bestD = Infinity;
   for (const c of obstacles(world)) {

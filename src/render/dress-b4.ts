@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { Vector3 } from 'three';
 import { LOOK_STATE, storyId } from '../config/npc-looks';
 import { TALE_GRADE } from '../config/campaign-look';
@@ -62,7 +63,7 @@ class PixelB4 implements PixelDressing {
     TALE_GRADE.pixelPost = true;
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();
@@ -171,7 +172,7 @@ class PixelB4 implements PixelDressing {
 }
 
 /** Where the next departed one's flower will stand: the campaign's memorial spot (N7). */
-export function nextMemorial(world: World): { x: number; z: number } {
+export function nextMemorial(world: ReadonlyWorld): { x: number; z: number } {
   const next: Memorial = { id: 'b4-departure', name: '', pos: { ...world.keeper.pos } };
   return memorialSpot({ ...world, memorials: [...world.memorials, next] } as World, next);
 }

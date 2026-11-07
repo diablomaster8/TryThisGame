@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { RIDGE_SNOW_Y, RIDGE_SPEC } from '../config/region-ridge';
 import { terraceHeight } from '../config/region-layout';
 import { SNOW_SLIDE } from '../config/tuning-r15d1';
@@ -10,7 +11,7 @@ import type { World } from './types';
  * snow, velocity eases toward the stick (low steering) and carries on after it is released;
  * anywhere else, or on a tap walk, the movement passes through untouched and the slide resets.
  */
-const vel = new WeakMap<World, { x: number; z: number }>();
+const vel = new WeakMap<ReadonlyWorld, { x: number; z: number }>();
 
 /** Whether a ridge position is on the snow terraces (the same line the snowballs use). */
 export function onSnowAt(region: RegionId, z: number): boolean {
@@ -52,6 +53,6 @@ export function stopSlide(world: World): void {
 }
 
 /** Whether the Keeper is sliding now (a coast or a stick on the snow): the renderers may lean in. */
-export function sliding(world: World): boolean {
+export function sliding(world: ReadonlyWorld): boolean {
   return vel.has(world);
 }

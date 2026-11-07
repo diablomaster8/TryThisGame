@@ -8,6 +8,7 @@
  * Live play only (stepWorld calls it outside catch-up). The renderers read `idleMs`,
  * `sitWith` and `sitBesideMs` for the poses and the sit-with gags; nothing else does.
  */
+import type { ReadonlyWorld } from './readonly';
 import { KEEPER_IDLE } from '../config/tuning-more/fun-voice-antics';
 import { NEEDS, PERSONALITY } from '../config/tuning';
 import { addAffection } from './needs';
@@ -145,7 +146,7 @@ export function stepKeeperIdle(world: World, dtMs: number, events: SimEvent[]): 
 }
 
 /** The Keeper's idle pose for the renderers: the letter, a pocket pat, or sitting. */
-export function keeperIdlePose(world: World): 'letter' | 'pocket' | 'sit' | null {
+export function keeperIdlePose(world: ReadonlyWorld): 'letter' | 'pocket' | 'sit' | null {
   const ms = world.keeper.idleMs ?? 0;
   const I = KEEPER_IDLE;
   if (ms >= I.sitMs) return 'sit';

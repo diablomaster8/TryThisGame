@@ -1,10 +1,11 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { FOOTPRINT_R9, LIGHT_RING_R9, PORTAL_R9 } from '../config/dungeon-r9-a';
 import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellCentre, runFloor, type Floor } from '../sim/dungeon';
 import { footprints, guidePath, type GuidePath } from '../sim/dungeon-guide';
 import { sightRadius } from '../sim/dungeon-sight';
 import { campPortalHere } from '../sim/dungeon-travel';
-import type { DungeonRun, Vec2, World } from '../sim/types';
+import type { DungeonRun, Vec2 } from '../sim/types';
 import { actLookOf, openSky } from './cave-bands';
 import type { SpriteBatch } from './sprite-batch';
 import { sheetFromImage, type SpriteSheet } from './sprites/atlas';
@@ -30,7 +31,7 @@ import type { SheetCache } from './sprites/sheets';
 // ---- Pure parts (tests/sim/dungeon-r9-a.test.ts) ----
 
 /** Where an open acorn portal stands for the place the Keeper is in, or null. */
-export function portalSpot(world: World): Vec2 | null {
+export function portalSpot(world: ReadonlyWorld): Vec2 | null {
   const portal = world.hollow.portal;
   if (!portal) return null;
   const o = PORTAL_R9.offset;
@@ -87,7 +88,7 @@ export function footprintMarks(f: Floor, path: GuidePath): Footprint[] {
 }
 
 /** The guide's footprints for the world now, or none (guide off, no path, open sky). */
-export function guideMarks(world: World): Footprint[] {
+export function guideMarks(world: ReadonlyWorld): Footprint[] {
   const f = runFloor(world);
   if (!f || openSky(f)) return [];
   const path = guidePath(world);
@@ -262,7 +263,7 @@ export class PixelHollowR9a {
   }
 
   /** On a Hollow floor: the light ring, the guide's prints and a closing portal. */
-  drawCave(f: Floor, run: DungeonRun, world: World, ctx: R9aCtx): void {
+  drawCave(f: Floor, run: DungeonRun, world: ReadonlyWorld, ctx: R9aCtx): void {
     const { batch, nowMs } = ctx;
     const k = world.keeper.pos;
     const ring = lightRing(f, run);
@@ -318,7 +319,7 @@ export class PixelHollowR9a {
   }
 
   /** In the Grove: the open portal by where the Keeper came up. */
-  drawGrove(world: World, ctx: R9aCtx): void {
+  drawGrove(world: ReadonlyWorld, ctx: R9aCtx): void {
     const spot = portalSpot(world);
     if (spot) this.drawPortal(spot, 1, ctx);
   }

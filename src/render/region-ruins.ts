@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { terraceHeight } from '../config/region-layout';
 import {
   RUINS_COLUMNS,
@@ -11,7 +12,7 @@ import {
   ruinsState,
   type RuinsState,
 } from '../config/region-ruins';
-import type { World } from '../sim/types';
+
 import { ruinsSheet } from './paint/ruins';
 import type { GroundLook, GroundPaint } from './region-ground';
 import { kitModule, type KitPiece } from './region-kit-px';
@@ -99,7 +100,7 @@ for (const s of ['sealed', 'thawed', 'relit'] as const) {
     });
 }
 
-export function ruinsDynamic(world: World): readonly KitPiece[] {
+export function ruinsDynamic(world: ReadonlyWorld): readonly KitPiece[] {
   return DYNAMIC[ruinsState(world.campaign)];
 }
 

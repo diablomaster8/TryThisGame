@@ -1,7 +1,8 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { HELD_RING } from '../config/tuning';
 import { HeldRing } from '../render/held-ring';
-import type { World } from '../sim/types';
+
 
 /** TECH-02: the Full 3D ring under a held Nubbin (render/held-ring.ts), one small mesh. */
 export class HeldRing3D {
@@ -27,7 +28,7 @@ export class HeldRing3D {
   }
 
   update(
-    world: World,
+    world: ReadonlyWorld,
     nowMs: number,
     calm: boolean,
     ground: (x: number, z: number) => number,

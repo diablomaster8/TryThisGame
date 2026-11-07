@@ -1,8 +1,9 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { DRESS_D } from '../config/tuning-more/campaign-props-items';
 import { SHELF_CAP, keepsakeLook } from '../config/keepsake-looks';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
-import type { World } from '../sim/types';
+
 import { stageFlags } from './scene-stage';
 import { camp10dDressItems } from './dress-camp10d';
 import { storyDoorItems } from './story-doors';
@@ -73,7 +74,7 @@ export function shelfSlot(i: number): { x: number; y: number } {
 }
 
 /** The keepsake ids that stand on the shelf: objects only, in the order kept. */
-export function shelfKeepsakes(world: World): string[] {
+export function shelfKeepsakes(world: ReadonlyWorld): string[] {
   return world.inventory.keepsakes.filter((id) => keepsakeLook(id) !== null).slice(0, SHELF_CAP);
 }
 
@@ -82,7 +83,7 @@ export function itemSignature(it: DressItem): string {
   return `${it.shape}|${it.lit ? 1 : 0}|${it.n}|${it.ids ? it.ids.join(',') : ''}`;
 }
 
-export function dressItems(world: World, stage: SceneStage, darkness: number): DressItem[] {
+export function dressItems(world: ReadonlyWorld, stage: SceneStage, darkness: number): DressItem[] {
   const f = stageFlags(world, stage);
   const out: DressItem[] = [];
   if (!world.campaign || f.chapter === 0) return storyDoorItems(world, stage, darkness);

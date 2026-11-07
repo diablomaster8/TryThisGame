@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { caveBack, caveReturn, caveWayOf } from './cave-entrances';
 import { regionLocation, resetCrossing } from './region-walk';
@@ -745,7 +746,7 @@ export function floorOfRun(run: DungeonRun): Floor {
   );
 }
 
-export function runFloor(world: World): Floor | null {
+export function runFloor(world: ReadonlyWorld): Floor | null {
   const run = world.dungeon;
   return run && world.location === 'dungeon' ? floorOfRun(run) : null;
 }

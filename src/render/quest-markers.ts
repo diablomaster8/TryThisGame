@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { C12C } from '../config/tuning-more/story-quest-markers';
 import { goalTarget } from '../sim/goal-target';
 import { giverNpc } from '../sim/offer-approach';
 import { boardState, kidFlow } from '../sim/quest-offers';
 import { sideStory } from '../sim/story-scenes';
-import type { World } from '../sim/types';
+
 import { boardSpot } from './dress-camp10d';
 
 /**
@@ -27,7 +28,7 @@ export interface QuestMarker {
   big?: boolean;
 }
 
-export function questMarkers(world: World): QuestMarker[] {
+export function questMarkers(world: ReadonlyWorld): QuestMarker[] {
   const c = world.campaign;
   const book = world.questBook;
   if (

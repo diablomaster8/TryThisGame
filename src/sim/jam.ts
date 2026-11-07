@@ -13,6 +13,7 @@
  * never the world's rng. Live play only; nothing forms while catching up on time away.
  * Behaviour and looks only, never stats.
  */
+import type { ReadonlyWorld } from './readonly';
 import { JAM } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
@@ -51,7 +52,7 @@ interface Store {
   concerts: number;
 }
 
-const stores = new WeakMap<World, Store>();
+const stores = new WeakMap<ReadonlyWorld, Store>();
 
 /** Members of a running concert, and until when: what the emote ball asks. */
 const concertMark = new WeakMap<Nubbin, number>();
@@ -69,7 +70,7 @@ export function jamStore(world: World): Store {
   return s;
 }
 
-export const jamsOf = (world: World): readonly Jam[] => stores.get(world)?.jams ?? [];
+export const jamsOf = (world: ReadonlyWorld): readonly Jam[] => stores.get(world)?.jams ?? [];
 
 /** The jam this Nubbin is part of, if any (what the renderers ask). */
 export function jamOf(world: World, id: string): Jam | undefined {

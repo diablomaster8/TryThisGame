@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { CG_A, CG2_X } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
@@ -5,7 +6,7 @@ import { SceneStager } from '../render/scene-stage';
 import { NIGHT_RIM } from './art/creatures';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
-import type { Vec2, World } from '../sim/types';
+import type { Vec2 } from '../sim/types';
 import { OCCLUDE, occludable } from './building-kit';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { groveHeight } from './terrain-shape';
@@ -106,7 +107,7 @@ function flatOrHidden(mesh: THREE.Mesh): boolean {
  * as a house's door is framed by the camera but is no one to cut a window to, and its own
  * house must not hide for it.
  */
-function people(stager: SceneStager, world: World): Vec2[] {
+function people(stager: SceneStager, world: ReadonlyWorld): Vec2[] {
   const marks = (stager.focusNow() ?? [])
     .map((n) => markAt(world.location, n))
     .filter((m): m is NonNullable<typeof m> => m !== null && m !== undefined);
@@ -281,7 +282,7 @@ class LightAndGrade implements Dressing3d {
     void ctx.compile(this.windows);
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const night = THREE.MathUtils.smoothstep(

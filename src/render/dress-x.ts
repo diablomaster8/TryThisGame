@@ -1,6 +1,7 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { CG2_X } from '../config/tuning';
 import type { SceneStage } from '../config/story';
-import type { World } from '../sim/types';
+
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { SceneStager, terraceY } from './scene-stage';
@@ -29,7 +30,7 @@ export const dressX: PixelDressing = (() => {
     build(c) {
       ctx = c;
     },
-    update(world: World, _stage: SceneStage, _daylight: Daylight, dt: number) {
+    update(world: ReadonlyWorld, _stage: SceneStage, _daylight: Daylight, dt: number) {
       if (!ctx) return;
       stager.update(world);
       const P = CG2_X.pixel;

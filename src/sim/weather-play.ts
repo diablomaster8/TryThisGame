@@ -9,6 +9,7 @@
  * Decals live in a transient store (`snowFigures`, `puddlesOf`) that the renderers draw.
  * Hashed chances, live play only, behaviour and looks only.
  */
+import type { ReadonlyWorld } from './readonly';
 import { WEATHER_PLAY } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
@@ -52,7 +53,7 @@ interface Store {
   seq: number;
 }
 
-const stores = new WeakMap<World, Store>();
+const stores = new WeakMap<ReadonlyWorld, Store>();
 
 function store(world: World): Store {
   let s = stores.get(world);
@@ -74,7 +75,7 @@ function store(world: World): Store {
 
 export const weatherPlayActs = (world: World): Readonly<Record<string, number>> =>
   store(world).acts;
-export const snowFigures = (world: World): readonly Decal[] => stores.get(world)?.snow ?? [];
+export const snowFigures = (world: ReadonlyWorld): readonly Decal[] => stores.get(world)?.snow ?? [];
 /** A snowball's place on its lob at `timeMs`, for the renderers. y is the height above the ground. */
 export function ballAt(b: Ball, timeMs: number): { x: number; y: number; z: number } {
   const k = Math.max(0, Math.min(1, (timeMs - b.startMs) / (b.endMs - b.startMs)));
@@ -84,8 +85,8 @@ export function ballAt(b: Ball, timeMs: number): { x: number; y: number; z: numb
     z: b.fromZ + (b.toZ - b.fromZ) * k,
   };
 }
-export const snowballsOf = (world: World): readonly Ball[] => stores.get(world)?.balls ?? [];
-export const puddlesOf = (world: World): readonly Decal[] => stores.get(world)?.puddles ?? [];
+export const snowballsOf = (world: ReadonlyWorld): readonly Ball[] => stores.get(world)?.balls ?? [];
+export const puddlesOf = (world: ReadonlyWorld): readonly Decal[] => stores.get(world)?.puddles ?? [];
 
 const PLAY = [
   'snowball',

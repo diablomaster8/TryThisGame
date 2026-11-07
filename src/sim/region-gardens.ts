@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { LAND_GARDENS } from '../config/tuning-more/world-region-content';
 import { regionShown as travellers } from './region-companion';
 import { regionOf } from './regions';
@@ -27,7 +28,7 @@ function mirrorOf(n: Nubbin): Nubbin {
 }
 
 /** The adults of the land's alignment, in id order, up to the garden's limit. */
-export function gardenDwellers(world: World, region: string): Nubbin[] {
+export function gardenDwellers(world: ReadonlyWorld, region: string): Nubbin[] {
   const centres = (LAND_GARDENS.centres as Record<string, readonly { x: number; z: number }[]>)[
     region
   ];
@@ -47,7 +48,7 @@ export function gardenDwellers(world: World, region: string): Nubbin[] {
  * What a region's drawn Nubbins are: the partners that came along and the Nubbin the Keeper
  * carries (`region-companion.ts`), and in the Sun and Moon lands the gardens' mirrors.
  */
-export function regionShown(world: World): Nubbin[] {
+export function regionShown(world: ReadonlyWorld): Nubbin[] {
   const out = travellers(world);
   const region = regionOf(world.location);
   if (region !== 'sunlands' && region !== 'moonlands') return out;

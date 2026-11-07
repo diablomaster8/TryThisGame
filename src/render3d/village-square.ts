@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { ROLE_COLOURS, VILLAGE, VILLAGE_PICK, type VillageService } from '../config/region-village';
 import type { Tex } from './art/aaa-kit';
 import { villageBuildings, villageDressing, villageRecruits } from '../sim/village';
-import type { World } from '../sim/types';
+
 import { buildingMaterial } from './building-kit';
 import { arc, box, cyl, Parts, sph, type PartKey, type Vec3 } from './prop-kit';
 
@@ -270,7 +271,7 @@ export class VillageSquare {
     this.group.add(this.kit);
   }
 
-  update(world: World, home: boolean): void {
+  update(world: ReadonlyWorld, home: boolean): void {
     this.group.visible = home;
     if (!home) return;
     const standing = villageBuildings(world).map((b) => b.id);

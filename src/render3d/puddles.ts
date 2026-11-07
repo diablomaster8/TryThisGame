@@ -1,7 +1,8 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { PUDDLES } from '../config/tuning-more/world-overview-puddles';
 import { puddleFill } from '../render/puddles';
-import type { World } from '../sim/types';
+
 
 /**
  * R0137 (WORLD-71): the Grove's rain puddles in Full 3D. One merged mesh of flat discs (one
@@ -49,7 +50,7 @@ export class GrovePuddles {
     parent.add(this.mesh);
   }
 
-  update(world: World): void {
+  update(world: ReadonlyWorld): void {
     const fill = puddleFill(world);
     this.mesh.visible = fill > 0;
     if (fill > 0) (this.mesh.material as THREE.MeshBasicMaterial).opacity = 0.35 + fill * 0.35;

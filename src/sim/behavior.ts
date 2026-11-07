@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { pondIsIce } from './ice';
 import {
   BEHAVIOR,
@@ -556,7 +557,7 @@ function playOnShroom(
  * `t` (the renderers pass an in-between time), or null when it isn't on one. The bounce is
  * drawn only: the sim keeps the Nubbin's `y` at 0 so nothing else ever sees it airborne.
  */
-export function shroomHopY(world: World, n: Nubbin, t: number): number | null {
+export function shroomHopY(world: ReadonlyWorld, n: Nubbin, t: number): number | null {
   const b = n.behavior;
   if (b.state !== 'play' || b.target || !b.itemId) return null;
   if (!world.placed.some((d) => d.id === b.itemId && d.kind === 'springShroom')) return null;

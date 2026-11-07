@@ -5,9 +5,10 @@
  * is half hidden by the cover and the crown, a hand and the eyes show past its edge. Drawn only:
  * the sim position never moves. Shared by the Pixel and Full 3D renderers.
  */
+import type { ReadonlyWorld } from '../render/readonly-world';
 import { hideCover, type HideCover } from '../sim/hide';
 import { resolve } from '../sim/obstacles';
-import type { Nubbin, World } from '../sim/types';
+import type { Nubbin } from '../sim/types';
 
 /** Sideways offset of the peek from the cover's centre line, in world units. */
 export const PEEK_SIDE = 0.45;
@@ -41,7 +42,7 @@ export function isPeeking(n: Nubbin): boolean {
  * The spot is pushed out of any other collider.
  */
 export function peekSpot(
-  world: World,
+  world: ReadonlyWorld,
   cover: HideCover,
   cam: { x: number; z: number },
   side: -1 | 1,
@@ -88,7 +89,7 @@ export class HidePeek {
    * hiding and has finished slipping back out. `calm` (reduced motion) snaps in and out.
    */
   place(
-    world: World,
+    world: ReadonlyWorld,
     n: Nubbin,
     cam: { x: number; z: number },
     x: number,

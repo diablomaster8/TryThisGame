@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { TOWN } from '../config/tuning';
 import { VILLAGE, type VillageBuilding, type VillageService } from '../config/region-village';
 import { townUnlocks } from './town';
@@ -20,13 +21,13 @@ export interface VillageRecruit {
 }
 
 /** The buildings standing at this prosperity, in `VILLAGE.buildings` order. */
-export function villageBuildings(world: World): VillageBuilding[] {
+export function villageBuildings(world: ReadonlyWorld): VillageBuilding[] {
   const u = townUnlocks(world);
   return VILLAGE.buildings.filter((b) => u[b.id]);
 }
 
 /** Dressing sets hung: one per `dressingStep` of prosperity, at most one per set. */
-export function villageDressing(world: World): number {
+export function villageDressing(world: ReadonlyWorld): number {
   const p = Math.min(TOWN.max, world.town.prosperity);
   return Math.min(VILLAGE.dressing.length, Math.floor(p / VILLAGE.dressingStep));
 }
@@ -40,7 +41,7 @@ function homeOf(role: TownRole): VillageBuilding | null {
  * Every recruit's place at `timeMs`: a slow ellipse in front of its role's building (or round
  * the fountain), each a different phase so neighbours never walk in step.
  */
-export function villageRecruits(world: World, timeMs: number = world.timeMs): VillageRecruit[] {
+export function villageRecruits(world: ReadonlyWorld, timeMs: number = world.timeMs): VillageRecruit[] {
   const L = VILLAGE.loop;
   const sq = VILLAGE.square;
   return world.town.recruits.slice(0, L.max).map((r, index) => {

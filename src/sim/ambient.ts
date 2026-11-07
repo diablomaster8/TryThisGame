@@ -12,6 +12,7 @@
  * the second and the critter, never from the world's rng, so seeded days stay as they were.
  * Live play only: nothing spawns or chases while catching up on time away.
  */
+import type { ReadonlyWorld } from './readonly';
 import { GROVE } from '../config/tuning';
 import { AMBIENT } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
@@ -55,7 +56,7 @@ interface Store {
   trips: number;
 }
 
-const stores = new WeakMap<World, Store>();
+const stores = new WeakMap<ReadonlyWorld, Store>();
 
 export function ambientStore(world: World): Store {
   let s = stores.get(world);
@@ -67,7 +68,7 @@ export function ambientStore(world: World): Store {
 }
 
 /** The live ambient critters (what the renderers draw). */
-export function ambientOf(world: World): readonly AmbientCritter[] {
+export function ambientOf(world: ReadonlyWorld): readonly AmbientCritter[] {
   return stores.get(world)?.list ?? [];
 }
 

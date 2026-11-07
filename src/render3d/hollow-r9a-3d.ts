@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { FOOTPRINT_R9, LIGHT_RING_R9, PORTAL_R9 } from '../config/dungeon-r9-a';
 import { PARTY_R8 } from '../config/dungeon-party-r8';
@@ -11,7 +12,7 @@ import {
   portalSpot,
 } from '../render/hollow-r9a';
 import { elevationAt, runFloor } from '../sim/dungeon';
-import type { World } from '../sim/types';
+
 
 /**
  * Lane B round 9 (a) in Full 3D, the twin of the Pixel parts in `render/hollow-r9a.ts`,
@@ -80,7 +81,7 @@ export class HollowR9a3D {
   }
 
   update(
-    world: World,
+    world: ReadonlyWorld,
     nowMs: number,
     keeper: { x: number; z: number },
     still: boolean,

@@ -1,10 +1,11 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { CAMP10D } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
 import { STORY_REGIONS } from '../config/story-regions';
 import type { SceneStage } from '../config/story';
 import { boardState } from '../sim/quest-offers';
 import { storyRegionHere } from '../sim/story-regions';
-import type { World } from '../sim/types';
+
 import type { DressItem, DressShape } from './dress-d-rules';
 
 /**
@@ -24,7 +25,7 @@ import type { DressItem, DressShape } from './dress-d-rules';
  */
 
 /** Cards on the board: quests waiting on it in the book, plus errands not yet claimed. */
-export function boardCards(world: World): number {
+export function boardCards(world: ReadonlyWorld): number {
   const c = world.campaign;
   let n = world.quests.filter((q) => !q.claimed).length;
   if (c)
@@ -72,7 +73,7 @@ function at(
 }
 
 /** Where the home Grove's notice board stands, or null when it is not up (before its chapter). */
-export function boardSpot(world: World): { x: number; z: number } | null {
+export function boardSpot(world: ReadonlyWorld): { x: number; z: number } | null {
   const c = world.campaign;
   const T = CAMP10D.props;
   if (!c || c.chapter < T.boardFromChapter || world.location !== 'grove' || world.edu !== null)
@@ -84,7 +85,7 @@ export function boardSpot(world: World): { x: number; z: number } | null {
 }
 
 /** The notice board and Grove-change items standing now, in the home Grove only. */
-export function camp10dDressItems(world: World, stage: SceneStage): DressItem[] {
+export function camp10dDressItems(world: ReadonlyWorld, stage: SceneStage): DressItem[] {
   const out: DressItem[] = [];
   if (!world.campaign || world.location !== 'grove' || world.edu !== null) return out;
   const sp = stage.props ?? {};

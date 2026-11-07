@@ -1,7 +1,8 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { SLIDE_FX } from '../config/tuning-r16d1';
 import { playSlideSwish } from '../platform/slide-audio';
 import { sliding } from '../sim/snow-slide';
-import type { World } from '../sim/types';
+
 
 /**
  * R0118: shared by both renderers. `tick` plays the swish on the frame a slide starts and says
@@ -14,7 +15,7 @@ export class SnowSlideFx {
   private nextMs = 0;
   private swishMs = -1e9;
 
-  tick(world: World, nowMs: number): boolean {
+  tick(world: ReadonlyWorld, nowMs: number): boolean {
     const on = world.location.startsWith('region:') && sliding(world);
     if (!on) {
       this.was = false;

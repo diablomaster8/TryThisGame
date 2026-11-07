@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { PERKS } from '../config/tuning';
 import type { NubbinType, World } from './types';
 import { gearSpeedMul } from './dungeon-gear-effects';
@@ -18,7 +19,7 @@ export interface Perks {
   from: Partial<Record<NubbinType, string>>;
 }
 
-export function keeperPerks(world: World): Perks {
+export function keeperPerks(world: ReadonlyWorld): Perks {
   const perks: Perks = { wade: false, glide: false, power: false, sprint: false, from: {} };
   for (const n of world.nubbins) {
     if (n.stage !== 'adult' || !n.form) continue;

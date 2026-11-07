@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { SceneStage } from '../config/story';
@@ -8,7 +9,7 @@ import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 import { stageFlags } from '../render/scene-stage';
 import { ddLayout, foldExtras } from '../render/story-b-layout';
 import { stateFrom } from '../render/story-b-state';
-import type { World } from '../sim/types';
+
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { FOLD_HOUSES } from './kit-story-b';
 import {
@@ -229,7 +230,7 @@ export const dress3dK: Dressing3d = (() => {
         }
       }
     },
-    update(world: World, stage: SceneStage) {
+    update(world: ReadonlyWorld, stage: SceneStage) {
       if (!ctx || !root) return;
       const st = Object.keys(stage).length ? stage : null;
       const f = stageFlags(world, st);

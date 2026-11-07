@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { paced } from './story-pace';
 import { hasRoom, mossSeat } from './roster';
 import { startToddle } from './slapstick';
@@ -843,7 +844,7 @@ export function setLocation(world: World, location: Location, events: SimEvent[]
 }
 
 /** Lanterns lit this round, for the renderer. */
-export function litLanterns(world: World): Set<string> {
+export function litLanterns(world: ReadonlyWorld): Set<string> {
   const out = new Set<string>();
   const c = world.campaign;
   if (!c) return out;

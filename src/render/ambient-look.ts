@@ -6,10 +6,11 @@
  * concert turns every member's emote ball into a note. Pure maths, render-side only; reduced
  * motion drops the jumps and the wing flutter keeps a slow beat.
  */
+import type { ReadonlyWorld } from './readonly-world';
 import { inConcert } from '../sim/jam';
 import { ballAt, puddlesOf, snowballsOf, snowFigures } from '../sim/weather-play';
 import { ambientOf, type AmbientCritter } from '../sim/ambient';
-import type { Nubbin, World } from '../sim/types';
+import type { Nubbin } from '../sim/types';
 import type { PerformLook } from './perform-look';
 import type { EmoteShape } from './sprites/emote';
 
@@ -154,7 +155,7 @@ const colourOf = (id: string): number => {
 };
 
 /** One row per critter to draw now. The array is reused: read it before the next call. */
-export function ambientDraws(world: World, nowMs: number, reduce: boolean): readonly AmbientDraw[] {
+export function ambientDraws(world: ReadonlyWorld, nowMs: number, reduce: boolean): readonly AmbientDraw[] {
   rows.length = 0;
   for (const c of ambientOf(world)) {
     const beat = reduce ? 520 : c.kind === 'dragonfly' ? 60 : c.kind === 'butterfly' ? 110 : 400;

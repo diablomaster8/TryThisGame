@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { NEEDS, RIDE } from '../config/tuning';
 import { isHeld } from './nubbin';
 import { levelOf } from './stats';
@@ -37,7 +38,7 @@ function topLevel(n: Nubbin): number {
 }
 
 /** The Nubbin being ridden, if any. */
-export function rider(world: World): Nubbin | null {
+export function rider(world: ReadonlyWorld): Nubbin | null {
   const id = world.ride?.nubbinId;
   return id ? (world.nubbins.find((n) => n.id === id) ?? null) : null;
 }
@@ -192,7 +193,7 @@ export function stepRide(world: World, dtMs: number, moved: number, events: SimE
 }
 
 /** How the renderers seat the Keeper: height above the ground and the sideways hop sway. */
-export function rideSeat(world: World): { lift: number; sway: number; scale: number } | null {
+export function rideSeat(world: ReadonlyWorld): { lift: number; sway: number; scale: number } | null {
   const ride = world.ride;
   const n = rider(world);
   if (!ride || !n) return null;

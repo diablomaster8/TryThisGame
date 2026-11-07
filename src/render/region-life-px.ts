@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { closedGates } from '../sim/region-gates';
 import { REGION_FLIGHTS, regionLedges } from '../sim/region-moves';
 import { drawnRegion, regionGround } from '../sim/region-walk';
@@ -5,7 +6,7 @@ import { liveCritters } from '../sim/region-critters';
 import { wildNubbinHere } from '../sim/region-wild-nubbin';
 import { speciesById } from '../sim/critters';
 import { heightAt } from '../sim/height';
-import type { World } from '../sim/types';
+
 import { RasterAtlas } from './paint/atlas';
 import { hex, Raster, shade, type RGB } from './paint/raster';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
@@ -200,7 +201,7 @@ const scratch: SpriteDraw = {
 };
 
 export function drawRegionLifePx(
-  world: World,
+  world: ReadonlyWorld,
   batch: SpriteBatch,
   tint: number,
   tSec: number,

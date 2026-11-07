@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { EGG, GROVE, PLOTS } from '../config/tuning';
 import { resolve } from './obstacles';
 import { hasSkill } from './skills';
@@ -13,7 +14,7 @@ export function rosterCap(world: World): number {
  * Moss watches from the western hill and is not the Keeper's to list, count or trade until
  * the story brings him down (`c7-stillness`) and the roster has room for him.
  */
-export function mossOnHill(world: World, id: string): boolean {
+export function mossOnHill(world: ReadonlyWorld, id: string): boolean {
   const c = world.campaign;
   return c !== null && c.mossId === id && c.flags.mossDown !== true;
 }

@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from './readonly-world';
 import * as THREE from 'three';
 import type { Collider } from '../config/grove-layout';
 import { DEBUG_OVERLAY_LOOK } from '../config/tuning-move';
 import { navDebug } from '../sim/nav';
 import { colliderTopY, obstacles } from '../sim/obstacles';
-import type { World } from '../sim/types';
+
 
 /**
  * Debug overlays for collision work (MOVE-38), the same in both renderers: the collider
@@ -115,7 +116,7 @@ export class DebugOverlay {
     scene.add(this.group);
   }
 
-  private groundLabel(world: World): void {
+  private groundLabel(world: ReadonlyWorld): void {
     const k = world.keeper;
     const text = DEBUG_OVERLAY.groundY ? `y ${k.y.toFixed(2)}` : '';
     if (text !== this.labelText) {
@@ -134,7 +135,7 @@ export class DebugOverlay {
     this.label?.position.set(k.pos.x, k.y - 0.25, k.pos.z);
   }
 
-  update(world: World, ground: (x: number, z: number) => number): void {
+  update(world: ReadonlyWorld, ground: (x: number, z: number) => number): void {
     const home = world.location === 'grove';
     this.group.visible =
       home && (DEBUG_OVERLAY.colliders || DEBUG_OVERLAY.nav || DEBUG_OVERLAY.groundY);

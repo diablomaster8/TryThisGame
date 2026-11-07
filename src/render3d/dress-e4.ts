@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import { LANTERN_POSTS } from '../config/tuning';
 import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import type { SceneStage } from '../config/story';
@@ -18,7 +19,7 @@ import {
 } from '../render/e4-shared';
 import { stageFlags } from '../render/scene-stage';
 import { litLanterns } from '../sim/campaign';
-import type { World } from '../sim/types';
+
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { LanternHeads3d } from './e4-heads-3d';
 import { GateFrost3d } from './e4-frost-3d';
@@ -62,7 +63,7 @@ export const dress3dE4: Dressing3d = (() => {
       fauna = new Fauna3d(c, LANTERN_POSTS);
       frost = new GateFrost3d(c);
     },
-    update(w: World, stage: SceneStage, daylight: Daylight, dt: number) {
+    update(w: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number) {
       if (!ctx || !boot || !figures || !streaks || !heads || !world || !rising || !fauna || !frost)
         return;
       const reduce = ctx.reduceMotion();

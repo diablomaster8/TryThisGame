@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { StageTracker } from '../render/stage-actors';
 import { POSE_CUES, PoseDirector } from '../render/stage-pose';
-import type { World } from '../sim/types';
+
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { clearRigs, handOf } from './stage-pose3d';
 
@@ -42,7 +43,7 @@ class Dress3dA1 implements Dressing3d {
     void ctx.compile(this.card);
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
     void stage;
     void daylight;
     const ctx = this.ctx;

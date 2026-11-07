@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { pondIsIce } from './ice';
 import { GROVE, SIM } from '../config/tuning';
 import { GROVE_NAV, JUMP } from '../config/tuning-sim';
@@ -40,9 +41,9 @@ interface Grid {
 
 type Pass = (a: number, b: number) => boolean;
 
-const grids = new WeakMap<World, Grid>();
+const grids = new WeakMap<ReadonlyWorld, Grid>();
 
-function gridKey(world: World, wade: boolean): string {
+function gridKey(world: ReadonlyWorld, wade: boolean): string {
   const u = townUnlocks(world);
   const placed = world.placed.map((d) => `${d.id}${d.yaw ?? 0}`).join(',');
   return `${+wade}${+u.stall}${+u.attendant}${+u.festival}|${storyPropMask(world)}|${placed}`;
@@ -57,7 +58,7 @@ const cellOf = (v: number): number =>
  * bush, 3 where only a hop or standable piece low enough to jump stands (MOVE-24: open only
  * while Auto-hop is on).
  */
-function grid(world: World): Grid {
+function grid(world: ReadonlyWorld): Grid {
   const wade = keeperPerks(world).wade || pondIsIce(world);
   const key = gridKey(world, wade);
   const cached = grids.get(world);
@@ -288,7 +289,7 @@ interface Route {
   i: number;
 }
 
-const routes = new WeakMap<World, Route>();
+const routes = new WeakMap<ReadonlyWorld, Route>();
 
 /** Where a Grove walk is headed now: the next corner to make for, and where it will end. */
 export interface GroveLeg {
@@ -443,7 +444,7 @@ export function clearGroveRoute(world: World): void {
  * MOVE-38, for the debug overlay only: the grid's cells (0 shut, 1 open, 2 soft, 3 hop)
  * with its size, and the Keeper's current route, if any. Reads; changes nothing.
  */
-export function navDebug(world: World): {
+export function navDebug(world: ReadonlyWorld): {
   mask: Uint8Array;
   side: number;
   cell: number;
@@ -473,7 +474,7 @@ export function navDebug(world: World): {
 // Grove shares one grid per walker kind.
 const nubbinGrids = new WeakMap<readonly Collider[], Map<ObstacleWalker, Grid>>();
 
-function nubbinGrid(world: World, who: ObstacleWalker): Grid {
+function nubbinGrid(world: ReadonlyWorld, who: ObstacleWalker): Grid {
   const list = obstacles(world);
   let byWho = nubbinGrids.get(list);
   if (!byWho) {
@@ -597,7 +598,7 @@ export function nubbinAim(
  * on a target change only.
  */
 export function walkPath(
-  world: World,
+  world: ReadonlyWorld,
   from: Vec2,
   target: Vec2,
   who: ObstacleWalker = 'keeper',
@@ -612,7 +613,7 @@ export function walkPath(
  * MOVE-44: the corners still ahead on the Keeper's planned tap walk (the last is where it
  * stops), or none when it walks straight. Read-only, for the path preview.
  */
-export function keeperRoute(world: World): readonly Vec2[] {
+export function keeperRoute(world: ReadonlyWorld): readonly Vec2[] {
   const r = routes.get(world);
   return r ? r.points.slice(r.i) : [];
 }

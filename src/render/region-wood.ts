@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import * as THREE from 'three';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
 import { WOOD_POIS } from '../config/region-wood';
@@ -9,7 +10,7 @@ import { groundSize, groundTexture, paintRegionGround, WOOD_GROUND } from './reg
 import type { RegionPx } from './region-host-px';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 import { millWheelMul } from '../sim/region-weather-play';
-import type { World } from '../sim/types';
+
 
 /**
  * WORLD-25 (R11 lane D): the Wood in the pixel view, a lazy chunk the region host loads on the
@@ -117,7 +118,7 @@ export function createRegionPx(l: RegionLayout): RegionPx {
 const WHEEL_FPS = 2.5;
 
 /** R0089 (R13 d1): the mill's wheel turns, faster in rain, held still under reduced motion. */
-export function drawDynamic(batch: SpriteBatch, world: World, tint: number): void {
+export function drawDynamic(batch: SpriteBatch, world: ReadonlyWorld, tint: number): void {
   const mill = WOOD_POIS.find((p) => p.id === 'old-mill');
   if (!mill) return;
   const still =

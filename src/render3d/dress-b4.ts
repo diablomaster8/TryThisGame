@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { TALE_GRADE } from '../config/campaign-look';
 import { LOOK_STATE, storyId } from '../config/npc-looks';
@@ -9,7 +10,7 @@ import type { Daylight } from '../render/daylight';
 import { nextMemorial } from '../render/dress-b4';
 import { stageFlags } from '../render/scene-stage';
 import { StageTracker } from '../render/stage-actors';
-import type { World } from '../sim/types';
+
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { memorialFlower } from './memorial';
 import { groveHeight } from './terrain';
@@ -138,7 +139,7 @@ class Dress3dB4 implements Dressing3d {
     for (const h of hulls) brightHull(h, true);
   }
 
-  update(world: World, stage: SceneStage, _daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

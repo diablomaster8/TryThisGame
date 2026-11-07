@@ -7,6 +7,7 @@
  * when someone first performs; doodles are a fixed pool of flat quads, hidden when unused.
  * Rising notes reuse the emote ball's own note material. Render-only.
  */
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { PERFORM } from '../config/tuning';
 import type { PerformLook, PerformProp } from '../render/perform-look';
@@ -15,7 +16,7 @@ import type { FrameRect, SpriteSheet } from '../render/sprites/atlas';
 import { doodleAlpha } from '../sim/perform';
 import { actDoodleAlpha, actDoodles } from '../render/idle-acts';
 import { IDLE_ACTS } from '../config/tuning-more/look-creature-fx';
-import type { World } from '../sim/types';
+
 
 const NOTE_MS = 1100;
 
@@ -125,7 +126,7 @@ export class Perform3D {
   }
 
   /** Once a frame after the Nubbins: drift the notes, lay the doodles, drop the leavers. */
-  finish(world: World, inGrove: boolean, live: ReadonlySet<string>, nowMs: number): void {
+  finish(world: ReadonlyWorld, inGrove: boolean, live: ReadonlySet<string>, nowMs: number): void {
     for (const q of this.notes) {
       if (!q.s.visible) continue;
       const t = (nowMs - q.bornMs) / NOTE_MS;

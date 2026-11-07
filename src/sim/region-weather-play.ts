@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { WEATHER_PLAY } from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
 import { localHourOf, tzOf } from './local-time';
@@ -12,7 +13,7 @@ import type { SimEvent, World } from './types';
  * rain turns the Wood's mill wheel faster (`millWheelMul`, read by its drawing). None of it is
  * needed for anything.
  */
-function skyHere(world: World, region: RegionId): RegionSky | null {
+function skyHere(world: ReadonlyWorld, region: RegionId): RegionSky | null {
   const hour = localHourOf(world.lastWallMs, tzOf(world));
   return regionSkyAt(world.seed, region, world.timeMs, hour, world.debugSeason ?? world.season);
 }
@@ -24,20 +25,20 @@ export function windGlideMul(world: World): number {
 }
 
 /** How much faster the Wood's mill wheel turns: faster in rain (and a sunshower), else 1. */
-export function millWheelMul(world: World): number {
+export function millWheelMul(world: ReadonlyWorld): number {
   if (drawnRegionOf(world.location) !== 'wood') return 1;
   const k = skyHere(world, 'wood')?.kind;
   return k === 'rain' || k === 'sunshower' ? WEATHER_PLAY.millRain : 1;
 }
 
 /** The ghost ship's spot while the shore is in fog and the Keeper is on the shore, else null. */
-export function ghostShipHere(world: World): { x: number; z: number } | null {
+export function ghostShipHere(world: ReadonlyWorld): { x: number; z: number } | null {
   const g = WEATHER_PLAY.ghost;
   if (drawnRegionOf(world.location) !== g.region) return null;
   return skyHere(world, g.region)?.kind === 'fog' ? { x: g.x, z: g.z } : null;
 }
 
-const noted = new WeakMap<World, boolean>();
+const noted = new WeakMap<ReadonlyWorld, boolean>();
 
 /** Seeing the ghost ship says so once per sighting (it comes and goes with the fog). */
 export function stepWeatherPlay(world: World, events: SimEvent[]): void {

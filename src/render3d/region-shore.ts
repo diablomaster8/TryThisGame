@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import {
   SHORE_CASTLES,
@@ -14,7 +15,7 @@ import { deckMesh, disposeDecks } from '../render/region-kit-px';
 import { hourNow, paintShore, SHORE_GROUND } from '../render/region-shore';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
 import { castleStands } from '../sim/shore-play';
-import type { World } from '../sim/types';
+
 import type { RegionLayout } from '../config/region-layout';
 
 /**
@@ -258,7 +259,7 @@ function decorate(group: THREE.Group, l: RegionLayout, mat: THREE.Material): Kit
   let checked = -Infinity;
   let line = waterlineZ(tideAt(hourNow()));
   return {
-    sync(world: World) {
+    sync(world: ReadonlyWorld) {
       SHORE_CASTLES.forEach((_, i) => {
         const up = castleStands(world, i);
         ups[i]!.visible = up;

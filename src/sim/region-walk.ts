@@ -12,6 +12,7 @@
  *   raises `exitReached` and the game plays the iris, then sends `travel` at the dark moment.
  * Nubbins stay home in the Grove and keep simulating; the region holds only the Keeper.
  */
+import type { ReadonlyWorld } from './readonly';
 import { REGIONS, type RegionExit, type RegionId } from '../config/regions';
 import {
   cellAt,
@@ -210,7 +211,7 @@ interface Plan {
   best: number;
   bestMs: number;
 }
-const plans = new WeakMap<World, Plan>();
+const plans = new WeakMap<ReadonlyWorld, Plan>();
 
 function cellCentre(l: RegionLayout, i: number): Vec2 {
   const ix = i % l.gw;
@@ -404,7 +405,7 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
 // ---------------------------------------------------------------- borders
 
 /** The region whose exits the Keeper's position is read against. */
-function hereRegion(world: World): RegionId | null {
+function hereRegion(world: ReadonlyWorld): RegionId | null {
   if (world.location === 'grove') return 'grove';
   return drawnRegion(world);
 }
@@ -441,7 +442,7 @@ export function exitLocked(world: World, e: RegionExit): 'locked' | null {
 }
 
 /** The exits of the current region that walking can take, for the renderers' approach checks. */
-export function walkExitsHere(world: World): readonly RegionExit[] {
+export function walkExitsHere(world: ReadonlyWorld): readonly RegionExit[] {
   const here = hereRegion(world);
   return here ? REGIONS[here].exits.filter(walkableExit) : [];
 }
@@ -458,7 +459,7 @@ export function seamlessOffset(e: RegionExit): Vec2 {
   };
 }
 
-const inside = new WeakMap<World, string | null>();
+const inside = new WeakMap<ReadonlyWorld, string | null>();
 
 /**
  * After the Keeper's step (live play only): stepping into a walkable exit's box raises it once.

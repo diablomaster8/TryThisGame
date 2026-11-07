@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../sim/readonly';
 import { nubbinArtId } from '../render/sprites/stage-art';
 import {
   Box3,
@@ -637,7 +638,7 @@ export function evictionOrder(
 }
 
 /** The looks a Grove opens with, the Keeper first, each once. */
-export function openingLooks(world: Pick<World, 'keeper' | 'nubbins' | 'trainer'>): Look[] {
+export function openingLooks(world: Pick<ReadonlyWorld, 'keeper' | 'nubbins' | 'trainer'>): Look[] {
   const looks = [keeperLook(world.keeper, world.trainer), ...world.nubbins.map(nubbinLook)];
   const seen = new Set<string>();
   return looks.filter((l) => !seen.has(l.key) && !!seen.add(l.key));

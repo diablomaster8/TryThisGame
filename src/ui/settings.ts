@@ -32,14 +32,13 @@ import {
   clearSave,
   currentSlot,
   downloadText,
-  markResumeSlot,
   modeOfWorld,
   pickTextFile,
   readUnreadable,
   readGraphicsPref,
-  writeGraphicsPref,
 } from '../platform/storage';
 import { deserialize, importProblem } from '../sim/save';
+import { changeGraphics } from '../graphics-swap';
 import { matureControlVisible, matureRaiseNeedsGate } from '../sim/audience';
 import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
@@ -871,24 +870,11 @@ export class SettingsMenu {
     const flow = this.questFlow.value as NonNullable<Settings['questFlow']>;
     if (flow !== (g.world.settings.questFlow ?? 'guided')) settings.questFlow = flow;
     g.send({ kind: 'setSettings', settings });
-    // The renderer is picked when the game starts, so a change saves and reloads.
-    // R0509 (TECH-67): compared with the device preference, the one source of truth.
-    const running = readGraphicsPref();
+    // R0509 (TECH-67): the renderer swaps live; save-and-reload is the fallback (graphics-swap.ts).
     const wanted = this.graphics.value === '3d' ? '3d' : 'pixel';
-    if (wanted !== running) {
-      // With storage blocked the reload would lose this Grove and the choice: keep both and
-      // point to the title screen, whose pick lasts the session (review D, 13).
-      if (!writeGraphicsPref(wanted)) {
-        writeGraphicsPref(running); // the page keeps running the renderer it has
-        this.graphics.value = running;
-        this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
-        return;
-      }
-      g.world.settings = settings;
-      g.save();
-      // Back into this same slot after the reload, as the help text promises.
-      markResumeSlot(currentSlot());
-      location.reload();
+    if (changeGraphics(g, wanted, settings, this.parent) === 'blocked') {
+      this.graphics.value = readGraphicsPref();
+      this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
     }
   }
 

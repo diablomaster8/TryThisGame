@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { bandForFloor, openSky } from './cave-bands';
 import {
   CircleGeometry,
@@ -31,7 +32,7 @@ import {
 } from 'three';
 import { CAMERA, DUNGEON, GROVE, GROVE3D, LANTERN_POSTS, PIXEL_LIGHT } from '../config/tuning';
 import type { SceneStage } from '../config/story';
-import type { GroveKind, Location, TileKind, WeatherKind, World } from '../sim/types';
+import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { PixelDressings, type PixelDressCtx } from './dressings';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, safeRect, toScreen } from './stage-api';
 import { daylightAt, type Daylight } from './daylight';
@@ -669,7 +670,7 @@ export class GroveScene {
    * The dressings' frame (render/dressings.ts): called from inside the WorldView's sprite
    * pass, so their billboards join the batch. `dt` is seconds.
    */
-  dress(world: World, stage: SceneStage, dt: number): void {
+  dress(world: ReadonlyWorld, stage: SceneStage, dt: number): void {
     this.dressings.update(world, stage, this.daylight, dt);
   }
 

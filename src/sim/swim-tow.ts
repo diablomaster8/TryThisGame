@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { GROVE, SWIM_TOW } from '../config/tuning';
 import { isHeld } from './nubbin';
 import { levelOf } from './stats';
@@ -32,7 +33,7 @@ function swims(n: Nubbin | undefined): n is Nubbin {
 }
 
 /** The Nubbin that would tow the Keeper through deep water: the ridden one first, then a partner. */
-export function swimTower(world: World): Nubbin | null {
+export function swimTower(world: ReadonlyWorld): Nubbin | null {
   if (world.location !== 'grove') return null;
   const ids = [world.ride?.nubbinId, world.partners[0], world.partners[1]];
   for (const id of ids) {
@@ -44,7 +45,7 @@ export function swimTower(world: World): Nubbin | null {
 }
 
 /** Per world: when the "a good swimmer" hint last showed. */
-const hinted = new WeakMap<World, number>();
+const hinted = new WeakMap<ReadonlyWorld, number>();
 
 /** The shore stopped the Keeper: say once a minute that a swimmer could take it across. */
 export function swimHint(world: World, events: SimEvent[]): void {

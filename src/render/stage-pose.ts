@@ -1,8 +1,9 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { markAt } from '../config/stage-marks';
 import { PARTNER_CAST, type LineGesture, type Mood, type StageCast } from '../config/story';
 import { CG4_A1 } from '../config/tuning-more/campaign4-stage-poses';
 import { CG2_P } from '../config/tuning-more/campaign2-actors-pip';
-import type { Vec2, World } from '../sim/types';
+import type { Vec2 } from '../sim/types';
 import { npcHere, partnerIdOf, speaksAsKeeper } from './scene-stage';
 import { festivalNubbinSpots, festivalScene, liveSpeaker, type StageTracker } from './stage-actors';
 
@@ -83,7 +84,7 @@ export class PoseDirector {
   private lineMs = 0;
   private ms = 0;
 
-  update(world: World, tracker: StageTracker, dt: number, still: boolean): void {
+  update(world: ReadonlyWorld, tracker: StageTracker, dt: number, still: boolean): void {
     this.ms += dt * 1000;
     POSE_FLAGS.still = still;
     POSE_CUES.clear();

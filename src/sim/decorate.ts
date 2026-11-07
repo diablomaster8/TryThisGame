@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { decorCollider } from '../config/grove-layout';
 import { DECOR, GROVE, JUMP_TOYS, STORY_PROPS } from '../config/tuning';
 import { colliderReach, contact, obstacles } from './obstacles';
@@ -29,7 +30,7 @@ export function decorPrice(kind: DecorKind): number {
 }
 
 // MOVE-57: when each spring mushroom last bounced someone (sim ms), for the squash.
-const bounced = new WeakMap<World, Map<string, number>>();
+const bounced = new WeakMap<ReadonlyWorld, Map<string, number>>();
 
 /** MOVE-57: a spring mushroom bounces someone off its cap: note it for the squash. */
 export function springBounce(
@@ -45,7 +46,7 @@ export function springBounce(
 }
 
 /** MOVE-57: when the mushroom last bounced someone (sim ms), or -Infinity. */
-export function springBouncedAt(world: World, id: string): number {
+export function springBouncedAt(world: ReadonlyWorld, id: string): number {
   return bounced.get(world)?.get(id) ?? -Infinity;
 }
 

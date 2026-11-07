@@ -1,10 +1,11 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { VILLAGE, VILLAGE_PICK } from '../config/region-village';
 import { frameKey } from './sprites/animations';
 import type { SpriteSheet } from './sprites/atlas';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 import { villageSheet } from './paint/village';
 import { villageBuildings, villageDressing, villageRecruits } from '../sim/village';
-import type { World } from '../sim/types';
+
 
 /**
  * R0095 (WORLD-32): the village square in the pixel Grove, the same pieces in the same places
@@ -18,7 +19,7 @@ type Shadow = (x: number, y: number, z: number, r: number) => void;
 
 export function drawVillage(
   batch: SpriteBatch,
-  world: World,
+  world: ReadonlyWorld,
   scenery: SpriteSheet,
   shadow: Shadow,
   light: (x: number, z: number) => number,
