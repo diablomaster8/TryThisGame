@@ -339,6 +339,8 @@ export interface SpeciesSpec {
     shape?: 'fairy' | 'feather' | 'bat';
     /** Radians the wings lift in their own plane, tips up (LOOK-10: Charizard's 20 degrees). */
     raise?: number;
+    /** A bat wing with a full scalloped membrane, not just fingers (the Eternal Moon's). */
+    full?: boolean;
   };
   /**
    * The Chao emote ball, if the species has one: a plain ball, a flat halo ring or a
@@ -1180,6 +1182,15 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         shape.quadraticCurveTo(0.35 * dx * k, 0.75 * k, 0.22 * dx * k, 0.95 * k);
         shape.quadraticCurveTo(0.08 * dx * k, 0.6 * k, -0.1 * dx * k, 0.55 * k);
         shape.quadraticCurveTo(-0.1 * dx * k, 0.2 * k, 0, 0);
+      } else if (w.shape === 'bat' && w.full) {
+        // An arm up to the wrist, three finger tips fanned outward, a scallop between each.
+        shape.moveTo(0, 0.1 * k);
+        shape.lineTo(0.3 * dx * k, 0.7 * k);
+        shape.lineTo(0.8 * dx * k, 0.8 * k);
+        shape.quadraticCurveTo(0.58 * dx * k, 0.55 * k, 0.78 * dx * k, 0.3 * k);
+        shape.quadraticCurveTo(0.52 * dx * k, 0.2 * k, 0.55 * dx * k, -0.1 * k);
+        shape.quadraticCurveTo(0.3 * dx * k, 0.08 * k, 0.08 * dx * k, -0.2 * k);
+        shape.lineTo(0, 0.1 * k);
       } else if (w.shape === 'bat') {
         // Two fingers with a scalloped membrane between them.
         shape.lineTo(0.75 * dx * k, 0.9 * k);

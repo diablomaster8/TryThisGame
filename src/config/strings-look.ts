@@ -230,6 +230,9 @@ export const FLAVOUR = {
   wear: {
     straw: 'Keeps the sun off and the bees interested.',
     remembrance: 'The same flower as on the hill. Worn for a friend, and a little for luck.', // Lane E r9
+    'edu-abacus': 'Counts faster than it looks. Mostly clicks.',
+    'edu-paintbrush': 'Behind one ear, just in case of sudden blue.',
+    'edu-book': 'Sits on the head. Learns by being very close.',
     'sprout-cap': 'Two leaves and a lot of optimism.',
     'sun-visor': 'Shades the eyes. Does nothing for the ears.',
     'leaf-crown': 'Fell off a tree. Landed on royalty.',
