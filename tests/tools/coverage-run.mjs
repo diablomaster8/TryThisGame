@@ -1,3 +1,4 @@
+/* global process, console */
 // R0485 (TECH-43): line coverage of src/input and src/platform. Runs every test file that imports
 // either folder (plus tests/platform), reports per file, and exits 1 if either folder is under the
 // target. Not part of the normal gate: `npm run test:coverage`. Needs @vitest/coverage-v8.

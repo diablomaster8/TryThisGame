@@ -485,11 +485,11 @@ describe('the ambience layer', () => {
     audio.unlockAudio();
     await Promise.resolve();
     const sfx = audio.sfxOut()!;
-    expect(sfx.bus.reaches(contexts[0]!.destination as never)).toBe(true);
+    expect((sfx.bus as unknown as FakeNode).reaches(contexts[0]!.destination as never)).toBe(true);
     expect(sfx.noise).toBeDefined();
     const amb = audio.ambienceOut()!;
     expect(amb.bus).not.toBe(sfx.bus);
-    expect(amb.bus.reaches(contexts[0]!.destination as never)).toBe(true);
+    expect((amb.bus as unknown as FakeNode).reaches(contexts[0]!.destination as never)).toBe(true);
   });
 });
 
