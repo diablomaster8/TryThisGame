@@ -72,12 +72,20 @@ export class CreatorPicker {
     this.note.setAttribute('role', 'status');
     this.grant = button(CREATOR_TEXT.grant, () => this.apply(false), 'btn btn-primary');
     this.transform = button(CREATOR_TEXT.transform, () => this.apply(true), 'btn');
-    this.gallery = new CreatorGallery(parent, game);
+    // The gallery takes the screen alone: the picker hides under it and comes back after.
+    this.gallery = new CreatorGallery(parent, game, () => this.dialog.show());
     const actions = el('div', 'creator-actions');
     actions.append(
       this.grant,
       this.transform,
-      button(GALLERY_TEXT.open, () => this.gallery.open(), 'btn'),
+      button(
+        GALLERY_TEXT.open,
+        () => {
+          this.dialog.hide();
+          this.gallery.open();
+        },
+        'btn',
+      ),
     );
     this.dialog.body.append(this.form, this.error, actions, this.note);
   }

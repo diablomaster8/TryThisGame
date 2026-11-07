@@ -5805,6 +5805,16 @@ body.edu-sprout .topbar .btn-logo::before {
   flex: none;
 }
 
+/* The tiles scroll and the action bar stays on screen, also where phone portrait sets every
+   modal child to its natural height (the rule under "Phone portrait: a panel's Close"). */
+.modal-card.creator-gallery-card {
+  background: #1a1530;
+}
+.modal-card.creator-gallery-card > .creator-gallery-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 /* R0706: the child's word list as picture tiles */
 .lang-tiles {
   display: grid;

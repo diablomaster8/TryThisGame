@@ -113,6 +113,8 @@ export class CreatorGallery {
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
+    /** Called when the gallery closes (the picker comes back). */
+    private readonly onClose: () => void = () => undefined,
   ) {
     this.model = new GalleryModel(creatorCatalogue(), (c) => this.game()?.send(c));
     this.root.hidden = true;
@@ -170,6 +172,7 @@ export class CreatorGallery {
     this.root.hidden = true;
     this.observer?.disconnect();
     this.focus.closed();
+    this.onClose();
   }
 
   isOpen(): boolean {
