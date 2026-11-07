@@ -41,6 +41,9 @@ const NAMES = [
   'Wren',
 ];
 
+/** R0112 (round 14): a neighbour's garden is 32 u across (+-16), the gate on its south side. */
+export const VISIT_GARDEN = { halfW: 14, gate: { x: 0, z: 13 } } as const;
+
 export function neighbourGarden(trainer: string): NeighbourNubbin[] {
   const t = trainerOf(trainer);
   const rng = Rng.fromSeed(trainer.split('').reduce((h, c) => h * 31 + c.charCodeAt(0), 7));
@@ -72,7 +75,7 @@ export function neighbourGarden(trainer: string): NeighbourNubbin[] {
       type: rng.chance(0.5)
         ? t.favourite
         : rng.pick(['normal', 'swim', 'fly', 'run', 'power'] as const),
-      x: rng.float(-8, 8),
+      x: rng.float(-VISIT_GARDEN.halfW, VISIT_GARDEN.halfW),
       z: rng.float(-6, 8),
     });
   }

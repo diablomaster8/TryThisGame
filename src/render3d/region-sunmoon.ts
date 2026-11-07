@@ -10,6 +10,11 @@ import {
   SUN_FOUNTAIN,
   SUN_TERRACES,
 } from '../config/region-sunmoon';
+import {
+  MOON_GARDEN_PROPS,
+  SUN_GARDEN_PROPS,
+  type GardenProp,
+} from '../config/region-sunmoon-gardens';
 import { MOON_GROUND, paintMoon, paintSun, sunHeight, SUN_GROUND } from '../render/region-sunmoon';
 import { deckMesh, disposeDecks } from '../render/region-kit-px';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
@@ -87,6 +92,53 @@ function wall(x0: number, x1: number, z0: number, z1: number, top: number): THRE
   ];
 }
 
+/** R0096: the Nubbin gardens' bench, beds, toy stands and fence posts on the region kit. */
+function gardenGeo(
+  props: readonly GardenProp[],
+  y: (x: number, z: number) => number,
+  c: { seat: string; frame: string; bloom: string; bloom2: string; ball: string },
+): THREE.BufferGeometry[] {
+  const parts: THREE.BufferGeometry[] = [];
+  const box = (w: number, h: number, d: number, x: number, yy: number, z: number, col: string) =>
+    parts.push(tinted(at(new THREE.BoxGeometry(w, h, d), x, yy, z), col));
+  for (const p of props) {
+    const gy = y(p.x, p.z);
+    if (p.kind === 'bench') {
+      box(1.8, 0.14, 0.6, p.x, gy + 0.5, p.z, c.seat);
+      box(0.14, 0.5, 0.5, p.x - 0.75, gy + 0.25, p.z, c.frame);
+      box(0.14, 0.5, 0.5, p.x + 0.75, gy + 0.25, p.z, c.frame);
+      box(1.8, 0.4, 0.1, p.x, gy + 0.85, p.z - 0.28, c.seat);
+    } else if (p.kind === 'bed') {
+      parts.push(
+        tinted(at(new THREE.CylinderGeometry(1.1, 1.2, 0.25, 10), p.x, gy + 0.12, p.z), '#5a4630'),
+      );
+      for (let i = 0; i < 6; i++) {
+        const a = i * 1.05;
+        const fx = p.x + Math.cos(a) * 0.65;
+        const fz = p.z + Math.sin(a) * 0.65;
+        parts.push(
+          tinted(at(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 3), fx, gy + 0.5, fz), DLEAF),
+        );
+        parts.push(
+          tinted(
+            at(new THREE.IcosahedronGeometry(0.14, 0), fx, gy + 0.78, fz),
+            i % 2 ? c.bloom : c.bloom2,
+          ),
+        );
+      }
+    } else if (p.kind === 'toy') {
+      parts.push(
+        tinted(at(new THREE.CylinderGeometry(0.05, 0.07, 0.7, 5), p.x, gy + 0.35, p.z), '#8a7a60'),
+      );
+      parts.push(tinted(at(new THREE.SphereGeometry(0.28, 8, 6), p.x, gy + 0.95, p.z), c.ball));
+    } else {
+      box(0.2, 0.9, 0.2, p.x, gy + 0.45, p.z, c.seat);
+      box(0.26, 0.1, 0.26, p.x, gy + 0.92, p.z, c.frame);
+    }
+  }
+  return parts;
+}
+
 function sunPieces(l: RegionLayout): THREE.BufferGeometry {
   const parts: THREE.BufferGeometry[] = [];
   const E = l.spec.size.w / 2 + l.margin;
@@ -134,6 +186,15 @@ function sunPieces(l: RegionLayout): THREE.BufferGeometry {
     );
     parts.push(tinted(at(new THREE.BoxGeometry(0.95, 0.25, 0.95), c.x, cy + 3.3, c.z), GOLD));
   }
+  parts.push(
+    ...gardenGeo(SUN_GARDEN_PROPS, sunHeight, {
+      seat: WHITE,
+      frame: GOLD,
+      bloom: '#e86a7a',
+      bloom2: GOLD,
+      ball: GOLD,
+    }),
+  );
   return merged(parts);
 }
 
@@ -230,6 +291,15 @@ function moonPieces(): THREE.BufferGeometry {
       tinted(at(g, ring.x + Math.cos(a) * 3, h / 2, ring.z + Math.sin(a) * 3), SLATE, 0.2),
     );
   }
+  parts.push(
+    ...gardenGeo(MOON_GARDEN_PROPS, () => 0, {
+      seat: SLATE,
+      frame: '#c8d0ff',
+      bloom: '#7af0d0',
+      bloom2: '#c8d0ff',
+      ball: VIOLET,
+    }),
+  );
   return merged(parts);
 }
 

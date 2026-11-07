@@ -51,7 +51,7 @@ import { GROVE_CHUNKS } from '../config/tuning-r12d1';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
 import { windSway } from './wind-px';
-import { neighbourGarden } from '../sim/neighbourhood';
+import { neighbourGarden, VISIT_GARDEN } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
 import { fernStones } from '../sim/fern-stone';
@@ -1344,6 +1344,25 @@ export class WorldView {
           tint: this.dim,
         });
       }
+      // R0112: the garden's gate on its south side, the way back out to the lane.
+      const scen = this.sheets.scenery();
+      const gate = scen.frames.get(frameKey('lane-gate', 'front', 0));
+      if (gate) {
+        const g = VISIT_GARDEN.gate;
+        shadow(g.x, 0, g.z, 0.9);
+        batch.draw({
+          sheet: scen,
+          rect: gate,
+          flip: false,
+          x: g.x,
+          y: 0,
+          z: g.z,
+          mode: 'billboard',
+          w: 3.2,
+          h: (3.2 * gate.h) / gate.w,
+          tint: this.dim,
+        });
+      }
       const hsheet = this.sheets.keeper(this.visiting);
       const hview = viewAngle(Math.PI, yaw);
       const hrect = hsheet.frames.get(frameKey('idle', hview.angle, frameAt(CLIPS.idle, nowMs)));
@@ -1452,11 +1471,13 @@ export class WorldView {
     const npcHere = (t: string) =>
       this.location === 'grove'
         ? true
-        : underground || this.location.startsWith('region:') // R11 d7: nobody follows out
-          ? false
-          : this.location === 'corvin'
-            ? t === 'corvin' || t === 'ember'
-            : t === 'nova';
+        : this.location.startsWith('region:')
+          ? this.staging?.castIds.has(t) === true // R0101: only a scene's cast, seated by the stager
+          : underground
+            ? false
+            : this.location === 'corvin'
+              ? t === 'corvin' || t === 'ember'
+              : t === 'nova';
     const cast = this.staging?.castIds;
     for (const npc of world.npcs) {
       if (!npcHere(npc.trainer) || ((bare || LOOK_STATE.tale) && !cast?.has(npc.trainer))) continue;

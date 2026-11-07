@@ -330,6 +330,8 @@ export function markSetFor(location: string): MarkSet | null {
 
 /** A mark by name in the set for `location` (or an interior's, anywhere), or undefined. */
 export function markAt(location: string, name: string): StageMark | undefined {
+  // R0101: a drawn region has no named marks; the stager seats its cast itself.
+  if (location.startsWith('region:')) return undefined;
   const set = markSetFor(location);
   return (set ? STAGE_MARKS[set][name] : undefined) ?? INTERIOR_MARKS[name];
 }
