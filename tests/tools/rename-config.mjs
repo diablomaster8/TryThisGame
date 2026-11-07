@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global console */
 /**
  * TECH-36 codemod: moves the pass-letter tuning satellites (`src/config/tuning-<pass>.ts`) into
  * `src/config/tuning-more/<domain>-<topic>.ts`, and rewrites every import specifier (static,
