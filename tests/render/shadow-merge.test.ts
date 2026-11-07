@@ -8,14 +8,22 @@ function fakeRenderer(inPass: () => void = () => {}): {
   renderer: THREE.WebGLRenderer;
   shadowPass: () => void;
 } {
+  // Three's shadow map draws only when enabled, updating and given lights (it returns first
+  // otherwise), so the stand-in is an enabled map handed one light that casts no shadow.
   const map = {
+    enabled: true,
+    autoUpdate: true,
+    needsUpdate: false,
     render: (...args: unknown[]): void => {
       void args.length;
       inPass();
     },
   };
   const renderer = { shadowMap: map } as unknown as THREE.WebGLRenderer;
-  return { renderer, shadowPass: () => map.render([], new THREE.Scene(), new THREE.Camera()) };
+  return {
+    renderer,
+    shadowPass: () => map.render([new THREE.PointLight()], new THREE.Scene(), new THREE.Camera()),
+  };
 }
 
 function caster(x: number, tris = 12): THREE.Mesh {
