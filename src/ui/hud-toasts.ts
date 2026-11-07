@@ -7,6 +7,18 @@ import { FIRST_MINUTE } from '../config/tuning-r11d4';
 import { setIconGlyph } from './pixel-icons';
 
 /**
+ * WCAG 2.5.3: a button's accessible name must contain the word it shows ("Explore", "My
+ * Nubbins"), so a voice-control user can say what they see. The name is the button's title
+ * when that already holds the word, else the word first and then the title.
+ */
+export function syncActionName(b: HTMLElement, label: string): void {
+  const base = b.title;
+  const holds = ` ${base.toLowerCase()} `.includes(` ${label.toLowerCase()} `);
+  const name = !base ? label : holds ? base : `${label}. ${base}`;
+  if (b.getAttribute('aria-label') !== name) b.setAttribute('aria-label', name);
+}
+
+/**
  * The action-bar buttons: an icon over a short word. The word shows on phones (style.css,
  * `.act-label`), where the bar sits at the bottom; wide screens keep the icon alone.
  */
@@ -23,6 +35,7 @@ export function labelActions(list: Array<[HTMLButtonElement, string, string]>): 
     l.textContent = label;
     b.append(g, l);
     b.classList.add('act-btn');
+    syncActionName(b, label);
   }
 }
 

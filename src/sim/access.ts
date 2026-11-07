@@ -8,7 +8,7 @@ import { shakeBonusMs } from './grove-diary';
 import type { AccessSettings, SimEvent, World } from './types';
 
 export interface ResolvedAccess {
-  font: 'default' | 'readable';
+  font: 'default' | 'readable' | 'dyslexia';
   contrast: 'normal' | 'high';
   simpleTouch: boolean;
 }

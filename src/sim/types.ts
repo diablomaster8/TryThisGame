@@ -570,7 +570,7 @@ export type LossHold = 'together' | 'play' | 'released';
 
 /** Lane E r10: the reading and touch access options (KIDS-41, KIDS-42). */
 export interface AccessSettings {
-  font?: 'default' | 'readable';
+  font?: 'default' | 'readable' | 'dyslexia';
   contrast?: 'normal' | 'high';
   simpleTouch?: boolean;
 }

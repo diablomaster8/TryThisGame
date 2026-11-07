@@ -356,7 +356,7 @@ function step(name, ok, note = '') {
       for (const m of document.querySelectorAll('.modal')) m.hidden = true;
     });
     await w(() =>
-      [...document.querySelectorAll('.topbar button[aria-label="More"]')]
+      [...document.querySelectorAll('.topbar button[aria-label*="More"]')]
         .find((b) => b.offsetParent)
         ?.click(),
     );
