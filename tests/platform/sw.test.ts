@@ -200,13 +200,17 @@ describe('service worker (TECH-43)', () => {
     const sw = boot({ active: true, src });
     const old = new FakeCache();
     const gone = `${ORIGIN}/TryThisGame/assets/hud-Zz9yX8wV.js`;
+    const font = `${ORIGIN}/assets/noto-sans-jp-12-400-normal-Ab12Cd34.woff2`;
     await old.put(HASHED_URL, new Response('kept chunk'));
     await old.put(gone, new Response('replaced chunk'));
+    await old.put(font, new Response('font slice'));
     sw.caches.set('grove-old', old);
     await sw.fire('activate');
     const now = sw.caches.get('grove-new')!;
     expect(await (await now.match(HASHED_URL))!.text()).toBe('kept chunk');
     expect(now.store.has(gone)).toBe(false);
+    // Font slices are never listed and always carried over.
+    expect(now.store.has(font)).toBe(true);
     expect([...sw.caches.keys()]).toEqual(['grove-new']);
   });
 });

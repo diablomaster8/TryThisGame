@@ -18,7 +18,8 @@ const path = require('path');
 const zlib = require('zlib');
 
 const root = path.resolve(__dirname, '../..');
-const dist = path.join(root, 'dist');
+// DIST: check another build folder (default dist/).
+const dist = path.resolve(root, process.env.DIST || 'dist');
 const basePath = path.join(__dirname, 'bundle-baseline.json');
 const LAZY_ONLY = ['grove-3d-scene', 'debug-panel', 'toon-outline'];
 const GROW = 1.1;

@@ -27,7 +27,9 @@ const ANY = { ignoreVary: true };
  * This build's hashed files (paths from the site root, such as "assets/index-B2x9fQ1a.js"),
  * written in by the `sw-build-id` plugin. Taking over, the worker carries over from an old
  * cache only the files this build still has, so the cache no longer grows by every changed
- * chunk of every deploy. null (an unbuilt copy) carries every hashed file over.
+ * chunk of every deploy. Font slices (.woff2) are not listed and always carried: they are
+ * pinned and content-hashed, so their set is bounded. null (an unbuilt copy) carries every
+ * hashed file over.
  */
 const BUILD_FILES = /*__GROVE_BUILD_FILES__*/ null;
 /** How long a navigation waits on the network before a held copy of the page answers. */
@@ -158,7 +160,10 @@ self.addEventListener('activate', (event) => {
 async function carryOver(oldNames) {
   const cache = await caches.open(CACHE);
   const current = Array.isArray(BUILD_FILES) ? new Set(BUILD_FILES) : null;
-  const inBuild = (path) => !current || current.has(path.slice(path.lastIndexOf('/assets/') + 1));
+  const inBuild = (path) =>
+    !current ||
+    path.endsWith('.woff2') ||
+    current.has(path.slice(path.lastIndexOf('/assets/') + 1));
   for (const name of oldNames) {
     try {
       const old = await caches.open(name);

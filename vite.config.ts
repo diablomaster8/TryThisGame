@@ -34,7 +34,9 @@ function swBuildId(): Plugin {
       const names = Object.keys(bundle).sort();
       id = createHash('sha256').update(names.join('\n')).digest('hex').slice(0, 12);
       // Efficiency (2026-11-07): the worker carries over only this build's files on a deploy.
-      files = names.filter((f) => f.startsWith('assets/'));
+      // Font slices are left out (the worker always keeps them): Fontsource's are pinned and
+      // content-hashed, so they never pile up, and they are three quarters of the names.
+      files = names.filter((f) => f.startsWith('assets/') && !f.endsWith('.woff2'));
     },
     closeBundle() {
       const file = resolve(outDir, 'sw.js');
