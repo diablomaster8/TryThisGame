@@ -126,7 +126,22 @@ function play(): Run {
   const all = GROVE_SIDE_STORIES.map((q) => q.id);
   const offered = new Set<string>();
   const opened = new Set<string>();
-  let walk = 0;
+  // A sweep visits every spot once, in a shuffled order. A fixed round-robin ran in step with the
+  // calendar: adding one spot anywhere (a ferry stop) shifted which weather and hour each spot met,
+  // and a rainy-evening quest (q72) was never offered at its spot. A shuffle meets every pair.
+  let seed = 12345;
+  let sweep: number[] = [];
+  const nextSpot = (): number => {
+    if (sweep.length === 0) {
+      sweep = spots.map((_, i) => i);
+      for (let i = sweep.length - 1; i > 0; i--) {
+        seed = (seed * 1103515245 + 12345) % 2147483648;
+        const j = seed % (i + 1);
+        [sweep[i], sweep[j]] = [sweep[j]!, sweep[i]!];
+      }
+    }
+    return sweep.pop()!;
+  };
   let chapter = 0;
   let chapterFrom = 0;
   let lastNews = 0;
@@ -195,7 +210,7 @@ function play(): Run {
         !goalMetNow(world)
       )
         meetGoal(world, events);
-      spots[walk++ % spots.length]!();
+      spots[nextSpot()]!();
       world.keeper.moveTarget = null;
     }
     tick(world, events, 1.1);
@@ -222,26 +237,30 @@ const KNOWN_UNREACHED: Record<string, string> = {
 };
 
 describe('reachability from one world (R0604)', () => {
-  it('the spine ends and every quest in the catalogue is reached, most of them finished', () => {
-    const { world, offered, opened, ms } = play();
-    const st = c(world);
-    expect(st.chapter).toBeGreaterThan(FINAL_CHAPTER);
-    expect(st.ending).not.toBeNull();
-    const all = GROVE_SIDE_STORIES.map((q) => q.id);
-    const unreached = all.filter((id) => !offered.has(id) && !opened.has(id));
-    expect(unreached.sort()).toEqual(Object.keys(KNOWN_UNREACHED).sort());
-    // Reached means it began: offered and accepted (or opened as part of the chapter).
-    const begun = all.filter((id) => statusOf(st, id) !== undefined);
-    const finished = all.filter((id) => ['done', 'closed'].includes(statusOf(st, id) ?? ''));
-    const still = begun.filter((id) => !finished.includes(id));
-    console.info(
-      `reachability: ${all.length} quests, ${offered.size} offered, ${begun.length} begun, ` +
-        `${finished.length} done or closed, still open: ${still.join(' ') || 'none'} (${ms} ms)`,
-    );
-    expect(begun.length).toBe(all.length - unreached.length);
-    // E1 and E2 run on the world alone (a walk, a Nubbin's whole life), past the bot's horizon.
-    expect(still.filter((id) => !['e1', 'e2'].includes(id))).toEqual([]);
-  }, 120_000);
+  it(
+    'the spine ends and every quest in the catalogue is reached, most of them finished',
+    () => {
+      const { world, offered, opened, ms } = play();
+      const st = c(world);
+      expect(st.chapter).toBeGreaterThan(FINAL_CHAPTER);
+      expect(st.ending).not.toBeNull();
+      const all = GROVE_SIDE_STORIES.map((q) => q.id);
+      const unreached = all.filter((id) => !offered.has(id) && !opened.has(id));
+      expect(unreached.sort()).toEqual(Object.keys(KNOWN_UNREACHED).sort());
+      // Reached means it began: offered and accepted (or opened as part of the chapter).
+      const begun = all.filter((id) => statusOf(st, id) !== undefined);
+      const finished = all.filter((id) => ['done', 'closed'].includes(statusOf(st, id) ?? ''));
+      const still = begun.filter((id) => !finished.includes(id));
+      console.info(
+        `reachability: ${all.length} quests, ${offered.size} offered, ${begun.length} begun, ` +
+          `${finished.length} done or closed, still open: ${still.join(' ') || 'none'} (${ms} ms)`,
+      );
+      expect(begun.length).toBe(all.length - unreached.length);
+      // E1 and E2 run on the world alone (a walk, a Nubbin's whole life), past the bot's horizon.
+      expect(still.filter((id) => !['e1', 'e2'].includes(id))).toEqual([]);
+    },
+    120_000,
+  );
 
   it('every line in the story book starts beside Hazel in that same world', () => {
     const { world, events } = play();

@@ -1,13 +1,11 @@
 import '../battle.css';
-import { HAT_LABELS, NAMES } from '../config/strings';
+import { drawRing, renderSheet, setView, showResults, updateAtb } from './battle-sheets';
 import {
-  BATTLE_MOVE_TEXT,
   BATTLE_SCREEN_TEXT as T,
   BATTLE_TEXT,
   combatantName,
   formatEvent,
   moodWord,
-  moveName,
   STATUS_TEXT,
   TYPE_WORDS,
 } from '../config/strings-battle';
@@ -15,7 +13,6 @@ import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
 import { battleSfx } from './battle-sfx';
-import { postcardRow } from './battle-postcard';
 import { worldBoutAct, type WorldBout } from '../sim/battle/world-bout';
 import { battleForfeit } from '../sim/battle/core';
 import { BattlePixelView } from '../minigames/battle/pixel-view';
@@ -24,15 +21,10 @@ import type { BattleCast, BattleFrame, BattleView } from '../minigames/battle/vi
 import { selectMinigameView } from '../render3d/minigame-layout';
 import { showUpdateNotice } from './update-notice';
 import {
-  BATTLE_ITEMS,
-  bench,
   canChoose,
-  itemsLeft,
   moveOf,
   MOOD_STATS,
   onField,
-  prizeFor,
-  puffCost,
   standing,
   typeMult,
   type BattleAction,
@@ -45,29 +37,16 @@ import {
 import { openTypeHelp } from './battle-help';
 import { button, dialogFocus, el } from './dom';
 import '../battle-r5.css';
-import { GYM } from '../config/tuning';
-import { BATTLE_ATB } from '../config/tuning-battle-atb';
-import { BATTLE_R5 } from '../config/tuning-battle-r5';
 import { ATB_TEXT } from '../config/strings-battle-atb';
-import {
-  INSPECT_TEXT,
-  RING_TEXT,
-  SPOILS_TEXT,
-  STAT_SHORT,
-  WHO_TEXT,
-} from '../config/strings-battle-r5';
-import { pairSeen } from '../sim/battle';
-import { cooldownLeft, pausedForHidden } from '../sim/battle/atb';
+import { INSPECT_TEXT, RING_TEXT } from '../config/strings-battle-r5';
+import { pausedForHidden } from '../sim/battle/atb';
 import { quipFor } from '../sim/battle/lines';
 import { whoChoices } from '../sim/battle/turn';
-import { ATB_COMMANDS, type AtbCommand, type Timing } from '../sim/battle/types';
-import type { StatKey } from '../sim/types';
+import { type AtbCommand, type Timing } from '../sim/battle/types';
 import { closeInspect, inspectOpen, openInspect } from './battle-inspect';
-import { nubbinPortrait } from './battle-party-pick';
 import { PreBout } from './battle-prebout';
-import { canFuse } from '../sim/battle/fusion';
-import { FRIENDLY_TEXT, FUSION_TEXT } from '../config/strings-battle-r6';
-import { currentReplay, recordAct, recordStart } from './battle-record';
+import { FUSION_TEXT } from '../config/strings-battle-r6';
+import { recordAct, recordStart } from './battle-record';
 
 /**
  * The one battle screen (recs FIGHT-25, FIGHT-26, FIGHT-30) for dojo singles, story bouts and
@@ -92,7 +71,7 @@ import { currentReplay, recordAct, recordStart } from './battle-record';
  * effectiveness badges show once a pairing has been seen (always in Gentle bouts). Keyboard Tab
  * order is moves, then actions, then the top bar (the DOM order; CSS keeps the layout).
  */
-type View = 'main' | 'swap' | 'item' | 'target' | 'who' | 'ring';
+export type View = 'main' | 'swap' | 'item' | 'target' | 'who' | 'ring';
 
 let shared: BattleScreen | null = null;
 
@@ -105,53 +84,53 @@ export function battleScreen(parent: HTMLElement, game: () => Game | null): Batt
 export class BattleScreen {
   readonly root: HTMLDivElement;
   /** The stage's views (R0219): the pixel canvas, and in Full 3D the arena of rigs. */
-  private readonly pixel = new BattlePixelView();
-  private view3d: BattleView | null = null;
-  private use3d = false;
-  private loading3d = false;
-  private started3d = false;
-  private startedPixel = false;
-  private readonly roundLabel: HTMLSpanElement;
-  private readonly speedBtn: HTMLButtonElement;
-  private readonly cards: [HTMLDivElement, HTMLDivElement];
-  private readonly logLine: HTMLParagraphElement;
-  private readonly sheet: HTMLDivElement;
-  private readonly confirmBox: HTMLDivElement;
-  private readonly results: HTMLDivElement;
-  private readonly playback = new Playback();
-  private runsAtStart = -1;
-  private startedAt = 0;
-  private view: View = 'main';
-  private pendingItem: BattleItemId | null = null;
-  private sentSig: string | null = null;
-  private drawnSig = '';
+  readonly pixel = new BattlePixelView();
+  view3d: BattleView | null = null;
+  use3d = false;
+  loading3d = false;
+  started3d = false;
+  startedPixel = false;
+  readonly roundLabel: HTMLSpanElement;
+  readonly speedBtn: HTMLButtonElement;
+  readonly cards: [HTMLDivElement, HTMLDivElement];
+  readonly logLine: HTMLParagraphElement;
+  readonly sheet: HTMLDivElement;
+  readonly confirmBox: HTMLDivElement;
+  readonly results: HTMLDivElement;
+  readonly playback = new Playback();
+  runsAtStart = -1;
+  startedAt = 0;
+  view: View = 'main';
+  pendingItem: BattleItemId | null = null;
+  sentSig: string | null = null;
+  drawnSig = '';
   /** Pass-and-play: Keeper 2 has lifted the cover over their moves. */
-  private passShown = false;
-  private rafId = 0;
-  private onDone: ((s: BattleState | null) => void) | null = null;
+  passShown = false;
+  rafId = 0;
+  onDone: ((s: BattleState | null) => void) | null = null;
   /** A story-world bout (FIGHT-98, FUN-51): played in its own Grove copy, never sent to the sim. */
-  private external: WorldBout | null = null;
+  external: WorldBout | null = null;
   /** HP and leads as the playback has shown them so far. */
-  private shownHp = new Map<string, number>();
-  private shownLead: [string, string] = ['', ''];
-  private pop: { id: string; text: string; at: number } | null = null;
-  private holdTimer = 0;
-  private lastEvent: BattleEvent | null = null;
+  shownHp = new Map<string, number>();
+  shownLead: [string, string] = ['', ''];
+  pop: { id: string; text: string; at: number } | null = null;
+  holdTimer = 0;
+  lastEvent: BattleEvent | null = null;
   /** Round 5: the pre-bout sheet, the move waiting on "Who?" or the ring, the ring's start. */
-  private prebout: PreBout | null = null;
-  private pendingMove: { id: string; target?: string } | null = null;
-  private ringAt = 0;
+  prebout: PreBout | null = null;
+  pendingMove: { id: string; target?: string } | null = null;
+  ringAt = 0;
   /** A Command bout's live bits, updated every frame without rebuilding the buttons. */
-  private atbSig = '';
-  private gauges = new Map<string, { fill: HTMLElement; num: HTMLElement; name: string }>();
-  private orderBtns = new Map<AtbCommand, HTMLButtonElement>();
-  private readonly veil: HTMLDivElement;
-  private readonly trap: { opened(): void; closed(): void };
-  private recorded = false;
+  atbSig = '';
+  gauges = new Map<string, { fill: HTMLElement; num: HTMLElement; name: string }>();
+  orderBtns = new Map<AtbCommand, HTMLButtonElement>();
+  readonly veil: HTMLDivElement;
+  readonly trap: { opened(): void; closed(): void };
+  recorded = false;
 
   constructor(
     parent: HTMLElement,
-    private readonly game: () => Game | null,
+    readonly game: () => Game | null,
   ) {
     this.root = el('div', 'expedition battle-screen');
     this.root.hidden = true;
@@ -244,7 +223,7 @@ export class BattleScreen {
   }
 
   /** A skipped story bout: the sim resolves and pays it; the sheet shows what it paid. */
-  private skipBout(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
+  skipBout(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
     const g = this.game();
     if (!g) return;
     const runs = g.world.battleRuns ?? 0;
@@ -274,11 +253,7 @@ export class BattleScreen {
     this.begin(s.context, onDone, true);
   }
 
-  private begin(
-    context: BattleContext,
-    onDone?: (s: BattleState | null) => void,
-    resumed = false,
-  ): void {
+  begin(context: BattleContext, onDone?: (s: BattleState | null) => void, resumed = false): void {
     const g = this.game();
     if (!g) return;
     this.pendingMove = null;
@@ -316,7 +291,7 @@ export class BattleScreen {
   }
 
   /** The bout this screen started, once the sim has made it. */
-  private bout(): BattleState | null {
+  bout(): BattleState | null {
     const g = this.game();
     if (this.external) return this.external.battle;
     const s = g?.world.battle;
@@ -334,7 +309,7 @@ export class BattleScreen {
     else this.confirmBox.hidden = false;
   }
 
-  private leave(): void {
+  leave(): void {
     const g = this.game();
     const s = this.bout();
     if (s && !s.result && this.external) battleForfeit(s);
@@ -361,14 +336,14 @@ export class BattleScreen {
     done?.(s?.result ? s : null);
   }
 
-  private toggleSpeed(): void {
+  toggleSpeed(): void {
     const g = this.game();
     this.playback.speed = this.playback.speed === 1 ? 2 : 1;
     g?.send({ kind: 'battlePrefs', prefs: { speed: this.playback.speed } });
     this.drawnSig = '';
   }
 
-  private skip(): void {
+  skip(): void {
     const s = this.bout();
     if (s) {
       this.playback.skip(s.log);
@@ -376,28 +351,28 @@ export class BattleScreen {
     }
   }
 
-  private resize(): void {
+  resize(): void {
     const rect = this.stageBox();
     this.pixel.resize(rect);
     if (this.started3d) this.view3d?.resize(rect);
   }
 
   /** Shown HP and leads catch up with the bout. */
-  private sync(s: BattleState): void {
+  sync(s: BattleState): void {
     for (const c of [...s.sides[0], ...s.sides[1]]) this.shownHp.set(c.id, c.hp);
     this.shownLead = [this.leadOf(s, 0)?.id ?? '', this.leadOf(s, 1)?.id ?? ''];
   }
 
-  private leadOf(s: BattleState, side: 0 | 1): Combatant | undefined {
+  leadOf(s: BattleState, side: 0 | 1): Combatant | undefined {
     const list = s.sides[side];
     return s.lead ? list[s.lead[side]] : (list.find(standing) ?? list[0]);
   }
 
-  private shown(s: BattleState, side: 0 | 1): Combatant | undefined {
+  shown(s: BattleState, side: 0 | 1): Combatant | undefined {
     return s.sides[side].find((c) => c.id === this.shownLead[side]) ?? this.leadOf(s, side);
   }
 
-  private frame = (now: number): void => {
+  frame = (now: number): void => {
     const s = this.bout();
     if (!s) {
       // The sim refused the bout (nobody hatched, a locked tier): give up after a moment.
@@ -433,27 +408,27 @@ export class BattleScreen {
     if (sig !== this.drawnSig) {
       this.drawnSig = sig;
       this.renderCards(s);
-      if (!s.atb) this.renderSheet(s, busy);
+      if (!s.atb) renderSheet(this, s, busy);
       this.roundLabel.textContent = BATTLE_TEXT.round(s.turn, s.context.tier);
       this.speedBtn.textContent = T.speed(this.playback.speed);
     }
     if (s.atb && atbSig !== this.atbSig) {
       this.atbSig = atbSig;
-      this.renderSheet(s, busy);
+      renderSheet(this, s, busy);
     }
-    if (s.atb) this.updateAtb(s);
+    if (s.atb) updateAtb(this, s);
     if (cur) this.logLine.textContent = this.line(s, cur.e) ?? this.logLine.textContent;
-    if (s.result && !busy && this.results.hidden) this.showResults(s);
-    if (this.view === 'ring') this.drawRing(s, now);
+    if (s.result && !busy && this.results.hidden) showResults(this, s);
+    if (this.view === 'ring') drawRing(this, s, now);
     this.rafId = requestAnimationFrame(this.frame);
   };
 
-  private names(s: BattleState): (id: string) => string {
+  names(s: BattleState): (id: string) => string {
     const map = new Map([...s.sides[0], ...s.sides[1]].map((c) => [c.id, combatantName(c)]));
     return (id) => map.get(id) ?? id;
   }
 
-  private line(s: BattleState, e: BattleEvent): string | null {
+  line(s: BattleState, e: BattleEvent): string | null {
     const name = this.names(s);
     if (e.k === 'order') return ATB_TEXT.order(name(e.who), e.cmd, e.obeyed);
     if (e.k === 'gag') return ATB_TEXT.gag(name(e.who), e.gag);
@@ -464,7 +439,7 @@ export class BattleScreen {
   }
 
   /** An event starts playing: move the shown HP and leads, and give the hit its feel. */
-  private onEvent(s: BattleState, e: BattleEvent, now: number): void {
+  onEvent(s: BattleState, e: BattleEvent, now: number): void {
     if (e.k === 'hit') {
       this.shownHp.set(e.to, Math.max(0, (this.shownHp.get(e.to) ?? 0) - e.dmg));
       this.pop = { id: e.to, text: `-${e.dmg}`, at: now };
@@ -490,7 +465,7 @@ export class BattleScreen {
   // ---------- the stage ----------
 
   /** The frame the views draw: the playing event and what the playback has shown so far. */
-  private frameFor(s: BattleState, e: BattleEvent | null, k: number): BattleFrame {
+  frameFor(s: BattleState, e: BattleEvent | null, k: number): BattleFrame {
     return {
       e,
       k,
@@ -502,7 +477,7 @@ export class BattleScreen {
   }
 
   /** Who the combatants are, for the views: the game's Nubbins, sheets and foe looks. */
-  private readonly cast: BattleCast = {
+  readonly cast: BattleCast = {
     nubbin: (c) => {
       const g = this.game();
       return (c.nubbinId && g?.world.nubbins.find((x) => x.id === c.nubbinId)) || null;
@@ -529,7 +504,7 @@ export class BattleScreen {
    * loads on first use. The pixel stage draws until the arena is ready, and stays if the
    * chunk fails to load.
    */
-  private want3d(): void {
+  want3d(): void {
     this.use3d = false;
     const g = this.game();
     const scene3d = g?.scene3d;
@@ -552,7 +527,7 @@ export class BattleScreen {
   }
 
   /** Draw the stage with the view in use, starting the 3D one once its chunk is here. */
-  private draw(s: BattleState, now: number, e: BattleEvent | null, k: number): void {
+  draw(s: BattleState, now: number, e: BattleEvent | null, k: number): void {
     const f = this.frameFor(s, e, k);
     if (!this.startedPixel) {
       this.startedPixel = true;
@@ -574,7 +549,7 @@ export class BattleScreen {
   }
 
   /** The 3D view lets go of the bout's arena and rigs; the pixel stage shows again. */
-  private stopViews(): void {
+  stopViews(): void {
     if (this.started3d) this.view3d?.stop();
     this.started3d = false;
     this.startedPixel = false;
@@ -583,13 +558,13 @@ export class BattleScreen {
     this.pixel.stop();
   }
 
-  private stageBox(): DOMRect {
+  stageBox(): DOMRect {
     return this.pixel.element.parentElement!.getBoundingClientRect();
   }
 
   // ---------- the HP cards ----------
 
-  private renderCards(s: BattleState): void {
+  renderCards(s: BattleState): void {
     for (const side of [0, 1] as const) {
       const box = this.cards[side];
       box.innerHTML = '';
@@ -628,7 +603,7 @@ export class BattleScreen {
 
   // ---------- the action sheet ----------
 
-  private send(s: BattleState, a: BattleAction): void {
+  send(s: BattleState, a: BattleAction): void {
     const g = this.game();
     if (!g || s.result) return;
     // A Command bout never waits on a turn, so it has no one-action-per-turn latch.
@@ -646,7 +621,7 @@ export class BattleScreen {
   }
 
   /** Sends one action as is (and keeps it for the debug panel's replay). */
-  private raw(s: BattleState, a: BattleAction): void {
+  raw(s: BattleState, a: BattleAction): void {
     recordAct(s, a);
     if (this.external) {
       worldBoutAct(this.external, a);
@@ -656,7 +631,7 @@ export class BattleScreen {
     this.game()?.send({ kind: 'battleAct', action: a });
   }
 
-  private big(label: string, sub: string, press: () => void, cls = ''): HTMLButtonElement {
+  big(label: string, sub: string, press: () => void, cls = ''): HTMLButtonElement {
     const b = button('', press, `btn bs-tile ${cls}`);
     b.append(el('span', 'bs-tile-name', label));
     if (sub) b.append(el('small', undefined, sub));
@@ -664,7 +639,7 @@ export class BattleScreen {
   }
 
   /** The best move against the foe on the field, by type chart then power (gentle hints). */
-  private bestMove(s: BattleState, me: Combatant): string {
+  bestMove(s: BattleState, me: Combatant): string {
     const foe = s.sides[1].find((c) => onField(s, c));
     let best = 'bonk';
     let score = -1;
@@ -678,7 +653,7 @@ export class BattleScreen {
     return best;
   }
 
-  private act(id: string, target?: string, timing?: Timing): BattleAction {
+  act(id: string, target?: string, timing?: Timing): BattleAction {
     const t = target === undefined ? {} : { target };
     const tm = timing === undefined ? {} : { timing };
     if (id === 'bonk') return { k: 'strike', ...t, ...tm };
@@ -687,12 +662,12 @@ export class BattleScreen {
   }
 
   /** A move tile pressed: "Who?" first in doubles when there is a choice, then the ring. */
-  private choose(s: BattleState, me: Combatant, id: string, foe: Combatant | undefined): void {
+  choose(s: BattleState, me: Combatant, id: string, foe: Combatant | undefined): void {
     if (s.doubles) {
       const w = whoChoices(s, me.id, id);
       if (w.pick !== 'none' && w.ids.length > 1) {
         this.pendingMove = { id };
-        this.setView('who');
+        setView(this, 'who');
         return;
       }
       if (w.pick !== 'none' && w.ids.length === 1) {
@@ -707,7 +682,7 @@ export class BattleScreen {
    * The timing ring for a Bonk-kind move (FIGHT-87), unless the bout is gentle (kid mode: no
    * timing at all) or "Steady hands" is on (a fixed ×1.1, FIGHT-79).
    */
-  private aim(s: BattleState, id: string, target?: string): void {
+  aim(s: BattleState, id: string, target?: string): void {
     const g = this.game();
     if (moveOf(id).kind !== 'bonk' || s.gentle || !g) {
       this.send(s, this.act(id, target));
@@ -719,392 +694,11 @@ export class BattleScreen {
     }
     this.pendingMove = { id, ...(target === undefined ? {} : { target }) };
     this.ringAt = performance.now();
-    this.setView('ring');
-  }
-
-  private renderSheet(s: BattleState, busy: boolean): void {
-    const sheet = this.sheet;
-    // Keyboard play: a rebuild must not drop focus out of the screen (FIGHT-79).
-    const at = document.activeElement;
-    const refocus = !at || at === document.body || at === this.root || sheet.contains(at);
-    sheet.innerHTML = '';
-    this.fillSheet(s, busy);
-    if (refocus && !this.root.hidden)
-      sheet
-        .querySelector<HTMLButtonElement>('button:not(:disabled)')
-        ?.focus({ preventScroll: true });
-  }
-
-  private fillSheet(s: BattleState, busy: boolean): void {
-    const sheet = this.sheet;
-    const sprout = s.gentle === 'sprout';
-    this.root.classList.toggle('gentle-sprout', sprout);
-    if (s.result) return;
-    if (s.atb) {
-      this.atbSheet(s);
-      return;
-    }
-    if (busy) {
-      sheet.appendChild(this.big(T.tapToSkip, '', () => this.skip(), 'bs-wide'));
-      return;
-    }
-    if (s.passPlay?.choosing === 1) {
-      this.secondKeeperSheet(s, sheet);
-      return;
-    }
-    const me = s.sides[0][s.active];
-    if (s.phase === 'replace') {
-      sheet.appendChild(el('p', 'bs-prompt', T.pickNext));
-      this.benchButtons(s, sheet);
-      return;
-    }
-    if (!me) return;
-    if (this.logLine.textContent === T.waiting)
-      this.logLine.textContent = T.yourTurn(combatantName(me));
-    const foe = s.sides[1].find((c) => onField(s, c));
-    if (this.view === 'swap') {
-      sheet.appendChild(el('p', 'bs-prompt', T.swapTitle));
-      this.benchButtons(s, sheet);
-      sheet.appendChild(this.big(BATTLE_TEXT.cancel, '', () => this.setView('main'), 'bs-wide'));
-      return;
-    }
-    if (this.view === 'item' || this.view === 'target') {
-      this.itemButtons(s, me, foe, sheet);
-      return;
-    }
-    if (this.view === 'who' && this.pendingMove) {
-      this.whoButtons(s, me, this.pendingMove.id);
-      return;
-    }
-    if (this.view === 'ring' && this.pendingMove) {
-      this.ringButton(s);
-      return;
-    }
-    const g = this.game();
-    const grid = el('div', 'bs-grid');
-    const best = s.gentle ? this.bestMove(s, me) : null;
-    const ids = sprout ? [best!] : ['bonk', ...me.moves].slice(0, 4);
-    for (const id of ids) {
-      const d = moveOf(id);
-      const t = TYPE_WORDS[d.type];
-      const cost = puffCost(s, me, id);
-      const a = this.act(id, d.target === 'foe' ? foe?.id : undefined);
-      const ok = canChoose(s, me, a);
-      // The badge only once that pairing has been seen to land (FIGHT-77); always when gentle.
-      const known = !!foe && !!g && (!!s.gentle || pairSeen(g.world, d.type, foe.type));
-      const eff =
-        known && d.kind !== 'status' && d.kind !== 'support' ? typeMult(d.type, foe.type) : 1;
-      const badge = eff > 1 ? ` ${T.matchGood}` : eff < 1 ? ` ${T.matchPoor}` : '';
-      const pips = cost === 0 ? BATTLE_TEXT.cost(0) : '●'.repeat(cost);
-      const tile = this.big(moveName(id), `${t.icon} ${t.name} · ${pips}${badge}`, () =>
-        this.choose(s, me, id, foe),
-      );
-      if (badge) tile.dataset.eff = String(eff);
-      tile.disabled = !ok;
-      if (id === best) tile.classList.add('bs-glow');
-      this.longPress(tile, id);
-      grid.appendChild(tile);
-    }
-    if (sprout)
-      grid.appendChild(this.big(T.hug, '🤗', () => this.send(s, { k: 'guard' }), 'bs-hug'));
-    sheet.appendChild(grid);
-    if (best && foe) {
-      const word = T.hintWord[moveOf(best).type] ?? '';
-      sheet.appendChild(el('p', 'bs-hint', T.hint(moveName(best), word)));
-    }
-    if (sprout) return;
-    const row = el('div', 'bs-row');
-    const swap = button(T.swap, () => this.setView('swap'), 'btn bs-act');
-    swap.disabled = bench(s, 0).length === 0;
-    const item = button(T.item, () => this.setView('item'), 'btn bs-act');
-    item.disabled = !BATTLE_ITEMS.some((i) => itemsLeft(s, 0, i) > 0);
-    const breath = button(T.breath, () => this.send(s, { k: 'guard' }), 'btn bs-act');
-    row.append(swap, item, breath);
-    // Fusion burst (FIGHT-95): shown only while the partners may fuse.
-    if (canFuse(s)) {
-      const fuseBtn = button(
-        FUSION_TEXT.button,
-        () => this.send(s, { k: 'fuse' }),
-        'btn bs-act bs-fuse',
-      );
-      fuseBtn.title = FUSION_TEXT.help;
-      row.appendChild(fuseBtn);
-    }
-    sheet.appendChild(row);
-  }
-
-  /**
-   * Pass-and-play (FIGHT-96): Keeper 2's picks, behind a cover so Keeper 1's choice and
-   * Keeper 2's moves are never on screen together.
-   */
-  private secondKeeperSheet(s: BattleState, sheet: HTMLElement): void {
-    const me = s.sides[1][s.active];
-    if (!me) return;
-    // The latch on sends is per turn; Keeper 2's pick is a second send in the same turn.
-    this.sentSig = null;
-    if (!this.passShown) {
-      sheet.appendChild(el('p', 'bs-prompt', FRIENDLY_TEXT.pass));
-      sheet.appendChild(
-        this.big(
-          FRIENDLY_TEXT.ready,
-          '',
-          () => {
-            this.passShown = true;
-            this.drawnSig = '';
-          },
-          'bs-wide',
-        ),
-      );
-      return;
-    }
-    sheet.appendChild(el('p', 'bs-prompt', FRIENDLY_TEXT.picking(combatantName(me))));
-    const grid = el('div', 'bs-grid');
-    const pick = (a: BattleAction) => {
-      this.passShown = false;
-      this.raw(s, a);
-      this.drawnSig = '';
-    };
-    grid.appendChild(this.big(moveName('bonk'), '', () => pick({ k: 'strike' })));
-    for (const id of me.moves)
-      if (id !== 'bonk' && canChoose(s, me, { k: 'move', move: id }))
-        grid.appendChild(this.big(moveName(id), '', () => pick({ k: 'move', move: id })));
-    sheet.appendChild(grid);
-    sheet.appendChild(this.big(T.breath, '', () => pick({ k: 'guard' }), 'bs-wide'));
-  }
-
-  private setView(v: View): void {
-    const s = this.bout();
-    const was = this.view;
-    this.view = v;
-    this.drawnSig = '';
-    // Time stops in a Command bout while the Item sheet is open (FIGHT-40).
-    if (s?.atb && !s.result) {
-      const items = (x: View): boolean => x === 'item' || x === 'target';
-      if (items(v) !== items(was)) this.raw(s, { k: 'pause', why: 'items', on: items(v) });
-    }
-    if (v === 'main') this.pendingMove = null;
-  }
-
-  private benchButtons(s: BattleState, box: HTMLElement): void {
-    const grid = el('div', 'bs-grid');
-    for (const c of bench(s, 0)) {
-      const t = TYPE_WORDS[c.type];
-      grid.appendChild(
-        this.big(
-          combatantName(c),
-          `${t.icon} ${t.name} · ${BATTLE_TEXT.hp} ${c.hp}/${c.maxHp}`,
-          () => this.send(s, { k: 'swap', to: c.id }),
-        ),
-      );
-    }
-    box.appendChild(grid);
-  }
-
-  private itemButtons(
-    s: BattleState,
-    me: Combatant,
-    foe: Combatant | undefined,
-    box: HTMLElement,
-  ): void {
-    const grid = el('div', 'bs-grid');
-    if (this.view === 'target' && this.pendingItem) {
-      const item = this.pendingItem;
-      box.appendChild(el('p', 'bs-prompt', T.onWho(T.items[item]!.name)));
-      for (const to of [me, foe]) {
-        if (!to) continue;
-        const a: BattleAction = { k: 'item', item, target: to.id };
-        const b = this.big(combatantName(to), '', () => this.send(s, a));
-        b.disabled = !canChoose(s, me, a);
-        grid.appendChild(b);
-      }
-    } else {
-      box.appendChild(el('p', 'bs-prompt', T.itemTitle));
-      for (const item of BATTLE_ITEMS) {
-        const left = itemsLeft(s, 0, item);
-        if (left <= 0) continue;
-        const info = T.items[item]!;
-        const press = (): void => {
-          if (item === 'toy') this.send(s, { k: 'item', item, ...(foe ? { target: foe.id } : {}) });
-          else if (foe?.calm !== undefined) {
-            this.pendingItem = item;
-            this.setView('target');
-          } else this.send(s, { k: 'item', item, target: me.id });
-        };
-        grid.appendChild(this.big(`${info.icon} ${info.name}`, `×${left}`, press));
-      }
-      if (!grid.children.length) box.appendChild(el('p', 'bs-prompt', T.noItems));
-    }
-    box.appendChild(grid);
-    box.appendChild(this.big(BATTLE_TEXT.cancel, '', () => this.setView('main'), 'bs-wide'));
-  }
-
-  /** Long-press a move for its blurb. */
-  private longPress(b: HTMLButtonElement, id: string): void {
-    const show = (): void => {
-      const text = BATTLE_MOVE_TEXT[id]?.blurb;
-      if (text) this.logLine.textContent = `${moveName(id)}: ${text}`;
-    };
-    b.addEventListener('pointerdown', () => {
-      clearTimeout(this.holdTimer);
-      this.holdTimer = window.setTimeout(show, 450);
-    });
-    for (const ev of ['pointerup', 'pointerleave', 'pointercancel'])
-      b.addEventListener(ev, () => clearTimeout(this.holdTimer));
-    b.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      show();
-    });
-  }
-
-  // ---------- doubles: "Who?" (recs FIGHT-60) ----------
-
-  private whoButtons(s: BattleState, me: Combatant, id: string): void {
-    const g = this.game();
-    const w = whoChoices(s, me.id, id);
-    const box = this.sheet;
-    box.appendChild(el('p', 'bs-prompt', w.pick === 'ally' ? WHO_TEXT.ally : WHO_TEXT.foe));
-    if (w.spread) box.appendChild(el('p', 'bs-hint', WHO_TEXT.both));
-    const grid = el('div', 'bs-grid');
-    const all = [...s.sides[0], ...s.sides[1]];
-    for (const cid of w.ids) {
-      const c = all.find((x) => x.id === cid);
-      if (!c) continue;
-      const t = TYPE_WORDS[c.type];
-      const b = this.big(
-        combatantName(c),
-        `${t.icon} ${t.name} · ❤ ${BATTLE_TEXT.hp} ${c.hp}/${c.maxHp}`,
-        () => this.aim(s, id, c.id),
-        'bs-who',
-      );
-      if (g) {
-        const n = c.nubbinId ? g.world.nubbins.find((x) => x.id === c.nubbinId) : undefined;
-        b.prepend(nubbinPortrait(g, n ?? c.species));
-      }
-      b.disabled = !canChoose(s, me, this.act(id, c.id));
-      grid.appendChild(b);
-    }
-    box.appendChild(grid);
-    box.appendChild(this.big(BATTLE_TEXT.cancel, '', () => this.setView('main'), 'bs-wide'));
-  }
-
-  // ---------- the timing ring (recs FIGHT-87) ----------
-
-  /** Where the dot is, 0..1, sweeping back and forth like the gym's bar. */
-  private ringPos(now: number): number {
-    const t = ((now - this.ringAt) % (GYM.sweepMs * 2)) / GYM.sweepMs;
-    return t <= 1 ? t : 2 - t;
-  }
-
-  private ringButton(s: BattleState): void {
-    const b = this.big(RING_TEXT.tap, '', () => this.ringTap(s), 'bs-wide bs-ring');
-    b.setAttribute('aria-label', `${RING_TEXT.label}: ${RING_TEXT.tap}`);
-    const zone = el('i', 'bs-ring-zone');
-    zone.style.left = `${(0.5 - GYM.zone / 2) * 100}%`;
-    zone.style.width = `${GYM.zone * 100}%`;
-    b.append(zone, el('i', 'bs-ring-dot'));
-    this.sheet.appendChild(b);
-  }
-
-  private ringTap(s: BattleState): void {
-    const p = this.pendingMove;
-    if (!p) return;
-    const pos = this.ringPos(performance.now());
-    const sweet = Math.abs(pos - 0.5) <= GYM.zone / 2;
-    this.send(s, this.act(p.id, p.target, sweet ? 'sweet' : 'plain'));
-  }
-
-  private drawRing(s: BattleState, now: number): void {
-    const p = this.pendingMove;
-    if (!p) return;
-    // No tap in time is a plain hit, never a penalty.
-    if (now - this.ringAt > BATTLE_R5.ringTimeoutMs) {
-      this.send(s, this.act(p.id, p.target, 'plain'));
-      return;
-    }
-    const dot = this.sheet.querySelector<HTMLElement>('.bs-ring-dot');
-    if (dot) dot.style.left = `${(this.ringPos(now) * 100).toFixed(1)}%`;
-  }
-
-  // ---------- the Command bout (recs FIGHT-40, FIGHT-41) ----------
-
-  private atbSheet(s: BattleState): void {
-    const box = this.sheet;
-    const me = s.sides[0].find((c) => onField(s, c)) ?? s.sides[0][0];
-    const foe = s.sides[1].find((c) => onField(s, c));
-    if (this.view === 'item' || this.view === 'target') {
-      if (me) this.itemButtons(s, me, foe, box);
-      return;
-    }
-    this.gauges.clear();
-    this.orderBtns.clear();
-    const list = el('div', 'bs-gauges');
-    for (const c of [...s.sides[0], ...s.sides[1]]) {
-      if (!onField(s, c)) continue;
-      const row = el('div', `bs-gauge ${c.side === 0 ? 'ally' : 'foe'}`);
-      const name = combatantName(c);
-      const bar = el('div', 'bs-gauge-bar');
-      bar.setAttribute('role', 'progressbar');
-      bar.setAttribute('aria-valuemin', '0');
-      bar.setAttribute('aria-valuemax', '100');
-      bar.setAttribute('aria-label', name);
-      const fill = el('span');
-      bar.appendChild(fill);
-      const num = el('small', 'bs-gauge-num');
-      row.append(el('span', 'bs-gauge-name', name), bar, num);
-      list.appendChild(row);
-      this.gauges.set(c.id, { fill, num, name });
-    }
-    box.appendChild(list);
-    const grid = el('div', 'bs-grid bs-orders');
-    grid.setAttribute('role', 'group');
-    grid.setAttribute('aria-label', ATB_TEXT.ordersLabel);
-    for (const cmd of ATB_COMMANDS) {
-      const o = ATB_TEXT.orders[cmd];
-      const b = this.big(`${o.icon} ${o.name}`, '', () => this.order(cmd), 'bs-order');
-      b.appendChild(el('i', 'bs-cd'));
-      grid.appendChild(b);
-      this.orderBtns.set(cmd, b);
-    }
-    box.appendChild(grid);
-    const row = el('div', 'bs-row');
-    const item = button(T.item, () => this.setView('item'), 'btn bs-act');
-    item.disabled = !BATTLE_ITEMS.some((i) => itemsLeft(s, 0, i) > 0);
-    row.appendChild(item);
-    box.appendChild(row);
-    this.updateAtb(s);
-  }
-
-  private order(cmd: AtbCommand): void {
-    const s = this.bout();
-    if (!s?.atb || s.result || cooldownLeft(s, cmd) > 0) return;
-    this.raw(s, { k: 'order', cmd });
-  }
-
-  /** Gauges and cooldown rings follow the sim every frame. */
-  private updateAtb(s: BattleState): void {
-    const t = s.atb;
-    if (!t) return;
-    for (const [id, g] of this.gauges) {
-      const v = Math.max(0, Math.min(100, t.gauge[id] ?? 0));
-      g.fill.style.width = `${v}%`;
-      g.fill.parentElement?.setAttribute('aria-valuenow', String(Math.round(v)));
-      g.num.textContent = `${Math.round(v)}%`;
-    }
-    const benchEmpty = bench(s, 0).length === 0;
-    for (const [cmd, b] of this.orderBtns) {
-      const left = cooldownLeft(s, cmd);
-      const share = Math.min(1, left / BATTLE_ATB.cooldownMs);
-      b.style.setProperty('--cd', share.toFixed(3));
-      const off = left > 0 || !!s.result || (cmd === 'back' && benchEmpty);
-      if (b.disabled !== off) b.disabled = off;
-      const small = left > 0 ? ATB_TEXT.wait(left / 1000) : ATB_TEXT.ready;
-      const sub = b.querySelector('small') ?? b.appendChild(el('small'));
-      if (sub.textContent !== small) sub.textContent = small;
-    }
+    setView(this, 'ring');
   }
 
   /** The tab hides: stop a Command bout's clock; it starts again a moment after it shows. */
-  private onVisibility(): void {
+  onVisibility(): void {
     const s = this.bout();
     if (this.root.hidden || !s?.atb || s.result) return;
     if (document.hidden) {
@@ -1123,75 +717,10 @@ export class BattleScreen {
 
   // ---------- "Inspect foe" (recs FIGHT-77) ----------
 
-  private inspect(): void {
+  inspect(): void {
     const s = this.bout();
     if (!s || s.result || this.root.hidden) return;
     const foe = this.shown(s, 1);
     if (foe) openInspect(this.root.parentElement ?? document.body, s, foe);
-  }
-
-  // ---------- results ----------
-
-  private showResults(s: BattleState): void {
-    closeInspect();
-    const r = s.result!;
-    const box = this.results;
-    box.innerHTML = '';
-    const card = el('div', 'bs-results-card');
-    const title =
-      r.reason === 'hug'
-        ? T.hugged
-        : r.reason === 'friends'
-          ? T.friends
-          : r.winner === 0
-            ? T.won
-            : r.winner === 1
-              ? T.lost
-              : T.draw;
-    card.appendChild(el('h2', undefined, T.results));
-    card.appendChild(el('p', 'celebrate-form', title));
-    // The sim's own account of the bout (FIGHT-74) when it has one, else the prize table.
-    const sp = s.spoils;
-    // A story-world bout pays nothing in the Grove (FIGHT-98).
-    const shells =
-      s.context.kind === 'world' ? 0 : sp ? sp.shells : prizeFor(s.context, r, !!s.gentle);
-    if (shells > 0) card.appendChild(el('p', undefined, BATTLE_TEXT.prize(shells, NAMES.currency)));
-    if (sp) this.spoilLines(s, sp.gained, card);
-    if (sp?.hat)
-      card.appendChild(el('p', undefined, SPOILS_TEXT.hat(HAT_LABELS[sp.hat] ?? sp.hat)));
-    if (sp?.cards.length) card.appendChild(el('p', undefined, SPOILS_TEXT.cards(sp.cards.length)));
-    for (const f of s.sides[1]) {
-      if (f.friend) card.appendChild(el('p', undefined, T.newFriend(combatantName(f))));
-      else if (f.calm !== undefined)
-        card.appendChild(el('p', undefined, T.calmed(combatantName(f), f.calm)));
-    }
-    // FIGHT-100: the funniest moment as a postcard, and the bout's replay code.
-    if (s.mode === 'turn') card.appendChild(postcardRow(s, currentReplay()));
-    card.appendChild(button(T.backToGrove, () => this.close(), 'btn btn-primary bs-big'));
-    box.appendChild(card);
-    box.hidden = false;
-    playSound(r.winner === 0 ? 'win' : 'sad');
-    if (this.root.contains(document.activeElement) || document.activeElement === document.body)
-      card.querySelector<HTMLButtonElement>('button')?.focus({ preventScroll: true });
-  }
-
-  /** "Nono: +12 Power, +4 Stamina" for each Nubbin that gained points. */
-  private spoilLines(
-    s: BattleState,
-    gained: Record<string, Partial<Record<StatKey, number>>>,
-    card: HTMLElement,
-  ): void {
-    const g = this.game();
-    for (const [id, stats] of Object.entries(gained)) {
-      const list = (Object.keys(stats) as StatKey[])
-        .filter((k) => (stats[k] ?? 0) > 0)
-        .map((k) => SPOILS_TEXT.stat(STAT_SHORT[k], stats[k]!));
-      if (!list.length) continue;
-      const ally = s.sides[0].find((c) => c.nubbinId === id);
-      const name = ally
-        ? combatantName(ally)
-        : (g?.world.nubbins.find((n) => n.id === id)?.name ?? id);
-      card.appendChild(el('p', 'bs-spoils', SPOILS_TEXT.points(name, list.join(', '))));
-    }
   }
 }

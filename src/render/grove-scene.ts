@@ -1,4 +1,4 @@
-import { openSky } from './cave-bands';
+import { bandForFloor, openSky } from './cave-bands';
 import {
   CircleGeometry,
   Color,
@@ -37,6 +37,7 @@ import { PIXEL_BUILDINGS, PIXEL_VIEW, safeRect, toScreen } from './stage-api';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { groundTexture, makeGroundTexture } from './ground';
+import { takeGroundStandIn } from './ground-prepaint';
 import type { GroundJob, GroundResult } from './ground.worker';
 import { pondOutline } from './paint/shore';
 import {
@@ -50,6 +51,7 @@ import {
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import { cellAt, WALL, type Floor } from '../sim/dungeon';
+import { buildLedgeMeshes } from './hollow-ledges';
 import { plugUp, sealDisplay, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
 import type { DungeonRun } from '../sim/types';
 import { pixelTiers, TERRACES } from '../sim/terrain';
@@ -234,6 +236,9 @@ export class GroveScene {
   /** The last painting swapped in (R0454: a visual test waits for the worker's, `groundReady`). */
   private groundLanded = 0;
 
+  /** HOT load time: a painting (quick or full) is on, not the plain stand-in colour. */
+  groundShown = false;
+
   /** R0454 (r12-d3): the full ground painting is on (not the quick one still waiting on it). */
   get groundReady(): boolean {
     return this.groundLanded === this.groundJob;
@@ -244,10 +249,11 @@ export class GroveScene {
    * worker and swaps in when done; until then the quick low-res painting shows. Where
    * workers are unavailable it paints on the main thread.
    */
-  private requestGround(tiles: Record<string, TileKind>): void {
+  private requestGround(tiles: Record<string, TileKind>, preview = false): void {
     const id = ++this.groundJob;
     const inline = () => {
       this.groundLanded = id;
+      this.groundShown = true;
       this.swapGround(makeGroundTexture(7, tiles));
     };
     if (typeof Worker === 'undefined') {
@@ -261,7 +267,14 @@ export class GroveScene {
         });
         this.groundWorker.onmessage = (e: MessageEvent<GroundResult>) => {
           if (e.data.id !== this.groundJob) return;
+          if (e.data.preview) {
+            // Only ever ahead of its own job's full painting (the worker answers in order).
+            if (this.groundLanded !== e.data.id) this.swapGround(groundTexture(e.data));
+            this.groundShown = true;
+            return;
+          }
           this.groundLanded = e.data.id;
+          this.groundShown = true;
           this.swapGround(groundTexture(e.data));
         };
         this.groundWorker.onerror = () => {
@@ -275,6 +288,7 @@ export class GroveScene {
         return;
       }
     }
+    if (preview) this.groundWorker.postMessage({ id, seed: 7, tiles, ppu: 4 } satisfies GroundJob);
     const job: GroundJob = { id, seed: 7, tiles };
     this.groundWorker.postMessage(job);
   }
@@ -337,8 +351,17 @@ export class GroveScene {
 
     // Ground.
     const size = GROVE.size;
-    // A quick coarse painting first; the full one arrives from the worker.
-    const grass = makeGroundTexture(7, {}, 4);
+    // HOT load time: the quick coarse painting (4 pixels a unit, the bare field) comes from a
+    // worker the title started (render/ground-prepaint.ts); painting it here held the first
+    // frame back by ~1.5 s at 4x CPU. If it has not landed, the plain grass colour stands in
+    // (the Pixel veil waits a moment for `groundShown`); without workers, painted here as before.
+    const prepainted = takeGroundStandIn();
+    const grass = prepainted
+      ? groundTexture(prepainted)
+      : typeof Worker === 'undefined'
+        ? makeGroundTexture(7, {}, 4)
+        : groundTexture({ width: 1, height: 1, rgba: new Uint8Array([0x5f, 0x9e, 0x3c, 255]) });
+    this.groundShown = prepainted !== null || typeof Worker === 'undefined';
     const groundGeo = new PlaneGeometry(size, size);
     const groundMat = new MeshLambertMaterial({ map: grass });
     this.groundMat = groundMat;
@@ -364,7 +387,7 @@ export class GroveScene {
     this.scene.add(skirt);
     this.skirt = skirt;
     this.disposables.push(skirtGeo, skirtMat, skirtTex);
-    this.requestGround(tiles);
+    this.requestGround(tiles, !this.groundShown);
 
     // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
     // the other way, and a lit shallows ring at the bank. The stream shares the same look.
@@ -622,7 +645,8 @@ export class GroveScene {
     this.dungeonGroup.visible = false;
     this.buildHollow(lobeGeo, leaves, bark);
     this.buildCorvin();
-    this.dressings.build({
+    // HOT load time: the packages build over the first frames, not in this constructor.
+    this.dressings.buildLazily({
       scene: this.scene,
       groups: {
         grove: this.groveGroup,
@@ -1082,6 +1106,14 @@ export class GroveScene {
     this.dungeonGroup.add(sideMesh);
     this.dungeonParts.push(topGeo, topMat, faceTex, faceMat, sideGeo);
     this.buildDungeonPlugs(floor, w, h, topMat, faceMat);
+    // R0031/R0191: shelves and terrace ledges stand up over the flat painting.
+    const ledges = buildLedgeMeshes(floor, tex, bandForFloor(floor, depth).rock);
+    if (ledges) {
+      this.dungeonGroup.add(ledges.top, ledges.sides);
+      this.pickables.push(ledges.top);
+      this.dungeonPickables.push(ledges.top);
+      this.dungeonParts.push(...ledges.parts);
+    }
     this.dungeonTorches = floor.torches.map((t) => ({
       x: (t.x + 0.5 - floor.cols / 2) * cell,
       z: (t.y + 0.1 - floor.rows / 2) * cell,

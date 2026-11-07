@@ -1,4 +1,4 @@
-/* global require, process, console, window, document, setTimeout */
+/* global require, process, console, window, document, setTimeout, localStorage */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * R0722 (KIDS-54): a headless smoke test of the Learning Grove in a phone viewport. It opens
@@ -6,6 +6,9 @@
  * the entry prompt with Play, plays one game to its results card with real taps on the option
  * centres (checking nothing covers them and no story scene opens), opens the story from its
  * 📖 tile and taps it through back into play, and opens the grown-up area past the sum gate.
+ * R0678 (KIDS-10): at 375x812 and 768x1024 it also sweeps the visible interactive controls
+ * (grove with the entry card, and the games picker) and fails on any under 64 px or any
+ * text-only (no icon, picture or symbol) button.
  * It fails on any page error, console error or failed request, and on a missed step. Speech
  * is stubbed and counted.
  *
@@ -13,7 +16,8 @@
  *   npm run dev -- --port 5173          (in another terminal)
  *   npm run smoke:kids -- http://localhost:5173/
  * Env: PLAYWRIGHT_CORE (module path), EDGE (browser executable), SMOKE_SHOTS (folder for
- * screenshots, optional), SMOKE_HEADED=1 to watch it.
+ * screenshots, optional), SMOKE_HEADED=1 to watch it, SMOKE_GFX=3d for Full 3D, SMOKE_DESKTOP=1 for a
+ * 1280x800 mouse window instead of the 375x812 phone.
  */
 const path = require('path');
 const fs = require('fs');
@@ -53,12 +57,20 @@ function step(name, ok, note = '') {
   const launch = { headless: process.env.SMOKE_HEADED !== '1', args: ['--ignore-gpu-blocklist'] };
   if (fs.existsSync(EDGE)) launch.executablePath = EDGE;
   const browser = await chromium.launch(launch);
-  const ctx = await browser.newContext({
-    viewport: { width: 375, height: 812 },
-    isMobile: true,
-    hasTouch: true,
-    deviceScaleFactor: 2,
-  });
+  const desktop = process.env.SMOKE_DESKTOP === '1';
+  const ctx = await browser.newContext(
+    desktop
+      ? { viewport: { width: 1280, height: 800 }, hasTouch: true }
+      : {
+          viewport: { width: 375, height: 812 },
+          isMobile: true,
+          hasTouch: true,
+          deviceScaleFactor: 2,
+        },
+  );
+  if (process.env.SMOKE_GFX === '3d') {
+    await ctx.addInitScript(() => localStorage.setItem('grove.graphics', '3d'));
+  }
   await ctx.addInitScript(() => {
     window.__said = [];
     const stub = {
@@ -117,6 +129,79 @@ function step(name, ok, note = '') {
     return { tapped: true, covered };
   };
 
+  /**
+   * R0678: the visible interactive controls and their size, and those with no picture. Inline
+   * word controls in running text (course and glossary words) are text by design and skipped.
+   */
+  const sizes = () =>
+    w(() => {
+      const PIC = /\p{Extended_Pictographic}|[\u2190-\u21ff\u25a0-\u25ff\u2600-\u27bf]/u;
+      const out = [];
+      const sel = 'button, a[href], [role="button"], input:not([type="hidden"]), select, summary';
+      for (const e of document.querySelectorAll(sel)) {
+        if (e.matches('.lang-word, .edu-gloss')) continue;
+        if (typeof e.checkVisibility === 'function' && !e.checkVisibility()) continue;
+        const r = e.getBoundingClientRect();
+        if (r.width < 1 || r.height < 1) continue;
+        if (r.bottom < 0 || r.right < 0 || r.top > window.innerHeight || r.left > window.innerWidth)
+          continue;
+        const text = (e.textContent || '').trim();
+        const label = e.getAttribute('aria-label') || '';
+        const pseudo = ['::before', '::after'].some((p) => {
+          const c = window.getComputedStyle(e, p).content;
+          return c && c !== 'none' && c !== 'normal' && c !== '""' && c !== "''";
+        });
+        const pic =
+          !!e.querySelector('img, svg, canvas, .act-glyph, .edu-opt-icon, [class*="icon"]') ||
+          PIC.test(text) ||
+          (text.length > 0 && !/\p{L}/u.test(text)) ||
+          pseudo;
+        const isInput = e.tagName === 'INPUT' || e.tagName === 'SELECT';
+        out.push({
+          name: (e.className && String(e.className).split(' ')[0]) || e.tagName.toLowerCase(),
+          label: (text || label).slice(0, 24),
+          w: Math.round(r.width),
+          h: Math.round(r.height),
+          textOnly: !isInput && !pic,
+        });
+      }
+      return out;
+    });
+  /** Fails a step when a sweep finds a small or text-only control; lists the offenders. */
+  const sweepStep = async (name) => {
+    const list = await sizes();
+    const small = list.filter((c) => c.w < 64 || c.h < 64);
+    const textOnly = list.filter((c) => c.textOnly);
+    const show = (a) => a.map((c) => `${c.name}"${c.label}" ${c.w}x${c.h}`).join('; ');
+    step(
+      `sprout sweep ${name}: no control under 64 px`,
+      small.length === 0,
+      `${list.length} controls, ${small.length} small${small.length ? `: ${show(small)}` : ''}`,
+    );
+    step(
+      `sprout sweep ${name}: no text-only button`,
+      textOnly.length === 0,
+      `${textOnly.length} text-only${textOnly.length ? `: ${show(textOnly)}` : ''}`,
+    );
+  };
+  /** The sweep at the phone size already set, then at the tablet size, then back. */
+  const sweepBothSizes = async (name) => {
+    await sweepStep(`${name} 375x812`);
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await page.waitForTimeout(700);
+    await sweepStep(`${name} 768x1024`);
+    // R0678: the tablet HUD keeps its word labels (they used to wait for 900 px).
+    const labels = await w(
+      () =>
+        [...document.querySelectorAll('.topbar .act-label, .topbar .top-label')].filter(
+          (e) => e.checkVisibility && e.checkVisibility(),
+        ).length,
+    );
+    step(`sprout HUD shows word labels at 768x1024 (${name})`, labels > 0, `${labels} labels`);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.waitForTimeout(700);
+  };
+
   try {
     // 1. Title: Learning Grove, slot 1, age 4, Start my Grove.
     await page.goto(BASE, { waitUntil: 'domcontentloaded', timeout: 120000 });
@@ -155,6 +240,7 @@ function step(name, ok, note = '') {
     const band = await w(() => window.grove?.world?.edu?.band ?? null);
     step('is a Learning Grove save', band === null || band === 'sprout', band ?? 'no dev handle');
     await shot('2-grove');
+    if (band === null || band === 'sprout') await sweepBothSizes('grove');
 
     // 2. The entry prompt: Play (else the 🎓 button).
     let picker = false;
@@ -175,6 +261,8 @@ function step(name, ok, note = '') {
       picker = await visible('.edu-pick');
       step('the games picker opens', picker);
     }
+
+    if (picker) await sweepBothSizes('picker');
 
     // 3. One game, played with real taps to the results card.
     if (picker) {
@@ -285,7 +373,39 @@ function step(name, ok, note = '') {
       const nums = (q ?? '').match(/\d+/g) ?? [];
       if (nums.length >= 2) {
         const input = page.locator('.edu-gate-input:visible').first();
-        await input.fill(String(Number(nums[0]) * Number(nums[1])));
+        const right = String(Number(nums[0]) * Number(nums[1]));
+        const hold = page.locator('.edu-gate-hold:visible').first();
+        const stillGated = () => visible('.edu-gate-input');
+        const note = () => w(() => document.querySelector('.edu-gate-wrong')?.textContent ?? '');
+        // HOTFIX (grown-up gate): a quick tap on Enter, even with the right answer, must say
+        // "keep holding" rather than do nothing, and must not get in.
+        await input.fill(right);
+        await hold.tap();
+        await page.waitForTimeout(300);
+        step(
+          'gate: a quick tap says keep holding and stays shut',
+          (await stillGated()) && /holding/i.test(await note()),
+          await note(),
+        );
+        // A wrong answer, held, is refused and brings new numbers.
+        await input.fill(String(Number(right) + 1));
+        await input.focus();
+        await page.keyboard.down('Enter');
+        await page.waitForTimeout(1800);
+        await page.keyboard.up('Enter');
+        await page.waitForTimeout(300);
+        step(
+          'gate: a wrong answer is refused',
+          (await stillGated()) && /Not quite/.test(await note()),
+        );
+        const q2 = await w(() =>
+          [...document.querySelectorAll('.help')]
+            .map((h) => h.textContent ?? '')
+            .find((t) => /×|times|\d+\s*[x×]\s*\d+/.test(t)),
+        );
+        const n2 = (q2 ?? '').match(/\d+/g) ?? nums;
+        // The right answer, held with a real touch, gets in.
+        await input.fill(String(Number(n2[0]) * Number(n2[1])));
         await input.focus();
         await page.keyboard.down('Enter');
         await page.waitForTimeout(2500);

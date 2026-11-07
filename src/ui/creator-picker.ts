@@ -1,6 +1,7 @@
 import { EGG_COLOR_LABELS, NAMES, SPECIES_LABELS, TYPE_LABELS } from '../config/strings';
-import { COSMETIC_LABELS } from '../config/strings-look';
-import { CREATOR_TEXT, EVO_TEXT, STAGE_NAMES } from '../config/strings-evo';
+import { cosmeticLabel } from '../config/cosmetics';
+import { CREATOR_TEXT, EVO_TEXT, GALLERY_TEXT, STAGE_NAMES } from '../config/strings-evo';
+import { CreatorGallery } from './creator-gallery';
 import type { Game } from '../game';
 import {
   CREATOR_COLOURS,
@@ -59,6 +60,8 @@ export class CreatorPicker {
   private readonly grant: HTMLButtonElement;
   private readonly transform: HTMLButtonElement;
   private readonly note = el('p', 'help');
+  /** The full-screen gallery, opened from the Gallery button. */
+  readonly gallery: CreatorGallery;
 
   constructor(
     parent: HTMLElement,
@@ -69,8 +72,21 @@ export class CreatorPicker {
     this.note.setAttribute('role', 'status');
     this.grant = button(CREATOR_TEXT.grant, () => this.apply(false), 'btn btn-primary');
     this.transform = button(CREATOR_TEXT.transform, () => this.apply(true), 'btn');
+    // The gallery takes the screen alone: the picker hides under it and comes back after.
+    this.gallery = new CreatorGallery(parent, game, () => this.dialog.show());
     const actions = el('div', 'creator-actions');
-    actions.append(this.grant, this.transform);
+    actions.append(
+      this.grant,
+      this.transform,
+      button(
+        GALLERY_TEXT.open,
+        () => {
+          this.dialog.hide();
+          this.gallery.open();
+        },
+        'btn',
+      ),
+    );
     this.dialog.body.append(this.form, this.error, actions, this.note);
   }
 
@@ -206,7 +222,7 @@ export class CreatorPicker {
           CREATOR_TEXT.look,
           [
             { value: '', text: CREATOR_TEXT.none },
-            ...CREATOR_LOOKS.map((id) => ({ value: id, text: COSMETIC_LABELS[id] ?? id })),
+            ...CREATOR_LOOKS.map((id) => ({ value: id, text: cosmeticLabel(id) })),
           ],
           this.look,
           (v) => (this.look = v),

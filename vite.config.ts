@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { ISOLATED_FILES, TOOL_FILES, UNIT_FILES } from './tests/test-projects';
+import WeightedShardSequencer from './tests/shard-sequencer';
 import { TIMING_BUDGET } from './src/config/tuning-sim';
 
 // BASE_PATH is set by the GitHub Pages workflow to "/<repo-name>/".
@@ -240,6 +241,10 @@ export default defineConfig({
     // own band loads) and the bands' Atlas and Arcade versions (~2.0 MB and ~4.0 MB, loaded
     // only when asked for). The warning on those is expected; a new one is worth a look.
     chunkSizeWarningLimit: 700,
+    // BS-05: the CSP says `font-src 'self'`, so a tiny Klee One subset that Vite inlined as a
+    // data: URI was refused with a console error. Fonts always stay separate same-origin files.
+    assetsInlineLimit: (file: string): boolean | undefined =>
+      /\.(woff2?|ttf|otf)$/i.test(file) ? false : undefined,
   },
   server: {
     // `npm run dev -- --host` exposes the dev server on the LAN for phone testing.
@@ -251,7 +256,11 @@ export default defineConfig({
   optimizeDeps: { include: ['three'] },
   test: {
     environment: 'node',
+    // Test-speed: `--shard` deals the heavy scripted runs out by weight (tests/shard-weights.ts).
+    sequence: { sequencer: WeightedShardSequencer },
     // HOT-CI: CI runners are slower and noisier; long sim tests get the scaled timeout there.
+    // A hook (beforeAll and the like) that never settles must fail, not hold a worker.
+    hookTimeout: 60_000,
     testTimeout: TIMING_BUDGET.testTimeoutMs * (process.env.CI ? TIMING_BUDGET.ciTimeoutScale : 1),
     // TECH-42: two projects. `unit` skips the story scripts (see tests/test-projects.ts);
     // `stories` registers them up front, as the app's boot does. The sample generators in

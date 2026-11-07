@@ -8,6 +8,11 @@ import {
   SUN_SPEC,
   SUN_TERRACES,
 } from '../config/region-sunmoon';
+import {
+  MOON_GARDEN_PROPS,
+  SUN_GARDEN_PROPS,
+  type GardenProp,
+} from '../config/region-sunmoon-gardens';
 import { terraceHeight } from '../config/region-layout';
 import { sunMoonSheet } from './paint/sunmoon';
 import type { GroundLook, GroundPaint } from './region-ground';
@@ -80,12 +85,26 @@ export const paintMoon: GroundPaint = (g, px, pz, ppu) => {
   }
 };
 
+const GARDEN_KEY = { bench: 'g-bench', bed: 'g-bed', toy: 'g-toy', post: 'g-post' } as const;
+const GARDEN_W = { bench: 2.4, bed: 2.6, toy: 1.1, post: 0.5 } as const;
+
+function gardenPieces(props: readonly GardenProp[], y: (z: number) => number): KitPiece[] {
+  return props.map((p) => ({
+    key: GARDEN_KEY[p.kind],
+    x: p.x,
+    z: p.z,
+    w: GARDEN_W[p.kind],
+    y: y(p.z),
+  }));
+}
+
 function sunPieces(): KitPiece[] {
   const out: KitPiece[] = [];
   const y = (z: number) => terraceHeight(SUN_SPEC, z);
   out.push({ key: 'fountain', x: SUN_FOUNTAIN.x, z: SUN_FOUNTAIN.z + 0.8, w: 5.6 });
   out.push({ key: 'dome', x: SUN_DOME.x, z: SUN_DOME.z + 1.2, w: 9 });
   for (const c of SUN_COLUMNS) out.push({ key: 'column', x: c.x, z: c.z + 0.2, w: 1.2, y: y(c.z) });
+  out.push(...gardenPieces(SUN_GARDEN_PROPS, y));
   return out;
 }
 
@@ -95,6 +114,7 @@ function moonPieces(): KitPiece[] {
   for (const l of MOON_LANTERNS) out.push({ key: 'lantern', x: l.x, z: l.z + 0.1, w: 0.9 });
   const ring = MOON_POIS.find((p) => p.id === 'moon-stones')!;
   out.push({ key: 'stones', x: ring.x, z: ring.z, w: 6 });
+  out.push(...gardenPieces(MOON_GARDEN_PROPS, () => 0));
   return out;
 }
 

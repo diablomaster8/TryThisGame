@@ -113,3 +113,16 @@ export const READ3D = {
   /** Racers and the Expedition runner turn this far from side-on toward the camera. */
   faceTurn: 0.55,
 } as const;
+
+/**
+ * Lane F r13 (R0375): the seal-stance quads (Seel, Dewgong, Lapras) galumph with a long,
+ * quick flipper sweep, so the gait clock keeps their feet planted up to a Nubbin's run
+ * (`KEEPER_ACTS.runSpeed`) without passing `GROVE3D.maxCadence`.
+ */
+export const QUAD_SEAL = {
+  strideLength: 1.8,
+  stridePeriod: 0.6,
+  /** The smallest quads (babies at this size or under) scurry on a quicker cycle for the same reason. */
+  babyMaxSize: 0.85,
+  babyStridePeriod: 0.66,
+} as const;

@@ -21,6 +21,8 @@ export interface Unit {
   speaker: string;
   mood: string;
   tn?: string;
+  /** The joke rests on English wordplay; a translator may replace it. */
+  pun?: boolean;
 }
 
 /** The units per audience, keyed by id. A line's `vo.note` doubles as its note until `tn` lands. */
@@ -28,7 +30,9 @@ export function extract(rows: readonly VoRow[] = voRows()): Record<string, Recor
   const out: Record<string, Record<string, Unit>> = {};
   for (const r of rows) {
     const unit: Unit = { source: r.text, speaker: r.speaker, mood: r.mood };
-    if (r.note) unit.tn = r.note;
+    const tn = r.tn ?? r.note;
+    if (tn) unit.tn = tn;
+    if (r.pun) unit.pun = true;
     (out[r.audience] ??= {})[r.id] = unit;
   }
   return out;

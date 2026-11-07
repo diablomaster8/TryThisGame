@@ -18,6 +18,7 @@ import { langCourses } from '../sim/lang';
 import type { VocabItem } from '../content/types';
 import { button, el } from './dom';
 import { DO_COLOURS, doWords, type DoBeat, type DoLang } from './do-plan';
+import { isFruitThing, onFruitEaten, takeFruit } from './grove-noticed';
 import { speakLine } from './lesson';
 
 const T = KIDS_R10_TEXT.beats;
@@ -138,34 +139,52 @@ function countBeat(
   const row = el('div', 'do-beat-tokens');
   const colour = DO_COLOURS[THING_COLOURS[beat.thing] ?? ''] ?? '#c58a4a';
   let n = 0;
+  const tokens: HTMLButtonElement[] = [];
+  const light = (t: HTMLButtonElement, silent = false): void => {
+    if (t.classList.contains('do-on')) return;
+    n += 1;
+    t.classList.add('do-on');
+    t.textContent = String(n);
+    t.disabled = true;
+    const w = words.get(n);
+    if (w) {
+      // The number in the course's language, heard from its clip and shown in its script.
+      if (!silent) playWord(w.audio);
+      tally.textContent = `${n} · ${w.native} (${w.roman})`;
+    } else {
+      tally.textContent = String(n);
+      if (!silent) say(String(n));
+    }
+    if (n === beat.n) window.setTimeout(() => finish(T.counted(beat.n)), 600);
+  };
   for (let i = 0; i < beat.n; i++) {
-    const t = button(
-      '',
-      () => {
-        if (t.classList.contains('do-on')) return;
-        n += 1;
-        t.classList.add('do-on');
-        t.textContent = String(n);
-        t.disabled = true;
-        const w = words.get(n);
-        if (w) {
-          // The number in the course's language, heard from its clip and shown in its script.
-          playWord(w.audio);
-          tally.textContent = `${n} · ${w.native} (${w.roman})`;
-        } else {
-          tally.textContent = String(n);
-          say(String(n));
-        }
-        if (n === beat.n) window.setTimeout(() => finish(T.counted(beat.n)), 600);
-      },
-      'btn do-token',
-    );
+    const t = button('', () => light(t), 'btn do-token');
     t.style.setProperty('--tok', colour);
     if (beat.thing === 'stars') t.classList.add('do-token-star');
     t.setAttribute('aria-label', L.token(i + 1));
+    tokens.push(t);
     row.appendChild(t);
   }
   card.append(row, tally);
+  // R0723 (KIDS-32): for the Grove's fruit, the fruit the child's Nubbins really ate counts.
+  // Fruit eaten before the beat opened lights its tokens first, and each piece eaten while it
+  // is open lights the next one. Tapping stays as the way to finish when there is no fruit.
+  if (isFruitThing(beat.thing)) {
+    const next = (): HTMLButtonElement | undefined =>
+      tokens.find((t) => !t.classList.contains('do-on'));
+    for (let k = takeFruit(beat.n); k > 0; k--) {
+      const t = next();
+      if (t) light(t, true);
+    }
+    const stop = onFruitEaten(() => {
+      if (!card.isConnected) {
+        stop();
+        return;
+      }
+      const t = next();
+      if (t && takeFruit(1) === 1) light(t);
+    });
+  }
 }
 
 /** A colour word's chip: the colour and its name, so colour is never the only signal. */

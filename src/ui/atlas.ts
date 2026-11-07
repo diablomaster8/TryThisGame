@@ -363,7 +363,7 @@ export class StoryShelf {
               this.dialog.hide();
               // R0687: a Learning Grove child gets the band's version, with its lessons.
               const gw = this.game()?.world;
-              const play = gw?.edu ? sceneFor(gw, scene.id) : undefined;
+              const play = gw?.edu ? sceneFor(gw, scene.id, undefined, scene) : undefined;
               this.dialogue.playScene(
                 play ?? scene,
                 names,

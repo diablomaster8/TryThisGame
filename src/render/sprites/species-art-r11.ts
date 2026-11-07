@@ -80,17 +80,16 @@ export const R11_ART: Record<string, CreatureSpec> = {
     gen1b: ['snout'],
     addons: [ex('backSpikes', C.sunYellow)],
   }),
-  // Steelix: a longer, steel-grey chain, plated and horned.
-  ironwyrm: spec(pal(C.greyLight, C.greyDeep, C.pale, C.dusk, C.plum), {
+  // Steelix: a long chain of studded steel plates, spiked on alternate segments, with a
+  // heavy head and a wide square underbite. Cool blue-grey, not Onix's lilac rock.
+  ironwyrm: spec(pal(C.skyDeep, C.nightBlue, C.greyLight, C.greyLight, C.deepWater, C.ember), {
     plan: 'serpent',
-    serpent: { segments: 10, taper: 0.55, rise: 3 },
+    serpent: { segments: 10, taper: 0.55, rise: 3, plated: true, spikes: true, jaw: true },
     size: 1.3,
-    crest: 'horn',
+    crest: 'spikesTop',
     eyes: 'angry',
     legs: 'none',
     arms: 'none',
-    gen1b: ['boulders'],
-    addons: [ex('plates', C.dusk)],
   }),
   // Scizor: red, with a pair of big silver pincers and thin wings.
   shearwing: spec(pal(C.ember, C.berry, C.roseLight, C.greyLight, C.pale), {

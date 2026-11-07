@@ -53,6 +53,8 @@ import {
 } from './ui/gl-failure';
 import { watchErrors } from './platform/error-watch';
 import { LoadingBar } from './ui/loading-bar';
+import { PIXEL_LOAD } from './config/tuning-px';
+import { prepaintGround } from './render/ground-prepaint';
 import { HOLLOW_TEXT } from './config/strings';
 import { installHiddenGuard } from './platform/dom-guards';
 
@@ -240,6 +242,7 @@ function route(): void {
     /* Lane E r9, R0696: the "Learning Grove" home-screen shortcut: the children's Groves only. */
     loadStories();
     loadBoot().catch(() => undefined);
+    prepaintGround(); // HOT load time: the Grove's stand-in ground, painted while the title is up
     showKidsPicker(
       hudRoot,
       (slot) => {
@@ -256,6 +259,7 @@ function route(): void {
     void firstPaint.promise.then(() => {
       loadStories();
       loadBoot().catch(() => undefined);
+      prepaintGround(); // HOT load time: the Grove's stand-in ground, painted while the title is up
     });
     // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
     const focus = params.has('edu') ? ('edu' as const) : undefined;
@@ -560,7 +564,20 @@ function boot(
   }
 
   game.start();
-  if (!scene3d) requestAnimationFrame(() => requestAnimationFrame(() => loading.update(1, true)));
+  if (!scene3d) {
+    // HOT load time: the Pixel Grove opens on its first frames once the ground worker's
+    // quick painting is on (never on the plain stand-in colour), or after a short wait.
+    const since = performance.now();
+    const grove = game.grove;
+    const lift = (): void => {
+      if (grove && !grove.groundShown && performance.now() - since < PIXEL_LOAD.groundWaitMs) {
+        requestAnimationFrame(lift);
+        return;
+      }
+      loading.update(1, true);
+    };
+    requestAnimationFrame(() => requestAnimationFrame(lift));
+  }
 }
 
 /**

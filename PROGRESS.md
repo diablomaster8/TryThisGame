@@ -38,6 +38,12 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 13 · Lane C CAMP + FIGHT + DUNG (2026-11-06, branches r13/c to r13/c4)
+
+- Far Hollow sectors draw in low detail: in-view triangles on a 96x72 floor 420-536k down to 25-59k (R0194).
+- Hooded Q1 giver spawns on the camera side; kid open flow, child profiles, in-game Visit; region pages group chapters by area.
+- `tests/sim/reachability.test.ts`: the bot sweeps its spots in a seeded shuffle. A fixed round-robin aliased with the weather slots, so one new shore POI (the island ferry) made q72 to q75 unreachable.
+
 ## Round 11 · Lane D TECH + WORLD (2026-11-04, branch r11/d)
 
 73 items: 12 done, 59 partial, 2 not started (R0112 lane, R0135 cart/boat). Lines in STATUS.md.

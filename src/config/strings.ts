@@ -1,7 +1,7 @@
 // Every player-facing name and piece of text. All names are working titles.
 import { fmt } from './icu';
 import { MESSAGES_EN } from './messages-en';
-import { aOrAn, ordinal, plural } from './grammar';
+import { aOrAn, ordinal } from './grammar';
 import type { PlaceRefusal } from '../sim/types';
 import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 import { R11_LABELS } from './strings-r11';
@@ -424,7 +424,8 @@ export const UI_TEXT = {
   awayElapsed: (s: string) => `You were gone for ${s}.`,
   awaySimulated: (s: string) => `${s} of Grove time passed.`,
   awayHatched: (name: string) => `${name} hatched!`,
-  awayEvolved: (name: string, form: string) => `${name} grew up into ${aOrAn(form)}.`,
+  awayEvolved: (name: string, form: string) =>
+    fmt(MESSAGES_EN.awayEvolved, { name, form: aOrAn(form) }),
   awayReborn: (name: string) => `${name} was reborn.`,
   awayDeparted: (name: string) => `${name} moved on, leaving a flower.`,
   awayEternal: (name: string) => `${name} became Eternal!`,
@@ -514,8 +515,10 @@ export const UI_TEXT = {
   evolvedForm: (band: string, type: string) => `${band} ${type}`,
   gradeUp: (stat: string, grade: string) => `${stat} grade is now ${grade}`,
   groveUnlocked: (grove: string) => `${grove} unlocked!`,
-  secondEvolved: (name: string, type: string) => `${name} grew ${aOrAn(type)} side.`,
-  speciesGrew: (name: string, species: string) => `${name} grew into ${aOrAn(species)}!`,
+  secondEvolved: (name: string, type: string) =>
+    fmt(MESSAGES_EN.secondEvolved, { name, type: aOrAn(type) }),
+  speciesGrew: (name: string, species: string) =>
+    fmt(MESSAGES_EN.speciesGrew, { name, species: aOrAn(species) }),
   // Interactions
   tickle: 'Tickle',
   hug: 'Hug',
@@ -528,7 +531,8 @@ export const UI_TEXT = {
   playCatch: 'Play catch',
   heartFruitGive: 'Heart fruit',
   interactRefused: (name: string) => `${name} flinches away. Not yet.`,
-  interacted: (name: string, action: string) => `${name} liked that (${action.toLowerCase()}).`,
+  interacted: (name: string, action: string) =>
+    fmt(MESSAGES_EN.interacted, { name, action: action.toLowerCase() }),
   called: (n: number) => fmt(MESSAGES_EN.called, { n }),
   fetching: (name: string) => `${name} is after the ball!`,
   courting: (name: string) => `${name} is looking for a partner…`,
@@ -560,9 +564,9 @@ export const UI_TEXT = {
   lessonNames: { drawing: 'Drawing', singing: 'Singing', dance: 'Dance', instrument: 'Instrument' },
   lessonLevel: (level: number, max: number) => `${'★'.repeat(level)}${'☆'.repeat(max - level)}`,
   lessonStarted: (name: string, lesson: string) =>
-    `${name} is in ${aOrAn(lesson.toLowerCase())} lesson.`,
+    fmt(MESSAGES_EN.lessonStarted, { name, lesson: aOrAn(lesson.toLowerCase()) }),
   lessonDone: (name: string, lesson: string, level: number) =>
-    `${name} finished ${lesson.toLowerCase()} (level ${level})!`,
+    fmt(MESSAGES_EN.lessonDone, { name, lesson: lesson.toLowerCase(), level }),
   lessonBusy: 'In a lesson',
   lessonMax: 'Mastered',
   doctor: 'Doctor',
@@ -733,7 +737,7 @@ export const UI_TEXT = {
   craftBtn: 'Make',
   needsWorkshop: 'Build the workshop first.',
   needsMaterials: 'Not enough materials.',
-  crafted: (name: string) => `Made ${aOrAn(name.toLowerCase())}.`,
+  crafted: (name: string) => fmt(MESSAGES_EN.crafted, { item: aOrAn(name.toLowerCase()) }),
   gathered: (what: string, n: number) => `+${n} ${what}`,
   recipeNames: {
     fence: 'Fence',
@@ -778,18 +782,18 @@ export const UI_TEXT = {
     pet: (n: number) => `Pet a Nubbin ${n} times`,
     feed: (n: number) => `Feed a Nubbin ${n} times`,
     fruit: (n: number) => `Pick up ${n} fruit`,
-    race: (n: number) => `Win ${plural(n, 'race')}`,
+    race: (n: number) => fmt(MESSAGES_EN.winRaces, { n }),
     karate: () => 'Win a karate bout',
     lanterns: () => 'Light all four lanterns',
-    photo: (_n: number, p: string) => `Take a photo of ${aOrAn(p)}`,
-    visit: (n: number) => `Visit ${plural(n, 'neighbour')}`,
-    craft: (n: number) => `Make ${plural(n, 'thing')} in the workshop`,
+    photo: (_n: number, p: string) => fmt(MESSAGES_EN.takePhoto, { what: aOrAn(p) }),
+    visit: (n: number) => fmt(MESSAGES_EN.visitNeighbours, { n }),
+    craft: (n: number) => fmt(MESSAGES_EN.makeThings, { n }),
     water: (n: number) => `Water ${n} plants`,
     hug: (n: number) => `Give ${n} hugs`,
-    lesson: (n: number) => `Finish ${plural(n, 'lesson')}`,
-    expedition: (n: number) => `Come back from ${plural(n, 'Expedition')}`,
+    lesson: (n: number) => fmt(MESSAGES_EN.finishLessons, { n }),
+    expedition: (n: number) => fmt(MESSAGES_EN.backFromExpeditions, { n }),
     gather: (n: number) => `Gather ${n} materials`,
-    hollow: (n: number) => `Go down ${plural(n, 'floor')} in the Hollow`,
+    hollow: (n: number) => fmt(MESSAGES_EN.goDownFloors, { n }),
     // Lane B round 9 (R0165): the Hollow's one-time asks.
     ...HOLLOW_R9C_QUEST_TEXT,
   },
@@ -938,6 +942,11 @@ export const EDU_TEXT = {
     sounds: 'Sounds & rhymes',
     animals: 'Animals',
     tracing: 'Tracing',
+    times: 'Times tables',
+    timeMoney: 'Clock & Shells',
+    numbers: 'Number sense',
+    reading: 'Read & answer',
+    science: 'Nature sort',
   },
   gameIcons: {
     colours: '🎨',
@@ -947,6 +956,11 @@ export const EDU_TEXT = {
     sounds: '🎵',
     animals: '🐾',
     tracing: '✏️',
+    times: '✖️',
+    timeMoney: '🕒',
+    numbers: '🍰',
+    reading: '📖',
+    science: '🔬',
   },
   /** The reader band's names for the three games it plays (review C, item 18). */
   readerGameNames: {
@@ -955,7 +969,7 @@ export const EDU_TEXT = {
     sounds: 'Rhymes & beats',
   } as Partial<Record<string, string>>,
   readerGameBlurbs: {
-    counting: 'Add and take away to 20, and the 2, 5 and 10 times tables.',
+    counting: 'Add and take away, up to two-digit sums.',
     letters: 'Pick the right spelling of a picture word.',
     sounds: 'Read words that rhyme, and count the beats.',
   } as Partial<Record<string, string>>,
@@ -967,6 +981,11 @@ export const EDU_TEXT = {
     sounds: 'Animal sounds, first sounds, rhymes, claps.',
     animals: 'Names, sounds, homes and babies.',
     tracing: 'Trace letters, numbers and your name.',
+    times: 'The times tables from 2 to 12.',
+    timeMoney: 'Tell the time on a clock and make prices with Shells.',
+    numbers: 'Place value, halves, quarters and thirds.',
+    reading: 'Read a short passage, then answer who, what and why.',
+    science: 'Sort living things, floaters, water and animal homes.',
   },
   domains: {
     cognition: 'Thinking & maths',
@@ -995,7 +1014,9 @@ export const EDU_TEXT = {
     `To continue, work out ${a} × ${b}, type the answer, then press and hold Enter.`,
   gateHold: 'Keep holding…',
   gateWrong: 'Not quite. Here is a new one. Ask a grown-up.',
-  gateEnter: 'Enter',
+  gateTooShort: 'Keep holding Enter until the bar fills.',
+  gateTypeFirst: 'Type the answer first, then hold Enter.',
+  gateEnter: 'Hold to enter',
   parentTitle: 'Grown-up area',
   parentHelp:
     'The age sets which games are suggested and how hard they are. Switch any game on or off to make it yours.',
@@ -1257,10 +1278,10 @@ export const TEN_TEXT = {
   teamJoined: (name: string) => `You joined team ${name}.`,
   mission: 'Team mission',
   missionText: {
-    expeditions: (n: number) => `Come back from ${plural(n, 'Expedition')}`,
+    expeditions: (n: number) => fmt(MESSAGES_EN.backFromExpeditions, { n }),
     shells: (n: number) => `Bring home ${n} Shells from Expeditions`,
-    raceWin: (n: number) => `Win ${plural(n, 'race')}`,
-    karateWin: (n: number) => `Win ${plural(n, 'karate bout')}`,
+    raceWin: (n: number) => fmt(MESSAGES_EN.winRaces, { n }),
+    karateWin: (n: number) => fmt(MESSAGES_EN.winBouts, { n }),
   } as Record<string, (n: number) => string>,
   missionDone: 'Mission done! Team points earned.',
   rankLabel: (rank: number, points: number) => `Rank ${rank} · ${points} points`,
@@ -1308,9 +1329,9 @@ export const DUNGEON_TEXT = {
       case 'stone':
         return `${n} stone`;
       case 'seed':
-        return p ? `${aOrAn(p)} seed` : 'a seed';
+        return p ? fmt(MESSAGES_EN.seedOf, { what: aOrAn(p) }) : 'a seed';
       case 'essence':
-        return p ? `${aOrAn(p)} essence` : 'an essence';
+        return p ? fmt(MESSAGES_EN.essenceOf, { what: aOrAn(p) }) : 'an essence';
       case 'critter':
         return `a lost ${p ?? 'critter'}`;
       default:
@@ -1323,7 +1344,7 @@ export const DUNGEON_TEXT = {
   strayFed: (name: string) => `${name} stopped being a stray and went up to the square.`,
   strayNeedsFruit: 'A stray. Bring a fruit to win it over.',
   strayStartled: (shells: number) => `A stray snatched ${shells} Shells and ran!`,
-  wildScanned: (species: string) => `You crept up on ${aOrAn(species)}. Scanned.`,
+  wildScanned: (species: string) => fmt(MESSAGES_EN.wildScanned, { species: aOrAn(species) }),
   stairsDown: 'Stairs down',
   stairsUp: 'The way home',
   sealed: 'The way down is sealed on this floor.',
@@ -1385,7 +1406,7 @@ export const STORYLINE_TEXT = {
     night: 'Night Grove',
   } as Record<string, string>,
   actions: { bout: 'Fight a bout', fuse: 'Fuse the partners' } as Record<string, string>,
-  arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
+  arrived: (area: string) => fmt(MESSAGES_EN.arrived, { area: area.toLowerCase() }),
   degenerated: (name: string) => `${name} has gone back to an egg.`,
   restored: (name: string) => `${name} is grown again, and remembers.`,
 } as const;
