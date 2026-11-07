@@ -78,9 +78,12 @@ export function serpentLayout(
   if (face >= 0.5 && !back) {
     // Side (and three-quarter, foreshortened): the body trails off behind the head.
     const k = face >= 1 ? 1 : 0.62;
-    const headCx = face >= 1 ? 30 * G - headRx : 23 * G - headRx * 0.5;
+    // The big grid keeps the muzzle and its gape a design pixel or two inside the frame.
+    const edge = G > 1 ? 28 : 30;
+    const headCx = face >= 1 ? edge * G - headRx : 23 * G - headRx * 0.5;
     const x0 = headCx - G;
-    const tailX = face >= 1 ? 2 * G + radius(n - 1) : g.mid - (g.mid - 2 * G) * k + radius(n - 1);
+    const tailX =
+      face >= 1 ? (G > 1 ? 4 : 2) * G + radius(n - 1) : g.mid - (g.mid - 2 * G) * k + radius(n - 1);
     const sp = (x0 - tailX) / (n - 1);
     for (let i = 0; i < n; i++) {
       const r = radius(i);

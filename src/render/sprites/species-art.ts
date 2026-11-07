@@ -376,6 +376,8 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   hornsaur: spec(pal(C.orange, C.ember, C.cream, C.sand, C.deepWater, C.ink, C.deepWater), {
     plan: 'tall',
     extras: ['skullHelmet', 'dinoSnout'],
+    grid: 48,
+    big: ['bigTail', 'clawArms'],
     tail: 'long',
     arms: 'claws',
     eyes: 'angry',

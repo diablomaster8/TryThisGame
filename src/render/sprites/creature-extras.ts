@@ -152,7 +152,7 @@ function drawOne(
   const col = spec.colors;
   const c = e.c ?? col.accent;
   const c2 = e.c2 ?? col.accent2;
-  const s = spec.size;
+  const s = spec.size * ((spec.grid ?? 32) / 32);
   const top = a.headCy - a.headRy;
   const hasBody = a.bodyRx > 0;
   // The torso to mount things on: the body, or the lower head for one-piece plans.

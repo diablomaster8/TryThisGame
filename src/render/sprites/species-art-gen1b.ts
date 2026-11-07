@@ -443,8 +443,10 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   stormwyrm: spec(pal(C.water, C.deepWater, C.cream, C.white, C.cream), {
     plan: 'serpent',
-    serpent: { segments: 9, rise: 4, belly: true, fin: true },
+    serpent: { segments: 10, rise: 6, belly: true, fin: true, taper: 0.4 },
     size: 1.25,
+    grid: 48,
+    big: ['whiskers'],
     ears: 'fins',
     crest: 'twinHorns',
     eyes: 'angry',
