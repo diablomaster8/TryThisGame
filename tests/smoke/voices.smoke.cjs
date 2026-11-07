@@ -1,4 +1,4 @@
-/* global require, process, console, window, document, setTimeout */
+/* global require, process, console, window, document, setTimeout, Event */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Hot fix: the read-aloud switches (Settings → Sound). A headless smoke test, run in Pixel and
@@ -164,15 +164,20 @@ async function run(browser, cfg) {
       (await said()) === 0,
       `said=${await said()}`,
     );
-    const defaults = await w(() => {
-      const s = window.grove.world.settings;
-      return { story: s.voicesStory, ui: s.voicesUi };
-    });
-    step(
-      cfg.name,
-      'voices are unset (default) in the save',
-      defaults.story === undefined && defaults.ui === undefined,
-    );
+    // The dev handle (`window.grove`) exists only in a dev build; a production site is read
+    // through the Settings boxes alone.
+    const hasHandle = await w(() => !!window.grove);
+    if (hasHandle) {
+      const defaults = await w(() => {
+        const s = window.grove.world.settings;
+        return { story: s.voicesStory, ui: s.voicesUi };
+      });
+      step(
+        cfg.name,
+        'voices are unset (default) in the save',
+        defaults.story === undefined && defaults.ui === undefined,
+      );
+    }
 
     // 2. The Sound rows.
     await openSoundTab();
@@ -234,7 +239,13 @@ async function run(browser, cfg) {
     await row('Story voices').locator('input').check();
     await page.waitForTimeout(300);
     await closeSettings();
-    await w(() => window.grove.save && window.grove.save());
+    // Autosave runs when the tab is hidden; make the page think it just was.
+    await w(() => {
+      Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true });
+      Object.defineProperty(document, 'hidden', { value: true, configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+      if (window.grove && window.grove.save) window.grove.save();
+    });
     await page.waitForTimeout(500);
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 180000 });
     await page.waitForSelector('.title-continue, :text("Slot 1")', { timeout: 180000 });
@@ -242,18 +253,19 @@ async function run(browser, cfg) {
     if (await cont.count()) await tap(cont);
     else
       await tap(page.locator('.title-mode').nth(0).locator('button:has-text("Continue")').first());
-    for (let i = 0; i < 120 && !(await w(() => !!window.grove?.world)); i++)
-      await page.waitForTimeout(1000);
-    const persisted = await w(() => {
-      const s = window.grove.world.settings;
-      return { story: s.voicesStory, ui: s.voicesUi };
-    });
-    step(
-      cfg.name,
-      'story voices persisted across the reload',
-      persisted.story === true && persisted.ui === undefined,
-      JSON.stringify(persisted),
-    );
+    await page.waitForSelector('.topbar', { state: 'visible', timeout: 180000 });
+    if (hasHandle) {
+      const persisted = await w(() => {
+        const s = window.grove.world.settings;
+        return { story: s.voicesStory, ui: s.voicesUi };
+      });
+      step(
+        cfg.name,
+        'story voices persisted across the reload',
+        persisted.story === true && persisted.ui === undefined,
+        JSON.stringify(persisted),
+      );
+    }
     await page.waitForTimeout(1500);
     await openSoundTab();
     step(

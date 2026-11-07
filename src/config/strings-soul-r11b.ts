@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** Lane A round 11 (SOUL), helper G4: words for the wider kindergarten (R0554). */
 
 export const KINDER_R11 = {
@@ -31,8 +33,9 @@ export const KINDER_R11 = {
     'exercise:stretch': 'Stretching',
     'manners:bow': 'Bowing',
   } as Record<string, string>,
-  started: (name: string, cls: string) => `${name} is learning ${cls.toLowerCase()}.`,
-  done: (name: string, cls: string) => `${name} learned ${cls.toLowerCase()}!`,
+  started: (name: string, cls: string) =>
+    fmt(MESSAGES_EN.learning, { name, cls: cls.toLowerCase() }),
+  done: (name: string, cls: string) => fmt(MESSAGES_EN.learned, { name, cls: cls.toLowerCase() }),
 };
 
 /**

@@ -275,6 +275,7 @@ const Q01 = quest(
         N('The pebble is warm, but there is no flame.'),
         FU('My hands feel warm, just being near it.', 'soft'),
         FR('Someone gave that away. Keep it close, little one.', 'soft'),
+        N('Pop! The red pebble gives a warm, small pop.'),
       ],
       [
         ask(
@@ -297,6 +298,7 @@ const Q01 = quest(
       [
         FR('The first errand is easy. Take this cloak up the hill to my son.'),
         FU('The hall is called Breidablik. You cannot miss it.'),
+        N('Creak! The gate creaks, and the path climbs up.'),
       ],
       [
         doit(
@@ -323,6 +325,7 @@ const Q01 = quest(
         BA('Put it down, and sit. Everyone who climbs should rest.'),
         N('Your Nubbin sits in his light. Blink. Blink. Then it tips over, fast asleep.'),
         BA('Shh. The small ones do that. Let it sleep.', 'soft'),
+        N('Pop! The little light goes pop, pop, pop.'),
       ],
       [
         ask(
@@ -378,6 +381,7 @@ const Q01 = quest(
         BA('Everyone climbs up here with a question.'),
         BA('I like the part of the day when I listen.', 'happy'),
         BA('Ask me something. Or don’t.'),
+        N('Pop! Baldr pops a new stitch in the strap.'),
       ],
       [
         ask(
@@ -431,6 +435,7 @@ const Q01 = quest(
         N('He folds the cloak and puts it on the bench.'),
         BA('Tell my mother I will wear it.', 'happy'),
         N('On the way down, your Nubbin keeps looking back.'),
+        N('Creak! The old bench creaks as the light moves.'),
       ],
       [
         ask(
@@ -562,6 +567,7 @@ const Q02 = quest(
         OD('Not every trouble is easy to see.', 'think'),
         FR('Then we will find it. Whatever it is.'),
         N('The talk goes on and on. You find a stool by the door.'),
+        N('Creak! The stool by the door creaks.'),
       ],
       [
         ask(
@@ -585,6 +591,7 @@ const Q02 = quest(
         N('The talk goes on all morning, and into the night.'),
         N('You carry three cups to the table. Then two more.'),
         N('You listen to everything.'),
+        N('Ding! The cups ding on the long table.'),
       ],
       [
         ask(
@@ -656,6 +663,7 @@ const Q02 = quest(
         BA('Mother, you do not have to.'),
         FR('I know.'),
         N('Your Nubbin falls asleep. You carry it down the hill.'),
+        N('Pfft! Your Nubbin snores all the way down the hill.'),
       ],
       [
         ask(
@@ -713,6 +721,7 @@ const Q03 = quest(
         FR('Everything can be asked. It only takes time.'),
         N('Past an old oak, you see a tiny green sprig. It has two leaves.'),
         N('Your Nubbin stops to look. Frigg walks on.'),
+        N('Crunch! The path crunches under three pairs of feet.'),
       ],
       [
         doit(
@@ -731,7 +740,7 @@ const Q03 = quest(
     ),
     sc(
       'a20-03-asking-done',
-      [FR('The animals and birds now. My feet are tired. Will you carry my asking?')],
+      [FR('The animals and birds now. My feet are tired. Will you carry my asking?'), N('Crunch! The frosty path crunches under your boots.')],
       [
         ask(
           0,
@@ -761,6 +770,7 @@ const Q03 = quest(
         N('The reindeer lowers her antlers to the grass.'),
         N('The birds all fly up in one big cloud, and come down again.'),
         N('Your Nubbin tugs your sleeve. Nobody has asked it.'),
+        N('Whoosh! The birds whoosh up in one big cloud.'),
       ],
       [
         ask(
@@ -790,6 +800,7 @@ const Q03 = quest(
         FR('Of course. Everything should be. Come here, little one.'),
         FR('Will you promise not to hurt my son?'),
         N('Your Nubbin thinks about it very seriously.'),
+        N('Hee! Your Nubbin gives a tiny hee-hee, then nods.'),
       ],
       [
         ask(
@@ -841,6 +852,7 @@ const Q03 = quest(
         N('Fire, water, iron, stones and trees all said yes.'),
         FR('Everything has promised. Everything I could think of.', 'soft'),
         N('Frigg gives you her spindle. Your Nubbin falls asleep on the step.'),
+        N('Creak! The step creaks as Frigg sits down.'),
       ],
       [
         doit(
@@ -914,6 +926,7 @@ const Q04 = quest(
         N(
           'Your Nubbin finds the edge of Baldr’s light. It lies down in it like a cat in a sunbeam.',
         ),
+        N('Bonk! A pebble bonks off the old shield.'),
       ],
       [
         ask(
@@ -944,6 +957,7 @@ const Q04 = quest(
         BA('Go on. It only tickles.', 'happy'),
         N('Outside the ring a tall man stands alone, with his hands empty.'),
         FU('That is Hödr, Baldr’s brother. He cannot see to throw.', 'soft'),
+        N('Bonk! The pebble bonks off Baldr, and he laughs.'),
       ],
       [
         ask(
@@ -996,6 +1010,7 @@ const Q04 = quest(
         HO('Tell me what they are doing. I can hear laughing.'),
         N('So you tell him about Thor’s big stone, and your Nubbin asleep.'),
         HO('Thank you. I like to know what is funny.', 'happy'),
+        N('Thump! Thor’s big stone goes thump on the grass.'),
       ],
       [
         ask(
@@ -1014,7 +1029,7 @@ const Q04 = quest(
     ),
     sc(
       'a20-04-hodr-done',
-      [HO('Come and tell me the next good one. You tell it better than they do.', 'happy')],
+      [HO('Come and tell me the next good one. You tell it better than they do.', 'happy'), N('Hee-hee! You both giggle at the next good one.')],
       [
         ask(
           0,
@@ -1042,6 +1057,7 @@ const Q04 = quest(
         BA('Did you hear Thor’s big stone go drop?', 'happy'),
         HO('I heard everything. The guest told me the rest.'),
         N('Your Nubbin follows them home, holding Hödr’s bootlace.'),
+        N('Thump! The big stone thumps. Hödr grins.'),
       ],
       [
         ask(
@@ -1090,6 +1106,7 @@ const Q05 = quest(
         FU('A traveller! Bring the water in.'),
         N('Your Nubbin looks at her. Then it hides behind your legs.'),
         N('It has never done that before.'),
+        N('Splash! Splash! The pails splash on the way in.'),
       ],
       [
         ask(
@@ -1434,6 +1451,7 @@ const Q07 = quest(
         N('Then it counts its own. Two. Hmm!'),
         HE('Good lad. We will go far, you and I.'),
         N('There is room on his back for two.'),
+        N('Whoosh! Sleipnir stamps, and the straw goes whoosh.'),
       ],
       [
         doit(
@@ -2013,6 +2031,7 @@ const Q11 = quest(
         MS('There are more roads than messengers, lady.'),
         FR('Then take the guest. And the little one.'),
         N('Your Nubbin stands up straight, feet together.'),
+        N('Thump! Your Nubbin stands up straight, feet thump together.'),
       ],
       [
         ask(
@@ -2430,6 +2449,7 @@ const Q13 = quest(
         N('Only its nose sticks out. Wiggle, wiggle.'),
         TH('Hold still, small one. You are not the fish.', 'happy'),
         N('It is the first smile since the Thing-field.'),
+        N('Squeak! The little fish squeaks. Wiggle, wiggle!'),
       ],
       [
         doit(
@@ -2801,6 +2821,7 @@ const Q15 = quest(
         LI('It is not much. But it is enough.', 'soft'),
         N('Your Nubbin climbs out and sits between them, under the blanket.'),
         LT('It is warm. Can it stay?'),
+        N('Crack! The little fire cracks, warm and small.'),
       ],
       [
         ask(
@@ -2834,6 +2855,7 @@ const Q15 = quest(
         LI('That one was mine. I was saving it for Tuesday.'),
         LT('There are no Tuesdays now. We stopped naming the days.', 'soft'),
         LI('Tell us something. Anything that is not snow.'),
+        N('Crunch! Hazelnuts crunch, and the dew goes drip.'),
       ],
       [
         ask(
@@ -3168,6 +3190,7 @@ const Q17 = quest(
         LI('Grass! Feel it!', 'happy'),
         LT('And the sun. It is warm again.', 'happy'),
         N('Your Nubbin runs into a field and lies down flat in the sun.'),
+        N('Whee! The grass goes swish, and your Nubbin goes whee.'),
       ],
       [
         notice(
@@ -3277,6 +3300,7 @@ const Q17 = quest(
         N('In the long grass, your hand finds something small and cold.'),
         N('It is a gold game piece! There are more in the grass.'),
         VI('They were ours, before. Now they are anybody’s.', 'soft'),
+        N('Ding! The gold game piece dings in your hand.'),
       ],
       [
         doit(

@@ -39,6 +39,11 @@ describe('festival gags (R0359)', () => {
     expect(festivalGagDue(late)).toBeNull();
     late.campaign!.chapter = 12;
     expect(festivalGagDue(late)).toBe(late.season);
+    // BS-07: not before the chapter's opening scene has been seen.
+    late.campaign!.openedMs = null;
+    expect(festivalGagDue(late)).toBeNull();
+    late.campaign!.openedMs = 1;
+    expect(festivalGagDue(late)).toBe(late.season);
   });
 
   it('a catch-up never spends one unseen', () => {

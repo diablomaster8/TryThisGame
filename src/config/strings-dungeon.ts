@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /**
  * Player-facing text for the Hollow Below's rebuild (lane B, DUNG). The older Hollow text
  * stays in `DUNGEON_TEXT` in strings.ts.
@@ -184,7 +186,7 @@ export const HOLLOW_ZONE_TEXT = {
     quest: 'Quest',
   } as Record<string, string>,
   talk: (who: string) => `Talk to ${who}`,
-  open: (what: string) => `Open the ${what.toLowerCase()}`,
+  open: (what: string) => fmt(MESSAGES_EN.openThe, { what: what.toLowerCase() }),
   stashTitle: 'Stash chest',
   stashHelp: 'Shells in the stash are safe from sticky-fingered strays.',
   stashHeld: (stash: number, purse: number) => `In the stash: ${stash} Shells · On you: ${purse}`,
@@ -406,7 +408,7 @@ export const HOLLOW_R6_TEXT = {
   bossNext: 'The next Hollow’s waypoint hums awake. The stairs up lead home.',
   bossRetry: 'Back to the anteroom, everyone rested. Try again whenever you like.',
   /** R0175: the haul card. */
-  banked: (n: number) => `Bank it! ${n} ${n === 1 ? 'find' : 'finds'} safely home.`,
+  banked: (n: number) => fmt(MESSAGES_EN.banked, { n }),
   sack: (n: number) => `🎒 Sack ×${n}`,
   /** R0180: warm losses and sneaking past. */
   giggles: 'Everyone got the giggles! A sparkle carries you back. Nothing lost.',
@@ -423,10 +425,7 @@ export const HOLLOW_R6_TEXT = {
     `Half the finds came too (${kept}); the other ${stashed} washed up in the stash.`,
   /** R0184: End trip. */
   endTrip: '🏠 End trip',
-  endConfirm: (n: number, depth: number) =>
-    n > 0
-      ? `End the trip? ${n} unbanked ${n === 1 ? 'find goes' : 'finds go'} home with you.`
-      : `End the trip from level ${depth}?`,
+  endConfirm: (n: number, depth: number) => fmt(MESSAGES_EN.endConfirm, { n, depth }),
   endYes: 'Yes, go home',
   endNo: 'Keep exploring',
   /** R0185: today's run results on the cave-mouth menu. */

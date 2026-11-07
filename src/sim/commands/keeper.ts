@@ -26,7 +26,20 @@ import { TRAINERS, trainerOf } from '../trainers';
 import { fastTravel, travelAssist } from '../travel';
 import { addTrust } from '../trust';
 import { applyCommand, findNubbin, heldNubbin } from '../world';
+import { throwSnowball } from '../snowballs';
+import type { World } from '../types';
 import type { Handlers } from './types';
+
+/**
+ * R0096 (R13 d1): with "the Grove dresses for you" on, the Grove takes the Keeper's colouring
+ * once that side is unlocked, and goes back to its own when the setting is off.
+ */
+function dressGrove(world: World): void {
+  if (!world.settings.groveDresses) return;
+  const a = world.keeper.alignment;
+  const open = a === 'sun' ? world.unlocks.sunGrove : world.unlocks.moonGrove;
+  world.grove = open ? a : 'main';
+}
 
 export const handlers: Handlers = {
   // Lane C r10 agent B (R0619): the game wrote this chapter's checkpoint.
@@ -72,6 +85,11 @@ export const handlers: Handlers = {
     n.pos.z = cmd.pos.z;
     clampToWorld(n.pos);
     n.y = THROW.holdHeight;
+    return;
+  },
+  snowball(world) {
+    // R0113 (R13 d1): a snowball on the ridge's permanent snow.
+    throwSnowball(world);
     return;
   },
   jump(world, cmd, events) {
@@ -141,6 +159,7 @@ export const handlers: Handlers = {
       world.trainer = t.id;
       k.alignment = t.band;
     }
+    dressGrove(world);
     return;
   },
   setTrainer(world, cmd) {
@@ -148,6 +167,7 @@ export const handlers: Handlers = {
     const t = trainerOf(cmd.id);
     world.trainer = t.id;
     k.alignment = t.band;
+    dressGrove(world);
     return;
   },
   setGrove(world, cmd) {
@@ -179,6 +199,7 @@ export const handlers: Handlers = {
     if (next.questFlow === undefined && world.settings.questFlow !== undefined)
       next.questFlow = world.settings.questFlow;
     world.settings = next;
+    dressGrove(world);
     return;
   },
   confirmRift(world) {

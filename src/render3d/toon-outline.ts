@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
-import { TOON_OUTLINE } from '../samples/creatures';
+import { TOON_OUTLINE } from './art/creatures';
 import { CG4_B4 } from '../config/tuning-b4';
 
 /**

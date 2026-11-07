@@ -3,7 +3,7 @@ import { BufferGeometry, Float32BufferAttribute, Group } from 'three';
 
 // R0456 (TECH-14, r12-d3): a person's look lets go of its CPU surfaces once its rig is built
 // (one of each is ever on screen); a Nubbin look keeps them for the next hatchling.
-vi.mock('../../src/samples/species', () => ({
+vi.mock('../../src/render3d/art/species', () => ({
   buildSpecies: () => ({ group: new Group() }),
 }));
 vi.mock('../../src/render3d/looks', () => ({ specForKey: () => ({}), tintMods: () => [] }));

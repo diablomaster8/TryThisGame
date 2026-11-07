@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** Lane C round 11, the save helper: player-facing text for slots, storage and backups. */
 
 export const SAVE_LAYOUT_TEXT = {
@@ -34,7 +36,7 @@ export const SAVE_LAYOUT_TEXT = {
   restoreOne: 'Restore this one',
   restoreEvery: 'Restore all of them',
   restoreClose: 'Close',
-  restored: (n: number) => (n === 1 ? 'Restored 1 save.' : `Restored ${n} saves.`),
+  restored: (n: number) => fmt(MESSAGES_EN.restoredSaves, { n }),
   restoreSkipped: 'The slot you are playing was left alone. Restore it from the title.',
   sideName: {
     atlas: 'The Atlas',

@@ -7,6 +7,7 @@
  * Goals with no place (a choice made in a scene, an Expedition) have none, and show no button.
  */
 import { REGIONS, type RegionId } from '../config/regions';
+import { BEACON_LANDMARKS } from '../config/region-extras-r11d6';
 import { LANTERN_POSTS } from '../config/tuning';
 import { chapterDef, FINAL_CHAPTER } from './campaign';
 import { objectivePoi, poiPos } from './beacon';
@@ -82,9 +83,12 @@ function questTarget(world: World, id: string): Vec2 | null {
   const here = regionOf(world.location);
   // R11 d8 (R0100): in its own drawn region, its point of interest; from a region next door,
   // the way in (the Grove's tree tunnel for the Wood), so "Go there" leads the whole way.
-  if (region === here && region !== 'grove' && poi && poi !== '*') {
-    const p = REGIONS[here].pois.find((q) => q.id === poi);
-    return p ? { x: p.x, z: p.z } : null;
+  if (region === here && region !== 'grove') {
+    const p = poi && poi !== '*' ? REGIONS[here].pois.find((q) => q.id === poi) : undefined;
+    if (p) return { x: p.x, z: p.z };
+    // R13 d2 (R0100): a quest for the region as a whole points at its beacon landmark.
+    const at = BEACON_LANDMARKS[here as keyof typeof BEACON_LANDMARKS]?.at;
+    return at ? { x: at.x, z: at.z } : null;
   }
   if (region && region !== here && region in REGIONS && REGIONS[region as RegionId].built) {
     const way = REGIONS[here].exits.find((e) => e.to === region);

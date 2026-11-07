@@ -26,7 +26,9 @@ export type CosmeticRarity = 'common' | 'rare' | 'prize';
 /** `season`: on sale only in its real season (LOOK-70), and kept for good once bought. */
 /** `hollow`: a Hollow keepsake (R0206, lane B), given by an act boss. */
 /** `keepsake`: given by the story of the Grove itself, never sold (lane E r9, R0424). */
-export type CosmeticSource = 'shop' | 'race' | 'hatch' | 'season' | 'hollow' | 'keepsake';
+/** `eternal`: a character look unlocked by a Nubbin becoming Eternal (R0414). */
+export type CosmeticSource =
+  'shop' | 'race' | 'hatch' | 'season' | 'hollow' | 'keepsake' | 'eternal';
 
 /** A palette colour by name, or a colour of the egg the wearer hatched from. */
 export type CosmeticColour = keyof typeof C | 'egg.shell' | 'egg.shade' | 'egg.cap' | 'egg.spot';
@@ -137,6 +139,10 @@ export const COSMETICS: readonly Cosmetic[] = [
   bespoke('look-dream', 'prize', 'race'),
   bespoke('look-quills', 'prize', 'race'),
   bespoke('look-shade', 'prize', 'race'),
+  // R0414 (LOOK-38): the classic three, unlocked when a Nubbin becomes Eternal.
+  bespoke('look-angel', 'prize', 'eternal'),
+  bespoke('look-devil', 'prize', 'eternal'),
+  bespoke('look-chaos', 'prize', 'eternal'),
   // MOVE-63 (lane A): the hop course's one-time prize, a leaf-green cap with a spring on top.
   {
     ...item(

@@ -1,41 +1,42 @@
-import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { CAMERA, INPUT, UI } from '../config/tuning';
 import { ALBUM_TEXT } from '../config/strings-soul-r11b';
 import { mountWatch } from './watch';
 import { AnticAlbum } from './antic-album';
 import { albumIdOf } from '../sim/antic-album';
-import { WORLD_TEXT } from '../config/strings-world';
+import { EduNoticing } from './edu-noticing'; /* R0723 */
+import { GlowCave } from './glow-cave';
+import { DueWave } from './lang-due'; /* R0701 */
+import { mountEduSignposts } from './edu-signposts';
+
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
-import { setBiomeBed } from '../platform/biome-beds';
-import { REGIONS } from '../config/regions';
-import { regionOf } from '../sim/regions';
-import { clearShift } from '../render/view-shift';
-import { RUN_MODE } from '../config/tuning-move';
-import { GROVE_LABELS, NAMES, UI_TEXT, DUNGEON_TEXT } from '../config/strings';
+
+import { UI_TEXT, DUNGEON_TEXT } from '../config/strings';
 import type { Game, GameHooks } from '../game';
-import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
+import type { AwayReport, SimEvent } from '../sim/types';
+import { refreshStep, type RefreshCtx, type RefreshState } from './hud-refresh';
+import { makeToaster } from './hud-toasts';
+import {
+  cycleGrove,
+  locationLabel,
+  startExpedition,
+  startFunRun,
+  startTank,
+  type ActionCtx,
+} from './hud-actions';
+import { mountChips } from './hud-chips';
+import { mountRunJump } from './hud-moves';
+import { buildTopbar } from './hud-topbar';
+import { handleSelect, type SelectCtx } from './hud-select';
+import { fillMoreList, mountVisitEntry } from './hud-more';
 import { handleHudEvents, type EventCtx, type HudState } from './hud-events';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
-import {
-  playSong,
-  playSound,
-  setAmbience,
-  setAmbienceEnabled,
-  setMusicEnabled,
-  SONG_NAMES,
-  type SongName,
-  setMusicVolume,
-  setSfxVolume,
-  setSoundEnabled,
-} from '../platform/audio';
-import { applyVoices, masterMuteSettings } from '../platform/voices';
-import { localHour, phaseAt } from '../render/daylight';
+
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { RecapCard, recapDue } from './recap';
 import { skipCardOpen } from './skip-card';
-import { askResume, setBattleDialogue } from './battle-scenes';
-import { liveBattleSong } from './battle-sfx';
+import { setBattleDialogue } from './battle-scenes';
 import { Celebration } from './celebration';
 import type { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
@@ -43,40 +44,24 @@ import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { grownUpCorner } from './kids-corner'; /* Lane E r10 */
 import { SproutTutorial } from './sprout-tutorial'; /* Lane E r10 */
 import { Guide } from './guide';
-import { titleCardUp } from './title-card';
 import { kidToaster } from './kid-notice';
 import { BreakWarning } from './break-warning';
-import { speakLine } from './lesson';
-import { EduNoticing } from './edu-noticing'; /* R0723 */
-import { GlowCave } from './glow-cave';
-import { DueWave } from './lang-due'; /* R0701 */
-import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
-import { JOYSTICK_TEXT } from '../config/strings-move-joy';
-import { Joystick } from './joystick';
+
 import { RacesMenu } from './races';
-import { holdRenderWhile } from './render-hold';
 import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
-import { SAVE_LAYOUT_TEXT } from '../config/strings-camp11-save';
 import { button, el } from './dom';
-import { mountVisitPicker } from './visit-picker';
-import { MOVE_R10_TEXT } from '../config/strings-move-r10';
-import { JumpButtonLook } from './jump-states';
+
 import { LookoutChip } from './lookout-chip';
 import { RegionChip } from './region-chip';
-import { sceneWaitsForRegion } from '../sim/story-regions';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { AmbientBubbles, BarkBubble } from './bark-bubble';
-import { RoutineProps } from './routine-props';
-import { NubbinGags } from './nubbin-gags';
 import { bandToaster } from './fun-toasts';
 import { dedupeToaster } from './event-dedupe';
-import { FRAME_WORK } from '../platform/frame-spikes';
 import { HatchCard } from './hatch-card';
-import { nextTip } from './tips';
-import { tapToy } from './tap-toy';
+
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -84,27 +69,25 @@ import { Dialogue } from './dialogue';
 import { Journal } from './journal';
 import { PartyBoutPanel } from './party-bout';
 import { boutTier, loggedPartyIds } from '../sim/storyline-rules-logged';
-import { STORY_TEXT } from '../config/story';
+
 import { KindergartenMenu } from './kindergarten';
 import { KarateMenu } from './karate';
-import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, MemorialCard } from './collection';
-import { snapYaw } from '../sim/decorate';
-import { DecorateMenu, placeHint, placingLabel } from './decorate';
-import { PLACE_TEXT } from '../config/strings-fun-r7';
+
+import { DecorateMenu } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { StickerBook } from './sticker-book';
 import { EduPlaces } from './edu-places';
-import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
-import { LimitCard, syncKidsLock } from './edu-limits';
+/* Lane E r9 */
+import { LimitCard } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
-import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
+
 import { PhotoMode } from './photo';
 import { PhotoSpotButton } from './photo-spot-button';
 import { PocketMode } from './pocket';
@@ -114,8 +97,8 @@ import { mountPanelStack } from './panel-stack';
 import { ATLAS_TEXT } from '../config/strings';
 import { visitingTrainer } from '../sim/neighbourhood';
 import { loadArcade, loadAtlas, loadMultiverse, loadNeopia } from '../sim/atlas';
-import { currentSlot, storageAvailable } from '../platform/storage';
-import { announceFestivals, StoryShelf } from './atlas';
+import { storageAvailable } from '../platform/storage';
+import { StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { askAdultScene } from './adult-entry';
 import {
@@ -125,13 +108,10 @@ import {
   noteAdultEntry,
 } from '../platform/mature-recheck';
 import { MATURE_RECHECK } from '../config/tuning-tech';
-import { FIRST_MINUTE } from '../config/tuning-r11d4';
-import { firstMinuteQuiet } from '../sim/first-loop';
-import { TRAINER_LABELS as TL } from '../config/strings';
+
 import { BackupNudge } from './backup-nudge';
 import { OfferCard } from './offer-card';
-import { UI_FX_TEXT } from '../config/strings-ui';
-import { TOASTS } from '../config/tuning-ui';
+
 import { EduPrompt, ObjectiveChip } from './objective';
 import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
@@ -139,25 +119,17 @@ import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
-import { buzz } from '../platform/haptics';
-import { isKeysHintKey, keysHintDone, showKeysHintAgain, watchKeysHint } from './keys-hint';
-import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/strings-r8d';
-import { ShakeMeter } from './shake-meter';
+import { isKeysHintKey, showKeysHintAgain, watchKeysHint } from './keys-hint';
+
 import { ShakeHint } from './shake-hint';
 import { SelectionLive } from './a11y-live';
 import { PressInfo } from './press-info';
-import { setIconGlyph } from './pixel-icons';
-import { applyHudScheme } from './hud-scheme';
+
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
-import { villageTap } from './village-tap';
-import { outerLine } from './outer-gag';
-import { festivalGagDue } from '../sim/festival-gags';
-import { FESTIVAL_GAGS } from '../content/festival-gags';
-import { outerTapOf } from '../config/outer-ring';
+
 import { CuriosityWatch } from './curiosities';
 import { commandTaps } from '../game'; /* Lane E r9 */
-import { setEmoteFocus } from '../render/emote-size';
 import { SoulAmbient } from './soul-ambient';
 import { LossNotice } from './loss-notice';
 
@@ -171,201 +143,28 @@ export function mountHud(
   root: HTMLElement,
   game: () => Game | null,
 ): { hooks: GameHooks; bind(g: Game): void } {
-  // Top bar.
-  const top = el('div', 'topbar');
-  const logo = button(NAMES.game, () => onLogoTap(), 'btn btn-logo');
-  const shells = el('span', 'chip', '');
-  const fruit = el('span', 'chip', '');
-  // Lane E r8, R0680: a Learning Grove's ⋯ opens the Places picture menu instead.
-  const moreBtn = button(
-    '⋯',
-    () => {
-      if (game()?.world.edu) return eduPlaces.open();
-      visitHas = visitPicker.hasChoices(); // R0669: profiles can change between opens
-      visitBtn.hidden = !visitHas;
-      more.show();
-    },
-    'btn btn-icon',
-  );
-  moreBtn.setAttribute('aria-label', UI_TEXT.more);
-  moreBtn.title = UI_TEXT.more;
-  // In the Learning Grove, Settings (reset, import, aging) is for grown-ups: a sum first.
-  const settingsBtn = button(
-    '⚙',
-    () => {
-      // R0671: a Learning Grove gets the kid-safe sound sheet; the rest is past the gate.
-      void routeSettingsTap(!!game()?.world.edu, settingsRoute);
-    },
-    'btn btn-icon',
-  );
-  settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
-  // Sound on/off stays one tap away, outside Settings and the Learning Grove's grown-up gate
-  // (TECH-23: for everyone now). A long press opens Settings for the volume sliders.
-  const soundBtn = button(
-    '🔊',
-    () => {
-      const g = game();
-      if (!g) return;
-      /* Lane E r10, R0679: a sprout's ⚙ is folded in here; the sheet has the big slider. */
-      if (g.world.edu?.band === 'sprout') {
-        kidSheet.open();
-        return;
-      }
-      const on = !g.world.settings.sound;
-      const muted = masterMuteSettings({ ...g.world.settings, sound: on, music: on }, on);
-      g.send({ kind: 'setSettings', settings: muted });
-      setSoundEnabled(on);
-      setMusicEnabled(on);
-      applyVoices(muted, g.world.edu);
-    },
-    'btn btn-icon',
-  );
-  soundBtn.setAttribute('aria-label', UI_TEXT.sound);
-  soundBtn.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    if (!game()?.world.edu) settings.open();
+  const bar = buildTopbar(root, game, {
+    logo: () => onLogoTap(),
+    places: () => eduPlaces.open(),
+    more: () => visit.show(),
+    settings: () => void routeSettingsTap(!!game()?.world.edu, settingsRoute),
+    openSettings: () => settings.open(),
+    kidSheet: () => kidSheet.open(),
+    trainers: () => trainers.open(),
+    cycleGrove: () => cycleGrove(game),
+    shop: () => shop.open(),
+    edu: () => edu.open(),
+    expedition: () => startExpedition(actionCtx),
+    eduNext: () => edu.showNext(),
+    races: () => races.open(),
+    journal: () => journal.open(),
+    roster: () => roster.open(),
   });
-  const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
-  keeperBtn.setAttribute('aria-label', UI_TEXT.trainers);
-  keeperBtn.title = UI_TEXT.trainers;
-  const groveBtn = button(GROVE_LABELS.main, () => cycleGrove(), 'btn btn-small');
-  groveBtn.hidden = true;
-  const shopBtn = button('🛒', () => shop.open(), 'btn btn-icon');
-  shopBtn.setAttribute('aria-label', UI_TEXT.shop);
-  shopBtn.title = UI_TEXT.shop;
-  // The compass, not the runner: 🏃 is the Run button's (review C, item 23).
-  const expeditionBtn = button(
-    '🧭',
-    () => {
-      if (game()?.world.edu) edu.open();
-      else startExpedition();
-    },
-    'btn btn-icon',
-  );
-  expeditionBtn.setAttribute('aria-label', UI_TEXT.expedition);
-  expeditionBtn.title = UI_TEXT.expedition;
-  const racesBtn = button('🏁', () => races.open(), 'btn btn-icon');
-  racesBtn.setAttribute('aria-label', UI_TEXT.races);
-  racesBtn.title = UI_TEXT.races;
-  const journalBtn = button(
-    '📖',
-    () => {
-      /* Lane E r10, R0679: a sprout's 📖 Story plays the next scene or says what is next. */
-      const g = game();
-      if (g?.world.edu?.band === 'sprout' && g.world.campaign) {
-        if (g.world.campaign.queue.length === 0) edu.showNext();
-        return;
-      }
-      journal.open();
-    },
-    'btn btn-icon',
-  );
-  journalBtn.setAttribute('aria-label', STORY_TEXT.journal);
-  journalBtn.title = STORY_TEXT.journal;
-  journalBtn.hidden = true;
-  const rosterBtn = button('📋', () => roster.open(), 'btn btn-icon');
-  rosterBtn.setAttribute('aria-label', UI_TEXT.roster);
-  rosterBtn.title = UI_TEXT.roster;
-  // The menu buttons: inline in the top bar on wide screens, a bottom bar within thumb
-  // reach in phone portrait (style.css, .actionbar).
-  const actions = el('div', 'actionbar');
-  actions.setAttribute('role', 'toolbar');
-  actions.setAttribute('aria-label', UI_TEXT.menu);
-  actions.append(
-    journalBtn,
-    rosterBtn,
-    moreBtn,
-    expeditionBtn,
-    racesBtn,
-    shopBtn,
-    keeperBtn,
-    settingsBtn,
-  );
-  labelActions([
-    [journalBtn, '📖', UI_FX_TEXT.actionLabels.journal],
-    [rosterBtn, '📋', UI_FX_TEXT.actionLabels.roster],
-    [moreBtn, '⋯', UI_FX_TEXT.actionLabels.more],
-    [expeditionBtn, '🧭', UI_FX_TEXT.actionLabels.expedition],
-    [racesBtn, '🏁', UI_FX_TEXT.actionLabels.races],
-    [shopBtn, '🛒', UI_FX_TEXT.actionLabels.shop],
-    [keeperBtn, '☀', UI_FX_TEXT.actionLabels.keeper],
-    [settingsBtn, '⚙', UI_FX_TEXT.actionLabels.settings],
-  ]);
-  // TECH-61: the sound toggle gets a word too, shown under its icon on wide screens only
-  // (it stays in the top bar on phones, where the bottom bar's labels do not reach it).
-  {
-    soundBtn.textContent = '';
-    const g = el('span', 'act-glyph');
-    setIconGlyph(g, '🔊');
-    g.setAttribute('aria-hidden', 'true');
-    const l = el('span', 'top-label', TOPBAR_TEXT.sound);
-    l.setAttribute('aria-hidden', 'true');
-    soundBtn.append(g, l);
-    soundBtn.classList.add('top-labelled');
-  }
-  top.append(logo, shells, fruit, groveBtn, soundBtn, actions);
-  root.appendChild(top);
+  const { top, shells, fruit, moreBtn, settingsBtn, soundBtn, keeperBtn, groveBtn, shopBtn } = bar;
+  const { expeditionBtn, racesBtn, journalBtn, rosterBtn } = bar;
 
-  // Run: a toggle on screen, or hold Shift on a keyboard.
-  const runBtn = button(`🏃 ${UI_TEXT.run}`, () => setRunning(!runOn), 'btn run-btn');
-  runBtn.title = UI_TEXT.runHelp;
-  let runOn = false;
-  function setRunning(on: boolean): void {
-    runOn = on;
-    runBtn.classList.toggle('active', on);
-    game()?.send({ kind: 'setRunning', running: on });
-  }
-  root.appendChild(runBtn);
-  // R0679: what a sprout does not need (style.css hides these under `body.edu-sprout`).
-  for (const b of [runBtn, keeperBtn, shopBtn, groveBtn]) b.classList.add('sprout-hide');
-  settingsBtn.classList.add('sprout-hide'); /* Lane E r10, R0679: 🔊 opens the sound sheet */
-  // MOVE-42: on a phone the Run toggle turns itself off after a few seconds standing still,
-  // so it is never left on by accident. Shift on a keyboard is held, so it needs none.
-  if (window.matchMedia?.('(pointer: coarse)').matches) {
-    let stillMs = 0;
-    let last: { x: number; z: number } | null = null;
-    window.setInterval(() => {
-      const k = game()?.world.keeper;
-      if (!runOn || !k) {
-        stillMs = 0;
-        last = null;
-        return;
-      }
-      const moved = !last || Math.hypot(k.pos.x - last.x, k.pos.z - last.z) > 0.02;
-      last = { x: k.pos.x, z: k.pos.z };
-      stillMs = moved ? 0 : stillMs + 250;
-      if (stillMs >= RUN_MODE.idleResetMs) setRunning(false);
-    }, 250);
-  }
-
-  // Jump (MOVE-14): a thumb button on touch screens, Space on a keyboard. It reacts on
-  // pointerdown, with no click delay; holding it holds the jump higher. With something in
-  // hand it shakes that instead, and says so (MOVE-22).
-  const jumpBtn = el('button', 'btn jump-btn');
-  jumpBtn.type = 'button';
-  jumpBtn.setAttribute('aria-label', UI_TEXT.jump);
-  // MOVE-51: the hold ring, the air-jump pip and the glide feather.
-  const jumpLook = new JumpButtonLook(jumpBtn);
-  let jumpPolled = false;
-  let jumpPointer: number | null = null;
-  jumpBtn.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    jumpPointer = e.pointerId;
-    try {
-      jumpBtn.setPointerCapture(e.pointerId);
-    } catch {
-      // A pointer already gone cannot be captured; its release still ends the jump.
-    }
-    game()?.send({ kind: 'jump', down: true });
-  });
-  const jumpUp = (e: PointerEvent): void => {
-    if (e.pointerId !== jumpPointer) return;
-    jumpPointer = null;
-    game()?.send({ kind: 'jump', down: false });
-  };
-  jumpBtn.addEventListener('pointerup', jumpUp);
-  jumpBtn.addEventListener('pointercancel', jumpUp);
-  root.appendChild(jumpBtn);
+  const rj = mountRunJump(root, game, [keeperBtn, shopBtn, groveBtn, settingsBtn]);
+  const { setRunning, jumpBtn, jumpLook, snowBtn } = rj;
   // MOVE-58: the one-time hop lesson's chip.
   const hopLesson = new HopLessonChip(root);
   // MOVE-63: the hop course's chip, toasts and side save.
@@ -400,76 +199,6 @@ export function mountHud(
       : null;
     if (selected && selected.stage !== 'egg' && selected.stage !== 'cocoon') return selected;
     return g.world.nubbins.find((n) => n.stage === 'child' || n.stage === 'adult') ?? null;
-  }
-
-  /** A place name, including a neighbour's Grove. */
-  function locationLabel(loc: string): string {
-    if (loc.startsWith('visit:')) {
-      const t = loc.slice('visit:'.length);
-      return `${TL[t]?.name ?? t}’s Grove`;
-    }
-    // R11 lane D: a drawn region says its own name.
-    if (loc.startsWith('region:'))
-      return (WORLD_TEXT.regions as Record<string, string>)[loc.slice(7)] ?? loc;
-    return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
-  }
-
-  /** R0687 / R0690: the Learning Grove's places that open existing screens. */
-  const openEduAtlas = (): void => atlas.open();
-  const openEduArcade = (): void => cabinet.open();
-  const openGlowCave = (): void => dungeon.open();
-
-  function startFunRun(): void {
-    const g = game();
-    if (!g || races.screen.isOpen) return;
-    sheet.close();
-    races.funRun();
-  }
-
-  function startExpedition(): void {
-    const g = game();
-    if (!g || expedition.isOpen) return;
-    const runner = pickRunner();
-    if (!runner) {
-      toast(UI_TEXT.expeditionNeedsNubbin, UI.toastLongMs);
-      return;
-    }
-    sheet.close();
-    g.renderPaused = true;
-    // R0318: a tip while the stage loads.
-    expedition.loadTip = nextTip(g.world);
-    expedition.start(
-      runner,
-      g.view.sheets.forNubbin(runner),
-      Date.now() % 2147483647,
-      (rewards) => {
-        g.renderPaused = false;
-        g.send({ kind: 'addRewards', rewards });
-      },
-      g.world.location === 'hollow' || g.world.campaign?.chapter === 8 ? 'hollow' : 'meadow',
-      g.graphics,
-      g.scene3d,
-      // R0689: a sprout's run is Shell Dash (30 s, gentle bumps, counted aloud); readers keep
-      // the normal Expedition.
-      g.world.edu?.band === 'sprout'
-        ? {
-            kid: true,
-            speak: (t) => {
-              if (game()?.world.edu?.readAloud) speakLine(t);
-            },
-          }
-        : {},
-    );
-  }
-
-  function cycleGrove(): void {
-    const g = game();
-    if (!g) return;
-    const order: GroveKind[] = ['main'];
-    if (g.world.unlocks.sunGrove) order.push('sun');
-    if (g.world.unlocks.moonGrove) order.push('moon');
-    const i = order.indexOf(g.world.grove);
-    g.send({ kind: 'setGrove', grove: order[(i + 1) % order.length] ?? 'main' });
   }
 
   // Carry chip.
@@ -575,7 +304,6 @@ export function mountHud(
   const dialogue = new Dialogue(root, game);
   // Lane C round 6: battle scenes play in this box; a loaded bout asks to resume (FIGHT-64).
   setBattleDialogue(dialogue);
-  let resumeAsked = false;
   const journal = new Journal(root, game);
   // Lane C r11 (R0666): a keepsake's Watch again plays the closing scene from a copy; no sim.
   journal.replay = (scene) => dialogue.playScene(scene, {}, () => undefined);
@@ -604,6 +332,7 @@ export function mountHud(
   mountMinimap(root, game, () => map.open());
   mountWalkTuck(root, game);
   mountBeacon(root, game, () => map.open());
+  mountEduSignposts(root, game);
   // R0107: the landmark name card.
   const landmarkCard = mountLandmarkCard(root);
   // TECH-03: a week in with no export, offer a backup file once.
@@ -663,6 +392,7 @@ export function mountHud(
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
   const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);
+  const actionCtx: ActionCtx = { game, pickRunner, toast, sheet, expedition, tank, races };
   const atlas = new StoryShelf(root, game, dialogue, toast, {
     which: 'atlas',
     title: ATLAS_TEXT.atlas,
@@ -697,111 +427,39 @@ export function mountHud(
     empty: ATLAS_TEXT.noGate,
     load: loadNeopia,
   });
-  function startTank(): void {
-    const g = game();
-    if (!g || tank.isOpen) return;
-    sheet.close();
-    g.renderPaused = true;
-    tank.start(Date.now() % 2147483647, (s) => {
-      g.renderPaused = false;
-      g.send({
-        kind: 'tankResult',
-        shells: s.cargo.shells,
-        wood: s.cargo.wood,
-        stone: s.cargo.stone,
-        won: s.won,
-      });
-    });
-  }
   // The "More" menu holds everything that does not fit the top bar.
   const more = modal(root, UI_TEXT.more, UI_TEXT.close);
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
   const moreList = el('div', 'title-menu');
-  for (const [label, open] of [
-    [`🏫 ${UI_TEXT.kindergarten}`, () => (game()?.world.edu ? edu : kindergarten).open()],
-    [`🥋 ${UI_TEXT.karate}`, () => karate.open()],
-    [`📔 ${UI_TEXT.collection}`, () => book.open()],
-    [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
-    [`📷 ${UI_TEXT.photo}`, () => photo.open()],
-    [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
-    [`🏋 ${TEN_TEXT.gym}`, () => gym.open()],
-    [`🪲 ${TEN_TEXT.tank}`, () => startTank()],
-    [`🕳 ${DUNGEON_TEXT.title}`, () => dungeon.open()],
-    [`📕 ${ATLAS_TEXT.atlas}`, () => atlas.open()],
-    [`🕹 ${ATLAS_TEXT.cabinet}`, () => cabinet.open()],
-    [`🌀 ${ATLAS_TEXT.rift}`, () => rift.open()],
-    [`🌈 ${ATLAS_TEXT.gate}`, () => neoGate.open()],
-    [`📜 ${UI_TEXT.quests}`, () => quests.open()],
-    [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
-    [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
-    [`🗺 ${UI_TEXT.map}`, () => map.open()],
-    [`📖 ${ALBUM_TEXT.button}`, () => anticAlbum.open()],
-    [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
-    [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
-  ] as const) {
-    const isEdu = label.includes(EDU_TEXT.grownUps);
-    // Receiving a stranger's code is not for the Learning Grove (review C, items 2 and 24).
-    const isKarate = label.includes(UI_TEXT.karate) || label.includes(UI_TEXT.receive);
-    const isRift = label.includes(ATLAS_TEXT.rift);
-    const isGate = label.includes(ATLAS_TEXT.gate);
-    const isCabinet = label.includes(ATLAS_TEXT.cabinet);
-    const isSide = label.includes(ATLAS_TEXT.atlas) || isCabinet || isRift || isGate;
-    moreList.appendChild(
-      button(
-        label,
-        () => {
-          more.hide();
-          open();
-        },
-        `btn btn-wide${isEdu ? ' edu-only' : isKarate || isSide ? ' not-edu' : ''}${isCabinet ? ' cabinet' : ''}${isRift ? ' rift' : ''}${isGate ? ' neo-gate' : ''}`,
-      ),
-    );
-  }
-  // Lane C: the Learning Grove gets the dojo as gentle play-fights (recs FIGHT-24).
-  moreList.appendChild(
-    button(
-      BATTLE_SCREEN_TEXT.playFight,
-      () => {
-        more.hide();
-        karate.open();
-      },
-      'btn btn-wide edu-only',
-    ),
-  );
-  // R0669: look round another Keeper's Grove, read-only; only when one exists on this device.
-  const visitPicker = mountVisitPicker(root, () => void game()?.save());
-  const visitBtn = button(
-    `👥 ${SAVE_LAYOUT_TEXT.visitMenu}`,
-    () => {
-      more.hide();
-      visitPicker.open();
-    },
-    'btn btn-wide not-edu visit-more',
-  );
-  let visitHas = visitPicker.hasChoices();
-  visitBtn.hidden = !visitHas;
-  moreList.appendChild(visitBtn);
-  // TECH-60: the keys hint comes back from here, or from the "?" key.
-  moreList.appendChild(
-    button(
-      KEYS_HINT_TEXT.menu,
-      () => {
-        more.hide();
-        showKeysHintAgain();
-      },
-      'btn btn-wide not-edu keys-hint-again',
-    ),
-  );
-  // R0014 (lane A r10): on phones the camera cluster drops ⤢ for the jump button; it lives here.
-  moreList.appendChild(
-    button(
-      MOVE_R10_TEXT.zoomMenu,
-      () => {
-        more.hide();
-        game()?.camera.toggleZoom();
-      },
-      'btn btn-wide zoom-more',
-    ),
+  const visit = mountVisitEntry(root, game, more);
+  fillMoreList(
+    more,
+    moreList,
+    [
+      [`🏫 ${UI_TEXT.kindergarten}`, () => (game()?.world.edu ? edu : kindergarten).open()],
+      [`🥋 ${UI_TEXT.karate}`, () => karate.open()],
+      [`📔 ${UI_TEXT.collection}`, () => book.open()],
+      [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
+      [`📷 ${UI_TEXT.photo}`, () => photo.open()],
+      [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
+      [`🏋 ${TEN_TEXT.gym}`, () => gym.open()],
+      [`🪲 ${TEN_TEXT.tank}`, () => startTank(actionCtx)],
+      [`🕳 ${DUNGEON_TEXT.title}`, () => dungeon.open()],
+      [`📕 ${ATLAS_TEXT.atlas}`, () => atlas.open()],
+      [`🕹 ${ATLAS_TEXT.cabinet}`, () => cabinet.open()],
+      [`🌀 ${ATLAS_TEXT.rift}`, () => rift.open()],
+      [`🌈 ${ATLAS_TEXT.gate}`, () => neoGate.open()],
+      [`📜 ${UI_TEXT.quests}`, () => quests.open()],
+      [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
+      [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
+      [`🗺 ${UI_TEXT.map}`, () => map.open()],
+      [`📖 ${ALBUM_TEXT.button}`, () => anticAlbum.open()],
+      [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
+      [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
+    ],
+    game,
+    () => karate.open(),
+    visit.btn,
   );
   window.addEventListener('keydown', (e) => {
     if (isKeysHintKey(e) && !isTypingTarget(e.target) && !game()?.world.edu) showKeysHintAgain();
@@ -836,63 +494,17 @@ export function mountHud(
       playFight: () => karate.open(),
       kindergarten: () => kindergarten.open(),
       map: () => map.open(),
-      beetle: () => startTank(),
-      shellDash: () => startExpedition(),
-      funRun: () => startFunRun(),
-      glowCave: () => openGlowCave(),
-      atlas: () => openEduAtlas(),
-      arcade: () => openEduArcade(),
+      beetle: () => startTank(actionCtx),
+      shellDash: () => startExpedition(actionCtx),
+      funRun: () => startFunRun(actionCtx),
+      glowCave: () => dungeon.open(),
+      atlas: () => atlas.open(),
+      arcade: () => cabinet.open(),
     },
     () => grownUps.open(),
   );
-  // Placing chip while decorating.
-  const placingChip = el('div', 'placing-chip');
-  placingChip.hidden = true;
-  const placingText = el('span');
-  // Decor turns in eighths before it goes down, so fence runs can go any way (MOVE-04).
-  const rotateBtn = button(
-    `↻ ${UI_TEXT.rotatePiece}`,
-    () => {
-      const g = game();
-      const p = g?.placing;
-      if (g && p?.mode === 'decor') g.placing = { ...p, yaw: snapYaw((p.yaw ?? 0) + Math.PI / 4) };
-    },
-    'btn btn-small',
-  );
-  placingChip.append(
-    placingText,
-    rotateBtn,
-    button(
-      UI_TEXT.donePlacing,
-      () => {
-        const g = game();
-        if (g) g.placing = null;
-      },
-      'btn btn-small',
-    ),
-  );
-  root.appendChild(placingChip);
-  // Visiting a neighbour: the way home stays on screen, not three menus deep (bug 28).
-  const goHome = (): void => game()?.send({ kind: 'visit', trainer: null });
-  const homeBtn = button(`🏡 ${UI_TEXT.goHome}`, goHome, 'btn home-btn');
-  homeBtn.hidden = true;
-  root.appendChild(homeBtn);
-  let joystick: Joystick | null = null;
-  // The first touch offers the floating joystick once, in a toast (R0028).
-  const offerJoystick = (e: PointerEvent): void => {
-    if (e.pointerType !== 'touch') return;
-    window.removeEventListener('pointerdown', offerJoystick, true);
-    try {
-      if (localStorage.getItem(JOYSTICK_TUNING.offerKey)) return;
-      localStorage.setItem(JOYSTICK_TUNING.offerKey, '1');
-    } catch {
-      /* storage blocked: offer it this session only */
-    }
-    if (!game()?.world.settings.joystick) toast(JOYSTICK_TEXT.offer, UI.toastLongMs);
-  };
-  window.addEventListener('pointerdown', offerJoystick, true);
+  const { placingChip, placingText, rotateBtn, homeBtn } = mountChips(root, game, toast);
   // The Grove whose festivals were last checked against the side saves.
-  let festivalsFor: unknown = null;
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
     (window as unknown as { groveUi: unknown }).groveUi = {
@@ -901,6 +513,9 @@ export function mountHud(
       sheet,
       get creator() {
         return roster.creator;
+      },
+      get creatorGallery() {
+        return roster.creator.gallery;
       },
       get debug() {
         return debug;
@@ -1062,7 +677,8 @@ export function mountHud(
       // Nothing open: Esc leaves a neighbour's Grove.
       else {
         const g = game();
-        if (g && visitingTrainer(g.world) && !dialogue.isOpen) goHome();
+        if (g && visitingTrainer(g.world) && !dialogue.isOpen)
+          game()?.send({ kind: 'visit', trainer: null });
       }
     }
   });
@@ -1099,362 +715,7 @@ export function mountHud(
   }
 
   function refreshLoop(): void {
-    // TECH-31: the refresh runs between frames; its time is charged to the next frame log.
-    const hudT0 = performance.now();
-    const g = game();
-    if (g) {
-      curiosities.tick(g.world, g.camera.currentYawIndex);
-      shells.textContent = `🐚 ${g.world.inventory.shells}`;
-      fruit.textContent = `🍎 ${g.world.inventory.fruit}`;
-      setActionGlyph(keeperBtn, g.world.keeper.alignment === 'sun' ? '☀' : '☾');
-      if (!joystick) {
-        joystick = new Joystick(root, g.camera, (cmd) => g.send(cmd), {
-          set: setRunning,
-          isOn: () => runOn,
-        });
-        g.framePollers.push(() => joystick?.poll());
-      }
-      // R0510: in the Hollow on a touch device the stick is on without a trip to Settings.
-      const hollowTouch =
-        (g.world.location === 'hollow' || g.world.location === 'dungeon') &&
-        window.matchMedia?.('(pointer: coarse)').matches;
-      joystick.setVisible(g.world.settings.joystick || !!hollowTouch);
-      joystick.onEdge = () =>
-        void buzz(
-          'stickEdge',
-          g.world.settings,
-          document.documentElement.classList.contains('reduce-motion'),
-        );
-      // MOVE-14: Left-handed mirrors the thumb buttons and the pad.
-      const lefty = !!g.world.settings.leftHanded;
-      joystick.leftHanded = lefty;
-      document.documentElement.classList.toggle('left-handed', lefty);
-      const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
-      groveBtn.hidden = !anyUnlocked;
-      groveBtn.textContent = GROVE_LABELS[g.world.grove];
-      const carrying = g.world.keeper.carrying;
-      const shakes = !!carrying || g.world.nubbins.some((n) => n.behavior.state === 'held');
-      const jumpGlyph = shakes ? '🥚' : '⤒';
-      jumpLook.setGlyph(jumpGlyph);
-      jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
-      if (!resumeAsked) {
-        resumeAsked = true;
-        setTimeout(() => askResume(root, game), 1500);
-      }
-      if (!jumpPolled) {
-        jumpPolled = true;
-        g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
-        g.framePollers.push(() => lookout.update(g.world, performance.now()));
-        g.framePollers.push(() => regionChip.update(g.world));
-        g.framePollers.push(() => hopLesson.update(g.world));
-        g.framePollers.push(() => hopCourse.update(g.world));
-        g.framePollers.push(() => barkBubble.update(g, performance.now()));
-        g.framePollers.push(() => ambientBubbles.update(g, performance.now()));
-        // R0296: the routine stations' prop gags beside the Keepers.
-        const routineProps = new RoutineProps(root);
-        g.framePollers.push(() => routineProps.update(g));
-        // R0329: the weather gags over the Nubbins.
-        const nubbinGags = new NubbinGags(root);
-        g.framePollers.push(() => nubbinGags.update(g));
-        // PERF: the panel stack now hears only real `hidden` changes; the dialogue's waiting class
-        // still follows its wait every frame, as it did when the pollers rewrote `hidden`.
-        g.framePollers.push(() => dialogue.sync());
-        // TECH-16: the shake meter while a held egg is dragged and shaken.
-        const shakeMeter = new ShakeMeter(root);
-        g.framePollers.push(() => {
-          const now = performance.now();
-          shakeMeter.update(g.world, g.input.shake.progress(now), now);
-        });
-      }
-      // TECH-17: the sheet covers the chip, so it hides while the sheet is open.
-      carry.hidden = !carrying || !sheet.root.hidden;
-      if (carrying) {
-        const n = g.world.nubbins.find((x) => x.id === carrying);
-        carryText.textContent = UI_TEXT.carrying(n?.name ?? NAMES.creature);
-        // TECH-17: a ready egg's Put down says it hatches.
-        const ready = n?.stage === 'egg' && n.hatchRemainingMs <= 0;
-        const label = ready ? HATCH_BUTTON_TEXT.putDownToHatch : UI_TEXT.putDown;
-        if (putDown.textContent !== label) putDown.textContent = label;
-        putDown.classList.toggle('btn-primary', ready);
-      }
-      if (!sheet.root.hidden) sheet.refresh();
-      shop.refresh();
-      debug?.refresh();
-      // Story scenes wait their turn behind other panels.
-      const c = g.world.campaign;
-      journalBtn.hidden = !c;
-      // Which piece plays: story over dialogue, the minigames their own, else the hour's.
-      setMusicEnabled(g.world.settings.music);
-      applyVoices(g.world.settings, g.world.edu);
-      setMusicVolume(g.world.settings.musicVolume);
-      setSfxVolume(g.world.settings.sfxVolume);
-      const chapter = c?.chapter ?? 0;
-      if (dialogue.isOpen) {
-        playSong(
-          chapter === 6 || chapter === 11 || chapter === 13
-            ? 'sorrow'
-            : chapter === 5 || chapter === 9
-              ? 'tense'
-              : 'story',
-        );
-      } else if (expedition.isOpen) playSong('expedition');
-      else if (races.screen.isOpen) playSong('race');
-      else if (karate.screen.isOpen) playSong(liveBattleSong(game()?.world));
-      else if (gym.screen.isOpen) playSong('karate');
-      else if (tank.isOpen) playSong('expedition');
-      else if (
-        g.world.settings.jukebox &&
-        SONG_NAMES.includes(g.world.settings.jukebox as SongName)
-      ) {
-        playSong(g.world.settings.jukebox as SongName);
-      } else if (g.world.location === 'hollow' || g.world.location === 'dungeon')
-        playSong('hollow');
-      else if (g.world.location === 'corvin') playSong('tense');
-      else {
-        const phase = phaseAt(g.hourOverride ?? localHour()).phase;
-        playSong(phase === 'night' || phase === 'dusk' ? 'night' : 'grove');
-      }
-      // The ambient layer follows the hour, the weather and where the Keeper stands.
-      setAmbienceEnabled(g.world.settings.ambience);
-      {
-        const phase = phaseAt(g.hourOverride ?? localHour()).phase;
-        const kp = g.world.keeper.pos;
-        const nearStream =
-          g.world.location === 'grove' &&
-          (Math.hypot(kp.x - GROVE.waterfall.x, kp.z - GROVE.waterfall.z) < 9 ||
-            Math.abs(kp.x - 9) < 3.5);
-        const inSide =
-          g.world.location === 'hollow' ||
-          g.world.location === 'corvin' ||
-          g.world.location === 'dungeon';
-        photoSpotBtn.update(dialogue.isOpen || away.isOpen || photo.isOpen());
-        holdRenderWhile(
-          g,
-          dialogue.isOpen || away.isOpen || photo.isOpen(),
-          `${g.world.location}|${g.world.campaign?.queue[0] ?? ''}|${dialogue.speaker ?? ''}|${dialogue.line > 0}`,
-        );
-        setAmbience(
-          dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
-            ? null
-            : {
-                phase: phase === 'night' || phase === 'dusk' ? 'night' : 'day',
-                weather: inSide ? 'clear' : g.world.weather.kind,
-                stream: nearStream,
-              },
-        );
-        // R0139 (lane D r9): the biome's sound bed, quiet whenever the ambience is.
-        setBiomeBed(
-          dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
-            ? null
-            : REGIONS[regionOf(g.world.location)].biome,
-        );
-      }
-      if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
-      // Learning Grove: no races or karate; the 🧭 button is the games; breaks on time.
-      const isEdu = !!g.world.edu;
-      racesBtn.hidden = isEdu;
-      dungeon.refresh(g.world);
-      glowCave.refresh();
-      expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
-      expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
-      setActionGlyph(expeditionBtn, isEdu ? '🎓' : '🧭');
-      setActionLabel(
-        expeditionBtn,
-        isEdu ? UI_FX_TEXT.actionLabels.play : UI_FX_TEXT.actionLabels.expedition,
-      );
-      for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
-      for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
-      visitBtn.hidden = isEdu || !visitHas;
-      // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
-      const keysHint = root.querySelector<HTMLElement>('.keys-hint');
-      // TECH-60: gone for good once the keys have been used.
-      const keysOff = isEdu || keysHintDone();
-      if (keysHint && keysHint.hidden !== keysOff) keysHint.hidden = keysOff;
-      // R0678 / R0679 (lane E r7): the sprout band's simple HUD of big picture buttons; the
-      // grown-up controls hide (style.css, `body.edu-sprout`). Readers keep the full HUD.
-      const sprout = isEdu && g.world.edu?.band === 'sprout';
-      if (document.body.classList.contains('edu-sprout') !== sprout)
-        document.body.classList.toggle('edu-sprout', sprout);
-      /* Lane E r9, R0679: the sprout's four picture buttons say what they open. */
-      setActionLabel(journalBtn, sprout ? SPROUT_HUD_TEXT.story : UI_FX_TEXT.actionLabels.journal);
-      setActionGlyph(rosterBtn, sprout ? '🐣' : '📋');
-      setActionLabel(rosterBtn, sprout ? SPROUT_HUD_TEXT.nubbins : UI_FX_TEXT.actionLabels.roster);
-      setActionGlyph(moreBtn, sprout ? '🗺' : '⋯');
-      setActionLabel(moreBtn, sprout ? SPROUT_HUD_TEXT.places : UI_FX_TEXT.actionLabels.more);
-      // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
-      const cabinetOpen =
-        !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
-      for (const b of moreList.querySelectorAll<HTMLElement>('.cabinet')) b.hidden = !cabinetOpen;
-      // The rift: Mature content 18+ only (canon 20, 33). The rainbow gate: as the fun quests,
-      // from the start in the Free Grove and after chapter 2 in Hazel's Grove.
-      const riftOpen = !isEdu && g.world.settings.matureContent === 'adult';
-      for (const b of moreList.querySelectorAll<HTMLElement>('.rift')) b.hidden = !riftOpen;
-      const gateOpen =
-        !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 2);
-      for (const b of moreList.querySelectorAll<HTMLElement>('.neo-gate')) b.hidden = !gateOpen;
-      if (festivalsFor !== g) {
-        festivalsFor = g;
-        announceFestivals(g, toast);
-      }
-      setActionGlyph(soundBtn, g.world.settings.sound ? '🔊' : '🔇');
-      soundBtn.setAttribute('aria-pressed', String(g.world.settings.sound));
-      if (isEdu) {
-        const now = Date.now();
-        // R0724: a round, scene or tracing still open finishes first (within a grace).
-        const midActivity = edu.isOpen() || dialogue.isOpen || journal.isTracing();
-        if (!eduBreakActive(g.world, now) && eduBreakShouldStart(g.world, midActivity))
-          g.send({ kind: 'eduStartBreak' });
-        breakWarn.update(g);
-        // Lane E r8, R0695.
-        limitCard.update(now);
-        syncKidsLock(g);
-        if (eduBreakActive(g.world, now)) {
-          breakScreen.show();
-          breakScreen.update(now);
-        } else if (breakScreen.isOpen()) breakScreen.hide();
-      }
-      placingChip.hidden = !g.placing;
-      {
-        // r1025 items 3 and 4: off during scenes, minigames, panels and notices.
-        const busy =
-          dialogue.isOpen ||
-          !!(c?.queue[0] && dialogue.shouldPlay(c.queue[0])) ||
-          stack.anyOpen() ||
-          away.isOpen ||
-          celebration.isOpen ||
-          edu.isOpen() ||
-          breakScreen.isOpen() ||
-          journal.isTracing() ||
-          g.catchingUp;
-        eduPrompt.refresh(busy);
-        guide.update(busy || eduPrompt.isOpen);
-        sproutTutorial.update(g, busy || eduPrompt.isOpen || guide.isShowing()); /* Lane E r10 */
-        shakeHint.update(g, busy || eduPrompt.isOpen, guide.isShowing());
-        selectionLive.update(g.world, g, busy || eduPrompt.isOpen);
-        applyHudScheme(g.world);
-        kidNotices.flush();
-        lossNotice.update(g, busy);
-        dueWave.update(g, busy || eduPrompt.isOpen); /* R0701 */
-        // R0729: the chip would repeat the chapter card while it is up.
-        objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
-        offerCard.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
-      }
-      // A language quest's tracing step opens its game once its scene has played (bug 31).
-      if (
-        isEdu &&
-        !dialogue.isOpen &&
-        !stack.anyOpen() &&
-        !edu.isOpen() &&
-        !breakScreen.isOpen() &&
-        (g.world.campaign?.queue.length ?? 0) === 0
-      )
-        journal.offerTrace();
-      homeBtn.hidden = !visitingTrainer(g.world) || dialogue.isOpen;
-      // A minigame is time spent with its Nubbin: no lonely or hungry slips meanwhile (bug 21).
-      if (expedition.isOpen || races.screen.isOpen || karate.screen.isOpen || gym.screen.isOpen) {
-        const runner = pickRunner();
-        if (runner) g.send({ kind: 'playingWith', nubbinId: runner.id });
-      }
-      // HOT-1: with the stats sheet open the camera centres on its Nubbin in the part of the
-      // screen the sheet leaves clear (a bottom sheet on a phone, docked right on a desktop),
-      // measured from the sheet itself rather than a fixed share of the view.
-      g.cameraLift = 0;
-      g.cameraSide = 0;
-      // R0473 (lane D r10): measure the canvas only with the sheet open (it forced a layout).
-      g.sheetFocus =
-        sheet.root.hidden || !sheet.selectedId
-          ? null
-          : sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
-      // R0552 (lane A r9): snores and chat chirps near the Keeper.
-      const amb = soulAmbient.tick(g.world, performance.now());
-      if (amb) playSound(amb);
-      // R0549 (lane A r9): its mood bubble is drawn big while the sheet is open.
-      setEmoteFocus(g.sheetFocus?.id ?? null);
-      hollowBout.update();
-      g.storySpeaker = dialogue.speaker;
-      g.storyLine = dialogue.line;
-      // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
-      document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
-      if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
-      // R0003: on a desktop the chip says, before the click, whether the piece fits there.
-      const fit = g.placing?.mode === 'decor' && g.placeHoverAt ? placeHint(g) : null;
-      placingChip.classList.toggle('placing-bad', !!fit && fit !== true);
-      if (fit && fit !== true) placingText.textContent = `✗ ${UI_TEXT.decorRefused[fit]}`;
-      else if (fit) placingText.textContent += ` · ✓ ${PLACE_TEXT.fits}`;
-      rotateBtn.hidden = g.placing?.mode !== 'decor';
-      if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
-      // A debug chapter jump empties the queue: drop the old scene so the new one plays now.
-      if (c) dialogue.dropStale(c.queue);
-      // Hazel's Grove never starts a scene underground in the Hollow Below: it waits for the
-      // Grove (review 2026-10-24, item 4). A storyline's own floor scenes still play there.
-      // Nor under the loading veil: the first lines would play unseen while 3D builds.
-      const veiled = !!document.querySelector('.load-veil');
-      // R0597 (lane C r10 agent A): nor a line's scene outside its region.
-      const held =
-        veiled ||
-        (!!c && !c.storyline && g.world.location === 'dungeon') ||
-        (!!c?.queue[0] && sceneWaitsForRegion(g.world, c.queue[0]));
-      const next = held ? undefined : c?.queue[0];
-      // cg5: the Hollow's floor bar and minimap stay off between a floor scene's lines too
-      // (the chapter card, the beat before the next scene), not only while a line is up.
-      document.documentElement.classList.toggle(
-        'story-queued',
-        !!next && dialogue.shouldPlay(next),
-      );
-      if (heldQuiet.length > 0 && !firstMinuteQuiet(g.world)) {
-        for (const t of heldQuiet.splice(0)) toast(t);
-      }
-      if (
-        hs.heldFestival &&
-        !firstMinuteQuiet(g.world) &&
-        !(next && dialogue.shouldPlay(next)) &&
-        !dialogue.isOpen &&
-        !away.isOpen &&
-        !g.catchingUp
-      ) {
-        toast(hs.heldFestival);
-        playSound('win');
-        hs.heldFestival = null;
-      }
-      // R0359: the season's festival vignette, once per save, when nothing else is up.
-      const gag = hs.heldFestival ? null : festivalGagDue(g.world);
-      if (
-        gag &&
-        !festivalGagsStarted.has(gag) &&
-        !(next && dialogue.shouldPlay(next)) &&
-        !dialogue.isOpen &&
-        !away.isOpen &&
-        !g.catchingUp
-      ) {
-        festivalGagsStarted.add(gag);
-        dialogue.playScene(FESTIVAL_GAGS[gag], {}, () =>
-          game()?.send({ kind: 'festivalGagSeen', season: gag }),
-        );
-      }
-      if (
-        dialogue.shouldPlay(next) &&
-        next &&
-        !g.catchingUp &&
-        !dialogue.isOpen &&
-        !away.isOpen &&
-        !expedition.isOpen &&
-        !races.isOpen() &&
-        !karate.screen.isOpen &&
-        !gym.screen.isOpen &&
-        !tank.isOpen &&
-        !pocket.isOpen &&
-        // The Hollow's party bout, photo mode and the story worlds are play of their own.
-        !partyBout.isOpen() &&
-        !hollowBout.isOpen() &&
-        !photo.isOpen() &&
-        !atlas.isOpen() &&
-        !cabinet.isOpen()
-      ) {
-        sheet.close();
-        playStoryScene(next);
-      }
-    }
-    FRAME_WORK.hudMs += performance.now() - hudT0;
+    refreshStep(refreshCtx, refreshState);
     refreshTimer = window.setTimeout(refreshLoop, 200);
   }
   void refreshTimer;
@@ -1463,6 +724,92 @@ export function mountHud(
   const backupNudge = new BackupNudge(root, game);
   // Lane C r8 (R0606): the Open quest flow's offer card and its folded chip.
   const offerCard = new OfferCard(root, game, (t) => toast(t));
+  const refreshState: RefreshState = {
+    joystick: null,
+    resumeAsked: false,
+    jumpPolled: false,
+    festivalsFor: null,
+  };
+  const refreshCtx: RefreshCtx = {
+    root,
+    game,
+    runOn: rj.runOn,
+    setRunning,
+    debug: () => debug,
+    shells,
+    fruit,
+    moreBtn,
+    soundBtn,
+    keeperBtn,
+    groveBtn,
+    expeditionBtn,
+    racesBtn,
+    journalBtn,
+    rosterBtn,
+    jumpBtn,
+    snowBtn,
+    jumpLook,
+    hopLesson,
+    hopCourse,
+    barkBubble,
+    ambientBubbles,
+    lookout,
+    regionChip,
+    carry,
+    carryText,
+    putDown,
+    kidNotices,
+    toast,
+    lossNotice,
+    curiosities,
+    soulAmbient,
+    sheet,
+    away,
+    celebration,
+    shop,
+    expedition,
+    races,
+    dialogue,
+    journal,
+    partyBout,
+    kindergarten,
+    karate,
+    photo,
+    photoSpotBtn,
+    pocket,
+    quests,
+    edu,
+    objective,
+    eduPrompt,
+    guide,
+    shakeHint,
+    selectionLive,
+    sproutTutorial,
+    breakScreen,
+    limitCard,
+    breakWarn,
+    gym,
+    dungeon,
+    glowCave,
+    dueWave,
+    visit,
+    hollowBout,
+    tank,
+    atlas,
+    cabinet,
+    moreList,
+    placingChip,
+    placingText,
+    rotateBtn,
+    homeBtn,
+    stack,
+    offerCard,
+    hs,
+    heldQuiet,
+    festivalGagsStarted,
+    playStoryScene,
+    pickRunner,
+  };
   const evCtx: EventCtx = {
     ambientBubbles,
     backupNudge,
@@ -1489,6 +836,25 @@ export function mountHud(
     toast,
     hs,
   };
+  const selectCtx: SelectCtx = {
+    game,
+    curiosities,
+    memorialCard,
+    kindergarten,
+    edu,
+    karate,
+    pocket,
+    sheet,
+    decorate,
+    atlas,
+    cabinet,
+    rift,
+    neoGate,
+    dungeon,
+    shop,
+    gym,
+    toast,
+  };
   const hooks: GameHooks = {
     onEvents(events: SimEvent[]) {
       handleHudEvents(evCtx, events);
@@ -1513,58 +879,7 @@ export function mountHud(
       else setTimeout(() => (game() ? away.show(report, game()!.world, done) : done()), 0);
     },
     onSelect(id) {
-      const g = game();
-      curiosities.onSelect(id); /* Lane E r9 */
-      if (id?.startsWith('memorial:') && g) {
-        const m = g.world.memorials.find((x) => x.id === id.slice('memorial:'.length));
-        if (m) memorialCard.show(m);
-        return;
-      }
-      if (id?.startsWith('building:') && g) {
-        const which = id.slice('building:'.length);
-        // R0742: in the Learning Grove the hut is the door to Play & learn.
-        if (which === 'school') (g.world.edu ? edu : kindergarten).open();
-        else if (which === 'dojo') karate.open();
-        // R0527 (lane A r10): a Nubbin hiding inside is coaxed out by a tap on the door.
-        else if (which === 'cottage' && g.world.nubbins.some((n) => n.cottageHide))
-          g.send({ kind: 'coaxOut' });
-        else if (which === 'cottage') pocket.open(sheet.selectedId);
-        else if (which === 'workshop') decorate.open('workshop');
-        // R0630: the doors to the story worlds, tapped in the Grove.
-        else if (which === 'door-atlas') atlas.open();
-        else if (which === 'door-cabinet') cabinet.open();
-        else if (which === 'door-rift') rift.open();
-        else if (which === 'door-gate') neoGate.open();
-        else if (which === 'nursery') toast(UI_TEXT.nurseryTap);
-        else if (which === 'bathhouse') toast(UI_TEXT.bathhouseTap);
-        else if (which === 'host') g.send({ kind: 'neighbourGift' });
-        else if (which === 'windmill') toast(UI_TEXT.windmillTap);
-        else if (which === 'cave') dungeon.open();
-        // R0072: an outer-ring piece answers with its line.
-        // R0129: and a gag on later taps (`ui/outer-gag.ts`).
-        else if (outerTapOf(which)) toast(outerLine(which, g.world) ?? '');
-        // R0095: the village square's buildings and recruits.
-        else villageTap(which, g.world, { shop: () => shop.open(), gym: () => gym.open() }, toast);
-        return;
-      }
-      if (id?.startsWith('plant:') && g) {
-        const p = g.world.plants.find((x) => x.id === id.slice('plant:'.length));
-        if (!p) return;
-        if (p.ripe) g.send({ kind: 'harvest', id: p.id });
-        else if (p.water < 0.9) g.send({ kind: 'waterPlant', id: p.id });
-        else toast(UI_TEXT.plantTap(p.stage, p.water, p.ripe));
-        return;
-      }
-      if (id?.startsWith('decor:') && g) {
-        g.send({ kind: 'removeDecor', id: id.slice('decor:'.length) });
-        toast(UI_TEXT.decorPickedUp);
-        return;
-      }
-      // R0322: repeated taps on a Nubbin squeak up the scale (ui/tap-toy.ts).
-      if (id && g && g.world.nubbins.some((n) => n.id === id))
-        tapToy(g, id, sheet.selectedId, performance.now());
-      if (id) sheet.open(id);
-      else sheet.close();
+      handleSelect(selectCtx, id);
     },
     onStorageBlocked() {
       // Lane C r11 (R0623): a full store offers the backup file; blocked storage says so.
@@ -1600,94 +915,4 @@ export function mountHud(
       if (new URLSearchParams(location.search).has('pocket')) pocket.open();
     },
   };
-}
-
-/**
- * The action-bar buttons: an icon over a short word. The word shows on phones (style.css,
- * `.act-label`), where the bar sits at the bottom; wide screens keep the icon alone.
- */
-function labelActions(list: Array<[HTMLButtonElement, string, string]>): void {
-  for (const [b, glyph, label] of list) {
-    b.textContent = '';
-    const g = document.createElement('span');
-    g.className = 'act-glyph';
-    g.setAttribute('aria-hidden', 'true');
-    setIconGlyph(g, glyph); // R0502: pixel-art icon where there is one
-    const l = document.createElement('span');
-    l.className = 'act-label';
-    l.setAttribute('aria-hidden', 'true');
-    l.textContent = label;
-    b.append(g, l);
-    b.classList.add('act-btn');
-  }
-}
-
-function setActionGlyph(b: HTMLButtonElement, glyph: string): void {
-  const g = b.querySelector('.act-glyph');
-  if (g) setIconGlyph(g, glyph);
-}
-
-function setActionLabel(b: HTMLButtonElement, label: string): void {
-  const l = b.querySelector('.act-label');
-  if (l && l.textContent !== label) l.textContent = label;
-}
-
-/**
- * Toasts without the pile-up (review 2026-10-24): the same text again within a short while
- * is dropped, at most a few show at once, and a burst comes in one at a time.
- */
-function makeToaster(host: HTMLElement): (text: string, ms?: number) => void {
-  const lastShown = new Map<string, number>();
-  const queue: Array<{ text: string; ms: number }> = [];
-  let visible = 0;
-  let nextAt = 0;
-  let timer = 0;
-  const pump = (): void => {
-    timer = 0;
-    while (queue.length > 0 && visible < FIRST_MINUTE.maxVisibleToasts) {
-      const now = performance.now();
-      if (now < nextAt) {
-        timer = window.setTimeout(pump, nextAt - now);
-        return;
-      }
-      const { text, ms } = queue.shift()!;
-      const t = document.createElement('div');
-      t.className = 'toast';
-      t.textContent = text;
-      host.appendChild(t);
-      visible++;
-      nextAt = now + TOASTS.staggerMs;
-      window.setTimeout(() => {
-        t.remove();
-        visible--;
-        if (!timer) pump();
-      }, ms);
-    }
-  };
-  return (text: string, ms: number = UI.toastMs): void => {
-    const now = performance.now();
-    const last = lastShown.get(text);
-    if (last !== undefined && now - last < TOASTS.repeatMs) return;
-    lastShown.set(text, now);
-    queue.push({ text, ms });
-    while (queue.length > TOASTS.maxQueued) queue.shift();
-    if (!timer) pump();
-  };
-}
-
-/** HOT-1: the sheet's Nubbin and where it should sit, from the sheet's box over the canvas. */
-function sheetFocusFor(
-  root: HTMLElement,
-  id: string | null,
-  canvas: { left: number; top: number; width: number; height: number },
-): Game['sheetFocus'] {
-  if (root.hidden || !id || canvas.width <= 0) return null;
-  const r = root.getBoundingClientRect();
-  const box = {
-    left: r.left - canvas.left,
-    top: r.top - canvas.top,
-    right: r.right - canvas.left,
-    bottom: r.bottom - canvas.top,
-  };
-  return { id, shift: clearShift(canvas.width, canvas.height, box) };
 }

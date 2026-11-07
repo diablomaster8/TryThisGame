@@ -1,0 +1,7 @@
+/** Lane D round 13 tunables (helper 3). */
+
+/** R0476: state-scanning systems that run at most this often (sim ms), by system id. */
+export const SYSTEM_THROTTLE = {
+  everyMs: 500,
+  ids: ['landmarks', 'collectibles', 'seasons', 'photo-spots', 'traces'],
+} as const;

@@ -243,6 +243,7 @@ const Q1 = quest(
         BR('Hello, new friend! Come and walk the wall with me.', 'happy'),
         BR('This city is called Uruk. Long ago it stood where Iraq is today.'),
         BR('A river runs beside it. People made their homes near the water.'),
+        N('Knock, knock! Pop! A little door pops open in the wall.'),
       ],
       [
         ask(
@@ -283,6 +284,7 @@ const Q1 = quest(
       [
         N('Your Nubbin knocks on the wall. Knock, knock! It listens.'),
         BR('Mind the third stair. It has been mended many times.'),
+        N('Thump! Knock! Your knuckles thump on the old brick.'),
       ],
       [
         doit(
@@ -308,6 +310,7 @@ const Q1 = quest(
         N('Inside lies a blue stone tablet with tiny pointy marks.'),
         BR('That is writing! People pressed marks like these into wet clay with a reed.'),
         BR('It tells of a king who saw many things.'),
+        N('Creak! The brickmaker’s bolt creaks back, slow and careful.'),
       ],
       [
         notice(
@@ -340,6 +343,7 @@ const Q1 = quest(
       [
         N('The brickmaker puts the tablet back and slides the bolt home.'),
         BR('It stays here so everyone can come and read it.'),
+        N('Thump! The bolt slides home, with a soft thump.'),
       ],
       [
         ask(
@@ -368,6 +372,7 @@ const Q1 = quest(
         N('The street is full of tired people.'),
         N('A drum goes boom, boom, boom. It never stops.'),
         N('Your Nubbin holds your leg. You are in the story now.'),
+        N('Boom! Boom! The drum goes thump, thump, thump through the street.'),
       ],
       [
         doit(
@@ -408,6 +413,7 @@ const Q2 = quest(
         N('This is Gilgamesh, king of Uruk. He is big and strong, and he never stops.'),
         TW('He has not let us go home for a month.', 'sad'),
         N('A boy sits down in the dust. He is too tired to get up.'),
+        N('Whoosh! The racers whoosh past, and dust flies up.'),
       ],
       [
         ask(
@@ -442,6 +448,7 @@ const Q2 = quest(
       [
         N('The king does not see. He starts another race.'),
         TW('Thank you. That was kind.', 'soft'),
+        N('Thump! The race stones thump, then go quiet.'),
       ],
       [
         ask(
@@ -472,6 +479,7 @@ const Q2 = quest(
         N('She picks up a little wet clay and rolls it in her palms.'),
         N('Then she drops it gently, far away in the wild grass.'),
         N('Your Nubbin watches it fall, with its mouth open.'),
+        N('Plop! The wet clay plops into the long grass.'),
       ],
       [
         ask(
@@ -508,6 +516,7 @@ const Q2 = quest(
       [
         N('Far away, in the long grass, someone new opens his eyes.'),
         N('His name will be Enkidu.'),
+        N('Pop! Something pops up in the grass, and blinks.'),
       ],
       [
         ask(
@@ -530,6 +539,7 @@ const Q2 = quest(
       [
         N('The drum goes boom in the square. The king still does not stop.'),
         N('Your Nubbin faces the wild. Its ears stand up.'),
+        N('Boom! Thump! The drum goes on, and on.'),
       ],
       [
         ask(
@@ -599,6 +609,7 @@ const Q3 = quest(
         N('Your Nubbin runs down and drinks beside the smallest gazelle.'),
         EN('Hhh?', 'think'),
         N('He looks at your Nubbin. Then he goes back to drinking.'),
+        N('Splash! Your Nubbin splashes and drinks beside a fawn.'),
       ],
       [
         doit(
@@ -628,6 +639,7 @@ const Q3 = quest(
         N('You sit under a thorn tree and watch.'),
         N('Your Nubbin is in the herd, nose to nose with a fawn.'),
         N('Enkidu strokes a gazelle’s ear, ever so gently.'),
+        N('Slurp! The little fawn slurps by the water.'),
       ],
       [HERD_DONE_BEAT],
     ),
@@ -639,6 +651,7 @@ const Q3 = quest(
         N('A man with a net comes over the hill. He stops and goes pale.'),
         TR('Every pit! Every net! I worked three days.', 'angry'),
         TR('A wild man did this. I cannot feed my family with empty nets.', 'sad'),
+        N('Thump! Thump! The hunter thumps his foot, cross as a bee.'),
       ],
       [
         ask(
@@ -678,6 +691,7 @@ const Q3 = quest(
       [
         N('He runs off to the river with his net flapping.'),
         N('At the water, the wild man fills in another pit.'),
+        N('Splash! Splash! The wild man fills a pit, with a splash.'),
       ],
       [
         ask(
@@ -699,6 +713,7 @@ const Q3 = quest(
       [
         N('By evening the man is far away on the road to Uruk.'),
         N('Your Nubbin is still with the herd. It does not look round.'),
+        N('Crunch! The road crunches under his sandals.'),
       ],
       [
         notice(
@@ -744,6 +759,7 @@ const Q4 = quest(
         N('You carry her bundle. It smells of bread and sweet oil.'),
         N('Inside there are two flat loaves and three dates.'),
         SH('I do not want to boss him. I want to be his friend.'),
+        N('Crunch! Crunch! The sandy path crunches under your feet.'),
       ],
       [
         ask(
@@ -790,6 +806,7 @@ const Q4 = quest(
         EN('Hand.', 'think'),
         SH('Yes! Hand! And what is your name?', 'happy'),
         EN('Enkidu.'),
+        N('Pop! Plop! The date stone pops out, then plops down.'),
       ],
       [
         ask(
@@ -815,6 +832,7 @@ const Q4 = quest(
       [
         N('He says it again, louder. Then he laughs a big laugh.'),
         SH('There you are! I knew you were in there.', 'happy'),
+        N('Hee-hee! Then a great big laugh.'),
       ],
       [
         ask(
@@ -840,6 +858,7 @@ const Q4 = quest(
         EN('Wait! It is me!', 'sad'),
         N('Your Nubbin has been left behind too. It sits alone in the grass.'),
         SH('Go to yours. I will go to mine.', 'soft'),
+        N('Rustle! Peep! A small bird peeps from the grass.'),
       ],
       [
         ask(
@@ -876,6 +895,7 @@ const Q4 = quest(
       [
         N('Enkidu sits with his head in his hands. Shamhat sits beside him.'),
         N('She says nothing. After a while, he leans on her shoulder.'),
+        N('Whoosh! A little wind whooshes by, and says nothing.'),
       ],
       [
         ask(
@@ -905,6 +925,7 @@ const Q4 = quest(
         EN('Will it run away from me too?', 'sad'),
         SH('Some of it. Not the best of it.'),
         N('She takes his hand. They walk to the shepherds.'),
+        N('Crunch! Their feet crunch along the road.'),
       ],
       [
         ask(
@@ -988,6 +1009,7 @@ const Q5 = quest(
         N('Afterwards, the shepherds trim his hair. He washes in the stream.'),
         N('He rubs oil on his skin. Shamhat gives him clothes.'),
         SP('Look at him!', 'happy'),
+        N('Splash! Enkidu splashes in the stream, and shakes like a dog.'),
       ],
       [
         ask(
@@ -1019,6 +1041,7 @@ const Q5 = quest(
         N('Shadows move at the edge of the grass.'),
         N('Enkidu speaks to them, not in words. They turn and go.'),
         EN('They know whose side I am on now.', 'sad'),
+        N('Squeak! A small lamb squeaks in the dark.'),
       ],
       [
         ask(
@@ -1050,6 +1073,7 @@ const Q5 = quest(
       [
         N('Five little lambs sleep safe in the fold.'),
         N('Every night after that, no lamb is lost. They call Enkidu “the watchman”.'),
+        N('Peep! Five lambs peep, safe in the fold.'),
       ],
       [
         doit(
@@ -1070,6 +1094,7 @@ const Q5 = quest(
         EN('Someone should tell the king to stop.', 'angry'),
         SH('Someone should. Shall we go to the city?'),
         N('Enkidu looks at the sheep, then at you. He nods.'),
+        N('Whoosh! The wind whooshes past, on the road to the city.'),
       ],
       [
         ask(
@@ -1115,6 +1140,7 @@ const Q6 = quest(
         GI('Mother, I had a dream. A star fell from the sky.', 'think'),
         GI('I could not lift it. But I loved it.'),
         N('You hold out the tray. He takes one cup and forgets to give it back.'),
+        N('Ding! The little cups ding on the tray.'),
       ],
       [
         ask(
@@ -1147,6 +1173,7 @@ const Q6 = quest(
       [
         NI('Sit down, my son. You are walking up and down, up and down.'),
         N('Gilgamesh sits at last.'),
+        N('Thump! Thump! The king thumps up and down the room.'),
       ],
       [
         ask(
@@ -1173,6 +1200,7 @@ const Q6 = quest(
         GI('A friend? I have a whole city.', 'think'),
         NI('You have a city that is tired of you.', 'soft'),
         N('Gilgamesh opens his mouth. Then he shuts it again.'),
+        N('Gulp! The king takes a gulp, and says nothing.'),
       ],
       [
         ask(
@@ -1215,6 +1243,7 @@ const Q6 = quest(
         Y('Nobody’s. I am new here.'),
         GI('Stay new. Carry my cups.'),
         N('That night the drum stops early. A thin moon hangs over Uruk.'),
+        N('Boom! The drum stops, and a night bird tweets.'),
       ],
       [
         ask(
@@ -1259,6 +1288,7 @@ const Q7 = quest(
         EN('The water-carrier! With the little one from my gazelles!', 'happy'),
         N('Your Nubbin hides behind your leg.'),
         SH('He wants to meet your king.'),
+        N('Squeak! Squeak! The gate squeaks, and the crowd rushes in.'),
       ],
       [
         ask(
@@ -1297,6 +1327,7 @@ const Q7 = quest(
       [
         N('The crowd follows you through the streets, and it grows and grows.'),
         N('There were three people at the gate. Now there are nine in the big square.'),
+        N('Thump, thump! The crowd thumps along, down the street.'),
       ],
       [
         ask(
@@ -1326,6 +1357,7 @@ const Q7 = quest(
         N('Then they grab each other and push and pull, push and pull.'),
         N('The doorposts shake. Dust falls from the roofs.'),
         N('At last Gilgamesh’s knee touches the ground.'),
+        N('Bonk! Bonk! The two friends bonk the doorposts.'),
       ],
       [
         ask(
@@ -1364,6 +1396,7 @@ const Q7 = quest(
         N('Gilgamesh kneels in the dust, breathing hard.'),
         N('Then he laughs, and Enkidu laughs too.'),
         N('Enkidu holds out a hand, and the king takes it.'),
+        N('Thump! The king thumps down in the dust. Hee-hee!'),
       ],
       [
         ask(
@@ -1394,6 +1427,7 @@ const Q7 = quest(
         NI('You are my son now, and his brother.', 'soft'),
         N('Enkidu has never had a mother. He does not know where to put his hands.'),
         N('Your Nubbin shows him. It climbs into her lap.'),
+        N('Pop! Your Nubbin pops into her lap, and she smiles.'),
       ],
       [
         ask(
@@ -1444,6 +1478,7 @@ const Q8 = quest(
         N('Enkidu sits up. He is afraid.'),
         EN('I know that forest. Its guard is very scary.', 'shock'),
         GI('Are you frightened? I will go first.'),
+        N('Whoosh! The wind whooshes in at the window.'),
       ],
       [
         ask(
@@ -1482,6 +1517,7 @@ const Q8 = quest(
       [
         N('You pour water for both friends. The jug is big, and the cup is small.'),
         EN('If you go, I will go. Someone must bring you home.', 'sad'),
+        N('Splash! The water splashes into the little cup.'),
       ],
       [
         ask(
@@ -1506,6 +1542,7 @@ const Q8 = quest(
         EL('Let Enkidu go first. He knows the road.', 'soft'),
         N('At sunrise, Ninsun climbs her roof in her best robe.'),
         NI('Please watch over my son. Bring him home.', 'sad'),
+        N('Whoosh! The sun whooshes up over the roof.'),
       ],
       [
         ask(
@@ -1547,6 +1584,7 @@ const Q8 = quest(
       [
         N('The sun climbs up, big and gold, over the roof.'),
         NI('Enkidu, I am giving him to you to look after. Bring him home.', 'soft'),
+        N('Thump! The roof door thumps shut.'),
       ],
       [
         ask(
@@ -1572,6 +1610,7 @@ const Q8 = quest(
         GI('Bread? I am off on an adventure!'),
         EN('You always need bread. That is the first thing I learned about people.'),
         N('Enkidu checks the pack and nods.'),
+        N('Crunch! Enkidu crunches a big bite of bread.'),
       ],
       [
         ask(
@@ -1608,6 +1647,7 @@ const Q8 = quest(
         EL('Go safely, and come home soon.'),
         N('You go too, with your Nubbin on the pack.'),
         N('The wall of Uruk gets smaller and smaller, then it is gone.'),
+        N('Crunch! Crunch! The road crunches under your sandals.'),
       ],
       [
         doit(
@@ -1647,6 +1687,7 @@ const Q9 = quest(
         N('In the night Gilgamesh sits up with a start.'),
         GI('I dreamed a mountain fell on me. I am cold all over.', 'shock'),
         EN('A good dream! The mountain will fall, and we will stand on it.', 'happy'),
+        N('Pop! The fire pops and the sparks jump.'),
       ],
       [
         ask(
@@ -1678,6 +1719,7 @@ const Q9 = quest(
       [
         N('Enkidu waits until the king is snoring. He looks at you across the fire.'),
         N('His face is not happy at all.'),
+        N('Crackle! Crack! The fire cracks in the dark.'),
       ],
       [
         ask(
@@ -1706,6 +1748,7 @@ const Q9 = quest(
         N('On the fifth night, Enkidu sits down beside you at the fire.'),
         EN('They were scary dreams. But I say they were good.', 'sad'),
         EN('A friend should not go to a big day feeling scared. So I cheer him up.'),
+        N('Crackle! Crack! A log cracks on the fire.'),
       ],
       [
         doit(
@@ -1735,6 +1778,7 @@ const Q9 = quest(
         N('He falls asleep sitting up. You keep the fire until dawn.'),
         N('In the morning there is a dark green line on the hill.'),
         N('It smells fresh and piney, like a newly cut log.'),
+        N('Snore! Tweet! The first bird tweets at dawn.'),
       ],
       [
         ask(
@@ -1758,6 +1802,7 @@ const Q9 = quest(
         N('Their shade is cool and deep, like water.'),
         GI('There! Good dreams, every one.', 'happy'),
         N('Enkidu says nothing. He puts his hand on the first cedar.'),
+        N('Swish! The tall cedars swish in the breeze.'),
       ],
       [
         ask(
@@ -1806,6 +1851,7 @@ const Q10 = quest(
         N('Far away, something roars.'),
         HU('Who is in my forest?', 'angry'),
         N('Then he is there, huge and old, with a face like wool.'),
+        N('Crack! A branch cracks, and something roars.'),
       ],
       [
         notice(
@@ -1947,6 +1993,7 @@ const Q10 = quest(
         N('At last the raft is ready. Three big logs are tied side by side.'),
         N('The friends push it into the river. It turns, and floats home.'),
         N('Your Nubbin sits at the back. It watches the forest get small.'),
+        N('Thump! The big logs thump together on the shore.'),
       ],
       [
         doit(
@@ -1976,6 +2023,7 @@ const Q10 = quest(
         N('The river carries you home through the reeds.'),
         N('A heron stands on one leg and watches the raft float by.'),
         N('Gilgamesh has made his name. It does not fit him quite right.'),
+        N('Splash! The raft splashes down the quiet river.'),
       ],
       [
         ask(
@@ -2021,6 +2069,7 @@ const Q11 = quest(
         GI('Do I look like a king who has made a name?'),
         EN('You look like a king who has had a bath.', 'happy'),
         N('Then the light goes gold and strange. Your Nubbin’s fur stands up.'),
+        N('Splash! Splash! The king splashes in the big tub.'),
       ],
       [
         ask(
@@ -2088,7 +2137,7 @@ const Q11 = quest(
     ),
     sc(
       'a26-11-offer-done',
-      [EN('That was not clever, brother.', 'shock'), GI('No. But it was true.')],
+      [EN('That was not clever, brother.', 'shock'), GI('No. But it was true.'), N('Bonk! A quiet bonk, as two friends bump heads.')],
       [
         ask(
           1,
@@ -2112,6 +2161,7 @@ const Q11 = quest(
         N('High above the city, Ishtar weeps in front of her father Anu.'),
         N('She asks him for the Bull of Heaven.'),
         N('Anu says yes. A huge storm cloud gathers over Uruk.'),
+        N('Boom! A far-off storm cloud goes boom.'),
       ],
       [
         ask(
@@ -2154,6 +2204,7 @@ const Q12 = quest(
         TW('The children! Somebody get the children!', 'shock'),
         N('You hold out both hands. Up the wall stairs you go, two at a time.'),
         N('Your Nubbin runs ahead and waits on every step.'),
+        N('Thump! Thump! You thump up the wall stairs, two at a time.'),
       ],
       [
         ask(
@@ -2187,6 +2238,7 @@ const Q12 = quest(
         N('From the wall you can see the Bull, the cracks, and two small figures.'),
         TW('That is the king and his brother!', 'shock'),
         N('The children hold hands tight. Some feel scared, and some feel brave.'),
+        N('Whoosh! The Bull whooshes by, and the dust flies up.'),
       ],
       [
         ask(
@@ -2250,6 +2302,7 @@ const Q12 = quest(
         GI('Whose names do we shout tonight?', 'happy'),
         TW('Gilgamesh! And Enkidu!'),
         N('Enkidu waves harder when he sees you. Your Nubbin waves back with both arms.'),
+        N('Ding! The town bell dings, and everyone cheers.'),
       ],
       [
         ask(
@@ -2355,6 +2408,7 @@ const Q13 = quest(
         N('The sun comes up over the wall. It shines straight into the doorway.'),
         SS('Enkidu, Shamhat gave you bread and clothes. She gave you a friend.'),
         N('Enkidu stands still in the warm sunlight. His face softens.'),
+        N('Creak! The door creaks, and sunshine pours in.'),
       ],
       [
         ask(
@@ -2386,6 +2440,7 @@ const Q13 = quest(
       [
         EN('Shamhat, I am sorry. Thank you. I take it back. I bless you.', 'soft'),
         EN('You found me in the grass and brought me home.', 'soft'),
+        N('Whoosh! The morning breeze whooshes through the room.'),
       ],
       [
         ask(
@@ -2413,6 +2468,7 @@ const Q13 = quest(
         N('Gilgamesh carries him back to bed, gently.'),
         GI('Rest now. You always get better.'),
         EN('Thank you, brother.', 'soft'),
+        N('Creak! The bed creaks, as Enkidu settles in.'),
       ],
       [
         ask(
@@ -2674,6 +2730,7 @@ const Q15 = quest(
         GI('I used to be afraid of nothing. Now I am afraid of everything.', 'sad'),
         N('You give him water. He drinks a little, and that is a good day.'),
         N('At last two tall mountains rise ahead, with a gate between them.'),
+        N('Gulp! He takes a small gulp of water.'),
       ],
       [
         ask(
@@ -2709,6 +2766,7 @@ const Q15 = quest(
       [
         N('By the gate stand two guards. They are people down to the waist.'),
         N('Below the waist, they are scorpions.'),
+        N('Creak! The great gate creaks, and the guards look up.'),
       ],
       [
         ask(
@@ -2737,6 +2795,7 @@ const Q15 = quest(
         SC('No one has gone this way. It is dark for a long, long way.', 'think'),
         GI('I will go anyway. Please open the gate.'),
         SC('Then go, and come back safe. The gate is open.', 'soft'),
+        N('Creak! The great doors creak open, slow and wide.'),
       ],
       [
         ask(
@@ -2773,6 +2832,7 @@ const Q15 = quest(
         GI('Nine. I feel a breeze on my face.'),
         GI('Eleven. Look! There is light!', 'shock'),
         N('At twelve, you step out into the sun, into a garden of jewels.'),
+        N('Thump! Thump! Your feet thump on the dark stone.'),
       ],
       [
         doit(
@@ -2791,6 +2851,7 @@ const Q15 = quest(
       [
         N('Your Nubbin shivers from the cold dark.'),
         N('Gilgamesh cuts a strip of lion skin. He wraps it round your Nubbin like a cloak.'),
+        N('Swish! The soft lion skin swishes round your Nubbin.'),
       ],
       [
         ask(
@@ -2817,6 +2878,7 @@ const Q15 = quest(
         N(
           'Beyond the garden there is a sea. A little house stands by it, with smoke from its chimney.',
         ),
+        N('Whoosh! The sea whooshes up the sand.'),
       ],
       [
         ask(
@@ -2888,6 +2950,7 @@ const Q16 = quest(
         N('Siduri looks at him a long time. Then she opens the door.'),
         SI('Eat your supper. Wash your face. Sing, and hug the people you love.'),
         N('She gives you each a stool and a cup.'),
+        N('Gulp! Slurp! You gulp a warm drink by the fire.'),
       ],
       [
         ask(
@@ -2924,6 +2987,7 @@ const Q16 = quest(
         N('Your Nubbin climbs into your lap and falls asleep, warm and heavy.'),
         GI('Where is the boatman?', 'angry'),
         SI('In the woods by the shore. Be gentle with him.'),
+        N('Creak! The little house creaks, soft as a lullaby.'),
       ],
       [SIDURI_DONE_BEAT],
     ),
@@ -2935,6 +2999,7 @@ const Q16 = quest(
         UR('Those were the Stone Things. They crewed my boat. You smashed them.', 'shock'),
         GI('I did not think.', 'sad'),
         UR('People do not, when they are very sad.', 'soft'),
+        N('Crack! Crack! The stones crack on the shore.'),
       ],
       [
         ask(
@@ -2976,6 +3041,7 @@ const Q16 = quest(
         N('Your Nubbin drags one small branch to the pile as its share.'),
         N('The work helps Gilgamesh. He is tired, and calmer.'),
         GI('Enkidu would have been better at this.', 'soft'),
+        N('Thump! Your Nubbin thumps down a small branch.'),
       ],
       [
         doit(
@@ -3007,6 +3073,7 @@ const Q16 = quest(
         N('When the poles are gone, he holds up his lion skins for a sail.'),
         N('The wind pushes, and the boat sails to the far shore.'),
         UR('The far shore. Someone has been waiting a long time.'),
+        N('Whoosh! The wind whooshes into the lion-skin sail.'),
       ],
       [
         ask(
@@ -3061,6 +3128,7 @@ const Q17 = quest(
         N('He sent out a dove, then a swallow. Both came back. Then a raven, which did not.'),
         N('His wife coughs.'),
         UW('The raven was my idea.'),
+        N('Pop! A little bird pops up and flaps away.'),
       ],
       [
         ask(
@@ -3092,6 +3160,7 @@ const Q17 = quest(
       [
         GI('Then the gods could do it again. For me.'),
         UT('Let us see if you can do something smaller first.'),
+        N('Splash! Splash! A small boat splashes by.'),
       ],
       [
         ask(
@@ -3123,6 +3192,7 @@ const Q17 = quest(
         UW('Wake him, and let him go home.', 'soft'),
         UT('Bake a loaf each day and set it by his head. Then he will know.'),
         N('Each day she bakes a loaf. After seven days, seven loaves sit in a row.'),
+        N('Ding! The baking bell dings, and a loaf is ready.'),
       ],
       [
         doit(
@@ -3158,6 +3228,7 @@ const Q17 = quest(
         N('The last loaf is still warm.'),
         N('He puts his face in his hands.'),
         UT('Take him to wash, and give him clean clothes.'),
+        N('Thump! Thump! A loaf thumps down, warm and round.'),
       ],
       [
         ask(
@@ -3216,6 +3287,7 @@ const Q17 = quest(
         GI('Look at it! I will take it home and try it on an old man first.', 'happy'),
         N('The plant has four leaves.'),
         GI('Then everyone I love can have a leaf.'),
+        N('Pop! The plant pops its four green leaves.'),
       ],
       [
         ask(
@@ -3302,6 +3374,7 @@ const Q17 = quest(
         N('You walk on, the three of you. It is a quiet walk.'),
         N('In your pocket there is a tiny reed boat, plaited tight.'),
         N('Uta-Napishtim’s wife must have made it while the loaves baked.'),
+        N('Splash! The little reed boat splashes in the stream.'),
       ],
       [
         ask(
@@ -3406,6 +3479,7 @@ const Q18 = quest(
         N('On top, the whole city lies below: roofs, orchards, and smoke from supper fires.'),
         GI('This part is the town. This part is the orchards. This part is the clay pits.'),
         GI('Three parts, all inside one wall.'),
+        N('Knock, knock! Thump! You knock on the wall again.'),
       ],
       [
         ask(
@@ -3432,7 +3506,7 @@ const Q18 = quest(
     ),
     sc(
       'a26-18-wall-done',
-      [GI('I went to the end of the world. And here it is. It was here the whole time.', 'soft')],
+      [GI('I went to the end of the world. And here it is. It was here the whole time.', 'soft'), N('Whoosh! The wind whooshes along the old wall.')],
       [
         ask(
           0,
@@ -3456,6 +3530,7 @@ const Q18 = quest(
         N('By the river, a gazelle grazes. It looks at you and does not run.'),
         GI('He asked you to look after them. You did.', 'soft'),
         ...BRICK_LINES,
+        N('Pop! The clay pops hot in the kiln.'),
       ],
       [FOOT_BEAT],
       { choices: FOOT_CHOICES },
@@ -3467,6 +3542,7 @@ const Q18 = quest(
         BR('Some have come home. Each one is a little bit of the city put back.'),
         N('Gilgamesh gives you a small cedar box. It smells like the forest.'),
         GI('Put your own stories in it. Leave it where people can open it.'),
+        N('Creak! The cedar box creaks open, and smells sweet.'),
       ],
       [
         ask(
@@ -3493,7 +3569,7 @@ const Q18 = quest(
     ),
     sc(
       'a26-18-complete',
-      [N('Your Nubbin climbs up on your shoulder and looks at the wall.'), ...MOSS_HOME],
+      [N('Your Nubbin climbs up on your shoulder and looks at the wall.'), ...MOSS_HOME, N('Whoosh! The lamplight whooshes on, soft and warm.')],
       [COMPLETE_BEAT],
     ),
   ],
@@ -3512,6 +3588,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       BR('Hello, new friends! Come and walk the wall with me.', 'happy'),
       BR('This city is called Uruk. Long ago it stood where Iraq is today.'),
       BR('A river runs beside it. People made their homes near the water.'),
+      N('Knock, knock! Pop! A little door pops open in the wall.'),
     ],
     [
       ask(
@@ -3553,6 +3630,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       N('You sit under a thorn tree. Moss climbs down and sits beside you.'),
       N('Enkidu strokes a gazelle’s ear, ever so gently.'),
       MO('Nothing wrong with him. He just has not met anyone yet.'),
+      N('Slurp! The little fawn slurps by the water.'),
     ],
     [HERD_DONE_BEAT],
   ),
@@ -3693,6 +3771,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       GI('Where is the boatman?', 'angry'),
       SI('In the woods by the shore. Be gentle with him.'),
       N('Your Nubbin climbs into your lap and falls fast asleep.'),
+      N('Creak! The little house creaks, soft as a lullaby.'),
     ],
     [{ ...SIDURI_DONE_BEAT, after: 6 }],
   ),
@@ -3731,6 +3810,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       N('Gilgamesh kneels beside it. He touches one little needle, very gently.'),
       GI('You told me to let him go. I should have listened.', 'sad'),
       ...BRICK_LINES,
+      N('Pop! The clay pops hot in the kiln.'),
     ],
     [{ ...FOOT_BEAT, after: 7 }],
     { choices: FOOT_CHOICES },
@@ -3743,6 +3823,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       N('Gilgamesh stops beside you. He looks at you for a long time.'),
       GI('We both learned it late.', 'soft'),
       ...BRICK_LINES,
+      N('Pop! The clay pops hot in the kiln.'),
     ],
     [{ ...FOOT_BEAT, after: 6 }],
     { choices: FOOT_CHOICES },
@@ -3756,6 +3837,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       ),
       MO('That is the right answer. He just took the long way.', 'soft'),
       ...MOSS_HOME,
+      N('Whoosh! The lamplight whooshes on, soft and warm.'),
     ],
     [{ ...COMPLETE_BEAT, after: 3 }],
   ),
@@ -3770,6 +3852,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       N('He looks down at the cedar sapling by the river for a while.'),
       MO('And somebody let a tree live. That is the other answer.', 'soft'),
       ...MOSS_HOME,
+      N('Whoosh! The lamplight whooshes on, soft and warm.'),
     ],
     [{ ...COMPLETE_BEAT, after: 5 }],
   ),
@@ -3780,6 +3863,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       N('Your handprint and the pawprint face the sky.'),
       N('Your Nubbin knocks on the brick. It rings.'),
       N('You put the cedar box on the cottage shelf. It smells like a forest far away.'),
+      N('Knock, knock! Your Nubbin knocks. Thump! A brick rings.'),
     ],
     [
       ask(
@@ -3804,6 +3888,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
       N('Your Nubbin knocks on the brick. It rings.'),
       N('You sit a while by the flower and the brick. It feels right.'),
       N('You put the cedar box on the cottage shelf. It smells like a forest far away.'),
+      N('Ding! The brick rings, and the flower nods.'),
     ],
     [
       ask(

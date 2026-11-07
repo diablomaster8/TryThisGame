@@ -6,6 +6,9 @@ import {
   RIDGE_TELESCOPE,
   RIDGE_TERRACES,
 } from '../config/region-ridge';
+import { snowballs } from '../sim/snowballs';
+import { SNOWBALL } from '../config/tuning-r13d1';
+import type { World } from '../sim/types';
 import type { RegionLayout } from '../config/region-layout';
 import { paintRidge, RIDGE_GROUND, ridgeHeight, ridgeKind } from '../render/region-ridge';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
@@ -161,7 +164,25 @@ function decorate(group: THREE.Group): Kit3dDecor {
   lamp.position.set(C.x + 3, cy + 1.95, C.z + 2);
   lamp.name = 'ridge-cave-lamp';
   group.add(lamp);
+  // R0113 (R13 d1): the snowballs in the air, a small pool of meshes shown while thrown.
+  const sg = new THREE.IcosahedronGeometry(0.22, 1);
+  const sm = new THREE.MeshStandardMaterial({ color: '#f4f9ff', roughness: 0.9 });
+  const balls = Array.from({ length: SNOWBALL.max }, () => {
+    const m = new THREE.Mesh(sg, sm);
+    m.visible = false;
+    m.name = 'ridge-snowball';
+    group.add(m);
+    return m;
+  });
   return {
+    sync(world: World) {
+      const list = snowballs(world);
+      balls.forEach((m, i) => {
+        const b = list[i];
+        m.visible = !!b;
+        if (b) m.position.set(b.x, b.y, b.z);
+      });
+    },
     tick(t, still) {
       if (!still) tex.offset.y = (t * 0.8) % 1;
     },
@@ -171,6 +192,9 @@ function decorate(group: THREE.Group): Kit3dDecor {
       fg.dispose();
       fm.dispose();
       tex.dispose();
+      for (const m of balls) m.removeFromParent();
+      sg.dispose();
+      sm.dispose();
       lg.dispose();
       lm.dispose();
     },

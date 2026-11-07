@@ -1,7 +1,7 @@
 import { SCULPT_RES } from '../config/tuning';
-import { sculptData } from '../samples/sculpt-spec';
-import { speciesSurfaces, surfaceData } from '../samples/species';
-import { NUBBIN_SPEC } from '../samples/species-data';
+import { sculptData } from './art/sculpt-spec';
+import { speciesSurfaces, surfaceData } from './art/species';
+import { NUBBIN_SPEC } from './art/species-data';
 import { SculptFarm } from './sculpt-farm';
 
 /**

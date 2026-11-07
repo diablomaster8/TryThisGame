@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { bevelBox, buildingMaterial, Buckets, house, type LightSpill } from './building-kit';
 
 /**
