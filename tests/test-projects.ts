@@ -1,15 +1,23 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 /**
- * TECH-42: which test files run without the story scripts. `tests/setup-side-stories.ts`
- * loads the whole campaign and every side story (several MB of script data) into each test
- * worker, which was a large share of `npm test`. The files listed here passed with no story
- * registered and never mention stories, scenes, quests or the content, so they run in the
- * lean `unit` project; every other file (and any new one) keeps the setup in `stories`.
+ * Which test files run without the story scripts. `tests/setup-side-stories.ts` loads the
+ * whole campaign and every side story (about 22 MB of script data) into each test worker.
+ * With a fresh module cache per file (CI, `ISOLATE=1`) that is paid once per file, and was the
+ * bulk of `npm test`. A file runs in the lean `unit` project, with no story registered,
+ * unless it needs the scripts:
  *
- * Moving a file here: run it alone with `npx vitest run --project unit <file>` after adding
- * it. A test that needs a story would fail or, worse, pass on an empty registry, so only
- * list files that have nothing to do with the scripts.
+ *  - it is listed in STORY_FILES (known to fail or to read the registry through other code), or
+ *  - one of its relative imports or mocks names a story module (STORY_IMPORT).
+ *
+ * A new file is therefore lean by default. If it needs a story and fails with a missing
+ * scene or quest, add it to STORY_FILES. VERIFIED_UNIT_FILES are lean whatever they import
+ * (they passed with no story registered and never mentioned stories, TECH-42).
+ *
+ * Check a file with `npx vitest run --project unit <file>` or `--project stories <file>`.
  */
-export const UNIT_FILES: readonly string[] = [
+const VERIFIED_UNIT_FILES: readonly string[] = [
   'tests/platform/audio-unlock.test.ts',
   'tests/platform/game-input.test.ts',
   'tests/render/actors-motion.test.ts',
@@ -181,6 +189,77 @@ export const UNIT_FILES: readonly string[] = [
   'tests/ui/title-gate.test.ts',
 ];
 
+/**
+ * Files that need the story scripts although no import says so (they play the campaign or a
+ * side story through the world, read the registry through other code, or check the scripts).
+ * Measured in CI on 2026-11-06 by running every file with no story registered: these failed.
+ */
+export const STORY_FILES: readonly string[] = [
+  'tests/render/scene-stage.test.ts',
+  'tests/render/stage-foundation.test.ts',
+  'tests/render/story-shots.test.ts',
+  'tests/sim/access-r10.test.ts',
+  'tests/sim/battle-story-replay.test.ts',
+  'tests/sim/camp11-ui.test.ts',
+  'tests/sim/campaign-micro.test.ts',
+  'tests/sim/campaign-v2.test.ts',
+  'tests/sim/campaign.test.ts',
+  'tests/sim/chapter-home.test.ts',
+  'tests/sim/choice-payoffs.test.ts',
+  'tests/sim/edu-story.test.ts',
+  'tests/sim/expansion-offers-r12.test.ts',
+  'tests/sim/fun-pack-rules.test.ts',
+  'tests/sim/fun-quests.test.ts',
+  'tests/sim/goal-target.test.ts',
+  'tests/sim/kid-flow-r12.test.ts',
+  'tests/sim/kid-open-r13.test.ts',
+  'tests/sim/lang.test.ts',
+  'tests/sim/line-swaps.test.ts',
+  'tests/sim/offer-approach-r12.test.ts',
+  'tests/sim/pace-bot-r12.test.ts',
+  'tests/sim/prop-reach.test.ts',
+  'tests/sim/quest-lanes-r9.test.ts',
+  'tests/sim/quest-offers.test.ts',
+  'tests/sim/reachability.test.ts',
+  'tests/sim/rest.test.ts',
+  'tests/sim/side-ambient.test.ts',
+  'tests/sim/side-stories-early.test.ts',
+  'tests/sim/side-stories-late.test.ts',
+  'tests/sim/side-stories-mid.test.ts',
+  'tests/sim/side-story-audience.test.ts',
+  'tests/sim/side-story-chunk.test.ts',
+  'tests/sim/story-book.test.ts',
+  'tests/sim/story-pace-r10.test.ts',
+  'tests/sim/story-pacing.test.ts',
+  'tests/sim/story-props.test.ts',
+  'tests/sim/story-regions.test.ts',
+  'tests/sim/story-rewards.test.ts',
+  'tests/ui/guide.test.ts',
+  'tests/ui/quest-minutes-r12.test.ts',
+  'tests/ui/replay-choices-r12.test.ts',
+];
+
+/** A relative import, dynamic import or mock whose path names a story module. */
+const STORY_IMPORT =
+  /['"]\.{1,2}\/[^'"]*(story-scenes|side-stor|storyline|campaign|driver|\/content\/|fun-quest|quest-|chapter|barks|audience|expansion|atlas|arcade|neopia|multiverse|goal|objective|story)[^'"]*['"]/i;
+
+function allTestFiles(dir: string): string[] {
+  const out: string[] = [];
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name).replace(/\\/g, '/');
+    if (e.isDirectory()) out.push(...allTestFiles(p));
+    else if (p.endsWith('.test.ts')) out.push(p);
+  }
+  return out.sort();
+}
+
+/** True if this test file needs the story scripts registered (see the header). */
+export function needsStories(file: string): boolean {
+  if (STORY_FILES.includes(file)) return true;
+  if (VERIFIED_UNIT_FILES.includes(file)) return false;
+  return STORY_IMPORT.test(readFileSync(file, 'utf8'));
+}
+
 /** Generator files that only write samples when asked (PREVIEW_* / MAKE_ICONS); `TOOLS=1` runs them. */
 export const TOOL_FILES: readonly string[] = [
   'tests/tools/angles.test.ts',
@@ -209,3 +288,10 @@ export const ISOLATED_FILES: readonly string[] = [
   'tests/sim/fun-r5.test.ts',
   'tests/sim/read-aloud.test.ts',
 ];
+
+const ALL_TEST_FILES = allTestFiles('tests');
+
+/** The lean project's files: everything that does not need the story scripts. */
+export const UNIT_FILES: readonly string[] = ALL_TEST_FILES.filter(
+  (f) => !needsStories(f) && !TOOL_FILES.includes(f) && !ISOLATED_FILES.includes(f),
+);

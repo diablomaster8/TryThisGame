@@ -108,6 +108,37 @@ function segmentPrims(
     const down = (p: THREE.Vector3, r: number) => p.clone().add(V(0, -r * 0.32, 0));
     out.push(cone(down(a, ra), down(b, rb), ra * 0.76, rb * 0.76, c.belly!));
   }
+  if (o.plated) {
+    // Studded plates: a squat block-ish ellipsoid wider than the tube, a stud on top.
+    const mid = a.clone().lerp(b, 0.5);
+    const rm = (ra + rb) / 2;
+    out.push({
+      kind: 'ellipsoid',
+      a: mid,
+      r: rm,
+      radii: V(rm * 1.08, rm * 1.0, a.distanceTo(b) * 0.5),
+      color: c.body!,
+      tag: 'plate',
+    });
+    out.push(sphere(mid.clone().add(V(0, rm * 0.95, 0)), rm * 0.2, c.belly!, 0.02));
+  }
+  if (o.spikes && i >= 1 && i % 2 === 1 && i < ch.nodes.length - 2) {
+    // A ring of short spikes sticking out sideways (and up) from the segment.
+    const out3 = [V(1, 0.15, 0), V(-1, 0.15, 0), V(0, 1, 0), V(0.75, 0.7, 0), V(-0.75, 0.7, 0)];
+    for (const d of out3) {
+      const dir = d.clone().normalize();
+      out.push({
+        ...cone(
+          a.clone().add(dir.clone().multiplyScalar(ra * 0.8)),
+          a.clone().add(dir.clone().multiplyScalar(ra + 0.3)),
+          0.13,
+          0.02,
+          c.accent!,
+        ),
+        tag: 'spike',
+      });
+    }
+  }
   if (o.fin && (i === 2 || i === 5))
     out.push(
       cone(
@@ -153,6 +184,44 @@ export function serpentSpec(
     });
   }
   const names = segs.map((s) => s.name);
+  const headPart = (() => {
+    if (!art.serpent?.jaw) return spec.head;
+    // The underbite: a wide, deep lower jaw that juts past the snout, with two upturned tusks.
+    const jy = h.y - h.r.y * 0.55;
+    const jz = h.z + h.r.z * 0.45;
+    const jaw: Prim[] = [
+      {
+        kind: 'ellipsoid',
+        a: V(0, jy, jz),
+        r: h.r.x,
+        radii: V(h.r.x * 0.98, h.r.y * 0.4, h.r.z * 0.8),
+        color: c.shade!,
+        tag: 'jaw',
+      },
+      {
+        ...cone(
+          V(h.r.x * 0.55, jy + h.r.y * 0.2, jz + h.r.z * 0.6),
+          V(h.r.x * 0.55, jy + h.r.y * 0.75, jz + h.r.z * 0.62),
+          0.1,
+          0.02,
+          c.belly!,
+        ),
+        tag: 'jaw',
+      },
+      {
+        ...cone(
+          V(-h.r.x * 0.55, jy + h.r.y * 0.2, jz + h.r.z * 0.6),
+          V(-h.r.x * 0.55, jy + h.r.y * 0.75, jz + h.r.z * 0.62),
+          0.1,
+          0.02,
+          c.belly!,
+        ),
+        tag: 'jaw',
+      },
+    ];
+    const prims = [...spec.head.prims, ...jaw];
+    return { ...spec.head, prims, box: boxOf(prims) };
+  })();
   const last = names[names.length - 1]!;
   const tailNames = spec.parts.filter((p) => p.name.startsWith('tail')).map((p) => p.name);
   const wingAt = nodes[Math.min(rise + 1, nodes.length - 1)]!;
@@ -177,7 +246,7 @@ export function serpentSpec(
   return {
     ...spec,
     torso: { prims: torso, box: boxOf(torso) },
-    head: { ...spec.head, pivot: V(0, h.y - h.r.y * 0.6, h.z * 0.6) },
+    head: { ...headPart, pivot: V(0, h.y - h.r.y * 0.6, h.z * 0.6) },
     parts: [...spec.parts, ...segs],
     hipY: ch.layout.hipY,
     ...(spec.wings

@@ -3,11 +3,13 @@
  * can get one short spoken line ("One, two, three apples!"), at most one per
  * `EDU_NOTICING.gapMs`. Each line sends `eduNotice` so the item grids see it; nothing is
  * right or wrong. Reads the world and the clock only; the HUD hands it the sim's events.
+ * A fruit moment also lights that fruit (grove-noticed.ts), which the guide's hand points at.
  */
 import { EGG_COLOR_LABELS } from '../config/strings';
 import { NOTICING_TEXT } from '../config/strings-kids-r11e';
 import { EDU_NOTICING } from '../config/tuning-kids-r11e';
 import type { SimEvent, World } from '../sim/types';
+import { noteFruitEaten, setNoticeHighlight } from './grove-noticed';
 
 export interface Noticing {
   text: string;
@@ -24,6 +26,8 @@ export class EduNoticing {
 
   /** The moment for an event, or null: not a sprout, too soon, or nothing to say. */
   onEvent(e: SimEvent, world: World, nowMs: number): Noticing | null {
+    // Real fruit eaten feeds the counting do-beat (`edu:count:fruit:N`) in every band.
+    if (world.edu && e.kind === 'ate') noteFruitEaten();
     if (world.edu?.band !== 'sprout') return null;
     if (e.kind === 'treeShaken') {
       if (this.shakeTree !== e.treeId) this.shakes = 0;
@@ -49,7 +53,11 @@ export class EduNoticing {
       found = { text: NOTICING_TEXT.shakes(n), item: `count:${n}` };
       this.shakes = 0;
     }
-    if (found) this.lastMs = nowMs;
+    if (found) {
+      this.lastMs = nowMs;
+      // The fruit being counted glows and gets the guide's hand (guide.ts).
+      if (found.highlight) setNoticeHighlight(found.highlight, nowMs + EDU_NOTICING.highlightMs);
+    }
     return found;
   }
 }

@@ -12,6 +12,7 @@ import { serpentChain, serpentSpec } from './art-serpent';
 import { birdLayout, birdPatch } from './art-bird';
 import { FLAME_PART, flameTailPrims, withFlameFlicker } from './art-flame';
 import { METAL_ARM } from '../config/tuning-look-r10e';
+import { QUAD_SEAL } from '../config/tuning/render-3d';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -656,6 +657,13 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   const spec: SpeciesSpec = patchKitSpec(art, L, c, {
     name,
     ...(art.move === 'hop' ? { hop: true } : {}),
+    // R0375: seals sweep their flippers long and quick and the smallest quads scurry, so none
+    // passes the cadence cap at a run.
+    ...(art.quad?.stance === 'seal'
+      ? { stride: { length: QUAD_SEAL.strideLength, period: QUAD_SEAL.stridePeriod } }
+      : art.plan === 'quad' && art.size <= QUAD_SEAL.babyMaxSize
+        ? { stride: { period: QUAD_SEAL.babyStridePeriod } }
+        : {}),
     scale: 0.78,
     gait: 'biped',
     hipY: L.hipY,

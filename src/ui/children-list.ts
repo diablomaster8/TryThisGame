@@ -17,6 +17,7 @@ import {
 } from '../platform/storage';
 import { copySettingsJson, renameChildJson } from '../sim/edu-children';
 import { button, el } from './dom';
+import { isEduUiLanguage } from './edu-lang';
 
 function eduSlots(): SaveSlot[] {
   const out: SaveSlot[] = [];
@@ -114,7 +115,7 @@ export function languageRow(body: HTMLElement, g: Game, rerender: () => void): v
   }
   sel.value = e.uiLanguage ?? 'en';
   sel.addEventListener('change', () => {
-    g.send({ kind: 'eduSetUiLanguage', lang: sel.value === 'he' ? 'he' : 'en' });
+    g.send({ kind: 'eduSetUiLanguage', lang: isEduUiLanguage(sel.value) ? sel.value : 'en' });
     setTimeout(rerender, 100);
   });
   row.append(el('strong', undefined, CHILDREN_TEXT.uiLanguage), sel);
