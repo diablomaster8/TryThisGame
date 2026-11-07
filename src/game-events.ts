@@ -3,7 +3,6 @@ import { REGIONS } from './config/regions';
 import { regionOf, rideSeen } from './sim/regions';
 import { CAMERA, LANDMARK_HOLD } from './config/tuning';
 import { litLanterns } from './sim/campaign';
-import { syncDungeon } from './render/world-sync';
 import type { SimEvent } from './sim/types';
 import { playIris } from './ui/travel-iris';
 import { playSound } from './platform/audio';

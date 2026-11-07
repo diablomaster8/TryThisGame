@@ -1,14 +1,11 @@
 import '../battle.css';
 import { drawRing, renderSheet, setView, showResults, updateAtb } from './battle-sheets';
-import { HAT_LABELS, NAMES } from '../config/strings';
 import {
-  BATTLE_MOVE_TEXT,
   BATTLE_SCREEN_TEXT as T,
   BATTLE_TEXT,
   combatantName,
   formatEvent,
   moodWord,
-  moveName,
   STATUS_TEXT,
   TYPE_WORDS,
 } from '../config/strings-battle';
@@ -16,7 +13,6 @@ import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
 import { battleSfx } from './battle-sfx';
-import { postcardRow } from './battle-postcard';
 import { worldBoutAct, type WorldBout } from '../sim/battle/world-bout';
 import { battleForfeit } from '../sim/battle/core';
 import { BattlePixelView } from '../minigames/battle/pixel-view';
@@ -25,15 +21,10 @@ import type { BattleCast, BattleFrame, BattleView } from '../minigames/battle/vi
 import { selectMinigameView } from '../render3d/minigame-layout';
 import { showUpdateNotice } from './update-notice';
 import {
-  BATTLE_ITEMS,
-  bench,
   canChoose,
-  itemsLeft,
   moveOf,
   MOOD_STATS,
   onField,
-  prizeFor,
-  puffCost,
   standing,
   typeMult,
   type BattleAction,
@@ -46,29 +37,16 @@ import {
 import { openTypeHelp } from './battle-help';
 import { button, dialogFocus, el } from './dom';
 import '../battle-r5.css';
-import { GYM } from '../config/tuning';
-import { BATTLE_ATB } from '../config/tuning-battle-atb';
-import { BATTLE_R5 } from '../config/tuning-battle-r5';
 import { ATB_TEXT } from '../config/strings-battle-atb';
-import {
-  INSPECT_TEXT,
-  RING_TEXT,
-  SPOILS_TEXT,
-  STAT_SHORT,
-  WHO_TEXT,
-} from '../config/strings-battle-r5';
-import { pairSeen } from '../sim/battle';
-import { cooldownLeft, pausedForHidden } from '../sim/battle/atb';
+import { INSPECT_TEXT, RING_TEXT } from '../config/strings-battle-r5';
+import { pausedForHidden } from '../sim/battle/atb';
 import { quipFor } from '../sim/battle/lines';
 import { whoChoices } from '../sim/battle/turn';
-import { ATB_COMMANDS, type AtbCommand, type Timing } from '../sim/battle/types';
-import type { StatKey } from '../sim/types';
+import { type AtbCommand, type Timing } from '../sim/battle/types';
 import { closeInspect, inspectOpen, openInspect } from './battle-inspect';
-import { nubbinPortrait } from './battle-party-pick';
 import { PreBout } from './battle-prebout';
-import { canFuse } from '../sim/battle/fusion';
-import { FRIENDLY_TEXT, FUSION_TEXT } from '../config/strings-battle-r6';
-import { currentReplay, recordAct, recordStart } from './battle-record';
+import { FUSION_TEXT } from '../config/strings-battle-r6';
+import { recordAct, recordStart } from './battle-record';
 
 /**
  * The one battle screen (recs FIGHT-25, FIGHT-26, FIGHT-30) for dojo singles, story bouts and
