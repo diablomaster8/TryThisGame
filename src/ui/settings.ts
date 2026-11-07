@@ -53,6 +53,7 @@ import { mountStoryStartSetting } from './story-start-setting'; /* Lane C r11 (R
 import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
 import { mountSaveInfo } from './save-info-panel';
+import { mountStorageUsed } from './storage-used';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
@@ -552,6 +553,7 @@ export class SettingsMenu {
     this.unreadableBtn.hidden = true;
     saves.append(this.unreadableBtn);
     body.appendChild(saves);
+    this.syncStorageUsed = mountStorageUsed(body);
     // R0659 (CAMP-67): last saved, size, and the copies kept.
     // Lane C r10 agent B: with the rolling backups, Restore and the checkpoint count.
     // Lane C r11 (R0625, R0626): the whole-profile backup and what story worlds read.
@@ -588,6 +590,7 @@ export class SettingsMenu {
 
   private readonly storageLine: HTMLParagraphElement;
   private syncSaveInfo: () => void = () => undefined;
+  private syncStorageUsed: () => void = () => undefined;
 
   private refreshStorageLine(): void {
     // R0497 (TECH-56): the saves against localStorage's ~5 MB, the site's offline files and
@@ -638,6 +641,7 @@ export class SettingsMenu {
     if (!g) return;
     this.refreshStorageLine();
     this.syncSaveInfo();
+    this.syncStorageUsed();
     const s = g.world.settings.offlineAging;
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);
@@ -817,7 +821,6 @@ export class SettingsMenu {
       gentleJumps: this.gentle.checked,
       particles: this.particles.value as Settings['particles'],
       reducedMotion: this.reduced.value as Settings['reducedMotion'],
-      graphics: this.graphics.value === '3d' ? '3d' : 'pixel',
       joystick: this.joystick.checked,
       jukebox: this.jukebox.value || null,
       ambience: this.ambience.checked,
@@ -871,12 +874,12 @@ export class SettingsMenu {
     // The renderer is picked when the game starts, so a change saves and reloads.
     // R0509 (TECH-67): compared with the device preference, the one source of truth.
     const running = readGraphicsPref();
-    if (settings.graphics !== running) {
+    const wanted = this.graphics.value === '3d' ? '3d' : 'pixel';
+    if (wanted !== running) {
       // With storage blocked the reload would lose this Grove and the choice: keep both and
       // point to the title screen, whose pick lasts the session (review D, 13).
-      if (!writeGraphicsPref(settings.graphics)) {
+      if (!writeGraphicsPref(wanted)) {
         writeGraphicsPref(running); // the page keeps running the renderer it has
-        g.send({ kind: 'setSettings', settings: { ...settings, graphics: running } });
         this.graphics.value = running;
         this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
         return;

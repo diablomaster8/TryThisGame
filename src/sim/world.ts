@@ -122,7 +122,6 @@ export function defaultSettings(): Settings {
     reducedMotion: 'system',
     jukebox: null,
     ambience: true,
-    graphics: 'pixel',
     sculptRes: null,
   };
 }

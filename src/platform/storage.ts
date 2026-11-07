@@ -794,6 +794,24 @@ export function readGraphicsPref(): 'pixel' | '3d' {
   }
 }
 
+/**
+ * R0509 (TECH-67): a save written before v16 carried its own `settings.graphics`. A device with
+ * no preference of its own yet adopts that one, once; after that the device key is the only
+ * source and an imported save never changes it. Called with a slot's raw JSON before the
+ * renderer is chosen.
+ */
+export function adoptLegacyGraphics(json: string | null): void {
+  if (!json) return;
+  try {
+    if (localStorage.getItem(GRAPHICS_KEY) !== null) return;
+    const f = JSON.parse(json) as { version?: unknown; world?: { settings?: { graphics?: unknown } } };
+    if (typeof f.version !== 'number' || f.version >= 16) return;
+    if (f.world?.settings?.graphics === '3d') writeGraphicsPref('3d');
+  } catch {
+    // No storage or an unreadable save: the device keeps its default.
+  }
+}
+
 export function writeGraphicsPref(mode: 'pixel' | '3d'): boolean {
   graphicsChoice = mode;
   try {
