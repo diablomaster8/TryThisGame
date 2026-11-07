@@ -55,6 +55,7 @@ import { watchErrors } from './platform/error-watch';
 import { LoadingBar } from './ui/loading-bar';
 import { PIXEL_LOAD } from './config/tuning-px';
 import { prepaintGround } from './render/ground-prepaint';
+import { spawnSculptWorkers } from './render3d/sculpt-spawn';
 import { HOLLOW_TEXT } from './config/strings';
 import { installHiddenGuard } from './platform/dom-guards';
 
@@ -260,6 +261,7 @@ function route(): void {
       loadStories();
       loadBoot().catch(() => undefined);
       prepaintGround(); // HOT load time: the Grove's stand-in ground, painted while the title is up
+      if (readGraphicsPref() === '3d') spawnSculptWorkers(); // perf-leaks D: see sculpt-spawn.ts
     });
     // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
     const focus = params.has('edu') ? ('edu' as const) : undefined;
@@ -326,6 +328,7 @@ function startGame(
     showGlFailure('unsupported', mode);
     return;
   }
+  if (mode === '3d') spawnSculptWorkers(); // perf-leaks D: no-op when the title started them
   // The veil goes up the moment a slot is picked and stays until the Grove is interactive,
   // so a cold start on a slow phone never sits on a blank screen while chunks download.
   const loading = new LoadingBar(hudRoot);

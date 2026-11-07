@@ -10,6 +10,7 @@ import {
 } from './art/sculpt-spec';
 import { specForKey } from './looks';
 import { readSurfaces, writeSurfaces } from './sculpt-cache';
+import { openSculptWorker, sculptWorkerCount, takeSculptWorkers } from './sculpt-spawn';
 import type { SculptReply, SculptRequest } from './sculpt-worker';
 
 /**
@@ -54,9 +55,13 @@ export class SculptFarm {
       this.workers = false;
       return;
     }
+    // Workers started early (`sculpt-spawn.ts`) are already running; any short of `count`
+    // are made here.
+    const early = takeSculptWorkers();
+    for (const w of early.slice(count)) w.terminate();
     try {
       for (let i = 0; i < count; i++) {
-        const w = new Worker(new URL('./sculpt-worker.ts', import.meta.url), { type: 'module' });
+        const w = early[i] ?? openSculptWorker();
         w.onmessage = (e: MessageEvent<SculptReply>) => this.done(w, e.data);
         w.onerror = (e) => this.fail(w, e);
         this.all.push(w);
@@ -69,8 +74,7 @@ export class SculptFarm {
 
   /** One worker per spare core, at most four: a phone keeps a core for the page. */
   static defaultCount(): number {
-    const cores = typeof navigator !== 'undefined' ? navigator.hardwareConcurrency || 4 : 4;
-    return Math.max(1, Math.min(4, cores - 1));
+    return sculptWorkerCount();
   }
 
   /** Whether surfaces march in workers (false: on the main thread, one per task). */
