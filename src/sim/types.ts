@@ -1781,6 +1781,8 @@ export type Command =
   | { kind: 'setTitle'; title: string | null }
   | { kind: 'claimQuest'; id: string }
   | { kind: 'visit'; trainer: string | null }
+  // R0112: walk the lane to a neighbour's gate instead of going straight in (`sim/visit-walk.ts`)
+  | { kind: 'visitWalk'; trainer: string }
   | { kind: 'neighbourGift' }
   | { kind: 'feedWild'; id: string }
   | { kind: 'dye'; nubbinId: string; slot: DyeSlot; color: DyeColor | null }

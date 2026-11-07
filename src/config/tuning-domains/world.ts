@@ -14,3 +14,4 @@ export * from '../tuning-more/world-backdrops';
 export * from '../tuning-more/world-region-moves';
 export * from '../tuning-more/world-region-content';
 export * from '../tuning-more/world-edu-trail-ice';
+export * from '../tuning-r15d1';

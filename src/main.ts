@@ -477,6 +477,7 @@ function boot(
       let t = 0;
       const clock = Object.assign(() => (clock.run ? (t += 1000 / 60) : t), { run: false });
       game.frameClock = clock;
+      void import('./minigames/frame-time').then((m) => m.useStillTime());
     }
     // TECH-11: the browser specs' hooks (`grove.test`), only on a `?e2e` load.
     void import('./dev/e2e-api').then((m) => {

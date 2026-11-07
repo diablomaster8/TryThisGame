@@ -7,7 +7,10 @@ import { blocked } from '../../src/sim/obstacles';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
 import { createWorld } from '../../src/sim/world';
-import { CLUE_TRACE, secretGlint, stepWorldHints } from '../../src/sim/world-hints';
+import { REGION_NOOK_TEXT, REGION_SECRET_TEXT } from '../../src/config/strings-r15d1';
+import { fits } from '../../src/sim/region-spots';
+import { layoutOf, regionLocation } from '../../src/sim/region-walk';
+import { CLUE_TRACE, secretGlint, secretSpot, stepWorldHints } from '../../src/sim/world-hints';
 
 function walkTo(world: World, x: number, z: number, events: SimEvent[]): void {
   world.keeper.pos = { x, z };
@@ -111,4 +114,40 @@ describe("the Grove's secret (R0111)", () => {
     expect(world.inventory.shells).toBe(shells + nook.reward.shells);
     expect(secretGlint(world)).toBeNull();
   });
+});
+
+describe('R0096: the Sun and Moon lands have a secret each', () => {
+  for (const region of ['sunlands', 'moonlands'] as const) {
+    it(`${region}: opens once with that land's Old Key, never without`, () => {
+      const world = fresh(6);
+      world.location = regionLocation(region);
+      const spot = secretSpot(region)!;
+      expect(spot).not.toBeNull();
+      expect(fits(layoutOf(region)!, spot.x, spot.z)).toBe(true);
+      const ev: SimEvent[] = [];
+      const shells = world.inventory.shells;
+      walkTo(world, spot.x, spot.z, ev);
+      expect(ev.some((e) => e.kind === 'secretFound')).toBe(false);
+      expect(hints(ev)).toEqual([`nook-${region}`]);
+      expect(secretGlint(world)).toBeNull();
+      // The Grove's key does not open it; this land's own does.
+      (world.collected ??= {})['grove:key:1'] = 1;
+      walkTo(world, 0, 0, ev);
+      walkTo(world, spot.x, spot.z, ev);
+      expect(ev.some((e) => e.kind === 'secretFound')).toBe(false);
+      world.collected[`${region}:key:1`] = 1;
+      expect(secretGlint(world)).toEqual({ x: spot.x, z: spot.z });
+      walkTo(world, 0, 0, ev);
+      walkTo(world, spot.x, spot.z, ev);
+      walkTo(world, 0, 0, ev);
+      walkTo(world, spot.x, spot.z, ev);
+      expect(ev.filter((e) => e.kind === 'secretFound')).toHaveLength(1);
+      expect(world.secrets?.[region]).toBeDefined();
+      expect(world.inventory.shells).toBe(shells + spot.reward.shells);
+      expect(world.inventory.decor.statue).toBe(1);
+      expect(secretGlint(world)).toBeNull();
+      expect(REGION_SECRET_TEXT[region]!.every((t) => t.length <= 100)).toBe(true);
+      expect(REGION_NOOK_TEXT[`nook-${region}`]!.length).toBeLessThanOrEqual(100);
+    });
+  }
 });
