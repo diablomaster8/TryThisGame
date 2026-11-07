@@ -16,9 +16,10 @@
  * The cache is dropped (and the frame drawn the plain way) whenever anything it holds could
  * differ: the shadow camera or map changed, a static caster moved, hid, left or changed its
  * geometry or material, or the occluders' hide boxes (which the building depth program reads)
- * changed. A static caster that changes becomes a mover for `MOVER_FRAMES` frames, so a prop
- * that animates for a while is simply drawn every frame meanwhile. Casters under the dynamic
- * roots (the creatures) are always movers. It is rebuilt once the shadow camera has held still
+ * changed. Skinned and morphing meshes are always movers (their bones and weights move them
+ * without touching the world matrix). A static caster that changes becomes a mover for
+ * `MOVER_FRAMES` frames, so a prop that animates for a while is simply drawn every frame
+ * meanwhile. Casters under the dynamic roots (the creatures) are always movers. It is rebuilt once the shadow camera has held still
  * for a frame, so a walking Keeper (the box follows them) costs what it did before.
  */
 import * as THREE from 'three';
@@ -112,18 +113,21 @@ export class ShadowCache {
     // The same matrices three is about to compute, so the key sees where the box is now.
     shadow.updateMatrices(sun);
     this.makeKey(shadow, map.type);
-    this.collect(scene, camera);
-    const sameKey = equal(this.key, this.cachedKey);
-    if (this.valid && sameKey && sameList(this.now, this.cachedList)) {
-      this.stats.cached++;
-      this.drawMovers(draw, lights, scene, camera, 'copy');
-    } else if (equal(this.key, this.lastKey) && this.ensureTarget(shadow.map)) {
-      this.stats.rebuilt++;
-      this.rebuild(draw, lights, scene, camera, shadow.map);
-    } else {
+    if (!equal(this.key, this.lastKey) || !this.ensureTarget(shadow.map)) {
+      // The box is moving (a walking Keeper, a race): draw the plain way, and skip the walk
+      // over the casters too; a caster that changed meanwhile is caught when the box settles.
       this.valid = false;
       this.stats.plain++;
       draw(lights, scene, camera);
+    } else {
+      this.collect(scene, camera);
+      if (this.valid && equal(this.key, this.cachedKey) && sameList(this.now, this.cachedList)) {
+        this.stats.cached++;
+        this.drawMovers(draw, lights, scene, camera, 'copy');
+      } else {
+        this.stats.rebuilt++;
+        this.rebuild(draw, lights, scene, camera, shadow.map);
+      }
     }
     const k = this.lastKey;
     this.lastKey = this.key;
@@ -172,6 +176,12 @@ export class ShadowCache {
         (m.isMesh || (o as THREE.Line).isLine || (o as THREE.Points).isPoints) &&
         o.layers.test(camera.layers)
       ) {
+        // A skinned or morphing mesh moves inside an unchanged world matrix: always a mover.
+        if ((m as THREE.SkinnedMesh).isSkinnedMesh || m.morphTargetInfluences?.length) {
+          this.movers.push(o);
+          for (const c of o.children) visit(c);
+          return;
+        }
         let c = this.casters.get(o);
         if (!c) {
           c = {
