@@ -1,4 +1,5 @@
 import { playArea } from '../play-area';
+import { minigameFrameMs, resetMinigameTime } from '../frame-time';
 import { EXPEDITION_FUN_TEXT } from '../../config/strings-fun-r6';
 import { playChime, playSound } from '../../platform/audio';
 import { ExpeditionSfx } from './sfx';
@@ -211,6 +212,7 @@ export class ExpeditionScreen {
         },
       );
     } else startPixel();
+    resetMinigameTime();
     this.rafId = requestAnimationFrame(this.frame);
   }
 
@@ -238,7 +240,8 @@ export class ExpeditionScreen {
     this.view.resize(playArea(this.root, this.view === this.pixel));
   }
 
-  private readonly frame = (nowMs: number): void => {
+  private readonly frame = (rawMs: number): void => {
+    const nowMs = minigameFrameMs(rawMs);
     const run = this.run;
     if (!run) return;
     // A 3D stage still building, or a hidden tab: hold the run where it is.

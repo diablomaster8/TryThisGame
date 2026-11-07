@@ -330,7 +330,8 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         ride: 'ferry',
       },
     ],
-    { pois: SHORE_POIS, built: true },
+    // R0099: the Learning Grove reaches the beach only (`EDU_REGION_BOUNDS`).
+    { pois: SHORE_POIS, built: true, kidsSafe: true },
   ),
   wood: future(
     'wood',
@@ -342,7 +343,8 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
       way('wood-ruins', 'ruins', [54, 0], [-29, 0], 'gate', N / 2),
     ],
     // WORLD-25: laid out (`region-wood.ts`) and drawn by the region engine (R11 lane D).
-    { pois: WOOD_POIS, built: true },
+    // R0099: the Learning Grove reaches the first clearing only (`EDU_REGION_BOUNDS`).
+    { pois: WOOD_POIS, built: true, kidsSafe: true },
   ),
   ridge: future(
     'ridge',
