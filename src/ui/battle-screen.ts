@@ -1,4 +1,5 @@
 import '../battle.css';
+import { drawRing, renderSheet, setView, showResults, updateAtb } from './battle-sheets';
 import { HAT_LABELS, NAMES } from '../config/strings';
 import {
   BATTLE_MOVE_TEXT,
@@ -151,7 +152,7 @@ export class BattleScreen {
 
   constructor(
     parent: HTMLElement,
-    private readonly game: () => Game | null,
+    readonly game: () => Game | null,
   ) {
     this.root = el('div', 'expedition battle-screen');
     this.root.hidden = true;
