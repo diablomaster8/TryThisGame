@@ -59,6 +59,7 @@ const VERIFIED_UNIT_FILES: readonly string[] = [
   'tests/render/serpent.test.ts',
   'tests/render/shiny-glint.test.ts',
   'tests/render/soul-r9.test.ts',
+  'tests/render/species-cross.test.ts',
   'tests/render/species-gen1b-art.test.ts',
   'tests/render/static-freeze.test.ts',
   'tests/render/swim-style.test.ts',

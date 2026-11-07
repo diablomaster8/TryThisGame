@@ -12,7 +12,7 @@
  */
 import { IDLE_ACTS } from '../config/tuning-look-r10e';
 import type { Nubbin, Vec2 } from '../sim/types';
-import type { PoseName } from '../samples/species';
+import type { PoseName } from '../render3d/art/species';
 import { gagAt, gagPersonality } from './gag-play';
 import type { PerformLook } from './perform-look';
 import type { EmoteShape } from './sprites/emote';

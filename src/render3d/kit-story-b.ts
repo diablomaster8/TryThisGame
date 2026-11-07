@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { STORY_B } from '../config/tuning-b';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import {
   bevelBox,
   buildingMaterial,

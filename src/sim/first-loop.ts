@@ -7,7 +7,7 @@
 import { FIRST_LOOP, FIRST_MINUTE } from '../config/tuning-r11d4';
 import type { Nubbin, World } from './types';
 
-export type FirstLoopStep = 'pat' | 'name';
+export type FirstLoopStep = 'pat' | 'name' | 'toss';
 
 /** The Nubbin the loop is about: a never-reborn child still inside the window. */
 function loopChild(world: World): Nubbin | undefined {
@@ -31,6 +31,9 @@ export function firstLoopStep(world: World): { step: FirstLoopStep; nubbin: Nubb
   if (d.firstPetMs === null) return { step: 'pat', nubbin: n };
   if (d.firstFeedMs !== null && (d.firstNameMs ?? null) === null)
     return { step: 'name', nubbin: n };
+  // The last step is optional and gentle: it only waits, never blocks anything.
+  if ((d.firstNameMs ?? null) !== null && (d.firstTossMs ?? null) === null)
+    return { step: 'toss', nubbin: n };
   return null;
 }
 

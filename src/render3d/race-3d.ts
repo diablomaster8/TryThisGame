@@ -1,12 +1,13 @@
 import { RACE_PERSONA } from '../config/tuning-soul-r11h';
-import { lineClock, racerPersonality, startKind, type StartKind } from '../sim/race-persona';
+import { START_POSE_3D } from '../render/start-pose';
+import { lineClock, racerPersonality, startKind } from '../sim/race-persona';
 import * as THREE from 'three';
 import { RACE_LOOK } from '../config/campaign-look';
 import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
 import { sectionLabel } from '../config/strings-move-race';
 import type { RaceView } from '../minigames/race/view';
-import type { Rigged } from '../samples/species';
-import { variantById } from '../samples/nubbin-variant-catalogue';
+import type { Rigged } from './art/species';
+import { variantById } from './art/nubbin-variant-catalogue';
 import { sectionAt, type RaceState, type Racer } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { el } from '../ui/dom';
@@ -62,14 +63,6 @@ function hopHeight(race: RaceState, pos: number): number {
  * portrait, and a camera that follows the player and leans toward the leader. Reads the
  * race only; the screen keeps the cheer button, the HUD and the results.
  */
-/** R0583: the 3D rig's start-line pose for each personality kind (no sitting: they are running). */
-const START_POSE: Record<StartKind, 'happy' | 'surprised' | 'love' | 'idle'> = {
-  wave: 'happy',
-  hide: 'surprised',
-  tongue: 'love',
-  yawn: 'idle',
-};
-
 export class Race3dView implements RaceView {
   readonly element: HTMLDivElement;
   ready = false;
@@ -288,7 +281,7 @@ export class Race3dView implements RaceView {
     // R0583: the start-line pose by personality (looks only; the times never read it).
     const atLine =
       live && !flying && lineClock(race) < RACE_PERSONA.startLineMs
-        ? START_POSE[startKind(racerPersonality(r.racer)) ?? 'wave']
+        ? START_POSE_3D[startKind(racerPersonality(r.racer)) ?? 'wave']
         : null;
     const pose = resting
       ? 'sleep'
@@ -312,6 +305,8 @@ export class Race3dView implements RaceView {
       const at = this.butterfly.update(face, nowMs, this.stage?.reduceMotion ?? false);
       rig.lookAt = at ? at.clone() : null;
     }
+    // R0583: reduced motion holds the start-line pose still (the wave and the yawn).
+    rig.still = atLine !== null && (this.stage?.reduceMotion ?? false);
     if (pose !== r.pose) {
       r.pose = pose;
       rig.setPose(pose);

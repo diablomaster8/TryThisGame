@@ -27,4 +27,14 @@ export const HOLLOW_PERF = {
    * At half a sector it is at most 2×2 sectors (the nearest ones), not the rock's 3×3.
    */
   propReach: 8,
+  /**
+   * Low detail for far sectors on such a level (R0194 part 2). A sector draws its full rock,
+   * ground and props while it lies within `near` cells of the Keeper's cell, and its low-detail
+   * twin (the same vertices and baked light, fewer triangles) once it is more than
+   * `near + hold` away; in between it keeps what it had, so walking along a sector's edge never
+   * flickers it. `wallRowStep` and `wallColStep` thin a far wall face's rows and columns (they
+   * divide `rock.wallRows` and 2); `flatEps` is how far (world units) a far ground vertex
+   * may sit off a merged rectangle of sub-quads (`hollow-lod.ts`) and still be passed over.
+   */
+  lod: { near: 4, hold: 2, wallRowStep: 2, wallColStep: 2, flatEps: 0.004 },
 } as const;

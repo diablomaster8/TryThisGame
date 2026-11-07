@@ -867,8 +867,9 @@ export function sceneFor(
   world: World,
   id: string,
   band: TextBand = textBandOf(world),
+  given?: Scene,
 ): PlayScene | undefined {
-  const scene = SCENE_BY_ID.get(id);
+  const scene = given ?? SCENE_BY_ID.get(id);
   const c = world.campaign;
   if (!scene) return undefined;
   if (id === FAIR_SCENE) return { ...scene, lines: epilogueLines(world), choices: [], lessons: [] };

@@ -70,6 +70,8 @@ export const LANE_POIS: readonly PoiDef[] = [
   // The lane's two meeting places: the green with its bench, and the old milestone.
   { id: 'lane-green', x: 0, z: -26, tier: 'major' },
   { id: 'milestone', x: 0, z: 30, tier: 'major' },
+  // R13 d1 (WORLD-69): where the cart to the ridge foot waits.
+  { id: 'cart-stop', x: 6, z: 48, tier: 'minor' },
 ];
 
 export const LANE_SPEC: RegionSpec = {

@@ -1,5 +1,6 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** R0511 (TECH-69) and R0474 (TECH-32): the Progress page and the Grove diary. */
-const plural = (n: number, one: string, many: string): string => (n === 1 ? one : many);
 
 export const PROGRESS_TEXT = {
   tab: 'Progress',
@@ -22,19 +23,17 @@ export const PROGRESS_TEXT = {
   diaryPrivate: 'Only on this device. Nothing is ever sent anywhere.',
   diaryEmpty: 'Play a little and this page fills in.',
   line: {
-    hatched: (n: number) => `You have hatched ${n} ${plural(n, 'Nubbin', 'Nubbins')}.`,
+    hatched: (n: number) => fmt(MESSAGES_EN.hatchedCount, { n }),
     firstHatch: (s: number) => `Your first hatch took ${s} seconds.`,
     firstPet: (s: number) => `You gave your first pat after ${s} seconds.`,
     firstFeed: (s: number) => `Your first meal was served after ${s} seconds.`,
     played: (m: number) => `You have played for ${m} minutes.`,
-    sessions: (n: number) =>
-      n === 1 ? 'This is your first visit.' : `You have visited ${n} times.`,
+    sessions: (n: number) => fmt(MESSAGES_EN.visits, { n }),
     longest: (m: number) => `Your longest visit was ${m} minutes.`,
-    evolutions: (n: number) => `${n} ${plural(n, 'Nubbin', 'Nubbins')} grew up.`,
+    evolutions: (n: number) => fmt(MESSAGES_EN.grewUp, { n }),
     rebirths: (n: number) => `${n} came back reborn.`,
-    expeditions: (n: number, best: number) =>
-      `${n} ${plural(n, 'Expedition', 'Expeditions')}, best haul ${best} Shells.`,
-    races: (n: number) => `${n} ${plural(n, 'race', 'races')} won.`,
+    expeditions: (n: number, best: number) => fmt(MESSAGES_EN.expeditionsBest, { n, best }),
+    races: (n: number) => fmt(MESSAGES_EN.racesWon, { n }),
   },
   copyDiary: 'Copy my diary',
   copied: 'Diary copied.',

@@ -89,8 +89,24 @@ export function offerInstallLater(root: HTMLElement): void {
   window.setTimeout(() => offer(root), INSTALL_HINT.delayMs);
 }
 
-function offer(root: HTMLElement): void {
+/** Anything the player is in the middle of: a panel, a card or a story scene. */
+export const INSTALL_BUSY =
+  '.modal:not([hidden]), .sheet:not([hidden]), .dialogue:not([hidden]), .celebrate:not([hidden])';
+
+/** True while the player is in something, so the install card should wait. */
+export function installShouldWait(find: (selector: string) => unknown): boolean {
+  return Boolean(find(INSTALL_BUSY));
+}
+
+/** BS-02: the card waits for a calm moment instead of covering a panel or a scene. */
+const RETRY_MS = 20_000;
+
+function offer(root: HTMLElement, tries = 0): void {
   if (read(KEY) || !root.isConnected || document.querySelector('.install-hint')) return;
+  if (installShouldWait((q) => document.querySelector(q))) {
+    if (tries < 90) window.setTimeout(() => offer(root, tries + 1), RETRY_MS);
+    return;
+  }
   const ios = isIos() && !standalone();
   if (!ios && !deferred) return;
   const box = el('div', 'install-hint');

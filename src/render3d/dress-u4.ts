@@ -3,7 +3,7 @@ import { markAt } from '../config/stage-marks';
 import { CG4_U4 } from '../config/tuning-u4';
 import { dressItems } from '../render/dress-d-rules';
 import { stageFlags } from '../render/scene-stage';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { boardFace, noticeSheet } from '../ui/board-art';
 import { setInspectSource, type InspectHandle } from '../ui/item-inspect';
 import { buildItem } from './dress-u';

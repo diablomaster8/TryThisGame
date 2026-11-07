@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { CG4_C4, CG_A, GROVE3D } from '../config/tuning';
-import type { Surface } from '../samples/aaa-kit';
-import { toonShader } from '../samples/creatures';
+import type { Surface } from './art/aaa-kit';
+import { toonShader } from './art/creatures';
 import { addHull } from './toon-outline';
 
 /**

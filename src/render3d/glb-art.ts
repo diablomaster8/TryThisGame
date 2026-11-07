@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { toonMaterial, TOON } from '../samples/creatures';
-import type { PoseName, Rigged } from '../samples/species';
+import { toonMaterial, TOON } from './art/creatures';
+import type { PoseName, Rigged } from './art/species';
 
 /**
  * R0439 (LOOK-71): imported licensed 3D art for a species. `art:<id>` looks resolve a glTF

@@ -2,7 +2,7 @@ import { C12C } from '../config/tuning-camp12c';
 import { STORY } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { EXTRA_LOOKS } from './extra-looks';
-import { spawnOfferGuest } from './scene-cast';
+import { offerSpawnAngle, spawnOfferGuest } from './scene-cast';
 import { sideStory } from './story-scenes';
 import type { Npc, QuestBook, Vec2, World } from './types';
 
@@ -58,7 +58,15 @@ export function beginApproach(world: World, book: QuestBook, id: string): boolea
   if (!who) return false;
   const k = world.keeper;
   let npc = giverNpc(world, quest);
-  if (!npc) npc = spawnOfferGuest(world, who, k.facing + 2.4, C12C.approach.spawnAt);
+  if (!npc) {
+    const reach = C12C.approach.spawnAt;
+    npc = spawnOfferGuest(
+      world,
+      who,
+      offerSpawnAngle(world, reach, C12C.approach.viewAngle),
+      reach,
+    );
+  }
   if (dist(npc.pos, k.pos) <= C12C.approach.arriveWithin) return false;
   // Aim short of the Keeper on the line from them to the giver.
   const d = dist(npc.pos, k.pos);

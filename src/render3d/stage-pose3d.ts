@@ -1,6 +1,6 @@
 import type * as THREE from 'three';
 import { POSE_CUES, POSE_FLAGS } from '../render/stage-pose';
-import type { PoseName, Rigged } from '../samples/species';
+import type { PoseName, Rigged } from './art/species';
 
 /**
  * Campaign graphics 4, package a1, Full 3D: hands a figure's stage cue (render/stage-pose.ts)

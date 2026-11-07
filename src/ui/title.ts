@@ -60,6 +60,7 @@ import { SAVE_LAYOUT_TEXT } from '../config/strings-camp11-save';
 import '../save-r11.css';
 import '../camp-r11.css';
 /* Lane C r11 helper "profiles" (R0598, R0621, R0627, R0628, R0653) */
+import { TITLE_R13_TEXT } from '../config/strings-r13d3';
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
 import { continueSlot } from './install-hint';
 import { unifiedActive } from '../platform/unified-keys';
@@ -281,8 +282,12 @@ export function showTitle(
     const roads = el('details', 'title-roads');
     roads.appendChild(el('summary', 'title-roads-sum', C11_TEXT.roadsHead));
     roads.appendChild(el('p', 'help', C11_TEXT.roadsHelp));
+    // R0447: only the first empty slot of a mode shows; the rest wait in one "Load another
+    // save" fold, so the first screen of a new save is a handful of buttons.
+    const spare: Array<{ modeName: string; row: HTMLElement }> = [];
     for (const mode of order) {
       const isRoad = ROADS.includes(mode);
+      let emptyShown = 0;
       if (
         inWorld &&
         isRoad &&
@@ -505,7 +510,8 @@ export function showTitle(
           main.setAttribute('aria-label', SLOT_TEXT.newLabel(modeName, index));
           row.append(main);
         }
-        section.appendChild(row);
+        if (!filled && !isRoad && ++emptyShown > 1) spare.push({ modeName, row });
+        else section.appendChild(row);
       }
       if (ROADS.includes(mode)) {
         roads.appendChild(section);
@@ -516,6 +522,20 @@ export function showTitle(
         if (!roads.isConnected) menu.appendChild(roads);
       } else menu.appendChild(section);
       if (mode === focusMode) focus.section = section;
+    }
+    if (spare.length > 0) {
+      const fold = el('details', 'title-mode title-spare');
+      fold.appendChild(el('summary', 'title-mode-name', TITLE_R13_TEXT.loadAnother));
+      fold.appendChild(el('p', 'help', TITLE_R13_TEXT.loadAnotherHelp));
+      const grid = el('div', 'title-spare-grid');
+      let last = '';
+      for (const s of spare) {
+        if (s.modeName !== last) grid.appendChild(el('div', 'title-mode-name', s.modeName));
+        last = s.modeName;
+        grid.appendChild(s.row);
+      }
+      fold.appendChild(grid);
+      menu.appendChild(fold);
     }
     const olderHost = el('div');
     menu.appendChild(olderHost);

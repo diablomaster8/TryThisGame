@@ -19,6 +19,7 @@ import {
 } from '../sim/story-regions';
 import type { CampaignState, Command, SimEvent, World } from '../sim/types';
 import { CAMP11C_TEXT } from '../config/strings-camp11c';
+import { questKeyHere } from '../sim/quest-here';
 import { confirmModal } from './confirm';
 import { button, el } from './dom';
 
@@ -44,7 +45,11 @@ export function regionWaitHint(world: World, line: CampaignState): string | null
 /** R0605: inside a questline's region, that line's objective (`line:<id>:…`) goes first. */
 export function regionFirst<T extends { key: string }>(world: World, list: T[]): T[] {
   const id = regionLine(world)?.storyline;
-  if (!id) return list;
+  if (!id) {
+    // R13 d2 (R0100): in a drawn region, a pinned quest that belongs there goes first.
+    const j = list.findIndex((o) => questKeyHere(world, o.key));
+    return j > 0 ? [list[j]!, ...list.slice(0, j), ...list.slice(j + 1)] : list;
+  }
   const i = list.findIndex((o) => o.key.startsWith(`line:${id}:`));
   return i > 0 ? [list[i]!, ...list.slice(0, i), ...list.slice(i + 1)] : list;
 }
