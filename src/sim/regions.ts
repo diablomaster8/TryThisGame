@@ -8,6 +8,8 @@
  */
 import { inSlice } from './edu-region-bounds';
 import { companionsArrive } from './region-companion';
+import { caveWayOf } from './cave-entrances';
+import { enterCave } from './dungeon';
 import { REGIONS, REGION_ORDER, type RegionDef, type RegionId } from '../config/regions';
 import { setLocation } from './campaign';
 import { visit } from './neighbourhood';
@@ -60,7 +62,8 @@ export function travelBlock(
   const exit = here.exits.find((e) => e.id === exitId);
   if (!exit) return 'no-exit';
   const to = regions[exit.to];
-  if (!to.built) return 'unbuilt';
+  // R0115 (R17 d1): a cave's mouth is open though its region is not drawn: its floors are the Hollow's.
+  if (!to.built && !caveWayOf(exit.id)) return 'unbuilt';
   if (exitLocked(world, exit)) return 'locked';
   // R13 d2 (R0099): the Learning Grove only goes to kid-safe places.
   if (world.edu && !to.kidsSafe) return 'not-for-kids';
@@ -91,6 +94,11 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   }
   const from = regionOf(world.location);
   const exit = REGIONS[from].exits.find((e) => e.id === exitId)!;
+  // R0115 (R17 d1): the ridge's ice caves and the ruins' door lead into a small cave run.
+  if (caveWayOf(exit.id)) {
+    (world.regionLeftMs ??= {})[from] = world.timeMs;
+    return enterCave(world, exit, from, events);
+  }
   // R0124: when this region was left, for its closed-form ageing on the way back.
   (world.regionLeftMs ??= {})[from] = world.timeMs;
   const k = world.keeper;

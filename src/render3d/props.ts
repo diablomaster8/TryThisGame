@@ -2,6 +2,8 @@ import { FarLanterns } from './far-lanterns';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
+import { CAVE_LANTERN } from '../config/grove-layout';
+import { MOUTH_LANTERN } from '../config/tuning-r17d1';
 import { buildTree, pbr, repeatUv, shadowed, type Tex } from './art/aaa-kit';
 import {
   bevelBox,
@@ -476,6 +478,22 @@ export function buildGroveProps(
     group.add(mouth, arch);
     pick(mouth, 'building', 'cave', pickables);
     pick(arch, 'building', 'cave', pickables);
+    // R0115 (R17 d1): the mouth's own lantern post, in the shared buckets (no extra draw): its
+    // glass is the windows' glass, so it glows with them at night, and it throws a pool of light.
+    const lx = CAVE_LANTERN.x;
+    const lz = CAVE_LANTERN.z;
+    const ly = groveHeight(lx, lz);
+    const gy = ly + MOUTH_LANTERN.glassY;
+    kit.add('stone', bevelBox(0.42, 0.3, 0.42, 0.05), { x: lx, y: ly + 0.05, z: lz });
+    kit.add('timber', bevelBox(0.16, 2.0, 0.16, 0.04), { x: lx, y: ly + 1.0, z: lz });
+    kit.add('timber', bevelBox(0.44, 0.06, 0.44, 0.02), { x: lx, y: gy - 0.22, z: lz });
+    kit.add('glass', new THREE.BoxGeometry(0.32, 0.38, 0.32), { x: lx, y: gy, z: lz });
+    kit.add('roof', new THREE.ConeGeometry(0.36, 0.26, 4), { x: lx, y: gy + 0.34, z: lz }, [
+      0,
+      Math.PI / 4,
+      0,
+    ]);
+    spills.push({ x: lx, z: lz, yaw: 0, size: MOUTH_LANTERN.spill });
   }
 
   kit.flush(group);

@@ -17,6 +17,24 @@ describe('frozen pond', () => {
     expect(pondIsIce(w)).toBe(false);
   });
 
+  it("in story mode is ice in Hazel's chapters 10 to 12, as the renderers draw it", () => {
+    const w = createWorld(5, 0);
+    const at = (chapter: number, storyline?: string): boolean =>
+      pondIsIce({
+        ...w,
+        campaign: {
+          ...({} as NonNullable<typeof w.campaign>),
+          chapter,
+          ...(storyline ? { storyline } : {}),
+        },
+      });
+    expect(at(9)).toBe(false);
+    expect(at(10)).toBe(true);
+    expect(at(12)).toBe(true);
+    expect(at(13)).toBe(false);
+    expect(at(11, 'hundred')).toBe(false);
+  });
+
   it('holds the Keeper at the ice and lets it slide at x1.4 with low steering', () => {
     const cold = createWorld(5, 0);
     cold.debugSeason = 'winter';
