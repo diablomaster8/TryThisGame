@@ -13,6 +13,7 @@
 import type { PoiDef } from './regions';
 import type { RegionSpec } from './region-layout';
 import type { CampaignState } from '../sim/types';
+import type { JumpRoute } from './region-jumps';
 
 export const RUINS_TERRACES = [
   { z0: -36, z1: -6, y: 1.8 },
@@ -112,3 +113,30 @@ export function ruinsState(campaign: Readonly<CampaignState> | null | undefined)
   if (campaign.ending !== null || campaign.chapter >= 13) return 'relit';
   return campaign.chapter > 9 ? 'thawed' : 'sealed';
 }
+
+/**
+ * R0114 (WORLD-37, R13 d1): the colonnade-tops walk. Fallen architrave blocks climb in three
+ * 0.6 u steps (a single jump each) at each end of the colonnade to a parapet of broken lintel
+ * that runs along its front at 4.2 u, over the lantern avenue's far side. It is a view and a
+ * short cut across the court, never the only way: the grand stair is the walking way round.
+ */
+const parapet = (sign: 1 | -1): JumpRoute => {
+  const s = sign;
+  return {
+    id: s < 0 ? 'colonnade-west' : 'colonnade-east',
+    kind: 'ledge',
+    gap: 0.2,
+    rise: 0.6,
+    run: false,
+    from: { x: s * 26.5, z: -10.6 },
+    to: { x: s * 5.3, z: -10.6 },
+    walkAround: 'stair',
+    ledges: [
+      { x: s * 25, z: -10.6, w: 1.8, h: 1.6, y: 2.4 },
+      { x: s * 23.3, z: -10.6, w: 1.8, h: 1.6, y: 3.0 },
+      { x: s * 21.6, z: -10.6, w: 1.8, h: 1.6, y: 3.6 },
+      { x: s * 13, z: -10.6, w: 15.4, h: 1.6, y: 4.2 },
+    ],
+  };
+};
+export const RUINS_JUMPS: readonly JumpRoute[] = [parapet(-1), parapet(1)];

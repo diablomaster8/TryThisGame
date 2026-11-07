@@ -54,6 +54,10 @@ export interface Line {
   id?: string;
   /** R0344: the recorded take's clip name and a director's note, once VO exists. */
   vo?: { take?: string; note?: string };
+  /** R0345 (FUN-56): a translator note, for a line whose joke or grammar needs one. */
+  tn?: string;
+  /** R0345: the joke rests on English wordplay, so a translator may swap in a local joke. */
+  pun?: boolean;
 }
 
 /** R0303: what a stage actor can do on a line: an emote over it, or a little particle burst. */

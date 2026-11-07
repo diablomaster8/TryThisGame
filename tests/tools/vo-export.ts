@@ -14,6 +14,9 @@ export interface VoRow {
   mood: string;
   text: string;
   note: string;
+  /** Translator note and the wordplay flag (R0345), empty when the line has none. */
+  tn?: string;
+  pun?: boolean;
   audience: string;
 }
 
@@ -27,6 +30,8 @@ export function voRows(manifest: Manifest = loadManifest()): VoRow[] {
       mood: l.mood ?? 'neutral',
       text: l.text,
       note: l.vo?.note ?? '',
+      ...(l.tn ? { tn: l.tn } : {}),
+      ...(l.pun ? { pun: true } : {}),
       audience: s.audience,
     }));
   });

@@ -147,6 +147,15 @@ function cairnArch(): Raster {
   return finish(r);
 }
 
+/** R0113 (R13 d1): a snowball, a small white disc with a blue shadow side. */
+function snowball(): Raster {
+  const r = canvas(10, 10);
+  r.disc(5, 5, 4, hex('#cfe0ee'));
+  r.disc(4, 4, 3, hex('#ffffff'));
+  r.tracking = false;
+  return r;
+}
+
 let sheet: SpriteSheet | null = null;
 
 export function ridgeSheet(): SpriteSheet {
@@ -161,6 +170,7 @@ export function ridgeSheet(): SpriteSheet {
   atlas.add('cave', caveMouth());
   atlas.add('falls', falls());
   atlas.add('arch', cairnArch());
+  atlas.add('snowball', snowball());
   sheet = atlas.build();
   return sheet;
 }

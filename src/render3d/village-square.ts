@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { ROLE_COLOURS, VILLAGE, VILLAGE_PICK, type VillageService } from '../config/region-village';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { villageBuildings, villageDressing, villageRecruits } from '../sim/village';
 import type { World } from '../sim/types';
 import { buildingMaterial } from './building-kit';

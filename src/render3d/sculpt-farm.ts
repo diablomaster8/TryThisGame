@@ -1,5 +1,5 @@
 import type { BufferGeometry } from 'three';
-import { speciesSurfaces, surfaceData } from '../samples/species';
+import { speciesSurfaces, surfaceData } from './art/species';
 import {
   fromArrays,
   sculptCacheKey,
@@ -7,7 +7,7 @@ import {
   toArrays,
   type SculptData,
   type SurfaceArrays,
-} from '../samples/sculpt-spec';
+} from './art/sculpt-spec';
 import { specForKey } from './looks';
 import { readSurfaces, writeSurfaces } from './sculpt-cache';
 import type { SculptReply, SculptRequest } from './sculpt-worker';

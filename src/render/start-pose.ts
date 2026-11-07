@@ -4,7 +4,7 @@
  */
 import { START_CLIP, startFrameIndex, type StartKind } from '../sim/race-persona';
 import { frameKey } from './sprites/animations';
-import type { PoseName } from '../samples/species';
+import type { PoseName } from '../render3d/art/species';
 import type { SpriteSheet } from './sprites/atlas';
 
 type Rect = NonNullable<ReturnType<SpriteSheet['frames']['get']>>;

@@ -45,6 +45,8 @@ export const FIRST_LOOP_TEXT = {
   patHint: (name: string) => `Tap ${name}, then tap Pet`,
   name: () => 'Name your Nubbin',
   nameHint: (name: string) => `Tap ${name}, then tap its name to change it`,
+  toss: (name: string) => `Toss ${name} gently`,
+  tossHint: (name: string) => `Drag ${name} up, then let go over the grass`,
   skip: 'I know how to play',
   skipLabel: 'Skip the first-steps guide',
 };

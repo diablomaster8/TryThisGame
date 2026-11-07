@@ -48,6 +48,8 @@ export const SHORE_POIS: readonly PoiDef[] = [
   { id: 'stilt-village', x: 43, z: 6, tier: 'major' },
   { id: 'lagoon', x: 56, z: -10, tier: 'minor' },
   { id: 'lighthouse', x: 64, z: 6, tier: 'minor' },
+  // R13 d1 (WORLD-69): the island out in the bay, a plank raft-island reached by the rowing ferry.
+  { id: 'island', x: -10, z: 19, tier: 'minor' },
 ];
 
 /** The stilt houses, standing on the boardwalk over the water (solid, drawn by the shore). */
@@ -110,6 +112,9 @@ export const SHORE_SPEC: RegionSpec = {
     { x: 51, z: 12.4, w: 2.4, h: 5 },
     { x: 46, z: 15.6, w: 26, h: 3 },
     { x: 58, z: 19.4, w: 2.4, h: 5 },
+    // R13 d1: the west jetty by the rowing boat, and the island out in the bay.
+    { x: -26, z: 11.9, w: 2.4, h: 5 },
+    { x: -10, z: 19, w: 6, h: 4 },
   ],
   treeKeep: 0.35,
   spurs: [
@@ -152,3 +157,12 @@ export function tideAt(hour: number): number {
 export function waterlineZ(tide: number): number {
   return SHORE_LOOK.highTideZ + (SHORE_LOOK.tideRange * (1 - tide)) / 2;
 }
+
+/** WORLD-35 (R13 d1): the Kettleby folk, standing by their houses and the lamp. */
+export type ShoreFolkId = 'tam' | 'orla' | 'bett' | 'skerry';
+export const SHORE_FOLK: readonly { id: ShoreFolkId; x: number; z: number; tone: number }[] = [
+  { id: 'tam', x: 38.5, z: 8, tone: 0 },
+  { id: 'orla', x: 48.5, z: 8.4, tone: 1 },
+  { id: 'bett', x: -22, z: 9, tone: 2 },
+  { id: 'skerry', x: 61, z: 7.6, tone: 3 },
+];

@@ -864,11 +864,13 @@ export function leansForward(spec: CreatureSpec): boolean {
  * R0377: the Pixel lean. The 3D figure shears everything above the hips forward by
  * DINO_LEAN_DEG; a 32 px frame cannot take the full slope, so rows above the hips slide
  * toward the face (+x in the side and front quarter views) by `DINO_LEAN_PX.slope` design pixels per row (the full share from the
- * side, half from the quarter views, none head-on), in whole design pixels so the art stays
+ * side, half from the quarter views including the back quarter, none head-on or from behind), in whole design pixels so the art stays
  * crisp, capped so the snout stays in the frame. The legs and feet stay planted.
  */
-function leanPixels(pc: PixelCanvas, a: Anchors): void {
-  const share = a.face >= 1 ? 1 : a.face > 0 ? 0.5 : 0;
+function leanPixels(pc: PixelCanvas, a: Anchors, angle: DrawnAngle): void {
+  // The back quarter is drawn turned toward +x too (as the Keeper's lean reads it), so the
+  // head goes the same way as in the front quarter, by half the side lean.
+  const share = a.face >= 1 ? 1 : a.face > 0 || angle === 'backQuarter' ? 0.5 : 0;
   if (share === 0) return;
   const hip = a.bodyCy + Math.round(a.bodyRy * 0.4);
   const { width, data } = pc;
@@ -932,7 +934,7 @@ export function drawCreature(
     if (angle !== 'side') pc.px(a.headCx - a.headRx + 2, cy, C.rose);
     pc.px(a.headCx + a.headRx - 2, cy, C.rose);
   }
-  if (leansForward(spec)) leanPixels(pc, a);
+  if (leansForward(spec)) leanPixels(pc, a, angle);
   pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
   drawGas(pc, a, spec);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
