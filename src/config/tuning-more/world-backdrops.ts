@@ -5,8 +5,9 @@ export const BEACON_BACKDROP = {
   max: 3,
   /** How far past the exit the card stands, world units. */
   beyond: 14,
-  /** Card height, world units. */
-  height: 22,
+  /** The floating icon's size and its height off the ground, world units. */
+  size: 6,
+  lift: 4,
   opacity: 0.75,
 } as const;
 
