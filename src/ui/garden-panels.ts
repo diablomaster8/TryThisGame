@@ -1,4 +1,5 @@
 import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { VISIT_WALK_TEXT } from '../config/strings-r15d1';
 import { requestLine } from '../config/strings-fun-r6';
 import { MOVE_TEXT } from '../config/strings-move';
 import { PLOTS, TOWN } from '../config/tuning';
@@ -501,7 +502,25 @@ export class NeighbourhoodPanel {
         'btn btn-small btn-primary',
       );
       go.disabled = here === t.id;
-      row.append(text, go);
+      const name = label?.name ?? t.id;
+      go.setAttribute('aria-label', VISIT_WALK_TEXT.quickAria(name));
+      // R0112: the lane walk to the neighbour's gate; "Visit" stays the quick way in.
+      const walk = button(
+        VISIT_WALK_TEXT.walkBtn,
+        () => {
+          const lane = w.location === 'region:lane';
+          if (w.location !== 'grove' && !here && !lane) {
+            this.toast(UI_TEXT.notFromHere);
+            return;
+          }
+          g.send({ kind: 'visitWalk', trainer: t.id });
+          this.close();
+        },
+        'btn btn-small',
+      );
+      walk.disabled = here === t.id;
+      walk.setAttribute('aria-label', VISIT_WALK_TEXT.walkAria(name));
+      row.append(text, walk, go);
       this.list.appendChild(row);
     }
   }
