@@ -41,7 +41,8 @@ import { Actors } from './actors';
 import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
 import { Bursts } from './bursts';
-import { syncOcclude } from './building-kit';
+import { occludeDepthKey, syncOcclude } from './building-kit';
+import { ShadowCache } from './shadow-cache';
 import { poofBursts, POOF3D } from './foe-poof-3d';
 import { GearPop3D } from './hollow-gear-pop';
 import { HollowR9a3D } from './hollow-r9a-3d';
@@ -339,6 +340,8 @@ export class Grove3dScene {
   private caveShadowOff = false;
   /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
   private shadowMerge!: ShadowMerge;
+  /** Round 2: the sun's shadow map drawn from a cached static layer plus the movers. */
+  readonly shadowCache: ShadowCache;
   private caveShadowCleared = false;
   private sunShadowMask = 0;
   private readonly sky: GroveSky;
@@ -617,6 +620,8 @@ export class Grove3dScene {
     this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
     this.tex = this.textures.tex;
     this.scene.add(this.world3d);
+    // Installed first, so the shadow merge's per-pass slicing runs before it looks.
+    this.shadowCache = new ShadowCache(this.renderer, () => [this.actors.group], occludeDepthKey);
     this.shadowMerge = new ShadowMerge(this.world3d, this.renderer);
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
@@ -2542,6 +2547,7 @@ export class Grove3dScene {
 
   dispose(): void {
     setGroveBackSource(null);
+    this.shadowCache.dispose();
     this.canvasSizer?.disconnect();
     this.dressings.dispose();
     document.removeEventListener('visibilitychange', this.onHidden);
