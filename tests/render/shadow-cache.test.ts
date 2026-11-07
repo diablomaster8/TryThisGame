@@ -57,7 +57,7 @@ function setup() {
       needsUpdate: false,
       type: THREE.BasicShadowMap,
       // Three's pass: clear the bound map, then draw every caster whose flag is on.
-      render: (_l: THREE.Light[], s: THREE.Object3D) => {
+      render: (_l: THREE.Light[], s: THREE.Object3D, _c?: THREE.Camera) => {
         const prev = target;
         target = map;
         renderer.clear();

@@ -90,9 +90,9 @@ export class ShadowCache {
   }
 
   private render(
-    draw: (lights: THREE.Light[], scene: THREE.Object3D, camera: THREE.Camera) => void,
+    draw: (lights: THREE.Light[], scene: THREE.Scene, camera: THREE.Camera) => void,
     lights: THREE.Light[],
-    scene: THREE.Object3D,
+    scene: THREE.Scene,
     camera: THREE.Camera,
   ): void {
     const map = this.renderer.shadowMap;
@@ -113,7 +113,10 @@ export class ShadowCache {
     // The same matrices three is about to compute, so the key sees where the box is now.
     shadow.updateMatrices(sun);
     this.makeKey(shadow, map.type);
-    if (!equal(this.key, this.lastKey) || !this.ensureTarget(shadow.map)) {
+    if (
+      !equal(this.key, this.lastKey) ||
+      !this.ensureTarget(shadow.map as THREE.WebGLRenderTarget | null)
+    ) {
       // The box is moving (a walking Keeper, a race): draw the plain way, and skip the walk
       // over the casters too; a caster that changed meanwhile is caught when the box settles.
       this.valid = false;
@@ -126,7 +129,7 @@ export class ShadowCache {
         this.drawMovers(draw, lights, scene, camera, 'copy');
       } else {
         this.stats.rebuilt++;
-        this.rebuild(draw, lights, scene, camera, shadow.map);
+        this.rebuild(draw, lights, scene, camera, shadow.map as THREE.WebGLRenderTarget);
       }
     }
     const k = this.lastKey;
@@ -162,7 +165,7 @@ export class ShadowCache {
    * Walk the scene as three's shadow pass does (visible chain, the view camera's layers) and
    * sort the casters outside the dynamic roots into static ones (`now`) and movers.
    */
-  private collect(scene: THREE.Object3D, camera: THREE.Camera): void {
+  private collect(scene: THREE.Scene, camera: THREE.Camera): void {
     this.now.length = 0;
     this.movers.length = 0;
     const dyn = this.dynamicRoots();
@@ -208,9 +211,9 @@ export class ShadowCache {
 
   /** Draw only the movers: the statics' cast flag is off for the call. */
   private drawMovers(
-    draw: (lights: THREE.Light[], scene: THREE.Object3D, camera: THREE.Camera) => void,
+    draw: (lights: THREE.Light[], scene: THREE.Scene, camera: THREE.Camera) => void,
     lights: THREE.Light[],
-    scene: THREE.Object3D,
+    scene: THREE.Scene,
     camera: THREE.Camera,
     mode: 'copy' | 'keep',
   ): void {
@@ -227,9 +230,9 @@ export class ShadowCache {
 
   /** Draw the statics alone, keep their depth, then add the movers. */
   private rebuild(
-    draw: (lights: THREE.Light[], scene: THREE.Object3D, camera: THREE.Camera) => void,
+    draw: (lights: THREE.Light[], scene: THREE.Scene, camera: THREE.Camera) => void,
     lights: THREE.Light[],
-    scene: THREE.Object3D,
+    scene: THREE.Scene,
     camera: THREE.Camera,
     target: THREE.WebGLRenderTarget,
   ): void {
@@ -303,7 +306,7 @@ export class ShadowCache {
 
   /** The cache into the shadow map, which three has bound for its pass (the clear's place). */
   private blit(intoBound: boolean): void {
-    const target = this.renderer.getRenderTarget();
+    const target = this.renderer.getRenderTarget() as THREE.WebGLRenderTarget | null;
     const dst = target ? this.shadowFb(target) : null;
     if (!dst || !this.fb || !intoBound) return;
     this.blitBetween(this.fb, dst);
@@ -373,7 +376,7 @@ function numbers(m: THREE.Mesh, out: Float64Array): void {
   const idx = g?.index;
   const inst = m as THREE.InstancedMesh;
   const mat = Array.isArray(m.material) ? m.material[0] : m.material;
-  out[16] = pos ? pos.version : -1;
+  out[16] = pos ? ((pos as THREE.BufferAttribute).version ?? -1) : -1;
   out[17] = pos ? pos.count : -1;
   out[18] = idx ? idx.version : -1;
   out[19] = idx ? idx.count : -1;
