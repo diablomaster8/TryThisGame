@@ -1,4 +1,5 @@
 import { playArea } from '../play-area';
+import { minigameFrameMs, minigameNowMs, resetMinigameTime } from '../frame-time';
 import { RACE, SIM } from '../../config/tuning';
 import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
 import { countLabel, inCountdown } from '../../sim/race-persona';
@@ -197,6 +198,7 @@ export class RaceScreen {
         },
       );
     } else startPixel();
+    resetMinigameTime();
     this.rafId = requestAnimationFrame(this.frame);
   }
 
@@ -206,7 +208,7 @@ export class RaceScreen {
     if (cheer(this.race)) {
       playSound('cheer');
       if (this.race.friendly) this.friendlySpeak(FUN_RUN_TEXT.cheerSay);
-      this.view.cheered(this.race, performance.now());
+      this.view.cheered(this.race, minigameNowMs());
     }
   }
 
@@ -243,7 +245,8 @@ export class RaceScreen {
     this.view.resize(rect);
   }
 
-  private readonly frame = (nowMs: number): void => {
+  private readonly frame = (rawMs: number): void => {
+    const nowMs = minigameFrameMs(rawMs);
     const race = this.race;
     if (!race) return;
     // A 3D stage still building: the field waits at the line.
@@ -298,7 +301,7 @@ export class RaceScreen {
     const place = this.livePlacement(race);
     if (race.friendly && live) {
       // R0688: no placings, only the count and a flag.
-      const step = this.countStep(performance.now());
+      const step = this.countStep(minigameNowMs());
       this.hud.textContent = step >= 0 ? (FUN_RUN_TEXT.count[step] ?? '') : '🏁';
       this.cheerBtn.disabled = step >= 0 || !cheerReady(race) || race.finished;
       return;

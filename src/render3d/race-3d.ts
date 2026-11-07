@@ -1,4 +1,5 @@
 import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { minigameNowMs } from '../minigames/frame-time';
 import { START_POSE_3D } from '../render/start-pose';
 import { lineClock, racerPersonality, startKind } from '../sim/race-persona';
 import * as THREE from 'three';
@@ -98,7 +99,7 @@ export class Race3dView implements RaceView {
     const band = raceBandId(race.course.id);
     this.player = band ? { ...player, wear: { ...player.wear, face: band } } : null;
     this.spans = sectionSpans(race.course);
-    this.openedMs = performance.now();
+    this.openedMs = minigameNowMs();
     this.lastMs = 0;
     this.camX = 0;
     stage.backdrop(RACE3D.backdrop.top, RACE3D.backdrop.bottom);
@@ -125,7 +126,7 @@ export class Race3dView implements RaceView {
     void stage.compile().then(() => {
       if (this.stage !== stage) return;
       this.sceneryReady = true;
-      this.openedMs = performance.now();
+      this.openedMs = minigameNowMs();
     });
   }
 
