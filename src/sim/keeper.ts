@@ -1,4 +1,6 @@
 import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
+import { ICE } from '../config/tuning-r14d2';
+import { ICE_Y, keeperOnIce, overPond, pondIsIce } from './ice';
 import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from './terrain';
 import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
 import { CG_C } from '../config/tuning-c';
@@ -117,7 +119,7 @@ function standable(p: Vec2, world: World, wade: boolean, feetY?: number): boolea
 export function freeSpot(
   world: World,
   p: Vec2,
-  wade = keeperPerks(world).wade,
+  wade = wades(world),
   feetY?: number,
 ): Vec2 {
   if (standable(p, world, wade, feetY)) return p;
@@ -143,7 +145,7 @@ export function unstickKeeper(world: World): boolean {
   if (runFloor(world)) return false;
   const k = world.keeper;
   // R0027/R0025 (lane A r10): in the air the Keeper may be over the pond (a jump, a glide).
-  const to = freeSpot(world, k.pos, keeperPerks(world).wade || !k.grounded, k.y);
+  const to = freeSpot(world, k.pos, wades(world) || !k.grounded, k.y);
   if (to === k.pos) return false;
   k.pos = { x: to.x, z: to.z };
   return true;
@@ -308,7 +310,16 @@ export function stepKeeperMotion(world: World, events: SimEvent[]): boolean {
 
 /** Where the Keeper's feet would rest at (x, z), coming from feet at `fromY`. */
 export function keeperFooting(world: World, x: number, z: number, fromY = Infinity): Footing {
-  return footing(x, z, fromY, (px, pz) => standTopAt(world, px, pz));
+  const f = footing(x, z, fromY, (px, pz) => standTopAt(world, px, pz));
+  // R0118: a frozen pond holds the feet at the ice, not the bed.
+  if (f.on === 'water' && pondIsIce(world) && overPond({ x, z }))
+    return { y: ICE_Y, on: 'deck', sink: 0 };
+  return f;
+}
+
+/** Whether the Keeper may stand in the pond: the Swim perk, or the pond frozen over. */
+function wades(world: World): boolean {
+  return keeperPerks(world).wade || pondIsIce(world);
 }
 
 /** The jump numbers in play: the floatier set in a Learning Grove or with Gentle jumps on. */
@@ -470,7 +481,7 @@ function stepRoll(world: World, dtMs: number, events: SimEvent[]): boolean {
   } else {
     resolve(k.pos, world, 0.35, 'keeper', k.y);
     holdAtLedges(k, fromX, fromZ);
-    if (!keeperPerks(world).wade) {
+    if (!wades(world)) {
       const s = shoreline(k.pos);
       k.pos.x = s.x;
       k.pos.z = s.z;
@@ -635,7 +646,7 @@ function noteSafe(world: World): void {
  */
 function poofOverWater(world: World, under: number, events: SimEvent[]): boolean {
   const k = world.keeper;
-  if (!overDeepWater(k.pos) || keeperPerks(world).wade || !leftAshore.has(world)) return false;
+  if (!overDeepWater(k.pos) || wades(world) || !leftAshore.has(world)) return false;
   if (k.y > Math.max(under, WATER_LEVEL) + KEEPER_POOF.surface) return false;
   const from = { x: k.pos.x, z: k.pos.z };
   const back = lastSafe.get(world) ?? shoreline(k.pos);
@@ -818,6 +829,8 @@ function accelerate(world: World, wx: number, wz: number, dt: number, events: Si
     }
   } else skidding.delete(world);
   if (!world.keeper.grounded) rate *= A.airAccelScale;
+  // R0118: on the frozen pond the Keeper slides: it speeds up, turns and stops slowly.
+  if (keeperOnIce(world)) rate *= ICE.steerScale;
   const dx = wx - v.x;
   const dz = wz - v.z;
   const d = Math.hypot(dx, dz);
@@ -985,6 +998,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       Math.min(1, len) *
       keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
       soft *
+      (keeperOnIce(world) ? ICE.speedMul : 1) *
       (k.grounded && !dungeonFloor && world.location === 'grove'
         ? slopePace(k.pos.x, k.pos.z, nx, nz)
         : 1);
@@ -998,7 +1012,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // shore, as a tap target in the pond does below.
     // R0027 (lane A r10): a jump or a glide may carry on out over the water; a splash-down
     // there poofs back ashore (`poofOverWater`).
-    if (!dungeonFloor && !keeperPerks(world).wade && k.grounded) {
+    if (!dungeonFloor && !wades(world) && k.grounded) {
       const s = shoreline(k.pos);
       // R0088: stopped by deep water: say a swimmer could take the Keeper across.
       if (Math.hypot(s.x - k.pos.x, s.z - k.pos.z) > 1e-4) swimHint(world, events);
@@ -1024,7 +1038,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
     // and a Nubbin in the water is reached from there.
     const raw = target;
-    if (target && !dungeonFloor && !keeperPerks(world).wade) {
+    if (target && !dungeonFloor && !wades(world)) {
       target = shoreline(target);
       // R0088: a tap out on the pond, with nobody to swim it there.
       if (raw && !k.intent && Math.hypot(target.x - raw.x, target.z - raw.z) > 0.5)

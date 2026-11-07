@@ -5,7 +5,7 @@ import { drawRadiantSign } from './radiant-sign';
 import { drawEternalSign } from './eternal-sign';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
-import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
+import { CHILD_SHAPE, layout, type ChaoShape, type SpriteLayout } from './layout';
 import { C, color, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
 import {
   drawArmPart,
@@ -946,7 +946,7 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
 const GLASS_LOOKS: readonly string[] = ['look-chaos'];
 
 /** Hats sit on the crown. Five styles plus the character accessories. */
-export function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
+export function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, hat: string): void {
   const top = L.headCy - L.headRy;
   const cx = L.headCx + (angle === 'side' ? -1 : 0);
   switch (hat) {
@@ -1132,7 +1132,7 @@ export const NO_PARTS: NubbinParts = {
 function drawLookWings(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   hat: string | null | undefined,
   front: boolean,
 ): void {
@@ -1185,7 +1185,7 @@ function drawWings(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   look: ChaoLook,
   front: boolean,
 ): void {
@@ -1253,7 +1253,7 @@ function drawCrown(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
 ): void {
   // The swept-back point on top of the head, with a yellow tip.
@@ -1360,7 +1360,7 @@ function drawCrownFor(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
   shape: ChaoShape,
 ): void {
@@ -1406,7 +1406,7 @@ function drawCrownFor(
 function drawHeadTells(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
   shape: ChaoShape,
 ): void {
@@ -1435,7 +1435,7 @@ function drawHeadTells(
 function drawDorsal(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
   onBack: boolean,
 ): void {
@@ -1464,7 +1464,7 @@ function drawDorsal(
 function drawHeadFins(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
   size: number,
 ): void {
@@ -1494,7 +1494,7 @@ function drawLegs(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
 ): void {
   if (L.legLength <= 0 || pose.waterline || pose.legs === 'out') return;
@@ -1526,7 +1526,7 @@ function drawFeet(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
 ): void {
   if (pose.waterline) return;
@@ -1565,7 +1565,7 @@ function drawFeet(
  * LOOK-20, the Chao sit: the legs reach straight out in front, heels on the ground. From the
  * front the two yellow soles face the camera; from the side the legs run forward with the toes up.
  */
-function drawSitFeet(pc: PixelCanvas, angle: DrawnAngle, L: Layout, col: ChaoColors): void {
+function drawSitFeet(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, col: ChaoColors): void {
   const y = L.bodyCy + L.bodyRy - 1;
   const sole = (cx: number) => {
     pc.ellipse(cx, y, 2.5, 2, col.body);
@@ -1598,7 +1598,7 @@ function drawSitFeet(pc: PixelCanvas, angle: DrawnAngle, L: Layout, col: ChaoCol
 }
 
 /** The eye on one side of the face (`dir` −1 is the drawn left), as the face drawer places them. */
-function eyeXs(angle: DrawnAngle, L: Layout, dir: 1 | -1): [number, number] {
+function eyeXs(angle: DrawnAngle, L: SpriteLayout, dir: 1 | -1): [number, number] {
   const y = L.headCy + 1;
   switch (angle) {
     case 'side':
@@ -1611,7 +1611,7 @@ function eyeXs(angle: DrawnAngle, L: Layout, dir: 1 | -1): [number, number] {
 }
 
 /** Two light-blue drops running down and out from each eye (LOOK-21). */
-function drawTears(pc: PixelCanvas, angle: DrawnAngle, L: Layout, fist: number): void {
+function drawTears(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, fist: number): void {
   if (angle === 'back' || angle === 'backQuarter') return;
   const sides: (1 | -1)[] = angle === 'side' ? [1] : [-1, 1];
   for (const dir of sides) {
@@ -1629,7 +1629,7 @@ function drawArms(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   look: ChaoLook,
 ): void {
   const col = look.colors;
@@ -1717,7 +1717,7 @@ function drawFace(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
   star = false,
 ): void {
@@ -1879,7 +1879,7 @@ function drawFace(
  * facet on the far side, crisp cut lines and a hard white star of a glint, plus one facet
  * on the body. Drawn before the face, so the eyes stay on top.
  */
-function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
+function drawGemFacets(pc: PixelCanvas, L: SpriteLayout, col: ChaoColors): void {
   const hx = L.headCx;
   const hy = L.headCy;
   const rx = L.headRx;
@@ -2205,7 +2205,7 @@ export const HELD_POSES: readonly (readonly [string, number, ChaoPose])[] = [
 function drawBirthmark(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   col: ChaoColors,
   m: Birthmark,
 ): void {
@@ -2309,6 +2309,28 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
     for (const style of ['paddle', 'crawl'] as const)
       for (let f = 0; f < 2; f++)
         atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));
+    // R0321: the hider's peek glancing left (frame 2) or right (3) toward the Keeper.
+    if (angle === 'front')
+      for (const [f, glance] of [
+        [2, -1],
+        [3, 1],
+      ] as const)
+        atlas.add(
+          frameKey('peek', angle, f),
+          drawChao(
+            angle,
+            {
+              ...BASE,
+              squash: 0.9,
+              eyes: 'wide',
+              mouth: 'none',
+              arms: 'up',
+              legs: 'tucked',
+              glance,
+            },
+            look,
+          ),
+        );
     // FUN-04 gags (render/gag-looks.ts): a shy peek (ducked, then eyes up over the hands), a
     // wave (one beat up, one out) and a clap.
     for (let f = 0; f < 2; f++) {

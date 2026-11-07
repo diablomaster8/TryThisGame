@@ -58,6 +58,9 @@ export const HOLLOW_R8_TEXT = {
   guideStairs: (arrow: string) => `👣 Stairs ${arrow}`,
   guideExplore: (arrow: string) => `👣 Explore ${arrow}`,
   guideLegend: 'Footprints: the way',
+  // R0031 (lane A r14): the corner map's raised blocks.
+  ledgeLegend: '▔ Ledge: jump up',
+  shelfLegend: '▒ Shelf: a find on top',
 
   // R0187: the ghost line.
   ghostLegend: '⏱ Best run',

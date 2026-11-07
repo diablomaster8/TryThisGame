@@ -13,6 +13,7 @@ import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import { ledgeLift } from './hollow-ledges';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { friendOf, friendWalking } from '../sim/dungeon-friends';
 import { rumbleOpen } from '../sim/dungeon-rumble';
@@ -36,6 +37,8 @@ import { TapPath, type TapMark } from './tap-path';
 import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
 import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
+import { EDU_TRAIL } from '../config/tuning-r14d2';
+import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
@@ -49,12 +52,13 @@ import { GROVE_CHUNKS } from '../config/tuning-r12d1';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
 import { windSway } from './wind-px';
-import { neighbourGarden } from '../sim/neighbourhood';
+import { neighbourGarden, VISIT_GARDEN } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
 import { fernStones } from '../sim/fern-stone';
 import { townUnlocks } from '../sim/town';
 import { drawVillage } from './region-village';
+import { villageSheetReady } from './paint/village';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch, type SpriteDraw } from './sprite-batch';
 import { RegionHostPx } from './region-host-px';
@@ -62,6 +66,7 @@ import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
+import { HidePeek } from '../render-common/hide-peek';
 import { noticeFace } from './notice';
 import { Glances } from './glances';
 import { soulEmote } from './soul-emotes';
@@ -181,6 +186,9 @@ const OCCLUDER_ALPHA = 0.55;
 const CANOPY_FEET = new Vector3();
 const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
 
+/** HOT load time: where a Nubbin stands, for the culler's on-screen test (reused). */
+const NUB_PROBE = { x: 0, y: 0, z: 0, mode: 'billboard' } as SpriteDraw;
+
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
   /**
@@ -198,6 +206,8 @@ export class WorldView {
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
   private readonly petBeats = new PetBeats();
+  // R0321: where a hider is drawn, behind its cover from the camera.
+  private readonly hidePeek = new HidePeek();
   /** R0580 (lane A r11): glances at what happens nearby. */
   private readonly glances = new Glances();
   private readonly decor = placeDecorations();
@@ -364,6 +374,9 @@ export class WorldView {
     return v.z > 1 ? null : v;
   }
 
+  /** R0031: the eased height of the plateau under the Keeper's feet in the Hollow. */
+  private hollowLift = 0;
+
   /** How far the drawn Keeper's feet are off the painted ground (up a jump, down a wade). */
   private keeperOffset(
     world: World,
@@ -372,7 +385,16 @@ export class WorldView {
     alpha: number,
   ): { off: number; floor: number } {
     const y = lerp(this.keeperPrev.y, world.keeper.y, this.keeperAlpha ?? alpha);
-    if (runFloor(world)) return { off: Math.max(0, y), floor: 0 };
+    const hf = runFloor(world);
+    if (hf) {
+      // R0031: on a Hollow shelf or terrace ledge the feet stand on the plateau; eased, so the
+      // hop onto the lip and the drop off it do not pop.
+      const target = ledgeLift(hf, x, z);
+      this.hollowLift += (target - this.hollowLift) * 0.35;
+      if (Math.abs(target - this.hollowLift) < 0.01) this.hollowLift = target;
+      return { off: Math.max(0, y) + this.hollowLift, floor: this.hollowLift };
+    }
+    this.hollowLift = 0;
     // R11 d7: a drawn region's own ground (flat, or its terraces in the Keeper's y), never the Grove's.
     if (world.location.startsWith('region:')) return { off: y, floor: 0 };
     const ground = paintedGround(x, z);
@@ -756,6 +778,28 @@ export class WorldView {
         });
     }
 
+    // R0448: the pulsing ring on the first loop's target (egg, or the child to pat/feed/name).
+    const fl = firstLoopSpot(world);
+    if (fl) {
+      const rs = this.sheets.get('tech:heldRing', buildHeldRingSheet);
+      const rect = rs.frames.get(frameKey('firstLoopRing', 'front', 0));
+      if (rect) {
+        const p = firstRingPulse(nowMs, this.particles.reduceMotion);
+        batch.draw({
+          sheet: rs,
+          rect,
+          flip: false,
+          x: fl.x,
+          y: FIRST_RING.lift,
+          z: fl.z,
+          mode: 'flat',
+          w: FIRST_RING.radius * 2 * p.scale,
+          h: FIRST_RING.radius * 2 * p.scale,
+          opacity: p.opacity,
+        });
+      }
+    }
+
     const home = this.location === 'grove';
     // An exclusive stage (campaign graphics C3, C4) draws only its set: no Grove scenery,
     // garden, critters or items, and no NPC outside its cast.
@@ -880,10 +924,11 @@ export class WorldView {
         Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx,
         this.particles.reduceMotion,
       );
-    const props = this.sheets.props();
+    // HOT load time: scenery, props, the cast and visitors stream in a sheet a frame.
+    const props = this.sheets.streamed((s) => s.props());
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
-      const scenery = this.sheets.scenery();
+      const scenery = this.sheets.streamed((s) => s.scenery());
       const lampsOn = this.lights.length > 0;
       const gc = this.groveChunks;
       gc.scenery.update(this.culler);
@@ -986,7 +1031,9 @@ export class WorldView {
         }
       }
       // R0095: the village square at the lane's end (`render/region-village.ts`).
-      drawVillage(batch, world, scenery, shadow, (x, z) => this.lightAt(x, z));
+      // HOT load time: its painting streams in like the other sheets.
+      if (villageSheetReady() || this.sheets.claimStreamTurn())
+        drawVillage(batch, world, scenery, shadow, (x, z) => this.lightAt(x, z));
       // Lantern posts: painted, lit at dusk or when the Keeper lights them, tappable.
       for (const l of this.lanterns()) {
         const lrect = scenery.frames.get(
@@ -1060,7 +1107,7 @@ export class WorldView {
     }
     const flower = props.frames.get(frameKey('flower', 'front', 0));
     // Placed garden pieces, tappable so they can be picked up again.
-    const scenerySheet = this.sheets.scenery();
+    const scenerySheet = this.sheets.streamed((s) => s.scenery());
     for (const d of home && !bare ? world.placed : []) {
       if (d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop') {
         const brect =
@@ -1255,7 +1302,7 @@ export class WorldView {
     }
     // Wild visitors looking around their patch.
     for (const w of home && !bare ? world.wild : []) {
-      const wsheet = this.sheets.species(w.species);
+      const wsheet = this.sheets.streamed((s) => s.species(w.species));
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
       const wrect = wsheet.frames.get(
@@ -1298,10 +1345,9 @@ export class WorldView {
       if (this.garden?.trainer !== this.visiting)
         this.garden = { trainer: this.visiting, list: neighbourGarden(this.visiting) };
       for (const nb of this.garden.list) {
-        const sheet =
-          nb.species === 'chao'
-            ? this.sheets.rival(nb.band, nb.type)
-            : this.sheets.species(nb.species);
+        const sheet = this.sheets.streamed((s) =>
+          nb.species === 'chao' ? s.rival(nb.band, nb.type) : s.species(nb.species),
+        );
         const facing = Math.sin(nowMs / 3100 + nb.x) * 1.4;
         const view = viewAngle(facing, yaw);
         const rect = sheet.frames.get(
@@ -1320,7 +1366,27 @@ export class WorldView {
           tint: this.dim,
         });
       }
-      const hsheet = this.sheets.keeper(this.visiting);
+      // R0112: the garden's gate on its south side, the way back out to the lane.
+      const scen = this.sheets.streamed((s) => s.scenery());
+      const gate = scen.frames.get(frameKey('lane-gate', 'front', 0));
+      if (gate) {
+        const g = VISIT_GARDEN.gate;
+        shadow(g.x, 0, g.z, 0.9);
+        batch.draw({
+          sheet: scen,
+          rect: gate,
+          flip: false,
+          x: g.x,
+          y: 0,
+          z: g.z,
+          mode: 'billboard',
+          w: 3.2,
+          h: (3.2 * gate.h) / gate.w,
+          tint: this.dim,
+        });
+      }
+      const visiting = this.visiting;
+      const hsheet = this.sheets.streamed((s) => s.keeper(visiting));
       const hview = viewAngle(Math.PI, yaw);
       const hrect = hsheet.frames.get(frameKey('idle', hview.angle, frameAt(CLIPS.idle, nowMs)));
       if (hrect) {
@@ -1428,15 +1494,17 @@ export class WorldView {
     const npcHere = (t: string) =>
       this.location === 'grove'
         ? true
-        : underground || this.location.startsWith('region:') // R11 d7: nobody follows out
-          ? false
-          : this.location === 'corvin'
-            ? t === 'corvin' || t === 'ember'
-            : t === 'nova';
+        : this.location.startsWith('region:')
+          ? this.staging?.castIds.has(t) === true // R0101: only a scene's cast, seated by the stager
+          : underground
+            ? false
+            : this.location === 'corvin'
+              ? t === 'corvin' || t === 'ember'
+              : t === 'nova';
     const cast = this.staging?.castIds;
     for (const npc of world.npcs) {
       if (!npcHere(npc.trainer) || ((bare || LOOK_STATE.tale) && !cast?.has(npc.trainer))) continue;
-      const nsheet = this.sheets.keeper(storyId(npc.trainer));
+      const nsheet = this.sheets.streamed((s) => s.keeper(storyId(npc.trainer)));
       // In a story scene the cast is drawn on its marks, or brought in beside the Keeper
       // (render/scene-stage.ts); the sim's NPC stays where it is.
       const held = this.staging?.active ? this.staging.holds.get(npc.id) : undefined;
@@ -1569,6 +1637,25 @@ export class WorldView {
           h: rl * 2,
           opacity: 0.45 * a,
         });
+      const glowSheet = this.tapPath.glow
+        ? this.sheets.get('tech:heldRing', buildHeldRingSheet)
+        : null;
+      const glowRect = glowSheet?.frames.get(frameKey('firstLoopRing', 'front', 0));
+      const glowDot = (m: TapMark, a: number) => {
+        if (!glowSheet || !glowRect) return;
+        batch.draw({
+          sheet: glowSheet,
+          rect: glowRect,
+          flip: false,
+          x: m.x,
+          y: m.y - paintedGround(m.x, m.z) + 0.02,
+          z: m.z,
+          mode: 'flat',
+          w: 0.5,
+          h: 0.5,
+          opacity: Math.min(0.9, a),
+        });
+      };
       // WORLD-41: soft footprints every 0.8 u, as small long shadows.
       const da = this.tapPath.dotAlpha(nowMs, calm);
       if (da > 0)
@@ -1577,7 +1664,10 @@ export class WorldView {
           const across = Math.abs(Math.sin(d.yaw)) > Math.abs(Math.cos(d.yaw));
           const pw = (across ? TAP_PRINTS.l : TAP_PRINTS.w) / 2;
           const pl = (across ? TAP_PRINTS.w : TAP_PRINTS.l) / 2;
-          mark(d, pw, Math.min(2.2, da * 2.2), pl);
+          const gs = this.tapPath.glow ? EDU_TRAIL.size : 1;
+          mark(d, pw * gs, Math.min(2.2, da * 2.2), pl * gs);
+          // R0099: in the Learning Grove each print also carries a warm glow ring.
+          if (this.tapPath.glow) glowDot(d, da);
         }
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
@@ -1687,7 +1777,7 @@ export class WorldView {
     // R0181 (lane B round 9): a friend hired at a camp walks with the party underground.
     const friend = runFloor(world) ? friendOf(world) : null;
     if (friend) {
-      const fsheet = this.sheets.keeper(friend.trainer, 'sun');
+      const fsheet = this.sheets.streamed((s) => s.keeper(friend.trainer, 'sun'));
       const fwalk = friendWalking(world, friend);
       const fclip: ClipName = fwalk ? 'walk' : 'idle';
       const fview = viewAngle(friend.facing, yaw);
@@ -1988,7 +2078,7 @@ export class WorldView {
     for (const w of run.wild) {
       if (w.scanned) continue;
       if (actorFog(run, f, world.keeper.pos, w.pos) === 0) continue;
-      const wsheet = this.sheets.species(w.species);
+      const wsheet = this.sheets.streamed((s) => s.species(w.species));
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
       const wrect = wsheet.frames.get(
@@ -2376,12 +2466,28 @@ export class WorldView {
     shadow: (x: number, y: number, z: number, r: number, at?: number) => void,
   ): void {
     // TECH-31: at most one new sheet baked a frame; a changed look may wait a frame.
-    const sheet = this.sheets.forNubbin(n, true);
+    // HOT load time: a Nubbin off screen streams its first sheet in like the scenery; only
+    // the ones in view bake on a cold start's first frame.
+    const c = this.culler;
+    NUB_PROBE.x = n.pos.x;
+    NUB_PROBE.z = n.pos.z;
+    const sheet =
+      c && !c.visible(NUB_PROBE, 1.5, 1.5)
+        ? this.sheets.streamed((s) => s.forNubbin(n, true))
+        : this.sheets.forNubbin(n, true);
     const merged = isMerged(world, n.id);
     // A scene that seats Moss or Sable on a mark draws them there (render/scene-stage.ts).
     const held = this.staging?.active ? this.staging.nubbinHolds.get(n.id) : undefined;
-    const x = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
-    const z = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
+    const bx = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
+    const bz = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
+    // R0321: a hider is drawn behind its cover as the camera sees it (drawn only).
+    const pcam = PIXEL_VIEW.camera?.position;
+    const peek =
+      held || !pcam || n.stage === 'egg' || n.stage === 'cocoon'
+        ? null
+        : this.hidePeek.place(world, n, pcam, bx, bz, nowMs, this.particles.reduceMotion);
+    const x = peek?.x ?? bx;
+    const z = peek?.z ?? bz;
     // LOOK-24: a strong flier on a flight leg is drawn in the air; the shadow shrinks below.
     const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
     // LOOK-44: an idle favourite plays its signature beat now and then (render/signature.ts).
@@ -2507,7 +2613,10 @@ export class WorldView {
       const look = held
         ? null
         : (noticeFace(n, world.keeper.pos) ?? this.glances.face(n, world, nowMs));
-      const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
+      // R0321: a peeking hider looks out at the camera (and, below, the Keeper).
+      const view = peek
+        ? viewAngle(yaw, yaw)
+        : viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -2637,6 +2746,14 @@ export class WorldView {
       const angle = key.split(':')[1] ?? 'front';
       const bkey = frameKey(beat.clip, angle, beat.frame ?? Math.floor(nowMs / 180) % 2);
       if (sheet.frames.has(bkey)) key = bkey;
+    }
+    // R0321: the peek glances toward the Keeper's side of the screen (front frames 2 and 3).
+    if (peek && beat?.kind === 'hidePeek') {
+      const gk = frameKey('peek', 'front', peek.side > 0 ? 3 : 2);
+      if (sheet.frames.has(gk)) {
+        key = gk;
+        flip = false;
+      }
     }
     if (beat?.fresh) {
       const kind = PET_BEAT_BURST[beat.kind];

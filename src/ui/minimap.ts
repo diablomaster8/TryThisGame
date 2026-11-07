@@ -93,6 +93,9 @@ export function mountMinimap(
   let bitmap: HTMLCanvasElement | null = null;
   let paintedKey = '';
   let lastCheck = -1e9;
+  // HOT load time: the first painting waits for an idle moment after the Grove is up (it
+  // repaints the whole ground on the main thread); the map shows its plain backing till then.
+  let firstPaint: 'wait' | 'asked' | 'go' = 'wait';
 
   /** The cached ground; repainted only when the tiles or the season change. */
   const ensureBitmap = (g: Game, now: number): HTMLCanvasElement | null => {
@@ -102,6 +105,18 @@ export function mountMinimap(
     const season = w.season === 'winter' ? 'winter' : null;
     const key = `${season}|${Object.keys(w.tiles).length}`;
     if (bitmap && key === paintedKey) return bitmap;
+    if (firstPaint !== 'go') {
+      if (firstPaint === 'wait') {
+        firstPaint = 'asked';
+        const go = (): void => {
+          firstPaint = 'go';
+          lastCheck = -1e9;
+        };
+        if (typeof requestIdleCallback === 'function') requestIdleCallback(go, { timeout: 3000 });
+        else setTimeout(go, 1500);
+      }
+      return null;
+    }
     paintedKey = key;
     const t0 = performance.now();
     const p = paintGroveMap(w.tiles, season);

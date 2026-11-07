@@ -231,11 +231,14 @@ export function crowdFor(
     if (only && !only.has(t)) continue;
     const here = home
       ? true
-      : underground
-        ? false
-        : location === 'corvin'
-          ? t === 'corvin' || t === 'ember'
-          : t === 'nova';
+      : location.startsWith('region:')
+        ? // R0101: a scene's cast stands in a drawn region, where the stager holds them.
+          opts.holds?.has(npc.id) === true
+        : underground
+          ? false
+          : location === 'corvin'
+            ? t === 'corvin' || t === 'ember'
+            : t === 'nova';
     if (!here) continue;
     // In a story scene everyone holds where they stood, turned to the Keeper (staging.ts).
     const held = opts.holds?.get(npc.id);
@@ -455,7 +458,9 @@ export class Crowd {
         this.members.set(f.id, m);
       }
       if (!m.rig) {
-        const rig = this.pool.acquire(m.look);
+        // HOT-3: while the veil is up the pool builds only the Keeper and the Nubbins; the
+        // crowd stands in until it lifts, then builds at the pool's one-rig-a-frame pace.
+        const rig = this.pool.burst ? null : this.pool.acquire(m.look);
         if (rig) {
           m.rig = rig;
           m.stand?.removeFromParent();

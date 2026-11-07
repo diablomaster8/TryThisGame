@@ -90,7 +90,9 @@ export class StageTracker {
     const m = this.stager.spotOf(world, who);
     if (m) return m;
     const c = this.stager.stage.cast?.find((e) => e.who === who);
-    const mark = c ? markAt(world.location, c.mark) : undefined;
+    const mark = c
+      ? (this.stager.regionSpots.get(c.who) ?? markAt(world.location, c.mark))
+      : undefined;
     return mark ? { x: mark.x, z: mark.z } : null;
   }
 
@@ -103,9 +105,13 @@ export class StageTracker {
       const look = STORY_NPC_LOOKS[c.who] ?? villagerLook(world, c.who);
       if (!look) continue;
       // A sim NPC with the same id is drawn by the world's own figures.
-      if (world.npcs.some((n) => n.trainer === c.who && npcHere(world.location, n.trainer)))
+      if (
+        world.npcs.some(
+          (n) => n.trainer === c.who && npcHere(world.location, n.trainer, this.stager.castIds),
+        )
+      )
         continue;
-      const m = markAt(world.location, c.mark);
+      const m = this.stager.regionSpots.get(c.who) ?? markAt(world.location, c.mark);
       if (!m) continue;
       let yaw = m.yaw;
       if (c.face) {
@@ -147,7 +153,9 @@ export class StageTracker {
     for (const c of this.stager.castOf(world)) {
       const prop = carryOf(c);
       if (!prop || actors.some((a) => a.who === c.who)) continue;
-      const n = world.npcs.find((x) => x.trainer === c.who && npcHere(world.location, x.trainer));
+      const n = world.npcs.find(
+        (x) => x.trainer === c.who && npcHere(world.location, x.trainer, this.stager.castIds),
+      );
       const at = n ? (this.stager.holds.get(n.id) ?? n.pos) : null;
       if (!n || !at) continue;
       out.push({
@@ -195,7 +203,9 @@ export class StageTracker {
       return p ? { x: p.x, z: p.z, kind: 'nubbin', scale: 1, id: who } : null;
     }
     // No staged scene: a visiting Keeper (Fern, Corvin...) stands where the sim has them.
-    const npc = world.npcs.find((n) => n.trainer === who && npcHere(world.location, n.trainer));
+    const npc = world.npcs.find(
+      (n) => n.trainer === who && npcHere(world.location, n.trainer, this.stager.castIds),
+    );
     const p = this.spotOf(world, who) ?? (npc ? npc.pos : null);
     if (!p) return null;
     const look = STORY_NPC_LOOKS[who];

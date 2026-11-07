@@ -37,6 +37,7 @@ import { stepWeatherPlay } from './region-weather-play';
 import { stepSeasonProps } from './region-season-props';
 import { stepPhotoSpots } from './photo-spots';
 import { stepWorldHints } from './world-hints';
+import { noteCalendarSeason } from './ice';
 import { stepLittleGrove } from './little-grove';
 import { stepCottageHide } from './cottage-hide';
 import { stepCrying } from './cry-soul';
@@ -414,6 +415,7 @@ const SYSTEM_LIST: readonly SimSystem[] = [
     if (wallMs === undefined) return;
     // R0118 (lane D r9): the debug panel can force a season for checks.
     world.season = world.debugSeason ?? seasonAt(wallMs, tzOf(world));
+    noteCalendarSeason(world); // R0118: only a real calendar winter freezes the pond
     stepDaily(world, wallMs, rng, events);
   }),
   rngSys('line-queue', 160, ALWAYS, ({ world, dtMs, events }) =>

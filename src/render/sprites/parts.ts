@@ -1,5 +1,5 @@
 import type { DrawnAngle } from './angles';
-import type { Layout } from './layout';
+import type { SpriteLayout } from './layout';
 import { C } from './palette';
 import type { PixelCanvas } from './pixel-canvas';
 
@@ -105,7 +105,7 @@ export function partStyle(id: string | null): PartStyle | null {
 
 // ---------- ears (on the head, drawn after the head, before the face) ----------
 
-export function drawEars(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartStyle): void {
+export function drawEars(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, s: PartStyle): void {
   const k = s.k ?? 1;
   const top = L.headCy - L.headRy;
   const left = L.headCx - L.headRx + 2;
@@ -166,7 +166,7 @@ export function drawEars(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartS
 
 // ---------- tail (behind the body from the front, in front from the back) ----------
 
-export function drawTail(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartStyle): void {
+export function drawTail(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, s: PartStyle): void {
   const k = s.k ?? 1;
   // Anchor: the lower back of the body.
   let x = L.bodyCx;
@@ -277,7 +277,7 @@ export function drawArmPart(
 export function drawBack(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   s: PartStyle,
   raise: number,
   frontLayer: boolean,
@@ -356,7 +356,7 @@ export function drawBack(
 function drawShell(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   s: PartStyle,
   frontLayer: boolean,
 ): void {
@@ -378,7 +378,7 @@ function drawShell(
 /** Where the two feet stand for each angle, as the stock feet do (`chao.ts` drawFeet). */
 export function footSpots(
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   step: number,
   tucked: boolean,
 ): Array<[number, number]> {
@@ -398,7 +398,7 @@ export function footSpots(
 export function drawLegPart(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   s: PartStyle,
   step: number,
   tucked: boolean,
@@ -434,7 +434,7 @@ export function drawLegPart(
 // ---------- horn (R0401: on the forehead; tusks by the mouth) ----------
 
 /** The forehead point for each angle; the horn grows from here. */
-function forehead(angle: DrawnAngle, L: Layout): [number, number] {
+function forehead(angle: DrawnAngle, L: SpriteLayout): [number, number] {
   const dx =
     angle === 'side' ? 3 : angle === 'frontQuarter' ? 1.5 : angle === 'backQuarter' ? -1 : 0;
   return [L.headCx + dx, L.headCy - L.headRy + 3];
@@ -447,7 +447,7 @@ function forehead(angle: DrawnAngle, L: Layout): [number, number] {
 export function drawHorn(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   s: PartStyle,
   frontLayer: boolean,
 ): void {
@@ -511,7 +511,7 @@ export function drawHorn(
 export function drawFacePart(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   s: PartStyle,
   over: boolean,
 ): void {

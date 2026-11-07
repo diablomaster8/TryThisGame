@@ -16,6 +16,7 @@
     "probe:world": "node tests/tools/world-probe.cjs",
     "check:bundle": "node tests/tools/bundle-budget.cjs",
     "smoke:kids": "node tests/smoke/learning-grove.smoke.cjs",
+    "smoke:mobile": "node tests/smoke/mobile-a11y.smoke.cjs",
     "test:e2e": "node tests/e2e/run.cjs",
     "test:leaks": "node tests/e2e/leak-cycle.cjs",
     "test:visual": "node tests/e2e/visual.cjs",

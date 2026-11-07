@@ -35,6 +35,7 @@ export type SoulLookKind =
   | 'burp'
   | 'full'
   | 'peek'
+  | 'hidePeek'
   | 'smugRun'
   | 'tug'
   | 'callFruit'
@@ -75,6 +76,8 @@ export type SoulLookKind =
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
   const b = n.behavior;
   if (b.state === 'shelter') return b.target ? null : 'huddle';
+  // R0321: tucked behind its cover (sim/hide.ts): only the crown, a hand and the eyes show.
+  if (b.state === 'hide') return b.target ? null : 'hidePeek';
   const id = b.itemId;
   // R0566 (lane A r11).
   if (b.state === 'sit' && id === 'sulk') return 'sulk';
@@ -378,6 +381,17 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.sh = 0.96;
       out.dx = n0Walk(ms) * m;
       break;
+    case 'hidePeek': {
+      // R0321: crouched small, hand up, wide eyes (peek frame 1; the renderer swaps in the
+      // glance frame toward the Keeper). A slow lean out and back, static under reduced motion.
+      out.clip = 'peek';
+      out.frame = 1;
+      out.pose3d = 'sit';
+      out.sw = 0.92;
+      out.sh = 0.88;
+      out.dx = 0.06 * Math.max(0, Math.sin((ms / 2400) * Math.PI * 2)) * m;
+      break;
+    }
     case 'peek': {
       // R0543: tucked small and still behind the trunk for the first third, then leaning out
       // round it and back, slowly (the lean is the look, so it stays under reduced motion).
