@@ -32,6 +32,27 @@ describe('Greymon line look (R0377)', () => {
     expect(right(lean)).toBeGreaterThan(right(stand));
   });
 
+  it('leans the back quarter too', () => {
+    const upright = { ...hornsaur, extras: ['dinoSnout' as const] };
+    const pose = poseFor('idle', 0);
+    const lean = drawCreature('backQuarter', pose, hornsaur).data;
+    const stand = drawCreature('backQuarter', pose, upright).data;
+    expect(lean.some((v, i) => v !== stand[i])).toBe(true);
+  });
+
+  it('shows the missile nose in red from the side and the front quarter', () => {
+    const bare = { ...ironsaur, extras: ironsaur.extras!.filter((x) => x !== 'chestMissile') };
+    for (const angle of ['side', 'frontQuarter'] as const) {
+      const a = drawCreature(angle, poseFor('idle', 0), ironsaur).data;
+      const b = drawCreature(angle, poseFor('idle', 0), bare).data;
+      let red = 0;
+      a.forEach((v, i) => {
+        if (v !== b[i] && v === C.ember + 1) red++;
+      });
+      expect(red).toBeGreaterThanOrEqual(6);
+    }
+  });
+
   it('paints MetalGreymon a red missile nose on the chest in Pixel and sculpts one in 3D', () => {
     const bare = { ...ironsaur, extras: ironsaur.extras!.filter((x) => x !== 'chestMissile') };
     const a = drawCreature('front', poseFor('idle', 0), ironsaur).data;

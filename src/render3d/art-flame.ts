@@ -1,8 +1,8 @@
 import { reducedMotion } from '../platform/motion';
 import type * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
-import { V, type Prim } from '../samples/sculpted';
-import type { SpeciesSpec } from '../samples/species';
+import { V, type Prim } from './art/sculpted';
+import type { SpeciesSpec } from './art/species';
 
 /**
  * The flame tail tip in 3D (LOOK-10): Charmander's line, Ponyta's and the fire bird's. The

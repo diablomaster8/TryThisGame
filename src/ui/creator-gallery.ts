@@ -244,7 +244,7 @@ export class CreatorGallery {
       const entry = this.model.entries.find((e) => e.id === id);
       const g = this.game();
       if (!entry || !g) return;
-      src = this.thumbnail(g, entry);
+      src = this.thumbnail(g, entry) ?? undefined;
       if (!src) return;
       this.cache.set(id, src);
     }

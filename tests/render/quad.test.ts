@@ -4,6 +4,7 @@
  * the six walk frames.
  */
 import { writeFileSync } from 'node:fs';
+import { KEEPER_ACTS } from '../../src/config/tuning-soul-r11g';
 import { describe, expect, it } from 'vitest';
 import { poseFor } from '../../src/render/sprites/chao';
 import { drawCreature, type CreatureSpec } from '../../src/render/sprites/creature';
@@ -107,6 +108,8 @@ describe('quad tail set and gait (R0375)', () => {
       const cadence = BEHAVIOR.walkSpeed / natural;
       expect(cadence, id).toBeGreaterThan(0.35);
       expect(cadence, id).toBeLessThan(GROVE3D.maxCadence);
+      // R0375 (lane F r13): and at a Nubbin's run, so the seals no longer slide either.
+      expect(KEEPER_ACTS.runSpeed / natural, id).toBeLessThanOrEqual(GROVE3D.maxCadence);
     }
   });
 });

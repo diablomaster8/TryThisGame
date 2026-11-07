@@ -4,11 +4,11 @@
  * so a phone can read them; a fresh reaction bubble pops to 2× and settles over 300 ms
  * (not under reduced motion).
  */
+import type { ReadonlyWorld } from './readonly-world';
 import { EMOTE_READ } from '../config/tuning';
-import type { World } from '../sim/types';
 
 /** Big mood bubbles: the setting, else on in the Learning Grove. */
-export function bigBubbles(world: World): boolean {
+export function bigBubbles(world: ReadonlyWorld): boolean {
   return world.settings.bigBubbles ?? !!world.edu;
 }
 

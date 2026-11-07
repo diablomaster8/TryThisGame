@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {
   SHORE_CASTLES,
+  SHORE_FOLK,
   SHORE_HOUSES,
   SHORE_LIGHT,
   SHORE_ROCKS,
@@ -12,6 +13,8 @@ import type { RegionLayout } from '../config/region-layout';
 import { SHORE_LOOK } from '../config/tuning-r11d7';
 import { coastSheet } from './paint/coast';
 import type { GroundLook, GroundPaint } from './region-ground';
+import type { World } from '../sim/types';
+import { castleStands } from '../sim/shore-play';
 import { deckMesh, disposeDecks, kitModule, type KitPiece } from './region-kit-px';
 
 /**
@@ -57,13 +60,30 @@ export function shorePieces(): KitPiece[] {
   const out: KitPiece[] = [];
   SHORE_HOUSES.forEach((h, i) => out.push({ key: `house-${i % 3}`, x: h.x, z: h.z + 1.2, w: 4.6 }));
   out.push({ key: 'light', x: SHORE_LIGHT.x, z: SHORE_LIGHT.z + 0.6, w: 3.4 });
-  for (const c of SHORE_CASTLES) out.push({ key: 'castle', x: c.x, z: c.z + 0.3, w: 2 });
   for (const r of SHORE_ROCKS) out.push({ key: 'rock', x: r.x, z: r.z + 0.4, w: r.r * 2.6 });
   out.push({ key: 'sign', x: -39, z: -17.8, w: 1.8 });
   out.push({ key: 'stones', x: -47.6, z: 3.2, w: 3.2 });
   out.push({ key: 'boat', x: -26, z: 8.6, w: 3.6 });
   out.push({ key: 'boat', x: 60.6, z: 19.6, w: 3.4, flip: true });
   return out;
+}
+
+const UP: KitPiece[] = SHORE_CASTLES.map((c) => ({ key: 'castle', x: c.x, z: c.z + 0.3, w: 2 }));
+const DOWN: KitPiece[] = SHORE_CASTLES.map((c) => ({
+  key: 'castle-down',
+  x: c.x,
+  z: c.z + 0.3,
+  w: 2,
+}));
+const FOLK: KitPiece[] = SHORE_FOLK.map((f) => ({ key: `folk-${f.tone}`, x: f.x, z: f.z, w: 0.9 }));
+const CURRENT: KitPiece[] = [];
+
+/** R13 d1: the castles (standing or flat) and the folk; the same objects frame to frame. */
+function shoreDynamic(world: World): readonly KitPiece[] {
+  CURRENT.length = 0;
+  SHORE_CASTLES.forEach((_, i) => CURRENT.push(castleStands(world, i) ? UP[i]! : DOWN[i]!));
+  for (const f of FOLK) CURRENT.push(f);
+  return CURRENT;
 }
 
 /** The real hour on this device (the tide reads only the picture's clock). */
@@ -119,6 +139,7 @@ const mod = kitModule({
   propW: 1.2,
   pieces: shorePieces,
   paint: paintShore,
+  dynamic: shoreDynamic,
   decorate,
   arch: { key: 'sign', w: 1.8 },
   cut: true,
@@ -126,3 +147,4 @@ const mod = kitModule({
 
 export const createRegionPx = mod.createRegionPx;
 export const drawEntrance = mod.drawEntrance;
+export const drawDynamic = mod.drawDynamic;

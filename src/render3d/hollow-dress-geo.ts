@@ -4,7 +4,7 @@ import type { Floor } from '../sim/dungeon';
 import type { DungeonLootKind } from '../sim/types';
 import { CELL } from './hollow-ctx';
 import { looksWet } from './hollow-dress-path';
-import { BOX, CONE, CYL, Kit, OCT, prim, ROCK, SPHERE } from './hollow-dress-kit';
+import { BOX, CONE, CYL, Kit, OCT, prim, ROCK, SPHERE, TUBE } from './hollow-dress-kit';
 
 /**
  * The dressing's shared shapes (`hollow-dress.ts`), made once per page: the rounded
@@ -45,73 +45,101 @@ export const STALAG = () =>
  * Low-poly on purpose (R0194: a big floor shows a hundred of them): about 390 triangles, a
  * sixth of the first cut, with the same shape at phone size.
  */
-export const STRAND = () =>
-  prim('strand', () => {
-    const k = new Kit();
-    const D = GROVE3D.cave.dress;
-    const pt = (t: number) =>
-      new THREE.Vector3(
-        Math.sin(t * 2.2) * 0.12,
-        -t * 2.2,
-        Math.sin(t * 3.1 + 1) * 0.08 + t * 0.12,
-      );
-    const root = TUBE(5);
-    const thin = TUBE(3);
-    for (let i = 0; i < 7; i++)
-      k.rod(pt(i / 7), pt((i + 1) / 7), 0.075 - i * 0.008, i % 2 ? '#6e4a30' : '#7a5636', 0, root);
-    // Two rootlets.
+export const STRAND = () => prim('strand', () => strand(false));
+
+/**
+ * The strand far away (R0194 part 2): the same root, vine, leaves and berries along the same
+ * curve, cut coarser (under half the triangles: fewer rods, three leaves, octahedral berries), for sectors beyond `HOLLOW_PERF.lod.near`.
+ */
+export const STRAND_LO = () => prim('strand-lo', () => strand(true));
+
+/** A rounded stalagmite far away: the same profile on five sides, three bands (30 triangles). */
+export const STALAG_LO = () =>
+  prim('stalag-lo', () => {
+    const pts = [
+      [1, 0],
+      [0.66, 0.4],
+      [0.24, 0.86],
+      [0, 1],
+    ].map(([r, y]) => new THREE.Vector2(r, y));
+    return new THREE.LatheGeometry(pts, 5);
+  });
+
+/** A rubble stone far away: twenty faces, not thirty-six, at the same size. */
+export const ROCK_LO = () => prim('rock-lo', () => new THREE.IcosahedronGeometry(0.5, 0));
+
+function strand(lo: boolean): THREE.BufferGeometry {
+  const k = new Kit();
+  const D = GROVE3D.cave.dress;
+  const pt = (t: number) =>
+    new THREE.Vector3(Math.sin(t * 2.2) * 0.12, -t * 2.2, Math.sin(t * 3.1 + 1) * 0.08 + t * 0.12);
+  const root = TUBE(lo ? 4 : 5);
+  const thin = TUBE(3);
+  const rods = lo ? 4 : 7;
+  for (let i = 0; i < rods; i++)
+    k.rod(
+      pt(i / rods),
+      pt((i + 1) / rods),
+      0.075 - ((i * 7) / rods) * 0.008,
+      i % 2 ? '#6e4a30' : '#7a5636',
+      0,
+      root,
+    );
+  // Two rootlets (too fine to see far away).
+  if (!lo) {
     const r1 = pt(0.35).add(new THREE.Vector3(0.28, -0.35, 0.05));
     const r2 = pt(0.6).add(new THREE.Vector3(-0.22, -0.3, 0.1));
     k.rod(pt(0.35), r1, 0.02, '#7a5636', 0, thin);
     k.rod(pt(0.6), r2, 0.018, '#7a5636', 0, thin);
-    // The vine winding round it, with leaves.
-    let prev: THREE.Vector3 | null = null;
-    for (let i = 0; i <= 12; i++) {
-      const t = i / 12;
-      const c = pt(t * 0.92);
-      const a = t * 9;
-      const p = new THREE.Vector3(c.x + Math.cos(a) * 0.09, c.y, c.z + Math.sin(a) * 0.09);
-      if (prev) k.rod(prev, p, 0.016, '#4f8a42', 0, thin);
-      if (i % 2 === 1)
-        k.part(
-          OCT(),
-          p.x + Math.cos(a) * 0.06,
-          p.y,
-          p.z + Math.sin(a) * 0.06,
-          0.12,
-          0.03,
-          0.07,
-          '#6aa84f',
-          0.05,
-          a,
-        );
-      prev = p;
-    }
-    for (let b = 0; b < D.berriesPerRoot; b++) {
-      const c = pt(0.35 + (b / Math.max(1, D.berriesPerRoot - 1)) * 0.55);
-      for (let j = 0; j < 3; j++)
-        k.part(
-          BERRY(),
-          c.x + Math.cos(j * 2.1 + b) * 0.07,
-          c.y - j * 0.04,
-          c.z + Math.sin(j * 2.1 + b) * 0.07,
-          0.12,
-          0.12,
-          0.12,
-          D.berry,
-          1.6,
-        );
-    }
-    return k.build()!;
-  });
+  }
+  // The vine winding round it, with leaves.
+  let prev: THREE.Vector3 | null = null;
+  const steps = lo ? 6 : 12;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const c = pt(t * 0.92);
+    const a = t * 9;
+    const p = new THREE.Vector3(c.x + Math.cos(a) * 0.09, c.y, c.z + Math.sin(a) * 0.09);
+    if (prev) k.rod(prev, p, 0.016, '#4f8a42', 0, thin);
+    if (lo ? i > 0 && i % 2 === 0 : i % 2 === 1)
+      k.part(
+        OCT(),
+        p.x + Math.cos(a) * 0.06,
+        p.y,
+        p.z + Math.sin(a) * 0.06,
+        0.12,
+        0.03,
+        0.07,
+        '#6aa84f',
+        0.05,
+        a,
+      );
+    prev = p;
+  }
+  for (let b = 0; b < D.berriesPerRoot; b++) {
+    const c = pt(0.35 + (b / Math.max(1, D.berriesPerRoot - 1)) * 0.55);
+    for (let j = 0; j < 3; j++)
+      k.part(
+        lo ? BERRY_LO() : BERRY(),
+        c.x + Math.cos(j * 2.1 + b) * 0.07,
+        c.y - j * 0.04,
+        c.z + Math.sin(j * 2.1 + b) * 0.07,
+        0.12,
+        0.12,
+        0.12,
+        D.berry,
+        1.6,
+      );
+  }
+  return k.build()!;
+}
 
 /**
  * A strand's rods are open tubes (their ends sit inside the next rod or the rock), its
  * leaves flattened octahedra, its berries coarse balls: all small enough to read the same.
  */
-const TUBE = (seg: number) =>
-  prim(`tube${seg}`, () => new THREE.CylinderGeometry(0.5, 0.5, 1, seg, 1, true));
 const BERRY = () => prim('berry', () => new THREE.IcosahedronGeometry(0.5, 0));
+const BERRY_LO = () => prim('berry-lo', () => new THREE.OctahedronGeometry(0.5, 0));
 
 /** Every loot model and the chest lid in one geometry, each part stamped with its kind. */
 export const LOOT = () =>

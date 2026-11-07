@@ -141,6 +141,7 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   lookedAround: 'table',
   lookoutFind: 'table',
   madeUp: 'elsewhere',
+  levelUp: 'table',
   merged: 'elsewhere',
   missionDone: 'elsewhere',
   moodyCleared: 'elsewhere',
@@ -289,6 +290,9 @@ export const DECISION: Record<SimEvent['kind'], FeedbackWhere> = {
   wildNubbin: 'elsewhere',
   regionGag: 'elsewhere',
   gateOpened: 'elsewhere',
+  castleDown: 'elsewhere',
+  castleRebuilt: 'elsewhere',
+  folkGreet: 'elsewhere',
   companionReacts: 'elsewhere',
   questHelped: 'elsewhere',
 };

@@ -11,7 +11,7 @@ import { BEHAVIOR } from '../config/tuning';
 import { HILL_OUTING } from '../config/tuning-r11d2';
 import { hashString } from './hash-string';
 import { canStep, hillAt, hillRoute } from './height';
-import { nubbinWalker, type Walker } from './obstacles';
+import { nubbinWalker, type ObstacleWalker } from './obstacles';
 import { levelOf } from './stats';
 import { hillHeight, TERRACES } from './terrain';
 import type { Nubbin, Vec2, World } from './types';
@@ -59,7 +59,7 @@ export function onHill(n: Nubbin): boolean {
 }
 
 /** What a Nubbin's body collides as: the Keeper's rules on a hill (the hill does not push it off). */
-export function nubbinBody(n: Nubbin): Walker {
+export function nubbinBody(n: Nubbin): ObstacleWalker {
   return onHill(n) ? 'keeper' : nubbinWalker(n);
 }
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { visibleStoryProps, type StoryPropKind } from '../sim/story-props';
 import type { DecorKind, Plant, TileKind, World } from '../sim/types';
-import type { Tex } from '../samples/aaa-kit';
+import type { Tex } from './art/aaa-kit';
 import { KIT_SHARED, kitCabin, kitHouse, kitMaterials } from './kit-buildings';
 import { buildStoryProp } from './prop-kit';
 import { occluders } from './occluders';

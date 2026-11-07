@@ -30,7 +30,15 @@ import {
   writeLive,
 } from './live-store';
 import { archiveAllUnreadable, archiveUnreadable, putWithRoom, warnIfBig } from './save-room';
-import { noteUnifiedLoad, readKey, unifiedActive, writeKey } from './unified-keys';
+import {
+  activateUnified,
+  deactivateUnified,
+  noteUnifiedLoad,
+  readKey,
+  unifiedActive,
+  unifiedFlagOn,
+  writeKey,
+} from './unified-keys';
 import { lastProfile } from './profiles';
 
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
@@ -306,8 +314,8 @@ function mirrorKey(slot: SaveSlot, profile: ProfileId = readerOf(slot)): string 
 export async function restoreFromMirror(): Promise<number> {
   let restored = 0;
   // R0598: the unified slots (if the move has run) are mapped before any slot is read.
-  const unified = await import('./migrate-unified').catch(() => null);
-  unified?.activateIfMoved();
+  // (activateUnified lives in unified-keys, so the title never waits on the migration chunk.)
+  activateUnified();
   setKeeperProfile(lastProfile());
   // R0653: a child played last: their Learning Grove slots are the ones in play.
   setChildProfile(lastProfile());
@@ -336,9 +344,12 @@ export async function restoreFromMirror(): Promise<number> {
     // No mirror.
   }
   // R0598 stage B: the move itself (once), then keeping the copies current and step 8.
-  if (unified) {
+  if (!unifiedFlagOn()) {
+    deactivateUnified();
+  } else {
+    const unified = await import('./migrate-unified').catch(() => null);
     try {
-      if (await unified.bootUnified(Date.now())) {
+      if (unified && (await unified.bootUnified(Date.now()))) {
         await bootStores();
         rebuildSlotIndex();
       }

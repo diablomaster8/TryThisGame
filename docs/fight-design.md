@@ -68,3 +68,9 @@ engine under a "Friendly Match" skin:
   over a thousand seeded matches.
 - Unavailable to a child profile: Mature content, chance-based prizes (KIDS-24), and any
   stake of Nubbins or Shells.
+
+Built (round 13): `src/sim/battle/giggle.ts` is the Friendly Match sim: `startFriendlyMatch`,
+`playTrick(trick, twist)` and `matchResult()`, which can only return `'fun'`. Tunables are in
+`config/tuning-friendly-match.ts`; `tests/sim/friendly-match.test.ts` plays 1,000 seeded matches
+and asserts no defeat is reachable. The screen, the trick buttons and the twist prompts are not
+built yet. The module is separate from the pass-and-play `friendly` context in `friendly.ts`.

@@ -464,6 +464,13 @@ export interface Settings {
   joystick: boolean;
   sound: boolean;
   music: boolean;
+  /**
+   * Read-aloud, each on its own (platform/voices.ts): the story's lines and choices, and
+   * everything else the game says. Unset: off in the main game, on in a Learning Grove that
+   * reads aloud (sprout band, or reader with "read to me"). An explicit value always wins.
+   */
+  voicesStory?: boolean;
+  voicesUi?: boolean;
   /** 0..1 */
   musicVolume: number;
   sfxVolume: number;
@@ -480,6 +487,9 @@ export interface Settings {
   cameraFollowsWalk?: boolean;
   /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
   leftHanded?: boolean;
+  /** R0096 (R13 d1): "the Grove dresses for you": the Grove takes its Sun or Moon colouring as
+   * the Keeper's alignment unlocks it (the old recolour). Unset: off; the lands are real places. */
+  groveDresses?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
   /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
@@ -807,7 +817,7 @@ export interface EduState {
   /** The child's name, for the letter games. */
   childName: string;
   /** R0739: the Learning Grove's interface language (absent: English). */
-  uiLanguage?: 'en' | 'he';
+  uiLanguage?: 'en' | 'he' | 'es' | 'ja';
   progress: Record<EduGameId, { plays: number; stars: number }>;
   stickers: number;
   /** Live play time this session, toward the break screen. */
@@ -1641,6 +1651,7 @@ export type Command =
   | { kind: 'shakeHeld' }
   /** The jump button pressed or let go (MOVE-10); with something held it shakes instead. */
   | { kind: 'jump'; down: boolean }
+  | { kind: 'snowball' }
   | { kind: 'release'; vel: Vec2 }
   | { kind: 'switchKeeper'; alignment: KeeperAlignment }
   | { kind: 'setTrainer'; id: string }
@@ -1844,7 +1855,7 @@ export type Command =
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
   /** R0739: the Learning Grove's interface language. */
-  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' }
+  | { kind: 'eduSetUiLanguage'; lang: 'en' | 'he' | 'es' | 'ja' }
   /* Lane E r9, R0696 */
   | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
   | {
@@ -2196,6 +2207,9 @@ export type SimEvent =
   | { kind: 'regionGag'; id: string; first: boolean }
   | { kind: 'wildNubbin'; region: string; name: string; state: 'met' | 'friend' }
   | { kind: 'gateOpened'; region: string; id: string }
+  | { kind: 'castleDown'; id: number; shells: number }
+  | { kind: 'castleRebuilt'; id: number }
+  | { kind: 'folkGreet'; id: string }
   | { kind: 'companionReacts'; id: string; region: string; first: boolean }
   // R0127/R0111 (lane D r9): a world hint shown once, a region secret found
   | { kind: 'worldHint'; id: string }
@@ -2261,6 +2275,8 @@ export type SimEvent =
   /** R0313: Fern's stone was tapped (the `line`-th tap; the cairn has `stones`). */
   | { kind: 'fernStone'; line: number; stones: number }
   | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
+  /** R0450: a stat reached a new level (sim/level-watch.ts). */
+  | { kind: 'levelUp'; nubbinId: string; stat: StatKey; level: number }
   | { kind: 'merged'; a: string; b: string }
   | { kind: 'unmerged'; a: string; b: string }
   | { kind: 'curfew'; night: boolean }

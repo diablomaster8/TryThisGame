@@ -12,8 +12,8 @@ import {
   Vector3,
   type BufferGeometry,
 } from 'three';
-import type { Rigged } from '../samples/species';
-import { bellyOf, headDome } from '../samples/nubbin-critter-parts';
+import type { Rigged } from './art/species';
+import { bellyOf, headDome } from './art/nubbin-critter-parts';
 import { DYE_COLORS } from '../render/sprites/chao';
 import { dyeToken, dyePair, rainbowStep } from '../render/sprites/rainbow-dye';
 import { C, color, nearestIndex } from '../render/sprites/palette';
