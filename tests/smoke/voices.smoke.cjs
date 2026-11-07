@@ -249,6 +249,16 @@ async function run(browser, cfg) {
     await page.waitForTimeout(500);
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 180000 });
     await page.waitForSelector('.title-continue, :text("Slot 1")', { timeout: 180000 });
+    // A newer build shows a one-time "Your saves moved" notice over the title; dismiss it.
+    for (let k = 0; k < 3; k++) {
+      const gotIt = page
+        .locator('.modal button:visible')
+        .filter({ hasText: /^Got it$/ })
+        .first();
+      if (!(await gotIt.count())) break;
+      await tap(gotIt);
+      await page.waitForTimeout(300);
+    }
     const cont = page.locator('.title-continue').first();
     if (await cont.count()) await tap(cont);
     else
