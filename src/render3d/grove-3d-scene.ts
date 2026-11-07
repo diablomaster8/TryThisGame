@@ -2268,10 +2268,14 @@ export class Grove3dScene {
     const group = this.actors.group;
     const all = group.children;
     const dormant = NO_LOD ? null : this.creatureLod.dormant;
-    if (this.skipDormant && dormant?.length) {
+    // Round 4: so do the rigs drawn as impostors: their meshes sit on the impostor's park layer
+    // (nothing of them is in the main pass or its shadow), and the impostor brings a rig's
+    // matrices up to date itself when it redraws its cell.
+    const parked = imp && imp.count > 0 ? imp : null;
+    if (this.skipDormant && (dormant?.length || parked)) {
       const awake = this.awakeKids;
       awake.length = 0;
-      for (const c of all) if (!dormant.includes(c)) awake.push(c);
+      for (const c of all) if (!dormant?.includes(c) && !parked?.has(c)) awake.push(c);
       group.children = awake;
     }
     // Round 3, the governor's CPU step 5: the distant decor sits out the frame.
