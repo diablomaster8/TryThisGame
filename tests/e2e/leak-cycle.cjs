@@ -5,22 +5,23 @@
  * Boots the built game straight into a free slot with eight Nubbins, then laps through every main scene
  * (Hollow, a dojo bout, a race, the Expedition, a region) and the open/close panels (dialogue, shop, roster,
  * settings, stats sheet, creator gallery). A lap is entered and left in full. Caches fill for a few laps (the
- * sprite-sheet LRU, painted floors), so warm-up laps run until two laps in a row leave the heap, GL geometries and textures flat
- * (at least WARM_MIN, at most WARM_MAX); the baseline is taken there. Then CYCLES more laps run and the last
+ * sprite-sheet LRU, painted floors), so warm-up laps run until three laps in a row leave the heap, GL geometries and textures flat
+ * (at least WARM_MIN, at most WARM_MAX; the Pixel Hollow's floor cache adds geometry on only some visits
+ * and settles near 97 after about 8 laps); the baseline is taken there. Then CYCLES more laps run and the last
  * three are compared with the baseline:
  *   heap after GC           within 10 %
  *   GL geometries, textures within 10 % (or +5 absolute)
  *   DOM nodes               within 5 %
  *   live intervals, rAF loops: back to the baseline (+1); live listeners on the page within 5 %
  * Exits 1 with a table when anything is over. Env: E2E_URL (default http://127.0.0.1:4173), MODE=px|3d
- * (default px), VIEW=phone|desktop (default phone, 375x812), CYCLES (10), WARM_MIN (2), WARM_MAX (16),
+ * (default px), VIEW=phone|desktop (default phone, 375x812), CYCLES (10), WARM_MIN (4), WARM_MAX (20),
  * E2E_BROWSER (path to a Chromium/Edge), PLAYWRIGHT_CORE (module path). Independent of soak.cjs. */
 const BASE = process.env.E2E_URL || 'http://127.0.0.1:4173';
 const MODE = process.env.MODE === '3d' ? '3d' : 'px';
 const VIEW = process.env.VIEW === 'desktop' ? 'desktop' : 'phone';
 const CYCLES = Number(process.env.CYCLES || 10);
-const WARM_MIN = Number(process.env.WARM_MIN || 2);
-const WARM_MAX = Number(process.env.WARM_MAX || 16);
+const WARM_MIN = Number(process.env.WARM_MIN || 4);
+const WARM_MAX = Number(process.env.WARM_MAX || 20);
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const px = MODE === 'px';
@@ -357,7 +358,7 @@ const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
     await page.keyboard.press('Shift'); // the first key press lets audio start, as a player's would
     await sleep(px ? 1000 : 3000);
 
-    // Warm-up: laps until two in a row are quiet (heap up under 2 %, GL geometries and textures up by 1 at most).
+    // Warm-up: laps until three in a row are quiet (heap up under 2 %, GL geometries and textures up by 1 at most).
     let prev = await measure(page, cdp);
     let warm = 0;
     let quiet = 0;
@@ -372,7 +373,7 @@ const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
       quiet = calm ? quiet + 1 : 0;
       console.log(`warm-up lap ${warm}: heap ${now.heapMB.toFixed(1)} MB, geo ${now.geometries}, tex ${now.textures}${calm ? ' (quiet)' : ''}`);
       prev = now;
-      if (warm >= WARM_MAX || (warm >= WARM_MIN && quiet >= 2)) break;
+      if (warm >= WARM_MAX || (warm >= WARM_MIN && quiet >= 3)) break;
     }
     const base = await measure(page, cdp);
     const rows = [];
