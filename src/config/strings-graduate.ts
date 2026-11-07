@@ -7,4 +7,11 @@ export const GRADUATE_TEXT = {
     `Done. Hazel’s Grove slot ${slot} has everything. Find it on the title screen.`,
   noRoom: 'Every Hazel’s Grove slot is full. Delete one on the title screen first.',
   failed: 'Could not copy the save. Check the device storage.',
+  /** The card a finished reader story offers (a grown-up's choice; no pressure). */
+  offer: {
+    title: 'You finished the story!',
+    body: 'A grown-up can carry this Grove on into Hazel’s Grove, with the same Nubbins and a certificate. Or you can stay here as long as you like.',
+    later: 'Not now',
+  },
+  certificateName: 'Keeper’s certificate',
 } as const;

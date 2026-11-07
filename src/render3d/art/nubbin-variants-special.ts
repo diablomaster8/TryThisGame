@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { V } from './sculpted';
-import type { PartSpec, SpeciesSpec } from './species';
+import type { SpeciesSpec } from './species';
 import {
   CHILD,
   MOON_ADULT,
@@ -12,11 +12,13 @@ import {
   type NubbinVariant,
 } from './nubbin-variants';
 import { LINEUP_LOOKS } from './nubbin-variants-lineup';
+import { ETERNAL_LOOKS } from './nubbin-variants-eternal-looks';
 import {
   WHITE,
   ball,
   cone,
   crystalSpike,
+  devilTail,
   dress,
   footCrystals,
   gloveArm,
@@ -157,57 +159,6 @@ const NEUTRAL_LIME = '#7ee02c';
 const NEUTRAL_BELLY = '#d2e640';
 const NEUTRAL_SALMON = '#f0707c';
 const NEUTRAL_TIP = '#f0a070';
-
-/**
- * LOOK-37 (R0404): a devil tail, a chain of four capsules curling down and up behind the
- * hips, ending in a spade.
- */
-function devilTail(color: string, tip: string): PartSpec[] {
-  const pts = [
-    V(0, 0.55, -0.6),
-    V(0, 0.4, -1.0),
-    V(0, 0.5, -1.4),
-    V(0, 0.78, -1.62),
-    V(0, 1.05, -1.66),
-  ];
-  return [
-    {
-      name: 'tail',
-      pivot: V(0, 0.55, -0.6),
-      prims: [
-        ...pts.slice(1).map((b, i) => ({
-          kind: 'capsule' as const,
-          a: pts[i]!,
-          b,
-          r: 0.1 - i * 0.012,
-          color,
-          tag: 'tail',
-          blend: 0.06,
-        })),
-        {
-          kind: 'ellipsoid' as const,
-          a: V(0, 1.17, -1.66),
-          r: 0.2,
-          radii: V(0.2, 0.18, 0.06),
-          color: tip,
-          tag: 'tail',
-          blend: 0.02,
-        },
-        {
-          kind: 'cone' as const,
-          a: V(0, 1.25, -1.66),
-          b: V(0, 1.45, -1.66),
-          r: 0.12,
-          r2: 0.01,
-          color: tip,
-          tag: 'tail',
-        },
-      ],
-      box: [V(-0.5, 0.1, -2.0), V(0.5, 1.6, -0.2)],
-      resolution: 44,
-    },
-  ];
-}
 
 /**
  * LOOK-37 (R0404): three glowing motes in a slow orbit round the Eternal Neutral's head, one
@@ -368,4 +319,5 @@ export const SPECIAL_VARIANTS: NubbinVariant[] = [
   { id: 'eternal-neutral', family: 'special', spec: ETERNAL_NEUTRAL },
   { id: 'shadow', family: 'special', spec: SHADOW },
   ...LINEUP_LOOKS,
+  ...ETERNAL_LOOKS,
 ];

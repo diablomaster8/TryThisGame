@@ -22,6 +22,7 @@ import { STORY_REGIONS } from '../config/story-regions';
 import { STAGE_SET_HIDES } from '../config/stage-sets';
 import { walkOnRoute } from '../sim/scene-cast';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
+import { regionCastSpots, regionSeats, type RegionSpot } from './region-stage';
 import { walkLength, fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
 import { CG4_A2 } from '../config/tuning-a2';
 import { PKG_A2_FROM } from '../config/scene-stages-pkg-a2';
@@ -92,9 +93,15 @@ export function terraceY(x: number, z: number): number {
 }
 
 /** Which visiting Keepers are drawn at a location: the pixel and 3D views' shared rule. */
-export function npcHere(location: Location, trainer: string): boolean {
+export function npcHere(
+  location: Location,
+  trainer: string,
+  /** R0101: the staged cast, who stand in a drawn region only while a scene names them. */
+  staged?: ReadonlySet<string> | null,
+): boolean {
   if (location === 'grove') return true;
-  if (location === 'dungeon' || location.startsWith('region:')) return false;
+  if (location.startsWith('region:')) return !!staged?.has(trainer);
+  if (location === 'dungeon') return false;
   if (location === 'corvin') return trainer === 'corvin' || trainer === 'ember';
   return trainer === 'nova';
 }
@@ -233,6 +240,8 @@ export class SceneStager {
    * Drawing only: the sim's Keeper stays where it is.
    */
   keeperHold: Vec2 | null = null;
+  /** R0101: where each seated cast member stands in a drawn region (empty elsewhere). */
+  readonly regionSpots = new Map<string, RegionSpot>();
   /** Where cast Nubbins (Moss, Sable) are drawn for the scene, by Nubbin id. Drawing only. */
   readonly nubbinHolds = new Map<string, Vec2>();
   /** The hour the scene asks for (stage.hour, else its narration), or null for the clock's. */
@@ -433,6 +442,7 @@ export class SceneStager {
     this.camTurn = null;
     this.keeperHold = null;
     this.nubbinHolds.clear();
+    this.regionSpots.clear();
     this.speakers.clear();
     this.hour = null;
     this.stage = {};
@@ -492,9 +502,21 @@ export class SceneStager {
     return [{ who: 'you', mark }, ...cast];
   }
 
+  /**
+   * A cast entry's mark: in the Grove and its visits the named one, in a drawn region the
+   * spot `regionCastSpots` seated that person at (R0101).
+   */
+  private markOf(world: World, c: StageCast): { x: number; z: number; yaw: number } | undefined {
+    if (world.location.startsWith('region:')) return this.regionSpots.get(c.who);
+    return markAt(world.location, c.mark);
+  }
+
   /** Where everyone is drawn for this scene: marks first, then far speakers brought in. */
   private place(world: World): void {
     const cast = this.castOf(world);
+    if (world.location.startsWith('region:'))
+      for (const [who, at] of regionCastSpots(world, regionSeats(this.castIds)))
+        this.regionSpots.set(who, at);
     const you = cast.find((c) => c.who === 'you');
     const ym = you ? markAt(world.location, you.mark) : undefined;
     if (ym) this.keeperHold = { x: ym.x, z: ym.z };
@@ -505,15 +527,23 @@ export class SceneStager {
       if (nid && m) this.nubbinHolds.set(nid, { x: m.x, z: m.z });
     }
     const k = this.keeperHold ?? world.keeper.pos;
-    const here = world.npcs.filter((n) => npcHere(world.location, n.trainer));
+    const here = world.npcs.filter((n) => npcHere(world.location, n.trainer, this.castIds));
     for (const n of here) this.holds.set(n.id, { x: n.pos.x, z: n.pos.z });
     const marked = new Set<string>();
     for (const c of cast) {
       const n = here.find((x) => x.trainer === c.who);
-      const m = markAt(world.location, c.mark);
+      const m = this.markOf(world, c);
       if (!n || !m) continue;
       this.holds.set(n.id, { x: m.x, z: m.z });
       this.faces.set(n.id, m.yaw);
+      marked.add(n.id);
+    }
+    // R0101: in a drawn region every seated speaker stands in the fan, marked or not.
+    for (const n of here) {
+      const spot = marked.has(n.id) ? undefined : this.regionSpots.get(n.trainer);
+      if (!spot) continue;
+      this.holds.set(n.id, { x: spot.x, z: spot.z });
+      this.faces.set(n.id, spot.yaw);
       marked.add(n.id);
     }
     // C5: with no mark, a speaker beyond the framing radius steps in beside the Keeper,
@@ -604,14 +634,16 @@ export class SceneStager {
 
   private castSpot(world: World, who: string): Vec2 | null {
     if (who === 'you') return this.keeperSpot(world);
-    const n = world.npcs.find((x) => x.trainer === who && npcHere(world.location, x.trainer));
+    const n = world.npcs.find(
+      (x) => x.trainer === who && npcHere(world.location, x.trainer, this.castIds),
+    );
     if (n) return this.holds.get(n.id) ?? n.pos;
     const nid = this.nubbinIdOf(world, who);
     const nb = nid ? world.nubbins.find((x) => x.id === nid) : undefined;
     if (nb) return this.nubbinHolds.get(nb.id) ?? nb.pos;
     // A stage actor (a storyline speaker with no sim NPC) stands on its cast mark.
     const entry = this.stage.cast?.find((c) => c.who === who);
-    const m = entry ? markAt(world.location, entry.mark) : undefined;
+    const m = entry ? this.markOf(world, entry) : undefined;
     return m ? { x: m.x, z: m.z } : null;
   }
 
@@ -679,11 +711,11 @@ export class SceneStager {
    */
   private beginWalks(world: World, nowMs: number): void {
     const cast = this.castOf(world);
-    const here = world.npcs.filter((n) => npcHere(world.location, n.trainer));
+    const here = world.npcs.filter((n) => npcHere(world.location, n.trainer, this.castIds));
     for (const c of cast) {
       const fromName = c.from ?? PKG_A2_FROM[this.sceneId ?? '']?.[c.who];
       if (!fromName) continue;
-      const to = markAt(world.location, c.mark);
+      const to = this.markOf(world, c);
       const from = fromSpot(world.location, fromName);
       if (!to || !from) continue;
       const dist = Math.hypot(to.x - from.x, to.z - from.z);

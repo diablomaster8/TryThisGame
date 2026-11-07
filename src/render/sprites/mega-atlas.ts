@@ -3,7 +3,7 @@ import { NearestFilter, SRGBColorSpace, Texture, Vector2 } from 'three';
 import type { FrameRect, SpriteSheet } from './atlas';
 
 /** Where a sheet landed inside the mega atlas. */
-export interface Placement {
+export interface AtlasPlacement {
   x: number;
   y: number;
 }
@@ -24,7 +24,7 @@ export interface AtlasUploader {
   ): void;
 }
 
-interface Slot extends Placement {
+interface Slot extends AtlasPlacement {
   w: number;
   h: number;
   /** The atlas frame this sheet was last asked for; this frame's sheets are never evicted. */
@@ -145,7 +145,7 @@ export class MegaAtlas {
   }
 
   /** Copy a sheet in (evicting stale sheets if needed); null only if it cannot fit at all. */
-  place(sheet: SpriteSheet): Placement | null {
+  place(sheet: SpriteSheet): AtlasPlacement | null {
     const existing = this.slots.get(sheet);
     if (existing) {
       existing.lastUsed = this.frame;
@@ -233,7 +233,7 @@ export class MegaAtlas {
    * gaps it left were what pushed a crowded Grove over one page); else the last shelf
    * grows if it can, else a new shelf opens under it. Null when nothing has room.
    */
-  private alloc(page: Page, w: number, h: number, limit: number): Placement | null {
+  private alloc(page: Page, w: number, h: number, limit: number): AtlasPlacement | null {
     if (w > this.size) return null;
     const shelves = page.shelves;
     const last = shelves[shelves.length - 1];
@@ -252,7 +252,7 @@ export class MegaAtlas {
     return { x: 0, y };
   }
 
-  private put(sheet: SpriteSheet, pageIndex: number, at: Placement): Slot {
+  private put(sheet: SpriteSheet, pageIndex: number, at: AtlasPlacement): Slot {
     const surface = this.ensureSurface(this.pages[pageIndex]!);
     surface.ctx.drawImage(sheet.texture.image as HTMLCanvasElement, at.x, at.y);
     const slot: Slot = {

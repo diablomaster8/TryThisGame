@@ -10,6 +10,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { TAP_FLAG } from '../config/tuning-move-r10';
 import { TAP_PRINTS } from '../config/tuning-r9d2';
+import { EDU_TRAIL } from '../config/tuning-r14d2';
 import type { World } from '../sim/types';
 import { TapPath } from '../render/tap-path';
 
@@ -120,7 +121,14 @@ export class TapMarks3D {
     const da = this.path.dotAlpha(nowMs, calm);
     this.dots.visible = da > 0 && this.path.dots.length > 0;
     if (this.dots.visible) {
-      this.dotMat.opacity = 0.6 * da;
+      // R0099: the Learning Grove's prints glow warm and are drawn larger.
+      this.dotMat.color.set(this.path.glow ? EDU_TRAIL.colour : '#fff6dc');
+      this.s.set(
+        TAP_PRINTS.w * (this.path.glow ? EDU_TRAIL.size : 1),
+        1,
+        TAP_PRINTS.l * (this.path.glow ? EDU_TRAIL.size : 1),
+      );
+      this.dotMat.opacity = (this.path.glow ? 0.85 : 0.6) * Math.min(1, da);
       const dots = this.path.dots;
       for (let i = 0; i < dots.length; i++) {
         const d = dots[i]!;

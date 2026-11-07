@@ -1,3 +1,4 @@
+import { pondIsIce } from './ice';
 import { GROVE, SIM } from '../config/tuning';
 import { GROVE_NAV, JUMP } from '../config/tuning-sim';
 import { AUTO_HOP } from '../config/tuning-move';
@@ -57,7 +58,7 @@ const cellOf = (v: number): number =>
  * while Auto-hop is on).
  */
 function grid(world: World): Grid {
-  const wade = keeperPerks(world).wade;
+  const wade = keeperPerks(world).wade || pondIsIce(world);
   const key = gridKey(world, wade);
   const cached = grids.get(world);
   if (cached && cached.key === key) return cached;

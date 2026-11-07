@@ -266,6 +266,48 @@ function paintStones(): Raster {
   return finish(r);
 }
 
+/** R0096: a Nubbin garden's bench, flower bed, toy stand and fence post, in the land's colours. */
+function gardenBench(a: RGB, b: RGB): Raster {
+  const r = canvas(44, 26);
+  const y = r.h - 1;
+  r.rect(4, y - 8, 4, 8, b);
+  r.rect(36, y - 8, 4, 8, b);
+  r.rect(2, y - 14, 40, 6, a);
+  r.rect(2, y - 22, 40, 5, shade(a, 0.9));
+  return finish(r);
+}
+
+function gardenBed(petal: RGB, petal2: RGB): Raster {
+  const r = canvas(48, 26);
+  const y = r.h - 1;
+  r.ellipse(24, y - 6, 22, 6, hex('#5a4630'));
+  for (let i = 0; i < 7; i++) {
+    const x = Math.round(7 + i * 5.5);
+    const h = Math.round(8 + hash(i, 3) * 8);
+    r.rect(x, y - 6 - h, 1, h, DLEAF);
+    r.disc(x, y - 7 - h, 2.4, i % 2 ? petal : petal2);
+  }
+  return finish(r);
+}
+
+function gardenToy(a: RGB, b: RGB): Raster {
+  const r = canvas(22, 30);
+  const y = r.h - 1;
+  r.rect(9, y - 12, 4, 12, hex('#8a7a60'));
+  r.ellipse(11, y - 1, 8, 2.5, hex('#8a7a60'));
+  r.disc(11, y - 19, 7, a);
+  r.rect(4, y - 20, 14, 2, b);
+  return finish(r);
+}
+
+function gardenPost(a: RGB, b: RGB): Raster {
+  const r = canvas(10, 26);
+  const y = r.h - 1;
+  r.rect(2, y - 18, 6, 18, a);
+  r.rect(1, y - 22, 8, 4, b);
+  return finish(r);
+}
+
 const sheets = new Map<'sun' | 'moon', SpriteSheet>();
 
 export function sunMoonSheet(kind: 'sun' | 'moon'): SpriteSheet {
@@ -279,6 +321,10 @@ export function sunMoonSheet(kind: 'sun' | 'moon'): SpriteSheet {
     atlas.add('dome', paintDome());
     atlas.add('column', paintColumn());
     atlas.add('gate', paintGate(WHITE, GOLD, 'sun'));
+    atlas.add('g-bench', gardenBench(WHITE, STONE));
+    atlas.add('g-bed', gardenBed(ROSE, GOLD));
+    atlas.add('g-toy', gardenToy(GOLD, WHITE));
+    atlas.add('g-post', gardenPost(WHITE, GOLD));
   } else {
     for (const k of [0, 1, 2]) atlas.add(`tree-${k}`, moonFill(k));
     for (const k of [0, 1, 2, 3, 4]) atlas.add(`prop-${k}`, moonProp(k));
@@ -286,6 +332,10 @@ export function sunMoonSheet(kind: 'sun' | 'moon'): SpriteSheet {
     atlas.add('lantern', paintLantern());
     atlas.add('stones', paintStones());
     atlas.add('gate', paintGate(hex('#3a3450'), hex('#c8d0ff'), 'moon'));
+    atlas.add('g-bench', gardenBench(hex('#4a4468'), hex('#2e2a40')));
+    atlas.add('g-bed', gardenBed(hex('#7af0d0'), hex('#c8d0ff')));
+    atlas.add('g-toy', gardenToy(hex('#9b5de5'), hex('#c8d0ff')));
+    atlas.add('g-post', gardenPost(hex('#5a5470'), hex('#c8d0ff')));
   }
   const s = atlas.build();
   sheets.set(kind, s);

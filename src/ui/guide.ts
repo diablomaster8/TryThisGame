@@ -15,6 +15,8 @@ import { chapterDef } from '../sim/campaign';
 import { textBandOf } from '../sim/story-scenes';
 import type { Nubbin, Vec2, World } from '../sim/types';
 import { el } from './dom';
+import { GraduateOffer } from './graduate';
+import { noticeHighlight } from './grove-noticed';
 import { speakLine } from './lesson';
 
 export type GuideKind = keyof typeof GUIDE_TEXT.say;
@@ -104,6 +106,8 @@ export class Guide {
   private progressKey = '';
   private progressAt = performance.now();
   private pulsed: HTMLElement | null = null;
+  /** R0727: the end-of-story "Continue as a Keeper" card rides the guide's per-frame update. */
+  private readonly offer: GraduateOffer;
 
   constructor(
     parent: HTMLElement,
@@ -114,6 +118,7 @@ export class Guide {
     this.hand.hidden = true;
     this.hand.setAttribute('aria-hidden', 'true');
     parent.appendChild(this.hand);
+    this.offer = new GraduateOffer(parent, game);
   }
 
   /** "Show me": point now and say the step, or say the goal is somewhere else in the Grove. */
@@ -136,11 +141,19 @@ export class Guide {
   update(busy: boolean): void {
     const g = this.game();
     const now = performance.now();
+    this.offer.update(busy);
     if (!g?.world.edu || busy) {
       if (!this.hand.hidden || this.pulsed) {
         this.hand.hidden = true;
         this.unpulse();
       }
+      return;
+    }
+    // R0723: a noticing moment ("One, two, three apples!") points the hand at its fruit.
+    const lit = noticeHighlight(now);
+    const fruit = lit ? g.world.items.find((i) => i.id === lit && i.kind === 'fruit') : undefined;
+    if (fruit) {
+      this.point(g, { kind: 'fruit', id: fruit.id, pos: fruit.pos });
       return;
     }
     const t = guideTarget(g.world, this.sheetFor());

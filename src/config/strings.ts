@@ -942,6 +942,11 @@ export const EDU_TEXT = {
     sounds: 'Sounds & rhymes',
     animals: 'Animals',
     tracing: 'Tracing',
+    times: 'Times tables',
+    timeMoney: 'Clock & Shells',
+    numbers: 'Number sense',
+    reading: 'Read & answer',
+    science: 'Nature sort',
   },
   gameIcons: {
     colours: '🎨',
@@ -951,6 +956,11 @@ export const EDU_TEXT = {
     sounds: '🎵',
     animals: '🐾',
     tracing: '✏️',
+    times: '✖️',
+    timeMoney: '🕒',
+    numbers: '🍰',
+    reading: '📖',
+    science: '🔬',
   },
   /** The reader band's names for the three games it plays (review C, item 18). */
   readerGameNames: {
@@ -959,7 +969,7 @@ export const EDU_TEXT = {
     sounds: 'Rhymes & beats',
   } as Partial<Record<string, string>>,
   readerGameBlurbs: {
-    counting: 'Add and take away to 20, and the 2, 5 and 10 times tables.',
+    counting: 'Add and take away, up to two-digit sums.',
     letters: 'Pick the right spelling of a picture word.',
     sounds: 'Read words that rhyme, and count the beats.',
   } as Partial<Record<string, string>>,
@@ -971,6 +981,11 @@ export const EDU_TEXT = {
     sounds: 'Animal sounds, first sounds, rhymes, claps.',
     animals: 'Names, sounds, homes and babies.',
     tracing: 'Trace letters, numbers and your name.',
+    times: 'The times tables from 2 to 12.',
+    timeMoney: 'Tell the time on a clock and make prices with Shells.',
+    numbers: 'Place value, halves, quarters and thirds.',
+    reading: 'Read a short passage, then answer who, what and why.',
+    science: 'Sort living things, floaters, water and animal homes.',
   },
   domains: {
     cognition: 'Thinking & maths',
@@ -999,7 +1014,9 @@ export const EDU_TEXT = {
     `To continue, work out ${a} × ${b}, type the answer, then press and hold Enter.`,
   gateHold: 'Keep holding…',
   gateWrong: 'Not quite. Here is a new one. Ask a grown-up.',
-  gateEnter: 'Enter',
+  gateTooShort: 'Keep holding Enter until the bar fills.',
+  gateTypeFirst: 'Type the answer first, then hold Enter.',
+  gateEnter: 'Hold to enter',
   parentTitle: 'Grown-up area',
   parentHelp:
     'The age sets which games are suggested and how hard they are. Switch any game on or off to make it yours.',

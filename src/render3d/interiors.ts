@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { InteriorId } from '../config/stage-marks';
 import { CG4_C4, GROVE3D } from '../config/tuning';
-import { ROOM_FURNITURE, type Piece } from '../render/interior-layout';
+import { ROOM_FURNITURE, type InteriorPiece } from '../render/interior-layout';
 import { ROOM_LOOKS } from '../render/paint/interiors';
 import type { Tex } from './art/aaa-kit';
 import { toonShader } from './art/creatures';
@@ -262,7 +262,7 @@ function wall(
 }
 
 /** One piece of furniture at its spot in the room. */
-function piece(P: Parts, p: Piece): void {
+function piece(P: Parts, p: InteriorPiece): void {
   const at = (dx: number, y: number, dz: number): [number, number, number] => [
     p.x + dx,
     (p.y3d ?? p.y ?? 0) + y,

@@ -105,6 +105,11 @@ const EXCLUSIVE_SKIPS: ReadonlySet<string> = new Set(['b', 'c', 'd', 'e']);
 /** Runs the registry for one GroveScene: build once, update per frame, dispose at the end. */
 export class PixelDressings {
   private built = false;
+  /** HOT load time: the context `buildLazily` keeps until every package is built. */
+  private pending: PixelDressCtx | null = null;
+  /** How many packages (in list order) are built and updated. */
+  private ready = 0;
+  private frames = 0;
 
   /** Every package's dressing, in a fixed order (a to f, then the second pass's p..u). */
   constructor(private readonly list: readonly PixelDressing[] = PIXEL_DRESSINGS) {}
@@ -113,17 +118,39 @@ export class PixelDressings {
     if (this.built) return;
     this.built = true;
     for (const d of this.list) d.build(ctx);
+    this.ready = this.list.length;
+  }
+
+  /**
+   * HOT (load time): build the packages from the second drawn frame on, one a frame in list
+   * order, each drawn from the frame it is built in. Building all 21 in the scene's
+   * constructor, and baking their sheets in the first frame, held a cold start's first frame
+   * back by about 3 s at 4x CPU; now the story dressing streams in over the first frames.
+   */
+  buildLazily(ctx: PixelDressCtx): void {
+    if (this.built) return;
+    this.built = true;
+    this.pending = ctx;
   }
 
   update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+    const ctx = this.pending;
+    if (ctx && this.frames++ > 0) {
+      this.list[this.ready]!.build(ctx);
+      this.ready++;
+      if (this.ready >= this.list.length) this.pending = null;
+    }
     // An exclusive stage (C3, C4) draws only its own set: the first pass's Grove-bound
     // billboards (the gate, the Fold, Corvin's garden, props, lantern posts) sit it out.
     const bare = stage.exclusive === true;
-    for (const d of this.list)
+    for (let i = 0; i < this.ready; i++) {
+      const d = this.list[i]!;
       if (!bare || !EXCLUSIVE_SKIPS.has(d.id)) d.update(world, stage, daylight, dt);
+    }
   }
 
   dispose(): void {
-    for (const d of this.list) d.dispose?.();
+    for (let i = 0; i < this.ready; i++) this.list[i]!.dispose?.();
+    this.pending = null;
   }
 }

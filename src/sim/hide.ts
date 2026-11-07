@@ -15,6 +15,32 @@ import type { Nubbin, Vec2, World } from './types';
 
 const HIDING = /^(tree|rock|lantern|wild|well|windmill)(-|$)/;
 
+export interface HideCover {
+  x: number;
+  z: number;
+  r: number;
+  top: number;
+}
+
+/**
+ * The cover a hider is tucked behind: the nearest hiding place round it. The renderers use it to
+ * seat the peek on the side away from the camera (the sim's own spot is away from the Keeper).
+ */
+export function hideCover(world: World, n: Nubbin): HideCover | null {
+  let best: HideCover | null = null;
+  let bestD = Infinity;
+  for (const c of obstacles(world)) {
+    if (c.shape.type !== 'circle' || c.top < 0.6 || !HIDING.test(c.id)) continue;
+    if (c.flags.includes('soft') || c.flags.includes('nubbinOnly')) continue;
+    const d = Math.hypot(c.x - n.pos.x, c.z - n.pos.z) - c.shape.r;
+    if (d < bestD && d <= 1.2) {
+      bestD = d;
+      best = { x: c.x, z: c.z, r: c.shape.r, top: c.top };
+    }
+  }
+  return best;
+}
+
 /** The nearest hiding place and the spot behind it, as seen from the Keeper. */
 export function hideSpot(world: World, n: Nubbin): Vec2 | null {
   const k = world.keeper.pos;

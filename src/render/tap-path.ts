@@ -8,6 +8,7 @@
 import { TAP_PATH } from '../config/tuning-move';
 import { TAP_FLAG } from '../config/tuning-move-r10';
 import { TAP_PRINTS } from '../config/tuning-r9d2';
+import { EDU_TRAIL } from '../config/tuning-r14d2';
 import { keeperFooting, standInTap, tapVerdict, type TapVerdict } from '../sim/keeper';
 import { keeperRoute } from '../sim/nav';
 import type { Vec2, World } from '../sim/types';
@@ -35,9 +36,12 @@ export class TapPath {
   /** The nearest reachable point, when the walk stops short of the tap (else null). */
   unreached: TapMark | null = null;
   private puffAt = -Infinity;
+  /** R0099: the Learning Grove draws bigger, longer-lasting glowing prints. */
+  glow = false;
 
   /** Follow the sim's tap target; returns false when nothing is to be drawn. */
   update(world: World, nowMs: number): boolean {
+    this.glow = world.edu !== null;
     const v = world.location === 'grove' ? tapVerdict(world) : undefined;
     if (v !== this.verdict) {
       this.verdict = v;
@@ -67,8 +71,9 @@ export class TapPath {
   /** How strongly to draw the prints (0 gone): a fade, or whole then gone in reduced motion. */
   dotAlpha(nowMs: number, reduced: boolean): number {
     const age = nowMs - this.at;
-    if (reduced) return age < TAP_PRINTS.fadeMs ? 1 : 0;
-    return Math.max(0, 1 - age / TAP_PRINTS.fadeMs);
+    const fade = TAP_PRINTS.fadeMs * (this.glow ? EDU_TRAIL.fadeMul : 1);
+    if (reduced) return age < fade ? 1 : 0;
+    return Math.max(0, 1 - age / fade);
   }
 
   markAlpha(nowMs: number, reduced: boolean): number {
