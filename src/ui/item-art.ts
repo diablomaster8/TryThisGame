@@ -1,5 +1,5 @@
 import { C, color } from '../render/sprites/palette';
-import { CG2_U } from '../config/tuning-u';
+import { CG2_U } from '../config/tuning-more/campaign2-cards-postcards';
 
 /**
  * The story items as pixel art (M9), on the shared palette. Each is drawn on a small grid

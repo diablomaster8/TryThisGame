@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ALBUM } from '../../src/config/tuning-soul-r11b';
+import { ALBUM } from '../../src/config/tuning-more/soul-wider-kindergarten';
 import { ALBUM_IDS, pinDoodle, sawAntic, stampCount } from '../../src/sim/antic-album';
 import { hatch } from '../../src/sim/lifecycle';
 import type { SimEvent } from '../../src/sim/types';

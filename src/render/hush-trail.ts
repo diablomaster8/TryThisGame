@@ -1,4 +1,4 @@
-import { CG2_W } from '../config/tuning-w';
+import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
 import type { StageFlags } from './scene-stage';
 import type { LampState } from './dress-e';
 

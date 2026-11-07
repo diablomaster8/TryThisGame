@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { EGG } from '../../src/config/tuning';
-import { SHEET_TABS } from '../../src/config/tuning-r8d';
+import { SHEET_TABS } from '../../src/config/tuning-more/ui-shake-sheet';
 import {
   careFaces,
   faceBand,

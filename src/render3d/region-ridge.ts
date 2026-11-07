@@ -7,7 +7,7 @@ import {
   RIDGE_TERRACES,
 } from '../config/region-ridge';
 import { snowballs } from '../sim/snowballs';
-import { SNOWBALL } from '../config/tuning-r13d1';
+import { SNOWBALL } from '../config/tuning-more/world-region-content';
 import type { World } from '../sim/types';
 import type { RegionLayout } from '../config/region-layout';
 import { paintRidge, RIDGE_GROUND, ridgeHeight, ridgeKind } from '../render/region-ridge';

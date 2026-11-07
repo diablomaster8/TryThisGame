@@ -1,6 +1,6 @@
 import { beginApproach, stepApproach } from './offer-approach';
 import { REGIONS } from '../config/regions';
-import { SIGN_OFFERS } from '../config/tuning-r13d1';
+import { SIGN_OFFERS } from '../config/tuning-more/world-region-content';
 import { OFFER_WINDOWS, QUESTS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { areaOf } from '../content/where-map';

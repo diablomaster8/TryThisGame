@@ -7,7 +7,7 @@
 import { REGIONS, type RegionId } from '../config/regions';
 import { WORLD_TEXT } from '../config/strings-world';
 import { OVERVIEW_TEXT } from '../config/strings-r11d6';
-import { OVERVIEW_NODES } from '../config/tuning-r11d6';
+import { OVERVIEW_NODES } from '../config/tuning-more/world-overview-puddles';
 import { regionOf, regionsFound } from '../sim/regions';
 import type { World } from '../sim/types';
 import { el } from './dom';

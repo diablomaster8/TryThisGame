@@ -1,5 +1,5 @@
 import { LANE_GATES } from '../config/region-lane';
-import { GARDEN_WALKOUT } from '../config/tuning-r13d1';
+import { GARDEN_WALKOUT } from '../config/tuning-more/world-region-content';
 
 import { setLocation } from './campaign';
 import { regionLocation } from './region-walk';

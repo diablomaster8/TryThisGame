@@ -4,7 +4,7 @@ import type { SimEvent } from './sim/types';
 import { applyCommand, stepWorld } from './sim/world';
 import { stepKeeperMotion } from './sim/keeper';
 import { KEEPER_MOTION } from './config/tuning-sim';
-import { FAST_TIME } from './config/tuning-r8d-perf';
+import { FAST_TIME } from './config/tuning-more/perf-tiers';
 import type { Game } from './game';
 
 /** One frame's sim: queued commands, fixed steps, the Keeper's fine clock. Returns the events. */

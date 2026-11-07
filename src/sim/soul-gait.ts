@@ -5,8 +5,8 @@
  * the wander's speed and adds the meander; the renderers read `gaitOf` for the cycle, bob
  * and roll. Plain wandering only, in live play (`soulLive`); a child leans at half strength.
  */
-import { GAIT } from '../config/tuning-soul-r11';
-import { OLD_SOUL_TEACH } from '../config/tuning-soul-r11h';
+import { GAIT } from '../config/tuning-more/soul-quirks-gait';
+import { OLD_SOUL_TEACH } from '../config/tuning-more/soul-old-souls';
 import { soulLive } from './antics';
 import { leaningPersonality } from './personality';
 import type { Nubbin, Personality } from './types';

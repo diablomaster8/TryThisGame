@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { groveEdgePieces } from '../config/region-grove-edge';
 import type { LayoutChunk } from '../config/region-layout';
 import { GROVE } from '../config/tuning';
-import { GROVE_EDGE } from '../config/tuning-r11d7';
+import { GROVE_EDGE } from '../config/tuning-more/world-region-lands';
 import { WORLD_STREAM } from '../config/tuning-world';
 import { borderBlockers } from '../sim/border';
 import { hash, hex, Raster, rimObjects, shade } from './paint/raster';

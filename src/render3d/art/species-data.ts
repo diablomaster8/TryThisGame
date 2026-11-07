@@ -3,7 +3,7 @@ import { stripes } from './creatures';
 import { V } from './sculpted';
 import { namedRule } from './sculpt-rules';
 import { digits, tuftRow } from './species-kit';
-import type { Mark, SpeciesSpec } from './species';
+import type { SpeciesMark, SpeciesSpec } from './species';
 
 /**
  * Two species written in the description format: the Nubbin (the Chao-faithful hero,
@@ -60,7 +60,7 @@ function nubbinLeg(side: -1 | 1): SpeciesSpec['parts'][number] {
  * The marks a Chao does not wear (LOOK-12), kept for the looks that want them: blush under
  * each eye, a pale heart on the belly (the two-tone eggs' signature) and a star on the brow.
  */
-export const NUBBIN_EXTRA_MARKS: Record<'blush' | 'belly' | 'star', Mark[]> = {
+export const NUBBIN_EXTRA_MARKS: Record<'blush' | 'belly' | 'star', SpeciesMark[]> = {
   blush: [
     {
       kind: 'ellipsoid',

@@ -21,7 +21,7 @@
  * and the archive holds that legacy text. Unreadable copies, older saves and side saves are
  * never removed. Without the archive nothing moves and nothing goes.
  */
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import { deserialize, serialize } from '../sim/save';
 import { unifyWorld } from '../sim/save-unify';
 import { kv } from './idb';

@@ -8,7 +8,7 @@ import {
   overlayScale,
   wallEdges,
   type Ctx2D,
-  type Mark,
+  type HollowMapMark,
   type MarkKind,
 } from '../../src/ui/hollow-map';
 
@@ -85,7 +85,7 @@ describe('the overlay redraw', () => {
     const mask = new Uint8Array(f.cols * f.rows).fill(1);
     const edges = wallEdges(f, mask);
     expect(edges.length).toBeGreaterThan(4 * 1000);
-    const marks: Mark[] = [
+    const marks: HollowMapMark[] = [
       { kind: 'up', x: 4.5, y: 4.5 },
       { kind: 'down', x: 90.5, y: 66.5 },
       { kind: 'chest', x: 50.5, y: 30.5 },

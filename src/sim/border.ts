@@ -5,7 +5,7 @@
  * `natural` (the hedge that rings the rest). The renderers draw the blockers from
  * `borderBlockers()`, and walking into the edge raises `borderPushed` once per stretch.
  */
-import { BORDER } from '../config/tuning-r9d2';
+import { BORDER } from '../config/tuning-more/ui-tap-prints-border';
 import { REGIONS } from '../config/regions';
 import { SIM } from '../config/tuning';
 import type { SimEvent, Vec2, World } from './types';

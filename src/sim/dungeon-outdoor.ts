@@ -32,7 +32,7 @@ import { OUTDOOR_TILES, type OutdoorBiome } from './dungeon-pieces/outdoor-tiles
 import { PLACED_KINDS, type Shrine } from './dungeon-shrines';
 import { Rng } from './rng';
 import { isCommonSpecies, SPECIES } from './species';
-import { FIELD_R10 } from '../config/tuning-r10b2';
+import { FIELD_R10 } from '../config/tuning-more/dungeon-field-streaming';
 
 const cache = new Map<string, Floor>();
 

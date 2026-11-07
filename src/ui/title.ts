@@ -1,7 +1,7 @@
 import { SLOT_LINES_TEXT } from '../config/strings-camp';
 import { confirmModal } from './confirm';
 import { TRASH_TEXT } from '../config/strings-r9d3';
-import { SLOT_TRASH } from '../config/tuning-r9d3';
+import { SLOT_TRASH } from '../config/tuning-more/ui-shake-hint';
 import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../platform/slot-trash';
 import { titleGate } from './title-gate'; /* Lane E r9 */
 import { showFirstNubbin } from './kids-portrait'; /* Lane E r10 */

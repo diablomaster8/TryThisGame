@@ -6,7 +6,7 @@
  * render-side only (the sim never sees it).
  */
 import { EMOTE_SPRING } from '../config/tuning-look';
-import { EMOTE_MOOD } from '../config/tuning-soul-r10b';
+import { EMOTE_MOOD } from '../config/tuning-more/soul-kindergarten-emotes';
 
 interface Ball {
   x: number;

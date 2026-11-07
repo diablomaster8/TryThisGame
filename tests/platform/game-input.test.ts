@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { INPUT, THROW } from '../../src/config/tuning';
-import { POINTER_INPUT } from '../../src/config/tuning-r9d3';
+import { POINTER_INPUT } from '../../src/config/tuning-more/ui-shake-hint';
 import { GameInput, type InputHost, type Placing } from '../../src/input/game-input';
 import type { PickHit } from '../../src/render/picker';
 import type { Command } from '../../src/sim/types';

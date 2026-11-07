@@ -6,7 +6,7 @@ import {
   musicGainTarget,
   setMusicVolume,
 } from '../../src/platform/audio';
-import { AUDIO_MIX, MUSIC_DUCK } from '../../src/config/tuning-r8d-audio';
+import { AUDIO_MIX, MUSIC_DUCK } from '../../src/config/tuning-more/audio-mix';
 import { createWorld } from '../../src/sim/world';
 
 /** R0464 (TECH-22): the music ducks under dialogue, read-aloud and big stings. */

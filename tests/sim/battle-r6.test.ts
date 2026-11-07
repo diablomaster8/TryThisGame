@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BATTLE_R6 } from '../../src/config/tuning-battle-r6';
+import { BATTLE_R6 } from '../../src/config/tuning-more/battle-ladder-fusion';
 import { bestAllyAction, createBattle, replay } from '../../src/sim/battle';
 import { ladderBelt, ladderContext, ladderOf } from '../../src/sim/battle/ladder';
 import { decodeReplayCode, encodeReplayCode, funniestMoment } from '../../src/sim/battle/replay';

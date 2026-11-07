@@ -1,6 +1,6 @@
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import type { SceneStage } from '../config/story';
-import { HUSH } from '../config/tuning-e';
+import { HUSH } from '../config/tuning-more/campaign-people-lanterns';
 import type { StageFlags } from './scene-stage';
 
 /**

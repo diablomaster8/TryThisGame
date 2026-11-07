@@ -3,7 +3,7 @@ import { GATE_LEVEL } from '../../src/config/region-wild';
 import { SHORE_CASTLES, SHORE_FOLK } from '../../src/config/region-shore';
 import { REGIONS } from '../../src/config/regions';
 import { SIM } from '../../src/config/tuning';
-import { SHORE_PLAY } from '../../src/config/tuning-r13d1';
+import { SHORE_PLAY } from '../../src/config/tuning-more/world-region-content';
 import { hatch } from '../../src/sim/lifecycle';
 import { setPartner } from '../../src/sim/partners';
 import { keeperArea, offeredAt } from '../../src/sim/quest-offers';

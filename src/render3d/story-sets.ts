@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import { C, color } from '../render/sprites/palette';
 import { pbr, repeatUv, type Tex } from './art/aaa-kit';
 import type { Location } from '../sim/types';
-import { CG_C } from '../config/tuning-c';
-import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
+import { OCCLUDE_R10 } from '../config/tuning-more/move-npc-colliders';
 import { occluders } from './occluders';
 import {
   buildBackdrop,

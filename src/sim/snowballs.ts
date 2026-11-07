@@ -1,6 +1,6 @@
 import { RIDGE_SNOW_Y, RIDGE_SPEC } from '../config/region-ridge';
 import { terraceHeight } from '../config/region-layout';
-import { SNOWBALL } from '../config/tuning-r13d1';
+import { SNOWBALL } from '../config/tuning-more/world-region-content';
 import { drawnRegion } from './region-walk';
 import type { World } from './types';
 

@@ -7,7 +7,7 @@ import { progressOf, type RunState, type ThingKind } from '../minigames/expediti
 import { buildGrass } from './art/aaa-kit';
 import type { Rigged } from './art/species';
 import type { SpriteSheet } from '../render/sprites/atlas';
-import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../config/tuning-more/soul-old-souls';
 import type { Nubbin, NubbinType, Personality } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';

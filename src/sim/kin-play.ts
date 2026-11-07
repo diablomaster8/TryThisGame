@@ -13,7 +13,7 @@
  *   flinch and sends a mischievous one after the Keeper for three seconds.
  * Hashed chances, live play only, behaviour and looks only.
  */
-import { KEEPER_ACTS, KIN, VISITOR } from '../config/tuning-soul-r11g';
+import { KEEPER_ACTS, KIN, VISITOR } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { LESSON_IDS, lessonLevel } from './kindergarten';
 import { hasTrait } from './traits';

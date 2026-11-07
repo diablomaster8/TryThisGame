@@ -6,7 +6,7 @@
  * lasts as long as it would have without them.
  */
 import type { ReadonlyWorld } from './readonly-world';
-import { SIT_WITH } from '../config/tuning-fun-r7';
+import { SIT_WITH } from '../config/tuning-more/fun-voice-antics';
 import type { Nubbin } from '../sim/types';
 
 export interface SitWithBeat {

@@ -19,7 +19,7 @@ import {
   withEntry,
   type SlotIndex,
 } from './slot-index';
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import {
   belongsInIdb,
   dropLive,

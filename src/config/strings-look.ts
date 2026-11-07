@@ -228,11 +228,11 @@ export const FLAVOUR = {
     normal: 'Tastes of Tuesday.',
   } as Record<string, string>,
   wear: {
+    'edu-abacus': 'Four beads, two wires, and a great deal of counting.',
+    'edu-paintbrush': 'Still a little wet. Do not lean on anything.',
+    'edu-book': 'Small, sturdy, and read to the last page.',
     straw: 'Keeps the sun off and the bees interested.',
     remembrance: 'The same flower as on the hill. Worn for a friend, and a little for luck.', // Lane E r9
-    'edu-abacus': 'Counts faster than it looks. Mostly clicks.',
-    'edu-paintbrush': 'Behind one ear, just in case of sudden blue.',
-    'edu-book': 'Sits on the head. Learns by being very close.',
     'sprout-cap': 'Two leaves and a lot of optimism.',
     'sun-visor': 'Shades the eyes. Does nothing for the ears.',
     'leaf-crown': 'Fell off a tree. Landed on royalty.',

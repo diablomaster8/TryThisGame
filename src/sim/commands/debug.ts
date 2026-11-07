@@ -14,7 +14,7 @@ import { setWeather } from '../weather';
 import { findNubbin, newId, uniqueName, withRng } from '../world';
 import type { Handlers } from './types';
 
-export const handlers: Handlers = {
+export const handlers = {
   // R0118 (lane D r9): force a season (null: back to the calendar), applied at once.
   debugSeason(world, cmd) {
     if (cmd.season) {
@@ -97,4 +97,4 @@ export const handlers: Handlers = {
     if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
     return;
   },
-};
+} satisfies Handlers;

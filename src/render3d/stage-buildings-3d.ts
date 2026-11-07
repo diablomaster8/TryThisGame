@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { BuildingRegistry } from '../render/stage-api';
-import { CG_A } from '../config/tuning-a';
+import { CG_A } from '../config/tuning-more/campaign-light-grade';
 import { OCCLUDE } from './building-kit';
 
 /**

@@ -5,7 +5,7 @@
  * in the hat box, and onto the first Nubbin's head when that hat slot is empty, so the child
  * sees it worn. Called by `eduResult`; answers the ids newly granted.
  */
-import { EDU_KEEPSAKES } from '../config/tuning-kids-r11e';
+import { EDU_KEEPSAKES } from '../config/tuning-more/kids-noticing';
 import { wearInSlot } from './wear';
 import type { World } from './types';
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { championMod, type ChampionModId } from '../../src/config/dungeon-foes';
-import { BATTLE_R9 } from '../../src/config/tuning-battle-r9';
+import { BATTLE_R9 } from '../../src/config/tuning-more/battle-champions';
 import { createBattle, type BattleState } from '../../src/sim/battle';
 import { damageWith } from '../../src/sim/battle/damage';
 import { afterModHit, tickMods } from '../../src/sim/battle/hollow-mods';

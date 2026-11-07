@@ -4,7 +4,7 @@
  * fruit), and when the player switches to that Keeper, favourites nearby run over at once
  * and greet it with a heart. Hashed chances, no rng, live play only; behaviour only.
  */
-import { FOND_FOLLOW } from '../config/tuning-soul-r12a';
+import { FOND_FOLLOW } from '../config/tuning-more/soul-hum-fond';
 import { soulLive } from './antics';
 import { react } from './behavior';
 import { favouriteKeeper } from './keeper-fondness';
