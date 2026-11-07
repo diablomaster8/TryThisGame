@@ -42,8 +42,11 @@ import '../r12d2.css';
 import { MAP_LAYER_TEXT } from '../config/strings-world';
 import { MAP_LAYERS, mapOverlay, type MapLayer } from '../sim/map-overlays';
 
-/** Place names, found landmarks and layer spots give way on a narrow map; quest marks never. */
-const MINOR_CHIPS = ['wm-mark', 'wm-found', 'wm-spot'];
+/**
+ * Place names, found landmarks, layer spots and region exits (which also have their own travel
+ * buttons) give way on a narrow map; quest marks never.
+ */
+const MINOR_CHIPS = ['wm-mark', 'wm-found', 'wm-spot', 'wm-exit'];
 
 const MARK_GLYPH_STATE ={ available: '!', tracked: '◆', active: '◇', done: '✓' } as const;
 
