@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BATTLE_R5 } from '../../src/config/tuning-battle-r5';
+import { BATTLE_R5 } from '../../src/config/tuning-more/battle-doors';
 import {
   battleAct,
   createBattle,

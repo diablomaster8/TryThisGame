@@ -32,7 +32,7 @@ import {
 } from './creature-serpent';
 import { C, shadeOf } from './palette';
 import { PixelCanvas, PX } from './pixel-canvas';
-import { DINO_LEAN_PX } from '../../config/tuning-look-r10e';
+import { DINO_LEAN_PX } from '../../config/tuning-more/look-creature-fx';
 import { drawExtras, type Extra } from './creature-extras';
 import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
 
@@ -77,7 +77,7 @@ export type Wings = 'none' | 'small' | 'bat' | 'feather';
 export type Arms = 'stub' | 'long' | 'claws' | 'boxing' | 'none' | 'metal' | 'tentacles';
 export type Legs = 'stub' | 'long' | 'none';
 export type Eyes = 'dot' | 'big' | 'angry' | 'cute' | 'stalk' | 'closed';
-export type Mark =
+export type CreatureMark =
   'cheeks' | 'belly' | 'stripes' | 'star' | 'spots' | 'eyeMask' | 'chest' | 'zigzag';
 
 export interface CreaturePalette {
@@ -110,7 +110,7 @@ export interface CreatureSpec {
   pupil?: 'round' | 'slit';
   /** Width over the plan's default, body and (more gently) head: a squat Gengar, a vast Snorlax. */
   girth?: number;
-  marks: Mark[];
+  marks: CreatureMark[];
   /** Extra head and body pieces from the digital-line kit (creature-kit-quad.ts). */
   extras?: readonly KitExtra[];
   /** Extra parts for the later first-generation pocket species (`creature-gen1b.ts`). */

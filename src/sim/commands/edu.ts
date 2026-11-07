@@ -27,7 +27,7 @@ import { glowSolve } from '../dungeon-glow';
 import { setLossHold } from '../loss-notice';
 import type { Handlers } from './types';
 
-export const handlers: Handlers = {
+export const handlers = {
   eduSetCoPlay(world, cmd) {
     if (world.edu) world.edu.coPlay = cmd.mode;
     return;
@@ -198,4 +198,4 @@ export const handlers: Handlers = {
     eduEndBreak(world);
     return;
   },
-};
+} satisfies Handlers;

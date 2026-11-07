@@ -1,4 +1,4 @@
-import { CG4_A2 } from '../config/tuning-a2';
+import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';

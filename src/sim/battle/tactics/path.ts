@@ -10,7 +10,7 @@ import type { StatKey } from '../../types';
 import type { Trait } from '../types';
 import { blocks, heightAt, inside, ix, N4, tileAt } from './map';
 import { stepCost } from './terrain';
-import type { Cell, GridMap } from './types';
+import type { TacticsCell, GridMap } from './types';
 
 const MV = TACTICS.move;
 
@@ -34,7 +34,7 @@ export function canSwim(type: string, swimLevel: number): boolean {
 }
 
 /** Whether one step from `a` to its neighbour `b` is legal for the height alone. */
-export function stepOk(m: GridMap, a: Cell, b: Cell, jump: number): boolean {
+export function stepOk(m: GridMap, a: TacticsCell, b: TacticsCell, jump: number): boolean {
   return Math.abs(heightAt(m, b.x, b.y) - heightAt(m, a.x, a.y)) <= jump;
 }
 
@@ -54,7 +54,7 @@ export interface Reach {
   cost: Float64Array;
   prev: Int32Array;
   /** Tiles the walker may end on, its own tile first. */
-  tiles: Cell[];
+  tiles: TacticsCell[];
 }
 
 /**
@@ -103,7 +103,7 @@ export function reachable(m: GridMap, w: Walker, who: Occupancy): Reach {
       open.push(j);
     }
   }
-  const tiles: Cell[] = [{ x: w.x, y: w.y }];
+  const tiles: TacticsCell[] = [{ x: w.x, y: w.y }];
   for (let i = 0; i < n; i++) {
     if (i === start || cost[i] === Infinity) continue;
     const x = i % m.w;
@@ -114,10 +114,10 @@ export function reachable(m: GridMap, w: Walker, who: Occupancy): Reach {
 }
 
 /** The route to (x, y), excluding the start; empty when unreachable or already there. */
-export function routeTo(m: GridMap, r: Reach, x: number, y: number): Cell[] {
+export function routeTo(m: GridMap, r: Reach, x: number, y: number): TacticsCell[] {
   let i = ix(m, x, y);
   if (r.cost[i] === Infinity) return [];
-  const out: Cell[] = [];
+  const out: TacticsCell[] = [];
   while (r.prev[i]! >= 0) {
     const cx = i % m.w;
     out.push({ x: cx, y: (i - cx) / m.w });

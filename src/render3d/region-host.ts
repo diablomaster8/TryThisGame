@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { RegionId } from '../config/regions';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
-import { REGION_BORDER, REGION_CACHE } from '../config/tuning-r11d1';
+import { REGION_BORDER, REGION_CACHE } from '../config/tuning-more/world-region-engine';
 import { WORLD_STREAM } from '../config/tuning-world';
 import { ActiveChunks, ChunkLRU, chunkKey, type ChunkCoord } from '../render/chunks';
 import {

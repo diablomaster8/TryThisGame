@@ -1,7 +1,7 @@
 import type { LookDef } from '../config/campaign-look';
 import type { SceneStage } from '../config/story';
 import { STORY_U4_TEXT } from '../config/strings';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { stageFlags, type StageFlags } from '../render/scene-stage';
 import type { World } from '../sim/types';
 

@@ -1,5 +1,5 @@
 import type * as THREE from 'three';
-import { CG2_P } from '../config/tuning-p';
+import { CG2_P } from '../config/tuning-more/campaign2-actors-pip';
 
 /**
  * H9: bunting that fades out as the camera comes near it, so a string strung past the lens

@@ -6,9 +6,9 @@
  * tap target and the nav route) and never changes it.
  */
 import { TAP_PATH } from '../config/tuning-move';
-import { TAP_FLAG } from '../config/tuning-move-r10';
-import { TAP_PRINTS } from '../config/tuning-r9d2';
-import { EDU_TRAIL } from '../config/tuning-r14d2';
+import { TAP_FLAG } from '../config/tuning-more/move-keeper-ui';
+import { TAP_PRINTS } from '../config/tuning-more/ui-tap-prints-border';
+import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
 import { keeperFooting, standInTap, tapVerdict, type TapVerdict } from '../sim/keeper';
 import { keeperRoute } from '../sim/nav';
 import type { Vec2, World } from '../sim/types';

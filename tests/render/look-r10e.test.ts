@@ -6,7 +6,7 @@ import { poseFor as chaoPose } from '../../src/render/sprites/chao';
 import { drawCreature } from '../../src/render/sprites/creature';
 import { speciesArt } from '../../src/render/sprites/species-art';
 import { artSpec } from '../../src/render3d/art-species';
-import { DINO_LEAN_DEG, METAL_ARM } from '../../src/config/tuning-look-r10e';
+import { DINO_LEAN_DEG, METAL_ARM } from '../../src/config/tuning-more/look-creature-fx';
 import { poseFor } from '../../src/render3d/actors';
 import { EXPRESSIONS, MOTION_POSES } from '../../src/samples/species';
 import { FIRST_VARIANTS } from '../../src/samples/nubbin-variants-first';

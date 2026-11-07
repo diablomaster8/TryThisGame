@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { TOON_OUTLINE } from './art/creatures';
-import { CG4_B4 } from '../config/tuning-b4';
+import { CG4_B4 } from '../config/tuning-more/campaign4-people-tale-grade';
 
 /**
  * The Full 3D Grove's creature outlines: the inverted hull of the stage's toon mode, but

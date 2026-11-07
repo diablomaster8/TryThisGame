@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { nubbinSits } from '../../src/config/npc-looks';
-import { E_STAGES } from '../../src/config/tuning-e';
+import { E_STAGES } from '../../src/config/tuning-more/campaign-people-lanterns';
 import { hushPresence, lanternLights } from '../../src/render/dress-e';
 import type { StageFlags } from '../../src/render/scene-stage';
 

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { GROVE } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
-import { CG_C } from '../config/tuning-c';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 import { bevelBox } from './building-kit';
 import { elderMemorialFlower } from './memorial';
 import { groveHeight } from './terrain';

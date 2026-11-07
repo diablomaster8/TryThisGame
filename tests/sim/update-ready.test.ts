@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { UPDATE_NOTICE } from '../../src/config/tuning-r8d-plat';
+import { UPDATE_NOTICE } from '../../src/config/tuning-more/perf-platform';
 import { updateChipDue, type UpdateState } from '../../src/ui/update-ready';
 
 const base: UpdateState = { waitingSince: 0, resumed: false, busy: false, online: true };

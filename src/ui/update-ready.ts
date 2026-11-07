@@ -1,5 +1,5 @@
 import { UPDATE_NOTICE_TEXT } from '../config/strings-r8d-plat';
-import { UPDATE_NOTICE } from '../config/tuning-r8d-plat';
+import { UPDATE_NOTICE } from '../config/tuning-more/perf-platform';
 import type { Game } from '../game';
 
 /**

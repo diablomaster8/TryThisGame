@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MARK_FIT } from '../../src/config/tuning-f2';
+import { MARK_FIT } from '../../src/config/tuning-more/campaign2-staging';
 import { fitTiers, type FitPoint } from '../../src/render/stage-fit';
 
 /**

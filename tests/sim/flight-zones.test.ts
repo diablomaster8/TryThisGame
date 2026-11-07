@@ -6,7 +6,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { SIM } from '../../src/config/tuning';
-import { FLIGHT_ZONES } from '../../src/config/tuning-r11d2';
+import { FLIGHT_ZONES } from '../../src/config/tuning-more/world-camera-terrain';
 import { FLIGHT_SPOTS, glideLanding, keeperFlight } from '../../src/sim/flight-zones';
 import { terraceAt } from '../../src/sim/height';
 import { keeperFooting } from '../../src/sim/keeper';

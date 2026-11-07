@@ -4,7 +4,7 @@ import { trainerOf } from '../sim/trainers';
 import { VISIT_GARDEN as VISIT_GATE_DEF } from '../sim/neighbourhood';
 import { CrownFade, treeOf } from './crowns';
 import { occluders } from './occluders';
-import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
+import { OCCLUDE_R10 } from '../config/tuning-more/move-npc-colliders';
 import { building, decorModel, disposeModel } from './garden';
 
 /**

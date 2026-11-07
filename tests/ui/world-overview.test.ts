@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { REGION_ORDER } from '../../src/config/regions';
-import { OVERVIEW_NODES } from '../../src/config/tuning-r11d6';
+import { OVERVIEW_NODES } from '../../src/config/tuning-more/world-overview-puddles';
 import { overviewLinks } from '../../src/ui/world-overview';
 
 describe('world overview (R0130)', () => {

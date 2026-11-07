@@ -14,7 +14,7 @@
  */
 import { HOLLOW } from '../config/tuning';
 import type { ChampionModId } from '../config/dungeon-foes';
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import { dressFoeMods } from './battle/hollow-mods';
 import { startRumble } from './battle/tactics/slice';
 import type { TacticsState } from './battle/tactics/types';

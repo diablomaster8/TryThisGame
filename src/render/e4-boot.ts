@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 
 /**
  * K46, Logged In's boot-up, for both renderers: a full-screen overlay that starts as a

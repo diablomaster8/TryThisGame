@@ -11,7 +11,7 @@
  * `PROFILES.keepDeletedMs` of wall time, after which `purgeDeleted` drops the archive copy.
  * Every storage call is wrapped: blocked storage reads as the two fixed profiles.
  */
-import { PROFILES } from '../config/tuning-camp11-profiles';
+import { PROFILES } from '../config/tuning-more/story-profiles-packs';
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
 import { delPrefix, kv } from './idb';
 

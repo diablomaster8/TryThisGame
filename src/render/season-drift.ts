@@ -6,7 +6,7 @@
  * make none, so nothing flickers for anyone who asked for calm.
  */
 import { GROVE } from '../config/tuning';
-import { SEASON_DRIFT } from '../config/tuning-r9d4';
+import { SEASON_DRIFT } from '../config/tuning-more/ui-world-hints';
 import type { Season } from '../sim/types';
 import type { Particles } from './particles';
 

@@ -9,7 +9,7 @@
  * Decals live in a transient store (`snowFigures`, `puddlesOf`) that the renderers draw.
  * Hashed chances, live play only, behaviour and looks only.
  */
-import { WEATHER_PLAY } from '../config/tuning-soul-r11g';
+import { WEATHER_PLAY } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
 import { hasTrait } from './traits';

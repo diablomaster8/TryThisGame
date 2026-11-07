@@ -54,7 +54,7 @@ describe('photo spots (R0138)', () => {
 
 describe('rain puddles (R0137)', () => {
   it('sit on open ground, and a Nubbin in one gains happiness only in the rain', async () => {
-    const { PUDDLES } = await import('../../src/config/tuning-r11d6');
+    const { PUDDLES } = await import('../../src/config/tuning-more/world-overview-puddles');
     const { stepWeather } = await import('../../src/sim/weather');
     const { Rng } = await import('../../src/sim/rng');
     const w = createWorld(2, 0);

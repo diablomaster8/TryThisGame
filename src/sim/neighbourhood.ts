@@ -42,7 +42,7 @@ const NAMES = [
 ];
 
 /** R0112 (round 14): a neighbour's garden is 32 u across (+-16), the gate on its south side. */
-export const VISIT_GARDEN = { halfW: 14, gate: { x: 0, z: 13 } } as const;
+export const VISIT_GARDEN = { halfW: 16, gate: { x: 0, z: 13 } } as const;
 
 export function neighbourGarden(trainer: string): NeighbourNubbin[] {
   const t = trainerOf(trainer);

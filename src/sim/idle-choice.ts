@@ -7,7 +7,7 @@
  * rng. The bases (`IDLE_ACTIONS`) reproduce the old cascade's shares when every action is
  * open, so a Grove plays as before; a new action or multiplier is one row, not a branch.
  */
-import { IDLE_ACTIONS, type IdleActionId } from '../config/tuning-fun-r7';
+import { IDLE_ACTIONS, type IdleActionId } from '../config/tuning-more/fun-voice-antics';
 import { idleMultipliers } from './personality';
 
 /** What the table needs to know about this moment. */

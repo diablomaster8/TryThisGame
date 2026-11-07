@@ -7,7 +7,7 @@
  * and each is quiet enough that the overlap never clips). Nothing exists before the first tap.
  */
 import type { Biome } from '../config/regions';
-import { BIOME_BEDS, type BedSpec } from '../config/tuning-r9d4';
+import { BIOME_BEDS, type BedSpec } from '../config/tuning-more/ui-world-hints';
 import { ambienceOut } from './audio';
 
 interface Bed {

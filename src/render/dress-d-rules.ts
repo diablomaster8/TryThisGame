@@ -1,4 +1,4 @@
-import { DRESS_D } from '../config/tuning-d';
+import { DRESS_D } from '../config/tuning-more/campaign-props-items';
 import { SHELF_CAP, keepsakeLook } from '../config/keepsake-looks';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';

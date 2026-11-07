@@ -9,7 +9,7 @@
  * The berries are picked into `run.taken` (as `kid-berry-<i>`), so they reset per level and
  * save with the run. Pure sim: no DOM.
  */
-import { R10B3 } from '../config/tuning-r10b3';
+import { R10B3 } from '../config/tuning-more/dungeon-poof-kid-mode';
 import { DUNGEON, KEEPER } from '../config/tuning';
 import { HOLLOW_KID_LESSON } from '../content/edu-hollow-kid';
 import { cellCentre, cellOf, FLOOR, type Cell, type Floor } from './dungeon';

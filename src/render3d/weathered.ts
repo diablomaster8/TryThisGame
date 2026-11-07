@@ -1,7 +1,7 @@
 import { Color } from 'three';
 import { cloneSpec } from './art/nubbin-variants';
 import type { SpeciesSpec } from './art/species';
-import { CG2_P } from '../config/tuning-p';
+import { CG2_P } from '../config/tuning-more/campaign2-actors-pip';
 
 /**
  * C6 in Full 3D: Moss as "the grey shape". Every prim and mark colour goes to a moss-grey of

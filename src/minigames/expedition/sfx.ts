@@ -5,7 +5,7 @@
  * an obstacle and a fanfare for the results. Pure (no audio calls), so a test can count
  * the cues from a scripted run; the screen plays them.
  */
-import { EXPEDITION_SFX } from '../../config/tuning-r8d-audio';
+import { EXPEDITION_SFX } from '../../config/tuning-more/audio-mix';
 import type { SoundName } from '../../platform/audio';
 import type { RunState } from './run';
 

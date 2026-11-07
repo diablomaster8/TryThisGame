@@ -6,7 +6,7 @@
  * campaign, so it needs no save field. Pure sim: no DOM, randomness only from the Rng given.
  */
 import { BYTE_LACE_BARKS } from '../content/barks';
-import { FUN_R10 } from '../config/tuning-fun-r10';
+import { FUN_R10 } from '../config/tuning-more/fun-keeper-gags';
 import { storyDay } from './side-rule-kit';
 import type { Rng } from './rng';
 import { STORY } from '../config/tuning';

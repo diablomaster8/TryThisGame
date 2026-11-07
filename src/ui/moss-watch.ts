@@ -7,7 +7,7 @@
  * same moment always gets the same answer. It reads the world and never changes it.
  */
 import { MOSS_WATCH } from '../config/strings-fun-r7';
-import { MOSS_WATCH_RULE } from '../config/tuning-fun-r7';
+import { MOSS_WATCH_RULE } from '../config/tuning-more/fun-voice-antics';
 import type { SimEvent, World } from '../sim/types';
 
 /** Eligible moments since Moss last reacted. */

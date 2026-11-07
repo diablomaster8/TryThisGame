@@ -11,8 +11,8 @@
  * grows, there as here. Chances are hashed (`roll`), so no world rng is drawn.
  */
 import { FRIENDS } from '../config/tuning';
-import { FRIEND_COMPAT, RIVALS } from '../config/tuning-soul-r10';
-import { KIN } from '../config/tuning-soul-r11g';
+import { FRIEND_COMPAT, RIVALS } from '../config/tuning-more/soul-friends-rivals';
+import { KIN } from '../config/tuning-more/soul-ambient-games';
 import { areSiblings } from './soul-kit';
 import { soulLive } from './antics';
 import { addHappiness } from './needs';

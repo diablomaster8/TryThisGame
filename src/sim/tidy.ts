@@ -7,7 +7,7 @@
  * Chances are hashed (`roll`), so no world rng is drawn, and it never starts while catching
  * up on time away (`soulLive`).
  */
-import { TIDY } from '../config/tuning-soul-r10';
+import { TIDY } from '../config/tuning-more/soul-friends-rivals';
 import { soulLive } from './antics';
 import { addHappiness } from './needs';
 import { resolve } from './obstacles';

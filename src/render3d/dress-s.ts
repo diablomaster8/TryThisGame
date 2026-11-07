@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import { DUNGEON } from '../config/tuning';
-import { CG2_S } from '../config/tuning-s';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG2_S } from '../config/tuning-more/campaign2-white-room';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { flameTexture, gridTexture, holoEdgeTexture, softTexture } from '../render/art-s';
 import { bandFor } from '../render/cave-bands';
 import { paintFloorTexture } from '../render/paint/dungeon';

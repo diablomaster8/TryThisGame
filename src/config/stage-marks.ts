@@ -49,7 +49,7 @@ const HILL = GROVE.hills[0];
 const FALLS = GROVE.waterfall;
 const POND = GROVE.pond;
 const WINDMILL = GROVE.buildings.windmill;
-/** Dawn & Dusk's green (tuning-b): its houses stand `houseRadius` out, N, E, S, W. */
+/** Dawn & Dusk's green (tuning-more/campaign-gate-fold): its houses stand `houseRadius` out, N, E, S, W. */
 const GREEN = STORY_B.dawnDusk.green;
 const HOUSE_R = STORY_B.dawnDusk.houseRadius;
 /**

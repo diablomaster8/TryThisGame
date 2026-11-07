@@ -18,7 +18,7 @@ import { markAt } from '../config/stage-marks';
 import { STAGE_SET_HIDES, type StageSet } from '../config/stage-sets';
 import { STAT_ICONS, STORY_U4_TEXT, TITLE_CARD_TEXT, UI_TEXT } from '../config/strings';
 import { TRAVEL_TEXT, WORLD_TEXT } from '../config/strings-world';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { GROVE } from '../config/tuning';
 import { WORLD_MAP } from '../config/tuning-world';
 import type { Game } from '../game';

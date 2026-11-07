@@ -38,7 +38,7 @@ import { button, el, modal } from './dom';
 import { newestWith } from '../platform/photo-album';
 import { ALBUM_TEXT } from '../config/strings-look';
 import { PAINT_TEXT } from '../config/strings-paint';
-import { PAINT } from '../config/tuning-kids-r11e';
+import { PAINT } from '../config/tuning-more/kids-noticing';
 import { PaintPad } from './paint-pad';
 import '../look.css';
 import { SHELF_TEXT, TURNTABLE_TEXT } from '../config/strings-photo3d';

@@ -9,7 +9,7 @@
  * a walk with sparkles round them. Render-only: it reads the Nubbin and never writes it.
  */
 import type { Nubbin, Personality } from '../sim/types';
-import { GAIT, SHADOW_SOUL } from '../config/tuning-soul-r11';
+import { GAIT, SHADOW_SOUL } from '../config/tuning-more/soul-quirks-gait';
 import type { PetBeatPose } from './pet-reactions';
 
 export type SoulLookKind =

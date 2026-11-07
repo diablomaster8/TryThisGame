@@ -8,7 +8,7 @@
  * and the player restores one slot or all. A filled slot goes to the title's Recently erased
  * first, and the slot being played is never restored over (its autosave would undo it).
  */
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import { deserialize } from '../sim/save';
 import { kv } from './idb';
 import { keepInTrash } from './slot-trash';

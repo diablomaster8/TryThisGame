@@ -5,7 +5,7 @@
  * plain wanders head there (a lazy one hardly leaves it), sitting there cheers it a little,
  * and once the Keeper has seen it sat there the sheet names the spot (`spotSeen`).
  */
-import { FAV_SPOT } from '../config/tuning-soul-r11';
+import { FAV_SPOT } from '../config/tuning-more/soul-quirks-gait';
 import { GROVE, LANDMARKS } from '../config/tuning';
 import { addHappiness } from './needs';
 import { hashSeed } from './rng';

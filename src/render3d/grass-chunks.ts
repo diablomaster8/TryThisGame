@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
-import { GROVE_CHUNKS } from '../config/tuning-r12d1';
+import { GROVE_CHUNKS } from '../config/tuning-more/world-region-moves';
 import { WORLD_STREAM } from '../config/tuning-world';
 
 /**

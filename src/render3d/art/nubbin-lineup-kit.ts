@@ -1,5 +1,5 @@
 import { V, type Prim } from './sculpted';
-import type { Mark, PartSpec, SpeciesSpec } from './species';
+import type { SpeciesMark, PartSpec, SpeciesSpec } from './species';
 
 /**
  * The shared pieces of the special Nubbin forms: cones and balls, toy proportions (`widen`,
@@ -132,7 +132,7 @@ export const twinTail = (name: string, dx: number, color: string): PartSpec => (
  * Aviator goggles pushed up on the right side of the hood: a dark rim, a glass lens and a
  * small bright highlight standing off the glass (final head coordinates, after `headScale`).
  */
-export function gogglesUp(glass: string, rim: string): { prims: Prim[]; marks: Mark[] } {
+export function gogglesUp(glass: string, rim: string): { prims: Prim[]; marks: SpeciesMark[] } {
   const at = V(0.62, 2.78, 0.42);
   const lens = (c: Prim['a'], radii: Prim['a'], color: string, tag: string): Prim => ({
     kind: 'ellipsoid',
@@ -262,7 +262,7 @@ export const foldedArm = (dx: number, body: string): PartSpec => ({
 // ---- the line-up match (Part G8b): pieces tuned against the reference ----
 
 /** Darker shade on the underside of each quill, so the cluster reads as separate spikes. */
-export function quillShades(quills: Prim[], color: string): Mark[] {
+export function quillShades(quills: Prim[], color: string): SpeciesMark[] {
   return quills.map((q) => {
     const d = q.b!.clone().sub(q.a).normalize();
     // The underside: straight down, less the part of down that runs along the quill.
@@ -399,14 +399,26 @@ export const earTips = (color: string): Prim[] =>
  * LOOK-37 (R0404): a devil tail, a chain of four capsules curling down and up behind the
  * hips, ending in a spade.
  */
-export function devilTail(color: string, tip: string): PartSpec[] {
-  const pts = [
-    V(0, 0.55, -0.6),
-    V(0, 0.4, -1.0),
-    V(0, 0.5, -1.4),
-    V(0, 0.78, -1.62),
-    V(0, 1.05, -1.66),
-  ];
+export function devilTail(color: string, tip: string, side = 0): PartSpec[] {
+  // `side` swings the tail out past the hip (to +x, or -x when negative) and forward, so the
+  // spade reads from the front, not only from behind (the Eternal Moon's, R0404).
+  const sx = side * 1.7;
+  const pts = side
+    ? [
+        V(0, 0.55, -0.6),
+        V(0.45 * sx, 0.35, -0.85),
+        V(0.8 * sx, 0.32, -0.8),
+        V(0.97 * sx, 0.55, -0.62),
+        V(1.0 * sx, 1.0, -0.5),
+      ]
+    : [
+        V(0, 0.55, -0.6),
+        V(0, 0.4, -1.0),
+        V(0, 0.5, -1.4),
+        V(0, 0.78, -1.62),
+        V(0, 1.05, -1.66),
+      ];
+  const end = pts[pts.length - 1]!;
   return [
     {
       name: 'tail',
@@ -423,7 +435,7 @@ export function devilTail(color: string, tip: string): PartSpec[] {
         })),
         {
           kind: 'ellipsoid' as const,
-          a: V(0, 1.17, -1.66),
+          a: V(end.x, end.y + 0.12, end.z),
           r: 0.2,
           radii: V(0.2, 0.18, 0.06),
           color: tip,
@@ -432,15 +444,15 @@ export function devilTail(color: string, tip: string): PartSpec[] {
         },
         {
           kind: 'cone' as const,
-          a: V(0, 1.25, -1.66),
-          b: V(0, 1.45, -1.66),
+          a: V(end.x, end.y + 0.2, end.z),
+          b: V(end.x, end.y + 0.4, end.z),
           r: 0.12,
           r2: 0.01,
           color: tip,
           tag: 'tail',
         },
       ],
-      box: [V(-0.5, 0.1, -2.0), V(0.5, 1.6, -0.2)],
+      box: [V(Math.min(-0.5, end.x - 0.5), 0.1, -2.0), V(Math.max(0.5, end.x + 0.5), 1.6, -0.2)],
       resolution: 44,
     },
   ];
