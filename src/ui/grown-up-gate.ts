@@ -20,6 +20,12 @@ export function gateProblem(rand: () => number): { a: number; b: number } {
   return { a, b: pick(GROWN_UP_GATE.smallRange) };
 }
 
+/** Whether what was typed is the product: digits only, exactly a × b. Pure, for the tests. */
+export function gateAnswerOk(typed: string, a: number, b: number): boolean {
+  const t = typed.trim();
+  return /^\d+$/.test(t) && Number(t) === a * b;
+}
+
 /** Draw the gate into `container` (emptied first); `onPass` runs on the right answer. */
 export function renderSumGate(
   container: HTMLElement,
@@ -31,9 +37,14 @@ export function renderSumGate(
   container.appendChild(el('h3', undefined, EDU_TEXT.gateTitle));
   const help = el('p', 'help', EDU_TEXT.gateHelp(a, b));
   container.appendChild(help);
-  // Said in the dialog too, where no toast row exists (the title screen).
+  // Said in the dialog too, where no toast row exists (the title screen). Also carries the
+  // "keep holding" hint: a quick tap on Enter used to do nothing at all, which read as a refusal.
   const wrong = el('p', 'help edu-gate-wrong');
   wrong.setAttribute('aria-live', 'polite');
+  const hint = (text: string) => {
+    toast(text);
+    wrong.textContent = text;
+  };
   const row = el('div', 'settings-actions');
   const input = el('input');
   input.type = 'number';
@@ -45,12 +56,11 @@ export function renderSumGate(
   enter.appendChild(fill);
 
   const check = () => {
-    if (Number(input.value) === a * b) {
+    if (gateAnswerOk(input.value, a, b)) {
       onPass();
       return;
     }
-    toast(EDU_TEXT.gateWrong);
-    wrong.textContent = EDU_TEXT.gateWrong;
+    hint(EDU_TEXT.gateWrong);
     ({ a, b } = gateProblem(Math.random));
     help.textContent = EDU_TEXT.gateHelp(a, b);
     input.value = '';
@@ -60,7 +70,11 @@ export function renderSumGate(
   // Hold to confirm: pointer or keyboard, with a fill that shows the hold running.
   let timer = 0;
   const start = () => {
-    if (timer || input.value === '') return;
+    if (timer) return;
+    if (input.value.trim() === '') {
+      hint(EDU_TEXT.gateTypeFirst);
+      return;
+    }
     enter.classList.add('holding');
     enter.setAttribute('aria-label', EDU_TEXT.gateHold);
     fill.style.transitionDuration = `${GROWN_UP_GATE.holdMs}ms`;
@@ -76,12 +90,18 @@ export function renderSumGate(
     enter.classList.remove('holding');
     enter.removeAttribute('aria-label');
   };
+  // Let go before the bar filled: say so, instead of silently doing nothing.
+  const release = () => {
+    if (!timer) return;
+    cancel();
+    hint(EDU_TEXT.gateTooShort);
+  };
   enter.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     start();
   });
   for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const) {
-    enter.addEventListener(ev, cancel);
+    enter.addEventListener(ev, release);
   }
   enter.addEventListener('contextmenu', (e) => e.preventDefault());
   for (const target of [input, enter] as HTMLElement[]) {
@@ -91,7 +111,7 @@ export function renderSumGate(
       if (!e.repeat) start();
     });
     target.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') cancel();
+      if (e.key === 'Enter' || e.key === ' ') release();
     });
   }
   row.append(input, enter);

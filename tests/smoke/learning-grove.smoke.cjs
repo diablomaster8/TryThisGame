@@ -1,4 +1,4 @@
-/* global require, process, console, window, document, setTimeout */
+/* global require, process, console, window, document, setTimeout, localStorage */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * R0722 (KIDS-54): a headless smoke test of the Learning Grove in a phone viewport. It opens
@@ -16,7 +16,8 @@
  *   npm run dev -- --port 5173          (in another terminal)
  *   npm run smoke:kids -- http://localhost:5173/
  * Env: PLAYWRIGHT_CORE (module path), EDGE (browser executable), SMOKE_SHOTS (folder for
- * screenshots, optional), SMOKE_HEADED=1 to watch it.
+ * screenshots, optional), SMOKE_HEADED=1 to watch it, SMOKE_GFX=3d for Full 3D, SMOKE_DESKTOP=1 for a
+ * 1280x800 mouse window instead of the 375x812 phone.
  */
 const path = require('path');
 const fs = require('fs');
@@ -56,12 +57,20 @@ function step(name, ok, note = '') {
   const launch = { headless: process.env.SMOKE_HEADED !== '1', args: ['--ignore-gpu-blocklist'] };
   if (fs.existsSync(EDGE)) launch.executablePath = EDGE;
   const browser = await chromium.launch(launch);
-  const ctx = await browser.newContext({
-    viewport: { width: 375, height: 812 },
-    isMobile: true,
-    hasTouch: true,
-    deviceScaleFactor: 2,
-  });
+  const desktop = process.env.SMOKE_DESKTOP === '1';
+  const ctx = await browser.newContext(
+    desktop
+      ? { viewport: { width: 1280, height: 800 }, hasTouch: true }
+      : {
+          viewport: { width: 375, height: 812 },
+          isMobile: true,
+          hasTouch: true,
+          deviceScaleFactor: 2,
+        },
+  );
+  if (process.env.SMOKE_GFX === '3d') {
+    await ctx.addInitScript(() => localStorage.setItem('grove.graphics', '3d'));
+  }
   await ctx.addInitScript(() => {
     window.__said = [];
     const stub = {
@@ -364,7 +373,39 @@ function step(name, ok, note = '') {
       const nums = (q ?? '').match(/\d+/g) ?? [];
       if (nums.length >= 2) {
         const input = page.locator('.edu-gate-input:visible').first();
-        await input.fill(String(Number(nums[0]) * Number(nums[1])));
+        const right = String(Number(nums[0]) * Number(nums[1]));
+        const hold = page.locator('.edu-gate-hold:visible').first();
+        const stillGated = () => visible('.edu-gate-input');
+        const note = () => w(() => document.querySelector('.edu-gate-wrong')?.textContent ?? '');
+        // HOTFIX (grown-up gate): a quick tap on Enter, even with the right answer, must say
+        // "keep holding" rather than do nothing, and must not get in.
+        await input.fill(right);
+        await hold.tap();
+        await page.waitForTimeout(300);
+        step(
+          'gate: a quick tap says keep holding and stays shut',
+          (await stillGated()) && /holding/i.test(await note()),
+          await note(),
+        );
+        // A wrong answer, held, is refused and brings new numbers.
+        await input.fill(String(Number(right) + 1));
+        await input.focus();
+        await page.keyboard.down('Enter');
+        await page.waitForTimeout(1800);
+        await page.keyboard.up('Enter');
+        await page.waitForTimeout(300);
+        step(
+          'gate: a wrong answer is refused',
+          (await stillGated()) && /Not quite/.test(await note()),
+        );
+        const q2 = await w(() =>
+          [...document.querySelectorAll('.help')]
+            .map((h) => h.textContent ?? '')
+            .find((t) => /×|times|\d+\s*[x×]\s*\d+/.test(t)),
+        );
+        const n2 = (q2 ?? '').match(/\d+/g) ?? nums;
+        // The right answer, held with a real touch, gets in.
+        await input.fill(String(Number(n2[0]) * Number(n2[1])));
         await input.focus();
         await page.keyboard.down('Enter');
         await page.waitForTimeout(2500);
