@@ -28,8 +28,9 @@ describe('come-here pull (R0140)', () => {
     for (let i = 0; i < 30; i++) stepWorld(w, 100);
     expect(dist(w)).toBeGreaterThan(38);
     const n = far();
-    n.keeper2!.pos = { x: 20, z: 0 };
+    // Just inside the leash, the idle Keeper 2 stays where it is.
+    n.keeper2!.pos = { x: KEEPER2_PULL.leash - 1, z: 0 };
     for (let i = 0; i < 30; i++) stepWorld(n, 100);
-    expect(dist(n)).toBeGreaterThan(19);
+    expect(dist(n)).toBeGreaterThan(KEEPER2_PULL.leash - 2);
   });
 });

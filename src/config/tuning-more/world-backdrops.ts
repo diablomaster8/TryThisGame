@@ -13,8 +13,12 @@ export const BEACON_BACKDROP = {
 
 /** R0140: the second Keeper's come-here pull, so a stick left alone never loses the first. */
 export const KEEPER2_PULL = {
-  /** Farther than this from Keeper 1 with the stick idle, the pull starts, world units. */
-  leash: 34,
+  /**
+   * Farther than this from Keeper 1 with the stick idle, the pull starts, world units. R18:
+   * 11 keeps an idle Keeper 2 inside a 375 px portrait phone's survey view (about 23.5 u
+   * across) while the two-Keeper camera follows Keeper 1 (was 34, which let it wander off).
+   */
+  leash: 11,
   /** The pull stops this close. */
   stopAt: 6,
   /** Stick strength the pull uses (0..1). */

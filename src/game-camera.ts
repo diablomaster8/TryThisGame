@@ -19,6 +19,7 @@ import { deckY, groveHeight, hillHeight } from './sim/terrain';
 import { runFloor } from './sim/dungeon';
 import { terraceY } from './render/scene-stage';
 import { cameraSubject, sheetShift } from './render/camera-subject';
+import { coopAim } from './game-coop-camera';
 import type { Game } from './game';
 
 /** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
@@ -240,7 +241,11 @@ export function driveCamera(g: Game, nowMs: number, dt: number): { x: number; z:
           speaksAsKeeper(g.world, who, st.stage) ? null : st.spotOf(g.world, who),
         );
   const talker = talk?.talker ? talk.at : null;
-  const subject = focused ? focused.pos : (staged ?? talker ?? kp);
+  // R18 d2 (R0140): two Keepers on one device: frame both, or follow the one moved last. A
+  // scene, a focus or a speaker still wins (dialogue is the speaker, as before).
+  const co = coopAim(g, nowMs, !!staged || !!focused || !!talker);
+  const coAt = co?.at ?? null;
+  const subject = focused ? focused.pos : (staged ?? talker ?? coAt ?? kp);
   // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
   // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
   // A fitted shot (H4) already sits inside the HUD-safe area.
@@ -251,18 +256,18 @@ export function driveCamera(g: Game, nowMs: number, dt: number): { x: number; z:
   // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
   // on the right third leaves it in sight.
   const side = g.cameraSide * g.camera.visibleWidth;
-  followKeeper(g, kp, dt, !!staged || !!focused || !!talker);
+  followKeeper(g, kp, dt, !!staged || !!focused || !!talker || !!coAt);
   const aimX =
     subject.x +
     Math.sin(yaw) * lift +
     Math.cos(yaw) * side +
-    (staged || focused || talker ? 0 : g.ahead.x);
+    (staged || focused || talker || coAt ? 0 : g.ahead.x);
   const aimZ =
     subject.z +
     Math.cos(yaw) * lift -
     Math.sin(yaw) * side +
-    (staged || focused || talker ? 0 : g.ahead.z);
-  const rate = staged ? PIXEL_STAGE.followRate : CAMERA.followRate;
+    (staged || focused || talker || coAt ? 0 : g.ahead.z);
+  const rate = staged ? PIXEL_STAGE.followRate : (co?.rate ?? CAMERA.followRate);
   const held = !staged && !focused && !talker && nowMs < g.landmarkHoldUntil;
   // Reduced motion cuts to a scene or a new speaker instead of gliding there.
   const talkerKey = talker ? g.storySpeaker : null;
@@ -270,7 +275,7 @@ export function driveCamera(g: Game, nowMs: number, dt: number): { x: number; z:
   g.talkerKey = talkerKey;
   const t = held
     ? 0
-    : (staged || cutToTalker) && g.reduceMotion
+    : (staged || cutToTalker || co?.cut) && g.reduceMotion
       ? 1
       : 1 - Math.exp((-rate * dt) / 1000);
   // HOT-1/HOT-3: with the stats sheet open the Keeper (still the subject) sits in the part
@@ -289,10 +294,12 @@ export function driveCamera(g: Game, nowMs: number, dt: number): { x: number; z:
   g.camera.target.z += (aimZ - g.camera.target.z) * t;
   // Up and down with the ground under the Keeper, or the mark a scene frames (MOVE-23).
   const aimY =
-    staged || focused || talker
+    staged || focused || talker || coAt
       ? g.world.location === 'grove'
         ? terraceY(subject.x, subject.z)
-        : 0
+        : coAt && g.world.location.startsWith('region:')
+          ? g.world.keeper.y
+          : 0
       : g.groundY + g.perchLift;
   const ty = reduce0(g.reduceMotion, dt, CAMERA_FOLLOW.groundRate);
   g.camera.target.y += (aimY - g.camera.target.y) * ty;

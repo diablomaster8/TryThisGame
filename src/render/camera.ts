@@ -244,11 +244,13 @@ export class OrbitCamera {
 
   zoomIn(nowMs?: number): void {
     this.runFrom = null;
+    this.coopFrom = null;
     this.setZoom(this.zoomIndex + 1, nowMs);
   }
 
   zoomOut(nowMs?: number): void {
     this.runFrom = null;
+    this.coopFrom = null;
     this.setZoom(this.zoomIndex - 1, nowMs);
   }
 
@@ -276,6 +278,38 @@ export class OrbitCamera {
     return this.zoomIndex < 0;
   }
 
+  /** R18 d2: the player's zoom while the co-op camera holds one notch out for two Keepers. */
+  private coopFrom: number | null = null;
+
+  /** The zoom step the player chose: the one before a co-op notch, else the current one. */
+  get baseZoomIndex(): number {
+    return this.coopFrom ?? this.zoomIndex;
+  }
+
+  /** Pixel-view size in world units at zoom step `index`, at the current frame and aspect. */
+  extentAt(index: number): { w: number; h: number } {
+    const h = computeViewHeight(this.frameHeight, zoomPixelsPerUnit(index));
+    return { w: h * this.aspect, h };
+  }
+
+  /**
+   * R18 d2 (R0140): hold the view one notch out (never past the survey step) so two Keepers fit,
+   * remembering the player's zoom; off: back to it. Another zoom (player, run, story) wins.
+   */
+  coopNotch(on: boolean, nowMs?: number): void {
+    if (on) {
+      if (this.coopFrom !== null || this.zoomIndex < 0 || this.heldFrom !== null) return;
+      if (this.runFrom !== null) return;
+      this.coopFrom = this.zoomIndex;
+      this.setZoom(this.zoomIndex - 1, nowMs);
+      return;
+    }
+    if (this.coopFrom === null) return;
+    const back = this.coopFrom;
+    this.coopFrom = null;
+    if (this.zoomIndex === back - 1 && this.heldFrom === null) this.setZoom(back, nowMs);
+  }
+
   /** The player's zoom while running pulled the view out to the survey step, or null. */
   private runFrom: number | null = null;
 
@@ -287,7 +321,8 @@ export class OrbitCamera {
   autoSurvey(on: boolean, nowMs?: number): void {
     if (on) {
       if (this.runFrom !== null || this.zoomIndex < 0 || this.heldFrom !== null) return;
-      this.runFrom = this.zoomIndex;
+      this.runFrom = this.coopFrom ?? this.zoomIndex;
+      this.coopFrom = null;
       this.setZoom(-1, nowMs);
       return;
     }

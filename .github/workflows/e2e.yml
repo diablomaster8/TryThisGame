@@ -1,16 +1,22 @@
-# TECH-11: the browser smoke run (tests/e2e/run.cjs). On demand only until it has run green
-# (the nightly schedule waits for that), so the pull
-# request checks in ci.yml stay fast; the headless sim harness (tests/sim/play-harness.test.ts)
-# already runs there on every PR.
+# TECH-11: the browser smoke run (tests/e2e, @playwright/test). Pull requests run every spec
+# except the soak (under 6 minutes); a nightly schedule runs the 10-minute soak on main.
 name: E2E
 
 on:
+  pull_request:
+  schedule:
+    - cron: '17 3 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   e2e:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,11 +24,36 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run build
-      - run: npm i --no-save playwright-core@1.49.1
-      - run: npx playwright-core install --with-deps chromium
-      - run: npx vite preview --port 4173 &
-      - run: npx wait-on http://localhost:4173 || sleep 5
+      - run: npx playwright install --with-deps chromium
+      # The config builds, then serves `vite preview` on 4173 and waits for it.
       - run: npm run test:e2e
         env:
-          E2E_URL: http://localhost:4173
+          CI: true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-traces
+          path: .cache/e2e-results
+          retention-days: 7
+
+  soak:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:soak
+        env:
+          CI: true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: soak-traces
+          path: .cache/e2e-results
+          retention-days: 7
