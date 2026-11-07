@@ -374,42 +374,36 @@ function step(name, ok, note = '') {
       if (nums.length >= 2) {
         const input = page.locator('.edu-gate-input:visible').first();
         const right = String(Number(nums[0]) * Number(nums[1]));
-        const hold = page.locator('.edu-gate-hold:visible').first();
+        const enter = page.locator('.edu-gate-enter:visible').first();
         const stillGated = () => visible('.edu-gate-input');
         const note = () => w(() => document.querySelector('.edu-gate-wrong')?.textContent ?? '');
-        // HOTFIX (grown-up gate): a quick tap on Enter, even with the right answer, must say
-        // "keep holding" rather than do nothing, and must not get in.
-        await input.fill(right);
-        await hold.tap();
+        const question = () =>
+          w(() =>
+            [...document.querySelectorAll('.help')]
+              .map((h) => h.textContent ?? '')
+              .find((t) => /×|times|\d+\s*[x×]\s*\d+/.test(t)),
+          );
+        // An empty box says to type the answer first and stays shut.
+        await enter.tap();
         await page.waitForTimeout(300);
         step(
-          'gate: a quick tap says keep holding and stays shut',
-          (await stillGated()) && /holding/i.test(await note()),
+          'gate: an empty box asks for the answer',
+          (await stillGated()) && /Type the answer/i.test(await note()),
           await note(),
         );
-        // A wrong answer, held, is refused and brings new numbers.
+        // A wrong answer on one Enter press is refused and brings new numbers.
         await input.fill(String(Number(right) + 1));
         await input.focus();
-        await page.keyboard.down('Enter');
-        await page.waitForTimeout(1800);
-        await page.keyboard.up('Enter');
+        await page.keyboard.press('Enter');
         await page.waitForTimeout(300);
         step(
           'gate: a wrong answer is refused',
           (await stillGated()) && /Not quite/.test(await note()),
         );
-        const q2 = await w(() =>
-          [...document.querySelectorAll('.help')]
-            .map((h) => h.textContent ?? '')
-            .find((t) => /×|times|\d+\s*[x×]\s*\d+/.test(t)),
-        );
-        const n2 = (q2 ?? '').match(/\d+/g) ?? nums;
-        // The right answer, held with a real touch, gets in.
+        const n2 = ((await question()) ?? '').match(/\d+/g) ?? nums;
+        // The right answer, one tap on the button, gets in.
         await input.fill(String(Number(n2[0]) * Number(n2[1])));
-        await input.focus();
-        await page.keyboard.down('Enter');
-        await page.waitForTimeout(2500);
-        await page.keyboard.up('Enter');
+        await enter.tap();
         await page.waitForTimeout(500);
       }
       // R0718: the area is four tabs; open Progress and look for the report.

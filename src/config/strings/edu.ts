@@ -89,12 +89,10 @@ export const EDU_TEXT = {
   grownUps: 'Grown-ups',
   gateTitle: 'Grown-ups only',
   gateHelp: (a: number, b: number) =>
-    `To continue, work out ${a} × ${b}, type the answer, then press and hold Enter.`,
-  gateHold: 'Keep holding…',
+    `To continue, work out ${a} × ${b}, type the answer, then press Enter.`,
   gateWrong: 'Not quite. Here is a new one. Ask a grown-up.',
-  gateTooShort: 'Keep holding Enter until the bar fills.',
-  gateTypeFirst: 'Type the answer first, then hold Enter.',
-  gateEnter: 'Hold to enter',
+  gateTypeFirst: 'Type the answer first, then press Enter.',
+  gateEnter: 'Enter',
   parentTitle: 'Grown-up area',
   parentHelp:
     'The age sets which games are suggested and how hard they are. Switch any game on or off to make it yours.',
