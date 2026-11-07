@@ -28,6 +28,29 @@ export function hollowCueFor(e: SimEvent, world: World): HollowCue | null {
     }
     case 'encounterStarted':
       return e.packId === 'pack-boss' ? `boss:${world.dungeon?.act ?? 0}` : null;
+    // R0450 (R17 d1): the Hollow's own sounds, all soft.
+    case 'dungeonEntered':
+      return e.camp ? null : 'cavern';
+    case 'descended':
+      return 'stairs';
+    case 'hollowSecret':
+      return 'secret';
+    case 'hollowPuzzle':
+      return e.what === 'solved' || e.what === 'shortcut'
+        ? 'puzzle'
+        : e.what === 'reset'
+          ? null
+          : 'plate';
+    case 'hollowFell':
+      return e.water ? 'fall:water' : 'fall:chasm';
+    case 'trapSpotted':
+      return 'spot';
+    case 'trapSprung':
+      return 'trap';
+    case 'bossBeaten':
+      return 'bossDown';
+    case 'hollowBossDoor':
+      return e.sealed ? null : 'door';
     default:
       return null;
   }
