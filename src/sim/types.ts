@@ -511,8 +511,6 @@ export interface Settings {
   jukebox: string | null;
   /** Ambient sounds (birds, crickets, rain, the stream). */
   ambience: boolean;
-  /** How the Grove is drawn: the pixel-art scene or the full-3D scene. */
-  graphics: GraphicsMode;
   /** The corner minimap: off, on, or auto; an older save has none, which reads as auto. */
   minimap?: 'off' | 'on' | 'auto';
   /** R0519: HUD colours; unset or 'dark' keeps the dark HUD, 'system' follows a light scheme. */
