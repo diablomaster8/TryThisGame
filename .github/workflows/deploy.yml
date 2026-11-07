@@ -12,9 +12,9 @@ permissions:
 
 concurrency:
   group: pages
-  # A running deploy always finishes; newer pushes queue behind it (a push used to cancel it, and
-  # with a 10+ minute build nothing ever deployed).
-  cancel-in-progress: false
+  # TEMPORARY true: the hung 58238d8d run must be cancelled so de8f5465 can deploy; the next commit
+  # sets this back to false (a running deploy always finishes, newer pushes queue behind it).
+  cancel-in-progress: true
 
 jobs:
   # Test-speed: the checks run as parallel jobs, and deploy waits for all of them. The unit
