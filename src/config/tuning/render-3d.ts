@@ -126,3 +126,24 @@ export const QUAD_SEAL = {
   babyMaxSize: 0.85,
   babyStridePeriod: 0.66,
 } as const;
+
+/** Lane F r16 (R0405): Exeggutor's one big crown over its three heads in Full 3D. */
+export const PALM3D = {
+  clusterScale: 1.9,
+  clusterLeaves: 8,
+  /** The coconuts' stems and fan in 3D: short and close, clustered under the crown. */
+  neck: 0.15,
+  spread: 100,
+} as const;
+
+/** Lane F r16 (R0405): Horsea and Seadra in Full 3D read from the front. */
+export const SEAHORSE3D = {
+  /** The tail curl's plane, turned this far (radians) off the side plane toward the camera. */
+  tailTurn: Math.PI / 4,
+  /** And set this far to one side, so the curl shows beside the body, not behind it. */
+  tailSide: 0.18,
+  /** How far the tube snout dips at its tip. */
+  snoutDrop: 0.32,
+  /** How far each spiky cheek frill sticks out. */
+  frill: 0.28,
+} as const;

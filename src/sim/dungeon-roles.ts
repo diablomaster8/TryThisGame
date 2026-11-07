@@ -140,6 +140,20 @@ export function onIsland(world: World, f: Floor, cell: { x: number; y: number })
   return mine !== -1 && there !== -1 && mine !== there;
 }
 
+/**
+ * `mayFetch` for one Nubbin over many cells: its role is read once, not once per cell (the loot
+ * scan ran `roleOf`, five stat levels deep, for every piece of loot, every step, for every
+ * follower: the biggest share of a slow Hollow step).
+ */
+export function mayFetchFor(
+  world: World,
+  f: Floor,
+  n: Nubbin,
+): (cell: { x: number; y: number }) => boolean {
+  const swimmer = roleOf(world, n) === 'swim';
+  return (cell) => (swimmer || !onIsland(world, f, cell)) && mayFetchShelf(f, n, cell);
+}
+
 /** Whether this Nubbin may go for loot on `cell`: islands are for Swim Nubbins only. */
 export function mayFetch(world: World, f: Floor, n: Nubbin, cell: { x: number; y: number }) {
   // R0191: a raised shelf's find is for a flier.

@@ -537,8 +537,10 @@ export function drawGen1b(
             [4, 5],
             [7, 2],
           ] as const) {
-            pc.tri(cx, ct + 2, cx + dx * 0.5 * fr, ct + 1, cx + dx * fr, ct - h * fr, C.leaf);
-            pc.line(cx, ct + 1, cx + dx * fr, ct - h * fr, C.forest);
+            // Tips stay two rows inside the frame (the outline adds one), so a tall crown never clips.
+            const ty = Math.max(2, ct - h * fr);
+            pc.tri(cx, ct + 2, cx + dx * 0.5 * fr, ct + 1, cx + dx * fr, ty, C.leaf);
+            pc.line(cx, ct + 1, cx + dx * fr, ty, C.forest);
           }
         }
         break;

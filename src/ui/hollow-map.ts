@@ -25,6 +25,7 @@ import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
 import { guideOn } from '../sim/dungeon-kid';
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { shelfAt } from '../sim/dungeon-shelves';
+import { viewportSize } from '../platform/viewport';
 
 /**
  * The Hollow's maps (item 40, R0154), drawn from the sim's explored mask so they work in
@@ -550,8 +551,7 @@ export class HollowMap {
   ): void {
     const g = this.og;
     if (!g) return;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const { w, h } = viewportSize();
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const k = cellPoint(f, world.keeper.pos);
     const assists = `${guideOn(world)}:${!!world.hollow.speedRun}`;

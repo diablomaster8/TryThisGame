@@ -74,7 +74,13 @@ for (const name of LAZY_ONLY) {
 }
 // R0446 (TECH-04, r11-d3): no Full 3D module, debug panel or stage inspector in the eager graph
 // (the source list comes from the `eager-modules` plugin in vite.config.ts).
-const EAGER_3D_OK = ['src/render3d/minigame-layout.ts', 'src/render3d/terrain-shape.ts'];
+// perf-leaks D: `sculpt-spawn.ts` starts the sculpt workers from the title (no three.js, no
+// species; the worker itself is its own file).
+const EAGER_3D_OK = [
+  'src/render3d/minigame-layout.ts',
+  'src/render3d/terrain-shape.ts',
+  'src/render3d/sculpt-spawn.ts',
+];
 // R0446 (r12-d3): nor the sim's world, save codec or story registry: the title paints first.
 const NEVER_EAGER =
   /^src\/(render3d\/|ui\/debug-panel\.ts|ui\/stage-inspector\.ts|sim\/(world|save|story-scenes)\.ts)/;

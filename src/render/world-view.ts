@@ -137,6 +137,7 @@ import { WORLD_LOD } from '../config/tuning-world';
 import { drawAmbientPx } from './ambient-px';
 import { drawRegionLifePx } from './region-life-px';
 import { drawRegionMarksPx } from './region-marks-px';
+import { viewportSize } from '../platform/viewport';
 
 interface Snapshot {
   pos: Vec2;
@@ -930,7 +931,7 @@ export class WorldView {
         this.dim,
         nowMs / 1000,
         ambientAwake(this.daylight?.phase ?? 'day', this.weather),
-        Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx,
+        Math.min(viewportSize().w, viewportSize().h) < WORLD_LOD.phoneMaxPx,
         this.particles.reduceMotion,
       );
     // HOT load time: scenery, props, the cast and visitors stream in a sheet a frame.

@@ -270,12 +270,14 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   palmtrio: spec(pal(C.cream, C.sand, C.white, C.leaf, C.sandDeep), {
     plan: 'tall',
-    size: 1.2,
+    size: 1.15,
+    // R0405 (lane F r16): the big grid gives the three heads room apart under the crown.
+    grid: 48,
     girth: 0.7,
     arms: 'none',
     eyes: 'dot',
     gen1b: ['trunk', 'palm'],
-    heads: { count: 3, neck: 0.4, spread: 140, sizes: [1, 1, 1], faces: 'full' },
+    heads: { count: 3, neck: 0.6, spread: 150, sizes: [1, 0.9, 0.9], faces: 'full' },
   }),
   // ---- bone keepers ----
   bonecap: spec(BONE, { size: 0.9, tail: 'stub', marks: ['belly'], gen1b: ['skull', 'bone'] }),

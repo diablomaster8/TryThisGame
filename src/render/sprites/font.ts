@@ -85,17 +85,44 @@ export function drawText(
   let cx = align === 'center' ? x - width / 2 : align === 'right' ? x - width : x;
   cx = Math.round(cx);
   ctx.fillStyle = color;
+  // PERF: the whole string is one path, built from each glyph's pixel runs (cached), not a
+  // fillRect per lit pixel and an NFD normalise per letter every frame. The runs are disjoint
+  // whole-pixel rectangles, so the fill is the same picture, translucent colours included.
+  ctx.beginPath();
   for (const raw of text) {
-    const ch = raw.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
-    const g = GLYPHS[ch] ?? BOX;
-    for (let r = 0; r < FONT_H; r++) {
-      const row = g[r] ?? '';
-      for (let c = 0; c < FONT_W; c++) {
-        if (row[c] === '#') ctx.fillRect(cx + c * scale, y + r * scale, scale, scale);
-      }
-    }
+    for (const [c, r, len] of runsOf(raw))
+      ctx.rect(cx + c * scale, y + r * scale, len * scale, scale);
     cx += (FONT_W + 1) * scale;
   }
+  ctx.fill();
+}
+
+/** A glyph's lit pixels as horizontal runs: [column, row, length]. */
+const RUNS = new Map<string, ReadonlyArray<readonly [number, number, number]>>();
+
+function runsOf(raw: string): ReadonlyArray<readonly [number, number, number]> {
+  let runs = RUNS.get(raw);
+  if (runs) return runs;
+  const ch = raw.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
+  const g = GLYPHS[ch] ?? BOX;
+  const out: Array<readonly [number, number, number]> = [];
+  for (let r = 0; r < FONT_H; r++) {
+    const row = g[r] ?? '';
+    let c = 0;
+    while (c < FONT_W) {
+      if (row[c] !== '#') {
+        c++;
+        continue;
+      }
+      let end = c;
+      while (end < FONT_W && row[end] === '#') end++;
+      out.push([c, r, end - c]);
+      c = end;
+    }
+  }
+  runs = out;
+  RUNS.set(raw, runs);
+  return runs;
 }
 
 /** Text with a one-pixel dark shadow, the usual HUD look. */

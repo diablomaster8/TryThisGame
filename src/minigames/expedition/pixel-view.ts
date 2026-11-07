@@ -261,22 +261,29 @@ export class ExpeditionPixelView implements ExpeditionView {
     const ctx = this.ctx;
     const base = EXPEDITION.groundY - 18;
     const shift = Math.floor(distance * 0.18);
+    // PERF: one path per colour, not a fillRect per column (about 700 canvas calls a frame, with
+    // a stall every so often when the 2D context flushed). The rectangles are whole pixels and
+    // opaque, so the union is the same picture.
     ctx.fillStyle = color(hollow ? C.ink : C.lilacGrey);
+    ctx.beginPath();
     for (let x = 0; x < W; x++) {
       const wx = x + shift;
       const h = hollow
         ? 6 + ((((wx >> 3) * 2654435761) >>> 0) % 26) * (wx % 8 < 4 ? 1 : 0.5)
         : 18 + 10 * Math.sin(wx / 23) + 6 * Math.sin(wx / 9 + 1);
-      ctx.fillRect(x, Math.round(base - h), 1, Math.round(h) + 18);
+      ctx.rect(x, Math.round(base - h), 1, Math.round(h) + 18);
     }
+    ctx.fill();
     if (hollow) return;
     // Snow caps catch the light on the high points.
     ctx.fillStyle = color(C.white);
+    ctx.beginPath();
     for (let x = 0; x < W; x++) {
       const wx = x + shift;
       const h = 18 + 10 * Math.sin(wx / 23) + 6 * Math.sin(wx / 9 + 1);
-      if (h > 29) ctx.fillRect(x, Math.round(base - h), 1, 2);
+      if (h > 29) ctx.rect(x, Math.round(base - h), 1, 2);
     }
+    ctx.fill();
     ctx.fillStyle = color(C.greyLight);
     ctx.fillRect(0, base + 6, W, 12);
   }

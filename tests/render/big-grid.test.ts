@@ -17,11 +17,13 @@ import { MegaAtlas, type AtlasSurface } from '../../src/render/sprites/mega-atla
 import { PX } from '../../src/render/sprites/pixel-canvas';
 import { SPECIES_ART } from '../../src/render/sprites/species-art';
 
-/** Charizard, Gyarados, Greymon, Kabuterimon. */
-const BIG = ['cinderwing', 'stormwyrm', 'hornsaur', 'thunderbug'] as const;
+/** Charizard, Gyarados, Greymon, Kabuterimon, and Exeggutor (R0405, lane F r16). */
+const BIG = ['cinderwing', 'stormwyrm', 'hornsaur', 'thunderbug', 'palmtrio'] as const;
+/** The atlas budget is for big species on screen at once: four is the measured fit. */
+const ON_SCREEN = 4;
 
 describe('big-grid final forms (R0409)', () => {
-  it('exactly these four species use the 48 grid', () => {
+  it('exactly these species use the 48 grid', () => {
     const on = Object.keys(SPECIES_ART)
       .filter((id) => SPECIES_ART[id]!.grid === 48)
       .sort();
@@ -86,7 +88,7 @@ describe('big-grid final forms (R0409)', () => {
         clearRect: () => undefined,
       } as unknown as AtlasSurface['ctx'],
     });
-    const big = BIG.map(() => fake(CREATURE_GRID_BIG * PX));
+    const big = BIG.slice(0, ON_SCREEN).map(() => fake(CREATURE_GRID_BIG * PX));
     const atlas = new MegaAtlas(4096, surface, FRAME_SPIKES.atlasPages);
     atlas.beginFrame();
     const sheets = [...big, ...Array.from({ length: 8 }, () => fake(CREATURE_SIZE * PX))];
