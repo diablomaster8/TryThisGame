@@ -18,12 +18,10 @@ export const UI = {
 
 /**
  * The grown-up gate (Mature content, the Learning Grove's grown-up area, erasing a Learning
- * Grove slot): a two-digit by one-digit product, beyond most 7–10 readers, then a held Enter.
+ * Grove slot): a two-digit by one-digit product, beyond most 7–10 readers, then one Enter.
  */
 export const GROWN_UP_GATE = {
   /** The two-digit factor, never a multiple of ten. */
   bigRange: [13, 49] as const,
   smallRange: [6, 9] as const,
-  /** Enter must be held this long, so a mashed key or a quick tap does not get through. */
-  holdMs: 1200,
 } as const;
