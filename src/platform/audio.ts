@@ -86,7 +86,9 @@ export type SoundName =
   | 'snore'
   | 'chirp'
   // Lane E r10 (R0326): a Hollow stray's tiptoe, four soft plucked steps.
-  | 'sneak';
+  | 'sneak'
+  // Lane D r13 (R0450): a stat reached a new level.
+  | 'levelUp';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -709,6 +711,49 @@ export async function renderSoundOffline(
     return null;
   } finally {
     ({ ctx, unlocked, sfxEnabled, master, musicBus, sfxBus, delaySend, reverbSend } = saved);
+  }
+}
+
+/**
+ * R0507 (TECH-64): render a song through the real bus graph (and its trim) into an offline
+ * context for `seconds` and hand back the samples. The score scheduler is tied to the live
+ * clock and timers, so this walks every beat up front instead. Lab use only, as above.
+ */
+export async function renderSongOffline(
+  name: SongName,
+  seconds = 30,
+  rate = 44100,
+): Promise<Float32Array | null> {
+  const Off =
+    typeof OfflineAudioContext !== 'undefined'
+      ? OfflineAudioContext
+      : (window as unknown as { webkitOfflineAudioContext?: typeof OfflineAudioContext })
+          .webkitOfflineAudioContext;
+  if (!Off) return null;
+  const saved = { ctx, unlocked, master, musicBus, sfxBus, delaySend, reverbSend, musicEnabled };
+  const off = new Off(1, Math.floor(seconds * rate), rate);
+  try {
+    ctx = off as unknown as AudioContext;
+    unlocked = true;
+    musicEnabled = true;
+    buildGraph(ctx);
+    const song = SONGS[name];
+    const gain = ctx.createGain();
+    gain.gain.value = Math.pow(10, (SONG_TRIM_DB[name] ?? 0) / 20);
+    gain.connect(musicBus!);
+    const secPerBeat = 60 / song.bpm;
+    for (let beat = 0; beat * secPerBeat < seconds; beat++) {
+      const inLoop = beat % song.beats;
+      for (const track of song.tracks)
+        for (const n of track.notes)
+          if (n.t === inLoop) play(track, n, beat * secPerBeat, n.d * secPerBeat, gain);
+    }
+    const buf = await off.startRendering();
+    return buf.getChannelData(0);
+  } catch {
+    return null;
+  } finally {
+    ({ ctx, unlocked, master, musicBus, sfxBus, delaySend, reverbSend, musicEnabled } = saved);
   }
 }
 

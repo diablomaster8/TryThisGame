@@ -398,3 +398,15 @@
     width: 100%;
   }
 }
+
+/* R13 d2 (R0117): a neighbouring region's beacon icon on the compass rim. */
+.compass-tick-beacon {
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  font-size: 10px;
+  line-height: 16px;
+  background: rgba(40, 36, 60, 0.9);
+  border: 1px solid rgba(255, 230, 150, 0.7);
+  box-sizing: border-box;
+}

@@ -132,7 +132,7 @@ describe('walking between the Grove and the Wood (WORLD-39)', () => {
     expect(JSON.stringify(go.nubbins)).toBe(JSON.stringify(stay.nubbins));
   });
 
-  it('a carried Nubbin is set down at the border and stays home', () => {
+  it('a carried Nubbin comes along into a drawn region (R0121)', () => {
     const world = createWorld(8, 0);
     run(world, 2400);
     const n = world.nubbins.find((m) => m.stage !== 'egg');
@@ -140,7 +140,9 @@ describe('walking between the Grove and the Wood (WORLD-39)', () => {
     world.keeper.carrying = n.id;
     n.behavior.state = 'carried';
     intoWood(world);
-    expect(world.keeper.carrying).toBeNull();
+    run(world, 10);
+    expect(world.keeper.carrying).toBe(n.id);
+    expect(Math.hypot(n.pos.x - world.keeper.pos.x, n.pos.z - world.keeper.pos.z)).toBeLessThan(3);
   });
 
   it('a save in the Wood loads in the Wood', () => {

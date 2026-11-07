@@ -1,6 +1,6 @@
 import { Color } from 'three';
-import type { SpeciesSpec } from '../samples/species';
-import { cloneSpec, paletteOf, variant, type NubbinColors } from '../samples/nubbin-variants';
+import type { SpeciesSpec } from './art/species';
+import { cloneSpec, paletteOf, variant, type NubbinColors } from './art/nubbin-variants';
 import {
   EGG_COLOURS,
   gemFinishFor,
@@ -8,14 +8,14 @@ import {
   JEWEL_FINISH,
   JEWELS,
   SHINY_FINISH,
-} from '../samples/nubbin-variants-colour';
-import { withGemFinish } from '../samples/gem-finish';
+} from './art/nubbin-variants-colour';
+import { withGemFinish } from './art/gem-finish';
 import {
   parsePartSteps,
   parsePartsMod,
   partsTinted,
   withCritterParts,
-} from '../samples/nubbin-critter-parts';
+} from './art/nubbin-critter-parts';
 import {
   KEEPER_MOON,
   KEEPER_MOON_SPEC,
@@ -23,11 +23,11 @@ import {
   KEEPER_SUN,
   keeperSpec,
   type KeeperColors,
-} from '../samples/keeper-spec';
-import { NUBBIN_SPEC } from '../samples/species-data';
-import { grandchildSpec } from '../samples/grandchild-spec';
-import { ROSTER } from '../samples/species-roster';
-import { variantById } from '../samples/nubbin-variant-catalogue';
+} from './art/keeper-spec';
+import { NUBBIN_SPEC } from './art/species-data';
+import { grandchildSpec } from './art/grandchild-spec';
+import { ROSTER } from './art/species-roster';
+import { variantById } from './art/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
 import { RADIANT_ART_PREFIX } from '../render/sprites/stage-art';
 import { C, color, shadeOf } from '../render/sprites/palette';
@@ -203,6 +203,10 @@ function lookPalette(base: SpeciesSpec, lookId: string): SpeciesSpec {
   if (!look) return base;
   return variant(base, `${base.name} (${lookId})`, {
     colors: byRole(base, paletteOf(look.spec)),
+    // R0414: the Chaos look's body is glass whatever it is worn over.
+    ...(lookId === 'look-chaos'
+      ? { patch: (s: SpeciesSpec) => withGemFinish(s, { glass: true }) }
+      : {}),
   });
 }
 

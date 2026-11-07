@@ -3,7 +3,7 @@ import { Group } from 'three';
 
 // R0456 (lane D r10): while the loading veil is up, a look whose rig is still compiling is
 // not built again every frame (the Keeper's look used to come out with ten spare rigs).
-vi.mock('../../src/samples/species', () => ({
+vi.mock('../../src/render3d/art/species', () => ({
   buildSpecies: () => ({ group: new Group() }),
 }));
 vi.mock('../../src/render3d/looks', () => ({ specForKey: () => ({}), tintMods: () => [] }));

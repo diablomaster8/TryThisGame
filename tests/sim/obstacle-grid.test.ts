@@ -8,7 +8,7 @@ import {
   scannedAt,
   stops,
   wayAt,
-  type Walker,
+  type ObstacleWalker,
 } from '../../src/sim/obstacles';
 import { catchUp } from '../../src/sim/offline';
 import { Rng } from '../../src/sim/rng';
@@ -35,7 +35,7 @@ function crowded(extra: number): World {
 }
 
 /** The same push-out as `resolve`, over the whole collider list in the same order. */
-function bruteResolve(p: Vec2, world: World, radius: number, who: Walker): boolean {
+function bruteResolve(p: Vec2, world: World, radius: number, who: ObstacleWalker): boolean {
   let moved = false;
   for (const c of obstacles(world)) {
     if (!stops(c, who)) continue;
@@ -51,11 +51,11 @@ function bruteResolve(p: Vec2, world: World, radius: number, who: Walker): boole
 /** Farther than any one sim step carries a walker. */
 const STEP = 1;
 
-function bruteBlocked(p: Vec2, world: World, radius: number, who: Walker): boolean {
+function bruteBlocked(p: Vec2, world: World, radius: number, who: ObstacleWalker): boolean {
   return obstacles(world).some((c) => stops(c, who) && !!contact(c, p.x, p.z, radius));
 }
 
-function bruteWay(p: Vec2, world: World, radius: number, who: Walker): number {
+function bruteWay(p: Vec2, world: World, radius: number, who: ObstacleWalker): number {
   let soft = 0;
   for (const c of obstacles(world)) {
     if (!contact(c, p.x, p.z, radius)) continue;
@@ -69,7 +69,7 @@ describe('obstacle grid (R0123)', () => {
   it('resolves 10,000 random points exactly as a scan of every collider does', () => {
     const world = crowded(1000);
     const rng = new Rng(5);
-    const walkers: Walker[] = ['keeper', 'nubbin', 'hopper'];
+    const walkers: ObstacleWalker[] = ['keeper', 'nubbin', 'hopper'];
     let pushed = 0;
     for (let i = 0; i < 10_000; i++) {
       const at = { x: rng.float(-50, 50), z: rng.float(-50, 50) };

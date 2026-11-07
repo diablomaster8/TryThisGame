@@ -14,6 +14,9 @@ export function festivalGagDue(world: World): Season | null {
   if (!world.nubbins.some((n) => n.stage !== 'egg')) return null;
   // Chapters 9 to 11 belong to the campaign, as for the fun quests.
   if (world.campaign && funQuestBlocked(world.campaign.chapter)) return null;
+  // BS-07: a chapter’s opening scene comes first; the story’s Moss counts as hatched from the
+  // start, so without this the spring fair played before "Late spring. The road runs out...".
+  if (world.campaign && world.campaign.openedMs === null) return null;
   return world.festivalGags?.includes(world.season) ? null : world.season;
 }
 

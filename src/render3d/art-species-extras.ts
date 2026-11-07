@@ -2,7 +2,7 @@ import type * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
 import type { Extra } from '../render/sprites/creature-extras';
 import { C, color } from '../render/sprites/palette';
-import { V, type Prim } from '../samples/sculpted';
+import { V, type Prim } from './art/sculpted';
 
 /**
  * The 3D twins of the pixel drawer's extra kit parts (render/sprites/creature-extras.ts):

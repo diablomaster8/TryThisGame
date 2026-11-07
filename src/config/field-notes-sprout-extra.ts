@@ -40,6 +40,9 @@ export const SPROUT_TWOTONE = 'Two colours at once. Double fun!';
 /** Hats and looks whose dry line runs past eight words, keyed by cosmetic id. */
 export const SPROUT_WEAR: Record<string, string> = {
   'look-echidna': 'Spiky on the outside. Soft inside.',
+  'look-angel': 'Four wings and a halo. So kind!',
+  'look-devil': 'Little horns, a spade tail, a soft heart.',
+  'look-chaos': 'A watery Nubbin with a green heart.',
   beanie: 'Warm head, happy head.',
   'hop-hat': 'Has a spring. Boing, boing!',
   pot: 'It was a pot. Now a hat!',

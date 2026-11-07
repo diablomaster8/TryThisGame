@@ -10,7 +10,7 @@ import { WILD_PROPS, type WildProp } from '../config/grove-layout';
 import { OUTER_PROPS, OUTER_TREES } from '../config/outer-ring';
 import { WILD_3D as T } from '../config/tuning-move-wild';
 import { BUSH } from '../config/tuning-move';
-import { buildTree, pbr, type Tex } from '../samples/aaa-kit';
+import { buildTree, pbr, type Tex } from './art/aaa-kit';
 import { treeOf, type GroveTree } from './crowns';
 import { groveHeight } from './terrain';
 import { borderBlockers } from '../sim/border';

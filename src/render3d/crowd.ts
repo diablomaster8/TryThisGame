@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { npcLookOf, storyId } from '../config/npc-looks';
 import { GROVE3D, HOLLOW, HOLLOW_R7, READ3D } from '../config/tuning';
-import type { PoseName, Rigged } from '../samples/species';
+import type { PoseName, Rigged } from './art/species';
 import { speciesArt } from '../render/sprites/species-art';
 import { uniqueArtId, uniqueScale } from '../render/sprites/unique-art';
 import { foeArtId } from '../render/sprites/foe-family-art'; /* Lane B r10, R0157 */
@@ -10,8 +10,8 @@ import type { Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
 import { friendWalking } from '../sim/dungeon-friends';
 import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/neighbourhood';
-import { ROSTER } from '../samples/species-roster';
-import { variantById } from '../samples/nubbin-variant-catalogue';
+import { ROSTER } from './art/species-roster';
+import { variantById } from './art/nubbin-variant-catalogue';
 import { TRAINERS, trainerOf } from '../sim/trainers';
 import type { Location, Vec2, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';

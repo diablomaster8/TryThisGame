@@ -1822,7 +1822,11 @@ button,
 }
 
 /* The gate opens over the title screen too (z-index 20 there). */
-.modal.grown-up-modal {
+.modal.grown-up-modal,
+.title ~ .modal,
+.title ~ .sheet {
+  /* BS-01: any panel opened while the title is up (Your saves moved, rename, compare, visit)
+     sits after .title in the same layer, so it must paint above it too. */
   z-index: 30;
 }
 
@@ -4748,6 +4752,39 @@ html.story-resting canvas {
   }
 }
 
+/*
+ * R0678: the sprout HUD keeps its word labels from a 768 px tablet (the adult bar waits for
+ * 900 px), under the 80 px buttons, so a small child reads picture and word together.
+ */
+@media (min-width: 768px) and (min-height: 501px) {
+  body.edu-sprout .topbar .act-btn,
+  body.edu-sprout .topbar .top-labelled {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 2px 6px;
+  }
+  body.edu-sprout .topbar .act-btn .act-glyph,
+  body.edu-sprout .topbar .top-labelled .act-glyph {
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+  body.edu-sprout .topbar .act-btn .act-label,
+  body.edu-sprout .topbar .top-labelled .top-label {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+}
+
+/* R0678: the logo button is the one HUD control that was a word alone; a tree goes with it. */
+body.edu-sprout .topbar .btn-logo::before {
+  content: 'F333 a0';
+}
+
 /* TECH-60: the keys hint's way back is for keyboards, like the hint itself. */
 @media (max-width: 600px), (hover: none), (pointer: coarse) {
   .keys-hint-again {
@@ -5689,6 +5726,99 @@ html.story-resting canvas {
   min-height: 44px;
 }
 
+/* Creator gallery: a full-screen browse of every pet version */
+.creator-gallery-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.creator-gallery-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.creator-gallery-tab {
+  flex: 1;
+  min-height: 44px;
+}
+
+.creator-gallery-tab[aria-pressed='true'],
+.creator-tile[aria-pressed='true'] {
+  outline: 3px solid #ffd54a;
+  outline-offset: -3px;
+  font-weight: 700;
+}
+
+.creator-gallery-filter {
+  min-height: 44px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.creator-gallery-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.creator-gallery-group h3 {
+  margin: 10px 0 6px;
+  font-size: 0.9375rem;
+}
+
+.creator-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 6px;
+}
+
+.creator-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  padding: 4px;
+  font: inherit;
+  font-size: 0.75rem;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--hud-border);
+  cursor: pointer;
+}
+
+.creator-tile-img {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.creator-tile-label {
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.creator-gallery-bar {
+  flex: none;
+}
+
+/* The tiles scroll and the action bar stays on screen, also where phone portrait sets every
+   modal child to its natural height (the rule under "Phone portrait: a panel's Close"). */
+.modal-card.creator-gallery-card {
+  background: #1a1530;
+}
+.modal-card.creator-gallery-card > .creator-gallery-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 /* R0706: the child's word list as picture tiles */
 .lang-tiles {
   display: grid;
@@ -5960,4 +6090,17 @@ body.edu-sprout.edu-sprout.edu-sprout .topbar .btn:not(.btn-logo) {
   color: #1a1530;
   font-weight: bold;
   z-index: 54;
+}
+
+/* R0447 (lane D r13): the title's "Load another save" fold. */
+.title-spare > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.title-spare-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
 }

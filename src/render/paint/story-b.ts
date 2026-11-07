@@ -203,9 +203,9 @@ export function tallySpot(i: number): { dx: number; up: number } {
 
 // ------------------------------------------------------------- crest houses
 
-export type Crest = 'sun' | 'moon' | 'leaf' | 'wave';
+export type StoryCrest = 'sun' | 'moon' | 'leaf' | 'wave';
 
-function paintCrest(r: Raster, crest: Crest, cx: number, cy: number): void {
+function paintCrest(r: Raster, crest: StoryCrest, cx: number, cy: number): void {
   const carve = hex('#4a2e18');
   const board = hex('#c49256');
   r.rect(cx - 11, cy - 9, 22, 18, board);
@@ -247,7 +247,7 @@ function paintCrest(r: Raster, crest: Crest, cx: number, cy: number): void {
 
 /** A cottage-sized house with a roof tinted `roof` and a carved crest over its door. */
 export function paintCrestHouse(
-  crest: Crest,
+  crest: StoryCrest,
   roof: string,
   seed: number,
   creature?: PlaqueCreature,

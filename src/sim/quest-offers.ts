@@ -1,5 +1,6 @@
 import { beginApproach, stepApproach } from './offer-approach';
 import { REGIONS } from '../config/regions';
+import { SIGN_OFFERS } from '../config/tuning-r13d1';
 import { OFFER_WINDOWS, QUESTS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { areaOf } from '../content/where-map';
@@ -94,6 +95,8 @@ export function offeredAt(quest: Quest, here: string): boolean {
   const [region, poi] = key.split('/');
   const [hereRegion, herePoi] = here.split('/');
   if (region !== hereRegion) return false;
+  // R13 d1 (WORLD-35): a signposted region gives its general quests at the sign.
+  if (poi === '*' && herePoi === SIGN_OFFERS[region!]) return true;
   return poi === '*' || herePoi === '*' || poi === herePoi;
 }
 
@@ -103,15 +106,15 @@ export function offeredAt(quest: Quest, here: string): boolean {
  */
 export function keeperArea(world: World): string | null {
   const region = regionOf(world.location);
-  if (region !== 'grove') return `${region}/*`;
+  if (region !== 'grove' && SIGN_OFFERS[region] === undefined) return `${region}/*`;
   const { x, z } = world.keeper.pos;
   let best: string | null = null;
   let bestD = QUEST_OFFERS.areaR * QUEST_OFFERS.areaR;
-  for (const p of REGIONS.grove.pois) {
+  for (const p of REGIONS[region].pois) {
     const d = (p.x - x) ** 2 + (p.z - z) ** 2;
     if (d <= bestD) {
       bestD = d;
-      best = `grove/${p.id}`;
+      best = `${region}/${p.id}`;
     }
   }
   return best;

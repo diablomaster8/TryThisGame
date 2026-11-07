@@ -39,7 +39,7 @@ import {
 import { nubbinAim } from './nav';
 import type { NubbinRoute } from './nav';
 import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
-import type { Walker } from './obstacles';
+import type { ObstacleWalker } from './obstacles';
 import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { hillOutingPlan, hillOutingStep, hillStepOk } from './nubbin-hill';
@@ -263,7 +263,7 @@ const TURNS = NUBBIN_STEER.turnsDeg.map((deg) => {
 });
 
 /** Whether a probe at (x, z) meets something solid (2), only a bush (1) or nothing (0). */
-function probe(world: World, who: Walker, x: number, z: number): number {
+function probe(world: World, who: ObstacleWalker, x: number, z: number): number {
   probeAt.x = x;
   probeAt.z = z;
   return wayAt(probeAt, world, BODY, who);

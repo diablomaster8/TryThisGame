@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /**
  * Lane C round 9 (agent J): the journal's Quests page, Errands, the endings shelf, the lines'
  * time left, the phone sheet and the offer card's accessibility labels.
@@ -26,7 +28,7 @@ export const JOURNAL_TEXT = {
     done: 'Done',
   } as Record<string, string>,
   chipsLabel: 'Filter quests',
-  results: (n: number) => (n === 1 ? '1 quest' : `${n} quests`),
+  results: (n: number) => fmt(MESSAGES_EN.questCount, { n }),
   nothingFound: 'Nothing matches. Try fewer words or fewer chips.',
   stateDone: 'Done',
   stateOpen: 'Under way',

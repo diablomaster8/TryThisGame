@@ -13,6 +13,7 @@
  * not two (two levels are 1.8 u), and a glide drop is a short hop down, not a long sail.
  */
 import { RIDGE_JUMPS } from './region-ridge';
+import { RUINS_JUMPS } from './region-ruins';
 import { WOOD_JUMPS } from './region-wood';
 import type { RegionId } from './regions';
 
@@ -73,4 +74,5 @@ export interface JumpLedge {
 export const JUMP_ROUTES: Partial<Record<RegionId, readonly JumpRoute[]>> = {
   wood: WOOD_JUMPS,
   ridge: RIDGE_JUMPS,
+  ruins: RUINS_JUMPS,
 };

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { CG_A, CG2_X } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
 import { SceneStager } from '../render/scene-stage';
-import { NIGHT_RIM } from '../samples/creatures';
+import { NIGHT_RIM } from './art/creatures';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import type { Vec2, World } from '../sim/types';
