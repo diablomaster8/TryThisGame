@@ -308,6 +308,8 @@ export function setIconGlyph(span: Element, glyph: string): void {
   } else {
     el.classList.remove('px-icon');
     el.style.backgroundImage = '';
-    el.textContent = glyph;
+    // An action-bar glyph is drawn by CSS (`::before`), so a text symbol is not read as part of
+    // the button's visible text, which must sit inside its accessible name (WCAG 2.5.3).
+    el.textContent = el.classList.contains('act-glyph') ? '' : glyph;
   }
 }

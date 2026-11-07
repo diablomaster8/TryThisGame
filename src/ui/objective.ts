@@ -304,9 +304,10 @@ export class ObjectiveChip {
     const words = el('span', 'objective-words');
     this.goal = el('span', 'objective-goal');
     this.hint = el('span', 'objective-hint');
-    words.append(this.goal, this.hint);
+    // Spaces between the pieces: the visible text then reads as the aria-label does (axe 2.5.3).
+    words.append(this.goal, ' ', this.hint);
     this.count = el('span', 'objective-count');
-    this.root.append(label, words, this.count);
+    this.root.append(label, ' ', words, this.count);
     parent.appendChild(this.root);
     this.cycle = button(
       '›',

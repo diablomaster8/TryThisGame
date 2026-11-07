@@ -12,8 +12,9 @@ because the fonts' licence asks that it travel with the font files.
 | Klee One (via `@fontsource/klee-one` 5.3.0)                                                                      | Big kana and letters in the tracing game                            | SIL Open Font License 1.1, © 2020 The Klee Project Authors (Fontworks) | `public/licences/klee-one-OFL.txt`         |
 | Noto Sans Hebrew (via `@fontsource/noto-sans-hebrew` 5.3.0)                                                      | Hebrew words in the language questlines                             | SIL Open Font License 1.1, © 2024 The Noto Project Authors             | `public/licences/noto-sans-hebrew-OFL.txt` |
 | Noto Sans JP (via `@fontsource/noto-sans-jp` 5.3.0)                                                              | Japanese words in the language questlines                           | SIL Open Font License 1.1, © Google Inc.                               | `public/licences/noto-sans-jp-OFL.txt`     |
+| Lexend (via `@fontsource/lexend` 5.3.0) | The optional dyslexia-friendly reading font in Settings | SIL Open Font License 1.1, © 2019 The Lexend Project Authors | `public/licences/lexend-OFL.txt` |
 
-The fonts are loaded on first use (`src/ui/lang-fonts.ts`) and are not renamed or modified.
+The fonts are loaded on first use (`src/ui/lang-fonts.ts`; Lexend by `src/ui/access-font.ts`, only once the player picks it) and are not renamed or modified.
 
 ## Made for the project
 

@@ -8,7 +8,11 @@
 export const ACCESS_TEXT = {
   heading: 'Reading and touch',
   fontLabel: 'Reading font',
-  fonts: { default: 'Standard', readable: 'Easy to read (wider spacing)' },
+  fonts: {
+    default: 'Standard',
+    readable: 'Easy to read (wider spacing)',
+    dyslexia: 'Dyslexia-friendly (Lexend)',
+  },
   contrastLabel: 'Contrast',
   contrasts: { normal: 'Normal', high: 'High (black and white)' },
   simpleTouch: 'Simple touch',

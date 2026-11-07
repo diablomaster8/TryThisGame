@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { GROWN_UP_GATE } from '../../src/config/tuning';
-import { gateAnswerOk, gateProblem } from '../../src/ui/grown-up-gate';
+import { gateAnswerOk, gateProblem, gateVerdict } from '../../src/ui/grown-up-gate';
 
 /** The grown-up gate asks a two-digit by one-digit product a 7–10 reader cannot do at sight. */
 describe('grown-up gate', () => {
@@ -39,5 +39,24 @@ describe('grown-up gate answer check', () => {
       expect(gateAnswerOk(String(a * b + 1), a, b)).toBe(false);
       expect(gateAnswerOk(String(a + b), a, b)).toBe(false);
     }
+  });
+});
+
+/** One press of Enter decides: nothing typed, the right product, or a wrong answer (no hold). */
+describe('grown-up gate single-press verdict', () => {
+  it('lets the right product in on one press', () => {
+    expect(gateVerdict('91', 13, 7)).toBe('right');
+    expect(gateVerdict(' 91 ', 13, 7)).toBe('right');
+  });
+
+  it('refuses a wrong answer', () => {
+    for (const typed of ['90', '92', '-91', '91.5', 'abc', '13', '20']) {
+      expect(gateVerdict(typed, 13, 7)).toBe('wrong');
+    }
+  });
+
+  it('asks for an answer when the box is empty', () => {
+    expect(gateVerdict('', 13, 7)).toBe('empty');
+    expect(gateVerdict('   ', 13, 7)).toBe('empty');
   });
 });
