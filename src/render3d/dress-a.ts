@@ -465,6 +465,13 @@ class LightAndGrade implements Dressing3d {
    */
   private discover(ctx: Dress3dCtx): void {
     this.discovered = true;
+    // A building that left the scene (a story set or the Hollow camp, rebuilt each visit) is
+    // dropped here, or the map kept every one of them, and its geometry, alive for good.
+    for (const o of this.buildings.keys()) {
+      let top: THREE.Object3D | null = o;
+      while (top.parent) top = top.parent;
+      if (top !== ctx.scene) this.buildings.delete(o);
+    }
     for (const o of ctx.pickables) {
       const pick = o.userData.pick as { kind?: string } | undefined;
       if (pick?.kind !== 'building' || this.buildings.has(o)) continue;

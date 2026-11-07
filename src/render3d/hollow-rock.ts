@@ -493,6 +493,8 @@ export class HollowRock implements HollowModule {
   private wallMesh: THREE.Mesh | null = null;
   private wallH = new Float32Array(0);
   private wallTex: THREE.DataTexture | null = null;
+  /** The 1x1 stand-in while no floor is built: made once, since every dispose used to leak a fresh one. */
+  private readonly blank = placeholderH();
   private walls: Wall[] = [];
   /** Each block's height now, easing toward its target. */
   private cutKey = '';
@@ -513,7 +515,7 @@ export class HollowRock implements HollowModule {
     this.u = {
       torch: torchFlicker,
       tri: { value: 1 },
-      wallH: { value: placeholderH() },
+      wallH: { value: this.blank },
       tint: { value: new THREE.Color('#ffffff') },
       rim: { value: new THREE.Color('#a494b4') },
       moss: { value: new THREE.Color('#4c6744') },
@@ -934,7 +936,7 @@ export class HollowRock implements HollowModule {
     disposeObjects(this.objs);
     this.wallTex?.dispose();
     this.wallTex = null;
-    this.u.wallH.value = placeholderH();
+    this.u.wallH.value = this.blank;
     this.wallMesh = null;
     this.walls = [];
     this.wallH = new Float32Array(0);
