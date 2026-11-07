@@ -216,6 +216,11 @@ function paintFigure(c: RGB, frame: number): Raster {
 let sheet: SpriteSheet | null = null;
 
 /** The village atlas, painted the first time the village is drawn. */
+/** HOT (load time): whether the square's sheet is painted yet (the view streams it in). */
+export function villageSheetReady(): boolean {
+  return sheet !== null;
+}
+
 export function villageSheet(): SpriteSheet {
   if (sheet) return sheet;
   const atlas = new RasterAtlas(1024);

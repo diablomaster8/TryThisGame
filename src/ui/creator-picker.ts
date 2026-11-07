@@ -1,5 +1,5 @@
 import { EGG_COLOR_LABELS, NAMES, SPECIES_LABELS, TYPE_LABELS } from '../config/strings';
-import { COSMETIC_LABELS } from '../config/strings-look';
+import { cosmeticLabel } from '../config/cosmetics';
 import { CREATOR_TEXT, EVO_TEXT, GALLERY_TEXT, STAGE_NAMES } from '../config/strings-evo';
 import { CreatorGallery } from './creator-gallery';
 import type { Game } from '../game';
@@ -222,7 +222,7 @@ export class CreatorPicker {
           CREATOR_TEXT.look,
           [
             { value: '', text: CREATOR_TEXT.none },
-            ...CREATOR_LOOKS.map((id) => ({ value: id, text: COSMETIC_LABELS[id] ?? id })),
+            ...CREATOR_LOOKS.map((id) => ({ value: id, text: cosmeticLabel(id) })),
           ],
           this.look,
           (v) => (this.look = v),
