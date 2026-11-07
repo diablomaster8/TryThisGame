@@ -503,6 +503,12 @@ export const GROVE3D = {
     slowMs: 19,
     fastMs: 17.8,
     downFrames: 20,
+    /**
+     * Round 3: `downFramesFar` frames in a row each over `farOver` times `slowMs` (about 35 fps
+     * and worse) take a step at once, so a slow phone sheds in 1-2 s; one hitch never does.
+     */
+    farOver: 1.5,
+    downFramesFar: 4,
     upFrames: 240,
     stepDown: 0.85,
     minRatio: 0.5,
@@ -513,9 +519,23 @@ export const GROVE3D = {
     /**
      * CPU savings the scene may step through once a slow frame is not fill-bound: 1 drops
      * the creature outlines, 2 the second grass pass and the dusk or cave bloom, 3 redraws the sun's
-     * shadow only every fourth frame (`Grove3dScene.governRenderScale`).
+     * shadow only every fourth frame (`Grove3dScene.governRenderScale`), 4 (round 3) draws
+     * creatures past `proxyFromUnderLoad` units as their one-draw stand-ins (which still walk)
+     * in the Grove and all but the `raceWholeRunners` nearest runners in a race, 5 updates
+     * the far creatures (stand-ins, impostors) every other frame and leaves out the distant
+     * decor named in `decor`.
      */
-    cpuLevels: 3,
+    cpuLevels: 5,
+    /** The CPU step from which far creatures are updated at half rate and the decor goes. */
+    cpuThin: 5,
+    /** Distant decor (object names) left out at that step. */
+    decor: ['outer-ring', 'far-lanterns', 'e4-fauna', 'e4-streaks', 'ambient-fish'],
+    /** The CPU step from which creatures nearer than usual are drawn as stand-ins. */
+    cpuStandIns: 4,
+    /** Stand-in distance at that step (world units; `WORLD_LOD.creature.proxyFrom` otherwise). */
+    proxyFromUnderLoad: 3.5,
+    /** Runners a race keeps whole at that step, nearest the camera first. */
+    raceWholeRunners: 3,
   },
   /** Camera shake in world units: a Nubbin landing, a tree shaken (pixel: 0.18 / 0.08). */
   shake: { landed: 0.12, tree: 0.05 },

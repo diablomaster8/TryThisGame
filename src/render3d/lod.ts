@@ -98,6 +98,14 @@ export class CreatureLod {
     state(key: string, res: number): 'ready' | 'pending' | 'none';
     surface(key: string, part: THREE.BufferGeometry): THREE.BufferGeometry | null;
   } | null = null;
+  /**
+   * Round 3: the camera distance past which a rig is drawn as its stand-in. The tuning's
+   * `proxyFrom` at full quality; the frame governor's CPU step 4 pulls it in (`Grove3dScene`),
+   * and a race sets it to keep only its nearest runners whole (`race-3d.ts`).
+   */
+  proxyFrom: number = WORLD_LOD.creature.proxyFrom;
+  /** Round 3: rigs drawn as stand-ins whatever their distance (a race's far runners). */
+  readonly forced = new Set<THREE.Object3D>();
   /** Stand-ins built this frame. */
   private built = 0;
   /** Round 5: full-detail triangles allowed a frame (the scene sets it by device tier). */
@@ -107,6 +115,12 @@ export class CreatureLod {
   private readonly toFar = new Set<THREE.Object3D>();
   cappedCount = 0;
   private readonly order: Array<[THREE.Object3D, number]> = [];
+
+  /** Round 3: drawn as a stand-in or an impostor after the last update (light work). */
+  lite(root: THREE.Object3D): boolean {
+    const s = this.rigs.get(root);
+    return !!s && (s.proxied || (this.impostors?.has(root) ?? false));
+  }
 
   private state(root: THREE.Object3D): RigState {
     let s = this.rigs.get(root);
@@ -244,7 +258,7 @@ export class CreatureLod {
     let used = 0;
     for (const [root, depth] of this.order) {
       const s = this.rigs.get(root)!;
-      const near = depth <= cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+      const near = depth <= this.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
       const stand = proxyTris(root, depth);
       const cost = near ? s.tris : stand;
       if (used === 0 || used + cost <= this.fullTrisCap) {
@@ -280,7 +294,9 @@ export class CreatureLod {
   private proxyFor(root: THREE.Object3D, depth: number, s: RigState): CreatureProxy | null {
     const cfg = WORLD_LOD.creature;
     const want =
-      this.capped.has(root) || depth > cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+      this.capped.has(root) ||
+      this.forced.has(root) ||
+      depth > this.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
     let p = proxies.get(root);
     if (p === undefined) {
       const key = root.userData.lookKey as string | undefined;

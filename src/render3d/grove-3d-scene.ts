@@ -347,6 +347,20 @@ export class Grove3dScene {
   private shadowMerge!: ShadowMerge;
   /** Round 3: skip instanced draws with no instances (an A/B switch; always on). */
   skipEmptyDraws = true;
+  /** Round 3: the distant decor hidden for the render at the governor's CPU step 5, or null. */
+  private decor: THREE.Object3D[] | null = null;
+  private readonly decorShown: boolean[] = [];
+
+  /** The distant decor the governor's last CPU step leaves out (`GROVE3D.governor.decor`). */
+  private findDecor(): THREE.Object3D[] {
+    const names = new Set<string>(GROVE3D.governor.decor);
+    const out: THREE.Object3D[] = [];
+    this.scene.traverse((o) => {
+      if (names.has(o.name)) out.push(o);
+    });
+    return out;
+  }
+
   /** Round 2: leave dormant rigs out of the render walk (an A/B and kill switch). */
   skipDormant = true;
   /** Scratch: the creature group's children minus this frame's dormant rigs. */
@@ -2225,7 +2239,10 @@ export class Grove3dScene {
       this.creatureLod.update(
         this.actors.group.children.filter((c) => !(c as THREE.Mesh).isMesh),
         this.camera,
-        this.governor.geoLevel,
+        // At the stand-in step every hull goes too (level 3), as in a busy Grove.
+        this.governor.cpuLevel >= GROVE3D.governor.cpuStandIns
+          ? Math.max(3, this.governor.geoLevel)
+          : this.governor.geoLevel,
         this.canvasSizer ? this.canvasCssH : this.canvas.clientHeight,
       );
     }
@@ -2257,10 +2274,19 @@ export class Grove3dScene {
       for (const c of all) if (!dormant.includes(c)) awake.push(c);
       group.children = awake;
     }
+    // Round 3, the governor's CPU step 5: the distant decor sits out the frame.
+    const decor = this.decor;
+    const shown = this.decorShown;
+    if (decor)
+      for (let i = 0; i < decor.length; i++) {
+        shown[i] = decor[i]!.visible;
+        decor[i]!.visible = false;
+      }
     try {
       this.composer.render();
     } finally {
       group.children = all;
+      if (decor) for (let i = 0; i < decor.length; i++) decor[i]!.visible = shown[i]!;
     }
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);
@@ -2543,6 +2569,15 @@ export class Grove3dScene {
       if (second) second.visible = level < 2;
       this.bloom.enabled = this.bloomWanted && level < 2 && !this.bloomShed;
       this.clamp.enabled = this.bloom.enabled;
+      // Round 3: far creatures updated every other frame, and the distant decor left out.
+      const lite = level >= GROVE3D.governor.cpuThin;
+      this.actors.thin = lite ? (root) => this.creatureLod.lite(root) : null;
+      this.decor = lite ? this.findDecor() : null;
+      // Round 3: nearer creatures as their stand-ins (which still walk).
+      this.creatureLod.proxyFrom =
+        level >= GROVE3D.governor.cpuStandIns
+          ? GROVE3D.governor.proxyFromUnderLoad
+          : WORLD_LOD.creature.proxyFrom;
     }
     // Under strain the sun's shadow map is redrawn every second frame (every fourth at the
     // last CPU step): it is a second draw of every caster, and a frame late is not visible
