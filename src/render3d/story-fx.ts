@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG_C } from '../config/tuning-c';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 import type { StoryFx } from '../render/story-fx-state';
 import { QuadCloud } from './quad-particles';
 

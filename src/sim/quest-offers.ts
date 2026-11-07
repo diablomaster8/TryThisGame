@@ -1,6 +1,7 @@
+import type { DeepReadonly, ReadonlyWorld } from './readonly';
 import { beginApproach, stepApproach } from './offer-approach';
 import { REGIONS } from '../config/regions';
-import { SIGN_OFFERS } from '../config/tuning-r13d1';
+import { SIGN_OFFERS } from '../config/tuning-more/world-region-content';
 import { OFFER_WINDOWS, QUESTS, QUEST_CADENCE, QUEST_OFFERS, STORY_BOOK } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { areaOf } from '../content/where-map';
@@ -22,7 +23,7 @@ import type { CampaignState, QuestBook, QuestEntry, SimEvent, World } from './ty
  */
 
 /** Is this world on the Open flow (a Hazel's Grove save, outside the Learning Grove). */
-export function openFlow(world: World): boolean {
+export function openFlow(world: ReadonlyWorld): boolean {
   // R0629: a Learning Grove profile may take the Open flow too (it is the kid flow, below); the
   // Settings menu leaves it off unless a grown-up sets it, so no old save changes.
   return world.settings.questFlow === 'open';
@@ -40,7 +41,7 @@ export function questBook(world: World): QuestBook {
 }
 
 /** R0629: a child profile (the Learning Grove) on the Open flow. */
-export function kidFlow(world: World): boolean {
+export function kidFlow(world: ReadonlyWorld): boolean {
   return openFlow(world) && world.edu !== null;
 }
 
@@ -120,7 +121,7 @@ export function keeperArea(world: World): string | null {
   return best;
 }
 
-function campaignStatus(c: CampaignState, id: string): string | undefined {
+function campaignStatus(c: DeepReadonly<CampaignState>, id: string): string | undefined {
   return (c.side[id] ?? c.fun[id])?.status;
 }
 
@@ -139,8 +140,8 @@ export function activeQuests(world: World, c: CampaignState): string[] {
 
 /** What the board shows for one quest (R0607), or null if it has nothing to say. */
 export function boardState(
-  world: World,
-  c: CampaignState,
+  world: ReadonlyWorld,
+  c: DeepReadonly<CampaignState>,
   id: string,
 ): 'available' | 'active' | 'shelved' | 'done' | null {
   const status = campaignStatus(c, id);
@@ -384,7 +385,7 @@ export function questProgress(
 }
 
 /** R0655: may this save be offered `quest` at its rating (the Mature content setting). */
-export function questAllowed(world: World, quest: Quest): boolean {
+export function questAllowed(world: ReadonlyWorld, quest: Quest): boolean {
   const ctx = { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
   return audienceAllowed(quest.audience, ctx);
 }

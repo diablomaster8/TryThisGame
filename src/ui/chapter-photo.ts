@@ -1,5 +1,5 @@
 import { STORY_UI_TEXT } from '../config/strings';
-import { CG2_U } from '../config/tuning-u';
+import { CG2_U } from '../config/tuning-more/campaign2-cards-postcards';
 import { button, el } from './dom';
 
 /**

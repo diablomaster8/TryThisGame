@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OCCLUDE } from '../config/tuning-occlude';
-import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
+import { OCCLUDE_R10 } from '../config/tuning-more/move-npc-colliders';
 
 /**
  * R0018: houses, the windmill, the shed and the stalls thin out when one stands between

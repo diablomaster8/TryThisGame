@@ -27,7 +27,7 @@ import {
 import { button, el } from './dom';
 import { GYM } from '../config/tuning';
 import { BATTLE_ATB } from '../config/tuning-battle-atb';
-import { BATTLE_R5 } from '../config/tuning-battle-r5';
+import { BATTLE_R5 } from '../config/tuning-more/battle-doors';
 import { ATB_TEXT } from '../config/strings-battle-atb';
 import { RING_TEXT, SPOILS_TEXT, STAT_SHORT, WHO_TEXT } from '../config/strings-battle-r5';
 import { pairSeen } from '../sim/battle';

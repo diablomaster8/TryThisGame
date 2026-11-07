@@ -1,8 +1,13 @@
+import type { ReadonlyWorld } from './readonly-world';
 import * as THREE from 'three';
 import { REGIONS, type RegionId } from '../config/regions';
 import { CAMERA } from '../config/tuning';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
-import { REGION_BORDER, REGION_CACHE, REGION_ORIGIN } from '../config/tuning-r11d1';
+import {
+  REGION_BORDER,
+  REGION_CACHE,
+  REGION_ORIGIN,
+} from '../config/tuning-more/world-region-engine';
 import { WORLD_STREAM } from '../config/tuning-world';
 import {
   drawnRegion,
@@ -12,7 +17,7 @@ import {
   seamlessOffset,
   walkExitsHere,
 } from '../sim/region-walk';
-import type { Vec2, World } from '../sim/types';
+import type { Vec2 } from '../sim/types';
 import { ActiveChunks, ChunkLRU, chunkKey } from './chunks';
 import { secondKeeperApart } from './coop-chunks';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
@@ -53,7 +58,7 @@ export interface RegionPxModule {
     fade?: ((d: SpriteDraw) => number) | null,
   ): void;
   /** R11 d7: the few sprites that change with the world (a thawed door), drawn every frame. */
-  drawDynamic?(batch: SpriteBatch, world: World, tint: number): void;
+  drawDynamic?(batch: SpriteBatch, world: ReadonlyWorld, tint: number): void;
 }
 
 /** Each drawn region's pixel module, loaded on first approach (a new region adds a line). */
@@ -139,7 +144,7 @@ export class RegionHostPx {
 
   /** Draw what the Keeper's place needs; call once a frame from the pixel world view. */
   frame(
-    world: World,
+    world: ReadonlyWorld,
     batch: SpriteBatch,
     parent: THREE.Object3D | null,
     tint: number,

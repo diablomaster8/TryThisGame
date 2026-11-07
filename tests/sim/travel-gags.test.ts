@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { GROVE } from '../../src/config/tuning';
-import { TRAVEL_GAGS } from '../../src/config/tuning-fun-r10';
+import { TRAVEL_GAGS } from '../../src/config/tuning-more/fun-keeper-gags';
 import { hatch } from '../../src/sim/lifecycle';
 import { ballPushAngle, ballSplash, rollWalk, stepStreamFloat } from '../../src/sim/travel-gags';
 import type { SimEvent } from '../../src/sim/types';

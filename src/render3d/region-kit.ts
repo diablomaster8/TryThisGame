@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { LayoutChunk, LayoutTree, RegionLayout } from '../config/region-layout';
@@ -11,7 +12,7 @@ import {
   type GroundPaint,
 } from '../render/region-ground';
 import type { Region3d, Region3dModule } from './region-host';
-import type { Vec2, World } from '../sim/types';
+import type { Vec2 } from '../sim/types';
 
 /**
  * R11 lane D (d7): the Full 3D half of a region built on the engine, from a style: the Wood's
@@ -70,7 +71,7 @@ export function tuftGeo(c: string): THREE.BufferGeometry {
 
 export interface Kit3dDecor {
   tick?(t: number, still: boolean): void;
-  sync?(world: World): void;
+  sync?(world: ReadonlyWorld): void;
   /** Drawn only as a neighbour's edge: hide the finer dressing. */
   edge?(on: boolean): void;
   dispose(): void;
@@ -241,7 +242,7 @@ class Kit3d implements Region3d {
     this.decor?.tick?.(t, still);
   }
 
-  sync(world: World): void {
+  sync(world: ReadonlyWorld): void {
     this.decor?.sync?.(world);
   }
 

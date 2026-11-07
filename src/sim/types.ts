@@ -118,7 +118,7 @@ export type Reaction =
   | 'smug'
   | 'miss';
 
-export type Mood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
+export type NubbinMood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
 
 export interface NubbinForm {
   band: AlignmentBand;
@@ -327,10 +327,10 @@ export interface Nubbin {
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Lane A r9 (SOUL), optional with defaults, no save bump:
   /** R0528: the trait earned by care before evolution (the first comes from the seed). */
-  earnedTrait?: import('../config/tuning-soul-r9').TraitId;
+  earnedTrait?: import('../config/tuning-more/soul-traits').SoulTraitId;
   /** R0528: counts toward the earned trait; cleared once one is earned. */
   traitCare?: Partial<
-    Record<keyof typeof import('../config/tuning-soul-r9').TRAIT_TUNING.earn, number>
+    Record<keyof typeof import('../config/tuning-more/soul-traits').TRAIT_TUNING.earn, number>
   >;
   /** R0546: a full belly (waddle, then a burp and a nap) until this sim time. */
   fullUntilMs?: number;
@@ -346,7 +346,7 @@ export interface Nubbin {
   /** R0545: its fruit was snatched; its next fruit search is quicker, until it eats. */
   searchBoost?: true;
   /** R0541: how the Keeper treated it lately, newest last (at most eight; fades). */
-  recentCare?: Array<{ kind: import('../config/tuning-soul-r10').CareKind; atMs: number }>;
+  recentCare?: Array<{ kind: import('../config/tuning-more/soul-friends-rivals').CareKind; atMs: number }>;
   /** R0527: hiding in the cottage (Learning Grove) until the Keeper taps the door. */
   cottageHide?: true;
   // Lane A r11 (SOUL), optional with defaults, no save bump (R0576 documents them):
@@ -511,8 +511,6 @@ export interface Settings {
   jukebox: string | null;
   /** Ambient sounds (birds, crickets, rain, the stream). */
   ambience: boolean;
-  /** How the Grove is drawn: the pixel-art scene or the full-3D scene. */
-  graphics: GraphicsMode;
   /** The corner minimap: off, on, or auto; an older save has none, which reads as auto. */
   minimap?: 'off' | 'on' | 'auto';
   /** R0519: HUD colours; unset or 'dark' keeps the dark HUD, 'system' follows a light scheme. */
@@ -1115,6 +1113,8 @@ export interface DungeonRun {
   // Lane B round 8 (party and run UI).
   /** R0167: packs a Scout has already called out with a "!". */
   scouted?: string[];
+  /** R0115 (R17 d1): a small cave run behind a `stairs` way (place `caves:<id>`), and where it came from. */
+  cave?: { id: string; from: string; way: string; floors: number };
   /** R0187: the Keeper's cells on each level this run (key `seed:depth`), for the ghost line. */
   trail?: Record<string, number[]>;
   // Lane B round 8 (floors).
@@ -1783,6 +1783,8 @@ export type Command =
   | { kind: 'setTitle'; title: string | null }
   | { kind: 'claimQuest'; id: string }
   | { kind: 'visit'; trainer: string | null }
+  // R0112: walk the lane to a neighbour's gate instead of going straight in (`sim/visit-walk.ts`)
+  | { kind: 'visitWalk'; trainer: string }
   | { kind: 'neighbourGift' }
   | { kind: 'feedWild'; id: string }
   | { kind: 'dye'; nubbinId: string; slot: DyeSlot; color: DyeColor | null }
@@ -2115,7 +2117,7 @@ export type SimEvent =
   | { kind: 'albumPrize'; count: number; shells: number }
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
-  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
+  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-more/soul-traits').SoulTraitId }
   | { kind: 'peekFound'; nubbinId: string }
   | { kind: 'burp'; nubbinId: string }
   /** R0545: a mischievous one snatched another's fruit. */
@@ -2287,10 +2289,10 @@ export type SimEvent =
   | { kind: 'missionDone'; team: TeamId; points: number }
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
-  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
+  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true; cave?: string }
   | { kind: 'glowSolved'; depth: number }
   | { kind: 'glowSticker'; count: number }
-  | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
+  | { kind: 'dungeonLeft'; depth: number; shells: number; items: number; cave?: string }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {
       kind: 'dungeonFound';

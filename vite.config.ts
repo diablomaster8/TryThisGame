@@ -115,7 +115,9 @@ function eagerModules(): Plugin {
  * system font offline) and the language clips in public/audio/lang.
  */
 const OFFLINE_PACKS: Record<string, RegExp> = {
-  story: /^(campaign|side-story-content|storyline-content|strings-fun-r6)$/,
+  // R0491: the side stories are a skeleton plus one text chunk per script file.
+  story:
+    /^(campaign|side-story-skeleton|side-stories-.+|quests-.+|expansion-e\d|storyline-content|strings-fun-r6)$/,
   edu: /^edu-/,
   worlds: /^(atlas|arcade|multiverse|neopia)-catalogue$/,
 };
@@ -226,9 +228,32 @@ function offlineManifest(): Plugin {
 const shared =
   process.env.ISOLATE || process.env.CI ? {} : { isolate: false, pool: 'threads' as const };
 
+/**
+ * R0492 (TECH-51): the page's stylesheet is render-blocking in the head, so the inline splash
+ * waited for 136 kB of CSS before its first paint. Moved to the end of the body the splash
+ * paints from the HTML alone; the bundle is far bigger than the CSS, so the title still has
+ * its styles when it first paints.
+ */
+function cssAfterSplash(): Plugin {
+  return {
+    name: 'css-after-splash',
+    enforce: 'post',
+    transformIndexHtml(html) {
+      const links: string[] = [];
+      const rest = html.replace(/\s*<link rel="stylesheet"[^>]*>/g, (m) => {
+        links.push(m.trim());
+        return '';
+      });
+      return links.length === 0
+        ? html
+        : rest.replace('</body>', () => `  ${links.join('\n  ')}\n  </body>`);
+    },
+  };
+}
+
 export default defineConfig({
   base,
-  plugins: [swBuildId(), woff2Only(), offlineManifest(), eagerModules()],
+  plugins: [swBuildId(), woff2Only(), offlineManifest(), eagerModules(), cssAfterSplash()],
   build: {
     target: 'es2022',
     sourcemap: false,

@@ -1,6 +1,6 @@
 import type { SceneStage } from '../config/story';
-import { C12C } from '../config/tuning-camp12c';
-import { DRESS_D } from '../config/tuning-d';
+import { C12C } from '../config/tuning-more/story-quest-markers';
+import { DRESS_D } from '../config/tuning-more/campaign-props-items';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';

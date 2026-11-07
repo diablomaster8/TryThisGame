@@ -1,4 +1,5 @@
-import { C12C } from '../config/tuning-camp12c';
+import type { ReadonlyWorld } from './readonly';
+import { C12C } from '../config/tuning-more/story-quest-markers';
 import { STORY } from '../config/tuning';
 import type { Quest } from '../content/types';
 import { EXTRA_LOOKS } from './extra-looks';
@@ -29,7 +30,7 @@ export function offerGiver(quest: Quest): string | null {
 }
 
 /** The giver's body in the Grove now (a valley Keeper, a visiting guest or an approaching one). */
-export function giverNpc(world: World, quest: Quest): Npc | null {
+export function giverNpc(world: ReadonlyWorld, quest: Quest): Npc | null {
   const who = offerGiver(quest);
   return who ? (world.npcs.find((n) => n.trainer === who) ?? null) : null;
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { actFamilies, FOE_FAMILIES } from '../../src/config/dungeon-foes';
-import { R10B3 } from '../../src/config/tuning-r10b3';
+import { R10B3 } from '../../src/config/tuning-more/dungeon-poof-kid-mode';
 import { FoePoofs, nearestWall, poofFrame, poofLength } from '../../src/render/foe-poof';
 import { DRAWN_ANGLES } from '../../src/render/sprites/angles';
 import { poseFor } from '../../src/render/sprites/chao';

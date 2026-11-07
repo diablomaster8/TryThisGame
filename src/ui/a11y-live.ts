@@ -17,7 +17,7 @@ import { careKey } from '../input/keys';
 import { PIXEL_VIEW, toScreen } from '../render/stage-api';
 import { STAGE_LABELS } from '../config/strings';
 import { NEEDS } from '../config/tuning';
-import { A11Y_SUMMARY } from '../config/tuning-r9d3';
+import { A11Y_SUMMARY } from '../config/tuning-more/ui-shake-hint';
 import type { Game } from '../game';
 import type { Nubbin, World } from '../sim/types';
 
@@ -73,7 +73,10 @@ export class SelectionLive {
   private keyboard = false;
   private readonly ring: HTMLDivElement;
   private ringAt = '';
-  private readonly canvas: HTMLElement | null;
+  /** R0509: read fresh, as a live Graphics switch replaces the `#game` canvas. */
+  private get canvas(): HTMLElement | null {
+    return document.getElementById('game');
+  }
 
   constructor(
     parent: HTMLElement,
@@ -89,13 +92,24 @@ export class SelectionLive {
     this.ring.className = 'kb-ring';
     this.ring.hidden = true;
     parent.appendChild(this.ring);
-    const canvas = document.getElementById('game');
-    this.canvas = canvas;
-    if (!canvas) return;
+    const canvas = this.canvas;
+    const host = canvas?.parentElement;
+    if (!canvas || !host) return;
     if (!canvas.hasAttribute('tabindex')) canvas.tabIndex = 0;
     canvas.setAttribute('aria-label', KB_CARE_TEXT.canvas);
-    canvas.addEventListener('pointerdown', () => (this.keyboard = false));
-    canvas.addEventListener('keydown', (e) => {
+    // R0509: heard on the canvas's parent, so a replacement canvas (it takes over the id and
+    // these attributes) keeps them. A key stopped here still never reaches the window's.
+    const onCanvas = (e: Event): boolean =>
+      e.target instanceof HTMLElement && e.target.id === 'game';
+    host.addEventListener(
+      'pointerdown',
+      (e) => {
+        if (onCanvas(e)) this.keyboard = false;
+      },
+      true,
+    );
+    host.addEventListener('keydown', (e) => {
+      if (!onCanvas(e)) return;
       const g = this.game();
       if (!g || e.altKey || e.ctrlKey || e.metaKey) return;
       if (e.key === 'Tab') {

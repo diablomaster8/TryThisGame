@@ -8,9 +8,9 @@
  */
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { TAP_FLAG } from '../config/tuning-move-r10';
-import { TAP_PRINTS } from '../config/tuning-r9d2';
-import { EDU_TRAIL } from '../config/tuning-r14d2';
+import { TAP_FLAG } from '../config/tuning-more/move-keeper-ui';
+import { TAP_PRINTS } from '../config/tuning-more/ui-tap-prints-border';
+import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
 import type { World } from '../sim/types';
 import { TapPath } from '../render/tap-path';
 

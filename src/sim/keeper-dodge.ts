@@ -4,7 +4,7 @@
  * cut short to a hop), with a cooldown. Live play only; never while carrying or in the air.
  * The last step's heading is kept beside the world, so nothing is saved.
  */
-import { KEEPER_DODGE } from '../config/tuning-fun-r10';
+import { KEEPER_DODGE } from '../config/tuning-more/fun-keeper-gags';
 import { keeperJump, keeperRunningNow } from './keeper';
 import type { World } from './types';
 

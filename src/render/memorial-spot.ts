@@ -1,6 +1,6 @@
 import type { ReadonlyWorld } from './readonly-world';
 import { GROVE } from '../config/tuning';
-import { CG2_K } from '../config/tuning-k';
+import { CG2_K } from '../config/tuning-more/campaign2-landmarks';
 import type { Memorial } from '../sim/types';
 import { ddLayout } from './story-b-layout';
 

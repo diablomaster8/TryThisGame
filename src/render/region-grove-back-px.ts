@@ -1,5 +1,6 @@
-import { BORDER } from '../config/tuning-r9d2';
-import type { World } from '../sim/types';
+import type { ReadonlyWorld } from './readonly-world';
+import { BORDER } from '../config/tuning-more/ui-tap-prints-border';
+
 import { borderBlockers, borderEdge } from '../sim/border';
 import type { ChunkMask, SpriteCuller } from './chunks';
 import type { Decoration } from './decor';
@@ -63,7 +64,7 @@ function put(
 
 export function drawGroveBack(
   batch: SpriteBatch,
-  world: World,
+  world: ReadonlyWorld,
   sheets: GroveBackSheets,
   masks: { scenery: ChunkMask; fences: ChunkMask; decor: ChunkMask },
   culler: SpriteCuller | null,

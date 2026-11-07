@@ -1,4 +1,5 @@
-import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../config/tuning-more/soul-old-souls';
+import { minigameNowMs } from '../minigames/frame-time';
 import { START_POSE_3D } from '../render/start-pose';
 import { lineClock, racerPersonality, startKind } from '../sim/race-persona';
 import * as THREE from 'three';
@@ -28,6 +29,7 @@ import {
   type TagRect,
 } from './minigame-layout';
 import { MiniStage } from './minigame-stage';
+import { CreatureLod } from './lod';
 import { RaceButterfly } from './race-butterfly';
 import { channelGeometry, paintedWater, type PaintedWater } from './water';
 
@@ -85,6 +87,15 @@ export class Race3dView implements RaceView {
   /** R0437: dresses the player's rig with the race headband. */
   private readonly dresser = new Dresser();
   private player: Nubbin | null = null;
+  /**
+   * Round 3: under sustained load (the frame governor's CPU step 4) all but the nearest
+   * runners are drawn as the Grove's one-draw stand-ins, which still walk; at full quality
+   * the race never uses it.
+   */
+  private readonly lod = new CreatureLod();
+  private lodOn = false;
+  private readonly lodRoots: THREE.Object3D[] = [];
+  private readonly lodDepths: number[] = [];
 
   constructor(private readonly host: Grove3dScene) {
     // The 3D race keeps its HUD in the screen's own elements; this holds nothing yet.
@@ -98,7 +109,7 @@ export class Race3dView implements RaceView {
     const band = raceBandId(race.course.id);
     this.player = band ? { ...player, wear: { ...player.wear, face: band } } : null;
     this.spans = sectionSpans(race.course);
-    this.openedMs = performance.now();
+    this.openedMs = minigameNowMs();
     this.lastMs = 0;
     this.camX = 0;
     stage.backdrop(RACE3D.backdrop.top, RACE3D.backdrop.bottom);
@@ -125,7 +136,7 @@ export class Race3dView implements RaceView {
     void stage.compile().then(() => {
       if (this.stage !== stage) return;
       this.sceneryReady = true;
-      this.openedMs = performance.now();
+      this.openedMs = minigameNowMs();
     });
   }
 
@@ -145,6 +156,9 @@ export class Race3dView implements RaceView {
   }
 
   stop(): void {
+    // Rigs go back to the pool whole: no stand-in left on, every hull and caster back.
+    if (this.stage && this.lodOn) this.lod.update([], this.stage.camera, 0, 1);
+    this.lodOn = false;
     for (const r of this.runners) if (r.rig && r.racer.isPlayer) this.dresser.strip(r.rig);
     this.player = null;
     // Rival looks are a race's own; their rigs would otherwise pile up in the pool.
@@ -200,7 +214,47 @@ export class Race3dView implements RaceView {
     // frame's camera, after it has moved.
     this.placeSigns(this.camX + cam.lookAhead, stage.halfSpan);
     this.layoutTags(stage);
+    this.governLod(stage);
     stage.render(nowMs, (x) => trackHeight(this.spans, x / U));
+  }
+
+  /** Round 3: the stand-ins for far runners while the governor holds its CPU step 4. */
+  private governLod(stage: MiniStage): void {
+    const g = GROVE3D.governor;
+    if (this.host.governor.cpuLevel < g.cpuStandIns) {
+      this.lod.forced.clear();
+      if (this.lodOn) this.lod.update([], stage.camera, 0, 1);
+      this.lodOn = false;
+      return;
+    }
+    if (!this.lodOn) {
+      const pool = stage.pool;
+      this.lod.low = {
+        state: (key, res) => pool.lowState(key, res),
+        surface: (key, part) => pool.lowSurface(key, part),
+      };
+      this.lod.compile = (o) => stage.compile([o]);
+      this.lodOn = true;
+    }
+    const roots = this.lodRoots;
+    const depths = this.lodDepths;
+    roots.length = 0;
+    depths.length = 0;
+    const cam = stage.camera.position;
+    for (const r of this.runners) {
+      if (!r.rig || r.compiling) continue;
+      roots.push(r.rig.group);
+      // Round 5: the player's runner ranks first, so it is the last to become a stand-in.
+      depths.push(r.racer.isPlayer ? -1 : r.rig.group.getWorldPosition(this.at).distanceTo(cam));
+    }
+    // The nearest few stay whole (the runners run side by side, so this goes by rank, not
+    // distance); the rest are stand-ins. Round 5: at the deeper step only the player's runner.
+    const whole =
+      this.host.governor.cpuLevel >= g.cpuRaceOne ? g.raceWholeRunnersDeep : g.raceWholeRunners;
+    const order = roots.map((_, i) => i).sort((a, b) => depths[a]! - depths[b]!);
+    this.lod.forced.clear();
+    for (let k = whole; k < order.length; k++) this.lod.forced.add(roots[order[k]!]!);
+    this.lod.update(roots, stage.camera, 3, stage.renderer.domElement.clientHeight);
   }
 
   // ---------------------------------------------------------------- the field

@@ -1,6 +1,11 @@
-import { SEASON_KEEPSAKE, SEASON_PROPS, type SeasonProp } from '../config/tuning-r12d2';
+import type { ReadonlyWorld } from './readonly';
+import {
+  SEASON_KEEPSAKE,
+  SEASON_PROPS,
+  type SeasonProp,
+} from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
-import { LEAF_JUMP } from '../config/tuning-r13d2';
+import { LEAF_JUMP } from '../config/tuning-more/world-backdrops';
 import { regionShown } from './region-companion';
 import { drawnRegionOf } from './region-walk';
 import { regionSeason } from './region-weather';
@@ -24,7 +29,7 @@ export interface SeasonSpot {
 const memo = new Map<string, readonly SeasonSpot[]>();
 
 /** The season a region is in: the world's (or debug) season, or the region's own fixed one. */
-export function seasonHere(world: World, region: RegionId): Season {
+export function seasonHere(world: ReadonlyWorld, region: RegionId): Season {
   return regionSeason(region, world.debugSeason ?? world.season);
 }
 
@@ -53,7 +58,7 @@ export function seasonKeepsakeTaken(
   return (world.collected ?? {})[keyOf(region, season)] !== undefined;
 }
 
-const jumped = new WeakMap<World, Map<string, number>>();
+const jumped = new WeakMap<ReadonlyWorld, Map<string, number>>();
 
 /**
  * R13 d2 (R0118): a jump over an autumn leaf pile lands in it: a rustle toast and a little

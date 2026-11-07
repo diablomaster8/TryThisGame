@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SEASON_KEEPSAKE, SEASON_PROPS } from '../../src/config/tuning-r12d2';
+import { SEASON_KEEPSAKE, SEASON_PROPS } from '../../src/config/tuning-more/world-content-tables';
 import { regionMarks } from '../../src/sim/region-marks';
 import { seasonSpots, stepSeasonProps } from '../../src/sim/region-season-props';
 import { fits } from '../../src/sim/region-spots';

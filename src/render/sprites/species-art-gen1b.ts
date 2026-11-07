@@ -61,6 +61,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     crest: 'flame',
     tail: 'flame',
     eyes: 'big',
+    addons: [ex('flameMane', C.orange, C.sunYellow)],
     plan: 'quad',
     arms: 'none',
     legs: 'none',
@@ -69,13 +70,14 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   blazesteed: spec(PONY, {
     size: 1.15,
     ears: 'catTips',
-    crest: 'flame',
+    crest: 'horn',
     tail: 'flame',
     eyes: 'angry',
+    addons: [ex('flameMane', C.orange, C.sunYellow)],
     plan: 'quad',
     arms: 'none',
     legs: 'none',
-    quad: { stance: 'horse', legLen: 1.0, neck: 0.6 },
+    quad: { stance: 'horse', legLen: 1.1, neck: 0.8 },
   }),
   // ---- dawdle line ----
   dawdlet: spec(SLOW, {
@@ -113,22 +115,22 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   // ---- running birds ----
   twinstrut: spec(STRUT, {
-    size: 0.9,
+    size: 0.78,
     arms: 'none',
     legs: 'long',
     marks: ['belly'],
     gen1b: ['beak'],
-    heads: { count: 2, neck: 1, spread: 40, sizes: [1, 1], faces: 'full' },
+    heads: { count: 2, neck: 2, spread: 40, sizes: [1, 1], faces: 'full' },
   }),
   tristrut: spec(STRUT, {
-    size: 1.1,
+    size: 0.9,
     legs: 'long',
     arms: 'none',
     tail: 'stub',
     marks: ['belly'],
     eyes: 'angry',
     gen1b: ['beak'],
-    heads: { count: 3, neck: 1, spread: 100, sizes: [1, 1, 1], faces: 'full' },
+    heads: { count: 3, neck: 2, spread: 80, sizes: [1, 1, 1], faces: 'full' },
   }),
   // ---- floe seals ----
   floepup: spec(SEAL, {
@@ -266,12 +268,16 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
       cluster: true,
     },
   }),
-  palmtrio: spec(pal(C.sand, C.sandDeep, C.cream, C.leaf, C.bark), {
+  palmtrio: spec(pal(C.cream, C.sand, C.white, C.leaf, C.sandDeep), {
     plan: 'tall',
-    size: 1.2,
-    eyes: 'angry',
-    gen1b: ['palm', 'lowerHalf'],
-    heads: { count: 3, neck: 0.3, spread: 150, sizes: [1, 1, 1], faces: 'full' },
+    size: 1.15,
+    // R0405 (lane F r16): the big grid gives the three heads room apart under the crown.
+    grid: 48,
+    girth: 0.7,
+    arms: 'none',
+    eyes: 'dot',
+    gen1b: ['trunk', 'palm'],
+    heads: { count: 3, neck: 0.6, spread: 150, sizes: [1, 0.9, 0.9], faces: 'full' },
   }),
   // ---- bone keepers ----
   bonecap: spec(BONE, { size: 0.9, tail: 'stub', marks: ['belly'], gen1b: ['skull', 'bone'] }),
@@ -352,7 +358,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'curl',
     eyes: 'cute',
     marks: ['belly'],
-    gen1b: ['snout'],
+    gen1b: ['snout', 'seahorse'],
   }),
   snoutspine: spec(pal(C.water, C.deepWater, C.cream, C.skyLight, C.water), {
     plan: 'stalk',
@@ -361,7 +367,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     crest: 'spikesTop',
     tail: 'curl',
     eyes: 'angry',
-    gen1b: ['snout'],
+    gen1b: ['snout', 'seahorse'],
   }),
   // ---- horned fish ----
   silkfin: spec(KOI, {
@@ -439,8 +445,10 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   stormwyrm: spec(pal(C.water, C.deepWater, C.cream, C.white, C.cream), {
     plan: 'serpent',
-    serpent: { segments: 9, rise: 4, belly: true, fin: true },
+    serpent: { segments: 10, rise: 6, belly: true, fin: true, taper: 0.4 },
     size: 1.25,
+    grid: 48,
+    big: ['whiskers'],
     ears: 'fins',
     crest: 'twinHorns',
     eyes: 'angry',

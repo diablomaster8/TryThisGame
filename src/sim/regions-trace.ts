@@ -4,6 +4,7 @@
  * nothing, and nothing ever requires one. The lines themselves are content
  * (`src/content/world-traces.ts`); the tappable props come with each region's drawing.
  */
+import type { ReadonlyWorld } from './readonly';
 import { WORLD_TRACES, type WorldTrace } from '../content/world-traces';
 import type { RegionId } from '../config/regions';
 import { drawnRegionOf } from './region-walk';
@@ -41,12 +42,12 @@ export function traceSpot(t: WorldTrace): { x: number; z: number } | null {
 }
 
 /** The region whose traces are on show: the Grove, or the drawn region the Keeper is in. */
-function hereRegion(world: Pick<World, 'location'>): RegionId | null {
+function hereRegion(world: Pick<ReadonlyWorld, 'location'>): RegionId | null {
   return world.location === 'grove' ? 'grove' : drawnRegionOf(world.location);
 }
 
 /** The traces in the Keeper's region the Keeper has not looked at yet (where the renderers glint). */
-export function openTraces(world: World): Array<{ id: string; x: number; z: number }> {
+export function openTraces(world: ReadonlyWorld): Array<{ id: string; x: number; z: number }> {
   const region = hereRegion(world);
   if (!region) return [];
   const out: Array<{ id: string; x: number; z: number }> = [];

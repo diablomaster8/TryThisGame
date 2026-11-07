@@ -1,5 +1,5 @@
 import { GRACE, NEEDS, SLIPS } from '../config/tuning';
-import type { Mood, Needs, Nubbin } from './types';
+import type { NubbinMood, Needs, Nubbin } from './types';
 
 const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
 
@@ -109,7 +109,7 @@ export function isExhausted(n: Nubbin): boolean {
 }
 
 /** What the face, emote ball and bubbles show. Number meters are for the stats sheet. */
-export function moodOf(n: Nubbin): Mood {
+export function moodOf(n: Nubbin): NubbinMood {
   if (n.behavior.reaction === 'dizzy') return 'dizzy';
   if (n.behavior.state === 'nap') return 'sleepy';
   if (n.needs.hunger < NEEDS.hungryThreshold) return 'hungry';

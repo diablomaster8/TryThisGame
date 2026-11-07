@@ -3,44 +3,7 @@
  * Numbers are unchanged; the review-pass letters in the comments are their provenance.
  */
 
-export const CAMERA = {
-  /** Fixed downward tilt of the orbit camera, in degrees. */
-  pitchDeg: 35,
-  pitchRad: (35 * Math.PI) / 180,
-  /** How long the camera turns to a Nubbin whose end-of-life moment is playing, in ms. */
-  focusMs: 6000,
-  /** The camera orbits in steps of this many degrees. */
-  yawStepDeg: 45,
-  /** Number of yaw steps in a full circle (360 / yawStepDeg). */
-  yawSteps: 8,
-  initialYawIndex: 1,
-  /**
-   * Zoom levels, expressed as low-res pixels per world unit. Integer ratios keep
-   * pixel art crisp. Index 0 is the farthest view.
-   */
-  pixelsPerUnit: [16, 32] as const,
-  /**
-   * A closer step only story shots reach (campaign graphics 3): the push-in after a wide
-   * shot, and close shots, which the near step could not show on a desktop already there.
-   * Twice the near step, so the art stays on whole pixels. It sits at index
-   * `pixelsPerUnit.length`; the player's own zoom never lands on it.
-   */
-  storyPixelsPerUnit: 64,
-  initialZoomIndex: 1,
-  /**
-   * The zoom a phone starts at: the far one, so both eggs and the nearest trees are on screen
-   * at the first look (review 2026-10-21, bug 25). Desktops keep `initialZoomIndex`.
-   */
-  phoneZoomIndex: 0,
-  /** Distance from the orbit target. Only affects clipping for an orthographic camera. */
-  distance: 60,
-  near: 0.1,
-  far: 200,
-  /** Duration of the eased snap between yaw steps and zoom levels, in ms. */
-  snapMs: 180,
-  /** How quickly the orbit target follows the Keeper (fraction per second). */
-  followRate: 6,
-} as const;
+export * from './render-3d-camera';
 
 export const GROVE3D = {
   /**
@@ -540,6 +503,12 @@ export const GROVE3D = {
     slowMs: 19,
     fastMs: 17.8,
     downFrames: 20,
+    /**
+     * Round 3: `downFramesFar` frames in a row each over `farOver` times `slowMs` (about 35 fps
+     * and worse) take a step at once, so a slow phone sheds in 1-2 s; one hitch never does.
+     */
+    farOver: 1.5,
+    downFramesFar: 4,
     upFrames: 240,
     stepDown: 0.85,
     minRatio: 0.5,
@@ -550,9 +519,27 @@ export const GROVE3D = {
     /**
      * CPU savings the scene may step through once a slow frame is not fill-bound: 1 drops
      * the creature outlines, 2 the second grass pass and the dusk or cave bloom, 3 redraws the sun's
-     * shadow only every fourth frame (`Grove3dScene.governRenderScale`).
+     * shadow only every fourth frame (`Grove3dScene.governRenderScale`), 4 (round 3) draws
+     * creatures past `proxyFromUnderLoad` units as their one-draw stand-ins (which still walk)
+     * in the Grove and all but the `raceWholeRunners` nearest runners in a race, 5 updates
+     * the far creatures (stand-ins, impostors) every other frame and leaves out the distant
+     * decor named in `decor`; in a race (round 5) it keeps only the player's runner whole.
      */
-    cpuLevels: 3,
+    cpuLevels: 5,
+    /** The CPU step from which far creatures are updated at half rate and the decor goes. */
+    cpuThin: 5,
+    /** Distant decor (object names) left out at that step. */
+    decor: ['outer-ring', 'far-lanterns', 'e4-fauna', 'e4-streaks', 'ambient-fish'],
+    /** The CPU step from which creatures nearer than usual are drawn as stand-ins. */
+    cpuStandIns: 4,
+    /** Stand-in distance at that step (world units; `WORLD_LOD.creature.proxyFrom` otherwise). */
+    proxyFromUnderLoad: 3.5,
+    /** Runners a race keeps whole at that step, nearest the camera first. */
+    raceWholeRunners: 3,
+    /** Round 5: the CPU step from which a race keeps only `raceWholeRunnersDeep` whole. */
+    cpuRaceOne: 5,
+    /** Runners kept whole at that step: the player's own (it ranks first). */
+    raceWholeRunnersDeep: 1,
   },
   /** Camera shake in world units: a Nubbin landing, a tree shaken (pixel: 0.18 / 0.08). */
   shake: { landed: 0.12, tree: 0.05 },

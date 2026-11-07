@@ -25,7 +25,8 @@ import type { Floor } from '../sim/dungeon';
 import { gaitOf } from '../sim/soul-gait';
 import { Glances } from '../render/glances';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
-import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
+import { keeperLook, openingLooks, takePool, type Look } from './creature-pool';
+import { LookCache } from './look-cache';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { EmoteSprings } from '../render/emote-spring';
@@ -91,7 +92,7 @@ import {
   keeperRoll,
   keeperRunningNow,
 } from '../sim/keeper';
-import { RUN_ARMS } from '../config/tuning-move-r10';
+import { RUN_ARMS } from '../config/tuning-more/move-keeper-ui';
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
 import { sitWithBeat, towardKeeper } from '../render/sit-with';
@@ -150,6 +151,9 @@ interface Actor {
   emote: THREE.Sprite;
   /** The emote frame showing (Shadow sheet prefix, shape, flip frame), or '' for none. */
   emoteKey: string;
+  /** Round 5: the look-cache stamp and rig the Dresser last dressed for. */
+  dressStamp?: number;
+  dressRig?: Rigged | null;
 }
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -251,6 +255,8 @@ export class Actors {
   readonly kit = new ItemKit();
   /** Hats, scarves and glasses on the Chao line's rigs. */
   private readonly dresser = new Dresser();
+  /** Round 5: each Nubbin's look, worked out once per change of the world (`look-cache.ts`). */
+  readonly looks = new LookCache();
   /** The world of the last frame, so the loading bar can count every Nubbin to be drawn. */
   private world: World | null = null;
   private keeperPrev: Vec2 = { x: 0, z: 0 };
@@ -431,6 +437,8 @@ export class Actors {
   }
 
   snapshot(world: World): void {
+    // The sim is about to step or apply commands: every cached look is stale.
+    this.looks.invalidate();
     for (const n of world.nubbins) {
       const a = this.nubbins.get(n.id);
       if (a) {
@@ -513,6 +521,12 @@ export class Actors {
   calm = false;
   /** R0585: set by the frame governor; hides the ambient critters first. */
   shedAmbient = false;
+  /**
+   * Round 3: the frame governor's CPU step 5 sets this; a Nubbin whose rig it calls light
+   * (drawn as a stand-in or an impostor) is updated every other frame, half of them each frame.
+   */
+  thin: ((root: THREE.Object3D) => boolean) | null = null;
+  private thinTick = 0;
   /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
   sigFx: SignatureFx | null = null;
   /** LOOK-21 (lane E r10): the crying Nubbins' tear streams, set by the scene. */
@@ -662,7 +676,7 @@ export class Actors {
       actor.shell = this.kit.shell(n);
       this.group.add(actor.shell);
     } else {
-      actor.look = nubbinLook(n);
+      actor.look = this.looks.look(n);
       this.tryRig(actor);
     }
     this.nubbins.set(n.id, actor);
@@ -671,7 +685,7 @@ export class Actors {
 
   /** What a Nubbin is drawn as: its shell (by family, colour and cocoon kind) or its look. */
   private wantKey(n: Nubbin): string {
-    return n.stage === 'egg' || n.stage === 'cocoon' ? shellKey(n) : nubbinLook(n).key;
+    return n.stage === 'egg' || n.stage === 'cocoon' ? shellKey(n) : this.looks.look(n).key;
   }
 
   /** A stand-in sized to a look: a low, warm shimmer on the grass (see `ItemKit.stand`). */
@@ -1064,6 +1078,7 @@ export class Actors {
     const t = nowMs / 1000;
     const keeper = world.keeper;
     this.world = world;
+    this.looks.frame(world);
     noteJumpToyWorld(world, this.calm);
     this.heldRing.update(world, nowMs, this.calm, this.ground);
     this.firstRing.update(world, nowMs, this.calm, this.ground);
@@ -1094,9 +1109,13 @@ export class Actors {
     // only the party comes along, as in the pixel view (the rest stay in the Grove).
     const away = this.location.startsWith('visit:');
     const live = new Set<string>();
+    const thin = this.thin;
+    let thinIx = this.thinTick++;
     for (const n of this.shownNubbins(world)) {
       live.add(n.id);
       const a = this.ensureNubbin(n);
+      // Round 3, under load only: a far one (a stand-in or impostor) keeps last frame's pose.
+      if (thin && a.rig && !a.squash && !a.revealYaw && thin(a.rig.group) && thinIx++ & 1) continue;
       this.unsquash(a);
       if (a.revealYaw && a.rig) {
         a.rig.group.rotation.y -= a.revealYaw;
@@ -1288,7 +1307,12 @@ export class Actors {
                 : this.glanceOf(n, world, nowMs);
         a.rig.faceOverride = ph?.face ?? null;
         if (n.behavior.state === 'pet' && near) petted = true;
-        this.dresser.update(a.rig, n);
+        // Round 5: dressing reads only the Nubbin and the rainbow step, like its look.
+        if (a.dressStamp !== this.looks.stamp || a.dressRig !== a.rig) {
+          this.dresser.update(a.rig, n);
+          a.dressStamp = this.looks.stamp;
+          a.dressRig = a.rig;
+        }
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         if (hm) heldSwing(a.rig, hm, t);
         if (hs) heldStyleSwing(a.rig, hs, t, this.calm);
@@ -1477,6 +1501,7 @@ export class Actors {
     }
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
+    this.looks.prune(live);
     this.glow.keep(live);
     this.bondGlow.keep(live);
     this.rarityGlow.keep(live);

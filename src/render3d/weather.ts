@@ -1,8 +1,9 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import { systemReducedMotion } from '../platform/motion';
 import * as THREE from 'three';
 import type { Daylight } from '../render/daylight';
 import { GROVE3D } from '../config/tuning';
-import type { Location, Vec2, WeatherKind, World } from '../sim/types';
+import type { Location, Vec2, WeatherKind } from '../sim/types';
 import { FallingLeaves } from './leaves';
 import { QuadCloud } from './quad-particles';
 import { groveHeight } from './terrain';
@@ -138,7 +139,7 @@ export class GroveWeather {
   }
 
   update(
-    world: World,
+    world: ReadonlyWorld,
     trees: Iterable<Vec2>,
     dt: number,
     t: number,

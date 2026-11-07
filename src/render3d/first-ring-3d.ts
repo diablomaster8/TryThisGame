@@ -1,6 +1,6 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
-import type { World } from '../sim/types';
 
 /** R0448: the Full 3D pulsing ring on the first loop's target, one small mesh. */
 export class FirstRing3D {
@@ -25,7 +25,7 @@ export class FirstRing3D {
   }
 
   update(
-    world: World,
+    world: ReadonlyWorld,
     nowMs: number,
     calm: boolean,
     ground: (x: number, z: number) => number,

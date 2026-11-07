@@ -5,8 +5,9 @@
  * From chapter 12 on it stays tied, a quiet callback. Derived from the clock and the
  * campaign, so it needs no save field. Pure sim: no DOM, randomness only from the Rng given.
  */
+import type { ReadonlyWorld } from './readonly';
 import { BYTE_LACE_BARKS } from '../content/barks';
-import { FUN_R10 } from '../config/tuning-fun-r10';
+import { FUN_R10 } from '../config/tuning-more/fun-keeper-gags';
 import { storyDay } from './side-rule-kit';
 import type { Rng } from './rng';
 import { STORY } from '../config/tuning';
@@ -16,7 +17,7 @@ import type { Npc, SimEvent, Vec2, World } from './types';
 export type LaceState = 'tied' | 'untied' | 'kept';
 
 /** Byte's lace now: `kept` is tied for good (chapter 12 on). */
-export function byteLace(world: World): LaceState {
+export function byteLace(world: ReadonlyWorld): LaceState {
   const c = world.campaign;
   if (!c || c.storyline || c.chapter < 4) return 'tied';
   if (c.chapter >= 12) return 'kept';
@@ -25,11 +26,11 @@ export function byteLace(world: World): LaceState {
 }
 
 /** Whether the lace is undone (what a renderer draws). */
-export function byteLaceUntied(world: World): boolean {
+export function byteLaceUntied(world: ReadonlyWorld): boolean {
   return byteLace(world) === 'untied';
 }
 
-const laceNoted = new WeakMap<World, number>();
+const laceNoted = new WeakMap<ReadonlyWorld, number>();
 
 /**
  * A lace line for a tap on Byte, or null for an everyday bark. Before Lantern Night there
@@ -69,7 +70,7 @@ export function laceVisitSpot(world: World, npc: Npc): Vec2 | null {
   return { x: at.x + 1.1, z: at.z + 0.4 };
 }
 
-const visitSaid = new WeakMap<World, number>();
+const visitSaid = new WeakMap<ReadonlyWorld, number>();
 
 /** On arrival at Moss: one lace line in the routine bubble, once a day. True when handled. */
 export function laceVisitArrived(world: World, npc: Npc, events: SimEvent[]): boolean {

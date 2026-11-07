@@ -1,5 +1,5 @@
 import { RIDE_TEXT } from '../config/strings-r12d1';
-import { RIDE_SCENE as RIDE } from '../config/tuning-r12d1';
+import { RIDE_SCENE as RIDE } from '../config/tuning-more/world-region-moves';
 
 /**
  * WORLD-69 (R12 lane D): a ride between distant places as a short side-on scene, the same in

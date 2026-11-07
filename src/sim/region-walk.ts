@@ -12,6 +12,7 @@
  *   raises `exitReached` and the game plays the iris, then sends `travel` at the dark moment.
  * Nubbins stay home in the Grove and keep simulating; the region holds only the Keeper.
  */
+import type { ReadonlyWorld } from './readonly';
 import { REGIONS, type RegionExit, type RegionId } from '../config/regions';
 import {
   cellAt,
@@ -28,7 +29,10 @@ import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
-import { REGION_WALK } from '../config/tuning-r11d1';
+import { slideOnSnow, stopSlide } from './snow-slide';
+import { caveWayOf } from './cave-entrances';
+import { holdInSlice } from './edu-region-bounds';
+import { REGION_WALK } from '../config/tuning-more/world-region-engine';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
 import { GLIDE } from '../config/tuning-move';
@@ -207,7 +211,7 @@ interface Plan {
   best: number;
   bestMs: number;
 }
-const plans = new WeakMap<World, Plan>();
+const plans = new WeakMap<ReadonlyWorld, Plan>();
 
 function cellCentre(l: RegionLayout, i: number): Vec2 {
   const ix = i % l.gw;
@@ -283,6 +287,7 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
   const id = drawnRegion(world);
   const l = id ? layoutOf(id) : null;
   if (!l || !id) return;
+  holdInSlice(world, id);
   if (regionFlightStep(world, l, id, dtMs)) return;
   const k = world.keeper;
   const walk = (x: number, z: number) => standsIn(l, x, z, r);
@@ -351,6 +356,14 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
       );
     }
   }
+  // R0118: on the ridge's snow the stick slides (eased velocity, coasts on after release).
+  const stick = k.input.x !== 0 || k.input.z !== 0;
+  if (stick || !k.moveTarget) {
+    const sl = slideOnSnow(world, id, stick, dx, dz, speed, dt);
+    dx = sl.dx;
+    dz = sl.dz;
+    speed = sl.speed;
+  } else stopSlide(world);
   const fx = k.pos.x;
   const fz = k.pos.z;
   if (speed > 0) {
@@ -386,12 +399,13 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
   // R11 d7 (WORLD-36): a terraced region carries the Keeper up its ramps; R12: and jumps.
   stepRegionVertical(world, l, id, dt, events, walk);
   regionFlightTrigger(world, id, fx, fz);
+  holdInSlice(world, id);
 }
 
 // ---------------------------------------------------------------- borders
 
 /** The region whose exits the Keeper's position is read against. */
-function hereRegion(world: World): RegionId | null {
+function hereRegion(world: ReadonlyWorld): RegionId | null {
   if (world.location === 'grove') return 'grove';
   return drawnRegion(world);
 }
@@ -403,6 +417,11 @@ function inRect(e: RegionExit, p: Vec2): boolean {
 }
 
 /** Whether an exit leads somewhere drawn that walking into it may take (not the lane or the Hollow). */
+/** R0115: the ways into a small cave are walked into too (the renderers draw no arch or region for them). */
+export function crossableExit(e: RegionExit): boolean {
+  return walkableExit(e) || caveWayOf(e.id) !== null;
+}
+
 export function walkableExit(e: RegionExit): boolean {
   return e.to === 'grove' || !!REGION_SPECS[e.to];
 }
@@ -423,7 +442,7 @@ export function exitLocked(world: World, e: RegionExit): 'locked' | null {
 }
 
 /** The exits of the current region that walking can take, for the renderers' approach checks. */
-export function walkExitsHere(world: World): readonly RegionExit[] {
+export function walkExitsHere(world: ReadonlyWorld): readonly RegionExit[] {
   const here = hereRegion(world);
   return here ? REGIONS[here].exits.filter(walkableExit) : [];
 }
@@ -440,7 +459,7 @@ export function seamlessOffset(e: RegionExit): Vec2 {
   };
 }
 
-const inside = new WeakMap<World, string | null>();
+const inside = new WeakMap<ReadonlyWorld, string | null>();
 
 /**
  * After the Keeper's step (live play only): stepping into a walkable exit's box raises it once.
@@ -452,7 +471,7 @@ export function crossExits(world: World, events: SimEvent[]): RegionExit | null 
   const here = hereRegion(world);
   if (!here) return null;
   const k = world.keeper;
-  const hit = REGIONS[here].exits.find((e) => walkableExit(e) && inRect(e, k.pos)) ?? null;
+  const hit = REGIONS[here].exits.find((e) => crossableExit(e) && inRect(e, k.pos)) ?? null;
   const was = inside.get(world);
   inside.set(world, hit ? hit.id : null);
   if (!hit || was === hit.id || was === undefined || world.ride) return null;

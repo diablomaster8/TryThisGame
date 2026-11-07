@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import type { Quest, Reward } from '../content/types';
 import { HAT_IDS } from './shop';
 import { grantPackReward } from './pack-rewards';
@@ -13,7 +14,7 @@ import type { CampaignState, SimEvent, World } from './types';
 
 const HATS: readonly string[] = HAT_IDS;
 
-export function hasKeepsake(world: World, id: string): boolean {
+export function hasKeepsake(world: ReadonlyWorld, id: string): boolean {
   return world.inventory.keepsakes.includes(id);
 }
 

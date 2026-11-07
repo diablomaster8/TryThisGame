@@ -1,7 +1,8 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import type { RegionId } from '../config/regions';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
-import { REGION_BORDER, REGION_CACHE } from '../config/tuning-r11d1';
+import { REGION_BORDER, REGION_CACHE } from '../config/tuning-more/world-region-engine';
 import { WORLD_STREAM } from '../config/tuning-world';
 import { ActiveChunks, ChunkLRU, chunkKey, type ChunkCoord } from '../render/chunks';
 import {
@@ -12,7 +13,7 @@ import {
   seamlessOffset,
   walkExitsHere,
 } from '../sim/region-walk';
-import type { Vec2, World } from '../sim/types';
+import type { Vec2 } from '../sim/types';
 import { secondKeeperApart, withSecondKeeper } from '../render/coop-chunks';
 
 /**
@@ -42,7 +43,7 @@ export interface Region3d {
   /** Per-frame motion (the dapple's drift), from the scene's clock in seconds. */
   tick(t: number, still: boolean, cam: THREE.Vector3, keeper: Vec2): void;
   /** R11 d7: read the world for what changes with it (a door that thaws, lanterns lit). */
-  sync?(world: World): void;
+  sync?(world: ReadonlyWorld): void;
   /**
    * R11 d7: drawn only as a seamless neighbour's edge (true) or as the region the Keeper is in:
    * an edge leaves out its small props, its shadows and its finer dressing (fewer draws).
@@ -193,7 +194,7 @@ export class RegionHost3d {
   }
 
   /** Call once a frame: what the Keeper's place needs, built, shown, filled or released. */
-  frame(world: World, keeper: Vec2, t: number, still: boolean, cam: THREE.Vector3): void {
+  frame(world: ReadonlyWorld, keeper: Vec2, t: number, still: boolean, cam: THREE.Vector3): void {
     const here = drawnRegion(world);
     const home = world.location === 'grove';
     const want = new Map<RegionId, { at: Vec2; off: Vec2 | null; warm: boolean }>();

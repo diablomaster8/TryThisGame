@@ -1,5 +1,5 @@
 import { ACTS } from '../../config/dungeon-acts';
-import { TILE_LOOKS, type TileLook } from '../../config/tuning-r10b1';
+import { TILE_LOOKS, type TileLook } from '../../config/tuning-more/dungeon-tour-tiles';
 import type { Floor } from '../../sim/dungeon';
 import { openSky } from '../cave-bands';
 import { fbm, ridged, vnoise } from './noise';

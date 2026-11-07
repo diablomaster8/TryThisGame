@@ -60,7 +60,7 @@ describe('serpent plan', () => {
   });
 });
 
-it.skipIf(!process.env.SERPENT_SHEET)('writes a serpent contact sheet', () => {
+if (process.env.SERPENT_SHEET) it('writes a serpent contact sheet', () => {
   const angles = ['front', 'frontQuarter', 'side', 'backQuarter', 'back'] as const;
   const scale = 3;
   const cell = 34 * scale;

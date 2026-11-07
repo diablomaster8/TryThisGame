@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { REGIONS } from '../../src/config/regions';
-import { BIOME_BEDS } from '../../src/config/tuning-r9d4';
+import { BIOME_BEDS } from '../../src/config/tuning-more/ui-world-hints';
 import { biomeBedNow, setBiomeBed } from '../../src/platform/biome-beds';
 
 describe('biome sound beds (R0139)', () => {

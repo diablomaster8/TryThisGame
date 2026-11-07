@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { FERN_STONE } from '../config/tuning';
 import type { SimEvent, World } from './types';
 
@@ -9,7 +10,7 @@ import type { SimEvent, World } from './types';
  */
 
 /** Stones in the cairn now: the chapter number, capped; none outside Hazel's campaign. */
-export function fernStones(world: World): number {
+export function fernStones(world: ReadonlyWorld): number {
   const c = world.campaign;
   if (!c || c.storyline || c.chapter < 1 || world.location !== 'grove') return 0;
   return Math.min(FERN_STONE.maxStones, c.chapter);

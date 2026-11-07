@@ -7,12 +7,12 @@
  * R0562 (round 12): rain puddles lie flat on the ground as planes. R0585: when the frame
  * governor is straining, the living critters are dropped before anything else.
  */
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { ambientDraws } from '../render/ambient-look';
 import type { FrameRect, SpriteSheet } from '../render/sprites/atlas';
 import { ambientKey, buildAmbientSheet } from '../render/sprites/ambient-art';
 import { jamsOf } from '../sim/jam';
-import type { World } from '../sim/types';
 
 export class Ambient3D {
   private sheet: SpriteSheet | null = null;
@@ -73,7 +73,13 @@ export class Ambient3D {
    * Once a frame: place a sprite for every critter, hide the rest. `shed` (the governor is
    * straining) drops the living critters first and keeps the snow figures and puddles.
    */
-  frame(world: World, inGrove: boolean, nowMs: number, reduce: boolean, shed = false): void {
+  frame(
+    world: ReadonlyWorld,
+    inGrove: boolean,
+    nowMs: number,
+    reduce: boolean,
+    shed = false,
+  ): void {
     const rows = inGrove ? ambientDraws(world, nowMs, reduce) : [];
     let used = 0;
     let flatUsed = 0;

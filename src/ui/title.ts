@@ -1,7 +1,7 @@
 import { SLOT_LINES_TEXT } from '../config/strings-camp';
 import { confirmModal } from './confirm';
 import { TRASH_TEXT } from '../config/strings-r9d3';
-import { SLOT_TRASH } from '../config/tuning-r9d3';
+import { SLOT_TRASH } from '../config/tuning-more/ui-shake-hint';
 import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../platform/slot-trash';
 import { titleGate } from './title-gate'; /* Lane E r9 */
 import { showFirstNubbin } from './kids-portrait'; /* Lane E r10 */
@@ -63,6 +63,7 @@ import '../camp-r11.css';
 import { TITLE_R13_TEXT } from '../config/strings-r13d3';
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
 import { continueSlot } from './install-hint';
+import { dropSculptWorkers, spawnSculptWorkers } from '../render3d/sculpt-spawn';
 import { unifiedActive } from '../platform/unified-keys';
 import {
   FIXED_PROFILES,
@@ -212,6 +213,7 @@ export function showTitle(
   graphicsSel.value = readGraphicsPref();
   graphicsSel.addEventListener('change', () => {
     writeGraphicsPref(graphicsSel.value === '3d' ? '3d' : 'pixel');
+    (graphicsSel.value === '3d' ? spawnSculptWorkers : dropSculptWorkers)(); // see sculpt-spawn.ts
   });
   graphicsRow.append(el('strong', undefined, UI_TEXT.graphicsLabel), graphicsSel);
   card.appendChild(graphicsRow);

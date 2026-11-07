@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { CG4_C4, CG_A, GROVE3D } from '../config/tuning';
-import type { Surface } from './art/aaa-kit';
+import type { AaaSurface } from './art/aaa-kit';
 import { toonShader } from './art/creatures';
 import { addHull } from './toon-outline';
 
@@ -20,7 +20,7 @@ import { addHull } from './toon-outline';
 
 /** A toon-lit painted surface; one program for every building material. */
 export function buildingMaterial(
-  map: Surface,
+  map: AaaSurface,
   o: { color?: string; normal?: number } = {},
 ): THREE.MeshStandardMaterial {
   const m = new THREE.MeshStandardMaterial({
@@ -119,6 +119,24 @@ export function syncOcclude(): void {
   flatInto(OCCLUDE_FLAT.boxMax.value, OCCLUDE.boxMax.value, 3);
   flatInto(OCCLUDE_FLAT.hideMin.value, OCCLUDE.hideMin.value, 3);
   flatInto(OCCLUDE_FLAT.hideMax.value, OCCLUDE.hideMax.value, 3);
+}
+
+/**
+ * Everything the hide-aware depth program (`hideDepthMaterial`) reads, appended to `out`: the
+ * shadow cache (`shadow-cache.ts`) redraws its static casters when any of it changes.
+ */
+export function occludeDepthKey(out: number[]): void {
+  syncOcclude();
+  out.push(OCCLUDE.on.value, OCCLUDE.hides.value, OCCLUDE.boxes.value);
+  out.push(OCCLUDE.footprint.value.x, OCCLUDE.footprint.value.y);
+  for (const v of OCCLUDE.hideFade.value) out.push(v);
+  for (const a of [
+    OCCLUDE_FLAT.hideMin,
+    OCCLUDE_FLAT.hideMax,
+    OCCLUDE_FLAT.boxMin,
+    OCCLUDE_FLAT.boxMax,
+  ])
+    for (const v of a.value) out.push(v);
 }
 
 const GROUND_YES = { value: 1 };

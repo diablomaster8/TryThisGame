@@ -14,7 +14,7 @@
  *   DOM nodes               within 5 %
  *   live intervals, rAF loops: back to the baseline (+1); live listeners on the page within 5 %
  * Exits 1 with a table when anything is over. Env: E2E_URL (default http://127.0.0.1:4173), MODE=px|3d
- * (default px), VIEW=phone|desktop (default phone, 375x812), CYCLES (10), WARM_MIN (4), WARM_MAX (20),
+ * (default px), VIEW=phone|desktop (default phone, 375x812), CYCLES (10), WARM_MIN (4), WARM_MAX (20), HOLLOW_WARM (12 Hollow-only trips first),
  * E2E_BROWSER (path to a Chromium/Edge), PLAYWRIGHT_CORE (module path). Independent of soak.cjs. */
 const BASE = process.env.E2E_URL || 'http://127.0.0.1:4173';
 const MODE = process.env.MODE === '3d' ? '3d' : 'px';
@@ -22,6 +22,7 @@ const VIEW = process.env.VIEW === 'desktop' ? 'desktop' : 'phone';
 const CYCLES = Number(process.env.CYCLES || 10);
 const WARM_MIN = Number(process.env.WARM_MIN || 4);
 const WARM_MAX = Number(process.env.WARM_MAX || 20);
+const HOLLOW_WARM = Number(process.env.HOLLOW_WARM || 12);
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const px = MODE === 'px';
@@ -357,6 +358,16 @@ const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
     await page.evaluate(() => document.querySelector('.debug')?.setAttribute('hidden', ''));
     await page.keyboard.press('Shift'); // the first key press lets audio start, as a player's would
     await sleep(px ? 1000 : 3000);
+
+    // The Hollow keeps each floor kind's pieces for its next visit (a bounded cache: the GL geometry count
+    // settles near 95 in Pixel), but adds them only on the visits that roll a new kind, so quiet laps alone
+    // can end the warm-up early. HOLLOW_WARM extra Hollow trips fill it first.
+    const hollow = SCENES.find(([n]) => n === 'hollow');
+    for (let i = 0; i < HOLLOW_WARM; i++) {
+      await hollow[1](page);
+      await hollow[2](page);
+      await clearDialogue(page);
+    }
 
     // Warm-up: laps until three in a row are quiet (heap up under 2 %, GL geometries and textures up by 1 at most).
     let prev = await measure(page, cdp);

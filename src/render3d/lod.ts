@@ -72,6 +72,12 @@ export class CreatureLod {
   private readonly changed = new Set<THREE.Object3D>();
   /** Rigs seen this frame. */
   private readonly seen = new Set<THREE.Object3D>();
+  /**
+   * Round 2: rigs whose bounds, grown by their longest shadow, are outside the view this frame.
+   * Nothing of them can be drawn (they cast no shadow either), so the scene leaves them out of
+   * the frame's matrix update and culling walk (`Grove3dScene.render`).
+   */
+  readonly dormant: THREE.Object3D[] = [];
   /** Creatures casting and hulls drawn after the last update, for the debug readout. */
   casting = 0;
   hulls = 0;
@@ -92,6 +98,14 @@ export class CreatureLod {
     state(key: string, res: number): 'ready' | 'pending' | 'none';
     surface(key: string, part: THREE.BufferGeometry): THREE.BufferGeometry | null;
   } | null = null;
+  /**
+   * Round 3: the camera distance past which a rig is drawn as its stand-in. The tuning's
+   * `proxyFrom` at full quality; the frame governor's CPU step 4 pulls it in (`Grove3dScene`),
+   * and a race sets it to keep only its nearest runners whole (`race-3d.ts`).
+   */
+  proxyFrom: number = WORLD_LOD.creature.proxyFrom;
+  /** Round 3: rigs drawn as stand-ins whatever their distance (a race's far runners). */
+  readonly forced = new Set<THREE.Object3D>();
   /** Stand-ins built this frame. */
   private built = 0;
   /** Round 5: full-detail triangles allowed a frame (the scene sets it by device tier). */
@@ -101,6 +115,12 @@ export class CreatureLod {
   private readonly toFar = new Set<THREE.Object3D>();
   cappedCount = 0;
   private readonly order: Array<[THREE.Object3D, number]> = [];
+
+  /** Round 3: drawn as a stand-in or an impostor after the last update (light work). */
+  lite(root: THREE.Object3D): boolean {
+    const s = this.rigs.get(root);
+    return !!s && (s.proxied || (this.impostors?.has(root) ?? false));
+  }
 
   private state(root: THREE.Object3D): RigState {
     let s = this.rigs.get(root);
@@ -146,6 +166,7 @@ export class CreatureLod {
       : 0;
     const cfg = WORLD_LOD.creature;
     this.seen.clear();
+    this.dormant.length = 0;
     this.casting = this.hulls = this.inView = this.proxied = this.far = 0;
     this.built = 0;
     this.capFull(roots, camera);
@@ -159,6 +180,7 @@ export class CreatureLod {
       const near = frustum.intersectsSphere(sphere);
       sphere.radius = r;
       const onScreen = near && frustum.intersectsSphere(sphere);
+      if (!near) this.dormant.push(root);
       if (onScreen) this.inView++;
       // On-screen height in CSS pixels, from the distance along the view.
       const depth = Math.max(0.1, at.distanceTo(camera.position));
@@ -236,7 +258,7 @@ export class CreatureLod {
     let used = 0;
     for (const [root, depth] of this.order) {
       const s = this.rigs.get(root)!;
-      const near = depth <= cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+      const near = depth <= this.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
       const stand = proxyTris(root, depth);
       const cost = near ? s.tris : stand;
       if (used === 0 || used + cost <= this.fullTrisCap) {
@@ -272,7 +294,9 @@ export class CreatureLod {
   private proxyFor(root: THREE.Object3D, depth: number, s: RigState): CreatureProxy | null {
     const cfg = WORLD_LOD.creature;
     const want =
-      this.capped.has(root) || depth > cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+      this.capped.has(root) ||
+      this.forced.has(root) ||
+      depth > this.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
     let p = proxies.get(root);
     if (p === undefined) {
       const key = root.userData.lookKey as string | undefined;

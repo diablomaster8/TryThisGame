@@ -1,6 +1,7 @@
+import type { ReadonlyWorld } from './readonly';
 import { RIDGE_SNOW_Y, RIDGE_SPEC } from '../config/region-ridge';
 import { terraceHeight } from '../config/region-layout';
-import { SNOWBALL } from '../config/tuning-r13d1';
+import { SNOWBALL } from '../config/tuning-more/world-region-content';
 import { drawnRegion } from './region-walk';
 import type { World } from './types';
 
@@ -19,11 +20,11 @@ export interface Snowball {
   age: number;
 }
 
-const live = new WeakMap<World, Snowball[]>();
-const lastThrow = new WeakMap<World, number>();
+const live = new WeakMap<ReadonlyWorld, Snowball[]>();
+const lastThrow = new WeakMap<ReadonlyWorld, number>();
 
 /** The balls in the air (stable array; the renderers read it each frame). */
-export function snowballs(world: World): readonly Snowball[] {
+export function snowballs(world: ReadonlyWorld): readonly Snowball[] {
   return live.get(world) ?? [];
 }
 

@@ -1,5 +1,5 @@
 import { CanvasTexture, NearestFilter, RepeatWrapping, SRGBColorSpace } from 'three';
-import { CG2_S } from '../config/tuning-s';
+import { CG2_S } from '../config/tuning-more/campaign2-white-room';
 import type { SpriteSheet } from './sprites/atlas';
 import { sheetFromImage } from './sprites/atlas';
 

@@ -1,9 +1,10 @@
+import type { ReadonlyWorld } from '../sim/readonly';
 import { GROVE, MARK_FIT, READ3D, STAGE4 } from '../config/tuning';
 import { hillHeight } from '../sim/terrain';
 import { fitTiers, type FitPoint } from './stage-fit';
 import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
-import { E_STAGES } from '../config/tuning-e';
+import { E_STAGES } from '../config/tuning-more/campaign-people-lanterns';
 import { markAt, markSetFor, PLACE_KEEPER, placeSet } from '../config/stage-marks';
 import { syncFloorMarks } from './floor-marks';
 import {
@@ -24,7 +25,7 @@ import { walkOnRoute } from '../sim/scene-cast';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
 import { regionCastSpots, regionSeats, type RegionSpot } from './region-stage';
 import { walkLength, fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
-import { CG4_A2 } from '../config/tuning-a2';
+import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
 import { PKG_A2_FROM } from '../config/scene-stages-pkg-a2';
 
 /**
@@ -145,7 +146,7 @@ export interface StageFlags {
 }
 
 /** Answer the dressings' questions from the world and the current stage. Never writes. */
-export function stageFlags(world: World, stage: SceneStage | null): StageFlags {
+export function stageFlags(world: ReadonlyWorld, stage: SceneStage | null): StageFlags {
   // Lane C r10 agent A (R0605): inside a questline's region the dressings answer for that line
   // (its set, its chapter), and back in the Grove for Hazel's again.
   const c = regionLine(world) ?? world.campaign;

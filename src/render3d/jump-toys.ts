@@ -1,7 +1,8 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { JUMP_TOYS } from '../config/tuning-move';
 import { springBouncedAt } from '../sim/decorate';
-import type { DecorKind, World } from '../sim/types';
+import type { DecorKind } from '../sim/types';
 import { shroomSquash } from '../render/scenery-jump';
 
 /**
@@ -11,10 +12,10 @@ import { shroomSquash } from '../render/scenery-jump';
  * cap reads it just before it draws to find its own bounce.
  */
 
-let live: { world: World; calm: boolean } | null = null;
+let live: { world: ReadonlyWorld; calm: boolean } | null = null;
 
 /** Called once a frame by the actors with the world being drawn. */
-export function noteJumpToyWorld(world: World, calm: boolean): void {
+export function noteJumpToyWorld(world: ReadonlyWorld, calm: boolean): void {
   live = { world, calm };
 }
 

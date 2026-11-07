@@ -8,7 +8,7 @@
 import { frameKey } from '../render/sprites/animations';
 import type { Nubbin } from '../sim/types';
 import { slotKey, slotKeyFor, type SaveSlot } from '../platform/storage';
-import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
+import { KIDS_R10_TUNING } from '../config/tuning-more/kids-screens';
 import { el } from './dom';
 // R0446 (r12-d3): the save codec and the sprite sheets reach the whole sim, so they load when
 // the tile is drawn, not with the title.

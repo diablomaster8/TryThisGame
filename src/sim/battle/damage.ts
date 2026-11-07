@@ -1,5 +1,5 @@
 import { BATTLE } from '../../config/tuning-battle';
-import { R10B4 } from '../../config/tuning-r10b4';
+import { R10B4 } from '../../config/tuning-more/dungeon-champions-wires';
 import type { Rng } from '../rng';
 import { moodMult } from './status';
 import { alignMult, typeMult } from './types-chart';

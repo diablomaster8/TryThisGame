@@ -5,6 +5,7 @@
  * drawn region's is snapped to open ground where its beacon stands in view (R12 d2). The camera
  * itself is the "Take photo" button, which shows while `standingInPhotoSpot` is true.
  */
+import type { ReadonlyWorld } from './readonly';
 import { PHOTO_SPOTS } from '../config/region-extras-r11d6';
 import { PHOTO_NEAR, type DrawnId } from '../config/region-content-r12d2';
 import type { RegionId } from '../config/regions';
@@ -13,7 +14,7 @@ import { spotNear } from './region-spots';
 import type { SimEvent, World } from './types';
 
 export const PHOTO_SPOT_RADIUS = 1.6;
-const inside = new WeakMap<World, boolean>();
+const inside = new WeakMap<ReadonlyWorld, boolean>();
 const placed = new Map<RegionId, { x: number; z: number } | null>();
 
 /** Where a region's photo frame stands (region-local), or null when it has none. */
@@ -26,7 +27,7 @@ export function photoSpotAt(region: RegionId): { x: number; z: number } | null {
 }
 
 /** The region whose frame is on show: the Grove, or the drawn region the Keeper is in. */
-function hereRegion(world: Pick<World, 'location'>): RegionId | null {
+function hereRegion(world: Pick<ReadonlyWorld, 'location'>): RegionId | null {
   return world.location === 'grove' ? 'grove' : drawnRegionOf(world.location);
 }
 

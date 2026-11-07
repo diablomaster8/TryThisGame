@@ -358,6 +358,18 @@ interface Worn {
   groups: Group[];
 }
 
+/**
+ * Round 4: whether a registry wearable has a 3D form. `registryItem` builds the item's pieces
+ * (arrays, colour lookups) and `Dresser.update` asked it every frame for every creature only
+ * to test this; the registry is fixed data, so the answer is kept per id.
+ */
+const hasItem = new Map<string, boolean>();
+function hasRegistryItem(id: string): boolean {
+  let v = hasItem.get(id);
+  if (v === undefined) hasItem.set(id, (v = registryItem(id) !== null));
+  return v;
+}
+
 export class Dresser {
   private readonly geos = new Map<GeoKind, BufferGeometry>();
   private readonly mats = new Map<number, MeshStandardMaterial>();
@@ -371,8 +383,7 @@ export class Dresser {
     if (hat?.startsWith('look-') && n.species !== 'chao') hat = null;
     // A child with a character look already wears the look's whole figure.
     if (hat?.startsWith('look-') && n.stage !== 'adult') hat = null;
-    const item = hat ? (HATS[hat] ?? registryItem(hat)) : null;
-    if (hat && !item) {
+    if (hat && !HATS[hat] && !hasRegistryItem(hat)) {
       stubOnce(`hat:${hat}`, 'no 3D hat; drawn bare');
       hat = null;
     }
@@ -380,7 +391,7 @@ export class Dresser {
     const step = rainbowStep();
     const dye = hat ? dyeToken(n.hatDye, step) : null;
     // R0400: face, neck, back and body items, each on its own anchor.
-    const extras = dressable ? wornExtras(n).filter((id) => registryItem(id)) : [];
+    const extras = dressable ? wornExtras(n).filter(hasRegistryItem) : [];
     const wear = extras.join('+');
     const scarf = dressable ? dyeToken(n.scarf, step) : null;
     const glasses = dressable && !!n.glasses;
@@ -407,6 +418,7 @@ export class Dresser {
     const at = (ud.dressAt ??= anchorsFor(ud.lookKey ?? 'nubbin'));
     const groups: Group[] = [];
     const worn: { item: Item; dye: string | null }[] = [];
+    const item = hat ? (HATS[hat] ?? registryItem(hat)) : null;
     if (hat && item) worn.push({ item, dye });
     for (const id of extras) worn.push({ item: registryItem(id)!, dye: null });
     // R0413: a costume's head parts sit on the dome like a hat.

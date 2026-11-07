@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { INPUT, THROW } from '../../src/config/tuning';
-import { POINTER_INPUT } from '../../src/config/tuning-r9d3';
+import { POINTER_INPUT } from '../../src/config/tuning-more/ui-shake-hint';
 import { GameInput, type InputHost, type Placing } from '../../src/input/game-input';
 import type { PickHit } from '../../src/render/picker';
 import type { Command } from '../../src/sim/types';
@@ -187,6 +187,19 @@ describe('game input: drags, throws and long presses (TECH-43)', () => {
     expect(release.vel.x).toBeGreaterThan(0);
     expect(Math.hypot(release.vel.x, release.vel.z)).toBeLessThanOrEqual(THROW.maxSpeed + 1e-9);
     expect(surface.style.cursor).toBe('');
+  });
+
+  it('shakes what is held when the drag swings quickly to and fro', () => {
+    hit = nubbin();
+    surface.dispatchEvent(pointer('pointerdown', { x: 100 }));
+    let x = 100;
+    for (let i = 0; i < 40 && !kinds().includes('shakeHeld'); i++) {
+      vi.advanceTimersByTime(16);
+      x += (Math.floor(i / 3) % 2 === 0 ? 1 : -1) * 14;
+      surface.dispatchEvent(pointer('pointermove', { x }));
+    }
+    expect(kinds()).toContain('shakeHeld');
+    surface.dispatchEvent(pointer('pointerup', { x }));
   });
 
   it('puts a held Nubbin down gently when a second finger lands', () => {

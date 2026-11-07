@@ -14,29 +14,45 @@ import { handlers as edu } from './edu';
 import { handlers as keeper } from './keeper';
 import { handlers as race } from './race';
 import { handlers as shop } from './shop';
-import type { Handlers } from './types';
 
 export type { Handlers } from './types';
 
-function merge(...maps: Handlers[]): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
+/** Throws if two modules claim the same command kind (a spread would silently let one win). */
+function assertDisjoint(...maps: object[]): void {
+  const seen = new Set<string>();
   for (const map of maps) {
-    for (const [kind, fn] of Object.entries(map)) {
-      if (kind in out) throw new Error(`Two handlers for command "${kind}"`);
-      out[kind] = fn;
+    for (const kind of Object.keys(map)) {
+      if (seen.has(kind)) throw new Error(`Two handlers for command "${kind}"`);
+      seen.add(kind);
     }
   }
-  return out;
 }
 
-const HANDLERS = merge(care, keeper, shop, race, campaign, dungeon, decor, debug, edu);
+assertDisjoint(care, keeper, shop, race, campaign, dungeon, decor, debug, edu);
+
+/**
+ * Compile-time exhaustiveness: `satisfies` fails tsc, naming the kind, when any member of the
+ * `Command` union has no handler in any module.
+ */
+const HANDLERS = {
+  ...care,
+  ...keeper,
+  ...shop,
+  ...race,
+  ...campaign,
+  ...dungeon,
+  ...decor,
+  ...debug,
+  ...edu,
+} satisfies { [K in Command['kind']]: unknown };
 
 /** Every command kind a handler module owns. */
 export const HANDLED_KINDS: readonly string[] = Object.keys(HANDLERS);
 
 /** Run the domain handler for `cmd`; false when no module owns its kind. */
 export function runHandler(world: World, cmd: Command, events: SimEvent[]): boolean {
-  const fn = HANDLERS[cmd.kind] as ((w: World, c: Command, e: SimEvent[]) => void) | undefined;
+  const fn = (HANDLERS as Record<string, unknown>)[cmd.kind] as
+    ((w: World, c: Command, e: SimEvent[]) => void) | undefined;
   if (!fn) return false;
   fn(world, cmd, events);
   return true;

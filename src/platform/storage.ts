@@ -19,7 +19,7 @@ import {
   withEntry,
   type SlotIndex,
 } from './slot-index';
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import {
   belongsInIdb,
   dropLive,
@@ -464,7 +464,8 @@ function storySummary(
     if (flags && typeof flags === 'object')
       for (const k of C11_CHOICE_FLAGS) {
         const v = (flags as Record<string, unknown>)[k];
-        if (v !== undefined && choices[k] === undefined) choices[k] = String(v);
+        if (v !== undefined && choices[k] === undefined)
+          choices[k] = String(typeof v === 'number' && !Number.isFinite(v) ? null : v);
       }
   return { lines, questsDone, choices };
 }
@@ -472,7 +473,21 @@ function storySummary(
 /** Pure: a summary from a save's JSON, or null when it cannot be read. */
 export function summarize(json: string): SaveSummary | null {
   try {
-    const data = JSON.parse(json) as { savedAtWallMs?: unknown; world?: unknown };
+    return summarizeData(JSON.parse(json) as { savedAtWallMs?: unknown; world?: unknown });
+  } catch {
+    return null;
+  }
+}
+
+/** A number as it would come back from the save's JSON: finite, else absent (JSON's null). */
+const isJsonNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+
+/** Pure: the summary from the object `serialize` turns into JSON (no parse; hot/perf-leaks E4). */
+export function summarizeData(data: {
+  savedAtWallMs?: unknown;
+  world?: unknown;
+}): SaveSummary | null {
+  try {
     const w = (data.world ?? null) as Record<string, unknown> | null;
     if (!w || typeof w !== 'object') return null;
     const nubbins = Array.isArray(w.nubbins) ? (w.nubbins as Array<{ name?: unknown }>) : [];
@@ -490,19 +505,19 @@ export function summarize(json: string): SaveSummary | null {
       readerAge?: unknown;
     } | null;
     return {
-      savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
+      savedAtWallMs: isJsonNum(data.savedAtWallMs) ? data.savedAtWallMs : 0,
       nubbins: nubbins.length,
       names: nubbins
         .map((n) => (typeof n.name === 'string' ? n.name : ''))
         .filter((n) => n.length > 0)
         .slice(0, 3),
       trainer: typeof w.trainer === 'string' ? w.trainer : null,
-      chapter: campaign && typeof campaign.chapter === 'number' ? campaign.chapter : null,
+      chapter: campaign && isJsonNum(campaign.chapter) ? campaign.chapter : null,
       storyline: campaign && typeof campaign.storyline === 'string' ? campaign.storyline : null,
       ending: campaign && typeof campaign.ending === 'string' ? campaign.ending : null,
-      eduAge: edu && typeof edu.age === 'number' ? edu.age : null,
+      eduAge: edu && isJsonNum(edu.age) ? edu.age : null,
       eduBand: edu && typeof edu.band === 'string' ? edu.band : null,
-      playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
+      playMs: isJsonNum(w.timeMs) ? w.timeMs : 0,
       ...storySummary(w),
       ...labelOf(w),
       /* Lane E r9, R0696 */
@@ -512,7 +527,7 @@ export function summarize(json: string): SaveSummary | null {
       ...(edu && typeof edu.icon === 'string' ? { eduIcon: edu.icon } : {}),
       ...(edu && typeof edu.tagColour === 'string' ? { eduColour: edu.tagColour } : {}),
       /* Lane E r10, R0735 */
-      ...(edu && typeof edu.readerAge === 'number' ? { eduReaderAge: edu.readerAge } : {}),
+      ...(edu && isJsonNum(edu.readerAge) ? { eduReaderAge: edu.readerAge } : {}),
     };
   } catch {
     return null;
@@ -551,13 +566,17 @@ export function noteSlotLoaded(): number {
   return visiting ? 0 : noteUnifiedLoad(saveKey());
 }
 
-export function writeSave(json: string): boolean {
+/** The object a save's JSON was serialised from: `serialize`'s `{ savedAtWallMs, world }`. */
+export type SavedFile = { savedAtWallMs: number; world: unknown };
+
+/** Write the slot in play; `file` (what `json` was serialised from) spares parsing it back (E4). */
+export function writeSave(json: string, file?: SavedFile): boolean {
   try {
     // R0669: a visit never writes the Grove it looks at.
     if (visiting) return false;
     if (!putSlotJson(writeSlotKey(current), json)) return false;
-    mirrorWrite(mirrorKey(current), json);
-    indexWritten(current, json, true);
+    mirrorWrite(mirrorKey(current), json, file?.savedAtWallMs);
+    indexWritten(current, json, true, file);
     backupOnWrite(mirrorKey(current), json, Date.now());
     return true;
   } catch {
@@ -794,6 +813,24 @@ export function readGraphicsPref(): 'pixel' | '3d' {
   }
 }
 
+/**
+ * R0509 (TECH-67): a save written before v16 carried its own `settings.graphics`. A device with
+ * no preference of its own yet adopts that one, once; after that the device key is the only
+ * source and an imported save never changes it. Called with a slot's raw JSON before the
+ * renderer is chosen.
+ */
+export function adoptLegacyGraphics(json: string | null): void {
+  if (!json) return;
+  try {
+    if (localStorage.getItem(GRAPHICS_KEY) !== null) return;
+    const f = JSON.parse(json) as { version?: unknown; world?: { settings?: { graphics?: unknown } } };
+    if (typeof f.version !== 'number' || f.version >= 16) return;
+    if (f.world?.settings?.graphics === '3d') writeGraphicsPref('3d');
+  } catch {
+    // No storage or an unreadable save: the device keeps its default.
+  }
+}
+
 export function writeGraphicsPref(mode: 'pixel' | '3d'): boolean {
   graphicsChoice = mode;
   try {
@@ -970,8 +1007,8 @@ function labelOf(w: Record<string, unknown>): Pick<SaveSummary, 'label'> {
   return label ? { label } : {};
 }
 
-function indexWritten(slot: SaveSlot, json: string, played: boolean): void {
-  const summary = summarize(json);
+function indexWritten(slot: SaveSlot, json: string, played: boolean, file?: SavedFile): void {
+  const summary = file ? summarizeData(file) : summarize(json);
   if (!summary) return;
   const index = parseIndex(loadIndexJson()) ?? rebuildSlotIndex();
   storeIndex(withEntry(index, slotId(slot), { summary, bytes: json.length * 2 }, played));

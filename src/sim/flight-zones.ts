@@ -10,7 +10,8 @@
  * The flight is transient: a reload mid-glide leaves the Keeper where the save caught it,
  * and `updateKeeper` drops it to the ground there.
  */
-import { FLIGHT_ZONES } from '../config/tuning-r11d2';
+import type { ReadonlyWorld } from './readonly';
+import { FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { JUMP } from '../config/tuning-sim';
 import { keeperFooting } from './keeper';
 import { terraceAt } from './height';
@@ -74,10 +75,10 @@ interface Flight {
   y1: number;
 }
 
-const flights = new WeakMap<World, Flight>();
+const flights = new WeakMap<ReadonlyWorld, Flight>();
 
 /** The flight under way: its kind and how far along it is (0..1), or null. */
-export function keeperFlight(world: World): { kind: FlightZone['kind']; t: number } | null {
+export function keeperFlight(world: ReadonlyWorld): { kind: FlightZone['kind']; t: number } | null {
   const f = flights.get(world);
   return f ? { kind: f.zone.kind, t: Math.min(1, f.ms / f.total) } : null;
 }

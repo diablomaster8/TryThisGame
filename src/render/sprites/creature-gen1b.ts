@@ -38,6 +38,8 @@ export type Gen1bPart =
   | 'tongue'
   | 'beak'
   | 'snout'
+  | 'seahorse'
+  | 'trunk'
   | 'lowerHalf'
   | 'barbels'
   | 'boulders'
@@ -109,6 +111,46 @@ function upperEllipse(
     const w = rx * Math.sqrt(1 - k * k);
     pc.rect(cx - w, y, w * 2, 0.5, col);
   }
+}
+
+/**
+ * A seahorse's body (R0405, the `seahorse` part on the stalk plan): an arched neck, a belly
+ * that bulges toward the face, ringed in the belly colour, tapering to a tail that curls
+ * forward and up in a spiral. Replaces the stalk's straight pole.
+ */
+export function drawSeahorseBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec): void {
+  const col = spec.colors;
+  const share = a.face >= 1 ? 1 : a.face > 0 ? 0.6 : 0;
+  const fwd = a.back ? -1 : 1;
+  const top = a.headCy + a.headRy - 2;
+  const tailTop = a.feetY - 8;
+  const span = Math.max(4, tailTop - top);
+  const pts: Array<[number, number, number, number]> = [];
+  for (let y = top; y <= tailTop; y += 1) {
+    const t = (y - top) / span;
+    const bulge = Math.sin(Math.min(1, t * 1.25) * Math.PI);
+    const r = 1.9 + bulge * (a.bodyRx * 0.85 + 1.2) - t * 0.8;
+    pts.push([a.bodyCx + fwd * share * bulge * 2.2, y, r, t]);
+  }
+  // The tail's spiral: down, forward, up, narrowing to a tight curl.
+  const cx = a.bodyCx + fwd * (2.5 + share);
+  const cy = a.feetY - 4;
+  const tail: Array<[number, number, number]> = [];
+  for (let k = 0; k <= 1.0001; k += 0.05) {
+    const ang = Math.PI + k * Math.PI * 2.1;
+    const rad = 3.6 - k * 2.1;
+    tail.push([cx + Math.cos(ang) * rad * fwd, cy - Math.sin(ang) * rad, 1.7 - k * 0.8]);
+  }
+  for (const [x, y, r] of tail) pc.disc(x, y, r + 0.7, col.outline);
+  for (const [x, y, r] of pts) pc.disc(x, y, r + 0.7, col.outline);
+  for (const [x, y, r] of tail) pc.disc(x, y, r, col.body);
+  for (const [x, y, r, t] of pts) {
+    pc.disc(x, y, r, col.body);
+    // The shaded back edge, then a ring every third row on the belly side.
+    pc.disc(x - fwd * share * 0.6 - fwd * r * 0.45, y, r * 0.5, col.shade);
+    if (Math.round(y) % 3 === 0 && t > 0.1) pc.rect(x - r + 1, y, r * 2 - 2, 1, col.belly);
+  }
+  for (const [x, y, r] of tail.slice(2, 12)) pc.px(x + fwd * 0.4, y + r * 0.3, col.shade);
 }
 
 function star(pc: PixelCanvas, a: Anchors, turn: number, reach: number, col: number): void {
@@ -482,14 +524,24 @@ export function drawGen1b(
         break;
       case 'palm':
         if (layer !== 'front') break;
-        for (const [dx, h] of [
-          [-6, 3],
-          [-3, 6],
-          [2, 7],
-          [6, 4],
-        ] as const) {
-          pc.tri(a.headCx, top + 2, a.headCx + dx * 0.5, top + 1, a.headCx + dx, top - h, C.leaf);
-          pc.line(a.headCx, top + 1, a.headCx + dx, top - h, C.forest);
+        {
+          // With many heads the crown sits over all of them, a spray of long fronds.
+          const cx = a.heads ? a.bodyCx : a.headCx;
+          const ct = a.heads ? Math.min(...a.heads.map((s) => s.y - s.ry)) + 2 : top;
+          const fr = a.heads ? 1.7 : 1;
+          for (const [dx, h] of [
+            [-6, 1],
+            [-4, 4],
+            [-2, 6],
+            [2, 7],
+            [4, 5],
+            [7, 2],
+          ] as const) {
+            // Tips stay two rows inside the frame (the outline adds one), so a tall crown never clips.
+            const ty = Math.max(2, ct - h * fr);
+            pc.tri(cx, ct + 2, cx + dx * 0.5 * fr, ct + 1, cx + dx * fr, ty, C.leaf);
+            pc.line(cx, ct + 1, cx + dx * fr, ty, C.forest);
+          }
         }
         break;
       case 'tongue':
@@ -511,6 +563,45 @@ export function drawGen1b(
           );
         else pc.tri(mx - 2, ey + 2, mx + 2, ey + 2, mx, ey + 5, col.accent);
         break;
+      case 'seahorse': {
+        if (behindPass(layer, a)) {
+          // The back fin: a ribbed fan behind the body (both sides from the front), jagged
+          // on the spiky line.
+          const spiky = spec.crest === 'spikesTop';
+          const fy = a.bodyCy - 3;
+          const fan = (sx: number, dir: number) => {
+            pc.tri(sx, fy - 4, sx, fy + 4, sx + dir * 6, fy + 1, col.outline);
+            pc.tri(sx, fy - 3, sx, fy + 3, sx + dir * 5, fy + 1, col.accent);
+            pc.line(sx, fy, sx + dir * 5, fy + 1, col.accent2);
+            if (spiky)
+              for (let k = -1; k <= 1; k++) pc.px(sx + dir * 6, fy + 1 + k * 2, col.accent);
+          };
+          if (side) fan(a.bodyCx - a.bodyRx, -1);
+          else {
+            fan(a.bodyCx - a.bodyRx, -1);
+            fan(a.bodyCx + a.bodyRx, 1);
+          }
+        }
+        // A longer tube snout, tilted down (the shared snout part draws the root).
+        if (layer === 'front' && !a.back && side)
+          pc.rect(a.headCx + a.headRx + 2, ey + 2, 3, 2, col.body);
+        break;
+      }
+      case 'trunk': {
+        // A palm's trunk: the whole body in the trunk colour, ringed, narrowing upward.
+        if (layer !== 'mid' || a.bodyRx <= 0) break;
+        const t0 = a.bodyCy - a.bodyRy;
+        const t1 = a.bodyCy + a.bodyRy;
+        for (let y = t0; y < t1; y += 0.5) {
+          const k = (y - t0) / (t1 - t0);
+          const w = a.bodyRx * (0.55 + 0.45 * k);
+          pc.rect(a.bodyCx - w, y, w * 2, 0.5, col.accent2);
+          pc.rect(a.bodyCx - w, y, 0.7, 0.5, col.outline);
+          pc.rect(a.bodyCx + w - 0.7, y, 0.7, 0.5, col.outline);
+          if (Math.round(y * 2) % 7 === 0) pc.rect(a.bodyCx - w, y, w * 2, 0.5, col.shade);
+        }
+        break;
+      }
       case 'snout':
         if (layer !== 'front' || a.back) break;
         if (side) {
@@ -597,7 +688,7 @@ export function headScale(h: HeadsSpec): number {
   if (h.cluster) return 0.68;
   if (h.mound) return 0.75;
   if (h.count >= 3) return h.neck >= 0.5 ? 0.5 : 0.62;
-  return 0.78;
+  return h.neck > 1 ? 0.68 : 0.78;
 }
 
 /** Height over width of each head when it is not the kit's round head: eggs, burrowers. */
@@ -702,6 +793,7 @@ function neckLine(
   bend: number,
   fill: number,
   rim: number,
+  thin = false,
 ): void {
   // A soft curve through a control point pushed sideways by `bend`.
   const [x0, y0] = from;
@@ -709,8 +801,8 @@ function neckLine(
   const cx = (x0 + x1) / 2 + bend;
   const cy = (y0 + y1) / 2;
   for (const [r, c] of [
-    [1.9, rim],
-    [1.3, fill],
+    [thin ? 1.5 : 1.9, rim],
+    [thin ? 0.9 : 1.3, fill],
   ] as const)
     for (let k = 0; k <= 1.001; k += 0.08) {
       const x = (1 - k) * (1 - k) * x0 + 2 * (1 - k) * k * cx + k * k * x1;
@@ -756,7 +848,7 @@ export function drawHeads(
     const at: Anchors = { ...a, headCx: s.x, headCy: s.y, headRx: s.rx, headRy: s.ry };
     const tint = h.arms ? (i % 2 ? col.accent : col.accent2) : col.body;
     const bend = h.arms ? (s.x < a.bodyCx ? -3 : 3) : 0;
-    if (s.neck) neckLine(pc, s.neck, [s.x, s.y + s.ry * 0.5], bend, tint, col.outline);
+    if (s.neck) neckLine(pc, s.neck, [s.x, s.y + s.ry * 0.5], bend, tint, col.outline, h.neck > 1);
     pc.ellipse(s.x, s.y, s.rx + 0.5, s.ry + 0.5, col.outline);
     pc.ellipse(s.x, s.y, s.rx, s.ry, tint);
     pc.ellipse(s.x + 1, s.y + 1, s.rx - 1, s.ry - 1, shadeOf(tint));

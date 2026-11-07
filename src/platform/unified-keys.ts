@@ -15,7 +15,7 @@
  *
  * This module imports nothing from storage.ts, so storage can use it without a cycle.
  */
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 
 export const MIGRATED_KEY = 'grove.migrated.v6';
 /** Set by hand (or a support note) to go back to the legacy keys; nothing is deleted either way. */

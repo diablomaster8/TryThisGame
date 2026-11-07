@@ -1,5 +1,6 @@
+import type { ReadonlyWorld } from './readonly';
 import type { RegionId } from '../config/regions';
-import { WILD_NUBBIN } from '../config/tuning-r12d2';
+import { WILD_NUBBIN } from '../config/tuning-more/world-content-tables';
 import { hashSeed } from './rng';
 import { scatterSpots } from './region-spots';
 import { drawnRegionOf } from './region-walk';
@@ -60,7 +61,7 @@ function homeOf(region: string): { x: number; z: number } | null {
 }
 
 /** The wild Nubbin of the region the Keeper is in, or null (none here, or befriended already). */
-export function wildNubbinHere(world: World): WildNubbin | null {
+export function wildNubbinHere(world: ReadonlyWorld): WildNubbin | null {
   const region = drawnRegionOf(world.location);
   if (!region || befriended(world, region)) return null;
   const id = wildIdentity(world.seed, region);
@@ -76,7 +77,7 @@ export function wildNubbinHere(world: World): WildNubbin | null {
   };
 }
 
-const near = new WeakMap<World, number>();
+const near = new WeakMap<ReadonlyWorld, number>();
 
 /** Stand by it with a fruit and it decides to trust you. */
 export function stepWildNubbin(world: World, dtMs: number, events: SimEvent[]): void {

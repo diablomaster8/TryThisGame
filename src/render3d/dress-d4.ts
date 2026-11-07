@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import { GROVE } from '../config/tuning';
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import type { Daylight } from '../render/daylight';
 import { moonPhaseFor, pathWear, rainingNow, snowCover, WetTracker } from '../render/d4-state';
 import { stageFlags } from '../render/scene-stage';

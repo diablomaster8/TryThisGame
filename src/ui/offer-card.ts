@@ -7,7 +7,7 @@ import type { Quest } from '../content/types';
 import type { Game } from '../game';
 import { isFunQuestCode } from '../sim/audience';
 import { activeQuests, declineRule, kidFlow, openFlow, questSize } from '../sim/quest-offers';
-import { sideStory, storylines } from '../sim/story-scenes';
+import { loadSideText, sideStory, storylines } from '../sim/story-scenes';
 import type { SimEvent } from '../sim/types';
 import { button, el } from './dom';
 import { speakLine } from './lesson';
@@ -16,7 +16,7 @@ import { portraitFrame } from './dialogue';
 import { SPEAKER_NOW } from '../render/stage-actors';
 import { giverOf } from './journal-search';
 import { LINE_REWARD_TEXT, OFFER_WINDOW_TEXT } from '../config/strings-camp9';
-import { OFFER_WINDOWS } from '../config/tuning-camp9';
+import { OFFER_WINDOWS } from '../config/tuning-more/story-quest-flow';
 import { LineCastPrompt } from './line-cast-prompt';
 
 /**
@@ -267,6 +267,8 @@ export class OfferCard {
 
   private build(g: Game, quest: Quest): void {
     this.root.replaceChildren();
+    // R0491: fetch the story's text while the card is up, so an accepted scene plays at once.
+    loadSideText([quest.id]).catch(() => undefined);
     const caper = isFunQuestCode(quest.code);
     const who = giverOf(quest);
     const head = el('div', 'offer-head');

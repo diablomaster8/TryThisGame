@@ -64,6 +64,58 @@ describe('3D start at the device tier', () => {
     expect(g.shedLevel).toBeGreaterThan(0);
   });
 
+  it('keeps everything at 60 fps with the odd dropped frame (round 3)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    // 16.7 ms frames with a 33 ms hitch every second.
+    for (let i = 0; i < 3000; i++) g.sample(i % 60 === 0 ? 33.4 : 16.7);
+    expect(g.shedLevel).toBe(0);
+    expect(g.cpuLevel).toBe(0);
+    expect(g.ratio).toBe(1.5);
+  });
+
+  it('never reaches the race steps on a device that holds 60 fps with jitter (round 5)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    // A phone at 60 with ordinary jitter: most frames on time, a few late, one missed a second.
+    const jitter = [16.7, 16.6, 16.8, 17.5, 16.7, 16.2, 18.4, 16.7, 16.9, 16.5];
+    for (let i = 0; i < 6000; i++) g.sample(i % 60 === 30 ? 33.4 : jitter[i % jitter.length]!);
+    expect(g.cpuLevel).toBeLessThan(GROVE3D.governor.cpuStandIns);
+    expect(g.cpuLevel).toBe(0);
+    expect(g.shedLevel).toBe(0);
+    expect(g.ratio).toBe(1.5);
+  });
+
+  it('reaches the one-whole-runner step under sustained load and gives it back after (round 5)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    for (let i = 0; i < 200; i++) g.sample(40);
+    expect(g.cpuLevel).toBeGreaterThanOrEqual(GROVE3D.governor.cpuRaceOne);
+    // The load lifts: every step comes back in time, the latest first.
+    for (let i = 0; i < 20000; i++) g.sample(12);
+    expect(g.cpuLevel).toBe(0);
+    expect(g.shedLevel).toBe(0);
+  });
+
+  it('walks the whole ladder within two seconds on a phone at half speed (round 3)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    // CPU-bound at 35 ms a frame: fewer pixels buy nothing.
+    let ms = 0;
+    while (g.cpuLevel < GROVE3D.governor.cpuLevels && ms < 10_000) {
+      g.sample(35);
+      ms += 35;
+    }
+    expect(g.shedLevel).toBe(GROVE_SHED.order.length);
+    expect(g.cpuLevel).toBe(GROVE3D.governor.cpuLevels);
+    expect(ms).toBeLessThanOrEqual(2000);
+    // ...and stays there, sharp, without flickering.
+    const at = [g.ratio, g.cpuLevel, g.shedLevel].join();
+    for (let i = 0; i < 2000; i++) g.sample(35);
+    expect([g.ratio, g.cpuLevel, g.shedLevel].join()).toBe(at);
+    expect(g.ratio).toBe(1.5);
+  });
+
   it('starts the Grove list at the remembered step and the cave list clean', () => {
     const g = new FrameGovernor(1.5);
     g.setShedSteps(4, 'grove', GROVE3D.governor, 2);

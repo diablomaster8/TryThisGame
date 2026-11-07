@@ -8,7 +8,7 @@ import { leanFrame } from '../../src/render/sprites/keeper-lean';
 import type { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
 import { hillHeight } from '../../src/sim/terrain';
 import { KEEPER_SLOPE } from '../../src/config/tuning-move';
-import { PIXEL_LEAN } from '../../src/config/tuning-move-r10';
+import { PIXEL_LEAN } from '../../src/config/tuning-more/move-keeper-ui';
 
 /** First and last filled row, and the mean x of a row band's filled pixels. */
 function box(pc: PixelCanvas, y0: number, y1: number): { top: number; cx: number } {

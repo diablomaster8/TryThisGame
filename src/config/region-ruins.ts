@@ -10,6 +10,7 @@
  * again once an ending has played. Kept `main` (never reached from the Learning Grove,
  * `exitLocked`). Region-local, centred, x east and z south.
  */
+import type { DeepReadonly } from '../sim/readonly';
 import type { PoiDef } from './regions';
 import type { RegionSpec } from './region-layout';
 import type { CampaignState } from '../sim/types';
@@ -108,7 +109,7 @@ export type RuinsState = 'sealed' | 'thawed' | 'relit';
  * The ruins' dressing from the campaign, read only: sealed under ice through chapter 9, the
  * door thawed after it, the lanterns relit once an ending has played (chapter 13).
  */
-export function ruinsState(campaign: Readonly<CampaignState> | null | undefined): RuinsState {
+export function ruinsState(campaign: DeepReadonly<CampaignState> | null | undefined): RuinsState {
   if (!campaign) return 'sealed';
   if (campaign.ending !== null || campaign.chapter >= 13) return 'relit';
   return campaign.chapter > 9 ? 'thawed' : 'sealed';

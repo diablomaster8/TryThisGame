@@ -4,6 +4,7 @@
  * plot's corner posts of the region the Keeper is in. One list, cached until the Keeper changes
  * region or picks something up, so a frame costs no allocation. Region local.
  */
+import type { ReadonlyWorld } from './readonly';
 import type { RegionId } from '../config/regions';
 import { PLOT_NEAR, type DrawnId } from '../config/region-content-r12d2';
 import { openHere } from './collectibles';
@@ -14,7 +15,6 @@ import { plotPieces } from './region-plots';
 import { ghostShipHere } from './region-weather-play';
 import { seasonHere, seasonKeepsakeTaken, seasonSpots } from './region-season-props';
 import { openTraces } from './regions-trace';
-import type { World } from './types';
 
 export type RegionMarkKind =
   'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor' | 'ghost' | 'season';
@@ -58,7 +58,7 @@ let cache: {
 const NONE: readonly Mark[] = [];
 
 /** The marks of the drawn region the Keeper is in (none in the Grove, whose props are its own). */
-export function regionMarks(world: World): readonly Mark[] {
+export function regionMarks(world: ReadonlyWorld): readonly Mark[] {
   const region = drawnRegionOf(world.location);
   if (!region) return NONE;
   const c = cache;

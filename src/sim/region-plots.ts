@@ -1,5 +1,6 @@
+import type { ReadonlyWorld } from './readonly';
 import { BUILD_PLOTS } from '../config/region-extras-r11d6';
-import { PLOT_RULES } from '../config/tuning-r12d2';
+import { PLOT_RULES } from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
 import { newId } from './world';
 import { plotAt } from './region-marks';
@@ -15,7 +16,7 @@ import type { DecorKind, PlacedDecor, SimEvent, Vec2, World } from './types';
  * a drawn region.
  */
 export function plotPieces(
-  world: Pick<World, 'plotDecor'>,
+  world: Pick<ReadonlyWorld, 'plotDecor'>,
   region: RegionId,
 ): readonly PlacedDecor[] {
   return world.plotDecor?.[region] ?? [];

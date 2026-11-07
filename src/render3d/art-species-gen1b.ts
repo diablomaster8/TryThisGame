@@ -9,8 +9,9 @@ import {
 } from '../render/sprites/creature-gen1b';
 import { C, color } from '../render/sprites/palette';
 import { V, type Prim } from './art/sculpted';
-import type { Mark, PartSpec, PoseName, RigContext, SpeciesSpec } from './art/species';
+import type { SpeciesMark, PartSpec, PoseName, RigContext, SpeciesSpec } from './art/species';
 import { boxOf, type Layout } from './art-species';
+import { PALM3D, SEAHORSE3D } from '../config/tuning/render-3d';
 
 /**
  * The extra kit parts of the later first-generation pocket species (`CreatureSpec.gen1b`,
@@ -73,7 +74,12 @@ function place(p: Prim, from: THREE.Vector3, k: THREE.Vector3, to: THREE.Vector3
   };
 }
 
-function placeMark(m: Mark, from: THREE.Vector3, k: THREE.Vector3, to: THREE.Vector3): Mark {
+function placeMark(
+  m: SpeciesMark,
+  from: THREE.Vector3,
+  k: THREE.Vector3,
+  to: THREE.Vector3,
+): SpeciesMark {
   const f = (v: THREE.Vector3) => v.clone().sub(from).multiply(k).add(to);
   return {
     ...m,
@@ -153,9 +159,9 @@ function headFace(
   mouth: SpeciesSpec['mouth'],
   c: Colors,
   full: boolean,
-): { prims: Prim[]; marks: Mark[] } {
+): { prims: Prim[]; marks: SpeciesMark[] } {
   const prims: Prim[] = [];
-  const marks: Mark[] = [];
+  const marks: SpeciesMark[] = [];
   const er = eyes.r * k.x;
   const xs = eyes.x < 0.05 ? [0] : [-eyes.x, eyes.x];
   for (const x of xs) {
@@ -167,7 +173,7 @@ function headFace(
     // Painted, like the main face's crisp look: white, iris, glint, then the lid over them.
     // Rods through the skin along the view axis paint clean discs (an ellipsoid's distance
     // is too rough when it is this flat).
-    const paint = (dx: number, dy: number, r: number, col: string): Mark => ({
+    const paint = (dx: number, dy: number, r: number, col: string): SpeciesMark => ({
       kind: 'capsule',
       a: e.clone().add(V(dx, dy, -er * 2)),
       b: e.clone().add(V(dx, dy, er * 2)),
@@ -227,14 +233,21 @@ export function applyGen1b3d(
   c: Colors,
 ): SpeciesSpec {
   const parts = art.gen1b ?? [];
-  const H = art.heads && art.heads.count > 1 ? art.heads : null;
+  const H0 = art.heads && art.heads.count > 1 ? art.heads : null;
+  // R0405 (lane F r16): a palm's coconuts cluster at the top of the trunk in 3D. The Pixel
+  // recipe spreads them wide on longer stems so they read apart at 32 px; in 3D that fan
+  // turns into a scarecrow's arms.
+  const H =
+    H0 && parts.includes('palm')
+      ? { ...H0, neck: Math.min(H0.neck, PALM3D.neck), spread: PALM3D.spread }
+      : H0;
   if (parts.length === 0 && !H) return spec;
   const h = L.head;
   const b = L.body;
   const top = h.y + h.r.y;
   const head: Prim[] = [];
   const torso: Prim[] = [];
-  const marks: Mark[] = [];
+  const marks: SpeciesMark[] = [];
   const handProps: Array<(hand: THREE.Vector3, s: number) => Prim[]> = [];
   // Rings around the main head only: never copied onto the extra heads.
   const halo: Prim[] = [];
@@ -351,19 +364,26 @@ export function applyGen1b3d(
           ),
         );
         break;
-      case 'palm':
-        for (let i = 0; i < 5; i++) {
-          const t = (i / 5) * Math.PI * 2;
-          head.push(
-            ell(
-              V(Math.cos(t) * 0.45, top + 0.1 - (i % 2) * 0.06, h.z + Math.sin(t) * 0.45),
-              V(0.34, 0.06, 0.18),
+      case 'palm': {
+        // R0405 (lane F r16): with several heads (Exeggutor) one big crown spans the cluster
+        // from the main head, instead of a small copy on every head.
+        const k = H ? PALM3D.clusterScale : 1;
+        const n = H ? PALM3D.clusterLeaves : 5;
+        for (let i = 0; i < n; i++) {
+          const t = (i / n) * Math.PI * 2;
+          // A frond: from the crown's centre out and down, like a palm's drooping leaf.
+          (H ? halo : head).push(
+            cap(
+              V(0, top + 0.12, h.z),
+              V(Math.cos(t) * 0.7 * k, top + 0.05 - 0.18 * k, h.z + Math.sin(t) * 0.7 * k),
+              0.09 * Math.sqrt(k),
               LEAF,
-              0.04,
+              0.06,
             ),
           );
         }
         break;
+      }
       case 'lowerHalf':
         if (art.plan === 'round')
           marks.push({
@@ -547,6 +567,91 @@ export function applyGen1b3d(
         );
         mouth = { ...mouth, width: 0.01 };
         break;
+      case 'trunk': {
+        // R0405: a palm's trunk in the bark colour, ringed, slimmer toward the top.
+        torso.push(
+          ell(V(0, b.y - b.r.y * 0.05, 0), b.r.clone().multiplyScalar(1.05), c.accent2!, 0.02),
+        );
+        for (let i = 0; i < 5; i++) {
+          const k = (i + 0.5) / 5;
+          torso.push(
+            ell(
+              V(0, b.y - b.r.y + b.r.y * 2 * k, 0),
+              V(b.r.x * 1.1, 0.035, b.r.z * 1.1),
+              c.shade!,
+              0.01,
+            ),
+          );
+        }
+        break;
+      }
+      case 'seahorse': {
+        // R0405: a belly that bulges toward the face with pale rings, a back fin, a tail
+        // that curls forward and up, and a longer tube snout.
+        const sp = art.crest === 'spikesTop';
+        torso.push(
+          ell(
+            V(0, b.y + b.r.y * 0.35, b.r.z * 0.9),
+            V(b.r.x * 1.25, b.r.y * 0.55, b.r.z * 1.5),
+            c.body!,
+            0.12,
+          ),
+        );
+        for (let i = 0; i < 4; i++)
+          torso.push(
+            ell(
+              V(0, b.y + b.r.y * (0.75 - i * 0.28), b.r.z * 1.35),
+              V(b.r.x * 1.1, 0.04, b.r.z * 1.2),
+              c.belly!,
+              0.01,
+            ),
+          );
+        torso.push(
+          ell(V(0, b.y + b.r.y * 0.3, -b.r.z * 1.4), V(0.05, b.r.y * 0.4, 0.4), c.accent!, 0.03),
+        );
+        if (sp)
+          for (let i = 0; i < 4; i++) {
+            const y = b.y + b.r.y * (0.6 - i * 0.28);
+            torso.push(
+              cone(
+                V(0, y, -b.r.z * 1.2),
+                V(0, y + 0.18, -b.r.z * 1.2 - 0.55),
+                0.1,
+                0.02,
+                c.accent!,
+                0.03,
+              ),
+            );
+          }
+        // The tail spiral: down, forward, up, narrowing. R0405 (lane F r16): its plane is turned
+        // SEAHORSE3D.tailTurn off the body's side plane, so the curl reads from the front (the
+        // game camera) as well as from the side.
+        const cz = 0.3;
+        const cy = 0.5;
+        const tx = Math.sin(SEAHORSE3D.tailTurn);
+        const tz = Math.cos(SEAHORSE3D.tailTurn);
+        for (let k = 0; k <= 1.0001; k += 0.1) {
+          const ang = Math.PI + k * Math.PI * 2.05;
+          const rad = 0.34 - k * 0.2;
+          const out = Math.cos(ang) * rad;
+          torso.push(
+            sphere(
+              V(out * tx + SEAHORSE3D.tailSide, cy + Math.sin(ang) * rad, cz + out * tz),
+              0.17 - k * 0.09,
+              c.body!,
+              0.1,
+            ),
+          );
+        }
+        // The tube snout angles down like a seahorse's, not straight out like a trunk, and ends
+        // in a dark ring of a mouth.
+        const tip = V(0, h.y - 0.28 - SEAHORSE3D.snoutDrop, front + 0.7);
+        head.push(
+          cap(V(0, h.y - 0.22, front + 0.25), tip, 0.1, c.body!, 0.05),
+          ell(tip.clone().add(V(0, -0.02, 0.06)), V(0.11, 0.11, 0.05), c.outline!, 0.01),
+        );
+        break;
+      }
       case 'snout':
         head.push(
           cap(V(0, h.y - 0.18, front - 0.2), V(0, h.y - 0.22, front + 0.3), 0.14, c.body!, 0.06),
@@ -680,6 +785,25 @@ export function applyGen1b3d(
   }
 
   let headPrims = [...spec.head.prims, ...head];
+  // R0405 (lane F r16): a seahorse's round side fins read as elephant ears from the front, so
+  // they become small spiky cheek frills.
+  if (parts.includes('seahorse')) {
+    const isFin = (p: Prim) =>
+      p.kind === 'ellipsoid' && p.color === c.accent && Math.abs((p.radii?.x ?? 0) - 0.08) < 1e-6;
+    headPrims = headPrims.filter((p) => !isFin(p));
+    for (const sx of [-1, 1])
+      for (let i = 0; i < 3; i++)
+        headPrims.push(
+          cone(
+            V(sx * (h.r.x - 0.05), h.y + 0.15 - i * 0.16, h.z - 0.05),
+            V(sx * (h.r.x + SEAHORSE3D.frill), h.y + 0.22 - i * 0.2, h.z - 0.15),
+            0.07,
+            0.01,
+            c.accent!,
+            0.03,
+          ),
+        );
+  }
   let torsoPrims = [...spec.torso.prims, ...torso];
   let allMarks = [...spec.marks, ...marks];
   let headPivot = spec.head.pivot;
@@ -896,7 +1020,7 @@ function chainExtras(prev: SpeciesSpec['extras'], next: ExtrasHook): ExtrasHook 
 }
 
 /** Painted zigzag cracks on an egg's crown. */
-function eggCracks3d(at: THREE.Vector3, R: THREE.Vector3, c: Colors): Mark[] {
+function eggCracks3d(at: THREE.Vector3, R: THREE.Vector3, c: Colors): SpeciesMark[] {
   const pts = [
     [-0.55, 0.62],
     [-0.2, 0.5],

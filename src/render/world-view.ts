@@ -34,12 +34,14 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
-import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
+import { BORDER, TAP_PRINTS } from '../config/tuning-more/ui-tap-prints-border';
 import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
-import { EDU_TRAIL } from '../config/tuning-r14d2';
+import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
 import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
 import { Footfall } from './footfall';
+import { SnowSlideFx } from './snow-slide-fx';
+import { SLIDE_FX } from '../config/tuning-r16d1';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -48,7 +50,7 @@ import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { SeasonDrift } from './season-drift';
 import { placeDecorations } from './decor';
 import { ChunkMask, type SpriteCuller } from './chunks';
-import { GROVE_CHUNKS } from '../config/tuning-r12d1';
+import { GROVE_CHUNKS } from '../config/tuning-more/world-region-moves';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
 import { windSway } from './wind-px';
@@ -86,11 +88,11 @@ import { tallFramePx } from './sprites/creature';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet, decorFrame } from './sprites/props';
 import { buildTapFlagSheet } from './sprites/tap-flags';
-import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
+import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-more/move-keeper-ui';
 import { KEEPER_SLOPE } from '../config/tuning-move';
 import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
 import { FLIGHT_SPOTS, keeperFlight } from '../sim/flight-zones';
-import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { regionCameraFor } from '../config/region-camera';
 import { regionOf } from '../sim/regions';
 import { SheetCache } from './sprites/sheets';
@@ -135,6 +137,7 @@ import { WORLD_LOD } from '../config/tuning-world';
 import { drawAmbientPx } from './ambient-px';
 import { drawRegionLifePx } from './region-life-px';
 import { drawRegionMarksPx } from './region-marks-px';
+import { viewportSize } from '../platform/viewport';
 
 interface Snapshot {
   pos: Vec2;
@@ -189,6 +192,35 @@ const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
 /** HOT load time: where a Nubbin stands, for the culler's on-screen test (reused). */
 const NUB_PROBE = { x: 0, y: 0, z: 0, mode: 'billboard' } as SpriteDraw;
 
+/** R0112: fence post x positions along the visit garden's south edge, with the gate gap. */
+const VISIT_FENCE_XS: number[] = [];
+for (let x = -VISIT_GARDEN.halfW; x <= VISIT_GARDEN.halfW + 0.01; x += 1.5)
+  if (Math.abs(x) > 2.2) VISIT_FENCE_XS.push(x);
+
+/**
+ * PERF: the Grove loops looked up each scenery piece's and each decoration's front frame by a
+ * freshly built key string (`${kind}-lit` and the Map hash) every frame, about 8% of a Grove
+ * frame on a 4x phone. A found rect is kept per sheet (a rebuilt sheet is a new object); a
+ * missing one is asked for again, as the sheet may still be filling.
+ */
+const FRONT_RECTS = new WeakMap<object, Map<string, FrameRect>>();
+function frontRect(sheet: SpriteSheet, clip: string): FrameRect | undefined {
+  let m = FRONT_RECTS.get(sheet);
+  if (!m) FRONT_RECTS.set(sheet, (m = new Map()));
+  let r = m.get(clip);
+  if (r === undefined) {
+    r = sheet.frames.get(frameKey(clip, 'front', 0));
+    if (r !== undefined) m.set(clip, r);
+  }
+  return r;
+}
+const LIT_NAMES = new Map<string, string>();
+function litName(kind: string): string {
+  let n = LIT_NAMES.get(kind);
+  if (n === undefined) LIT_NAMES.set(kind, (n = `${kind}-lit`));
+  return n;
+}
+
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
   /**
@@ -231,6 +263,8 @@ export class WorldView {
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
+  /** R0118: the snow slide's swish and spray. */
+  private readonly slideFx = new SnowSlideFx();
   /** MOVE-43: bushes the Keeper rustled, by spot, and when. */
   private readonly bushShakes = new Map<string, number>();
   /** MOVE-44: the tap walk's footprint dots and target marker. */
@@ -921,7 +955,7 @@ export class WorldView {
         this.dim,
         nowMs / 1000,
         ambientAwake(this.daylight?.phase ?? 'day', this.weather),
-        Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx,
+        Math.min(viewportSize().w, viewportSize().h) < WORLD_LOD.phoneMaxPx,
         this.particles.reduceMotion,
       );
     // HOT load time: scenery, props, the cast and visitors stream in a sheet a frame.
@@ -940,9 +974,9 @@ export class WorldView {
         if (isSceneryHidden(s.kind)) continue;
         const litKey =
           lampsOn && !(Y_STATE.windowsOut && s.pick?.kind === 'building')
-            ? scenery.frames.get(frameKey(`${s.kind}-lit`, 'front', 0))
+            ? frontRect(scenery, litName(s.kind))
             : undefined;
-        const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
+        const rect = litKey ?? frontRect(scenery, s.kind);
         if (!rect) continue;
         // K35: bushes take the wind's two-frame sway.
         let sway =
@@ -1086,7 +1120,7 @@ export class WorldView {
     for (let di = 0; di < decor.length; di++) {
       const d = decor[di]!;
       if (!this.groveChunks.decor.has(di)) continue;
-      const rect = props.frames.get(frameKey(d.frame, 'front', 0));
+      const rect = frontRect(props, d.frame);
       if (!rect) continue;
       batch.draw(
         reuseDraw(
@@ -1384,6 +1418,29 @@ export class WorldView {
           h: (3.2 * gate.h) / gate.w,
           tint: this.dim,
         });
+      }
+      // R0112: a fence along the garden's south edge (the +-16 line), open at the gate.
+      const fp = scen.frames.get(frameKey('fencePost', 'front', 0));
+      if (fp) {
+        for (let fi = 0; fi < VISIT_FENCE_XS.length; fi++) {
+          const fx = VISIT_FENCE_XS[fi]!;
+          batch.draw(
+            reuseDraw(
+              SCENERY_DRAW,
+              scen,
+              fp,
+              false,
+              fx,
+              0,
+              VISIT_GARDEN.gate.z,
+              'billboard',
+              0.75,
+              (0.75 * fp.h) / fp.w,
+              undefined,
+              this.dim,
+            ),
+          );
+        }
       }
       const visiting = this.visiting;
       const hsheet = this.sheets.streamed((s) => s.keeper(visiting));
@@ -1828,6 +1885,15 @@ export class WorldView {
           size: 0.4,
         });
     }
+
+    if (this.slideFx.tick(world, nowMs))
+      this.particles.burst('snow', kx, 0.1, kz, SLIDE_FX.count, {
+        spread: 0.2,
+        speed: 0.7,
+        rise: 0.5,
+        lifeMs: 600,
+        size: 0.65,
+      });
 
     this.onDraw?.(world, nowMs);
 

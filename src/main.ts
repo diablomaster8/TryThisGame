@@ -23,7 +23,9 @@ import {
   endVisit,
   hasSave,
   profileModes,
+  adoptLegacyGraphics,
   readGraphicsPref,
+  readSave,
   restoreFromMirror,
   setSaveSlot,
   slotsFor,
@@ -55,6 +57,7 @@ import { watchErrors } from './platform/error-watch';
 import { LoadingBar } from './ui/loading-bar';
 import { PIXEL_LOAD } from './config/tuning-px';
 import { prepaintGround } from './render/ground-prepaint';
+import { spawnSculptWorkers } from './render3d/sculpt-spawn';
 import { HOLLOW_TEXT } from './config/strings';
 import { installHiddenGuard } from './platform/dom-guards';
 
@@ -260,6 +263,7 @@ function route(): void {
       loadStories();
       loadBoot().catch(() => undefined);
       prepaintGround(); // HOT load time: the Grove's stand-in ground, painted while the title is up
+      if (readGraphicsPref() === '3d') spawnSculptWorkers(); // perf-leaks D: see sculpt-spawn.ts
     });
     // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
     const focus = params.has('edu') ? ('edu' as const) : undefined;
@@ -321,11 +325,13 @@ function startGame(
   eduAge?: NewEdu,
   storyline: string | null = null,
 ): void {
+  adoptLegacyGraphics(readSave());
   const mode = readGraphicsPref();
   if (!hasWebGL2()) {
     showGlFailure('unsupported', mode);
     return;
   }
+  if (mode === '3d') spawnSculptWorkers(); // perf-leaks D: no-op when the title started them
   // The veil goes up the moment a slot is picked and stays until the Grove is interactive,
   // so a cold start on a slow phone never sits on a blank screen while chunks download.
   const loading = new LoadingBar(hudRoot);
@@ -474,6 +480,7 @@ function boot(
       let t = 0;
       const clock = Object.assign(() => (clock.run ? (t += 1000 / 60) : t), { run: false });
       game.frameClock = clock;
+      void import('./minigames/frame-time').then((m) => m.useStillTime());
     }
     // TECH-11: the browser specs' hooks (`grove.test`), only on a `?e2e` load.
     void import('./dev/e2e-api').then((m) => {
@@ -484,11 +491,18 @@ function boot(
 
   // A context the browser takes away (GPU reset, memory pressure) leaves a frozen canvas:
   // save, and say so with a way back, rather than keep drawing nothing.
-  canvas.addEventListener('webglcontextlost', (e) => {
-    e.preventDefault();
-    game?.save();
-    showGlFailure('lost', scene3d ? '3d' : 'pixel');
-  });
+  // R0509: heard on the way down to whichever canvas is live (a Graphics switch replaces it);
+  // the canvas a switch let go is lost on purpose and is no longer in the page.
+  app.addEventListener(
+    'webglcontextlost',
+    (e) => {
+      if (!game || e.target !== game.canvas) return;
+      e.preventDefault();
+      game.save();
+      showGlFailure('lost', game.graphics);
+    },
+    true,
+  );
 
   // ---------- resize / rotation ----------
 

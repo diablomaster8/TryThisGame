@@ -30,7 +30,9 @@ function run(): number {
   return hash(worldFingerprint(w));
 }
 
-const EXPECTED = 2204227681;
+// Re-pinned for R0509: settings.graphics left the saved world (it is a device preference), which
+// shortens the fingerprint; with the field put back the old 2204227681 comes out, so no rule moved.
+const EXPECTED = 1827331222;
 
 describe('stepWorld determinism', () => {
   it('two runs agree', { timeout: 60_000 }, () => {

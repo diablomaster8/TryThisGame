@@ -1,5 +1,6 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
-import { AMBIENT_LIFE } from '../config/tuning-r11d8';
+import { AMBIENT_LIFE } from '../config/tuning-more/world-region-sky';
 import { WORLD_STREAM } from '../config/tuning-world';
 import {
   ambientFor,
@@ -11,7 +12,6 @@ import {
   type AmbientPose,
 } from '../render/ambient-life';
 import { regionOf } from '../sim/regions';
-import type { World } from '../sim/types';
 
 /**
  * R0128 (WORLD-62): ambient life in Full 3D, from the same per-chunk list as the pixel view
@@ -66,7 +66,7 @@ export class AmbientLife3d {
   }
 
   update(
-    world: World,
+    world: ReadonlyWorld,
     cam: THREE.Vector3,
     tSec: number,
     awake: boolean,

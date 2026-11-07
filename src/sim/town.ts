@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { TOWN } from '../config/tuning';
 import type { SimEvent, TownRole, World } from './types';
 
@@ -17,7 +18,7 @@ export interface TownUnlocks {
   festival: boolean;
 }
 
-export function townUnlocks(world: World): TownUnlocks {
+export function townUnlocks(world: ReadonlyWorld): TownUnlocks {
   const p = world.town.prosperity;
   return {
     stall: p >= TOWN.unlocks.stall,

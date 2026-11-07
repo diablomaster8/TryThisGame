@@ -10,7 +10,8 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
-import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-r8d-audio';
+import { HOLLOW_CUE_NOTES, type HollowNoteCue } from '../config/tuning-r17d1';
+import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-more/audio-mix';
 import { PLAIN_VOICE, type ChirpVoice } from './chirp-voice';
 import { playSfxVoices } from './audio-sfx';
 import { SONGS, type Inst, type Note, type Song, type Track } from './audio-songs';
@@ -427,6 +428,13 @@ function schedule(p: Playing): void {
   while (p.startTime + p.nextBeat * secPerBeat < horizon) {
     const beatInLoop = p.nextBeat % p.song.beats;
     const beatTime = p.startTime + p.nextBeat * secPerBeat;
+    // PERF: after a stall (a slow frame, a hidden tab) the timer found a backlog of beats that
+    // had already gone by and built every note's nodes at once (about 45 ms in one task on a
+    // phone), to play a smear of past notes. A beat more than a tenth of a second late is let go.
+    if (beatTime < ctx.currentTime - 0.1) {
+      p.nextBeat += 1;
+      continue;
+    }
     for (const track of p.song.tracks) {
       for (const n of track.notes) {
         if (n.t !== beatInLoop) continue;
@@ -435,6 +443,28 @@ function schedule(p: Playing): void {
     }
     p.nextBeat += 1;
   }
+}
+
+/**
+ * PERF: a hat or snare filled a fresh noise buffer (2400 to 6700 samples of Math.random) every
+ * hit. Four bursts per length are made once and taken in turn, so successive hits still differ.
+ */
+const noiseBursts = new Map<string, AudioBuffer[]>();
+let noiseTurn = 0;
+function noiseBurst(ac: AudioContext, len: number): AudioBuffer {
+  const key = `${ac.sampleRate}:${len}`;
+  let set = noiseBursts.get(key);
+  if (!set) {
+    set = [];
+    for (let k = 0; k < 4; k++) {
+      const buf = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+      set.push(buf);
+    }
+    noiseBursts.set(key, set);
+  }
+  return set[noiseTurn++ % set.length]!;
 }
 
 const mtof = (m: number): number => 440 * Math.pow(2, (m - 69) / 12);
@@ -458,9 +488,7 @@ function play(track: Track, n: Note, t0: number, dur: number, out: GainNode): vo
     case 'snare':
     case 'hat': {
       const len = track.inst === 'hat' ? 0.05 : 0.14;
-      const buf = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate);
-      const d = buf.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+      const buf = noiseBurst(ac, len);
       const src = ac.createBufferSource();
       src.buffer = buf;
       const f = ac.createBiquadFilter();
@@ -1188,7 +1216,9 @@ export type HollowCue =
   | 'shrine'
   | 'waypoint'
   | `drop:${'plain' | 'shiny' | 'fancy' | 'legendary' | 'set'}`
-  | `boss:${number}`;
+  | `boss:${number}`
+  /** R0450 (R17 d1): the Hollow's own sounds beyond the encounter set (`HOLLOW_CUE_NOTES`). */
+  | HollowNoteCue;
 
 export function playHollowCue(cue: HollowCue): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
@@ -1220,6 +1250,9 @@ export function playHollowCue(cue: HollowCue): void {
       [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 70, 160, 'triangle', 0.05));
     } else if (cue === 'drop:set') {
       for (const f of [523, 659, 784, 1047]) tone(f, 0, 600, 'triangle', 0.035);
+    } else if (cue in HOLLOW_CUE_NOTES) {
+      for (const [f, at, dur, wave, gain, slide] of HOLLOW_CUE_NOTES[cue as HollowNoteCue])
+        tone(f, at, dur, wave, gain, slide);
     } else if (cue.startsWith('boss:')) {
       const root = [110, 98, 123, 87, 73][Number(cue.slice(5))] ?? 110;
       tone(root, 0, 500, 'sawtooth', 0.05);

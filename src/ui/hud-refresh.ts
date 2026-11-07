@@ -4,7 +4,7 @@
  * Reads world state and sends commands only.
  */
 import { GROVE } from '../config/tuning';
-import { SNOWBALL } from '../config/tuning-r13d1';
+import { SNOWBALL } from '../config/tuning-more/world-region-content';
 import { GROVE_LABELS, NAMES, UI_TEXT, EDU_TEXT } from '../config/strings';
 import { HATCH_BUTTON_TEXT } from '../config/strings-r8d';
 import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e';
@@ -96,6 +96,7 @@ import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { ShakeMeter } from './shake-meter';
 import { Joystick } from './joystick';
+import { joystickWanted } from './joystick-math';
 import { setIconGlyph } from './pixel-icons';
 import { syncActionName } from './hud-toasts';
 import type { HudState } from './hud-events';
@@ -286,9 +287,9 @@ export function refreshStep(hc: RefreshCtx, rs: RefreshState): void {
       g.framePollers.push(() => rs.joystick?.poll());
     }
     // R0510: in the Hollow on a touch device the stick is on without a trip to Settings.
-    const hollowTouch =
-      (g.world.location === 'hollow' || g.world.location === 'dungeon') && coarsePointer();
-    rs.joystick.setVisible(g.world.settings.joystick || !!hollowTouch);
+    rs.joystick.setVisible(
+      joystickWanted(!!g.world.settings.joystick, g.world.location, coarsePointer()),
+    );
     rs.joystick.onEdge = () =>
       void buzz(
         'stickEdge',

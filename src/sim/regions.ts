@@ -6,7 +6,10 @@
  * travel never touches them or the random stream, so leaving and coming back changes nothing
  * at home.
  */
+import { inSlice } from './edu-region-bounds';
 import { companionsArrive } from './region-companion';
+import { caveWayOf } from './cave-entrances';
+import { enterCave } from './dungeon';
 import { REGIONS, REGION_ORDER, type RegionDef, type RegionId } from '../config/regions';
 import { setLocation } from './campaign';
 import { visit } from './neighbourhood';
@@ -59,10 +62,18 @@ export function travelBlock(
   const exit = here.exits.find((e) => e.id === exitId);
   if (!exit) return 'no-exit';
   const to = regions[exit.to];
-  if (!to.built) return 'unbuilt';
+  // R0115 (R17 d1): a cave's mouth is open though its region is not drawn: its floors are the Hollow's.
+  if (!to.built && !caveWayOf(exit.id)) return 'unbuilt';
   if (exitLocked(world, exit)) return 'locked';
   // R13 d2 (R0099): the Learning Grove only goes to kid-safe places.
   if (world.edu && !to.kidsSafe) return 'not-for-kids';
+  // R0099: and only within the slice of each place it may walk: the way out must stand in the
+  // slice of this region, and the arrival in the slice of the next.
+  if (world.edu) {
+    const at = { x: exit.rect.x + exit.rect.w / 2, z: exit.rect.z + exit.rect.h / 2 };
+    if (!inSlice(regionOf(world.location), at) || !inSlice(exit.to, exit.arrive))
+      return 'not-for-kids';
+  }
   // The Hollow Below is entered through the cave by its own command, which starts a run.
   if (exit.to === 'hollow') return 'use-entrance';
   // R12 lane D (WORLD-33): a garden gate on the lane names its own sub-place; without one
@@ -83,6 +94,11 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   }
   const from = regionOf(world.location);
   const exit = REGIONS[from].exits.find((e) => e.id === exitId)!;
+  // R0115 (R17 d1): the ridge's ice caves and the ruins' door lead into a small cave run.
+  if (caveWayOf(exit.id)) {
+    (world.regionLeftMs ??= {})[from] = world.timeMs;
+    return enterCave(world, exit, from, events);
+  }
   // R0124: when this region was left, for its closed-form ageing on the way back.
   (world.regionLeftMs ??= {})[from] = world.timeMs;
   const k = world.keeper;

@@ -11,6 +11,7 @@
  *
  * Pure sim: no DOM.
  */
+import type { ReadonlyWorld } from './readonly';
 import { ACTS } from '../config/dungeon-acts';
 import { FRIEND_AURA, HOLLOW_R9C, type FriendAura } from '../config/dungeon-r9-c';
 import { TOWN_CAST } from '../config/dungeon-zones';
@@ -37,7 +38,7 @@ export function hireBoard(act: number): string[] {
 }
 
 /** The friend along on this run, if any. */
-export function friendOf(world: World): HollowFriend | null {
+export function friendOf(world: ReadonlyWorld): HollowFriend | null {
   return world.dungeon?.friend ?? null;
 }
 
@@ -95,7 +96,7 @@ export function friendPower(world: World): number {
 // ---------------------------------------------------------------- walking
 
 /** For the renderers: is the friend walking (still catching up with the Keeper)? */
-export function friendWalking(world: World, fr: HollowFriend): boolean {
+export function friendWalking(world: ReadonlyWorld, fr: HollowFriend): boolean {
   return dist(fr.pos, world.keeper.pos) > F.follow + 0.15;
 }
 

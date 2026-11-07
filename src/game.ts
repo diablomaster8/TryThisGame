@@ -26,7 +26,6 @@ import {
   visitingProfile,
   watchOtherTabs,
   claimSlot,
-  writeSave,
   writeThumb,
 } from './platform/storage';
 import { OrbitCamera } from './render/camera';
@@ -37,7 +36,6 @@ import { LowResPipeline, type FrameStats } from './render/pipeline';
 import { SceneStager, type FitPoint } from './render/scene-stage';
 
 import { WorldView } from './render/world-view';
-import { paintGrade } from './ui/look-paint';
 
 import { currentGrade } from './ui/title-card';
 
@@ -54,9 +52,17 @@ import { DebugOverlay } from './render/debug-colliders';
 import { SpriteCuller } from './render/chunks';
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { AutosaveQueue, browserIdle, writeWorld } from './platform/autosave';
+import {
+  cropFrame,
+  dropShot,
+  queueAutosave,
+  THUMB_EVERY_MS,
+  type FrameShot,
+} from './game-autosave';
 
 import { PixelGovernor } from './render/pixel-gov';
-import { FAST_TIME } from './config/tuning-r8d-perf';
+import { FAST_TIME } from './config/tuning-more/perf-tiers';
 import { dedupeEvents } from './ui/event-dedupe';
 import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
@@ -103,13 +109,20 @@ export interface GameHooks {
 export class Game {
   world: World;
   readonly clock = new Clock();
+  /**
+   * R0509: the renderer bundle (canvas, pipeline, scenes, picker, input, camera controls, tier)
+   * is set by `mountRenderer` and replaced whole by `swapRenderer` on a live Graphics switch;
+   * the world, HUD, clock and sim loop stay. Read these fresh each time, never keep them.
+   */
+  canvas!: HTMLCanvasElement;
+  graphics: GraphicsMode = 'pixel';
   /** Draw-call and frame-size stats from whichever renderer is on. */
-  readonly pipeline: FrameStats;
+  pipeline!: FrameStats;
   /** The pixel renderer and scene; null when the 3D scene is on. */
-  readonly lowRes: LowResPipeline | null;
-  readonly grove: GroveScene | null;
+  lowRes: LowResPipeline | null = null;
+  grove: GroveScene | null = null;
   /** The full-3D scene, when the Graphics setting picked it. */
-  readonly scene3d: Grove3dScene | null;
+  scene3d: Grove3dScene | null = null;
   readonly camera = new OrbitCamera();
   /**
    * Sprite sheets and the pixel world; in 3D mode only its sheets serve the UI portraits.
@@ -119,14 +132,14 @@ export class Game {
   readonly view = new WorldView();
   /** WORLD-09: skips pixel sprites that are surely off screen. */
   readonly culler = new SpriteCuller();
-  readonly picker: Picker;
-  readonly input: GameInput;
-  readonly cameraControls: CameraControls;
+  picker!: Picker;
+  input!: GameInput;
+  cameraControls!: CameraControls;
   readonly pending: Command[] = [];
   /** HOT-2: frame times and the breakdown of long frames, for the debug panel and probes. */
   readonly spikes = new FrameSpikes();
   /** TECH-09: this device's performance tier and what decided it (shown in the debug panel). */
-  readonly tier: TierReading;
+  tier!: TierReading;
   /** TECH-53: the Pixel renderer's frame governor (null in Full 3D). */
   pixelGov: PixelGovernor | null = null;
   /**
@@ -188,26 +201,9 @@ export class Game {
     else if (this.lowRes && this.grove) this.lowRes.render(this.grove.scene, this.camera.camera);
     else return null;
     const src = this.canvas;
-    if (!src.width || !src.height) return null;
-    const out = document.createElement('canvas');
-    out.width = w;
-    out.height = h;
-    const ctx = out.getContext('2d');
-    if (!ctx) return null;
-    const k = Math.min(src.width / w, src.height / h);
-    const sw = w * k;
-    const sh = h * k;
-    ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
     // K30: the DOM grade layers (tint, split grade, desaturation, ground tint) are not in the
-    // canvas, so paint them on the copy; the grid's 48 CSS px spacing scales with the crop.
-    paintGrade(
-      ctx,
-      w,
-      h,
-      currentGrade(),
-      48 * (h / Math.max(1, src.clientHeight || src.height / k)),
-    );
-    return out;
+    // canvas, so `cropFrame` paints them on the copy.
+    return cropFrame(src, src.width, src.height, src.clientHeight, w, h, currentGrade());
   }
 
   /** Decorating: the piece a ground tap places, or null. */
@@ -271,9 +267,9 @@ export class Game {
   hooks: GameHooks;
 
   constructor(
-    readonly canvas: HTMLCanvasElement,
+    canvas: HTMLCanvasElement,
     hooks: GameHooks,
-    readonly graphics: GraphicsMode = 'pixel',
+    graphics: GraphicsMode = 'pixel',
     scene3d: Grove3dScene | null = null,
   ) {
     this.hooks = hooks;
@@ -294,10 +290,35 @@ export class Game {
     this.world = this.load();
     // TECH-45: the sim reads days and hours in this time zone, sent before any catch-up.
     this.sendTimeZone();
+    this.mountRenderer(canvas, graphics, scene3d);
+    this.framePollers.push(() => {
+      // MOVE-59: the sim keeps the view's yaw as a hint for where care walks stop.
+      const yaw = this.camera.currentYaw;
+      if (this.world.viewYaw === undefined || Math.abs(yaw - this.world.viewYaw) > 0.01)
+        this.send({ kind: 'viewYaw', yaw });
+      // MOVE-53: Camera follows walking, never while a dialogue is up.
+      const talking = document.documentElement.classList.contains('dialogue-open');
+      this.walkFollow.update(this.world, this.camera, performance.now(), talking);
+    });
+    this.markReduceMotion();
+    this.syncDungeon();
+  }
+
+  /**
+   * R0509: build the renderer bundle on `canvas`: the pixel pipeline and Grove scene, or the
+   * given 3D scene; then the picker, input, camera controls and device tier that hang on it.
+   */
+  private mountRenderer(
+    canvas: HTMLCanvasElement,
+    graphics: GraphicsMode,
+    scene3d: Grove3dScene | null,
+  ): void {
+    this.canvas = canvas;
+    this.graphics = graphics;
     this.scene3d = graphics === '3d' ? scene3d : null;
+    this.lowRes = null;
+    this.grove = null;
     if (this.scene3d) {
-      this.lowRes = null;
-      this.grove = null;
       this.pipeline = this.scene3d;
       this.picker = this.scene3d.picker(canvas);
     } else {
@@ -323,18 +344,6 @@ export class Game {
     const s3 = this.scene3d;
     this.cameraControls = new CameraControls(this.camera, canvas);
     this.input = buildInput(this, canvas, s3);
-    this.framePollers.push(() => {
-      // MOVE-59: the sim keeps the view's yaw as a hint for where care walks stop.
-      const yaw = this.camera.currentYaw;
-      if (this.world.viewYaw === undefined || Math.abs(yaw - this.world.viewYaw) > 0.01)
-        this.send({ kind: 'viewYaw', yaw });
-      // MOVE-53: Camera follows walking, never while a dialogue is up.
-      const talking = document.documentElement.classList.contains('dialogue-open');
-      this.walkFollow.update(this.world, this.camera, performance.now(), talking);
-    });
-    this.markReduceMotion();
-    // The save mirrors the device-wide renderer choice made on the title screen.
-    this.world.settings.graphics = graphics;
     if (this.scene3d) {
       // The sculpt grid is picked once per save by a quick benchmark, then kept.
       this.world.settings.sculptRes ??= this.scene3d.pickSculptRes();
@@ -355,7 +364,62 @@ export class Game {
       // Start reading the cache and marching now, while the rest of the page loads.
       this.scene3d.prewarm(this.world);
     }
+  }
+
+  /**
+   * R0509: let go of the renderer bundle: input and camera listeners, the scenes and their
+   * workers, and the WebGL context itself (forced lost, so the GPU memory goes at once). The
+   * canvas is spent after this; `swapRenderer` mounts on a fresh one.
+   */
+  private releaseRenderer(): void {
+    this.input.dispose();
+    this.cameraControls.dispose();
+    const renderer = this.pipeline.renderer;
+    this.debugOverlay = null;
+    if (this.scene3d) this.scene3d.dispose();
+    if (this.grove) {
+      this.grove.scene.remove(this.view.root);
+      this.grove.dispose();
+    }
+    this.lowRes?.dispose();
+    renderer.forceContextLoss();
+    // The pixel view's hooks into the old scene and lights go with it.
+    this.view.staging = null;
+    this.view.onDraw = null;
+    this.view.culler = null;
+    this.view.lights = [];
+    this.view.lanterns = () => [];
+    this.pixelGov = null;
+    this.scene3d = null;
+    this.grove = null;
+    this.lowRes = null;
+  }
+
+  /**
+   * R0509: a live Graphics switch. The loop stops, the old renderer is released and the new
+   * one mounted on `canvas` (already in the page in place of the old one); the world, HUD and
+   * clock carry on untouched. Throws if the new renderer cannot mount; the caller then falls
+   * back to a reload.
+   */
+  swapRenderer(
+    canvas: HTMLCanvasElement,
+    graphics: GraphicsMode,
+    scene3d: Grove3dScene | null,
+  ): void {
+    const wasRunning = this.running;
+    this.stop();
+    this.releaseRenderer();
+    this.mountRenderer(canvas, graphics, scene3d);
     this.syncDungeon();
+    // Re-read the sky, the place and the stage on the next frame, in the new renderer.
+    this.lastDaylightMs = -Infinity;
+    this.stageKey = '';
+    this.drawnHour = null;
+    this.hourBlend = null;
+    this.lastDressMs = 0;
+    this.talkerKey = null;
+    (this.scene3d ?? this.view).snapshot(this.world);
+    if (wasRunning) this.startIfVisible();
   }
 
   /** The Hollow floor the scene and view should show, if underground. */
@@ -444,9 +508,8 @@ export class Game {
 
   /** R0447: a 160x90 picture of the Grove for the title's slot list, at most every 2 minutes. */
   saveThumb(): void {
-    const now = performance.now();
-    if (document.hidden || now < this.nextThumbMs || this.world.dungeon) return;
-    this.nextThumbMs = now + 120_000;
+    if (!this.thumbDue()) return;
+    this.nextThumbMs = performance.now() + THUMB_EVERY_MS;
     try {
       const c = this.captureFrame(160, 90);
       if (c) writeThumb(currentSlot(), c.toDataURL('image/jpeg', 0.5));
@@ -457,17 +520,40 @@ export class Game {
 
   nextThumbMs = 15_000;
 
+  /** Is the slot list's picture due (never of a hidden page or the Hollow). */
+  thumbDue(): boolean {
+    return !document.hidden && performance.now() >= this.nextThumbMs && !this.world.dungeon;
+  }
+
+  /** hot/perf-leaks E4: the periodic autosave waits for idle time (`game-autosave.ts`). */
+  readonly autosave = new AutosaveQueue({ idle: browserIdle, now: () => performance.now() });
+  /** The frame copy a waiting autosave will turn into the slot picture. */
+  autosaveShot: FrameShot | null = null;
+
+  /**
+   * Save now, synchronously (tab hidden, page hide, slot switch, import, Settings). A waiting
+   * autosave is dropped: this save writes the newer state.
+   */
   save(): boolean {
+    this.autosave.drop();
+    dropShot(this.autosaveShot);
+    this.autosaveShot = null;
+    const ok = this.writeNow();
+    if (ok) this.saveThumb();
+    return ok;
+  }
+
+  /** Serialise and write the world as it stands; the slot picture is the caller's. */
+  writeNow(): boolean {
     if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
       this.lastSaveMs = performance.now();
       return false;
     }
-    const ok = writeSave(serialize(this.world, Date.now()));
+    const ok = writeWorld(this.world, Date.now());
     if (!ok && this.storageOk) this.hooks.onStorageBlocked();
     // Storage that recovers (space freed, a setting changed) warns again if it fails later.
     this.storageOk = ok;
     this.lastSaveMs = performance.now();
-    if (ok) this.saveThumb();
     return ok;
   }
 
@@ -478,8 +564,6 @@ export class Game {
     this.crashed = false;
     this.world = world;
     this.world.lastWallMs = Date.now();
-    // R0509 (TECH-67): the renderer is this device's choice; an imported save's is ignored.
-    this.world.settings.graphics = this.graphics;
     // The scenes keep the ground and the Hollow floor as their own state: show the new
     // world's, and re-read its sky and place on the next frame (review D, bug 5).
     syncWorldScenes(world, this.grove, [this.grove, this.scene3d, this.view]);
@@ -659,7 +743,10 @@ export class Game {
     // R0091: findable collectibles twinkle near the Keeper, in either renderer.
     this.glintKeepsakes(nowMs);
 
-    if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
+    // hot/perf-leaks E4: the frame only asks; the write runs in idle time after it.
+    if (nowMs - this.lastSaveMs >= SIM.autosaveMs) {
+      queueAutosave(this, !this.renderPaused && (!!this.scene3d || !!(this.grove && this.lowRes)));
+    }
     this.spikes.lap('save');
   }
 

@@ -1,4 +1,5 @@
-import { GATE_MAX_CHAPTER } from '../config/tuning-camp11c';
+import type { ReadonlyWorld } from './readonly';
+import { GATE_MAX_CHAPTER } from '../config/tuning-more/story-open-lines';
 import { audienceAllowed } from './audience';
 import type { World } from './types';
 
@@ -76,7 +77,7 @@ function compare(value: number, spec: string): boolean | null {
 }
 
 /** The spine's chapter number: 1 to 12, `GATE_MAX_CHAPTER` once it has ended, 0 with no campaign. */
-export function spineChapter(world: World): number {
+export function spineChapter(world: ReadonlyWorld): number {
   const c = world.campaign;
   if (!c || c.storyline !== null) return 0;
   return c.ending !== null ? GATE_MAX_CHAPTER : c.chapter;

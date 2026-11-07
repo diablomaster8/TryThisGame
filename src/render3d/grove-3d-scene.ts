@@ -1,5 +1,5 @@
 import { FLIGHT_SPOTS } from '../sim/flight-zones';
-import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { regionCameraFor } from '../config/region-camera';
 import { regionOf } from '../sim/regions';
 import { openSky } from '../render/cave-bands';
@@ -11,7 +11,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, SHADOW_MERGE, UI } from '../config/tuning';
-import { POOL_LOOKS } from '../config/tuning-r10d1';
+import { POOL_LOOKS } from '../config/tuning-more/perf-view-cache';
 import {
   PERF_BUDGET,
   WORLD_LOD,
@@ -22,7 +22,7 @@ import {
   type DeviceTier,
 } from '../config/tuning-world';
 import { KEEPER_JUMP_FX } from '../config/tuning-move';
-import { KEEPER_POOF } from '../config/tuning-move-r10';
+import { KEEPER_POOF } from '../config/tuning-more/move-keeper-ui';
 import { WATER_LEVEL } from '../sim/terrain';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
@@ -41,7 +41,8 @@ import { Actors } from './actors';
 import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
 import { Bursts } from './bursts';
-import { syncOcclude } from './building-kit';
+import { occludeDepthKey, syncOcclude } from './building-kit';
+import { ShadowCache } from './shadow-cache';
 import { poofBursts, POOF3D } from './foe-poof-3d';
 import { GearPop3D } from './hollow-gear-pop';
 import { HollowR9a3D } from './hollow-r9a-3d';
@@ -49,11 +50,13 @@ import { crackWarmObject } from './egg-crack';
 import { uniqueStandIns } from './compile-unique';
 import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
+import { SnowSlideFx } from '../render/snow-slide-fx';
+import { SLIDE_FX } from '../config/tuning-r16d1';
 import { FinishPass } from './finish-pass';
 import { caveShed } from './cave-shed';
 import { GroveShed } from './grove-shed';
 import { GovMemory } from '../platform/gov-memory';
-import { GOV_MEMORY, TIER_BUDGET, type PerfTier } from '../config/tuning-r8d-perf';
+import { GOV_MEMORY, TIER_BUDGET, type PerfTier } from '../config/tuning-more/perf-tiers';
 import { DofPass } from './dof-pass';
 import { applyPhotoCam, type PhotoCam, type PhotoSubject } from './photo-cam';
 import { Turntable } from './turntable-3d';
@@ -89,8 +92,8 @@ import {
 import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
 import { LOOK_STATE } from '../config/npc-looks';
 import { stageHides } from '../config/stage-sets';
-import { STAGE2 } from '../config/tuning-f2';
-import { STAGE4 } from '../config/tuning-f4';
+import { STAGE2 } from '../config/tuning-more/campaign2-staging';
+import { STAGE4 } from '../config/tuning-more/campaign4-fit-shots';
 import { StageBuildings3d } from './stage-buildings-3d';
 import { Dressings3d } from './dressings';
 import { Village } from './village';
@@ -102,12 +105,16 @@ import { regionGround } from '../sim/region-walk';
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
+import { WorldMerge, mergeWanted } from './world-merge';
 import { StaticFreezer, freezeWanted } from './static-freeze';
 import { GrovePuddles } from './puddles';
 import { AmbientLife3d } from './ambient';
 import { RegionLife3d } from './region-life';
 import { RegionMarks3d } from './region-marks';
 import { ambientAwake } from '../render/ambient-life';
+
+/** R0118: scratch point for the snow slide spray. */
+const SLIDE_AT = new THREE.Vector3();
 
 /** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
 const FOG_WHITE = new THREE.Color('#e8eef2');
@@ -339,6 +346,30 @@ export class Grove3dScene {
   private caveShadowOff = false;
   /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
   private shadowMerge!: ShadowMerge;
+  /** Round 5: the still scenery drawn per program in a few calls; `enabled` is the switch. */
+  readonly worldMerge: WorldMerge;
+  /** Round 3: skip instanced draws with no instances (an A/B switch; always on). */
+  skipEmptyDraws = true;
+  /** Round 3: the distant decor hidden for the render at the governor's CPU step 5, or null. */
+  private decor: THREE.Object3D[] | null = null;
+  private readonly decorShown: boolean[] = [];
+
+  /** The distant decor the governor's last CPU step leaves out (`GROVE3D.governor.decor`). */
+  private findDecor(): THREE.Object3D[] {
+    const names = new Set<string>(GROVE3D.governor.decor);
+    const out: THREE.Object3D[] = [];
+    this.scene.traverse((o) => {
+      if (names.has(o.name)) out.push(o);
+    });
+    return out;
+  }
+
+  /** Round 2: leave dormant rigs out of the render walk (an A/B and kill switch). */
+  skipDormant = true;
+  /** Scratch: the creature group's children minus this frame's dormant rigs. */
+  private readonly awakeKids: THREE.Object3D[] = [];
+  /** Round 2: the sun's shadow map drawn from a cached static layer plus the movers. */
+  readonly shadowCache: ShadowCache;
   private caveShadowCleared = false;
   private sunShadowMask = 0;
   private readonly sky: GroveSky;
@@ -439,6 +470,8 @@ export class Grove3dScene {
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
+  /** R0118: the snow slide's swish and spray. */
+  private readonly slideFx = new SnowSlideFx();
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
   readonly frameMs: number[] = [];
   /** WORLD-14: the device tier, from the sculpt grid (`setSculptRes`); caps the grass. */
@@ -598,6 +631,22 @@ export class Grove3dScene {
       syncOcclude();
       draw(scene, camera);
     };
+    // Round 3: an instanced draw with no instances draws nothing, but three still picks its
+    // program and uploads its uniforms first. The Grove keeps about ten such meshes in the
+    // scene (ambient life, region marks, glints, idle particle pools), so they are skipped
+    // before any of that.
+    const direct = this.renderer.renderBufferDirect.bind(this.renderer);
+    this.renderer.renderBufferDirect = (camera, scene, geometry, material, object, group) => {
+      if (!this.skipEmptyDraws) return direct(camera, scene, geometry, material, object, group);
+      if (
+        (object as THREE.InstancedMesh).isInstancedMesh &&
+        (object as THREE.InstancedMesh).count === 0
+      )
+        return;
+      const ig = geometry as THREE.InstancedBufferGeometry;
+      if (ig.isInstancedBufferGeometry && ig.instanceCount === 0) return;
+      direct(camera, scene, geometry, material, object, group);
+    };
     this.governor = new FrameGovernor(window.devicePixelRatio);
     this.renderer.setPixelRatio(this.governor.ratio);
     // Count every composer pass, reset once per frame in `render` (review C, item 19).
@@ -617,7 +666,11 @@ export class Grove3dScene {
     this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
     this.tex = this.textures.tex;
     this.scene.add(this.world3d);
+    // Installed first, so the shadow merge's per-pass slicing runs before it looks.
+    this.shadowCache = new ShadowCache(this.renderer, () => [this.actors.group], occludeDepthKey);
     this.shadowMerge = new ShadowMerge(this.world3d, this.renderer);
+    this.worldMerge = new WorldMerge(this.world3d, this.scene, this.renderer);
+    this.worldMerge.enabled = mergeWanted();
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
     this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };
@@ -2113,6 +2166,19 @@ export class Grove3dScene {
       this.reduceMotion,
     );
     this.r9a.update(world, nowMs, this.actors.keeperPosition(), this.reduceMotion, standHeight);
+    // R0118: snow off the Keeper's feet while sliding (a scratch vector, no per-frame allocation).
+    if (this.slideFx.tick(world, nowMs)) {
+      const kp = this.actors.keeperPosition();
+      SLIDE_AT.set(kp.x, this.actors.keeperFeetY() + 0.1, kp.z);
+      this.bursts.burst(
+        'dust',
+        SLIDE_AT,
+        SLIDE_FX.count,
+        { spread: 0.25, speed: 0.8, rise: 0.3, lifeMs: 480 },
+        nowMs,
+        SLIDE_FX.colour,
+      );
+    }
 
     // Grass parting under the creatures nearest the camera.
     this.nearPushers.begin(this.camPos.x, this.camPos.z);
@@ -2178,7 +2244,10 @@ export class Grove3dScene {
       this.creatureLod.update(
         this.actors.group.children.filter((c) => !(c as THREE.Mesh).isMesh),
         this.camera,
-        this.governor.geoLevel,
+        // At the stand-in step every hull goes too (level 3), as in a busy Grove.
+        this.governor.cpuLevel >= GROVE3D.governor.cpuStandIns
+          ? Math.max(3, this.governor.geoLevel)
+          : this.governor.geoLevel,
         this.canvasSizer ? this.canvasCssH : this.canvas.clientHeight,
       );
     }
@@ -2198,7 +2267,36 @@ export class Grove3dScene {
             : 0;
       imp.render(this.renderer, this.scene, this.camera);
     }
-    this.composer.render();
+    // Round 2: rigs wholly outside the view and its shadow reach (`CreatureLod.dormant`) sit out
+    // the frame's matrix update and culling walk; they draw nothing and cast nothing either way.
+    // Their matrices are rebuilt the first frame they are back (every rig part recomposes).
+    const group = this.actors.group;
+    const all = group.children;
+    const dormant = NO_LOD ? null : this.creatureLod.dormant;
+    // Round 4: so do the rigs drawn as impostors: their meshes sit on the impostor's park layer
+    // (nothing of them is in the main pass or its shadow), and the impostor brings a rig's
+    // matrices up to date itself when it redraws its cell.
+    const parked = imp && imp.count > 0 ? imp : null;
+    if (this.skipDormant && (dormant?.length || parked)) {
+      const awake = this.awakeKids;
+      awake.length = 0;
+      for (const c of all) if (!dormant?.includes(c) && !parked?.has(c)) awake.push(c);
+      group.children = awake;
+    }
+    // Round 3, the governor's CPU step 5: the distant decor sits out the frame.
+    const decor = this.decor;
+    const shown = this.decorShown;
+    if (decor)
+      for (let i = 0; i < decor.length; i++) {
+        shown[i] = decor[i]!.visible;
+        decor[i]!.visible = false;
+      }
+    try {
+      this.composer.render();
+    } finally {
+      group.children = all;
+      if (decor) for (let i = 0; i < decor.length; i++) decor[i]!.visible = shown[i]!;
+    }
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();
@@ -2480,6 +2578,15 @@ export class Grove3dScene {
       if (second) second.visible = level < 2;
       this.bloom.enabled = this.bloomWanted && level < 2 && !this.bloomShed;
       this.clamp.enabled = this.bloom.enabled;
+      // Round 3: far creatures updated every other frame, and the distant decor left out.
+      const lite = level >= GROVE3D.governor.cpuThin;
+      this.actors.thin = lite ? (root) => this.creatureLod.lite(root) : null;
+      this.decor = lite ? this.findDecor() : null;
+      // Round 3: nearer creatures as their stand-ins (which still walk).
+      this.creatureLod.proxyFrom =
+        level >= GROVE3D.governor.cpuStandIns
+          ? GROVE3D.governor.proxyFromUnderLoad
+          : WORLD_LOD.creature.proxyFrom;
     }
     // Under strain the sun's shadow map is redrawn every second frame (every fourth at the
     // last CPU step): it is a second draw of every caster, and a frame late is not visible
@@ -2542,6 +2649,7 @@ export class Grove3dScene {
 
   dispose(): void {
     setGroveBackSource(null);
+    this.shadowCache.dispose();
     this.canvasSizer?.disconnect();
     this.dressings.dispose();
     document.removeEventListener('visibilitychange', this.onHidden);

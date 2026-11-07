@@ -4,7 +4,7 @@
  * adult, the wave only near the Keeper, no spin under reduced motion and no tears on a trip.
  */
 import { describe, expect, it } from 'vitest';
-import { IDLE_ACTS } from '../../src/config/tuning-look-r10e';
+import { IDLE_ACTS } from '../../src/config/tuning-more/look-creature-fx';
 import { gagAt } from '../../src/render/gag-play';
 import {
   actDoodleAlpha,

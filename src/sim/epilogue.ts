@@ -1,5 +1,6 @@
+import type { ReadonlyWorld } from './readonly';
 import { GATES } from '../config/gates';
-import { VALLEY_FAIR } from '../config/tuning-camp11c';
+import { VALLEY_FAIR } from '../config/tuning-more/story-open-lines';
 import { evalGateId } from './gates';
 import type { Line } from '../config/story';
 import { queueScene } from './story-state';
@@ -25,7 +26,7 @@ export function registerEpilogue(data: EpilogueData): void {
 }
 
 /** The lines (storyline ids) that have ended in this world, with their ending ids. */
-export function endedLines(world: World): Array<[string, string]> {
+export function endedLines(world: ReadonlyWorld): Array<[string, string]> {
   return Object.entries(world.lines ?? {}).flatMap(([id, l]) => (l.ending ? [[id, l.ending]] : []));
 }
 
@@ -46,7 +47,7 @@ export function fairSeen(world: World): boolean {
 }
 
 /** The scene's lines: the opening, one callback per finished ending (spine first), the close. */
-export function epilogueLines(world: World): Line[] {
+export function epilogueLines(world: ReadonlyWorld): Line[] {
   const n = (text: string): Line => ({ who: 'narrator', text });
   if (!DATA) return [n('The valley fair.')];
   const out: Line[] = DATA.frame.open.map(n);

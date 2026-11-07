@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import { PARTNERS } from '../config/tuning';
 import { levelOf } from './stats';
 import { STAT_KEYS, type Nubbin, type SimEvent, type StatKey, type World } from './types';
@@ -42,7 +43,7 @@ export function merge(world: World, events: SimEvent[]): boolean {
   return true;
 }
 
-export function isMerged(world: World, id: string): boolean {
+export function isMerged(world: ReadonlyWorld, id: string): boolean {
   return !!world.merge && (world.merge.a === id || world.merge.b === id);
 }
 

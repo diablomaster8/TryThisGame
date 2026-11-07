@@ -3,7 +3,7 @@ import { audienceAllowed } from './audience';
 import { bestFriend } from './friendships';
 import { basePersonality } from './personality';
 import { areRivals } from './rivals';
-import { hasTrait, type TraitId } from './traits';
+import { hasTrait, type SoulTraitId } from './traits';
 import { levelOf } from './stats';
 import type { CampaignState, Nubbin, StatKey, World } from './types';
 
@@ -57,7 +57,7 @@ function nubbinTerm(world: World, n: Nubbin, t: string[], key: string): boolean 
         ? arg === 'any' || n.personality === arg || basePersonality(n.personality) === arg
         : false;
     case 'trait':
-      return arg === 'any' ? true : hasTrait(n, arg as TraitId);
+      return arg === 'any' ? true : hasTrait(n, arg as SoulTraitId);
     case 'bestFriend':
       return bestFriend(world, n) !== null;
     case 'rival':

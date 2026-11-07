@@ -5,7 +5,8 @@
  * `natural` (the hedge that rings the rest). The renderers draw the blockers from
  * `borderBlockers()`, and walking into the edge raises `borderPushed` once per stretch.
  */
-import { BORDER } from '../config/tuning-r9d2';
+import type { ReadonlyWorld } from './readonly';
+import { BORDER } from '../config/tuning-more/ui-tap-prints-border';
 import { REGIONS } from '../config/regions';
 import { SIM } from '../config/tuning';
 import type { SimEvent, Vec2, World } from './types';
@@ -57,7 +58,7 @@ export const BORDER_WAYS: readonly BorderWay[] = REGIONS.grove.exits.flatMap((e)
   return [way];
 });
 
-function wayOpen(way: BorderWay, world?: World): boolean {
+function wayOpen(way: BorderWay, world?: ReadonlyWorld): boolean {
   if (!REGIONS[way.to].built) return false;
   // R11 d7: the Sun and Moon gates open with the first adult of that alignment.
   if (way.to === 'sunlands' && !world?.unlocks.sunGrove) return false;
@@ -66,7 +67,7 @@ function wayOpen(way: BorderWay, world?: World): boolean {
 }
 
 /** What stands at the border nearest (x, z). */
-export function borderEdge(x: number, z: number, world?: World): BorderEdge {
+export function borderEdge(x: number, z: number, world?: ReadonlyWorld): BorderEdge {
   const { side, along } = sideOf(x, z);
   const way = BORDER_WAYS.find((w) => w.side === side && Math.abs(w.at - along) <= w.half);
   if (way) return { kind: wayOpen(way, world) ? 'exit' : 'notYet', side, stretch: way.id };
@@ -113,7 +114,7 @@ export function borderBlockers(): readonly BorderBlocker[] {
 }
 
 /** The stretches already spoken for this visit, per world (not saved). */
-const spoken = new WeakMap<World, Set<string>>();
+const spoken = new WeakMap<ReadonlyWorld, Set<string>>();
 
 /**
  * After the Keeper's step: when it stands at the edge and is still heading out (keys held

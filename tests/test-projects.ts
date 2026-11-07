@@ -195,6 +195,7 @@ const VERIFIED_UNIT_FILES: readonly string[] = [
  * Measured in CI on 2026-11-06 by running every file with no story registered: these failed.
  */
 export const STORY_FILES: readonly string[] = [
+  'tests/sim/save-size-campaign.test.ts',
   'tests/render/scene-stage.test.ts',
   'tests/render/stage-foundation.test.ts',
   'tests/render/story-shots.test.ts',
@@ -268,6 +269,7 @@ export const TOOL_FILES: readonly string[] = [
   'tests/tools/env-directions.test.ts',
   'tests/tools/env-fractal.test.ts',
   'tests/tools/env-samples.test.ts',
+  'tests/tools/evo-preview.test.ts',
   'tests/tools/make-icons.test.ts',
   'tests/tools/preview.test.ts',
   'tests/tools/scenery.test.ts',
@@ -287,6 +289,11 @@ export const ISOLATED_FILES: readonly string[] = [
   'tests/sim/expansions.test.ts',
   'tests/sim/fun-r5.test.ts',
   'tests/sim/read-aloud.test.ts',
+  'tests/render/look-r10e.test.ts', // stubs window; the next file in the thread then sees no addEventListener
+  // Audio unlock state (the first-gesture flag, the music bus) leaks in from other audio tests.
+  'tests/sim/voices-unlock.test.ts',
+  'tests/ui/biome-beds.test.ts',
+  'tests/ui/music-duck.test.ts',
 ];
 
 const ALL_TEST_FILES = allTestFiles('tests');

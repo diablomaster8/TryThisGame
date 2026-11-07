@@ -28,6 +28,7 @@ import { CHOICE_PAYOFFS } from './choice-payoffs';
 import { registerLangCourses, registerLangQuests } from './lang';
 import { epilogueLines, FAIR_SCENE, registerEpilogue } from './epilogue';
 import { loadOnce } from './load-once';
+import { registerSideSkeleton, sideTextPending, wantSideText } from './side-text';
 import type { CampaignState, World } from './types';
 
 /**
@@ -147,6 +148,22 @@ export function registerSideStories(content: SideStoryContent): void {
   for (const s of content.variants) add(s);
 }
 
+/**
+ * R0491 (TECH-50): the registry's side-story maps, for side-text.ts, which boots the side
+ * stories from their skeleton and swaps each file's text in when it loads.
+ */
+export function sideRegistry() {
+  return {
+    quests: GROVE_SIDE_STORIES,
+    questById: QUEST_BY_ID,
+    sceneById: SCENE_BY_ID,
+    rewardById: REWARD_BY_ID,
+    childLines: CHILD_LINES,
+    add,
+  };
+}
+export { loadSideText, registerSideSkeleton, sideTextPending } from './side-text';
+
 const STORYLINE_BY_ID = new Map<string, Storyline>();
 
 /** A separate campaign's script by id ('hundred', 'logged', 'beetle', 'dawn', 'dusk'). */
@@ -181,19 +198,20 @@ export function registerStorylines(list: Storyline[]): void {
 
 /**
  * Load the campaign and side-story chunks once (both fetches start together) and register
- * them, campaign first. The app awaits this before a save loads. A failed fetch (offline,
- * or a deploy removed the chunk) does not stick: the next call tries again (`loadOnce`),
- * which is what the boot card's "Try again" relies on.
+ * them, campaign first. The side stories come as their skeleton only (R0491); each file's
+ * text follows on demand (`loadSideText`). The app awaits this before a save loads. A failed
+ * fetch (offline, or a deploy removed the chunk) does not stick: the next call tries again
+ * (`loadOnce`), which is what the boot card's "Try again" relies on.
  */
 export const loadStoryScripts: () => Promise<void> = loadOnce(() =>
   Promise.all([
     import('../content/campaign'),
-    import('./side-story-content'),
+    import('./side-story-skeleton'),
     import('./storyline-content'),
     import('../content/epilogue'),
   ]).then(([campaign, side, lines, epi]) => {
     registerCampaign(campaignContent(campaign));
-    registerSideStories(side.SIDE_STORY_CONTENT);
+    registerSideSkeleton(side.SIDE_STORY_SKELETON);
     registerStorylines(lines.STORYLINE_CONTENT);
     registerEpilogue({ callbacks: epi.EPILOGUE_CALLBACKS, frame: epi.EPILOGUE_FRAME });
     // R0600: the Valley Fair's lines are built from the endings a save reached (`sceneFor`).
@@ -870,6 +888,11 @@ export function sceneFor(
   given?: Scene,
 ): PlayScene | undefined {
   const scene = given ?? SCENE_BY_ID.get(id);
+  if (!given && sideTextPending(id)) {
+    // R0491: its text chunk is still on the way; the caller asks again next refresh.
+    wantSideText(id);
+    return undefined;
+  }
   const c = world.campaign;
   if (!scene) return undefined;
   if (id === FAIR_SCENE) return { ...scene, lines: epilogueLines(world), choices: [], lessons: [] };

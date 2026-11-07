@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { CG2_X } from '../config/tuning';
-import { STORY_B } from '../config/tuning-b';
+import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 import type { Tex } from './art/aaa-kit';
 import { bevelBox, buildingMaterial } from './building-kit';
 

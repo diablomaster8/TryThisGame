@@ -4,7 +4,8 @@
  * trace's own (content/world-traces.ts), the child line in a Learning Grove where it has one.
  */
 import { SECRET_TEXT, WORLD_HINT_TEXT } from '../config/strings-r9d4';
-import { WORLD_HINTS } from '../config/tuning-r9d4';
+import { REGION_NOOK_TEXT, REGION_SECRET_TEXT } from '../config/strings-r15d1';
+import { WORLD_HINTS } from '../config/tuning-more/ui-world-hints';
 import { WORLD_TRACES } from '../content/world-traces';
 import { CLUE_TRACE } from '../sim/world-hints';
 import type { World } from '../sim/types';
@@ -16,7 +17,7 @@ export function hintToast(id: string, world: World | undefined): string | null {
     const line = (world?.edu && t?.childLines[`${CLUE_TRACE}#0`]) || t?.lines[0]?.text;
     return line ? `🗝️ ${line}` : null;
   }
-  const text = (WORLD_HINT_TEXT as Record<string, string>)[id];
+  const text = (WORLD_HINT_TEXT as Record<string, string>)[id] ?? REGION_NOOK_TEXT[id];
   if (!text) return null;
   const icon = WORLD_HINTS.spots.find((s) => s.id === id)?.icon ?? '🌿';
   return `${icon} ${text}`;
@@ -31,5 +32,7 @@ export function traceToasts(id: string, world: World | undefined): string[] {
 
 /** The secret's lines, in order (one toast each). */
 export function secretToasts(region: string): readonly string[] {
-  return (SECRET_TEXT as Record<string, readonly string[]>)[region] ?? [];
+  return (
+    (SECRET_TEXT as Record<string, readonly string[]>)[region] ?? REGION_SECRET_TEXT[region] ?? []
+  );
 }

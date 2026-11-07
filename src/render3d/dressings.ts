@@ -1,8 +1,9 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import type * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import type { Tex } from './art/aaa-kit';
-import type { World } from '../sim/types';
+
 import type { LampSource } from './lamp-pool';
 import type { ScreenRect, StageBuildings } from '../render/stage-api';
 import { dress3dA } from './dress-a';
@@ -79,7 +80,7 @@ export interface Dress3dCtx {
 export interface Dressing3d {
   id: string;
   build(ctx: Dress3dCtx): void;
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void;
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void;
   dispose?(): void;
 }
 
@@ -120,7 +121,7 @@ export class Dressings3d {
     for (const d of this.list) d.build(ctx);
   }
 
-  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
     for (const d of this.list) d.update(world, stage, daylight, dt);
   }
 

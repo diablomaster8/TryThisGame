@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import {
   GATE_LEVEL,
   GATE_RULES,
@@ -6,7 +7,7 @@ import {
   type GateKind,
   type RegionGate,
 } from '../config/region-wild';
-import { GATE_PLAN } from '../config/tuning-r12d2';
+import { GATE_PLAN } from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
 import { isPartner } from './partners';
 import { scatterSpots } from './region-spots';
@@ -71,7 +72,7 @@ export function gatesOf(region: string): readonly RegionGate[] {
 }
 
 /** The gates still shut in the region the Keeper is in. */
-export function closedGates(world: World): RegionGate[] {
+export function closedGates(world: ReadonlyWorld): RegionGate[] {
   const region = regionOf(world.location);
   return gatesOf(region).filter((g) => !gateIsOpen(world, region, g.id));
 }

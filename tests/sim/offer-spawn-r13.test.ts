@@ -1,6 +1,6 @@
 /** Lane C round 13c (R0608): the hooded giver comes from a spot the default camera can see. */
 import { describe, expect, it } from 'vitest';
-import { C12C } from '../../src/config/tuning-camp12c';
+import { C12C } from '../../src/config/tuning-more/story-quest-markers';
 import { REGIONS } from '../../src/config/regions';
 import { heightAt } from '../../src/sim/height';
 import { offerSpawnAngle } from '../../src/sim/scene-cast';

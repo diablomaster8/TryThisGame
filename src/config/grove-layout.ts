@@ -4,6 +4,7 @@ import { BRIDGE_DECK, BRIDGE_YAW, TERRACE } from './tuning-sim';
 import { outerColliders } from './outer-ring';
 import { villageColliders, type VillageService } from './region-village';
 import { JUMP_TOYS } from './tuning-move';
+import { MOUTH_LANTERN } from './tuning-r17d1';
 
 /**
  * The one table of placed solids in the home Grove (MOVE-01). The sim builds its colliders
@@ -153,6 +154,12 @@ export const COTTAGE_LANTERN = {
 
 /** The cave mouth in the east face of the north-west hill, and the radius of its opening. */
 export const CAVE_MOUTH = { x: -12.4, z: -13.6, r: 1.6 } as const;
+
+/** R0115 (R17 d1): the warm lantern that stands by the cave mouth, so it reads at night. */
+export const CAVE_LANTERN = {
+  x: CAVE_MOUTH.x + MOUTH_LANTERN.dx,
+  z: CAVE_MOUTH.z + MOUTH_LANTERN.dz,
+} as const;
 
 export type StallUnlock = 'stall' | 'attendant' | 'festival';
 
@@ -377,6 +384,14 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
   add({
     id: 'cottage-lantern',
     ...COTTAGE_LANTERN,
+    yaw: 0,
+    shape: circle(0.3),
+    top: 1.6,
+    flags: ['solid'],
+  });
+  add({
+    id: 'cave-lantern',
+    ...CAVE_LANTERN,
     yaw: 0,
     shape: circle(0.3),
     top: 1.6,

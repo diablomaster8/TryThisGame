@@ -6,6 +6,7 @@
  * (`ui/hop-course.ts`); the only Grove write is the Hop Hat, once, on the first finish.
  * Live play only, in the home Grove; with no run under way a step costs one distance check.
  */
+import type { ReadonlyWorld } from './readonly';
 import { HOP_COURSE } from '../config/tuning-move';
 import { keeperFooting } from './keeper';
 import type { SimEvent, Vec2, World } from './types';
@@ -17,7 +18,7 @@ interface Run {
   ghost: number[];
 }
 
-const runs = new WeakMap<World, Run>();
+const runs = new WeakMap<ReadonlyWorld, Run>();
 // Worlds whose Keeper has not yet stepped off the start flag since the last run, so finishing
 // on it (or giving up there) does not start a new run at once.
 const waitOff = new WeakSet<World>();
@@ -29,12 +30,14 @@ export function hopMedal(ms: number): HopMedal {
 }
 
 /** Whether the course is open: the hop lesson is done. */
-export function hopCourseOpen(world: World): boolean {
+export function hopCourseOpen(world: ReadonlyWorld): boolean {
   return world.hopLesson === 'done';
 }
 
 /** The run under way, for the HUD and the renderers (read only), or null. */
-export function hopCourseRun(world: World): Readonly<{ startMs: number; next: number }> | null {
+export function hopCourseRun(
+  world: ReadonlyWorld,
+): Readonly<{ startMs: number; next: number }> | null {
   return runs.get(world) ?? null;
 }
 

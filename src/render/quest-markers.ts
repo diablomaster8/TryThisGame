@@ -1,4 +1,4 @@
-import { C12C } from '../config/tuning-camp12c';
+import { C12C } from '../config/tuning-more/story-quest-markers';
 import { goalTarget } from '../sim/goal-target';
 import { giverNpc } from '../sim/offer-approach';
 import { boardState, kidFlow } from '../sim/quest-offers';

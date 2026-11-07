@@ -4,7 +4,7 @@
  * `ui/soul-sounds.ts` on the `hum` event). Musical Nubbins hum three times as often. Chances
  * are hashed per second, never the world's rng; live play only; sound and looks, never stats.
  */
-import { HUM } from '../config/tuning-soul-r12a';
+import { HUM } from '../config/tuning-more/soul-hum-fond';
 import { awake, dist, h01, idle } from './soul-kit';
 import { soulLive } from './antics';
 import { hasTrait } from './traits';

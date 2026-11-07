@@ -181,6 +181,34 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
         }
       }
       break;
+    case 'flameMane': {
+      // R0405: glowing flame cones down the back of the neck, from behind the head to the
+      // withers, the first ones biggest; two rows split either side of the crest.
+      const from = V(0, h.y + h.r.y * 0.55, h.z - h.r.z * 0.75);
+      const to = V(0, b.y + b.r.y * 0.95, Math.min(b.r.z * 0.2, h.z - 0.4));
+      for (let i = 0; i < 6; i++) {
+        const t = i / 5;
+        const p = from.clone().lerp(to, t);
+        const k = 1.15 - t * 0.35;
+        for (const s of i % 2 ? [-1] : [1]) {
+          const base = p.clone().add(V(s * 0.1, 0, 0));
+          const tip = base.clone().add(V(s * 0.12, 0.5 * k, -0.3 * k));
+          T.push({ ...cone(base, tip, 0.17 * k, 0.02, c, 0.04), glow: 0.8 });
+          T.push({
+            ...cone(
+              base.clone().add(V(0, 0, 0.04)),
+              tip.clone().lerp(base, 0.35),
+              0.1 * k,
+              0.02,
+              c2,
+              0.04,
+            ),
+            glow: 0.9,
+          });
+        }
+      }
+      break;
+    }
     case 'mushrooms':
       for (const s of sides) {
         const p = V(s * m.s * 0.55, m.y + m.s * 0.75, m.z - 0.05);

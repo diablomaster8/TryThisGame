@@ -1,6 +1,13 @@
-import { CAVE_MOUTH, COTTAGE_LANTERN, FENCE_POSTS, WILD_PROPS } from '../config/grove-layout';
+import {
+  CAVE_LANTERN,
+  CAVE_MOUTH,
+  COTTAGE_LANTERN,
+  FENCE_POSTS,
+  WILD_PROPS,
+} from '../config/grove-layout';
 import { OUTER_PROPS, OUTER_TREES } from '../config/outer-ring';
 import { GROVE } from '../config/tuning';
+import { MOUTH_LANTERN } from '../config/tuning-r17d1';
 import type { PaintedKind } from './paint/scenery';
 
 export type PaintedSceneryKind = PaintedKind;
@@ -32,6 +39,8 @@ export const SCENERY: SceneryPlacement[] = [
     sway: 0.05,
   })),
   { kind: 'lanternPost', x: COTTAGE_LANTERN.x, z: COTTAGE_LANTERN.z, size: 0.8 },
+  // R0115: the mouth's own lantern, always warm.
+  { kind: 'lanternPost-lit', x: CAVE_LANTERN.x, z: CAVE_LANTERN.z, size: MOUTH_LANTERN.pixelSize },
   // The Hollow Below opens in the east face of the north-west hill.
   {
     kind: 'caveMouth',

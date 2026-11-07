@@ -234,6 +234,9 @@ export class CreatureImpostors {
       renderer.setRenderTarget(this.target);
       renderer.clear(true, true, false);
       for (const o of f.moved) if (o.layers.mask === 1 << PARK_LAYER) o.layers.set(IMPOSTOR_LAYER);
+      // Round 4: the main pass no longer walks a parked rig, so its matrices are brought up to
+      // date here, for the cell it is about to draw (this frame's pose).
+      f.root.updateMatrixWorld(true);
       renderer.render(scene, this.cam);
       for (const o of f.moved) if (o.layers.mask === 1 << IMPOSTOR_LAYER) o.layers.set(PARK_LAYER);
       f.age = 0;

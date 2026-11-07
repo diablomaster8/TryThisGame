@@ -1,6 +1,6 @@
+import type { ReadonlyWorld } from './readonly-world';
 import { HOP_COURSE } from '../config/tuning-move';
 import { hopCourseOpen, hopCourseRun } from '../sim/hop-course';
-import type { World } from '../sim/types';
 
 /**
  * MOVE-63: what both renderers show of the hop course: which flags stand (the start flag
@@ -23,7 +23,7 @@ export interface ShownFlag {
   n: number;
 }
 
-export function hopFlagsShown(world: World): ShownFlag[] {
+export function hopFlagsShown(world: ReadonlyWorld): ShownFlag[] {
   if (world.location !== 'grove' || !hopCourseOpen(world)) return [];
   const run = hopCourseRun(world);
   const s = HOP_COURSE.start;
@@ -38,7 +38,10 @@ export function hopFlagsShown(world: World): ShownFlag[] {
 }
 
 /** Where the ghost is at sim time `t` during a run, or null (no run, no ghost, or done). */
-export function hopGhostAt(world: World, t: number): { x: number; y: number; z: number } | null {
+export function hopGhostAt(
+  world: ReadonlyWorld,
+  t: number,
+): { x: number; y: number; z: number } | null {
   const run = hopCourseRun(world);
   if (!run || !ghost) return null;
   const i = (t - run.startMs) / 100;

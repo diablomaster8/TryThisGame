@@ -4,7 +4,7 @@
  * the six walk frames.
  */
 import { writeFileSync } from 'node:fs';
-import { KEEPER_ACTS } from '../../src/config/tuning-soul-r11g';
+import { KEEPER_ACTS } from '../../src/config/tuning-more/soul-ambient-games';
 import { describe, expect, it } from 'vitest';
 import { poseFor } from '../../src/render/sprites/chao';
 import { drawCreature, type CreatureSpec } from '../../src/render/sprites/creature';
@@ -114,7 +114,7 @@ describe('quad tail set and gait (R0375)', () => {
   });
 });
 
-it.skipIf(!process.env.QUAD_SHEET)('writes a quad contact sheet', () => {
+if (process.env.QUAD_SHEET) it('writes a quad contact sheet', () => {
   const angles = ['front', 'frontQuarter', 'side', 'backQuarter', 'back'] as const;
   const scale = 3;
   const cell = 34 * scale;

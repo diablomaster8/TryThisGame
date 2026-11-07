@@ -10,9 +10,9 @@
  * Chances are hashed (`roll`), so no world rng is drawn, and none of it runs while catching
  * up on time away (`soulLive`). Behaviour only, never stats.
  */
-import { QUIRKS } from '../config/tuning-soul-r10';
+import { QUIRKS } from '../config/tuning-more/soul-friends-rivals';
 import { GROVE } from '../config/tuning';
-import { QUIRKS_R11 } from '../config/tuning-soul-r11';
+import { QUIRKS_R11 } from '../config/tuning-more/soul-quirks-gait';
 import { liveliness, soulLive } from './antics';
 import { leaningPersonality } from './personality';
 import type { IdleAct } from './soul-idle';

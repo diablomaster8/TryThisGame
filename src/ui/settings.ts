@@ -12,7 +12,7 @@ import { mountAccessSettings } from './access-r10';
 import { bugReport } from '../platform/bug-log';
 import { groveBytes, storageEstimate } from '../platform/storage-use';
 import { STORAGE_TEXT } from '../config/strings-r10d4';
-import { STORAGE_WATCH } from '../config/tuning-r10d4';
+import { STORAGE_WATCH } from '../config/tuning-more/perf-offline-packs';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { BIG_BUBBLES_TEXT, LIVELINESS_TEXT } from '../config/strings-soul-r8';
 import { livelinessOf } from '../sim/antics';
@@ -32,14 +32,13 @@ import {
   clearSave,
   currentSlot,
   downloadText,
-  markResumeSlot,
   modeOfWorld,
   pickTextFile,
   readUnreadable,
   readGraphicsPref,
-  writeGraphicsPref,
 } from '../platform/storage';
 import { deserialize, importProblem } from '../sim/save';
+import { changeGraphics } from '../graphics-swap';
 import { matureControlVisible, matureRaiseNeedsGate } from '../sim/audience';
 import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
@@ -53,6 +52,7 @@ import { mountStoryStartSetting } from './story-start-setting'; /* Lane C r11 (R
 import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
 import { mountSaveInfo } from './save-info-panel';
+import { mountStorageUsed } from './storage-used';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
@@ -552,6 +552,7 @@ export class SettingsMenu {
     this.unreadableBtn.hidden = true;
     saves.append(this.unreadableBtn);
     body.appendChild(saves);
+    this.syncStorageUsed = mountStorageUsed(body);
     // R0659 (CAMP-67): last saved, size, and the copies kept.
     // Lane C r10 agent B: with the rolling backups, Restore and the checkpoint count.
     // Lane C r11 (R0625, R0626): the whole-profile backup and what story worlds read.
@@ -588,6 +589,7 @@ export class SettingsMenu {
 
   private readonly storageLine: HTMLParagraphElement;
   private syncSaveInfo: () => void = () => undefined;
+  private syncStorageUsed: () => void = () => undefined;
 
   private refreshStorageLine(): void {
     // R0497 (TECH-56): the saves against localStorage's ~5 MB, the site's offline files and
@@ -638,6 +640,7 @@ export class SettingsMenu {
     if (!g) return;
     this.refreshStorageLine();
     this.syncSaveInfo();
+    this.syncStorageUsed();
     const s = g.world.settings.offlineAging;
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);
@@ -817,7 +820,6 @@ export class SettingsMenu {
       gentleJumps: this.gentle.checked,
       particles: this.particles.value as Settings['particles'],
       reducedMotion: this.reduced.value as Settings['reducedMotion'],
-      graphics: this.graphics.value === '3d' ? '3d' : 'pixel',
       joystick: this.joystick.checked,
       jukebox: this.jukebox.value || null,
       ambience: this.ambience.checked,
@@ -868,24 +870,11 @@ export class SettingsMenu {
     const flow = this.questFlow.value as NonNullable<Settings['questFlow']>;
     if (flow !== (g.world.settings.questFlow ?? 'guided')) settings.questFlow = flow;
     g.send({ kind: 'setSettings', settings });
-    // The renderer is picked when the game starts, so a change saves and reloads.
-    // R0509 (TECH-67): compared with the device preference, the one source of truth.
-    const running = readGraphicsPref();
-    if (settings.graphics !== running) {
-      // With storage blocked the reload would lose this Grove and the choice: keep both and
-      // point to the title screen, whose pick lasts the session (review D, 13).
-      if (!writeGraphicsPref(settings.graphics)) {
-        writeGraphicsPref(running); // the page keeps running the renderer it has
-        g.send({ kind: 'setSettings', settings: { ...settings, graphics: running } });
-        this.graphics.value = running;
-        this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
-        return;
-      }
-      g.world.settings = settings;
-      g.save();
-      // Back into this same slot after the reload, as the help text promises.
-      markResumeSlot(currentSlot());
-      location.reload();
+    // R0509 (TECH-67): the renderer swaps live; save-and-reload is the fallback (graphics-swap.ts).
+    const wanted = this.graphics.value === '3d' ? '3d' : 'pixel';
+    if (changeGraphics(g, wanted, settings, this.parent) === 'blocked') {
+      this.graphics.value = readGraphicsPref();
+      this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
     }
   }
 

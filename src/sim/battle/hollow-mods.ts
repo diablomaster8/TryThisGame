@@ -14,7 +14,7 @@
  * type of move does half). Snack Thief plays after the fight (`dungeon-encounters.ts`).
  */
 import { championMod, type ChampionModId } from '../../config/dungeon-foes';
-import { BATTLE_R9 } from '../../config/tuning-battle-r9';
+import { BATTLE_R9 } from '../../config/tuning-more/battle-champions';
 import { BATTLE } from '../../config/tuning-battle';
 import type { Rng } from '../rng';
 import { hurt, standing } from './damage';

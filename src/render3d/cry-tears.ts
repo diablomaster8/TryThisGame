@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CRY_TEARS } from '../config/tuning-look-r10e';
+import { CRY_TEARS } from '../config/tuning-more/look-creature-fx';
 import type { Bursts } from './bursts';
 
 /**

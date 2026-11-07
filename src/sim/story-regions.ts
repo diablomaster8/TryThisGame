@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly';
 import {
   regionOfLine,
   STORY_REGION_IDS,
@@ -28,7 +29,7 @@ import type { CampaignState, SimEvent, World } from './types';
  */
 
 /** Hazel's Grove as the spine, with lines beside it (the only kind of world with regions). */
-function spineChapter(world: World): number | null {
+function spineChapter(world: ReadonlyWorld): number | null {
   const c = world.campaign;
   return c && c.storyline === null && c.chapter > 0 && world.edu === null ? c.chapter : null;
 }
@@ -38,7 +39,7 @@ export function isStoryRegion(id: string | undefined | null): id is StoryRegionI
 }
 
 /** The questline region the Keeper stands in, or null in the Grove itself. */
-export function storyRegionHere(world: World): StoryRegionId | null {
+export function storyRegionHere(world: ReadonlyWorld): StoryRegionId | null {
   if (world.location === 'dungeon') return 'hollow';
   return isStoryRegion(world.storyRegion) ? world.storyRegion : null;
 }
@@ -61,14 +62,14 @@ export function lineRegionOpen(world: World, id: string): boolean {
 }
 
 /** The running lines that live in region `r`. */
-export function regionLines(world: World, r: StoryRegionId): CampaignState[] {
+export function regionLines(world: ReadonlyWorld, r: StoryRegionId): CampaignState[] {
   return STORY_REGIONS[r].lines
     .map((id) => world.lines?.[id])
     .filter((l): l is CampaignState => !!l && l.ending === null);
 }
 
 /** The running line whose region the Keeper is in (the first, if two share one), or null. */
-export function regionLine(world: World): CampaignState | null {
+export function regionLine(world: ReadonlyWorld): CampaignState | null {
   if (spineChapter(world) === null) return null;
   const r = storyRegionHere(world);
   return r ? (regionLines(world, r)[0] ?? null) : null;

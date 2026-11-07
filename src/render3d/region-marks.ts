@@ -1,9 +1,9 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { PETALS } from '../config/region-content-r12d2';
 import { heightAt } from '../sim/height';
 import { closedGates } from '../sim/region-gates';
 import { regionMarks, type Mark } from '../sim/region-marks';
-import type { World } from '../sim/types';
 
 /**
  * R12 d2 (R0090, R0091, R0138, R0136): the small marks of an open region in Full 3D, from
@@ -91,7 +91,7 @@ export class RegionMarks3d {
     this.nb++;
   }
 
-  update(world: World, tSec: number, still: boolean): void {
+  update(world: ReadonlyWorld, tSec: number, still: boolean): void {
     this.ng = 0;
     this.nb = 0;
     if (world.location.startsWith('region:')) {
@@ -119,7 +119,14 @@ export class RegionMarks3d {
   }
 
   /** R0110: the three gates that are not a boulder, built from a few blocks. */
-  private gate(world: World, kind: string, x: number, z: number, r: number, t: number): void {
+  private gate(
+    world: ReadonlyWorld,
+    kind: string,
+    x: number,
+    z: number,
+    r: number,
+    t: number,
+  ): void {
     const y = heightAt(world.location, x, z);
     if (kind === 'deepWater') {
       this.block(x, y + 0.02, z, r * 2.6, 0.05, r * 2.6, '#24508c', t * 0.3);
@@ -152,7 +159,7 @@ export class RegionMarks3d {
     }
   }
 
-  private mark(world: World, m: Mark, tSec: number, still: boolean): void {
+  private mark(world: ReadonlyWorld, m: Mark, tSec: number, still: boolean): void {
     const y = heightAt(world.location, m.x, m.z);
     const t = still ? 0 : tSec;
     switch (m.kind) {

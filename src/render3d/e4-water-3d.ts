@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import type { Streak } from '../render/e4-shared';
 import type { Dress3dCtx } from './dressings';
 import { WATER_LEVEL } from './terrain';

@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import {
   RIDGE_CAVE,
@@ -7,8 +8,8 @@ import {
   RIDGE_TERRACES,
 } from '../config/region-ridge';
 import { snowballs } from '../sim/snowballs';
-import { SNOWBALL } from '../config/tuning-r13d1';
-import type { World } from '../sim/types';
+import { SNOWBALL } from '../config/tuning-more/world-region-content';
+
 import type { RegionLayout } from '../config/region-layout';
 import { paintRidge, RIDGE_GROUND, ridgeHeight, ridgeKind } from '../render/region-ridge';
 import { at, kit3dModule, merged, tinted, type Kit3dDecor } from './region-kit';
@@ -175,7 +176,7 @@ function decorate(group: THREE.Group): Kit3dDecor {
     return m;
   });
   return {
-    sync(world: World) {
+    sync(world: ReadonlyWorld) {
       const list = snowballs(world);
       balls.forEach((m, i) => {
         const b = list[i];

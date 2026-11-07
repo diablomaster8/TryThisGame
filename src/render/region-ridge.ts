@@ -1,3 +1,4 @@
+import type { ReadonlyWorld } from './readonly-world';
 import type { LayoutTree } from '../config/region-layout';
 import { terraceHeight } from '../config/region-layout';
 import {
@@ -13,7 +14,7 @@ import { ridgeSheet } from './paint/ridge';
 import type { GroundLook, GroundPaint } from './region-ground';
 import { kitModule, type KitPiece } from './region-kit-px';
 import { snowballs } from '../sim/snowballs';
-import type { World } from '../sim/types';
+
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 import type { SpriteSheet } from './sprites/atlas';
 
@@ -113,7 +114,7 @@ const ball: SpriteDraw = {
 };
 
 /** R0113 (R13 d1): the snowballs in the air (the sim's, read only) and the kit's own dynamics. */
-export function drawDynamic(batch: SpriteBatch, world: World, tint: number): void {
+export function drawDynamic(batch: SpriteBatch, world: ReadonlyWorld, tint: number): void {
   mod.drawDynamic(batch, world, tint);
   const list = snowballs(world);
   if (list.length === 0) return;

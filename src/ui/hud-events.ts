@@ -33,6 +33,7 @@ import {
   WILD_NUBBIN_TEXT,
 } from '../config/strings-r12d2';
 import { REGION_LIFE_TEXT } from '../config/strings-r11d8';
+import { CAVE_TEXT } from '../config/strings-r17d1';
 import { SHORE_FOLK_TEXT, SHORE_PLAY_TEXT } from '../config/strings-r13d1';
 import {
   ACT_TEXT,
@@ -390,12 +391,21 @@ export function handleHudEvents(c: EventCtx, events: SimEvent[]): void {
     } else if (e.kind === 'traded') {
       toast(UI_TEXT.traded(e.name));
     } else if (e.kind === 'dungeonEntered') {
-      toast(e.camp ? HOLLOW_ZONE_TEXT.campEntered : DUNGEON_TEXT.entered(e.daily));
+      toast(
+        e.cave
+          ? (CAVE_TEXT.entered[e.cave] ?? DUNGEON_TEXT.entered(false))
+          : e.camp
+            ? HOLLOW_ZONE_TEXT.campEntered
+            : DUNGEON_TEXT.entered(e.daily),
+      );
     } else if (e.kind === 'descended') {
+      // R0450: the stairs have their own steps cue (ui/hollow-sounds.ts), so no pickup here.
       toast(DUNGEON_TEXT.descended(e.depth));
-      playSound('pickup');
     } else if (e.kind === 'dungeonLeft') {
-      toast(DUNGEON_TEXT.left(e.depth, e.shells, e.items));
+      // R0115: a small cave comes back out into the region, not "home".
+      toast(
+        e.cave ? CAVE_TEXT.left(e.items, e.shells) : DUNGEON_TEXT.left(e.depth, e.shells, e.items),
+      );
     } else if (e.kind === 'dungeonFound') {
       const who = e.by ? (g.world.nubbins.find((x) => x.id === e.by)?.name ?? null) : null;
       toast(DUNGEON_TEXT.found(who, DUNGEON_TEXT.lootName(e.loot, e.amount, e.param)));

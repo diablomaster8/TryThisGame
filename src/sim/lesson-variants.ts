@@ -8,7 +8,7 @@
  * variant chosen for the current performance (index + 1) for the renderers and the sound.
  * Pure rules: no DOM, no Three.js.
  */
-import { VARIANT_LESSONS } from '../config/tuning-soul-r11b';
+import { VARIANT_LESSONS } from '../config/tuning-more/soul-wider-kindergarten';
 import { hashSeed } from './rng';
 import type { LessonId, Nubbin } from './types';
 
