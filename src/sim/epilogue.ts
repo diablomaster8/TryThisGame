@@ -1,5 +1,5 @@
 import { GATES } from '../config/gates';
-import { VALLEY_FAIR } from '../config/tuning-camp11c';
+import { VALLEY_FAIR } from '../config/tuning-more/story-open-lines';
 import { evalGateId } from './gates';
 import type { Line } from '../config/story';
 import { queueScene } from './story-state';

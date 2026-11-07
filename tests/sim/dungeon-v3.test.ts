@@ -4,7 +4,7 @@ import { HOLLOW, type HollowLevel } from '../../src/config/tuning';
 import { floorOf, WALL } from '../../src/sim/dungeon';
 import { generateV3, v3OptionsFor } from '../../src/sim/dungeon-gen-v3';
 import { PIECES, pieceProblems } from '../../src/sim/dungeon-pieces';
-import { HOLLOW_TOUR } from '../../src/config/tuning-r10b1';
+import { HOLLOW_TOUR } from '../../src/config/tuning-more/dungeon-tour-tiles';
 import { measure } from './dungeon-measure';
 
 // Generator version 3 (R0143, R0144): floors assembled from authored pieces, sized to the

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { LANE_GATES } from '../../src/config/region-lane';
-import { GARDEN_WALKOUT } from '../../src/config/tuning-r13d1';
+import { GARDEN_WALKOUT } from '../../src/config/tuning-more/world-region-content';
 import { SIM } from '../../src/config/tuning';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 

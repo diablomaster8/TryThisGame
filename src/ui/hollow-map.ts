@@ -94,7 +94,7 @@ export const MARKS: Record<MarkKind, { shape: MarkShape; icon: string; color: st
 const HOOKS = ['waypoint', 'portal', 'shrine', 'unique', 'quest'] as const;
 type HookFloor = Partial<Record<(typeof HOOKS)[number], ReadonlyArray<Cell>>>;
 
-export interface Mark {
+export interface HollowMapMark {
   kind: MarkKind;
   /** Cell coordinates of the centre (fractional for actors). */
   x: number;
@@ -129,17 +129,17 @@ export function wallEdges(f: Floor, mask: Uint8Array): Float32Array {
 }
 
 /** The seen markers on the floor, the Keeper last so it draws on top. */
-export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
+export function automapMarks(world: World, run: DungeonRun, f: Floor): HollowMapMark[] {
   const mask = exploredMask(run, f);
   const seen = (c: Cell) =>
     c.x >= 0 && c.y >= 0 && c.x < f.cols && c.y < f.rows && mask[c.y * f.cols + c.x] === 1;
-  const at = (kind: MarkKind, c: Cell, dim = false): Mark => ({
+  const at = (kind: MarkKind, c: Cell, dim = false): HollowMapMark => ({
     kind,
     x: c.x + 0.5,
     y: c.y + 0.5,
     ...(dim ? { dim } : {}),
   });
-  const out: Mark[] = [];
+  const out: HollowMapMark[] = [];
   if (seen(f.stairsUp)) out.push(at('up', f.stairsUp));
   if (f.stairsDown && seen(f.stairsDown)) out.push(at('down', f.stairsDown));
   if (seen(f.chest)) out.push(at('chest', f.chest, run.chestOpen));
@@ -348,7 +348,7 @@ export function drawOverlay(
   g: Ctx2D,
   v: OverlayView,
   edges: Float32Array,
-  marks: readonly Mark[],
+  marks: readonly HollowMapMark[],
   keeper: { x: number; y: number },
   down: { x: number; y: number } | null,
   trails?: MapTrails,
@@ -520,7 +520,7 @@ export class HollowMap {
   }
 
   /** The legend lists what this floor's map can show; hooks only once one is on it. */
-  private refreshLegend(world: World, marks: readonly Mark[], run: DungeonRun, f: Floor): void {
+  private refreshLegend(world: World, marks: readonly HollowMapMark[], run: DungeonRun, f: Floor): void {
     const kinds = new Set<MarkKind>(['you', 'party', 'up', 'down', 'chest']);
     for (const m of marks) kinds.add(m.kind);
     const way = this.mode === 'overlay' && wayShown(run, f);
@@ -545,7 +545,7 @@ export class HollowMap {
     world: World,
     run: DungeonRun,
     f: Floor,
-    marks: readonly Mark[],
+    marks: readonly HollowMapMark[],
     yaw: number,
   ): void {
     const g = this.og;
@@ -583,7 +583,7 @@ export class HollowMap {
   }
 
   /** The corner map: seen cells filled, rooms brighter, then the markers. */
-  private drawCorner(world: World, run: DungeonRun, f: Floor, marks: readonly Mark[]): void {
+  private drawCorner(world: World, run: DungeonRun, f: Floor, marks: readonly HollowMapMark[]): void {
     const g = this.g;
     if (!g) return;
     const kc = cellOf(f, world.keeper.pos);

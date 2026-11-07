@@ -137,7 +137,7 @@ export const WHEELBARROW = {
   unlockAct: 1,
 };
 
-export type RecipeId =
+export type WheelbarrowRecipeId =
   | 'charm-up'
   | 'shiny-to-fancy'
   | 'reroll'
@@ -149,7 +149,7 @@ export type RecipeId =
   | 'moo-meadow';
 
 /** The recipe book's order. */
-export const RECIPES: readonly RecipeId[] = [
+export const RECIPES: readonly WheelbarrowRecipeId[] = [
   'charm-up',
   'shiny-to-fancy',
   'reroll',

@@ -10,7 +10,7 @@ import {
   waterlineZ,
 } from '../config/region-shore';
 import type { RegionLayout } from '../config/region-layout';
-import { SHORE_LOOK } from '../config/tuning-r11d7';
+import { SHORE_LOOK } from '../config/tuning-more/world-region-lands';
 import { coastSheet } from './paint/coast';
 import type { GroundLook, GroundPaint } from './region-ground';
 import { castleStands } from '../sim/shore-play';

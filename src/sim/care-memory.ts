@@ -10,7 +10,7 @@
  * Live play only (`soulLive`): the Keeper never acts during catch-up, and nothing starts
  * there. Chances are hashed (`roll`), so no world rng is drawn.
  */
-import { CARE_MEMORY, type CareKind } from '../config/tuning-soul-r10';
+import { CARE_MEMORY, type CareKind } from '../config/tuning-more/soul-friends-rivals';
 import { followsOther } from './keeper-fondness';
 import { soulLive } from './antics';
 import type { IdleAct } from './soul-idle';

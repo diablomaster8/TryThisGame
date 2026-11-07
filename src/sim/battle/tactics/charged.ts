@@ -10,7 +10,7 @@
 import { hashSeed } from '../../rng';
 import type { MoveDef } from '../types';
 import { blocks, inside, tileAt } from './map';
-import type { Cell, GridMap, JobId, JobLayer } from './types';
+import type { TacticsCell, GridMap, JobId, JobLayer } from './types';
 
 export interface ChargedMove extends MoveDef {
   gridOnly: true;
@@ -157,14 +157,14 @@ export function chargedFor(job: JobId, layer: JobLayer): string[] {
  */
 export function shapedTiles(
   m: GridMap,
-  from: Cell,
-  to: Cell,
+  from: TacticsCell,
+  to: TacticsCell,
   def: MoveDef,
   seed: number,
-): Cell[] | null {
+): TacticsCell[] | null {
   const shape = (def as Partial<ChargedMove>).shape;
   if (!shape) return null;
-  const out: Cell[] = [];
+  const out: TacticsCell[] = [];
   if (shape === 'line4') {
     const sx = Math.sign(to.x - from.x);
     const sy = sx === 0 ? Math.sign(to.y - from.y) : 0;
@@ -178,7 +178,7 @@ export function shapedTiles(
   }
   // scatter3: the target and two more within two tiles, from a hash (never the bout's dice).
   out.push({ x: to.x, y: to.y });
-  const near: Cell[] = [];
+  const near: TacticsCell[] = [];
   for (let dy = -2; dy <= 2; dy++)
     for (let dx = -2; dx <= 2; dx++) {
       const x = to.x + dx;

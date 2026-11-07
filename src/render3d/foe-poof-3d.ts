@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { R10B3 } from '../config/tuning-r10b3';
+import { R10B3 } from '../config/tuning-more/dungeon-poof-kid-mode';
 import { actSparkColour, FoePoofs, poofFrame, type Poof } from '../render/foe-poof';
 import { foeArtId } from '../render/sprites/foe-family-art';
 import { uniqueArtId } from '../render/sprites/unique-art';

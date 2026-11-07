@@ -12,7 +12,7 @@
  * A pointer whose data cannot be found reads back as the pointer itself, which no save loader
  * accepts, so the game takes its unreadable path and the IndexedDB copy is never overwritten.
  */
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import { kv } from './idb';
 
 export interface LiveStub {

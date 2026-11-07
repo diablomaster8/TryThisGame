@@ -7,7 +7,7 @@
 import { TACTICS } from '../../../config/tuning-tactics';
 import type { Floor } from '../../dungeon';
 import type { Rng } from '../../rng';
-import { TILE, type Cell, type GridMap, type SerialMap, type TileKind } from './types';
+import { TILE, type TacticsCell, type GridMap, type SerialMap, type TacticsTileKind } from './types';
 
 const M = TACTICS.map;
 const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -67,8 +67,8 @@ export function decodeMap(s: SerialMap): GridMap {
 export const inside = (m: GridMap, x: number, y: number): boolean =>
   x >= 0 && y >= 0 && x < m.w && y < m.h;
 export const ix = (m: GridMap, x: number, y: number): number => y * m.w + x;
-export const tileAt = (m: GridMap, x: number, y: number): TileKind =>
-  (inside(m, x, y) ? m.tiles[ix(m, x, y)]! : TILE.wall) as TileKind;
+export const tileAt = (m: GridMap, x: number, y: number): TacticsTileKind =>
+  (inside(m, x, y) ? m.tiles[ix(m, x, y)]! : TILE.wall) as TacticsTileKind;
 export const heightAt = (m: GridMap, x: number, y: number): number =>
   inside(m, x, y) ? m.height[ix(m, x, y)]! : 0;
 
@@ -77,14 +77,14 @@ export function blocks(t: number): boolean {
   return t === TILE.wall || t === TILE.tree || t === TILE.lantern;
 }
 
-export const N4: readonly Cell[] = [
+export const N4: readonly TacticsCell[] = [
   { x: 0, y: -1 },
   { x: 1, y: 0 },
   { x: 0, y: 1 },
   { x: -1, y: 0 },
 ];
 
-const ASCII: Record<string, TileKind> = {
+const ASCII: Record<string, TacticsTileKind> = {
   '.': TILE.grass,
   '#': TILE.wall,
   '~': TILE.deep,
@@ -108,7 +108,7 @@ const ASCII: Record<string, TileKind> = {
 export function mapFromRows(
   rows: readonly string[],
   heights?: readonly string[],
-  deploy?: { a: Cell[]; b: Cell[] },
+  deploy?: { a: TacticsCell[]; b: TacticsCell[] },
 ): GridMap {
   const h = rows.length;
   const w = rows[0]!.length;
@@ -131,8 +131,8 @@ export function plainWalkable(m: GridMap, x: number, y: number): boolean {
 }
 
 /** The westmost and eastmost plain walkable tiles nearest the middle row: a deploy zone each. */
-export function defaultDeploy(m: GridMap, n: number = M.deploy): { a: Cell[]; b: Cell[] } {
-  const cells: Cell[] = [];
+export function defaultDeploy(m: GridMap, n: number = M.deploy): { a: TacticsCell[]; b: TacticsCell[] } {
+  const cells: TacticsCell[] = [];
   for (let y = 0; y < m.h; y++)
     for (let x = 0; x < m.w; x++) if (plainWalkable(m, x, y)) cells.push({ x, y });
   const mid = (m.h - 1) / 2;
@@ -157,7 +157,7 @@ export function deployConnected(m: GridMap, jump = 1): boolean {
   return all.every((c) => seen[ix(m, c.x, c.y)] === 1);
 }
 
-function flood(m: GridMap, from: Cell, jump: number): Uint8Array {
+function flood(m: GridMap, from: TacticsCell, jump: number): Uint8Array {
   const seen = new Uint8Array(m.w * m.h);
   if (!plainWalkable(m, from.x, from.y)) return seen;
   const q: number[] = [ix(m, from.x, from.y)];
@@ -248,7 +248,7 @@ function carve(m: GridMap): void {
  */
 export function mapFromFloor(
   floor: Floor,
-  near: Cell,
+  near: TacticsCell,
   rng: Rng,
   max: number = M.maxDesk,
   step = 0.5,

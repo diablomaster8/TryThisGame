@@ -10,7 +10,7 @@ import { NEEDS, SNATCH } from '../config/tuning';
 import { liveliness, soulLive } from './antics';
 import { roll } from './traits';
 import { addRivalry } from './rivals';
-import { RIVALS } from '../config/tuning-soul-r10';
+import { RIVALS } from '../config/tuning-more/soul-friends-rivals';
 import type { IdleAct } from './soul-idle';
 import { isFree } from './nubbin';
 import type { Flavor, Nubbin, SimEvent, World } from './types';

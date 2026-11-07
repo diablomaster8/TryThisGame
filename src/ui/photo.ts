@@ -6,7 +6,7 @@ import {
   TITLE_CARD_TEXT,
   UI_TEXT,
 } from '../config/strings';
-import { CG2_U } from '../config/tuning-u';
+import { CG2_U } from '../config/tuning-more/campaign2-cards-postcards';
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import { drawShadowText, drawText } from '../render/sprites/font';

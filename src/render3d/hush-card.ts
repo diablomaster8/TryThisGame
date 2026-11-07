@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG2_W } from '../config/tuning-w';
+import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
 
 /**
  * C8, Full 3D: the Hush's card. A figure, not a column: a hooded head, broad shoulders and

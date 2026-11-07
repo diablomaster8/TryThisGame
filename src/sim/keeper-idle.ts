@@ -8,7 +8,7 @@
  * Live play only (stepWorld calls it outside catch-up). The renderers read `idleMs`,
  * `sitWith` and `sitBesideMs` for the poses and the sit-with gags; nothing else does.
  */
-import { KEEPER_IDLE } from '../config/tuning-fun-r7';
+import { KEEPER_IDLE } from '../config/tuning-more/fun-voice-antics';
 import { NEEDS, PERSONALITY } from '../config/tuning';
 import { addAffection } from './needs';
 import { isFree } from './nubbin';

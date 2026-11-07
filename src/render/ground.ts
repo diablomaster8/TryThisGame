@@ -5,8 +5,8 @@ import type { TileKind } from '../sim/types';
 import { fbm, ridged, warped } from './paint/noise';
 import { hash, hex, mix, Raster, shade, type RGB } from './paint/raster';
 import { shoreDistance } from './paint/shore';
-import { CG2_W } from '../config/tuning-w';
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import { BUILDINGS } from './scenery';
 
 /** Texels per world unit on the ground texture. */

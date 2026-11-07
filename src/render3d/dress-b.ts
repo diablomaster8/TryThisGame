@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import { GROVE } from '../config/tuning';
-import { STORY_B } from '../config/tuning-b';
+import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { storyBState } from '../render/story-b-state';

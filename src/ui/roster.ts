@@ -41,7 +41,7 @@ import { speciesOf } from '../sim/species';
 import { isCreatorCode } from '../sim/creator';
 import { CREATOR_TEXT } from '../config/strings-evo';
 import { CreatorPicker } from './creator-picker';
-import { WATCH } from '../config/tuning-soul-r11b';
+import { WATCH } from '../config/tuning-more/soul-wider-kindergarten';
 import { onLongPress } from './watch';
 
 // R0529: all eight, in their one order (sim/types.ts).

@@ -6,7 +6,7 @@
  * result, and the recipe goes in the book. A mix that matches nothing takes nothing: the
  * barrow simply tips everything back out. Pure sim, seeded.
  */
-import { CHARM_GRADES, WHEELBARROW, type KeyId, type RecipeId } from '../config/dungeon-items-r8';
+import { CHARM_GRADES, WHEELBARROW, type KeyId, type WheelbarrowRecipeId } from '../config/dungeon-items-r8';
 import { AFFIXES, RARITIES, type GearSlot } from '../config/dungeon-loot';
 import { CRITTER_SPECIES } from './critters';
 import { addCharm, charmKey, parseCharm, takeCharm } from './dungeon-charms';
@@ -23,7 +23,7 @@ export function wheelbarrowOpen(world: World): boolean {
 
 export interface MixResult {
   ok: boolean;
-  recipe?: RecipeId;
+  recipe?: WheelbarrowRecipeId;
   /** A new or changed piece, a charm key, a critter id, or 'pillow-fort'. */
   out?: string;
 }

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { championMod, type ChampionModId } from '../../src/config/dungeon-foes';
-import { R10B4 } from '../../src/config/tuning-r10b4';
+import { R10B4 } from '../../src/config/tuning-more/dungeon-champions-wires';
 import { HOLLOW, SIM } from '../../src/config/tuning';
 import { ACTS, actStartDepth } from '../../src/config/dungeon-acts';
 import { HOLLOW_R9D } from '../../src/config/dungeon-r9-d';

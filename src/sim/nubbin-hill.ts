@@ -8,7 +8,7 @@
  * up one (`hillStepOk`).
  */
 import { BEHAVIOR } from '../config/tuning';
-import { HILL_OUTING } from '../config/tuning-r11d2';
+import { HILL_OUTING } from '../config/tuning-more/world-camera-terrain';
 import { hashString } from './hash-string';
 import { canStep, hillAt, hillRoute } from './height';
 import { nubbinWalker, type ObstacleWalker } from './obstacles';

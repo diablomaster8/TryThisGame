@@ -123,7 +123,7 @@ function paintTreeSprite(size: number): Raster {
   return r;
 }
 
-export interface Look {
+export interface RetroLook {
   style: RetroStyle;
   texSize: number;
   filter: 'nearest' | 'linear' | 'mip';
@@ -136,7 +136,7 @@ export interface Look {
   outlines: boolean;
 }
 
-export const LOOKS: Record<RetroStyle, Look> = {
+export const LOOKS: Record<RetroStyle, RetroLook> = {
   n64: {
     style: 'n64',
     texSize: 64,
@@ -261,7 +261,7 @@ class Materials {
   private white: THREE.Texture | null = null;
   readonly resolution = new THREE.Vector2(320, 240);
 
-  constructor(readonly look: Look) {}
+  constructor(readonly look: RetroLook) {}
 
   texture(kind: TexKind | 'white'): THREE.Texture {
     if (kind === 'white') {
@@ -352,7 +352,7 @@ export interface SurfaceMaker {
 export interface Build {
   scene: THREE.Scene;
   mats: SurfaceMaker;
-  look: Look;
+  look: RetroLook;
   sprites: THREE.Sprite[];
 }
 

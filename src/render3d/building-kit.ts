@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { CG4_C4, CG_A, GROVE3D } from '../config/tuning';
-import type { Surface } from './art/aaa-kit';
+import type { AaaSurface } from './art/aaa-kit';
 import { toonShader } from './art/creatures';
 import { addHull } from './toon-outline';
 
@@ -20,7 +20,7 @@ import { addHull } from './toon-outline';
 
 /** A toon-lit painted surface; one program for every building material. */
 export function buildingMaterial(
-  map: Surface,
+  map: AaaSurface,
   o: { color?: string; normal?: number } = {},
 ): THREE.MeshStandardMaterial {
   const m = new THREE.MeshStandardMaterial({

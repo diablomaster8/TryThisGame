@@ -17,7 +17,7 @@ import { EDU_PROMPT } from '../config/tuning-dlg';
 import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
 import { isHungry } from '../sim/needs';
-import { FIRST_LOOP } from '../config/tuning-r11d4';
+import { FIRST_LOOP } from '../config/tuning-more/ui-first-loop';
 import { firstLoopStep } from '../sim/first-loop';
 import { FIRST_LOOP_TEXT } from '../config/strings-r11d4';
 import { NAME_ROW_TEXT } from '../config/strings-r12d4';

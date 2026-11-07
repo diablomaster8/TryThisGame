@@ -6,7 +6,7 @@ import {
   type GateKind,
   type RegionGate,
 } from '../config/region-wild';
-import { GATE_PLAN } from '../config/tuning-r12d2';
+import { GATE_PLAN } from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
 import { isPartner } from './partners';
 import { scatterSpots } from './region-spots';

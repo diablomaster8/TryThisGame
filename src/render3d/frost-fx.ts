@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
-import { CG_C } from '../config/tuning-c';
-import { CG2_W } from '../config/tuning-w';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
+import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
 import { FROST_PX, paintFrostDecal } from '../render/paint/frost-w';
 import type { World } from '../sim/types';
 import { QuadCloud } from './quad-particles';

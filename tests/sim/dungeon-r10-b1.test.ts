@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { ACTS, actStartDepth } from '../../src/config/dungeon-acts';
 import { HOLLOW, SIM } from '../../src/config/tuning';
-import { HOLLOW_TOUR } from '../../src/config/tuning-r10b1';
+import { HOLLOW_TOUR } from '../../src/config/tuning-more/dungeon-tour-tiles';
 import { cellCentre, runFloor } from '../../src/sim/dungeon';
 import { actBossDepth } from '../../src/sim/dungeon-acts';
 import { autoResolve, setEncounterHandler } from '../../src/sim/dungeon-encounters';

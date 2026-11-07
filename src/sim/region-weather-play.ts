@@ -1,4 +1,4 @@
-import { WEATHER_PLAY } from '../config/tuning-r12d2';
+import { WEATHER_PLAY } from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
 import { localHourOf, tzOf } from './local-time';
 import { regionSkyAt, type RegionSky } from './region-weather-live';

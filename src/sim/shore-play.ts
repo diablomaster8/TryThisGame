@@ -1,5 +1,5 @@
 import { SHORE_CASTLES, SHORE_FOLK } from '../config/region-shore';
-import { SHORE_PLAY } from '../config/tuning-r13d1';
+import { SHORE_PLAY } from '../config/tuning-more/world-region-content';
 import { isPartner } from './partners';
 import { canOpen } from './region-gates';
 import { regionOf } from './regions';

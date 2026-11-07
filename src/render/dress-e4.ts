@@ -10,7 +10,7 @@ import {
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import { litLanterns } from '../sim/campaign';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';

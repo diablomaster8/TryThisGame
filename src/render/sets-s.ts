@@ -1,6 +1,6 @@
 import type { SceneStage } from '../config/story';
 import { markAt, type StageMark } from '../config/stage-marks';
-import { CG2_S } from '../config/tuning-s';
+import { CG2_S } from '../config/tuning-more/campaign2-white-room';
 import { DUNGEON } from '../config/tuning';
 import { FLOOR, WALL, type Floor } from '../sim/dungeon';
 import type { World } from '../sim/types';

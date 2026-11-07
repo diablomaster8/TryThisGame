@@ -6,7 +6,7 @@
  * renderers still get every event. A toaster wrapper drops a toast whose text was shown a
  * moment ago while time runs fast.
  */
-import { FAST_TIME } from '../config/tuning-r8d-perf';
+import { FAST_TIME } from '../config/tuning-more/perf-tiers';
 import type { SimEvent } from '../sim/types';
 
 function subjectOf(e: SimEvent): string {

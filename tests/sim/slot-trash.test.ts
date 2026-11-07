@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { SLOT_TRASH } from '../../src/config/tuning-r9d3';
+import { SLOT_TRASH } from '../../src/config/tuning-more/ui-shake-hint';
 import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../../src/platform/slot-trash';
 import { hasSave, slotKey, type SaveSlot } from '../../src/platform/storage';
 

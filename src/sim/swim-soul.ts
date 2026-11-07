@@ -7,7 +7,7 @@
  * the renderers show). Splashing is live play only and hashed (`roll`); no world rng.
  */
 import { GROVE } from '../config/tuning';
-import { SWIM_SOUL } from '../config/tuning-soul-r11';
+import { SWIM_SOUL } from '../config/tuning-more/soul-quirks-gait';
 import { soulLive } from './antics';
 import { roll } from './traits';
 import type { Nubbin, Vec2, World } from './types';
