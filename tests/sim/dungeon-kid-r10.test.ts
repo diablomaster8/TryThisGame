@@ -23,6 +23,10 @@ import { hollowKidLine } from '../../src/ui/hollow-kid-voice';
 
 const words = (t: string): number => t.split(/\s+/).filter(Boolean).length;
 
+/**
+ * `edu` true puts the world in the sprout band, where Hollow runs are Glow Cave runs (R0690) whose way
+ * down waits for a puzzle; the tag boss and the scripted child walk the plain kid floors instead.
+ */
 function kidWorld(seed = 5, edu = true): World {
   const world = createWorld(seed, 0);
   const rng = Rng.fromSeed(9);
@@ -165,7 +169,7 @@ describe('the counting berries (R0188)', () => {
 
 describe('the act boss is a game of tag (R0188)', () => {
   it('runs from the Keeper, is tagged three times, and goes home beaten with no fight', () => {
-    const w = kidWorld();
+    const w = kidWorld(5, false);
     applyCommand(w, { kind: 'enterAct', act: 0 }, []);
     const run = w.dungeon!;
     // Bounded: a floor with no way down must fail this test, not spin it forever (a CI hang).
@@ -199,12 +203,12 @@ describe('the act boss is a game of tag (R0188)', () => {
   });
 });
 
-describe.skip('a scripted four-year-old (R0188 done-when)', () => {
+describe('a scripted four-year-old (R0188 done-when)', () => {
   // Five seeded levels; the child's pace and pauses are `R10B3.kidPath` (a model, not a child).
   it.each([3, 12, 21, 57, 99])(
     'seed %i: finishes an Act I level in 3–5 min, no bout over 60 s, no line over 14 words',
     (seed) => {
-      const w = kidWorld(seed);
+      const w = kidWorld(seed, false);
       applyCommand(w, { kind: 'enterAct', act: 0 }, []);
       const run = w.dungeon!;
       expect(run.kid).toBe(true);
