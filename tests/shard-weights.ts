@@ -9,7 +9,8 @@
 export const DEFAULT_WEIGHT = 0.5;
 
 export const SHARD_WEIGHTS: Readonly<Record<string, number>> = {
-  'tests/sim/battle-story-replay.test.ts': 76,
+  'tests/sim/battle-story-replay.test.ts': 38,
+  'tests/sim/battle-story-replay-b.test.ts': 38,
   'tests/sim/side-stories-mid-runs.test.ts': 42,
   'tests/sim/side-stories-mid.test.ts': 33,
   'tests/sim/side-stories-late.test.ts': 52,

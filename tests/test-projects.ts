@@ -201,6 +201,7 @@ export const STORY_FILES: readonly string[] = [
   'tests/render/story-shots.test.ts',
   'tests/sim/access-r10.test.ts',
   'tests/sim/battle-story-replay.test.ts',
+  'tests/sim/battle-story-replay-b.test.ts',
   'tests/sim/camp11-ui.test.ts',
   'tests/sim/campaign-micro.test.ts',
   'tests/sim/campaign-v2.test.ts',
