@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import { CircleGeometry, Color, Mesh, MeshBasicMaterial, RingGeometry, type Vector3 } from 'three';
 import { markAt } from '../config/stage-marks';
 import { GROVE } from '../config/tuning';
@@ -6,7 +5,7 @@ import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
 import { CG2_K } from '../config/tuning-more/campaign2-landmarks';
 import type { SceneStage } from '../config/story';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { RasterAtlas } from './paint/atlas';
@@ -156,7 +155,7 @@ export const dressB: PixelDressing = (() => {
       c.track(kerb.geometry);
       green = { disc, kerb };
     },
-    update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number) {
+    update(world: World, stage: SceneStage, daylight: Daylight, dt: number) {
       if (!ctx?.sprites) return;
       const f = stageFlags(world, Object.keys(stage).length ? stage : null);
       const home = f.location === 'grove';

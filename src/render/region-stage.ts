@@ -29,7 +29,10 @@ export function regionSeats(ids: Iterable<string>): string[] {
 }
 
 /** Where each of `ids` stands around the Keeper in the drawn region the world is in. */
-export function regionCastSpots(world: ReadonlyWorld, ids: readonly string[]): Map<string, RegionSpot> {
+export function regionCastSpots(
+  world: ReadonlyWorld,
+  ids: readonly string[],
+): Map<string, RegionSpot> {
   const out = new Map<string, RegionSpot>();
   const rid = drawnRegionOf(world.location);
   const l = rid ? layoutOf(rid) : null;

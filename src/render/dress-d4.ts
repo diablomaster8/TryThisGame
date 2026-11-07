@@ -1,8 +1,7 @@
-import type { ReadonlyWorld } from './readonly-world';
 import type { SceneStage } from '../config/story';
 import { viewportSize } from '../platform/viewport';
 import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { moonPhaseFor, rainingNow, WetTracker, WindState, type MoonPhase } from './d4-state';
 import { PIXEL_WIND } from './wind-px';
@@ -140,7 +139,7 @@ class PixelD4 implements PixelDressing {
     }
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

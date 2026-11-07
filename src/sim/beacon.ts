@@ -1,6 +1,6 @@
 import type { ReadonlyWorld } from './readonly';
 import { REGIONS } from '../config/regions';
-import type { Vec2, World } from './types';
+import type { Vec2 } from './types';
 
 /**
  * R0100 (WORLD-42): where the tracked objective is, so the world can draw a beacon on it, the

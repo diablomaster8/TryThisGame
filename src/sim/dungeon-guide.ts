@@ -9,7 +9,6 @@
  *
  * Pure sim: no DOM. It only reads the world.
  */
-import type { ReadonlyWorld } from './readonly';
 import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { cellOf, exploredMask, runFloor, type Floor } from './dungeon';
 import { navMask } from './dungeon-nav';
@@ -28,7 +27,7 @@ export { guideOn };
 const cache = new WeakMap<DungeonRun, { key: string; path: GuidePath | null }>();
 
 /** The guide's path, or null when it is off, there is no floor, or nowhere is left to go. */
-export function guidePath(world: ReadonlyWorld): GuidePath | null {
+export function guidePath(world: World): GuidePath | null {
   const run = world.location === 'dungeon' ? world.dungeon : null;
   const f = runFloor(world);
   if (!guideOn(world) || !run || !f) return null;

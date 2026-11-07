@@ -6,13 +6,12 @@
  * too). Up to three draw calls while shown, none otherwise (one more while an R0035 ✕ / ⤒
  * flag shows).
  */
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { TAP_FLAG } from '../config/tuning-more/move-keeper-ui';
 import { TAP_PRINTS } from '../config/tuning-more/ui-tap-prints-border';
 import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
-
+import type { World } from '../sim/types';
 import { TapPath } from '../render/tap-path';
 
 export class TapMarks3D {
@@ -98,7 +97,7 @@ export class TapMarks3D {
     }
   }
 
-  update(world: ReadonlyWorld, nowMs: number, calm: boolean): void {
+  update(world: World, nowMs: number, calm: boolean): void {
     if (!this.path.update(world, nowMs)) {
       this.dots.visible = this.ring.visible = this.cross.visible = this.arrow.visible = false;
       if (this.puff) this.puff.visible = false;

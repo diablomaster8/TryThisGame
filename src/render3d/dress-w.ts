@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { seasonHere } from '../render/grove-season';
 import type { SceneStage } from '../config/story';
@@ -15,7 +14,7 @@ import { LineClock } from '../render/line-clock';
 import { iceRibbon } from '../render/ice-ribbon';
 import { ICE_MARGIN, paintPondIce, paintStreamIce } from '../render/paint/terrain';
 import { stageFlags } from '../render/scene-stage';
-
+import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { FrostDecals } from './frost-fx';
 import { hushFogTexture } from './hush-card';
@@ -227,7 +226,7 @@ class Dress3dW implements Dressing3d {
     return null;
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     this.time += dt;

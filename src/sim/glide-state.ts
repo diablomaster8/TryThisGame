@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly';
 import { GLIDE } from '../config/tuning-move';
 import { keeperPerks } from './perks';
 import type { World } from './types';
@@ -9,9 +8,9 @@ import type { World } from './types';
  * whether it is gliding now: in the air, falling, jump held, with the Fly perk, and within the
  * glide's time. The renderers read it for the wing overlay.
  */
-export const glided = new WeakMap<ReadonlyWorld, number>();
+export const glided = new WeakMap<World, number>();
 
-export function keeperGliding(world: ReadonlyWorld): boolean {
+export function keeperGliding(world: World): boolean {
   const k = world.keeper;
   return (
     !k.grounded &&

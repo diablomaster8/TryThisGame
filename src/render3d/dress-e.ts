@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { lanternCarriers, nubbinSits, npcLookOf } from '../config/npc-looks';
 import { markAt } from '../config/stage-marks';
@@ -11,7 +10,7 @@ import type { Daylight } from '../render/daylight';
 import { flickerAt, glowTexture, hushPresence, lanternLights, SceneClock } from '../render/dress-e';
 import { LineClock } from '../render/line-clock';
 import { npcHere, stageFlags } from '../render/scene-stage';
-
+import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { stagedSeat } from './npc-accessories';
 import { hushCardTexture } from './hush-card';
@@ -142,7 +141,7 @@ class Dress3dE implements Dressing3d {
     }
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

@@ -75,7 +75,8 @@ function store(world: World): Store {
 
 export const weatherPlayActs = (world: World): Readonly<Record<string, number>> =>
   store(world).acts;
-export const snowFigures = (world: ReadonlyWorld): readonly Decal[] => stores.get(world)?.snow ?? [];
+export const snowFigures = (world: ReadonlyWorld): readonly Decal[] =>
+  stores.get(world)?.snow ?? [];
 /** A snowball's place on its lob at `timeMs`, for the renderers. y is the height above the ground. */
 export function ballAt(b: Ball, timeMs: number): { x: number; y: number; z: number } {
   const k = Math.max(0, Math.min(1, (timeMs - b.startMs) / (b.endMs - b.startMs)));
@@ -85,8 +86,10 @@ export function ballAt(b: Ball, timeMs: number): { x: number; y: number; z: numb
     z: b.fromZ + (b.toZ - b.fromZ) * k,
   };
 }
-export const snowballsOf = (world: ReadonlyWorld): readonly Ball[] => stores.get(world)?.balls ?? [];
-export const puddlesOf = (world: ReadonlyWorld): readonly Decal[] => stores.get(world)?.puddles ?? [];
+export const snowballsOf = (world: ReadonlyWorld): readonly Ball[] =>
+  stores.get(world)?.balls ?? [];
+export const puddlesOf = (world: ReadonlyWorld): readonly Decal[] =>
+  stores.get(world)?.puddles ?? [];
 
 const PLAY = [
   'snowball',

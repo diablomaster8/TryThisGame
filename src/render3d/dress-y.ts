@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
@@ -20,7 +19,7 @@ import {
 } from '../render/dress-y-shared';
 import { stageFlags } from '../render/scene-stage';
 import { ddLayout } from '../render/story-b-layout';
-
+import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { kitMaterials } from './kit-buildings';
 import { LAMP_STATE } from './lamp-pool';
@@ -224,7 +223,7 @@ class Dress3dY implements Dressing3d {
     pos.needsUpdate = true;
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, _daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

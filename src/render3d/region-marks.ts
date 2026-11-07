@@ -5,7 +5,6 @@ import { heightAt } from '../sim/height';
 import { closedGates } from '../sim/region-gates';
 import { regionMarks, type Mark } from '../sim/region-marks';
 
-
 /**
  * R12 d2 (R0090, R0091, R0138, R0136): the small marks of an open region in Full 3D, from
  * `sim/region-marks.ts`. Two instanced meshes, so the whole set costs two draws however many
@@ -120,7 +119,14 @@ export class RegionMarks3d {
   }
 
   /** R0110: the three gates that are not a boulder, built from a few blocks. */
-  private gate(world: ReadonlyWorld, kind: string, x: number, z: number, r: number, t: number): void {
+  private gate(
+    world: ReadonlyWorld,
+    kind: string,
+    x: number,
+    z: number,
+    r: number,
+    t: number,
+  ): void {
     const y = heightAt(world.location, x, z);
     if (kind === 'deepWater') {
       this.block(x, y + 0.02, z, r * 2.6, 0.05, r * 2.6, '#24508c', t * 0.3);

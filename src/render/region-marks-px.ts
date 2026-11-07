@@ -2,7 +2,6 @@ import type { ReadonlyWorld } from './readonly-world';
 import { PETALS } from '../config/region-content-r12d2';
 import { heightAt } from '../sim/height';
 import { regionMarks, type Mark } from '../sim/region-marks';
-import type { World } from '../sim/types';
 import { RasterAtlas } from './paint/atlas';
 import { hex, Raster, shade } from './paint/raster';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';

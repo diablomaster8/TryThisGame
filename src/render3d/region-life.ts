@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { CRITTER_RULES } from '../config/region-wild';
 import { speciesById } from '../sim/critters';
@@ -6,7 +5,7 @@ import { closedGates } from '../sim/region-gates';
 import { liveCritters } from '../sim/region-critters';
 import { wildNubbinHere } from '../sim/region-wild-nubbin';
 import { heightAt } from '../sim/height';
-
+import type { World } from '../sim/types';
 import { REGION_FLIGHTS, regionLedges } from '../sim/region-moves';
 import { drawnRegion, regionGround } from '../sim/region-walk';
 
@@ -101,7 +100,7 @@ export class RegionLife3d {
     parent.add(this.rocks);
   }
 
-  update(world: ReadonlyWorld, tSec: number, still: boolean): void {
+  update(world: World, tSec: number, still: boolean): void {
     const here = world.location.startsWith('region:');
     const crit = here ? liveCritters(world) : [];
     const gates = here ? closedGates(world) : [];

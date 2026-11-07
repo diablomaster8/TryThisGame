@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { PUDDLES } from '../config/tuning-more/world-overview-puddles';
 import { puddleFill } from '../render/puddles';
 
-
 /**
  * R0137 (WORLD-71): the Grove's rain puddles in Full 3D. One merged mesh of flat discs (one
  * draw call, 3 × 20 triangles) laid just above the meadow, shown only while it rains at home

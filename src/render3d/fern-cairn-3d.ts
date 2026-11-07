@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { FERN_STONE } from '../config/tuning';
 import { fernStones } from '../sim/fern-stone';
 
-
 /**
  * R0313 (FUN-24): Fern's cairn in Full 3D: a stack of squashed pebbles by the signpost, one a
  * chapter, the top one with two dot eyes. Built once (12 stones, shared geometry), shown up to

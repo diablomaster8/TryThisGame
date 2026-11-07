@@ -1,10 +1,9 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import { C12C } from '../config/tuning-more/story-quest-markers';
 import type { Daylight } from '../render/daylight';
 import { questMarkers } from '../render/quest-markers';
-
+import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { groveHeight } from './terrain';
 
@@ -71,7 +70,7 @@ export const dress3dQuestMarkers: Dressing3d = {
       slots.push({ offer, step });
     }
   },
-  update(world: ReadonlyWorld, _stage: SceneStage, _daylight: Daylight, dt: number) {
+  update(world: World, _stage: SceneStage, _daylight: Daylight, dt: number) {
     if (!root) return;
     clock += dt;
     const still = document.documentElement.classList.contains('reduce-motion');

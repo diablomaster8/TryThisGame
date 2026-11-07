@@ -1,8 +1,7 @@
-import type { ReadonlyWorld } from './readonly-world';
 import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 import { STORY } from '../config/tuning';
 import type { SceneStage } from '../config/story';
-
+import type { World } from '../sim/types';
 import { stageFlags, type StageFlags } from './scene-stage';
 
 /**
@@ -33,11 +32,11 @@ export interface StoryBState {
   sailsStopped: boolean;
 }
 
-export function storyBState(world: ReadonlyWorld, stage: SceneStage | null): StoryBState {
+export function storyBState(world: World, stage: SceneStage | null): StoryBState {
   return stateFrom(world, stage, stageFlags(world, stage));
 }
 
-export function stateFrom(world: ReadonlyWorld, stage: SceneStage | null, f: StageFlags): StoryBState {
+export function stateFrom(world: World, stage: SceneStage | null, f: StageFlags): StoryBState {
   const g = STORY_B.gate;
   const hundred = f.storyline === 'hundred';
   const dawnDusk = f.storyline === 'dawn' || f.storyline === 'dusk';

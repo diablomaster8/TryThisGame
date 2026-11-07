@@ -1,11 +1,11 @@
-import type { ReadonlyWorld } from './readonly-world';
+import type { ReadonlyWorld } from '../sim/readonly';
 import { CAMP10D } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
 import { STORY_REGIONS } from '../config/story-regions';
 import type { SceneStage } from '../config/story';
 import { boardState } from '../sim/quest-offers';
 import { storyRegionHere } from '../sim/story-regions';
-
+import type { World } from '../sim/types';
 import type { DressItem, DressShape } from './dress-d-rules';
 
 /**
@@ -73,7 +73,7 @@ function at(
 }
 
 /** Where the home Grove's notice board stands, or null when it is not up (before its chapter). */
-export function boardSpot(world: ReadonlyWorld): { x: number; z: number } | null {
+export function boardSpot(world: World): { x: number; z: number } | null {
   const c = world.campaign;
   const T = CAMP10D.props;
   if (!c || c.chapter < T.boardFromChapter || world.location !== 'grove' || world.edu !== null)

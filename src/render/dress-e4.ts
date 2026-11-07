@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import {
   DoubleSide,
   Matrix4,
@@ -13,7 +12,7 @@ import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import { litLanterns } from '../sim/campaign';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { SceneClock } from './dress-e';
 import { windowsState } from './dress-y-shared';
@@ -163,7 +162,7 @@ class PixelE4 implements PixelDressing {
     }
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();
@@ -380,7 +379,7 @@ class PixelE4 implements PixelDressing {
   }
 
   private fauna(
-    world: ReadonlyWorld,
+    world: World,
     put: (
       key: string,
       x: number,
@@ -470,7 +469,7 @@ class PixelE4 implements PixelDressing {
   }
 
   private gateFrost(
-    world: ReadonlyWorld,
+    world: World,
     stage: SceneStage,
     ctx: PixelDressCtx,
     put: (

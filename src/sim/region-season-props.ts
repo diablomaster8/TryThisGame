@@ -1,5 +1,9 @@
 import type { ReadonlyWorld } from './readonly';
-import { SEASON_KEEPSAKE, SEASON_PROPS, type SeasonProp } from '../config/tuning-more/world-content-tables';
+import {
+  SEASON_KEEPSAKE,
+  SEASON_PROPS,
+  type SeasonProp,
+} from '../config/tuning-more/world-content-tables';
 import type { RegionId } from '../config/regions';
 import { LEAF_JUMP } from '../config/tuning-more/world-backdrops';
 import { regionShown } from './region-companion';

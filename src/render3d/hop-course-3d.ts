@@ -1,9 +1,8 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { hopFlagsShown, hopGhostAt } from '../render/hop-course-view';
 import { SIM } from '../config/tuning';
 import { keeperFooting } from '../sim/keeper';
-
+import type { World } from '../sim/types';
 
 /**
  * MOVE-63: the hop course in Full 3D: up to two flags on poles (the start flag chequered,
@@ -66,7 +65,7 @@ export class HopCourse3D {
     this.group.add(this.ghost);
   }
 
-  update(world: ReadonlyWorld, alpha: number, nowMs: number, calm: boolean): void {
+  update(world: World, alpha: number, nowMs: number, calm: boolean): void {
     const shown = hopFlagsShown(world);
     if (!this.built) {
       if (shown.length === 0) return;

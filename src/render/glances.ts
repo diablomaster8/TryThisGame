@@ -6,9 +6,8 @@
  * target is taken at most every `GLANCE.everyMs`, and a calm Nubbin is the only one that
  * looks up (one walking keeps its way, one asleep sleeps).
  */
-import type { ReadonlyWorld } from './readonly-world';
 import { GLANCE } from '../config/tuning-more/soul-quirks-gait';
-import type { Nubbin, Vec2 } from '../sim/types';
+import type { Nubbin, Vec2, World } from '../sim/types';
 
 /** Acts worth turning to look at. */
 const SHOWY = new Set([
@@ -40,7 +39,7 @@ export function showy(o: Nubbin): boolean {
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
 /** What `n` would look at now, by the rules (no rate limit), or null. */
-export function glanceTarget(n: Nubbin, world: ReadonlyWorld): { id: string; at: Vec2 } | null {
+export function glanceTarget(n: Nubbin, world: World): { id: string; at: Vec2 } | null {
   if (n.stage === 'egg' || n.stage === 'cocoon' || !CALM.has(n.behavior.state)) return null;
   let best: { id: string; at: Vec2; d: number } | null = null;
   for (const o of world.nubbins) {
@@ -62,7 +61,7 @@ export class Glances {
   private readonly held = new Map<string, { id: string | null; at: number }>();
 
   /** Where `n` is looking (a live position), or null. */
-  at(n: Nubbin, world: ReadonlyWorld, nowMs: number): Vec2 | null {
+  at(n: Nubbin, world: World, nowMs: number): Vec2 | null {
     const h = this.held.get(n.id);
     const want = glanceTarget(n, world);
     let id = h?.id ?? null;
@@ -79,7 +78,7 @@ export class Glances {
   }
 
   /** The facing toward the glance, or null. */
-  face(n: Nubbin, world: ReadonlyWorld, nowMs: number): number | null {
+  face(n: Nubbin, world: World, nowMs: number): number | null {
     const p = this.at(n, world, nowMs);
     return p ? Math.atan2(p.x - n.pos.x, p.z - n.pos.z) : null;
   }

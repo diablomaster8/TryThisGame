@@ -3,7 +3,11 @@ import * as THREE from 'three';
 import { REGIONS, type RegionId } from '../config/regions';
 import { CAMERA } from '../config/tuning';
 import type { LayoutChunk, RegionLayout } from '../config/region-layout';
-import { REGION_BORDER, REGION_CACHE, REGION_ORIGIN } from '../config/tuning-more/world-region-engine';
+import {
+  REGION_BORDER,
+  REGION_CACHE,
+  REGION_ORIGIN,
+} from '../config/tuning-more/world-region-engine';
 import { WORLD_STREAM } from '../config/tuning-world';
 import {
   drawnRegion,

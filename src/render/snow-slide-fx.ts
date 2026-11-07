@@ -3,7 +3,6 @@ import { SLIDE_FX } from '../config/tuning-r16d1';
 import { playSlideSwish } from '../platform/slide-audio';
 import { sliding } from '../sim/snow-slide';
 
-
 /**
  * R0118: shared by both renderers. `tick` plays the swish on the frame a slide starts and says
  * when a puff of snow is due off the Keeper's feet; the caller bursts it with its own particles.

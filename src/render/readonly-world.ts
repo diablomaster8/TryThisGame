@@ -3,8 +3,9 @@
  * in `sim/readonly.ts` (the sim helpers a renderer calls take them too); this file re-exports them
  * and adds `deepFreeze`, which tests use to hand a frozen world to render code.
  */
-export type { DeepReadonly, ReadonlyWorld } from '../sim/readonly';
 import type { DeepReadonly } from '../sim/readonly';
+
+export type { DeepReadonly, ReadonlyWorld } from '../sim/readonly';
 
 /** Freeze a value and everything under it (tests hand a frozen world to render code). */
 export function deepFreeze<T>(value: T): DeepReadonly<T> {

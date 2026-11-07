@@ -1,4 +1,4 @@
-import type { ReadonlyWorld } from './readonly';
+import type { DeepReadonly, ReadonlyWorld } from './readonly';
 import { beginApproach, stepApproach } from './offer-approach';
 import { REGIONS } from '../config/regions';
 import { SIGN_OFFERS } from '../config/tuning-more/world-region-content';
@@ -121,7 +121,7 @@ export function keeperArea(world: World): string | null {
   return best;
 }
 
-function campaignStatus(c: CampaignState, id: string): string | undefined {
+function campaignStatus(c: DeepReadonly<CampaignState>, id: string): string | undefined {
   return (c.side[id] ?? c.fun[id])?.status;
 }
 
@@ -141,7 +141,7 @@ export function activeQuests(world: World, c: CampaignState): string[] {
 /** What the board shows for one quest (R0607), or null if it has nothing to say. */
 export function boardState(
   world: ReadonlyWorld,
-  c: CampaignState,
+  c: DeepReadonly<CampaignState>,
   id: string,
 ): 'available' | 'active' | 'shelved' | 'done' | null {
   const status = campaignStatus(c, id);

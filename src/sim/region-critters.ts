@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly';
 import type { RegionId } from '../config/regions';
 import { CRITTER_RULES, REGION_CRITTERS, type CritterSpot } from '../config/region-wild';
 import { regionOf } from './regions';
@@ -53,7 +52,7 @@ export function spotSpecies(
 }
 
 /** The critters out in the region now (the renderers draw them; never more than `maxLive`). */
-export function liveCritters(world: ReadonlyWorld): LiveCritter[] {
+export function liveCritters(world: World): LiveCritter[] {
   const region = regionOf(world.location);
   const table = REGION_CRITTERS[region];
   if (!table) return [];

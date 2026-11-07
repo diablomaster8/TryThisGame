@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly';
 import {
   decorCollider,
   GROVE_COLLIDERS,
@@ -124,7 +123,7 @@ let cachedPlaced: World['placed'] | null = null;
 let cachedKey = -1;
 let cached: Table = FIXED;
 
-function table(world: ReadonlyWorld | null): Table {
+function table(world: World | null): Table {
   if (!world) return FIXED;
   const props = storyPropMask(world);
   // A number, not a string: this runs for every walker on every step. PERF: the unlocks are
@@ -157,7 +156,7 @@ function table(world: ReadonlyWorld | null): Table {
 }
 
 /** Every collider standing in this world's Grove now. */
-export function obstacles(world: ReadonlyWorld | null): readonly Collider[] {
+export function obstacles(world: World | null): readonly Collider[] {
   return table(world).list;
 }
 
@@ -166,7 +165,7 @@ export function scannedAt(world: World | null, p: Vec2, radius: number): number 
   return near(world, p, radius).length;
 }
 
-function near(world: ReadonlyWorld | null, p: Vec2, radius: number): readonly Collider[] {
+function near(world: World | null, p: Vec2, radius: number): readonly Collider[] {
   const t = table(world);
   if (radius > PAD) return t.list;
   if (Math.abs(p.x) >= HALF || Math.abs(p.z) >= HALF) return t.list;
@@ -256,7 +255,7 @@ function toWorld(out: Contact, cos: number, sin: number): Contact {
 /** True when a walker of `radius` at the point overlaps anything that stops it. */
 export function blocked(
   p: Vec2,
-  world: ReadonlyWorld | null,
+  world: World | null,
   radius = 0,
   who: ObstacleWalker = 'keeper',
   feetY?: number,
@@ -272,7 +271,7 @@ export function blocked(
  */
 export function resolve(
   p: Vec2,
-  world: ReadonlyWorld | null,
+  world: World | null,
   radius = 0.35,
   who: ObstacleWalker = 'keeper',
   feetY?: number,
@@ -305,7 +304,7 @@ export function wayAt(p: Vec2, world: World | null, radius: number, who: Obstacl
 }
 
 /** The soft piece (a bush, a bed, a thicket) the Keeper is pushing through, if any. */
-export function softAt(p: Vec2, world: ReadonlyWorld | null, radius = 0.35): Collider | null {
+export function softAt(p: Vec2, world: World | null, radius = 0.35): Collider | null {
   for (const c of near(world, p, radius))
     if (c.flags.includes('soft') && contact(c, p.x, p.z, radius)) return c;
   return null;
@@ -315,7 +314,7 @@ export function softAt(p: Vec2, world: ReadonlyWorld | null, radius = 0.35): Col
  * The highest standable top (a bench, a log, a flat stone) under the point, or -Infinity
  * (MOVE-10). `footing` takes it only when the feet are within a step of it.
  */
-export function standTopAt(world: ReadonlyWorld | null, x: number, z: number): number {
+export function standTopAt(world: World | null, x: number, z: number): number {
   let best = -Infinity;
   for (const c of near(world, { x, z }, 0))
     if (c.flags.includes('standable') && contact(c, x, z, 0))

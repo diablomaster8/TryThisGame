@@ -1,4 +1,4 @@
-import type { ReadonlyWorld } from './readonly-world';
+import type { ReadonlyWorld } from '../sim/readonly';
 import { GROVE, MARK_FIT, READ3D, STAGE4 } from '../config/tuning';
 import { hillHeight } from '../sim/terrain';
 import { fitTiers, type FitPoint } from './stage-fit';
@@ -22,7 +22,7 @@ import { regionLine, storyRegionHere } from '../sim/story-regions';
 import { STORY_REGIONS } from '../config/story-regions';
 import { STAGE_SET_HIDES } from '../config/stage-sets';
 import { walkOnRoute } from '../sim/scene-cast';
-import type { GroveKind, Location, Vec2 } from '../sim/types';
+import type { GroveKind, Location, Vec2, World } from '../sim/types';
 import { regionCastSpots, regionSeats, type RegionSpot } from './region-stage';
 import { walkLength, fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
 import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
@@ -44,7 +44,7 @@ const SKY_LIT = (location: Location): boolean => location !== 'dungeon' && locat
 
 /** The resolved stage of the scene at the head of the queue, or null when none waits. */
 export function resolveStage(
-  world: ReadonlyWorld,
+  world: World,
 ): { id: string; scene: PlayScene; stage: SceneStage } | null {
   // Underground only the Beetle Road stages its scenes: its below chapters are played on a
   // real floor, whose marks follow the floor (K16, render/floor-marks.ts).
@@ -307,7 +307,7 @@ export class SceneStager {
    * two-shot (named, or the default after the first line) or `over`, with no authored yaw.
    * `camYaw` (the player's camera yaw) picks, once per pair, the side every cut keeps.
    */
-  reverse(world: ReadonlyWorld, camYaw: number, sideRad: number): StageReverse | null {
+  reverse(world: World, camYaw: number, sideRad: number): StageReverse | null {
     if (this.sceneId === null || this.stage.shot?.yaw !== undefined) return null;
     const kind = this.shotKind();
     if (kind !== undefined && kind !== 'two' && kind !== 'over') return null;
@@ -376,7 +376,7 @@ export class SceneStager {
    * else as placed; turned toward a side camera as `turnFaces` last asked. Null with no
    * scene, or nothing to face.
    */
-  keeperFaceNow(world: ReadonlyWorld, camYaw?: number): number | null {
+  keeperFaceNow(world: World, camYaw?: number): number | null {
     if (this.sceneId === null) return null;
     let face = this.baseKeeperFace;
     const who = this.speaker;
@@ -421,7 +421,7 @@ export class SceneStager {
   }
 
   /** Follow the story queue; true on the frame a scene begins or ends. */
-  update(world: ReadonlyWorld, nowMs = 0): boolean {
+  update(world: World, nowMs = 0): boolean {
     // K16: the floor's marks before anyone is placed on them.
     syncFloorMarks(world);
     const r = resolveStage(world);
@@ -480,7 +480,7 @@ export class SceneStager {
    * H1's dev check: a stage whose place belongs to another location than the world's
    * cannot be honoured (its marks are elsewhere). Warns once per scene, in dev builds only.
    */
-  private warnPlace(world: ReadonlyWorld, id: string): void {
+  private warnPlace(world: World, id: string): void {
     const place = this.stage.place;
     if (!import.meta.env.DEV || !place || this.warned.has(id)) return;
     if (markSetFor(world.location) === placeSet(place)) return;
@@ -494,7 +494,7 @@ export class SceneStager {
    * The cast with the Keeper on the place's `keeper` mark by default (H7), unless the
    * scene puts `you` somewhere itself.
    */
-  castOf(world: ReadonlyWorld): StageCast[] {
+  castOf(world: World): StageCast[] {
     const cast = this.stage.cast ?? [];
     const place = this.stage.place;
     if (!place || cast.some((c) => c.who === 'you')) return cast;
@@ -507,13 +507,13 @@ export class SceneStager {
    * A cast entry's mark: in the Grove and its visits the named one, in a drawn region the
    * spot `regionCastSpots` seated that person at (R0101).
    */
-  private markOf(world: ReadonlyWorld, c: StageCast): { x: number; z: number; yaw: number } | undefined {
+  private markOf(world: World, c: StageCast): { x: number; z: number; yaw: number } | undefined {
     if (world.location.startsWith('region:')) return this.regionSpots.get(c.who);
     return markAt(world.location, c.mark);
   }
 
   /** Where everyone is drawn for this scene: marks first, then far speakers brought in. */
-  private place(world: ReadonlyWorld): void {
+  private place(world: World): void {
     const cast = this.castOf(world);
     if (world.location.startsWith('region:'))
       for (const [who, at] of regionCastSpots(world, regionSeats(this.castIds)))
@@ -602,7 +602,7 @@ export class SceneStager {
    * here, else keeps its mark's yaw.
    */
   private faceOfKeeper(
-    world: ReadonlyWorld,
+    world: World,
     you: StageCast | undefined,
     yaw: number | null,
   ): number | null {
@@ -618,7 +618,7 @@ export class SceneStager {
   }
 
   /** The Keeper's drawn spot for the scene: on its mark, else where the sim has it. */
-  keeperSpot(world: ReadonlyWorld): Vec2 {
+  keeperSpot(world: World): Vec2 {
     return this.keeperHold ?? { x: world.keeper.pos.x, z: world.keeper.pos.z };
   }
 
@@ -626,14 +626,14 @@ export class SceneStager {
    * A focus entry's drawn spot: a speaker id first ('you' is the Keeper), then a mark name
    * at the current location (`green`, `house-1`, `flat-stone`…); null when neither.
    */
-  spotOf(world: ReadonlyWorld, who: string): Vec2 | null {
+  spotOf(world: World, who: string): Vec2 | null {
     const cast = this.castSpot(world, who);
     if (cast) return cast;
     const m = markAt(world.location, who);
     return m ? { x: m.x, z: m.z } : null;
   }
 
-  private castSpot(world: ReadonlyWorld, who: string): Vec2 | null {
+  private castSpot(world: World, who: string): Vec2 | null {
     if (who === 'you') return this.keeperSpot(world);
     const n = world.npcs.find(
       (x) => x.trainer === who && npcHere(world.location, x.trainer, this.castIds),
@@ -648,7 +648,7 @@ export class SceneStager {
     return m ? { x: m.x, z: m.z } : null;
   }
 
-  private nubbinIdOf(world: ReadonlyWorld, who: string): string | null {
+  private nubbinIdOf(world: World, who: string): string | null {
     const c = world.campaign;
     if (who === PARTNER_CAST) return partnerIdOf(world);
     return (who === 'sable' ? c?.sableId : who === 'moss' ? c?.mossId : null) ?? null;
@@ -658,7 +658,7 @@ export class SceneStager {
    * K40: the partner's spot. On its cast mark when the cast names `partner` (held in
    * `nubbinHolds` by `place`); else beside the Keeper, on the Keeper's right as it faces.
    */
-  private placePartner(world: ReadonlyWorld, cast: readonly StageCast[]): void {
+  private placePartner(world: World, cast: readonly StageCast[]): void {
     const id = partnerIdOf(world);
     const nb = id ? world.nubbins.find((n) => n.id === id) : undefined;
     if (!id || !nb) return;
@@ -710,7 +710,7 @@ export class SceneStager {
    * spot is moved each frame by `stepWalks`; the final spot and facing are what `place`
    * already worked out.
    */
-  private beginWalks(world: ReadonlyWorld, nowMs: number): void {
+  private beginWalks(world: World, nowMs: number): void {
     const cast = this.castOf(world);
     const here = world.npcs.filter((n) => npcHere(world.location, n.trainer, this.castIds));
     for (const c of cast) {
@@ -813,7 +813,7 @@ export class SceneStager {
    * The framed points without the Keeper when the shot names its own focus and leaves the
    * Keeper out (`green`, `house-1`, `moss`…): the pan centres on what the scene is about.
    */
-  subjects(world: ReadonlyWorld): FitPoint[] {
+  subjects(world: World): FitPoint[] {
     const all = this.frame(world);
     const focus = this.focusNow();
     if (!focus?.length || focus.includes('you') || all.length < 2) return all;
@@ -825,7 +825,7 @@ export class SceneStager {
    * in the scene and stands near enough. Whoever speaks the line on screen is always framed,
    * however far (C5).
    */
-  frame(world: ReadonlyWorld): FitPoint[] {
+  frame(world: World): FitPoint[] {
     const k = this.keeperSpot(world);
     const W = STAGE4.weight;
     const now = this.speaker;
@@ -970,7 +970,7 @@ export function fitPixel(
  * K40: the player's partner Nubbin: `world.partners[0]`, else `[1]`, else the selected
  * Nubbin; never Moss, Sable or an egg. Null when none is about.
  */
-export function partnerIdOf(world: ReadonlyWorld): string | null {
+export function partnerIdOf(world: World): string | null {
   const c = world.campaign;
   for (const id of [world.partners?.[0], world.partners?.[1], world.selected]) {
     if (!id || id === c?.mossId || id === c?.sableId) continue;
@@ -986,7 +986,7 @@ export function partnerIdOf(world: ReadonlyWorld): string | null {
  * that casts that villager draws them as a stage actor instead (the look names keep "you
  * meet yourself" out of the story), so they are not the Keeper then.
  */
-export function speaksAsKeeper(world: ReadonlyWorld, who: string, stage?: SceneStage): boolean {
+export function speaksAsKeeper(world: World, who: string, stage?: SceneStage): boolean {
   if (who === 'you') return true;
   if (stage?.cast?.some((c) => c.who === who)) return false;
   return who === world.trainer && !world.npcs.some((n) => n.trainer === who);
@@ -1008,7 +1008,7 @@ export interface Obstacle {
  * still drawn, Dawn & Dusk's four crest houses (on the `house-1..4` marks) while that
  * campaign plays, and the gate. `hidden` says which stock buildings are not drawn now.
  */
-export function stageObstacles(world: ReadonlyWorld, hidden: (id: string) => boolean): Obstacle[] {
+export function stageObstacles(world: World, hidden: (id: string) => boolean): Obstacle[] {
   const out: Obstacle[] = [];
   const b = GROVE.buildings;
   const flags = stageFlags(world, null);

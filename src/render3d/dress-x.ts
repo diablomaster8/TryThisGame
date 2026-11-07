@@ -1,11 +1,10 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import { CG2_X } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { stageFlags } from '../render/scene-stage';
 import { storyBState } from '../render/story-b-state';
-
+import type { World } from '../sim/types';
 import * as THREE from 'three';
 import { inHiddenBox } from './building-kit';
 import { subjectsOf } from './dress-a';
@@ -75,7 +74,7 @@ export const dress3dX: Dressing3d = (() => {
       c.world3d.add(gate.group);
       void c.compile(gate.group);
     },
-    update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number) {
+    update(world: World, stage: SceneStage, _daylight: Daylight, dt: number) {
       if (!ctx || !gate) return;
       filterPicks();
       const queued = Object.keys(stage).length > 0;

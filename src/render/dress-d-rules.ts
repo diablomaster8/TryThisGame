@@ -1,9 +1,8 @@
-import type { ReadonlyWorld } from './readonly-world';
+import type { ReadonlyWorld } from '../sim/readonly';
 import { DRESS_D } from '../config/tuning-more/campaign-props-items';
 import { SHELF_CAP, keepsakeLook } from '../config/keepsake-looks';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
-
 import { stageFlags } from './scene-stage';
 import { camp10dDressItems } from './dress-camp10d';
 import { storyDoorItems } from './story-doors';

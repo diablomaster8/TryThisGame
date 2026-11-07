@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import { DUNGEON } from '../config/tuning';
@@ -8,7 +7,7 @@ import { flameTexture, gridTexture, holoEdgeTexture, softTexture } from '../rend
 import { bandFor } from '../render/cave-bands';
 import { paintFloorTexture } from '../render/paint/dungeon';
 import { belowFloor, belowMark, dripSpot, rootMark, setsS, torchSpots } from '../render/sets-s';
-
+import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { BOX, CONE, Kit, ROCK, kitMaterial } from './hollow-dress-kit';
 import { groveHeight } from './terrain';
@@ -477,7 +476,7 @@ export const dress3dS: Dressing3d = {
     void c.compile(digital);
   },
 
-  update(world: ReadonlyWorld, stage, daylight, dt) {
+  update(world: World, stage, daylight, dt) {
     if (!ctx || !room || !cave || !digital) return;
     const reduce = ctx.reduceMotion();
     clock += dt;

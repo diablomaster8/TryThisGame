@@ -1,8 +1,7 @@
-import type { ReadonlyWorld } from './readonly-world';
 import type { SceneStage } from '../config/story';
 import { C12C } from '../config/tuning-more/story-quest-markers';
 import { DRESS_D } from '../config/tuning-more/campaign-props-items';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { buildQuestMarkSheet } from './paint/quest-marks';
@@ -29,7 +28,7 @@ export const dressQuestMarkers: PixelDressing = {
     sheet = buildQuestMarkSheet();
     c.track(sheet);
   },
-  update(world: ReadonlyWorld, _stage: SceneStage, _daylight: Daylight, dt: number) {
+  update(world: World, _stage: SceneStage, _daylight: Daylight, dt: number) {
     const c = ctx;
     const spr = c?.sprites;
     if (!c || !spr || !sheet) return;

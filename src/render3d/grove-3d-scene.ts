@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import { FLIGHT_SPOTS } from '../sim/flight-zones';
 import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { regionCameraFor } from '../config/region-camera';
@@ -309,7 +308,7 @@ export class Grove3dScene {
   private readonly regionMarks: RegionMarks3d;
 
   /** R0128: birds, butterflies and fish shadows round the Keeper, by day in the dry. */
-  private updateAmbient(world: ReadonlyWorld): void {
+  private updateAmbient(world: World): void {
     const [, d, , weather, particles] = this.dayArgs ?? [
       12,
       daylightAt(12),
@@ -1028,11 +1027,11 @@ export class Grove3dScene {
       (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(1.04, 1.06, 1.12));
   }
 
-  snapshot(world: ReadonlyWorld): void {
+  snapshot(world: World): void {
     this.actors.snapshot(world);
   }
 
-  snapshotKeeper(world: ReadonlyWorld): void {
+  snapshotKeeper(world: World): void {
     this.actors.snapshotKeeper(world);
   }
 
@@ -1040,7 +1039,7 @@ export class Grove3dScene {
     this.actors.keeperAlpha = a;
   }
 
-  keeperDrawPos(world: ReadonlyWorld, alpha: number): Vec2 {
+  keeperDrawPos(world: World, alpha: number): Vec2 {
     return this.actors.keeperDrawPos(world, alpha);
   }
 
@@ -1463,7 +1462,7 @@ export class Grove3dScene {
   }
 
   /** Start the opening creatures before the first frame (the frame builds the trees too). */
-  prewarm(world: ReadonlyWorld): void {
+  prewarm(world: World): void {
     this.actors.warm(world);
   }
 
@@ -1508,7 +1507,7 @@ export class Grove3dScene {
   }
 
   /** Build the trees once the world is known, so taps reach the sim's tree ids. */
-  private ensureTrees(world: ReadonlyWorld): void {
+  private ensureTrees(world: World): void {
     if (this.treesBuilt) return;
     this.treesBuilt = true;
     for (const t of world.trees) this.treeAt.set(t.id, { x: t.pos.x, z: t.pos.z });
@@ -1530,7 +1529,7 @@ export class Grove3dScene {
    * view never swings round wholesale. A story scene: the Keeper and the speakers present,
    * the distance opening with how far apart they stand. Otherwise the player's orbit.
    */
-  private shot(world: ReadonlyWorld, orbit: OrbitCamera): Shot {
+  private shot(world: World, orbit: OrbitCamera): Shot {
     const base: Shot = {
       kind: 'orbit',
       x: orbit.target.x,
@@ -1588,7 +1587,7 @@ export class Grove3dScene {
    * Keeper's shoulder at the speaker. `stage.shot.yaw` sets the side (radians, world).
    * The lift clear of the dialogue box is applied in `update`.
    */
-  private stageShot(world: ReadonlyWorld, base: Shot): Shot {
+  private stageShot(world: World, base: Shot): Shot {
     const st = this.staging;
     const kind = st.shotKind() ?? 'two';
     // H5: the push-in after the first line eases from the first shot (a cut under reduced
@@ -1656,14 +1655,14 @@ export class Grove3dScene {
 
   /** Where whoever speaks the line on screen is drawn, or null (the narrator, the Keeper). */
   /** K21: how far the speaker stands from the lens (else the shot's focus point). */
-  private dofFocus(world: ReadonlyWorld): number {
+  private dofFocus(world: World): number {
     const spk = this.speakerSpot(world);
     if (!spk) return this.camera.position.distanceTo(this.camTarget);
     const y = (this.location === 'grove' ? standHeight(spk.x, spk.z) : 0) + GROVE3D.lookHeight;
     return this.camera.position.distanceTo(this.dofSpot.set(spk.x, y, spk.z));
   }
 
-  private speakerSpot(world: ReadonlyWorld): Vec2 | null {
+  private speakerSpot(world: World): Vec2 | null {
     const who = this.staging.speaker;
     if (!who || who === 'narrator' || speaksAsKeeper(world, who, this.staging.stage)) return null;
     return this.staging.spotOf(world, who);
@@ -1751,7 +1750,7 @@ export class Grove3dScene {
    * distance is narrowed: first without the Keeper (a two-shot on the speakers), then to
    * whoever speaks now and the one nearest them.
    */
-  private framedPoints(world: ReadonlyWorld, points: Vec2[]): Vec2[] {
+  private framedPoints(world: World, points: Vec2[]): Vec2[] {
     if (this.camera.aspect >= 1 || points.length < 3) return points;
     const s = READ3D.stage;
     const fits = (pts: Vec2[]) => {
@@ -1771,7 +1770,7 @@ export class Grove3dScene {
     return others[0] ? [a, others[0]] : [a];
   }
 
-  private stageShotFor(world: ReadonlyWorld, base: Shot, kind: string): Shot {
+  private stageShotFor(world: World, base: Shot, kind: string): Shot {
     const st = this.staging.stage.shot;
     const all = this.staging.frame(world);
     if (all.length < 2 && !st) return base;
@@ -1882,7 +1881,7 @@ export class Grove3dScene {
   private readonly flightPuff = new THREE.Vector3();
 
   /** R0109: a few leaves rise over each flying zone near the Keeper, now and then. */
-  private puffFlightZones(world: ReadonlyWorld): void {
+  private puffFlightZones(world: World): void {
     if (this.lastMs - this.flightPuffAt < 450) return;
     this.flightPuffAt = this.lastMs;
     const k = world.keeper.pos;
@@ -1901,7 +1900,7 @@ export class Grove3dScene {
     }
   }
 
-  update(world: ReadonlyWorld, orbit: OrbitCamera, alpha: number, nowMs: number): void {
+  update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
     // HOT-1: the selected Nubbin sits in the clear part of the screen (the sheet's shift).
     applyViewShift(this.camera, this.viewShift);
     // Never negative: a clock that steps back (a resumed tab, a hand-driven frame) would

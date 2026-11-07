@@ -15,7 +15,6 @@ import { plotPieces } from './region-plots';
 import { ghostShipHere } from './region-weather-play';
 import { seasonHere, seasonKeepsakeTaken, seasonSpots } from './region-season-props';
 import { openTraces } from './regions-trace';
-import type { World } from './types';
 
 export type RegionMarkKind =
   'petal' | 'postcard' | 'key' | 'trace' | 'photo' | 'plot' | 'decor' | 'ghost' | 'season';

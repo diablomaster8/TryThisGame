@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
 import { GROVE } from '../config/tuning';
@@ -6,7 +5,7 @@ import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import type { Daylight } from '../render/daylight';
 import { moonPhaseFor, pathWear, rainingNow, snowCover, WetTracker } from '../render/d4-state';
 import { stageFlags } from '../render/scene-stage';
-
+import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { SNOW_U } from './wind-d4';
 import { groveHeight, pathDistance, riverDistance, WATER_LEVEL } from './terrain';
@@ -353,7 +352,7 @@ class Dress3dD4 implements Dressing3d {
     void ctx.compile(motes);
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     this.time += dt;

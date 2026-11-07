@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { storyId, WEATHERED } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
@@ -14,7 +13,7 @@ import {
   type CarryProp,
 } from '../render/stage-actors';
 import type { Tex } from './art/aaa-kit';
-
+import type { World } from '../sim/types';
 import { STAGE_FIGURES, type Figure } from './crowd';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { arc, box, cyl, Parts, sph } from './prop-kit';
@@ -151,7 +150,7 @@ class Dress3dP implements Dressing3d {
     return g;
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     void stage;

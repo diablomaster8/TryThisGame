@@ -5,10 +5,9 @@
  * changed, so a reload or an import never shows the last world's ground or cave
  * (review D, bug 5).
  */
-import type { ReadonlyWorld } from './readonly-world';
 import { runFloor } from '../sim/dungeon';
 import type { Floor } from '../sim/dungeon';
-import type { TileKind } from '../sim/types';
+import type { TileKind, World } from '../sim/types';
 
 /** Whatever draws painted ground: the pixel Grove scene. */
 export interface TileTarget {
@@ -21,14 +20,14 @@ export interface DungeonTarget {
 }
 
 /** Show the Hollow floor the world is on, or the surface. */
-export function syncDungeon(world: ReadonlyWorld, targets: ReadonlyArray<DungeonTarget | null>): void {
+export function syncDungeon(world: World, targets: ReadonlyArray<DungeonTarget | null>): void {
   const floor = runFloor(world);
   for (const t of targets) t?.setDungeon(floor, world.dungeon?.depth);
 }
 
 /** Bring every renderer in line with a world that was just loaded or swapped in. */
 export function syncWorldScenes(
-  world: ReadonlyWorld,
+  world: World,
   tiles: TileTarget | null,
   dungeon: ReadonlyArray<DungeonTarget | null>,
 ): void {

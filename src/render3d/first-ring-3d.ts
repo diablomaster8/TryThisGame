@@ -2,7 +2,6 @@ import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
 
-
 /** R0448: the Full 3D pulsing ring on the first loop's target, one small mesh. */
 export class FirstRing3D {
   private readonly mesh: THREE.Mesh;

@@ -13,7 +13,6 @@ import {
 import type { RegionPx, RegionPxModule } from './region-host-px';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 
-
 /**
  * R11 lane D (d7): the pixel half of a region built on the engine, from a style: the Wood's
  * module (`region-wood.ts`) made generic, so a new biome is a sprite sheet, a ground look and

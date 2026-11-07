@@ -6,7 +6,6 @@
  * the objective chip's "Go there" and the journal walk or hop the Keeper to the right spot.
  * Goals with no place (a choice made in a scene, an Expedition) have none, and show no button.
  */
-import type { ReadonlyWorld } from './readonly';
 import { REGIONS, type RegionId } from '../config/regions';
 import { BEACON_LANDMARKS } from '../config/region-extras-r11d6';
 import { LANTERN_POSTS } from '../config/tuning';
@@ -68,7 +67,7 @@ const SPINE: Readonly<Record<string, (w: World, c: CampaignState) => Vec2 | null
 };
 
 /** The spine chapter goal's place, from the chip's key `story:hazel:<n>`. */
-function spineTarget(world: ReadonlyWorld, n: number): Vec2 | null {
+function spineTarget(world: World, n: number): Vec2 | null {
   const c = world.campaign;
   if (!c || c.storyline || c.chapter !== n || n > FINAL_CHAPTER || c.step !== 1) return null;
   const goal = chapterDef(n)?.goal;
@@ -76,7 +75,7 @@ function spineTarget(world: ReadonlyWorld, n: number): Vec2 | null {
 }
 
 /** A tracked quest's place, from the chip's key `quest:<id>:<step>`: its Grove area. */
-function questTarget(world: ReadonlyWorld, id: string): Vec2 | null {
+function questTarget(world: World, id: string): Vec2 | null {
   const quest = sideStory(id);
   const key = quest ? questAreaKey(quest) : null;
   if (!key) return null;
@@ -103,7 +102,7 @@ function questTarget(world: ReadonlyWorld, id: string): Vec2 | null {
  * Where the objective with chip key `key` is, in the Grove, or null. Covers the spine
  * (`story:hazel:<n>`), the tracked quests (`quest:<id>:<step>`) and the beacon's own keys.
  */
-export function goalTarget(world: ReadonlyWorld, key: string | null): Vec2 | null {
+export function goalTarget(world: World, key: string | null): Vec2 | null {
   if (!key) return null;
   const parts = key.split(':');
   // R11 d8: a tracked quest points on from any drawn region; the rest are the Grove's own.

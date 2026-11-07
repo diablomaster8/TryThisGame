@@ -155,7 +155,11 @@ const colourOf = (id: string): number => {
 };
 
 /** One row per critter to draw now. The array is reused: read it before the next call. */
-export function ambientDraws(world: ReadonlyWorld, nowMs: number, reduce: boolean): readonly AmbientDraw[] {
+export function ambientDraws(
+  world: ReadonlyWorld,
+  nowMs: number,
+  reduce: boolean,
+): readonly AmbientDraw[] {
   rows.length = 0;
   for (const c of ambientOf(world)) {
     const beat = reduce ? 520 : c.kind === 'dragonfly' ? 60 : c.kind === 'butterfly' ? 110 : 400;

@@ -1,7 +1,6 @@
-import type { ReadonlyWorld } from './readonly-world';
 import { DRESS_D } from '../config/tuning-more/campaign-props-items';
 import type { SceneStage } from '../config/story';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { C12C } from '../config/tuning-more/story-quest-markers';
 import { NATIVE_PPU } from './sprite-batch';
@@ -67,7 +66,7 @@ export const dressD: PixelDressing = {
     sheet = buildDressSheet();
     c.track(sheet);
   },
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number) {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number) {
     const c = ctx;
     const spr = c?.sprites;
     if (!c || !spr || !sheet) return;

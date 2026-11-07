@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import { setFloorMarks, type StageMark } from '../config/stage-marks';
 import { CG4_C4 } from '../config/tuning';
 import {
@@ -11,7 +10,7 @@ import {
   type Floor,
   type Room,
 } from '../sim/dungeon';
-
+import type { World } from '../sim/types';
 
 /**
  * Campaign graphics 4, K16: stage marks on the Hollow Below floor under way, from its seeded
@@ -204,7 +203,7 @@ export function floorMarks(f: Floor): Record<string, StageMark> {
 }
 
 /** Keep the dungeon mark set on the world's floor (or empty off it). */
-export function syncFloorMarks(world: ReadonlyWorld): void {
+export function syncFloorMarks(world: World): void {
   const run = world.dungeon;
   const f = runFloor(world);
   const k = f && run ? `${run.seed}:${run.depth}:${run.genVersion}` : '';

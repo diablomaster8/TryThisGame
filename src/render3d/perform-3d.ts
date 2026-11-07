@@ -17,7 +17,6 @@ import { doodleAlpha } from '../sim/perform';
 import { actDoodleAlpha, actDoodles } from '../render/idle-acts';
 import { IDLE_ACTS } from '../config/tuning-more/look-creature-fx';
 
-
 const NOTE_MS = 1100;
 
 export class Perform3D {

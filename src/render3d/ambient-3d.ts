@@ -14,7 +14,6 @@ import type { FrameRect, SpriteSheet } from '../render/sprites/atlas';
 import { ambientKey, buildAmbientSheet } from '../render/sprites/ambient-art';
 import { jamsOf } from '../sim/jam';
 
-
 export class Ambient3D {
   private sheet: SpriteSheet | null = null;
   private readonly mats = new Map<string, THREE.SpriteMaterial>();
@@ -74,7 +73,13 @@ export class Ambient3D {
    * Once a frame: place a sprite for every critter, hide the rest. `shed` (the governor is
    * straining) drops the living critters first and keeps the snow figures and puddles.
    */
-  frame(world: ReadonlyWorld, inGrove: boolean, nowMs: number, reduce: boolean, shed = false): void {
+  frame(
+    world: ReadonlyWorld,
+    inGrove: boolean,
+    nowMs: number,
+    reduce: boolean,
+    shed = false,
+  ): void {
     const rows = inGrove ? ambientDraws(world, nowMs, reduce) : [];
     let used = 0;
     let flatUsed = 0;

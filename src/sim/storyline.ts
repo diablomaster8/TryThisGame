@@ -1,3 +1,4 @@
+import type { DeepReadonly } from './readonly';
 import { CHAPTERS, ENDINGS } from '../config/story';
 import type { Storyline, StorylineChapter } from '../content/types';
 import { STORY } from '../config/tuning';
@@ -75,7 +76,9 @@ export function storyHome(storyline: string, n: number): Location {
   return STORY_HOME[storyline]?.[n] ?? 'grove';
 }
 
-export function storylineOf(c: CampaignState | null | undefined): Storyline | undefined {
+export function storylineOf(
+  c: DeepReadonly<CampaignState> | null | undefined,
+): Storyline | undefined {
   return c?.storyline ? storylineById(c.storyline) : undefined;
 }
 

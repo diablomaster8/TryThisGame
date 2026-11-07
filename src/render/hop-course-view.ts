@@ -2,7 +2,6 @@ import type { ReadonlyWorld } from './readonly-world';
 import { HOP_COURSE } from '../config/tuning-move';
 import { hopCourseOpen, hopCourseRun } from '../sim/hop-course';
 
-
 /**
  * MOVE-63: what both renderers show of the hop course: which flags stand (the start flag
  * whenever the course is open; during a run the next flag and, fainter, the one after) and
@@ -39,7 +38,10 @@ export function hopFlagsShown(world: ReadonlyWorld): ShownFlag[] {
 }
 
 /** Where the ghost is at sim time `t` during a run, or null (no run, no ghost, or done). */
-export function hopGhostAt(world: ReadonlyWorld, t: number): { x: number; y: number; z: number } | null {
+export function hopGhostAt(
+  world: ReadonlyWorld,
+  t: number,
+): { x: number; y: number; z: number } | null {
   const run = hopCourseRun(world);
   if (!run || !ghost) return null;
   const i = (t - run.startMs) / 100;

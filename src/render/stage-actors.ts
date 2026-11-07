@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import {
   NPC_LOOKS,
   STORY_NPC_LOOKS,
@@ -76,7 +75,7 @@ export class StageTracker {
   readonly stager = new SceneStager();
   private ms = 0;
 
-  tick(world: ReadonlyWorld, dt: number): void {
+  tick(world: World, dt: number): void {
     this.ms += dt * 1000;
     this.stager.speaker = liveSpeaker();
     this.stager.update(world, this.ms);
@@ -87,7 +86,7 @@ export class StageTracker {
   }
 
   /** Where a cast entry stands: its mark (a sim NPC's held spot and a Nubbin's come first). */
-  spotOf(world: ReadonlyWorld, who: string): Vec2 | null {
+  spotOf(world: World, who: string): Vec2 | null {
     const m = this.stager.spotOf(world, who);
     if (m) return m;
     const c = this.stager.stage.cast?.find((e) => e.who === who);
@@ -98,7 +97,7 @@ export class StageTracker {
   }
 
   /** The storyline speakers the stage puts on the ground (none while no scene is queued). */
-  actors(world: ReadonlyWorld): StageActor[] {
+  actors(world: World): StageActor[] {
     if (!this.stager.active) return [];
     const out: StageActor[] = [];
     const cast = this.stager.castOf(world);
@@ -136,7 +135,7 @@ export class StageTracker {
   }
 
   /** Cast members holding a broom, notebook, egg or key ring. */
-  carriers(world: ReadonlyWorld, actors: readonly StageActor[]): Carrier[] {
+  carriers(world: World, actors: readonly StageActor[]): Carrier[] {
     if (!this.stager.active) return [];
     const out: Carrier[] = [];
     for (const a of actors) {
@@ -175,7 +174,7 @@ export class StageTracker {
    * The Nubbins drawn weathered (C6): Moss while he is "the grey shape" on the hill, and the
    * Nubbin of any cast entry with `tint: 'weathered'`.
    */
-  weathered(world: ReadonlyWorld): Set<string> {
+  weathered(world: World): Set<string> {
     const out = new Set<string>();
     const c = world.campaign;
     if (c?.mossId && mossOnHill(world, c.mossId)) out.add(c.mossId);
@@ -189,7 +188,7 @@ export class StageTracker {
 
   /** The drawn spot and kind of whoever speaks now, for the chevron; null for none. */
   speakerSpot(
-    world: ReadonlyWorld,
+    world: World,
   ): { x: number; z: number; kind: 'keeper' | 'nubbin'; scale: number; id: string } | null {
     const who = liveSpeaker();
     if (!who || who === 'narrator' || who === 'chorus') return null;
@@ -213,7 +212,7 @@ export class StageTracker {
     return { x: p.x, z: p.z, kind: 'keeper', scale: look?.scale ?? 1, id: who };
   }
 
-  private nubbinOf(world: ReadonlyWorld, who: string): string | null {
+  private nubbinOf(world: World, who: string): string | null {
     const c = world.campaign;
     return (who === 'sable' ? c?.sableId : who === 'moss' ? c?.mossId : null) ?? null;
   }
@@ -224,7 +223,7 @@ export class StageTracker {
  * picked the Gardener): there is no sim NPC of them about, so they stand as a stage actor in
  * their own clothes and accessory (campaign graphics 3).
  */
-function villagerLook(world: ReadonlyWorld, who: string): StoryNpcLook | undefined {
+function villagerLook(world: World, who: string): StoryNpcLook | undefined {
   // K11: Hazel has no sim NPC before chapter 11; a tale draws young Hazel as a stage actor.
   if (who === 'hazel') return STORY_ONLY_LOOKS[storyId(who)];
   const acc = NPC_LOOKS[who];

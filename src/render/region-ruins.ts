@@ -12,7 +12,6 @@ import {
   ruinsState,
   type RuinsState,
 } from '../config/region-ruins';
-
 import { ruinsSheet } from './paint/ruins';
 import type { GroundLook, GroundPaint } from './region-ground';
 import { kitModule, type KitPiece } from './region-kit-px';

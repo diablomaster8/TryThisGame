@@ -1,10 +1,9 @@
-import type { ReadonlyWorld } from './readonly-world';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { StageTracker } from './stage-actors';
 import { POSE_CUES, PoseDirector } from './stage-pose';
-
+import type { World } from '../sim/types';
 
 /**
  * Campaign graphics 4, package a1, pixel: works out the stage cues each frame (K1 sit and
@@ -25,7 +24,7 @@ class PixelA1 implements PixelDressing {
     this.director = new PoseDirector();
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     void stage;
     void daylight;
     const ctx = this.ctx;

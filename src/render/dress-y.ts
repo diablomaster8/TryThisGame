@@ -1,9 +1,8 @@
-import type { ReadonlyWorld } from './readonly-world';
 import { Sprite, SpriteMaterial, type CanvasTexture, type Vector3 } from 'three';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import { CG2_Y } from '../config/tuning-more/campaign2-night-grade';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { SceneClock } from './dress-e';
 import { Y_STATE } from './dress-y-state';
@@ -109,7 +108,7 @@ class PixelY implements PixelDressing {
     this.shutKey = '';
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, _daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

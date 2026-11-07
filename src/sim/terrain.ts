@@ -10,7 +10,6 @@
 import type { ReadonlyWorld } from './readonly';
 import { GROVE, GROVE3D } from '../config/tuning';
 import { BRIDGE_DECK, BRIDGE_YAW, JUMP, KEEPER_WADE, TERRACE } from '../config/tuning-sim';
-import type { World } from './types';
 
 export type GroundSurface = 'grass' | 'path' | 'water' | 'deck' | 'stone';
 

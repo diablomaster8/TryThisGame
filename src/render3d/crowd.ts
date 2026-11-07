@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import { npcLookOf, storyId } from '../config/npc-looks';
 import { GROVE3D, HOLLOW, HOLLOW_R7, READ3D } from '../config/tuning';
@@ -14,7 +13,7 @@ import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/n
 import { ROSTER } from './art/species-roster';
 import { variantById } from './art/nubbin-variant-catalogue';
 import { TRAINERS, trainerOf } from '../sim/trainers';
-import type { Location, Vec2 } from '../sim/types';
+import type { Location, Vec2, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';
 import { gaitTime } from './gait';
 import { placeStand } from './item-kit';
@@ -213,7 +212,7 @@ function npcFigureLook(t: string): Look {
 
 /** Who stands in the scene besides the Keeper and the Nubbins, for this place and moment. */
 export function crowdFor(
-  world: ReadonlyWorld,
+  world: World,
   location: Location,
   floor: Floor | null,
   nowMs: number,

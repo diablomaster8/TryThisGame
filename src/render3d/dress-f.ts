@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from '../render/readonly-world';
 import * as THREE from 'three';
 import {
   buntingShape,
@@ -199,7 +198,7 @@ export const dress3dF: Dressing3d = {
     );
   },
 
-  update(world: ReadonlyWorld, stage, _daylight, dt) {
+  update(world: World, stage, _daylight, dt) {
     if (!ctx || !root) return;
     const reduce = ctx.reduceMotion();
     clock += dt;
@@ -345,7 +344,7 @@ export const dress3dF: Dressing3d = {
   },
 };
 
-function nearestTree(world: ReadonlyWorld): { id: string; pos: { x: number; z: number } } | null {
+function nearestTree(world: World): { id: string; pos: { x: number; z: number } } | null {
   let best: { id: string; pos: { x: number; z: number } } | null = null;
   let bd = Infinity;
   for (const t of world.trees) {
@@ -428,7 +427,7 @@ const TREE_TINT: Record<Season, { color: string; leaves: number; fruit: boolean 
  * The drawn season on the fruit trees: leaf tint, fewer leaves and no fruit in winter. The
  * crowns and fruit are found by shape once the trees exist, and restored when no season shows.
  */
-function seasonTrees(c: Dress3dCtx, _world: ReadonlyWorld, season: { season: Season } | null): void {
+function seasonTrees(c: Dress3dCtx, _world: World, season: { season: Season } | null): void {
   if ((!treeParts.crowns.length || !treeParts.grass.length) && clock - treeScan > 2) {
     treeScan = clock;
     c.world3d.traverse((o) => {

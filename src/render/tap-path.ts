@@ -5,14 +5,13 @@
  * all at the height of the surface there (a terrace top, a bench). It reads the sim (the
  * tap target and the nav route) and never changes it.
  */
-import type { ReadonlyWorld } from './readonly-world';
 import { TAP_PATH } from '../config/tuning-move';
 import { TAP_FLAG } from '../config/tuning-more/move-keeper-ui';
 import { TAP_PRINTS } from '../config/tuning-more/ui-tap-prints-border';
 import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
 import { keeperFooting, standInTap, tapVerdict, type TapVerdict } from '../sim/keeper';
 import { keeperRoute } from '../sim/nav';
-import type { Vec2 } from '../sim/types';
+import type { Vec2, World } from '../sim/types';
 
 export interface TapMark {
   x: number;
@@ -41,7 +40,7 @@ export class TapPath {
   glow = false;
 
   /** Follow the sim's tap target; returns false when nothing is to be drawn. */
-  update(world: ReadonlyWorld, nowMs: number): boolean {
+  update(world: World, nowMs: number): boolean {
     this.glow = world.edu !== null;
     const v = world.location === 'grove' ? tapVerdict(world) : undefined;
     if (v !== this.verdict) {
@@ -101,7 +100,7 @@ export class TapPath {
     return reduced ? 0.5 : f;
   }
 
-  private place(world: ReadonlyWorld, target: Vec2): void {
+  private place(world: World, target: Vec2): void {
     const k = world.keeper.pos;
     const route = keeperRoute(world);
     const end = route.length ? route[route.length - 1]! : target;

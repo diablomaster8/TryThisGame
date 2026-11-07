@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { HELD_RING } from '../config/tuning';
 import { HeldRing } from '../render/held-ring';
 
-
 /** TECH-02: the Full 3D ring under a held Nubbin (render/held-ring.ts), one small mesh. */
 export class HeldRing3D {
   readonly ring = new HeldRing();

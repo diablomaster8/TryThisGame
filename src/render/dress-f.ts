@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import {
   buntingShape,
   DRESSING_FLAGS,
@@ -11,7 +10,7 @@ import { LANTERN_POSTS } from '../config/tuning';
 import { LOOK_F } from '../config/tuning-more/campaign-looks-titles';
 import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { townUnlocks } from '../sim/town';
-
+import type { World } from '../sim/types';
 import { disposeLook, driveCampaign } from '../ui/title-card';
 import { BUNTING_INK, buildFArt, SHAPES, U, type FArt } from './dress-f-art';
 import type { PixelDressCtx, PixelDressing } from './dressings';
@@ -42,7 +41,7 @@ export const dressF: PixelDressing = {
     if (art) c.track(art.sheet);
   },
 
-  update(world: ReadonlyWorld, stage, daylight, dt) {
+  update(world: World, stage, daylight, dt) {
     if (!ctx) return;
     const reduce = ctx.reduceMotion();
     clock += dt;
@@ -314,7 +313,7 @@ function holoFence(d: Draw, reduce: boolean): void {
   }
 }
 
-function nearestTree(world: ReadonlyWorld): { x: number; z: number } | null {
+function nearestTree(world: World): { x: number; z: number } | null {
   let best: { x: number; z: number } | null = null;
   let bd = Infinity;
   for (const t of world.trees) {

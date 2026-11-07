@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import {
   CanvasTexture,
   DoubleSide,
@@ -19,7 +18,7 @@ import { markAt } from '../config/stage-marks';
 import { CG_C } from '../config/tuning-more/campaign-story-places';
 import type { SceneStage } from '../config/story';
 import { hillHeight, rampPath, TERRACES } from '../sim/terrain';
-
+import type { World } from '../sim/types';
 import { leafHinge, pennedSpots } from './corvin-layout';
 import type { Daylight } from './daylight';
 import { NUMBER_CELL, numberCell, paintNumberAtlas } from './number-atlas';
@@ -253,7 +252,7 @@ export const dressC: PixelDressing = {
     ctx.track(pm);
   },
 
-  update(world: ReadonlyWorld, stage: SceneStage, _daylight: Daylight, dt: number) {
+  update(world: World, stage: SceneStage, _daylight: Daylight, dt: number) {
     const ctx = ctx0;
     if (!ctx) return;
     const flags = stageFlags(world, stage);

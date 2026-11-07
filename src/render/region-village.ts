@@ -6,7 +6,6 @@ import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 import { villageSheet } from './paint/village';
 import { villageBuildings, villageDressing, villageRecruits } from '../sim/village';
 
-
 /**
  * R0095 (WORLD-32): the village square in the pixel Grove, the same pieces in the same places
  * as the 3D square (`render3d/village-square.ts`): the paving and fountain always, a building

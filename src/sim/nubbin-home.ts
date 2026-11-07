@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly';
 import { regionOfLine, type StoryRegionId } from '../config/story-regions';
 import { LINE_REWARD } from '../config/tuning';
 import { isStoryRegion, storyRegionHere } from './story-regions';
@@ -22,12 +21,12 @@ export function homeRegion(home: string | undefined): StoryRegionId | null {
 }
 
 /** Is Nubbin `n` where the Keeper is: a Grove Nubbin always, a line's one only in its region. */
-export function nubbinHere(world: ReadonlyWorld, n: Nubbin): boolean {
+export function nubbinHere(world: World, n: Nubbin): boolean {
   const r = homeRegion(n.home);
   return r === null || storyRegionHere(world) === r;
 }
 
 /** The Nubbins drawn and listed here (`nubbinHere`), in roster order. */
-export function nubbinsHere(world: ReadonlyWorld, list: readonly Nubbin[] = world.nubbins): Nubbin[] {
+export function nubbinsHere(world: World, list: readonly Nubbin[] = world.nubbins): Nubbin[] {
   return list.filter((n) => nubbinHere(world, n));
 }

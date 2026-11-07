@@ -4,12 +4,11 @@
  * bridge, a bench, a rock top) and plays that surface's step, if it has one. It reads the
  * sim and never changes it.
  */
-import type { ReadonlyWorld } from './readonly-world';
 import { FOOTFALL } from '../config/tuning-move';
 import { playSound } from '../platform/audio';
 import { keeperFooting } from '../sim/keeper';
 import { groundAt, type GroundSurface } from '../sim/terrain';
-
+import type { World } from '../sim/types';
 
 export class Footfall {
   private lx = NaN;
@@ -19,7 +18,7 @@ export class Footfall {
   surface: GroundSurface = 'grass';
 
   /** Follow the Keeper; returns the surface on a step, else null. */
-  step(world: ReadonlyWorld, x: number, z: number): GroundSurface | null {
+  step(world: World, x: number, z: number): GroundSurface | null {
     const k = world.keeper;
     const moved = Number.isNaN(this.lx) ? 0 : Math.hypot(x - this.lx, z - this.lz);
     this.lx = x;

@@ -1,4 +1,3 @@
-import type { ReadonlyWorld } from './readonly-world';
 import {
   DoubleSide,
   Mesh,
@@ -15,7 +14,7 @@ import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import { HUSH } from '../config/tuning-more/campaign-people-lanterns';
 import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
-import type { TileKind } from '../sim/types';
+import type { TileKind, World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { lanternLights, SceneClock } from './dress-e';
 import type { PixelDressCtx, PixelDressing } from './dressings';
@@ -370,7 +369,7 @@ class PixelW implements PixelDressing {
     ctx.track(this.crowns);
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const reduce = ctx.reduceMotion();

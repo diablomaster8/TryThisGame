@@ -2,7 +2,7 @@ import type { ReadonlyWorld } from './readonly';
 import { TOWN } from '../config/tuning';
 import { VILLAGE, type VillageBuilding, type VillageService } from '../config/region-village';
 import { townUnlocks } from './town';
-import type { TownRole, Vec2, World } from './types';
+import type { TownRole, Vec2 } from './types';
 
 /**
  * R0095 (WORLD-32): what the village looks like now, as pure data both renderers read: which
@@ -41,7 +41,10 @@ function homeOf(role: TownRole): VillageBuilding | null {
  * Every recruit's place at `timeMs`: a slow ellipse in front of its role's building (or round
  * the fountain), each a different phase so neighbours never walk in step.
  */
-export function villageRecruits(world: ReadonlyWorld, timeMs: number = world.timeMs): VillageRecruit[] {
+export function villageRecruits(
+  world: ReadonlyWorld,
+  timeMs: number = world.timeMs,
+): VillageRecruit[] {
   const L = VILLAGE.loop;
   const sq = VILLAGE.square;
   return world.town.recruits.slice(0, L.max).map((r, index) => {

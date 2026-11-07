@@ -35,7 +35,9 @@ export function hopCourseOpen(world: ReadonlyWorld): boolean {
 }
 
 /** The run under way, for the HUD and the renderers (read only), or null. */
-export function hopCourseRun(world: ReadonlyWorld): Readonly<{ startMs: number; next: number }> | null {
+export function hopCourseRun(
+  world: ReadonlyWorld,
+): Readonly<{ startMs: number; next: number }> | null {
   return runs.get(world) ?? null;
 }
 

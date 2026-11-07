@@ -13,7 +13,6 @@ import {
 } from '../render/ambient-life';
 import { regionOf } from '../sim/regions';
 
-
 /**
  * R0128 (WORLD-62): ambient life in Full 3D, from the same per-chunk list as the pixel view
  * (`render/ambient-life.ts`). Three instanced meshes (birds, butterflies, fish shadows), so the

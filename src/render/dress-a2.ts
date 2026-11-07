@@ -1,7 +1,6 @@
-import type { ReadonlyWorld } from './readonly-world';
 import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
 import type { SceneStage } from '../config/story';
-
+import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { stageFlags, terraceY } from './scene-stage';
@@ -51,7 +50,7 @@ class PixelA2 implements PixelDressing {
     this.trail.reset();
   }
 
-  update(world: ReadonlyWorld, stage: SceneStage, daylight: Daylight, dt: number): void {
+  update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
     const ctx = this.ctx;
     const sp = ctx?.sprites;
     if (!ctx || !sp) return;

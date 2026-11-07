@@ -11,7 +11,6 @@ import type { RegionPx } from './region-host-px';
 import type { SpriteBatch, SpriteDraw } from './sprite-batch';
 import { millWheelMul } from '../sim/region-weather-play';
 
-
 /**
  * WORLD-25 (R11 lane D): the Wood in the pixel view, a lazy chunk the region host loads on the
  * approach (`render/region-host-px.ts`). The ground is painted once from the layout (the dapple
