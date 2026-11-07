@@ -197,6 +197,30 @@ const VISIT_FENCE_XS: number[] = [];
 for (let x = -VISIT_GARDEN.halfW; x <= VISIT_GARDEN.halfW + 0.01; x += 1.5)
   if (Math.abs(x) > 2.2) VISIT_FENCE_XS.push(x);
 
+/**
+ * PERF: the Grove loops looked up each scenery piece's and each decoration's front frame by a
+ * freshly built key string (`${kind}-lit` and the Map hash) every frame, about 8% of a Grove
+ * frame on a 4x phone. A found rect is kept per sheet (a rebuilt sheet is a new object); a
+ * missing one is asked for again, as the sheet may still be filling.
+ */
+const FRONT_RECTS = new WeakMap<object, Map<string, FrameRect>>();
+function frontRect(sheet: SpriteSheet, clip: string): FrameRect | undefined {
+  let m = FRONT_RECTS.get(sheet);
+  if (!m) FRONT_RECTS.set(sheet, (m = new Map()));
+  let r = m.get(clip);
+  if (r === undefined) {
+    r = sheet.frames.get(frameKey(clip, 'front', 0));
+    if (r !== undefined) m.set(clip, r);
+  }
+  return r;
+}
+const LIT_NAMES = new Map<string, string>();
+function litName(kind: string): string {
+  let n = LIT_NAMES.get(kind);
+  if (n === undefined) LIT_NAMES.set(kind, (n = `${kind}-lit`));
+  return n;
+}
+
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
   /**
@@ -950,9 +974,9 @@ export class WorldView {
         if (isSceneryHidden(s.kind)) continue;
         const litKey =
           lampsOn && !(Y_STATE.windowsOut && s.pick?.kind === 'building')
-            ? scenery.frames.get(frameKey(`${s.kind}-lit`, 'front', 0))
+            ? frontRect(scenery, litName(s.kind))
             : undefined;
-        const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
+        const rect = litKey ?? frontRect(scenery, s.kind);
         if (!rect) continue;
         // K35: bushes take the wind's two-frame sway.
         let sway =
@@ -1096,7 +1120,7 @@ export class WorldView {
     for (let di = 0; di < decor.length; di++) {
       const d = decor[di]!;
       if (!this.groveChunks.decor.has(di)) continue;
-      const rect = props.frames.get(frameKey(d.frame, 'front', 0));
+      const rect = frontRect(props, d.frame);
       if (!rect) continue;
       batch.draw(
         reuseDraw(
