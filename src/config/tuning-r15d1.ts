@@ -42,3 +42,16 @@ export const EDU_SLICE_SIGNS: Partial<Record<RegionId, { icon: string; name: str
   shore: { icon: '🏖️', name: 'the beach' },
   wood: { icon: '🌳', name: 'the clearing' },
 };
+
+/**
+ * R0118 (WORLD-51): the snow slide on the ridge's snow (the terraces from `RIDGE_SNOW_Y` up,
+ * where it lies all year, so this is not a seasonal rule). On the stick the Keeper runs at
+ * `speedMul` and steers and brakes slowly: velocity eases toward the stick at `rate` per second,
+ * and coasts on after the stick is let go until it falls under `stopSpeed`. Tap walks are
+ * unchanged (they steer themselves).
+ */
+export const SNOW_SLIDE = {
+  speedMul: 1.4,
+  rate: 2.4,
+  stopSpeed: 0.2,
+} as const;

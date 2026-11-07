@@ -28,6 +28,7 @@ import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
+import { slideOnSnow, stopSlide } from './snow-slide';
 import { holdInSlice } from './edu-region-bounds';
 import { REGION_WALK } from '../config/tuning-r11d1';
 import { KEEPER } from '../config/tuning';
@@ -353,6 +354,14 @@ export function stepRegionWalk(world: World, dtMs: number, events: SimEvent[] = 
       );
     }
   }
+  // R0118: on the ridge's snow the stick slides (eased velocity, coasts on after release).
+  const stick = k.input.x !== 0 || k.input.z !== 0;
+  if (stick || !k.moveTarget) {
+    const sl = slideOnSnow(world, id, stick, dx, dz, speed, dt);
+    dx = sl.dx;
+    dz = sl.dz;
+    speed = sl.speed;
+  } else stopSlide(world);
   const fx = k.pos.x;
   const fz = k.pos.z;
   if (speed > 0) {
