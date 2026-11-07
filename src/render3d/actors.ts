@@ -513,6 +513,12 @@ export class Actors {
   calm = false;
   /** R0585: set by the frame governor; hides the ambient critters first. */
   shedAmbient = false;
+  /**
+   * Round 3: the frame governor's CPU step 5 sets this; a Nubbin whose rig it calls light
+   * (drawn as a stand-in or an impostor) is updated every other frame, half of them each frame.
+   */
+  thin: ((root: THREE.Object3D) => boolean) | null = null;
+  private thinTick = 0;
   /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
   sigFx: SignatureFx | null = null;
   /** LOOK-21 (lane E r10): the crying Nubbins' tear streams, set by the scene. */
@@ -1094,9 +1100,13 @@ export class Actors {
     // only the party comes along, as in the pixel view (the rest stay in the Grove).
     const away = this.location.startsWith('visit:');
     const live = new Set<string>();
+    const thin = this.thin;
+    let thinIx = this.thinTick++;
     for (const n of this.shownNubbins(world)) {
       live.add(n.id);
       const a = this.ensureNubbin(n);
+      // Round 3, under load only: a far one (a stand-in or impostor) keeps last frame's pose.
+      if (thin && a.rig && !a.squash && !a.revealYaw && thin(a.rig.group) && thinIx++ & 1) continue;
       this.unsquash(a);
       if (a.revealYaw && a.rig) {
         a.rig.group.rotation.y -= a.revealYaw;
