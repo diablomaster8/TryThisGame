@@ -51,6 +51,9 @@ for (const r of rows.slice(skip, skip + top)) {
   console.log(line);
   if (gha) console.log(`::notice title=${label} slow file::${line}`);
 }
+// One line with every file of 3 s or more, ready to paste into tests/shard-weights.ts.
+const heavy = rows.filter((r) => r.wall >= 3000).map((r) => `${r.name}=${Math.round(r.wall / 1000)}`);
+if (gha && heavy.length) console.log(`::notice title=${label} weights::${heavy.join(' ')}`);
 const failedFiles = report.testResults
   .filter((f) => f.status === 'failed')
   .map((f) => f.name.replace(/\\/g, '/').replace(/^.*\/(tests\/)/, '$1'));
