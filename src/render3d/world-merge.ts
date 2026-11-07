@@ -149,15 +149,21 @@ function snapOf(mesh: THREE.Mesh, m: THREE.MeshStandardMaterial, out: Float64Arr
     out[i++] = ph.ior;
     out[i++] = ph.sheen;
     out[i++] = ph.sheenRoughness;
-    out[i++] = ph.sheenColor.getHex();
+    out[i++] = ph.sheenColor.r;
+    out[i++] = ph.sheenColor.g;
+    out[i++] = ph.sheenColor.b;
     out[i++] = ph.transmission;
     out[i++] = ph.thickness;
     out[i++] = ph.attenuationDistance;
-    out[i++] = ph.attenuationColor.getHex();
+    out[i++] = ph.attenuationColor.r;
+    out[i++] = ph.attenuationColor.g;
+    out[i++] = ph.attenuationColor.b;
     out[i++] = ph.iridescence;
     out[i++] = ph.iridescenceIOR;
     out[i++] = ph.specularIntensity;
-    out[i++] = ph.specularColor.getHex();
+    out[i++] = ph.specularColor.r;
+    out[i++] = ph.specularColor.g;
+    out[i++] = ph.specularColor.b;
     out[i++] = ph.anisotropy;
     out[i++] = ph.anisotropyRotation;
     out[i++] = ph.dispersion;
@@ -166,7 +172,7 @@ function snapOf(mesh: THREE.Mesh, m: THREE.MeshStandardMaterial, out: Float64Arr
   } else out.fill(0, i);
   return out;
 }
-const SNAP = 44;
+const SNAP = 50;
 const snapTmp = new Float64Array(SNAP);
 
 /** What the geometry is now: a refilled or re-sliced mesh counts as a change. */
@@ -351,6 +357,9 @@ export class WorldMerge {
   private readonly projView = new THREE.Matrix4();
   private readonly invRoot = new THREE.Matrix4();
   private readonly baseUniforms: Set<string>;
+  private readonly snaps = new WeakMap<THREE.Material, Float64Array[]>();
+  /** Snapshots checked this render, and the answer. */
+  private readonly seen = new Map<Float64Array, boolean>();
   /** Texture sets one merged program may sample: two samplers each, four kept for the rest. */
   private readonly maxSets: number;
   /** One piece's data texture column, as float32. */
@@ -375,6 +384,11 @@ export class WorldMerge {
     this.hooks = hooksFor(renderer);
     this.hooks.merges.push(this);
     this.on = this.hooks.on;
+  }
+
+  /** Every merge on `renderer` (the Grove's and a live stage's): debug and tests. */
+  static of(renderer: THREE.WebGLRenderer): readonly WorldMerge[] {
+    return HOOKS.get(renderer)?.merges ?? [];
   }
 
   get enabled(): boolean {
@@ -593,7 +607,7 @@ export class WorldMerge {
       matrix: mesh.matrixWorld.clone(),
       geo: g,
       stamp: stampOf(g, new Float64Array(6)),
-      snap: snapOf(mesh, mat, new Float64Array(SNAP)),
+      snap: this.intern(mat, snapOf(mesh, mat, new Float64Array(SNAP))),
       ground: uniforms.uOccIsGround ?? null,
       floats: PER_PIECE_FLOATS.map(([n]) => uniforms[n] ?? null),
       hooks: optionalHooks(mat),
@@ -601,6 +615,17 @@ export class WorldMerge {
       set,
       live: true,
     };
+  }
+
+  /** One snapshot array per material and state, shared by its pieces (`valid` checks it once). */
+  private intern(mat: THREE.Material, snap: Float64Array): Float64Array {
+    let list = this.snaps.get(mat);
+    if (!list) this.snaps.set(mat, (list = []));
+    const had = list.find((x) => sameArr(x, snap));
+    if (had) return had;
+    list.push(snap);
+    if (list.length > 8) list.shift();
+    return snap;
   }
 
   /** Same mesh, place, geometry, key and textures as when merged: take its new state in place. */
@@ -678,7 +703,16 @@ export class WorldMerge {
     if (mesh.material !== p.mat || p.mat.version !== p.ver) return false;
     if (mesh.geometry !== p.geo || !sameMatrix(mesh.matrixWorld, p.matrix)) return false;
     if (!sameArr(stampOf(p.geo, stampTmp), p.stamp)) return false;
-    return sameArr(snapOf(mesh, p.mat, snapTmp), p.snap);
+    const s = p.snap;
+    if (+mesh.receiveShadow !== s[22] || mesh.renderOrder !== s[23] || mesh.layers.mask !== s[24])
+      return false;
+    // The material's numbers once a render for all its pieces (they share one snapshot array
+    // when they joined with the same numbers, see `intern`).
+    const seen = this.seen.get(s);
+    if (seen !== undefined) return seen;
+    const ok = sameArr(snapOf(mesh, p.mat, snapTmp), s);
+    this.seen.set(s, ok);
+    return ok;
   }
 
   /** Before the first draw of a render: which pieces the merged meshes draw, and their numbers. */
