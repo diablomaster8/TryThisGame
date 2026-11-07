@@ -5,14 +5,14 @@
  * orbit as the view turns. Drawn over a finished body, before the outline pass.
  */
 import type { DrawnAngle } from './angles';
-import type { Layout } from './layout';
+import type { SpriteLayout } from './layout';
 import { C } from './palette';
 import type { PixelCanvas } from './pixel-canvas';
 
 export function drawEternalSign(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   band: 'sun' | 'moon' | 'neutral',
 ): void {
   if (band === 'sun') {

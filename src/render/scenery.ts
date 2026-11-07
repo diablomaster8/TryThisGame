@@ -3,11 +3,11 @@ import { OUTER_PROPS, OUTER_TREES } from '../config/outer-ring';
 import { GROVE } from '../config/tuning';
 import type { PaintedKind } from './paint/scenery';
 
-export type SceneryKind = PaintedKind;
+export type PaintedSceneryKind = PaintedKind;
 
 /** A placed piece of scenery; `pick` makes it tappable. */
 export interface SceneryPlacement {
-  kind: SceneryKind;
+  kind: PaintedSceneryKind;
   x: number;
   z: number;
   /** World width of the sprite; height follows the 1:1 cell. */
@@ -24,7 +24,7 @@ export const BUILDINGS: Record<string, { x: number; z: number }> = Object.fromEn
 
 export const SCENERY: SceneryPlacement[] = [
   ...GROVE.trees.map((t, i) => ({
-    kind: `tree-${i + 1}` as SceneryKind,
+    kind: `tree-${i + 1}` as PaintedSceneryKind,
     x: t.x,
     z: t.z,
     size: 7.2,
@@ -71,7 +71,7 @@ export const SCENERY: SceneryPlacement[] = [
   { kind: 'well', x: BUILDINGS.well!.x, z: BUILDINGS.well!.z, size: 2.5 },
   // Bushes, logs, rocks and the outer ring's wild trees, from the shared layout (MOVE-01).
   ...WILD_PROPS.map((p) => ({
-    kind: p.art as SceneryKind,
+    kind: p.art as PaintedSceneryKind,
     x: p.x,
     z: p.z,
     size: p.size,
@@ -79,14 +79,14 @@ export const SCENERY: SceneryPlacement[] = [
   })),
   // R0072: the outer ring's places and the north wood's extra trees (config/outer-ring.ts).
   ...OUTER_TREES.map((t) => ({
-    kind: t.art as SceneryKind,
+    kind: t.art as PaintedSceneryKind,
     x: t.x,
     z: t.z,
     size: t.size,
     sway: 0.05,
   })),
   ...OUTER_PROPS.map((p) => ({
-    kind: p.art as SceneryKind,
+    kind: p.art as PaintedSceneryKind,
     x: p.x,
     z: p.z,
     size: p.size,

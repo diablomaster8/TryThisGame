@@ -1,7 +1,7 @@
 import { cosmetic, eggshellColour, type CosmeticColour, type PxOp } from '../../config/cosmetics';
 import type { DrawnAngle } from './angles';
 import { eggPalette } from './egg-palette';
-import type { Layout } from './layout';
+import type { SpriteLayout } from './layout';
 import { C } from './palette';
 import type { PixelCanvas } from './pixel-canvas';
 
@@ -31,7 +31,7 @@ export function drawsCosmetic(id: string): boolean {
 export function drawCosmetic(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   id: string,
   layer: CosmeticLayer,
 ): void {

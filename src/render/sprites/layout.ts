@@ -62,7 +62,7 @@ export interface ChaoPoseGeometry {
   headDrop: number;
 }
 
-export interface Layout {
+export interface SpriteLayout {
   headCx: number;
   headCy: number;
   headRx: number;
@@ -75,7 +75,7 @@ export interface Layout {
   legLength: number;
 }
 
-export function layout(angle: DrawnAngle, pose: ChaoPoseGeometry, shape: ChaoShape): Layout {
+export function layout(angle: DrawnAngle, pose: ChaoPoseGeometry, shape: ChaoShape): SpriteLayout {
   const g = shape.grow;
   const feetY = 30 + pose.lift;
   const bodyRy = Math.round((5 + g) * pose.squash);

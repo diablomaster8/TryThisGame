@@ -1,20 +1,21 @@
-import { dungeonTapTarget } from './input/dungeon-tap';
-import { DUNGEON_TAP } from './config/tuning-dungeon-tap';
+import { driveCamera } from './game-camera';
+import { updateDaylight } from './game-daylight';
+import { reactToEvents } from './game-events';
+import { keepCheckpoints, runCatchUp } from './game-catchup';
+import { stepSim } from './game-steps';
+import { buildInput } from './game-input-wiring';
+
 import { setMotionPref } from './platform/motion';
 import { WalkFollow } from './render/camera-follow';
-import { easeShift, NO_SHIFT, type ViewShift } from './render/view-shift';
-import { VIEW_SHIFT } from './config/tuning';
+import { NO_SHIFT, type ViewShift } from './render/view-shift';
+
 import { Vector3 } from 'three';
-import { REGIONS, regionHour } from './config/regions';
-import { regionLook } from './render/region-look';
-import { regionSky } from './sim/region-weather-live';
-import { regionOf, rideSeen } from './sim/regions';
-import { regionCameraFor } from './config/region-camera';
+
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
 import { openTraces } from './sim/regions-trace';
 import { secretGlint } from './sim/world-hints';
-import { CAMERA, KEEPER, LANDMARK_HOLD, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
+import { SIM } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import {
@@ -28,73 +29,43 @@ import {
   writeSave,
   writeThumb,
 } from './platform/storage';
-import { OrbitCamera, walkLead, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
-import { daylightAt, localHour } from './render/daylight';
-import { litLanterns } from './sim/campaign';
+import { OrbitCamera } from './render/camera';
+
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline, type FrameStats } from './render/pipeline';
-import {
-  clearYaw,
-  fitPixel,
-  resolveStage,
-  SceneStager,
-  speaksAsKeeper,
-  stageObstacles,
-  type FitPoint,
-} from './render/scene-stage';
-import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
-import { stageHides } from './config/stage-sets';
+import { SceneStager, type FitPoint } from './render/scene-stage';
+
 import { WorldView } from './render/world-view';
 import { paintGrade } from './ui/look-paint';
-import { applyTextScale } from './ui/text-scale';
-import { applyAccess } from './ui/access-r10';
+
 import { currentGrade } from './ui/title-card';
-import { phoneDefault } from './ui/world-settings';
+
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
-import { catchUpInChunks } from './sim/offline';
+
 import { deserialize, serialize } from './sim/save';
 import type { AwayReport, Command, GraphicsMode, SimEvent, Vec2, World } from './sim/types';
-import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
-import { stepKeeperMotion } from './sim/keeper';
-import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
-import { PERCH } from './config/tuning-move';
-import { DEBUG_OVERLAY, DebugOverlay } from './render/debug-colliders';
-import { standTopAt } from './sim/obstacles';
-import { deckY, groveHeight, hillHeight } from './sim/terrain';
-import { runFloor } from './sim/dungeon';
-import { terraceY } from './render/scene-stage';
-import { cameraSubject, sheetShift } from './render/camera-subject';
+import { applyCommand, createWorld, findNubbin } from './sim/world';
+
+import { DebugOverlay } from './render/debug-colliders';
+
 import { SpriteCuller } from './render/chunks';
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
-import { buzz } from './platform/haptics';
+
 import { PixelGovernor } from './render/pixel-gov';
 import { FAST_TIME } from './config/tuning-r8d-perf';
 import { dedupeEvents } from './ui/event-dedupe';
 import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
-import { slotId } from './platform/storage';
-import { armPersistRequest } from './platform/persist';
-import { takeBackup, writeCheckpoint } from './platform/save-backups';
-import { chapterKeysOf, hasCheckpoint } from './sim/story-marks';
-import { currentChapterKeys } from './sim/chapter-select'; /* Lane C r11 (R0619) */
+
+/* Lane C r11 (R0619) */
 import { playSoulSounds } from './ui/soul-sounds';
-import { playIris } from './ui/travel-iris';
-import { playSound } from './platform/audio';
-import { REGION_BORDER } from './config/tuning-r11d1';
-import { regionFar } from './render/region-host-px';
 
 /** R0094: the pale mist a fog spell greys the pixel picture toward. */
-const FOG_TINT = new Vector3(0.88, 0.92, 0.96);
-
-/** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
-function reduce0(reduce: boolean, dtMs: number, rate: number): number {
-  return reduce ? 1 : 1 - Math.exp((-rate * dtMs) / 1000);
-}
 
 /* Lane E r9 */
 /** FUN-43: listeners told of every command sent (the curiosity triggers read them). */
@@ -135,7 +106,7 @@ export class Game {
   /** Draw-call and frame-size stats from whichever renderer is on. */
   readonly pipeline: FrameStats;
   /** The pixel renderer and scene; null when the 3D scene is on. */
-  private readonly lowRes: LowResPipeline | null;
+  readonly lowRes: LowResPipeline | null;
   readonly grove: GroveScene | null;
   /** The full-3D scene, when the Graphics setting picked it. */
   readonly scene3d: Grove3dScene | null;
@@ -147,24 +118,24 @@ export class Game {
    */
   readonly view = new WorldView();
   /** WORLD-09: skips pixel sprites that are surely off screen. */
-  private readonly culler = new SpriteCuller();
+  readonly culler = new SpriteCuller();
   readonly picker: Picker;
   readonly input: GameInput;
   readonly cameraControls: CameraControls;
-  private readonly pending: Command[] = [];
+  readonly pending: Command[] = [];
   /** HOT-2: frame times and the breakdown of long frames, for the debug panel and probes. */
   readonly spikes = new FrameSpikes();
   /** TECH-09: this device's performance tier and what decided it (shown in the debug panel). */
   readonly tier: TierReading;
   /** TECH-53: the Pixel renderer's frame governor (null in Full 3D). */
-  private pixelGov: PixelGovernor | null = null;
+  pixelGov: PixelGovernor | null = null;
   /**
    * TECH-54: whether the last frame's sim steps ran out of their time budget and left some for
    * later frames (the debug panel shows "×1000 (behind)").
    */
   simBehind = false;
-  private rafId = 0;
-  private running = false;
+  rafId = 0;
+  running = false;
   /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
   readonly framePollers: Array<() => void> = [];
   /** While a minigame covers the screen the sim keeps going but the Grove is not drawn. */
@@ -177,11 +148,11 @@ export class Game {
    * in every run (`dev/e2e-api.ts` `freeze`). Null in play.
    */
   frameClock: ((nowMs: number) => number) | null = null;
-  private lastDaylightMs = -Infinity;
+  lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
-  private readonly stager = new SceneStager();
+  readonly stager = new SceneStager();
   /** MOVE-53: the view turns toward a steady sideways walk when the setting is on. */
-  private readonly walkFollow = new WalkFollow();
+  readonly walkFollow = new WalkFollow();
   /** K48: the points the pixel story fit last kept (K3), for the stage inspector. */
   stageFitKept: FitPoint[] = [];
 
@@ -189,41 +160,17 @@ export class Game {
   get storyStager(): SceneStager {
     return this.scene3d ? this.scene3d.storyStager : this.stager;
   }
-  private weatherSid: string | null = null;
+  weatherSid: string | null = null;
   /** Who speaks the dialogue line on screen; the HUD sets it, the story cameras frame them. */
   storySpeaker: string | null = null;
   /** The dialogue's line index in the open scene (0 on the first); H5's push-in follows it. */
   storyLine = 0;
   /** The hour the pixel view is lit at, and a blend toward a newly staged one (C2). */
-  private drawnHour: number | null = null;
-  private hourBlend: { from: number; to: number; startMs: number } | null = null;
-  private lastDressMs = 0;
+  drawnHour: number | null = null;
+  hourBlend: { from: number; to: number; startMs: number } | null = null;
+  lastDressMs = 0;
   /** The location and story-queue head last staged, to restage on the frame either changes. */
-  private stageKey = '';
-
-  /**
-   * The hour to light the pixel view at: a queued scene's staged hour, else `clock`. A
-   * change of more than a quarter hour blends over `PIXEL_STAGE.hourBlendMs`; reduced
-   * motion cuts. The clock's own slow drift is followed as it is.
-   */
-  private stagedHour(clock: number, nowMs: number): number {
-    const target = this.stager.hourOr(clock);
-    if (this.drawnHour === null || this.reduceMotion) {
-      this.hourBlend = null;
-      this.drawnHour = target;
-      return target;
-    }
-    const goal = this.hourBlend?.to ?? this.drawnHour;
-    if (Math.abs(hourDelta(goal, target)) > 0.25)
-      this.hourBlend = { from: this.drawnHour, to: target, startMs: nowMs };
-    const b = this.hourBlend;
-    if (b) {
-      const t = Math.min(1, Math.max(0, (nowMs - b.startMs) / PIXEL_STAGE.hourBlendMs));
-      this.drawnHour = (b.from + hourDelta(b.from, b.to) * t + 24) % 24;
-      if (t >= 1) this.hourBlend = null;
-    } else this.drawnHour = target;
-    return this.drawnHour;
-  }
+  stageKey = '';
 
   /** The player's Reduced motion choice, resolved against the system setting. */
   get reduceMotion(): boolean {
@@ -263,287 +210,44 @@ export class Game {
     return out;
   }
 
-  /**
-   * Follow the story queue for the pixel view and return the point to aim at while a scene
-   * waits (the centroid of who is framed), or null to follow the Keeper. Holds the near zoom
-   * for `two` and `close` shots, and for an unstaged scene whose cast stands close.
-   */
-  private stagePixelCamera(
-    nowMs: number,
-    focused: boolean,
-  ): { x: number; z: number; fitted: boolean } | null {
-    const st = this.stager;
-    this.stageFitKept = [];
-    st.speaker = this.storySpeaker;
-    if (st.update(this.world, nowMs)) {
-      this.lastDaylightMs = -Infinity;
-      // Campaign graphics 2: a set hides the Grove-only buildings, an exclusive stage all.
-      // R0605 (lane C r10 agent A): a questline region's set hides them while the Keeper is in it.
-      PIXEL_BUILDINGS.stageHidden = new Set([...stageHides(st.stage), ...st.regionHides()]);
-      PIXEL_BUILDINGS.stageHidesAll = st.exclusive;
-    }
-    st.noteLine(this.storyLine, nowMs, this.storySpeaker);
-    this.grove?.setBare(st.exclusive);
-    if (this.scene3d) return null;
-    // A shot that names its own focus (the green, a house, Moss) centres on that, not the Keeper.
-    let points = st.active && !focused ? st.subjects(this.world) : [];
-    // H5: after the first line, or on the first spoken one, a wide or establishing shot
-    // pushes in (to `two` unless it says).
-    const kind = st.shotKind();
-    if (points.length < 2 && !kind) {
-      this.camera.holdZoom(null, nowMs);
-      this.camera.holdYaw(null, nowMs);
-      return null;
-    }
-    // Review fix 2: of the 45° steps from the player's, the nearest that sees the cast and
-    // whoever speaks past the houses.
-    const who = st.speaker;
-    const speaker =
-      who && who !== 'narrator' && !speaksAsKeeper(this.world, who, st.stage)
-        ? st.spotOf(this.world, who)
-        : null;
-    // K3: whoever speaks is never dropped from a fit.
-    const seen = speaker ? [...points, { ...speaker, speaker: true }] : points;
-    const base = this.camera.playerYawIndex;
-    const order = [0, 1, -1, 2, -2, 3, -3, 4].map((k) => base + k);
-    const yaws = order.map((i) => yawIndexToRadians(i));
-    const mid = {
-      x: seen.reduce((a, p) => a + p.x, 0) / Math.max(1, seen.length),
-      z: seen.reduce((a, p) => a + p.z, 0) / Math.max(1, seen.length),
-    };
-    const obstacles = stageObstacles(this.world, (id) => PIXEL_BUILDINGS.isHidden(id));
-    const best = clearYaw(yaws, seen, mid, this.camera.pitch, 60, obstacles);
-    const turn = order[Math.max(0, yaws.indexOf(best))]!;
-    this.camera.holdYaw(turn === base ? null : turn, nowMs);
-    const yaw = yawIndexToRadians(turn);
-    const ppu = CAMERA.pixelsPerUnit;
-    const last = ppu.length - 1;
-    // The story-only step past the player's nearest (campaign graphics 3).
-    const story = ppu.length;
-    const cur = this.camera.pixelsPerUnit;
-    /** The view's width (world units) at zoom step `i`. */
-    const widthAt = (i: number) => (this.camera.visibleWidth * cur) / zoomPixelsPerUnit(i);
-    const first = st.stage.shot?.kind;
-    // K9: in two speakers' exchange the view leans toward whoever speaks (the follow eases
-    // it, a cut under reduced motion).
-    const rev = st.reverse(this.world, this.camera.currentYaw, STAGE4.reverse.sideRad);
-    const lean = (x: number, z: number): { x: number; z: number; fitted: false } => {
-      const k = rev ? STAGE4.reverse.panToward : 0;
-      return {
-        x: x + ((rev?.at.x ?? x) - x) * k,
-        z: z + ((rev?.at.z ?? z) - z) * k,
-        fitted: false,
-      };
-    };
-    if (st.pushedMs !== null && kind !== first && kind !== 'wide') {
-      // H5 in pixel: the push-in, on the Keeper and whoever speaks: the story step when the
-      // pair fit across it (a desktop is already on the near step, so the push showed
-      // nothing), else the near step; on the speaker alone when the pair fit neither.
-      if (speaker && !points.some((p) => p.x === speaker.x && p.z === speaker.z))
-        points = [...points, speaker];
-      const cx = points.reduce((a, p) => a + p.x, 0) / Math.max(1, points.length);
-      const cz = points.reduce((a, p) => a + p.z, 0) / Math.max(1, points.length);
-      const spread = Math.max(0, ...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
-      const close = spread * 2.4 < widthAt(story);
-      this.camera.holdZoom(close ? story : last, nowMs);
-      if (!close && spread * 2.4 >= widthAt(last) && speaker)
-        return { x: speaker.x, z: speaker.z, fitted: false };
-      return lean(cx, cz);
-    }
-    if (points.length > 0 && st.fits()) {
-      // H4: the nearest zoom step that fits every focus point inside the HUD-safe area.
-      const views = ppu.map((p) => ({
-        w: (this.camera.visibleWidth * cur) / p,
-        h: (this.camera.visibleHeight * cur) / p,
-      }));
-      const v = viewRect();
-      const s = safeRect();
-      const fit = fitPixel(
-        seen,
-        yaw,
-        this.camera.pitch,
-        views,
-        {
-          x0: (s.x - v.x) / v.w,
-          y0: (s.y - v.y) / v.h,
-          x1: (s.x + s.w - v.x) / v.w,
-          y1: (s.y + s.h - v.y) / v.h,
-        },
-        STAGE2.figureH,
-        STAGE2.fitRadius,
-      );
-      this.camera.holdZoom(fit.zoom, nowMs);
-      this.stageFitKept = fit.kept;
-      return { x: fit.x, z: fit.z, fitted: true };
-    }
-    const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
-    const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
-    const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
-    // The near zoom only when the cast fits across it (a phone held upright is narrow).
-    const fits = spread * 2.4 < widthAt(last);
-    const near = kind === 'close' || ((kind === 'two' || !kind) && fits);
-    // A close shot goes to the story step when its people fit across it.
-    const closer = kind === 'close' && spread * 2.4 < widthAt(story);
-    this.camera.holdZoom(closer ? story : near ? last : null, nowMs);
-    return lean(cx, cz);
-  }
-
-  private updateDaylight(nowMs: number): void {
-    // The sky changes slowly: re-evaluate every few seconds, or every frame of a blend.
-    // A staged weather replaces the live one in the drawn scene (the package-f overlay draws
-    // it), so a scene change refreshes at once.
-    const sid = this.world.campaign?.queue[0] ?? null;
-    if (sid !== this.weatherSid) {
-      this.weatherSid = sid;
-      this.lastDaylightMs = -Infinity;
-    }
-    // R0094/R0118: a drawn region has its own sky and season (sim/region-weather-live.ts).
-    const sky = regionSky(this.world, localHour());
-    regionLook.season = sky ? sky.season : null;
-    regionLook.fog = sky ? sky.fog : 0;
-    const wk = resolveStage(this.world)?.stage.weather
-      ? 'clear'
-      : sky
-        ? sky.draw
-        : this.world.weather.kind;
-    const wInt = sky ? sky.intensity : this.world.weather.intensity;
-    const blending = this.hourBlend !== null;
-    const clock =
-      this.hourOverride ?? regionHour(REGIONS[regionOf(this.world.location)].clock, localHour());
-    const hour = this.scene3d ? clock : this.stagedHour(clock, nowMs);
-    if (!blending && !this.hourBlend && nowMs - this.lastDaylightMs < 3000) return;
-    this.lastDaylightMs = nowMs;
-    const d = daylightAt(hour);
-    const s = this.world.settings;
-    const reduce = this.reduceMotion;
-    if (this.scene3d) {
-      this.scene3d.setLit(litLanterns(this.world));
-      this.view.lanterns = () => this.scene3d!.lanternStates();
-      this.scene3d.regionSky.fog = regionLook.fog;
-      this.scene3d.regionSky.intensity = wInt;
-      this.scene3d.setDaylight(clock, d, this.world.location, wk, s.particles);
-      return;
-    }
-    if (!this.grove || !this.lowRes) return;
-    this.grove.setLit(litLanterns(this.world));
-    const grove = this.grove;
-    this.view.lanterns = () => grove.lanternStates();
-    const place = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
-    this.grove.setLocation(place);
-    this.grove.setDaylight(d, place, wk);
-    this.view.location = this.world.location;
-    this.view.setDaylight(d, reduce);
-    this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
-    this.view.setWeather(
-      place === 'dungeon' || this.pixelGov?.sheds('weather') ? 'clear' : wk,
-      wInt,
-      this.pixelGov ? this.pixelGov.particles(s.particles) : s.particles,
-      reduce,
-    );
-    // Rain greys the grade a little; snow brightens and cools it.
-    const w = wk;
-    let tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
-    let tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
-    if (regionLook.fog > 0) {
-      // A fog spell: the picture greys toward a pale mist.
-      tint = tint.clone().lerp(FOG_TINT, regionLook.fog);
-      tintAmount = Math.max(tintAmount, regionLook.fog * 0.6);
-    }
-    this.lowRes.postPass?.apply({
-      tint,
-      tintAmount,
-      bloom: w === 'snow' ? d.bloom + 0.15 : d.bloom,
-    });
-  }
-
   /** Decorating: the piece a ground tap places, or null. */
   placing: Placing = null;
   /** R0003: the ground under the mouse while placing decor (desktop), for the fit hint. */
   placeHoverAt: Vec2 | null = null;
-  private lastFrameMs = 0;
+  lastFrameMs = 0;
   /** Time banked toward the Keeper's next fine step (MOVE-15). */
-  private keeperAccMs = 0;
-  private lastSaveMs = 0;
-  private storageOk = true;
+  keeperAccMs = 0;
+  lastSaveMs = 0;
+  storageOk = true;
   /**
    * Set when an unreadable save could not be copied aside, or another tab saved this slot:
    * autosave then holds off, so the other copy survives until the player imports or resets.
    */
-  private holdSaves = false;
+  holdSaves = false;
   /**
    * R0669 (CAMP-77): another profile's Grove, open read-only. The world is frozen (no sim
    * steps, no commands) and nothing is ever saved; a reload ends the visit.
    */
   readonly visiting = visitingProfile() !== null;
   /** A frame threw; nothing is saved until the player reloads, imports or resets. */
-  private crashed = false;
+  crashed = false;
   /** The save text that failed to load this session, for Settings to export. */
   unreadableJson: string | null = null;
   /** Wall time between the loaded save and now, made up by `catchUpOnLoad`. */
-  private pendingGapMs = 0;
+  pendingGapMs = 0;
   /** True while an offline catch-up is running between paints: no steps, no saves. */
   catchingUp = false;
   /** Fraction of the view to lift the Keeper by, while a bottom sheet covers the lower part. */
   cameraLift = 0;
   /** The ground the cameras follow under the Keeper, and the look-ahead (MOVE-23). */
-  private groundY = 0;
+  groundY = 0;
   /** MOVE-26: the extra look height while the Keeper stands on a rock, eased. */
-  private perchLift = 0;
+  perchLift = 0;
   /** MOVE-38: the debug overlays, built the first time a toggle is turned on. */
-  private debugOverlay: DebugOverlay | null = null;
-  private readonly ahead = { x: 0, z: 0 };
-  private lastKp: { x: number; z: number } | null = null;
+  debugOverlay: DebugOverlay | null = null;
+  readonly ahead = { x: 0, z: 0 };
+  lastKp: { x: number; z: number } | null = null;
 
-  /**
-   * Track the Keeper's ground height and look-ahead for the camera (MOVE-23). On the ground
-   * the camera follows the floor the Keeper is drawn on (a terrace, a bench, the bridge);
-   * through a jump it holds, unless the Keeper climbs well past where it took off.
-   */
-  private followKeeper(kp: { x: number; z: number }, dt: number, staged: boolean): void {
-    const w = this.world;
-    const k = w.keeper;
-    const F = CAMERA_FOLLOW;
-    // R11 d7: a drawn region's terraces carry the Keeper (its y is the ground there).
-    if (w.location.startsWith('region:') && !runFloor(w)) this.groundY = k.y;
-    else if (w.location !== 'grove' || runFloor(w)) this.groundY = 0;
-    else {
-      // The height Pixel draws the feet at; 3D keeps its own ground under the orbit target.
-      const feet =
-        deckY(kp.x, kp.z) !== null
-          ? 0
-          : Math.max(0, k.y - groveHeight(kp.x, kp.z) + hillHeight(kp.x, kp.z));
-      if (k.grounded) this.groundY = feet;
-      else if (feet > this.groundY + F.airSlack) this.groundY = feet - F.airSlack;
-      else if (feet < this.groundY - F.airSlack) this.groundY = feet;
-    }
-    // MOVE-26: up on a rock (a standable top half a unit or more up), the look rises to open
-    // the view; it settles back once the Keeper steps down.
-    const top = w.location === 'grove' ? standTopAt(w, kp.x, kp.z) : -Infinity;
-    const perched =
-      k.grounded &&
-      Math.abs(k.y - top) < 0.05 &&
-      top - groveHeight(kp.x, kp.z) >= PERCH.minTop - 0.02;
-    const pr = reduce0(this.reduceMotion, dt, PERCH.rate);
-    this.perchLift += ((perched ? PERCH.lift : 0) - this.perchLift) * pr;
-    if (this.scene3d) this.scene3d.perchLift = this.perchLift;
-    const s = dt / 1000;
-    let vx = 0;
-    let vz = 0;
-    if (this.lastKp && s > 0) {
-      vx = (kp.x - this.lastKp.x) / s;
-      vz = (kp.z - this.lastKp.z) / s;
-    }
-    this.lastKp = { x: kp.x, z: kp.z };
-    const speed = Math.hypot(vx, vz);
-    // A teleport is not a walk; nor is anything during a scene.
-    const pace = staged || speed > KEEPER.speed * 4 ? 0 : speed / KEEPER.speed;
-    // HOT-3b: the lead grows with the pace, so the Keeper stays centred at any speed.
-    const lead = walkLead(F.lookAhead, pace, k.carrying !== null);
-    const want = speed > 1e-6 ? lead / speed : 0;
-    const e = reduce0(this.reduceMotion, dt, F.lookAheadRate);
-    this.ahead.x += (vx * want - this.ahead.x) * e;
-    this.ahead.z += (vz * want - this.ahead.z) * e;
-  }
   /** Share of the view's width the camera aims right of the Keeper (the docked desktop sheet). */
   cameraSide = 0;
   /**
@@ -552,40 +256,19 @@ export class Game {
    */
   sheetFocus: { id: string; shift: ViewShift } | null = null;
   /** HOT-1: the shift in force, eased toward the sheet's (both cameras read it). */
-  private viewShift: ViewShift = NO_SHIFT;
+  viewShift: ViewShift = NO_SHIFT;
   /** HOT-3: the speaker the camera last came round to (a new one cuts under reduced motion). */
-  private talkerKey: string | null = null;
+  talkerKey: string | null = null;
   /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
-  private focus: { id: string; untilMs: number } | null = null;
+  focus: { id: string; untilMs: number } | null = null;
   /** R0550: set while "Watch" follows one Nubbin with no time limit. */
-  private watchId: string | null = null;
+  watchId: string | null = null;
   /** R0107: the camera holds still until this time after a landmark is found. */
-  private landmarkHoldUntil = -Infinity;
+  landmarkHoldUntil = -Infinity;
   /** R11 lane D: a loaded border's iris is playing. */
-  private exitPending = false;
+  exitPending = false;
 
-  private takeExit(exit: string): void {
-    if (this.exitPending) return;
-    this.exitPending = true;
-    // R12 lane D (WORLD-69): a ride plays its side-on scene, then arrives (lazy module).
-    const def = REGIONS[regionOf(this.world.location)].exits.find((e) => e.id === exit);
-    if (def?.kind === 'vehicle' && def.ride) {
-      const ride = def.ride;
-      void import('./render/vignette').then(({ playRide }) =>
-        playRide(ride, rideSeen(this.world, ride), this.reduceMotion, () => {
-          this.exitPending = false;
-          this.send({ kind: 'travel', exit });
-        }),
-      );
-      return;
-    }
-    playSound(REGION_BORDER.stepSound);
-    playIris(() => {
-      this.exitPending = false;
-      this.send({ kind: 'travel', exit });
-    });
-  }
-  private hooks: GameHooks;
+  hooks: GameHooks;
 
   constructor(
     readonly canvas: HTMLCanvasElement,
@@ -637,56 +320,7 @@ export class Game {
     }
     const s3 = this.scene3d;
     this.cameraControls = new CameraControls(this.camera, canvas);
-    this.input = new GameInput(canvas, {
-      camera: s3 ? s3.cameraRig(this.camera) : this.camera,
-      picker: this.picker,
-      pickables: () => this.grove?.pickables ?? s3!.pickables,
-      pickSprite: (ndcX, ndcY) =>
-        s3 ? s3.pick(ndcX, ndcY) : this.view.pick(ndcX, ndcY, this.camera),
-      hover: (hit) => {
-        (s3 ?? this.view).setHighlight(hit);
-        // A Nubbin that can be lifted says so; anything else tappable gets the hand.
-        const grabbable = hit?.kind === 'nubbin' && this.canGrab(hit.id);
-        canvas.style.cursor = grabbable ? 'grab' : hit ? 'pointer' : '';
-      },
-      sparkle: (pos) => (s3 ?? this.view).sparkle(pos.x, pos.z),
-      placing: () => this.placing,
-      survey: () => this.camera.survey,
-      placeHover: (pos) => {
-        this.placeHoverAt = pos;
-      },
-      canGrab: (id) => this.canGrab(id),
-      send: (cmd) => this.send(cmd),
-      onSelect: (id) => this.hooks.onSelect(id),
-      // TECH-30: a tap on the carried Nubbin puts it down; a long press lift buzzes.
-      carrying: () => this.world.keeper.carrying,
-      haptic: (name) => void buzz(name, this.world.settings, this.reduceMotion),
-      // HOT-3c: letting go of a hold-walk stops the Keeper where it stands.
-      keeperPos: () => this.world.keeper.pos,
-      // R0192: underground a tap near a pack, shrine, stone or loot walks right to it.
-      dungeonSnap: (at) => dungeonTapTarget(this.world, at)?.pos ?? null,
-      holdReplanMs: () => (this.world.location === 'dungeon' ? DUNGEON_TAP.replanMs : null),
-      // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
-      pad: {
-        coop: () => this.world.coop.active,
-        nearNubbin: (within) => {
-          const k = this.world.keeper.pos;
-          let best: string | null = null;
-          let bestD = within;
-          for (const n of this.world.nubbins) {
-            const d = Math.hypot(n.pos.x - k.x, n.pos.z - k.z);
-            if (n.stage !== 'egg' && d <= bestD) {
-              bestD = d;
-              best = n.id;
-            }
-          }
-          return best;
-        },
-        holding: () => this.world.keeper.carrying !== null,
-        rotate: (dir) => this.camera.rotate(dir),
-        zoom: (dir) => (dir > 0 ? this.camera.zoomIn() : this.camera.zoomOut()),
-      },
-    });
+    this.input = buildInput(this, canvas, s3);
     this.framePollers.push(() => {
       // MOVE-59: the sim keeps the view's yaw as a hint for where care walks stop.
       const yaw = this.camera.currentYaw;
@@ -723,24 +357,24 @@ export class Game {
   }
 
   /** The Hollow floor the scene and view should show, if underground. */
-  private syncDungeon(): void {
+  syncDungeon(): void {
     syncDungeon(this.world, [this.grove, this.scene3d, this.view]);
   }
 
   /** Can this Nubbin be lifted right now? */
-  private canGrab(id: string): boolean {
+  canGrab(id: string): boolean {
     const n = findNubbin(this.world, id);
     return !!n && n.behavior.state !== 'thrown' && n.stage !== 'cocoon';
   }
 
-  private reduceClass: boolean | null = null;
+  reduceClass: boolean | null = null;
 
   /**
    * Mirror the effective Reduced motion choice (the Settings value, or the system's when it
    * says "system") as `reduce-motion` on the root element, so the stylesheet can follow the
    * in-game setting and not only the media query (review D, bug 42).
    */
-  private markReduceMotion(): void {
+  markReduceMotion(): void {
     setMotionPref(this.world.settings.reducedMotion);
     const reduce = this.reduceMotion;
     if (reduce === this.reduceClass || typeof document === 'undefined') return;
@@ -750,7 +384,7 @@ export class Game {
 
   // ---------- persistence ----------
 
-  private load(): World {
+  load(): World {
     const now = Date.now();
     const json = readSave();
     if (json) {
@@ -794,7 +428,7 @@ export class Game {
     }
     const gap = this.pendingGapMs;
     this.pendingGapMs = 0;
-    await this.runCatchUp(gap, Date.now());
+    await runCatchUp(this, gap, Date.now());
     // A tab hidden and shown again during the catch-up stopped the loop, and its resume()
     // stood aside while the catch-up ran: start again now, or the Grove stays frozen
     // until the next hide and show (review D, bug 6).
@@ -802,90 +436,12 @@ export class Game {
   }
 
   /** Start the loop unless the page is hidden (the next visibility change starts it). */
-  private startIfVisible(): void {
+  startIfVisible(): void {
     if (typeof document === 'undefined' || !document.hidden) this.start();
   }
 
-  /**
-   * Catch the world up in chunks, yielding to the browser between them so the indicator
-   * paints and a week away does not freeze the page (review C, item 12). The sim does not
-   * step and nothing is saved until it finishes, so a half-done catch-up is never written.
-   */
-  private async runCatchUp(elapsedMs: number, now: number): Promise<void> {
-    const world = this.world;
-    if (elapsedMs < 5000) {
-      world.lastWallMs = now;
-      return;
-    }
-    this.catchingUp = true;
-    const start = performance.now();
-    let shown = false;
-    // Lane C r11 (R0619): chapters begun while away get a checkpoint too (the snapshot
-    // taken once catch-up ends: the first one this device has of them).
-    const chaptersBefore = currentChapterKeys(world);
-    try {
-      const run = catchUpInChunks(world, elapsedMs, now);
-      let sliceStart = start;
-      for (;;) {
-        const next = run.next();
-        if (next.done) {
-          // A quick reload is not "being away": only report real absences or actual news.
-          const report = next.value;
-          if (
-            report.simulatedMs > 0 &&
-            (report.events.length > 0 || elapsedMs > SIM.coarseAfterMs)
-          ) {
-            // Nubbins waiting for the Keeper meet their end-of-life check in front of the
-            // player, not under this screen: the sim holds the checks until it closes.
-            this.send({ kind: 'holdEndOfLife', hold: true });
-            this.hooks.onAway(report, () => this.send({ kind: 'holdEndOfLife', hold: false }));
-          } else if (report.simulatedMs === 0) {
-            this.hooks.onBreak?.(elapsedMs);
-          }
-          break;
-        }
-        // Most catch-ups finish in one slice; past a short budget, show the indicator and
-        // give the browser a frame to paint it before carrying on.
-        if (performance.now() - sliceStart < SIM.catchUpSliceMs) continue;
-        if (!shown) {
-          shown = true;
-          this.hooks.onCatchUpStart();
-        }
-        await nextPaint();
-        sliceStart = performance.now();
-      }
-    } finally {
-      this.catchingUp = false;
-      if (shown) this.hooks.onCatchUpEnd();
-    }
-    const begun = currentChapterKeys(world).filter((k) => !chaptersBefore.includes(k));
-    if (begun.length > 0) this.keepCheckpoints([], begun);
-  }
-
-  /**
-   * Lane C r10 agent B (R0619, CAMP-27): the first snapshot of each chapter goes to
-   * IndexedDB, with a backup beside it; the sim records the key once the write succeeded.
-   * Without IndexedDB nothing is kept and the game runs on.
-   */
-  private keepCheckpoints(events: SimEvent[], begun?: string[]): void {
-    if (this.holdSaves || this.crashed || this.visiting) return;
-    // R0623 (CAMP-31): past the first chapter, ask the browser to keep the storage (once).
-    if (events.some((e) => e.kind === 'chapter' && e.chapter >= 2)) armPersistRequest();
-    const keys = (begun ?? chapterKeysOf(events, this.world)).filter(
-      (k) => !hasCheckpoint(this.world, k),
-    );
-    if (keys.length === 0) return;
-    const slot = slotId(currentSlot());
-    const json = serialize(this.world, Date.now());
-    void takeBackup(slot, json, Date.now(), true);
-    for (const key of keys)
-      void writeCheckpoint(slot, key, json).then((id) => {
-        if (id) this.send({ kind: 'checkpointKept', key, id });
-      });
-  }
-
   /** R0447: a 160x90 picture of the Grove for the title's slot list, at most every 2 minutes. */
-  private saveThumb(): void {
+  saveThumb(): void {
     const now = performance.now();
     if (document.hidden || now < this.nextThumbMs || this.world.dungeon) return;
     this.nextThumbMs = now + 120_000;
@@ -897,7 +453,7 @@ export class Game {
     }
   }
 
-  private nextThumbMs = 15_000;
+  nextThumbMs = 15_000;
 
   save(): boolean {
     if (this.holdSaves || this.catchingUp || this.crashed || this.visiting) {
@@ -996,7 +552,7 @@ export class Game {
     // TECH-45: the device may have changed time zone while hidden (a flight, a DST change).
     this.sendTimeZone();
     const now = Date.now();
-    await this.runCatchUp(now - this.world.lastWallMs, now);
+    await runCatchUp(this, now - this.world.lastWallMs, now);
     // Hidden again while catching up: the next visibility change resumes from here.
     this.startIfVisible();
   }
@@ -1011,7 +567,7 @@ export class Game {
     this.camera.setFrame(size.width, size.height);
   }
 
-  private readonly frame = (nowMs: number): void => {
+  readonly frame = (nowMs: number): void => {
     if (!this.running) return;
     // One bad value must not freeze the page or be autosaved over the last good save:
     // keep the loop alive, stop saving and let the HUD offer a reload.
@@ -1029,7 +585,7 @@ export class Game {
     this.rafId = requestAnimationFrame(this.frame);
   };
 
-  private tick(nowMs: number): void {
+  tick(nowMs: number): void {
     // Slow frames still advance the sim in real time; the clock caps the steps per frame
     // and the overflow is finished in coarse steps below.
     const dt = this.lastFrameMs === 0 ? 0 : Math.min(SIM.maxFrameDeltaMs, nowMs - this.lastFrameMs);
@@ -1039,56 +595,7 @@ export class Game {
     for (const poll of this.framePollers) poll();
     this.spikes.lap('input');
 
-    // Sim steps.
-    const steps = this.clock.advance(dt);
-    const events: SimEvent[] = [];
-    const wall = Date.now();
-    if (this.catchingUp || this.visiting) {
-      // The world is mid catch-up (or a visit, R0669): draw it, but hold steps and commands.
-      this.clock.reset();
-      if (this.visiting) this.pending.length = 0;
-    } else if (steps > 0 || this.pending.length > 0) {
-      (this.scene3d ?? this.view).snapshot(this.world);
-      for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
-      const playCounts = this.clock.timeScale === 1 && !document.hidden;
-      // TECH-54: above ×10 the steps stop once they have had their share of the frame; the
-      // rest go back to the clock and run as the same fine live steps on later frames.
-      const fast = this.clock.timeScale > FAST_TIME.fromScale;
-      const t0 = fast ? performance.now() : 0;
-      let ran = 0;
-      while (ran < steps) {
-        events.push(...stepWorld(this.world, SIM.stepMs, wall, false, playCounts));
-        ran++;
-        if (fast && ran >= FAST_TIME.minSteps && performance.now() - t0 > FAST_TIME.budgetMs) break;
-      }
-      this.clock.giveBack(steps - ran);
-      this.simBehind = ran < steps;
-      // Far behind (very high time scale, slow device): live play keeps the live rules, so
-      // the backlog runs as fine steps on later frames and only what is past
-      // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.
-      this.clock.capBacklog(SIM.maxLiveBacklogMs);
-      this.spikes.noteSteps(ran);
-    }
-    // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
-    // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
-    const kview = this.scene3d ?? this.view;
-    if (this.catchingUp || this.visiting || this.clock.timeScale !== 1) {
-      this.keeperAccMs = 0;
-      kview.keeperAlpha = null;
-    } else {
-      const sub = 1000 / KEEPER_MOTION.hz;
-      this.keeperAccMs += dt;
-      while (this.keeperAccMs >= sub) {
-        kview.snapshotKeeper(this.world);
-        if (!stepKeeperMotion(this.world, events)) {
-          // A whole sim step ahead already: wait for the sim and draw where it stands.
-          this.keeperAccMs = sub;
-          break;
-        }
-        this.keeperAccMs -= sub;
-      }
-      kview.keeperAlpha = Math.min(1, this.keeperAccMs / sub);
-    }
+    const events = stepSim(this, dt);
     this.spikes.lap('sim');
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);
@@ -1097,173 +604,22 @@ export class Game {
       this.hooks.onEvents(
         this.clock.timeScale > FAST_TIME.fromScale ? dedupeEvents(events) : events,
       );
-      this.keepCheckpoints(events);
+      keepCheckpoints(this, events);
       // Lane A r10: performance and chat sounds (R0525, R0540).
       playSoulSounds(events, this.world, this.clock.timeScale);
-      for (const e of events) {
-        // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
-        const shake = this.world.settings.screenShake && !this.reduceMotion;
-        if (e.kind === 'landed' && shake) this.camera.shake(0.18);
-        else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
-        else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
-        // R11 lane D (WORLD-39): a loaded border: a footstep and the iris, the trip at the
-        // dark moment; arriving anywhere cuts the follow to the Keeper's new spot.
-        else if (e.kind === 'exitReached') this.takeExit(e.exit);
-        else if (e.kind === 'regionEntered') {
-          this.camera.target.x = this.world.keeper.pos.x;
-          this.camera.target.z = this.world.keeper.pos.z;
-          // WORLD-56: the pixel camera's far plane reaches across the region's diagonal.
-          regionFar(this.camera.camera, e.region);
-          // R0094/R0118: the new place's sky and season show at once, not at the next 3 s check.
-          this.lastDaylightMs = -Infinity;
-        } else if (e.kind === 'travelled') {
-          // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
-          this.camera.target.x = e.to.x;
-          this.camera.target.z = e.to.z;
-        } else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
-        // R0107: a found landmark gets a beat: the view holds while the Keeper takes it in.
-        else if (e.kind === 'landmarkFound' && !this.reduceMotion)
-          this.landmarkHoldUntil = nowMs + LANDMARK_HOLD.ms;
-        else if (e.kind === 'endOfLifeFocus')
-          this.focus = { id: e.nubbinId, untilMs: nowMs + CAMERA.focusMs };
-        else if (e.kind === 'lanternLit') {
-          this.grove?.setLit(litLanterns(this.world));
-          this.scene3d?.setLit(litLanterns(this.world));
-        } else if (
-          e.kind === 'dungeonEntered' ||
-          e.kind === 'descended' ||
-          e.kind === 'levelChanged' ||
-          e.kind === 'dungeonLeft'
-        )
-          this.syncDungeon();
-      }
+      reactToEvents(this, events, nowMs);
     }
 
     this.spikes.lap('events');
-    // A new place or a new scene at the head of the story queue (a debug chapter jump among
-    // them) restages this frame: daylight, the story sets and the place's scenery.
-    const headNow = `${this.world.location}|${this.world.campaign?.queue[0] ?? ''}`;
-    if (headNow !== this.stageKey) {
-      this.stageKey = headNow;
-      this.lastDaylightMs = -Infinity;
-    }
-
-    // Camera follows the Keeper as drawn (interpolated between sim steps), so the
-    // Keeper and the camera move together and nothing judders at the step rate.
-    const kp = (this.scene3d ?? this.view).keeperDrawPos(this.world, this.clock.alpha);
-    // While a held end-of-life check plays, look at that Nubbin, not the Keeper (review D, 1).
-    const focused =
-      this.focus && nowMs < this.focus.untilMs
-        ? this.world.nubbins.find((n) => n.id === this.focus?.id)
-        : undefined;
-    if (!focused) this.focus = null;
-    // A story scene in the pixel view: frame its cast, lifted clear of the dialogue box,
-    // on the near zoom for two-shots and close shots (campaign graphics C2, H14).
-    const staged = this.stagePixelCamera(nowMs, !!focused);
-    // HOT-3: otherwise the Keeper, or the speaker while a dialogue line is up. Selecting a
-    // Nubbin (its stats sheet) no longer moves the camera (it superseded HOT-1's aim).
-    const st = this.stager;
-    const talk =
-      staged || focused
-        ? null
-        : cameraSubject(kp, this.storySpeaker, (who) =>
-            speaksAsKeeper(this.world, who, st.stage) ? null : st.spotOf(this.world, who),
-          );
-    const talker = talk?.talker ? talk.at : null;
-    const subject = focused ? focused.pos : (staged ?? talker ?? kp);
-    // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
-    // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
-    // A fitted shot (H4) already sits inside the HUD-safe area.
-    const liftK =
-      staged && !staged.fitted ? Math.max(this.cameraLift, PIXEL_STAGE.boxLift) : this.cameraLift;
-    const lift = (liftK * this.camera.visibleHeight) / Math.sin(CAMERA.pitchRad);
-    const yaw = this.camera.currentYaw;
-    // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
-    // on the right third leaves it in sight.
-    const side = this.cameraSide * this.camera.visibleWidth;
-    this.followKeeper(kp, dt, !!staged || !!focused || !!talker);
-    const aimX =
-      subject.x +
-      Math.sin(yaw) * lift +
-      Math.cos(yaw) * side +
-      (staged || focused || talker ? 0 : this.ahead.x);
-    const aimZ =
-      subject.z +
-      Math.cos(yaw) * lift -
-      Math.sin(yaw) * side +
-      (staged || focused || talker ? 0 : this.ahead.z);
-    const rate = staged ? PIXEL_STAGE.followRate : CAMERA.followRate;
-    const held = !staged && !focused && !talker && nowMs < this.landmarkHoldUntil;
-    // Reduced motion cuts to a scene or a new speaker instead of gliding there.
-    const talkerKey = talker ? this.storySpeaker : null;
-    const cutToTalker = !!talker && talkerKey !== this.talkerKey;
-    this.talkerKey = talkerKey;
-    const t = held
-      ? 0
-      : (staged || cutToTalker) && this.reduceMotion
-        ? 1
-        : 1 - Math.exp((-rate * dt) / 1000);
-    // HOT-1/HOT-3: with the stats sheet open the Keeper (still the subject) sits in the part
-    // of the screen the sheet leaves clear; a stalled frame cannot turn the glide into a jump.
-    const shiftGoal =
-      this.sheetFocus && !staged && !focused
-        ? sheetShift(this.sheetFocus.shift, VIEW_SHIFT.clearMargin)
-        : NO_SHIFT;
-    const shiftT = this.reduceMotion
-      ? 1
-      : 1 - Math.exp((-rate * Math.min(dt, VIEW_SHIFT.maxEaseDtMs)) / 1000);
-    this.viewShift = easeShift(this.viewShift, shiftGoal, shiftT);
-    this.camera.viewShift = this.viewShift;
-    if (this.scene3d) this.scene3d.viewShift = this.viewShift;
-    this.camera.target.x += (aimX - this.camera.target.x) * t;
-    this.camera.target.z += (aimZ - this.camera.target.z) * t;
-    // Up and down with the ground under the Keeper, or the mark a scene frames (MOVE-23).
-    const aimY =
-      staged || focused || talker
-        ? this.world.location === 'grove'
-          ? terraceY(subject.x, subject.z)
-          : 0
-        : this.groundY + this.perchLift;
-    const ty = reduce0(this.reduceMotion, dt, CAMERA_FOLLOW.groundRate);
-    this.camera.target.y += (aimY - this.camera.target.y) * ty;
-    // The Settings choice reaches both cameras and the Grove's idle motion at once.
+    const kp = driveCamera(this, nowMs, dt);
     const reduce = this.reduceMotion;
-    this.camera.reduceMotion = reduce;
-    this.markReduceMotion();
-    applyTextScale(this.world);
-    // Lane E r10 (R0709, R0710): readable font, high contrast and Simple touch.
-    applyAccess(this.world);
-    if (this.scene3d) this.scene3d.reduceMotion = reduce;
-    // R0073: "Zoom out when running" pulls the view out to the survey step on a long run.
-    {
-      const k = this.world.keeper;
-      const moving = k.moveTarget !== null || k.input.x !== 0 || k.input.z !== 0;
-      const on = phoneDefault(this.world.settings.surveyWhenRunning);
-      this.camera.runTick(on && this.world.location === 'grove' && k.running && moving, nowMs);
-    }
-    // R0125: the region's Pixel zoom steps (Full 3D reads its pitch and distance itself).
-    this.camera.setRegionZooms(regionCameraFor(regionOf(this.world.location)).zooms ?? null, nowMs);
-    this.camera.update(nowMs);
-    // MOVE-38: the collider, nav and ground-y overlays, only once a debug toggle was on.
-    if (
-      DEBUG_OVERLAY.colliders ||
-      DEBUG_OVERLAY.nav ||
-      DEBUG_OVERLAY.groundY ||
-      this.debugOverlay
-    ) {
-      const scene = this.scene3d?.scene ?? this.grove?.scene;
-      if (scene) {
-        this.debugOverlay ??= new DebugOverlay(scene);
-        this.debugOverlay.update(this.world, groveHeight);
-      }
-    }
 
     this.spikes.lap('camera');
     // K7 (package a1): the stage poses read the line on screen for its gesture.
     STAGE_LINE.line = this.storyLine;
     if (!this.renderPaused) {
       if (this.scene3d) {
-        this.updateDaylight(nowMs);
+        updateDaylight(this, nowMs);
         this.scene3d.storySpeaker = this.storySpeaker;
         this.scene3d.storyLine = this.storyLine;
         this.scene3d.update(this.world, this.camera, this.clock.alpha, nowMs);
@@ -1284,7 +640,7 @@ export class Game {
         );
         this.grove.update(nowMs, reduce);
         this.grove.setGrove(this.world.grove);
-        this.updateDaylight(nowMs);
+        updateDaylight(this, nowMs);
         this.culler.update(this.camera);
         this.view.batch.cull = this.culler.visible;
         this.view.culler = this.culler;
@@ -1309,7 +665,7 @@ export class Game {
    * TECH-45: tell the sim the device's time zone. Applied at once, not queued: the catch-up
    * that follows a load or a return already counts days in it.
    */
-  private sendTimeZone(): void {
+  sendTimeZone(): void {
     applyCommand(
       this.world,
       { kind: 'setTimeZone', offsetMin: -new Date().getTimezoneOffset() },
@@ -1320,7 +676,7 @@ export class Game {
   }
 
   /** TECH-53: put the Pixel governor's shed level into the view: sway, daylight, frame height. */
-  private applyPixelGov(): void {
+  applyPixelGov(): void {
     const gov = this.pixelGov;
     if (!gov || !this.lowRes) return;
     PIXEL_WIND.shed = gov.sheds('wind');
@@ -1332,8 +688,8 @@ export class Game {
   }
 
   /** R0091: when the last twinkle was, and the next one over each collectible in reach. */
-  private glintMs = 0;
-  private glintKeepsakes(nowMs: number): void {
+  glintMs = 0;
+  glintKeepsakes(nowMs: number): void {
     if (nowMs - this.glintMs < COLLECT.sparkleEveryMs) return;
     this.glintMs = nowMs;
     const k = this.world.keeper.pos;
@@ -1350,26 +706,4 @@ export class Game {
     if (this.scene3d) this.scene3d.glint(near, nowMs);
     else this.view.particles.glint(near);
   }
-}
-
-/**
- * Resolves after the browser has had a chance to paint: the next animation frame, or a
- * short timeout in a hidden tab where frames never come.
- */
-function nextPaint(): Promise<void> {
-  return new Promise((done) => {
-    let settled = false;
-    const finish = (): void => {
-      if (settled) return;
-      settled = true;
-      setTimeout(done, 0);
-    };
-    requestAnimationFrame(finish);
-    setTimeout(finish, 50);
-  });
-}
-
-/** Signed shortest way round the 24-hour clock from `a` to `b`, in hours. */
-function hourDelta(a: number, b: number): number {
-  return ((((b - a) % 24) + 36) % 24) - 12;
 }

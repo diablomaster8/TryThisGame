@@ -8,7 +8,7 @@
  * Drawn over a finished body, before the outline pass.
  */
 import type { DrawnAngle } from './angles';
-import type { Layout } from './layout';
+import type { SpriteLayout } from './layout';
 import { C } from './palette';
 import type { PixelCanvas } from './pixel-canvas';
 import type { ChaoColors } from './chao';
@@ -43,7 +43,7 @@ function sparkle(pc: PixelCanvas, x: number, y: number, c: number): void {
 export function drawRadiantSign(
   pc: PixelCanvas,
   angle: DrawnAngle,
-  L: Layout,
+  L: SpriteLayout,
   band: 'sun' | 'moon' | 'neutral',
   jewel: number,
 ): void {

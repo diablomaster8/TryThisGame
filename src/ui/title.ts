@@ -256,6 +256,8 @@ export function showTitle(
       who.setAttribute('aria-label', PROFILE_TEXT.backLabel);
       menu.appendChild(who);
     }
+    // R0447 (r14): a returning player sees the big Continue and one fold, not every slot row.
+    let headShown = false;
     // R0621: the slot played last, big, before every card.
     const last = continueSlot();
     if (last && last.mode !== 'edu') {
@@ -263,7 +265,10 @@ export function showTitle(
       const head = continueHeader(last, s ? describe(last.mode, s, now) : '', () =>
         finish({ slot: last, fresh: false, trainer: null }),
       );
-      if (head) menu.appendChild(head);
+      if (head) {
+        menu.appendChild(head);
+        headShown = true;
+      }
     }
     // Lane C r10 agent B (R0622): one read of the slot index in place of parsing every save.
     const slotIndex = readSlotIndex();
@@ -285,6 +290,7 @@ export function showTitle(
     // R0447: only the first empty slot of a mode shows; the rest wait in one "Load another
     // save" fold, so the first screen of a new save is a handful of buttons.
     const spare: Array<{ modeName: string; row: HTMLElement }> = [];
+    const returning = (): boolean => headShown && !focusMode;
     for (const mode of order) {
       const isRoad = ROADS.includes(mode);
       let emptyShown = 0;
@@ -510,7 +516,8 @@ export function showTitle(
           main.setAttribute('aria-label', SLOT_TEXT.newLabel(modeName, index));
           row.append(main);
         }
-        if (!filled && !isRoad && ++emptyShown > 1) spare.push({ modeName, row });
+        if (!isRoad && (returning() || (!filled && ++emptyShown > 1)))
+          spare.push({ modeName, row });
         else section.appendChild(row);
       }
       if (ROADS.includes(mode)) {
@@ -518,9 +525,9 @@ export function showTitle(
         const used = Array.from({ length: slotsFor(mode) }, (_, i) =>
           slotId({ mode, index: i + 1 }),
         ).some((k) => slotIndex.slots[k]);
-        if (used || mode === focusMode) roads.open = true;
+        if ((used && !returning()) || mode === focusMode) roads.open = true;
         if (!roads.isConnected) menu.appendChild(roads);
-      } else menu.appendChild(section);
+      } else if (!returning() || section.querySelector('.title-slot')) menu.appendChild(section);
       if (mode === focusMode) focus.section = section;
     }
     if (spare.length > 0) {
