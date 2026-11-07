@@ -13,9 +13,9 @@ import type { RegionLayout } from '../config/region-layout';
 import { SHORE_LOOK } from '../config/tuning-r11d7';
 import { coastSheet } from './paint/coast';
 import type { GroundLook, GroundPaint } from './region-ground';
-import type { World } from '../sim/types';
 import { castleStands } from '../sim/shore-play';
 import { deckMesh, disposeDecks, kitModule, type KitPiece } from './region-kit-px';
+import type { ReadonlyWorld } from './readonly-world';
 
 /**
  * WORLD-35 (R11 lane D, d7): the shore in the pixel view, on the region kit. Dune grass and
@@ -79,7 +79,7 @@ const FOLK: KitPiece[] = SHORE_FOLK.map((f) => ({ key: `folk-${f.tone}`, x: f.x,
 const CURRENT: KitPiece[] = [];
 
 /** R13 d1: the castles (standing or flat) and the folk; the same objects frame to frame. */
-function shoreDynamic(world: World): readonly KitPiece[] {
+function shoreDynamic(world: ReadonlyWorld): readonly KitPiece[] {
   CURRENT.length = 0;
   SHORE_CASTLES.forEach((_, i) => CURRENT.push(castleStands(world, i) ? UP[i]! : DOWN[i]!));
   for (const f of FOLK) CURRENT.push(f);
