@@ -40,7 +40,7 @@ const sum = (k) => rows.reduce((a, r) => a + r[k], 0);
 const first = Math.min(...report.testResults.map((f) => f.startTime));
 const last = Math.max(...report.testResults.map((f) => f.endTime));
 const head =
-  `[${label}] ${rows.length} files, ${report.numTotalTests} tests ` +
+  `[${label}] ${require('node:os').availableParallelism()} cpus, ${rows.length} files, ${report.numTotalTests} tests ` +
   `(${report.numPassedTests} passed, ${report.numFailedTests} failed), ` +
   `span ${((last - first) / 1000).toFixed(0)} s, summed file wall ${(sum('wall') / 1000).toFixed(0)} s, ` +
   `summed test time ${(sum('inTests') / 1000).toFixed(0)} s`;

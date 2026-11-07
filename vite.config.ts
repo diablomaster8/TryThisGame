@@ -223,11 +223,8 @@ function offlineManifest(): Plugin {
 // HOT-CI (r11/d): CI keeps every file isolated. A shared cache lets one file's module state leak
 // into the next, and which files share a worker depends on the runner's core count, so a leak
 // that never shows here failed the 2ca30c30 deploy. Local runs keep the faster shared cache.
-// Test-speed: isolated files still start as worker threads, which are cheaper to spin up than
-// forked processes (TEST_POOL=forks opts out).
-const pool = process.env.TEST_POOL === 'forks' ? ('forks' as const) : ('threads' as const);
 const shared =
-  process.env.ISOLATE || process.env.CI ? { pool } : { isolate: false, pool: 'threads' as const };
+  process.env.ISOLATE || process.env.CI ? {} : { isolate: false, pool: 'threads' as const };
 
 export default defineConfig({
   base,
