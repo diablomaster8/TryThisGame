@@ -114,7 +114,7 @@ describe('quad tail set and gait (R0375)', () => {
   });
 });
 
-it.skipIf(!process.env.QUAD_SHEET)('writes a quad contact sheet', () => {
+if (process.env.QUAD_SHEET) it('writes a quad contact sheet', () => {
   const angles = ['front', 'frontQuarter', 'side', 'backQuarter', 'back'] as const;
   const scale = 3;
   const cell = 34 * scale;

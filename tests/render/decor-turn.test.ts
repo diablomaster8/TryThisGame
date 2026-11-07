@@ -39,7 +39,7 @@ describe('turned decor frames (R0007)', () => {
   });
 });
 
-it.skipIf(!process.env.DECOR_SHEET)('writes a turned decor contact sheet', () => {
+if (process.env.DECOR_SHEET) it('writes a turned decor contact sheet', () => {
   const s = 6;
   const cell = 32 * s;
   const width = cell * 2;

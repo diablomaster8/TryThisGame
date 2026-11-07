@@ -288,6 +288,11 @@ export const ISOLATED_FILES: readonly string[] = [
   'tests/sim/expansions.test.ts',
   'tests/sim/fun-r5.test.ts',
   'tests/sim/read-aloud.test.ts',
+  'tests/render/look-r10e.test.ts', // stubs window; the next file in the thread then sees no addEventListener
+  // Audio unlock state (the first-gesture flag, the music bus) leaks in from other audio tests.
+  'tests/sim/voices-unlock.test.ts',
+  'tests/ui/biome-beds.test.ts',
+  'tests/ui/music-duck.test.ts',
 ];
 
 const ALL_TEST_FILES = allTestFiles('tests');

@@ -392,7 +392,7 @@ function renderMap(d: Dungeon): Raster {
   return r;
 }
 
-it.skipIf(!process.env.PREVIEW_DUNGEON)('writes two procedurally generated dungeons', () => {
+if (process.env.PREVIEW_DUNGEON) it('writes two procedurally generated dungeons', () => {
   const dir = process.env.PREVIEW_DUNGEON!;
   mkdirSync(dir, { recursive: true });
   for (const seed of [7, 2026]) {
