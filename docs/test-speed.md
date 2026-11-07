@@ -4,11 +4,11 @@ Written 2026-11-06 (`hot/test-speed`). The suite is about 3,050 test cases in 62
 
 ## Before and after (GitHub runner, 4 vCPU)
 
-| | Before | After |
-| --- | --- | --- |
-| `npm test` step in the deploy job | 580-636 s, one job, with lint, content check and build in series (about 13 min) | about 105-115 s per shard, six shards in parallel; lint and content check, the build and the perf job run beside them |
-| Slowest shard, whole job including `npm ci` | n/a | about 170 s |
-| Hangs | one failing scripted test (see below) ran for 25 minutes and more | every step has a time limit, and a running-files report names what was in flight |
+|                                             | Before                                                                          | After                                                                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `npm test` step in the deploy job           | 580-636 s, one job, with lint, content check and build in series (about 13 min) | about 105-115 s per shard, six shards in parallel; lint and content check, the build and the perf job run beside them |
+| Slowest shard, whole job including `npm ci` | n/a                                                                             | about 170 s                                                                                                           |
+| Hangs                                       | one failing scripted test (see below) ran for 25 minutes and more               | every step has a time limit, and a running-files report names what was in flight                                      |
 
 ## How it works
 
@@ -46,5 +46,7 @@ anything after `--` goes to vitest.
 
 ## Things found on the way
 
-- `tests/sim/dungeon-kid-r10.test.ts` had an unbounded `while` loop in the tag-boss test. It now
-  fails after 60 tries instead of hanging a shard.
+- `tests/sim/dungeon-kid-r10.test.ts` had been failing on main since the Glow Cave runs (R0690): its
+  tag-boss and scripted-child tests used a sprout-band world, whose Hollow way down waits for a
+  puzzle, so the Keeper never left level 1. The tag-boss loop was also unbounded and spun a CI
+  shard for 25 minutes and more; it now fails after 60 tries. Both tests use the plain kid floors.
