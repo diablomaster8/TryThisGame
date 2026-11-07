@@ -10,3 +10,24 @@ if (typeof window !== 'undefined') window.addEventListener('resize', () => (size
 export function viewportSize(): { readonly w: number; readonly h: number } {
   return (size ??= { w: window.innerWidth, h: window.innerHeight });
 }
+
+/**
+ * PERF (2026-11-06): `matchMedia(...)` evaluated afresh flushes style like `innerWidth` does and
+ * allocates a list; the HUD asked about the pointer every refresh. The answer is read once and
+ * kept current by the list's own change event.
+ */
+let coarse: boolean | null = null;
+
+export function coarsePointer(): boolean {
+  if (coarse !== null) return coarse;
+  coarse = false;
+  try {
+    if (typeof matchMedia !== 'function') return coarse;
+    const mql = matchMedia('(pointer: coarse)');
+    coarse = mql.matches;
+    mql.addEventListener?.('change', (e) => (coarse = e.matches));
+  } catch {
+    // A browser without media queries: not a touch screen.
+  }
+  return coarse;
+}

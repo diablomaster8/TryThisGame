@@ -13,6 +13,7 @@ import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { HOLLOW_R9D_TEXT as T } from '../config/strings-hollow-r9-d';
 import type { Game } from '../game';
 import { nearestPack } from '../input/dungeon-tap';
+import { coarsePointer, viewportSize } from '../platform/viewport';
 import type { World } from '../sim/types';
 import { button, el } from './dom';
 
@@ -86,7 +87,7 @@ export class HollowPhoneBar {
       shown &&
       world.location === 'dungeon' &&
       !!world.dungeon &&
-      window.innerWidth <= PHONE.maxWidth;
+      viewportSize().w <= PHONE.maxWidth;
     if (on !== this.on) {
       this.on = on;
       this.root.hidden = !on;
@@ -110,9 +111,7 @@ export class HollowPhoneBar {
 
   /** The floating ⚔: shown underground on a touch device (or a narrow screen); pulses in range. */
   private refreshEngage(world: World, shown: boolean): void {
-    const touch =
-      window.innerWidth <= PHONE.maxWidth ||
-      (typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches);
+    const touch = viewportSize().w <= PHONE.maxWidth || coarsePointer();
     const show = shown && touch && world.location === 'dungeon' && !!world.dungeon;
     this.engageBtn.hidden = !show;
     if (!show) return;

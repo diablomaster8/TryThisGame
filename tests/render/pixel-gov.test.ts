@@ -6,6 +6,12 @@ import { PIXEL_WIND, windSway } from '../../src/render/wind-px';
 
 /** TECH-53: Pixel mode under a light frame governor. */
 describe('Pixel governor', () => {
+  it('starts shedding as soon as frames run over a 60 fps budget', () => {
+    const g = new PixelGovernor(false);
+    for (let i = 0; i < 100; i++) g.sample(28, i * 28);
+    expect(g.level).toBeGreaterThan(0);
+  });
+
   it('sheds particles, wind, weather, then the frame height, in that order', () => {
     const g = new PixelGovernor(false);
     const seen: number[] = [];
@@ -19,9 +25,12 @@ describe('Pixel governor', () => {
     expect(g.particles('off')).toBe('off');
   });
 
-  it('keeps everything on a device that holds 30 fps, and gives steps back when easy', () => {
+  it('keeps everything on a device that holds 60 fps, and gives steps back when easy', () => {
     const g = new PixelGovernor(false);
-    for (let i = 0; i < 2000; i++) g.sample(28, i * 28);
+    // A 60 Hz display with the usual jitter, and one 200 ms hitch, change nothing.
+    for (let i = 0; i < 2000; i++) g.sample(i % 7 === 0 ? 18.5 : 16.7, i * 17);
+    g.sample(200, 40000);
+    for (let i = 0; i < 200; i++) g.sample(16.7, 40000 + i * 17);
     expect(g.level).toBe(0);
     expect(g.targetHeight).toBe(RENDER.targetHeight);
     for (let i = 0; i < 100; i++) g.sample(50, i * 50);

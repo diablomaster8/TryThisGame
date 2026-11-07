@@ -73,6 +73,7 @@ import { NubbinGags } from './nubbin-gags';
 import { bandToaster } from './fun-toasts';
 import { dedupeToaster } from './event-dedupe';
 import { FRAME_WORK } from '../platform/frame-spikes';
+import { coarsePointer } from '../platform/viewport';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -1095,6 +1096,7 @@ export function mountHud(
     dialogue.play(id);
   }
 
+  let moreKeyShown = '';
   function refreshLoop(): void {
     // TECH-31: the refresh runs between frames; its time is charged to the next frame log.
     const hudT0 = performance.now();
@@ -1113,8 +1115,7 @@ export function mountHud(
       }
       // R0510: in the Hollow on a touch device the stick is on without a trip to Settings.
       const hollowTouch =
-        (g.world.location === 'hollow' || g.world.location === 'dungeon') &&
-        window.matchMedia?.('(pointer: coarse)').matches;
+        (g.world.location === 'hollow' || g.world.location === 'dungeon') && coarsePointer();
       joystick.setVisible(g.world.settings.joystick || !!hollowTouch);
       joystick.onEdge = () =>
         void buzz(
@@ -1258,8 +1259,6 @@ export function mountHud(
         expeditionBtn,
         isEdu ? UI_FX_TEXT.actionLabels.play : UI_FX_TEXT.actionLabels.expedition,
       );
-      for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
-      for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
       visitBtn.hidden = isEdu || !visitHas;
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
       const keysHint = root.querySelector<HTMLElement>('.keys-hint');
@@ -1280,14 +1279,25 @@ export function mountHud(
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
-      for (const b of moreList.querySelectorAll<HTMLElement>('.cabinet')) b.hidden = !cabinetOpen;
       // The rift: Mature content 18+ only (canon 20, 33). The rainbow gate: as the fun quests,
       // from the start in the Free Grove and after chapter 2 in Hazel's Grove.
       const riftOpen = !isEdu && g.world.settings.matureContent === 'adult';
-      for (const b of moreList.querySelectorAll<HTMLElement>('.rift')) b.hidden = !riftOpen;
       const gateOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 2);
-      for (const b of moreList.querySelectorAll<HTMLElement>('.neo-gate')) b.hidden = !gateOpen;
+      // PERF: each button's final state in one pass, and only when an input changed. It used to
+      // set `.not-edu` visible and then `.cabinet`, `.rift` and `.neo-gate` hidden every refresh,
+      // a real attribute flip-flop that restyled the HUD.
+      const moreKey = `${isEdu}|${cabinetOpen}|${riftOpen}|${gateOpen}`;
+      if (moreKey !== moreKeyShown) {
+        moreKeyShown = moreKey;
+        for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
+        for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu'))
+          b.hidden =
+            isEdu ||
+            (b.classList.contains('cabinet') && !cabinetOpen) ||
+            (b.classList.contains('rift') && !riftOpen) ||
+            (b.classList.contains('neo-gate') && !gateOpen);
+      }
       if (festivalsFor !== g) {
         festivalsFor = g;
         announceFestivals(g, toast);

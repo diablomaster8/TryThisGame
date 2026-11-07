@@ -8,6 +8,7 @@
 import { Vector3, type Camera } from 'three';
 import { STAGE4 } from '../config/tuning-f4';
 import { VIEW_RECT_CACHE } from '../config/tuning-r10d1';
+import { cachedQuery } from '../platform/dom-cache';
 
 /** A screen rectangle in CSS pixels, viewport coordinates (y down). */
 export interface ScreenRect {
@@ -89,16 +90,14 @@ function measureSafe(): ScreenRect {
   const v = viewRect();
   let top = v.y;
   let bottom = v.y + v.h;
-  const bar = shownRect(document.querySelector('.topbar'));
+  const bar = shownRect(cachedQuery('.topbar'));
   if (bar && bar.bottom < v.y + v.h * 0.5) top = Math.max(top, bar.bottom + 4);
   // K15: a grave scene's held letterbox (the HUD's top bar is hidden under it).
   const lb = shownRect(document.querySelector('.postcard.grave:not([hidden]) .postcard-top'));
   if (lb && lb.bottom < v.y + v.h * 0.5) top = Math.max(top, lb.bottom + 4);
-  const dialogue = document.querySelector('.dialogue');
+  const dialogue = cachedQuery('.dialogue');
   const box =
-    dialogue && !(dialogue as HTMLElement).hidden
-      ? shownRect(document.querySelector('.dialogue-box'))
-      : null;
+    dialogue && !(dialogue as HTMLElement).hidden ? shownRect(cachedQuery('.dialogue-box')) : null;
   // cg5: a phone keeps a wider gap, so a crowd's front row never sits on the box's edge.
   const gap = v.w < 600 ? STAGE4.phoneBoxGap : 4;
   if (box && box.top > v.y + v.h * 0.4) bottom = Math.min(bottom, box.top - gap);

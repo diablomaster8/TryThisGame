@@ -12,6 +12,7 @@ import type { Vec2 } from '../sim/types';
 import { edgeArrow } from './hud-world-math';
 import { CHIP_SHOWN, objectiveOf } from './objective';
 import { playIris } from './travel-iris';
+import { cachedQuery } from '../platform/dom-cache';
 
 /**
  * R0100 (WORLD-42): draws the tracked objective in the world. Each frame it asks where the
@@ -72,7 +73,7 @@ export function mountBeacon(root: HTMLElement, game: () => Game | null, openMap:
   const frame = (): void => {
     requestAnimationFrame(frame);
     const g = game();
-    const chip = root.querySelector<HTMLElement>('.objective-chip');
+    const chip = cachedQuery('.objective-chip') as HTMLElement | null;
     const o = g && chip && !chip.hidden ? objectiveOf(g) : null;
     // Lane C r10 agent C (R0661): follow the goal the chip shows (its cycle arrow picks a
     // pinned quest or a line), through the same resolver as the chip's Go there.
