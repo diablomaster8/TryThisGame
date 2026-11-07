@@ -19,7 +19,7 @@ import { chaseLook } from '../render/ambient-look';
 import { Ambient3D } from './ambient-3d';
 import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
-import type { PoseName, Rigged } from '../samples/species';
+import type { PoseName, Rigged } from './art/species';
 import type { Floor } from '../sim/dungeon';
 import { gaitOf } from '../sim/soul-gait';
 import { Glances } from '../render/glances';
@@ -78,7 +78,7 @@ import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
 import { ItemKit, placeStand, shellKey } from './item-kit';
 import { moodOf } from '../sim/needs';
-import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
+import { KEEPER_HAND_FROM_ELBOW } from './art/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { keeperFlight } from '../sim/flight-zones';
 import { poseRig } from './stage-pose3d';
@@ -98,7 +98,7 @@ import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { nubbinsHere } from '../sim/nubbin-home';
-import { companions } from '../sim/region-companion';
+import { regionShown } from '../sim/region-gardens';
 import { noteDue, performLook } from '../render/perform-look';
 import { poseOfState, visualStateFor } from '../render-common/visual-state';
 import { Perform3D } from './perform-3d';
@@ -859,7 +859,7 @@ export class Actors {
   private shownNubbins(world: World): World['nubbins'] {
     if (this.location.startsWith('visit:')) return [];
     // R0121: in a drawn region only the partners that came along.
-    if (this.location.startsWith('region:')) return companions(world);
+    if (this.location.startsWith('region:')) return regionShown(world);
     const run = this.location === 'dungeon' ? world.dungeon : null;
     // Lane C r10 agent D (R0594): a line's Nubbin that stayed in its place is drawn only there.
     return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : nubbinsHere(world);
@@ -876,7 +876,11 @@ export class Actors {
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
     a.veil?.removeFromParent();
-    if (a.shell) this.kit.release(a.shell);
+    if (a.shell) {
+      // R0081 (R13 d1): the egg's crack line goes with it (its geometry was left undisposed).
+      updateCracks(a.shell, 0);
+      this.kit.release(a.shell);
+    }
     a.emote.removeFromParent();
     this.nubbins.delete(id);
   }

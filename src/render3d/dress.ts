@@ -12,8 +12,8 @@ import {
   Vector3,
   type BufferGeometry,
 } from 'three';
-import type { Rigged } from '../samples/species';
-import { bellyOf, headDome } from '../samples/nubbin-critter-parts';
+import type { Rigged } from './art/species';
+import { bellyOf, headDome } from './art/nubbin-critter-parts';
 import { DYE_COLORS } from '../render/sprites/chao';
 import { dyeToken, dyePair, rainbowStep } from '../render/sprites/rainbow-dye';
 import { C, color, nearestIndex } from '../render/sprites/palette';
@@ -224,6 +224,26 @@ const HATS: Record<string, Item> = {
       ]),
       ...spike([0, -0.1, -0.3], [-0.6, 0, 0], 0.45, 0.1, C.white, C.white),
     ],
+  },
+  // R0414 (LOOK-38): the classic three, for adults (a child wears the whole figure).
+  'look-angel': {
+    at: 'top',
+    pieces: [
+      p('torus', C.sunYellow, [0, 0.62, -0.05], [0.58, 0.58, 0.58], [Math.PI / 2 - 0.12, 0, 0]),
+      ...[-0.18, 0, 0.18].map((x) =>
+        p('cone', C.white, [x, 0.12, -0.05], [0.12, 0.34, 0.12], [0, 0, -x * 1.5]),
+      ),
+    ],
+  },
+  'look-devil': {
+    at: 'top',
+    pieces: [-1, 1].flatMap((d) =>
+      spike([d * 0.45, -0.28, 0], [0, 0, -d * 0.35], 0.55, 0.15, C.ember, C.ember),
+    ),
+  },
+  'look-chaos': {
+    at: 'top',
+    pieces: [p('sphere', C.leaf, [0, -0.75, 0], 0.32)],
   },
 };
 

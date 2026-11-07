@@ -2,7 +2,7 @@ import { FarLanterns } from './far-lanterns';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
-import { buildTree, pbr, repeatUv, shadowed, type Tex } from '../samples/aaa-kit';
+import { buildTree, pbr, repeatUv, shadowed, type Tex } from './art/aaa-kit';
 import {
   bevelBox,
   buildingMaterial,

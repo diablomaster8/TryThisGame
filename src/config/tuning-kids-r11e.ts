@@ -4,6 +4,8 @@ export const EDU_NOTICING = {
   gapMs: 180_000,
   /** R0723: counting stops here ("One, two, three, four, five apples!"). */
   maxCount: 5,
+  /** R0723: a fruit a moment points at stays lit this long (ms). */
+  highlightMs: 6000,
 } as const;
 
 /** R0743: the free-play paint pad ("draw your Nubbin"). */

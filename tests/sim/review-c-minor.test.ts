@@ -156,7 +156,8 @@ describe('Learning Grove reader band (item 18)', () => {
         expect(r.game).toBe(game);
         expect(r.answer).toBeGreaterThanOrEqual(0);
         expect(r.answer).toBeLessThan(r.options.length);
-        expect(r.options.length).toBeGreaterThanOrEqual(3);
+        // Science sorting is a two-way pick (living or not, floats or sinks).
+        expect(r.options.length).toBeGreaterThanOrEqual(game === 'science' ? 2 : 3);
         const keys = r.options.map((o) => JSON.stringify(o));
         expect(new Set(keys).size).toBe(keys.length);
       }

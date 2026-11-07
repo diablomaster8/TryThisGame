@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /**
  * Lane C round 7, the campaign engine's player-facing text (CAMP, re-exported from
  * strings.ts): the journal's questlines beside Hazel's Grove (ui/journal-lines.ts).
@@ -87,7 +89,7 @@ export const OFFER_TEXT = {
   untrack: 'Unpin',
   empty: 'Nothing here yet.',
   stepOf: (i: number, n: number, min: number) => `Step ${i} of ${n} · about ${min} min left`,
-  steps: (n: number) => (n === 1 ? '1 step' : `${n} steps`),
+  steps: (n: number) => fmt(MESSAGES_EN.steps, { n }),
   flowLabel: 'Quests',
   /** R0670: the play counts, kept only in this save. */
   yourPlay: (o: number, a: number, d: number, s: number, roads: string) =>
@@ -114,7 +116,7 @@ export const AWAY_STORIES_TEXT = {
   spineWaits: 'Hazel’s story: the next part waits for you.',
   lineWaits: (title: string, n: number) => `${title}: chapter ${n} waits for you.`,
   lineOn: (title: string, n: number) => `${title}: chapter ${n}, as you left it.`,
-  quests: (n: number) => (n === 1 ? 'One quest under way.' : `${n} quests under way.`),
+  quests: (n: number) => fmt(MESSAGES_EN.awayQuests, { n }),
 };
 
 /** Lane C round 8 (R0648): the title's slot cards name the lines a save holds. */
@@ -124,5 +126,5 @@ export const SLOT_LINES_TEXT = {
     string
   >,
   done: '✓',
-  stories: (n: number) => (n === 1 ? '1 story done' : `${n} stories done`),
+  stories: (n: number) => fmt(MESSAGES_EN.storiesDone, { n }),
 };

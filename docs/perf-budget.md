@@ -47,3 +47,23 @@ and no memory), so they read as mid; Settings → Quality → High lifts them.
 - Production Full 3D heap after GC, phone viewport, new Hazel's Grove (2026-11-04, r12-d3):
   154 MB, down from 188 once villagers' and the grandchild's marched surfaces are let go after
   their rig is built (`POOL_SHED`); Pixel 38 MB. Measured with `recs-2026-10-27/tools/r12-d3-heap.cjs`.
+
+## Decisions (r13-d4, 2026-11-05)
+
+- **WORLD-09 chunk cache: no IndexedDB cache.** A chunk's built data (grass matrices plus decor,
+  about 72 KB as float32) reads back from IndexedDB in 0.9 ms per get and writes in 1.4 ms in
+  headless Edge on desktop (`recs-2026-10-27/tools/r13-d4-idb.cjs`); a rebuild from the seed is
+  about 1 ms. A cache would cost the same as the work it saves (more on a phone, where IndexedDB
+  is several times slower), is async, and would need invalidating on every art or seed change.
+  Chunks are rebuilt when they re-enter the active set. The sculpt cache stays: a creature
+  takes hundreds of ms to march.
+- **Title first paint (TECH-51), Slow 4G (1.6 Mbps, 150 ms), 375 px, cache off, headless Edge,
+  `recs-2026-10-27/tools/r13-d4-throttle.cjs`:** the inline splash paints at 0.9-1.7 s;
+  the title at 4.0 s cold and 3.2 s for a returning player, down from 4.0 once `storage` stopped
+  importing `migrate-unified` (it pulls the sim save, a 340 kB gz chunk) on the title's path for
+  a returning player. `modulepreload` for the boot chunks (game, HUD, boot-late) was tried and
+  rejected: it pushed the title to 7.4 s because they compete with the title's own bytes. The
+  boot chunks start once the title has painted. The marks `title-visible` and `grove-playable` exist.
+- **Songs (TECH-64):** `?audiolab` renders each song for 30 s offline through its trim and the
+  bus. All 13 land within 0.5 LU of target (-20 LUFS, night and sorrow -22, story -28, calm -29);
+  `SONG_MEASURED_LUFS` records them and `tests/ui/music-levels.test.ts` checks them.

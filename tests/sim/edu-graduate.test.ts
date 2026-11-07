@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { keepsakeLook } from '../../src/config/keepsake-looks';
 import { CERTIFICATE_KEEPSAKE, eduToCampaign } from '../../src/sim/edu-graduate';
+import { graduateOfferDue } from '../../src/ui/graduate';
 import { deserialize, serialize } from '../../src/sim/save';
 import { applyCommand } from '../../src/sim/world';
 import { campaignWorld, tick } from './campaign-driver';
@@ -21,5 +23,18 @@ describe('R0727 graduation', () => {
   it('leaves a save that is not a Learning Grove alone', () => {
     const { world } = campaignWorld();
     expect(eduToCampaign(serialize(world, 1), 2)).toBeNull();
+  });
+  it('gives the certificate a look so the cottage shelf can show it', () => {
+    expect(keepsakeLook(CERTIFICATE_KEEPSAKE)).toMatchObject({ shape: 'letter' });
+  });
+  it('offers Continue as a Keeper only once a reader story has ended', () => {
+    const { world, events } = campaignWorld();
+    expect(graduateOfferDue(world)).toBe(false);
+    applyCommand(world, { kind: 'eduStart', age: 6, band: 'reader' }, events);
+    expect(graduateOfferDue(world)).toBe(false);
+    world.campaign!.ending = 'open';
+    expect(graduateOfferDue(world)).toBe(true);
+    world.edu!.band = 'sprout';
+    expect(graduateOfferDue(world)).toBe(false);
   });
 });

@@ -28,10 +28,10 @@ export type { Collider } from '../config/grove-layout';
  * Nubbin (Run or Fly high enough) also hops fences and logs. Soft pieces (bushes, beds)
  * never hard-stop anyone: the Keeper is slowed by them in `softAt` instead.
  */
-export type Walker = 'keeper' | 'nubbin' | 'hopper';
+export type ObstacleWalker = 'keeper' | 'nubbin' | 'hopper';
 
 /** Whether a Nubbin is spry enough to hop fences and logs. */
-export function nubbinWalker(n: Nubbin): Walker {
+export function nubbinWalker(n: Nubbin): ObstacleWalker {
   // MOVE-30: a Lazy Nubbin never jumps when there is a way round.
   if (n.personality === 'lazy') return 'nubbin';
   const spry = Math.max(levelOf(n.stats.run.points), levelOf(n.stats.fly.points));
@@ -57,7 +57,7 @@ export function colliderTopY(c: Collider): number {
  * above: a jumping Keeper passes over a fence or lands on a bench once its feet are within
  * a step of the top. Walls, trunks and rails stop it at any height.
  */
-function blocks(c: Collider, who: Walker, feetY?: number): boolean {
+function blocks(c: Collider, who: ObstacleWalker, feetY?: number): boolean {
   const f = c.flags;
   if (f.includes('soft')) return false;
   if (
@@ -72,7 +72,7 @@ function blocks(c: Collider, who: Walker, feetY?: number): boolean {
 }
 
 /** Whether a collider stops a walker on the ground (a Nubbin's path grid, MOVE-29). */
-export function stops(c: Collider, who: Walker): boolean {
+export function stops(c: Collider, who: ObstacleWalker): boolean {
   return blocks(c, who);
 }
 
@@ -257,7 +257,7 @@ export function blocked(
   p: Vec2,
   world: World | null,
   radius = 0,
-  who: Walker = 'keeper',
+  who: ObstacleWalker = 'keeper',
   feetY?: number,
 ): boolean {
   for (const c of near(world, p, radius))
@@ -273,7 +273,7 @@ export function resolve(
   p: Vec2,
   world: World | null,
   radius = 0.35,
-  who: Walker = 'keeper',
+  who: ObstacleWalker = 'keeper',
   feetY?: number,
 ): boolean {
   let moved = false;
@@ -292,7 +292,7 @@ export function resolve(
  * What a walker of `radius` at the point would meet, in one pass (MOVE-29, a Nubbin's look
  * ahead): 2 for anything that stops it, 1 for only a soft piece, 0 for nothing.
  */
-export function wayAt(p: Vec2, world: World | null, radius: number, who: Walker): number {
+export function wayAt(p: Vec2, world: World | null, radius: number, who: ObstacleWalker): number {
   let soft = 0;
   for (const c of near(world, p, radius)) {
     if (soft === 1 && !blocks(c, who)) continue;

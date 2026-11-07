@@ -420,6 +420,9 @@ export class GameInput {
       return;
     }
     this.keys.add(key);
+    // R0113: F lobs a snowball (only does anything on the ridge's snow).
+    if (key === 'f' && !e.repeat && !isControlTarget(e.target))
+      this.host.send({ kind: 'snowball' });
     if (key === ' ' && !e.repeat) {
       this.host.send({ kind: 'jump', down: true });
       e.preventDefault();

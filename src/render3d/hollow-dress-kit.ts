@@ -26,6 +26,25 @@ export const CYL = (top = 0.5, seg = 8) =>
 export const BALL = () => prim('ball', () => new THREE.IcosahedronGeometry(0.5, 1));
 export const SPHERE = () => prim('sphere', () => new THREE.SphereGeometry(0.5, 12, 8));
 export const CONE = (seg = 8) => prim(`cone${seg}`, () => new THREE.ConeGeometry(0.5, 1, seg));
+/** An open tube (no caps): for rods whose ends sit inside the next rod or the rock. */
+export const TUBE = (seg: number) =>
+  prim(`tube${seg}`, () => new THREE.CylinderGeometry(0.5, 0.5, 1, seg, 1, true));
+/**
+ * A small ball, twenty faces with a sphere's smooth normals (R0194 part 2): berries, spots
+ * and bulbs a few pixels wide, where the 168-triangle `SPHERE` cost eight times as much.
+ */
+export const BEAD = () =>
+  prim('bead', () => {
+    const g = new THREE.IcosahedronGeometry(0.5, 0);
+    const p = g.attributes.position as THREE.BufferAttribute;
+    const n = g.attributes.normal as THREE.BufferAttribute;
+    const v = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++)
+      n.setXYZ(i, ...v.fromBufferAttribute(p, i).normalize().toArray());
+    return g;
+  });
+/** A pad of moss lying flat: the sphere's outline with four bands, not eight. */
+export const PAD = () => prim('pad', () => new THREE.SphereGeometry(0.5, 12, 4));
 export const OCT = () => prim('oct', () => new THREE.OctahedronGeometry(0.5));
 export const ROCK = () => prim('rock', () => new THREE.DodecahedronGeometry(0.5, 0));
 export const TORUS = () => prim('torus', () => new THREE.TorusGeometry(0.5, 0.1, 6, 20));
@@ -247,7 +266,11 @@ export function glyphMaterial(map: THREE.Texture): THREE.MeshBasicMaterial {
   return m;
 }
 
-/** Soft additive light (portal beams, lantern pools, the crystal's chime flash). */
+/**
+ * Soft additive light (portal beams, lantern pools, the crystal's chime flash). Adding is the
+ * same in any order, so both sides draw in one pass, not three.js's back-then-front two
+ * (R0194 part 2: half the glows' triangles and a call).
+ */
 export function glowMaterial(): THREE.MeshBasicMaterial {
   return new THREE.MeshBasicMaterial({
     vertexColors: true,
@@ -257,6 +280,7 @@ export function glowMaterial(): THREE.MeshBasicMaterial {
     toneMapped: false,
     fog: false,
     side: THREE.DoubleSide,
+    forceSinglePass: true,
   });
 }
 

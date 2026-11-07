@@ -9,7 +9,19 @@ export type EduAge = 3 | 4 | 5 | 6;
 export const EDU_AGES: readonly EduAge[] = [3, 4, 5, 6];
 
 export type EduGameId =
-  'colours' | 'letters' | 'counting' | 'shapes' | 'sounds' | 'animals' | 'tracing';
+  | 'colours'
+  | 'letters'
+  | 'counting'
+  | 'shapes'
+  | 'sounds'
+  | 'animals'
+  | 'tracing'
+  // R0716: the reader band's own games. Never offered to sprouts, so not in `EDU_GAMES`.
+  | 'times'
+  | 'timeMoney'
+  | 'numbers'
+  | 'reading'
+  | 'science';
 export const EDU_GAMES: readonly EduGameId[] = [
   'colours',
   'letters',
@@ -18,6 +30,15 @@ export const EDU_GAMES: readonly EduGameId[] = [
   'sounds',
   'animals',
   'tracing',
+];
+
+/** R0716: the games only readers play (times tables, clock and Shells, number sense, reading, nature). */
+const EDU_READER_ONLY: readonly EduGameId[] = [
+  'times',
+  'timeMoney',
+  'numbers',
+  'reading',
+  'science',
 ];
 
 /** Learning domain per game, for the grown-up progress view. */
@@ -29,6 +50,11 @@ export const EDU_DOMAIN: Record<EduGameId, 'cognition' | 'literacy' | 'language'
   sounds: 'language',
   animals: 'nature',
   tracing: 'literacy',
+  times: 'cognition',
+  timeMoney: 'cognition',
+  numbers: 'cognition',
+  reading: 'literacy',
+  science: 'nature',
 };
 
 /** Recommended set per age. Everything is available; this is the default selection. */
@@ -36,7 +62,8 @@ export const EDU_RECOMMENDED: Record<EduAge, readonly EduGameId[]> = {
   3: ['colours', 'animals', 'shapes', 'counting'],
   4: ['colours', 'shapes', 'counting', 'letters', 'animals', 'tracing'],
   5: ['letters', 'counting', 'sounds', 'shapes', 'colours', 'animals', 'tracing'],
-  6: ['letters', 'sounds', 'counting', 'shapes', 'animals', 'tracing'],
+  // The reader band is pinned at age 6 (title.ts), so its default switches live here too.
+  6: ['letters', 'sounds', 'counting', 'shapes', 'animals', 'tracing', ...EDU_READER_ONLY],
 };
 
 export const EDU = {
@@ -190,11 +217,21 @@ export const EDU_ANIMALS: ReadonlyArray<{
 ];
 
 /**
- * The reader band (7–10) plays three of the games at reader level (review C, item 18):
- * sums to twenty, spelling and rhymes. Colours, shapes and animals are preschool and are
- * not offered to readers.
+ * The reader band (7–10) plays eight games at reader level (review C item 18, R0716): sums,
+ * spelling and rhymes (the three that keep their old ids and progress), then times tables,
+ * clock and Shells, place value and fractions, reading, and nature sorting. Colours, shapes
+ * and animals are preschool and are not offered to readers.
  */
-export const EDU_READER_GAMES: readonly EduGameId[] = ['counting', 'letters', 'sounds'];
+export const EDU_READER_GAMES: readonly EduGameId[] = [
+  'counting',
+  'times',
+  'timeMoney',
+  'numbers',
+  'letters',
+  'reading',
+  'sounds',
+  'science',
+];
 
 /** Spelling words for readers, with their beats marked and a one-line hint. */
 export const EDU_READER_WORDS: ReadonlyArray<{
@@ -298,6 +335,38 @@ export const EDU_LADDER: Record<EduGameId, readonly RoundSpec[]> = {
   animals: AGE_RUNGS,
   // R0702: tracing has no rounds to pick; the entry keeps the record complete.
   tracing: AGE_RUNGS,
+  // R0716: the reader games' rungs, easiest first. Readers play their own rounds (no climb),
+  // so these are the grown-up area's words for what each game covers.
+  times: [
+    { age: 6, say: 'twos, fives and tens' },
+    { age: 6, say: 'threes and fours' },
+    { age: 6, say: 'sixes to nines' },
+    { age: 6, say: 'elevens and twelves' },
+  ],
+  timeMoney: [
+    { age: 6, say: 'o’clock and half past' },
+    { age: 6, say: 'quarter past and to' },
+    { age: 6, say: 'making a price with Shells' },
+    { age: 6, say: 'change from a purse' },
+  ],
+  numbers: [
+    { age: 6, say: 'tens and ones' },
+    { age: 6, say: 'hundreds, tens and ones' },
+    { age: 6, say: 'halves and quarters' },
+    { age: 6, say: 'thirds' },
+  ],
+  reading: [
+    { age: 6, say: 'who questions' },
+    { age: 6, say: 'what questions' },
+    { age: 6, say: 'why questions' },
+    { age: 6, say: 'short passages' },
+  ],
+  science: [
+    { age: 6, say: 'living or not living' },
+    { age: 6, say: 'float or sink' },
+    { age: 6, say: 'states of water' },
+    { age: 6, say: 'where animals live' },
+  ],
 };
 
 /** R0682: the starting rung by age (counting has more rungs than ages). */

@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /**
  * Lane C round 11, helper "profiles": player-facing text for the title's Continue and
  * profile picker, the Sandbox start, chapter select, the fun-quest packs and the
@@ -48,8 +50,7 @@ export const PROFILE_TEXT = {
   removeYes: 'Delete',
   removeLocked: 'The first Keeper and child profiles hold the saves on this device and stay.',
   deletedHead: 'Deleted profiles',
-  deletedRow: (name: string, days: number) =>
-    `${name} · ${days === 0 ? 'deleted today' : `deleted ${days} day${days === 1 ? '' : 's'} ago`}`,
+  deletedRow: (name: string, days: number) => fmt(MESSAGES_EN.deletedRow, { name, days }),
   restore: 'Restore',
   restored: (name: string) => `${name} is back.`,
   cancel: 'Cancel',
@@ -58,12 +59,8 @@ export const PROFILE_TEXT = {
   kidsHead: "Children's Groves",
   /** R0598: the "Your saves moved" card, once after the move. */
   movedTitle: 'Your saves moved',
-  movedBody: (n: number) =>
-    n === 1
-      ? 'Your Grove now lives in your profile. The old copy is kept safe on this device.'
-      : `Your ${n} Groves now live in your profile. The old copies are kept safe on this device.`,
-  movedOlder: (n: number) =>
-    `${n} older save${n === 1 ? ' did' : 's did'} not fit in 8 slots. They are under Older saves.`,
+  movedBody: (n: number) => fmt(MESSAGES_EN.movedBody, { n }),
+  movedOlder: (n: number) => fmt(MESSAGES_EN.movedOlder, { n }),
   movedCombine: 'Combine endings',
   movedCombineHelp:
     "Copy a finished road's ending and keepsakes into a Hazel's Grove slot. Nubbins stay where they are.",

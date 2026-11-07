@@ -1,3 +1,5 @@
+import { fmt } from './icu';
+import { MESSAGES_EN } from './messages-en';
 /** Lane C round 10, agent B (re-exported through strings-camp10.ts). */
 
 /** R0659 / R0619 (CAMP-67, CAMP-27): backups and checkpoints in Settings → Saves. */
@@ -9,15 +11,14 @@ export const SAVE_BACKUP_TEXT = {
   /** One backup: its age and size, as the save line says them. */
   line: (n: number, saved: string, size: string) => `Backup ${n}: ${saved} · ${size}`,
   restore: 'Restore',
-  restoreLabel: (n: number, saved: string) => `Restore backup ${n}, ${saved.toLowerCase()}`,
+  restoreLabel: (n: number, saved: string) =>
+    fmt(MESSAGES_EN.restoreBackup, { n, saved: saved.toLowerCase() }),
   confirmTitle: 'Restore this backup?',
-  confirmBody: (saved: string) =>
-    `This save goes back to the backup (${saved.toLowerCase()}). What happened since is lost.`,
+  confirmBody: (saved: string) => fmt(MESSAGES_EN.restoreConfirm, { saved: saved.toLowerCase() }),
   confirmYes: 'Restore',
   restored: 'Backup restored.',
   broken: 'That backup could not be read.',
-  checkpoints: (n: number) =>
-    n === 0 ? 'No chapter checkpoints yet.' : `${n} chapter checkpoint${n === 1 ? '' : 's'} kept.`,
+  checkpoints: (n: number) => fmt(MESSAGES_EN.checkpoints, { n }),
 } as const;
 
 /** R0642 (CAMP-50): the date an ending was reached, on the endings shelf. */

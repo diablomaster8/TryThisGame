@@ -18,6 +18,12 @@ export interface SerpentOpts {
   belly?: boolean;
   /** A dorsal fin crest in the accent colour on discs 2 and 5. */
   fin?: boolean;
+  /** Squarer segments: a rounded plate with a lit top edge and a stud (Steelix). */
+  plated?: boolean;
+  /** A ring of short spikes round every other segment, from disc 1 (Steelix). */
+  spikes?: boolean;
+  /** A wide, square, jutting lower jaw on the head: an underbite (Steelix). */
+  jaw?: boolean;
 }
 
 export interface SerpentDisc {
@@ -138,10 +144,38 @@ export function drawSerpentBody(
 ): void {
   const col = spec.colors;
   const o = spec.serpent ?? {};
+  const side = a.face >= 0.5 && !a.back;
   const disc = (d: SerpentDisc) => {
-    pc.disc(d.x, d.y, d.r, col.shade);
-    pc.disc(d.x - 0.4, d.y - 0.5, Math.max(1, d.r - 0.8), col.body);
+    if (o.plated) {
+      // A squarer plate: a rounded block, a lit top edge and a stud.
+      const w = d.r * 0.95;
+      const h = d.r * 0.92;
+      pc.rect(d.x - w, d.y - h + 1, w * 2, h * 2 - 2, col.shade);
+      pc.rect(d.x - w + 1, d.y - h, w * 2 - 2, h * 2, col.shade);
+      pc.rect(d.x - w + 1, d.y - h + 1, w * 2 - 2, h * 2 - 2, col.body);
+      pc.rect(d.x - w + 1, d.y - h + 1, w * 2 - 2, 1, col.belly);
+      if (d.r >= 3) pc.px(d.x, d.y, col.belly);
+    } else {
+      pc.disc(d.x, d.y, d.r, col.shade);
+      pc.disc(d.x - 0.4, d.y - 0.5, Math.max(1, d.r - 0.8), col.body);
+    }
     if (o.belly && !a.back) pc.ellipse(d.x, d.y + d.r * 0.62, d.r * 0.65, d.r * 0.22, col.belly);
+  };
+  const spike = (d: SerpentDisc) => {
+    // Short spikes: up and down in the side views, out to each side from the front.
+    const h = Math.max(3, Math.round(d.r * 0.95));
+    const w = o.plated ? d.r * 0.95 : d.r;
+    for (let k = 0; k < h; k++) {
+      const taper = Math.max(0, 1 - k / h);
+      const c = k === h - 1 ? col.belly : col.accent;
+      if (side) {
+        pc.rect(d.x - taper, d.y - d.r - k, 1 + taper, 1, c);
+        pc.rect(d.x - taper, d.y + d.r - 1 + k, 1 + taper, 1, c);
+      } else {
+        pc.rect(d.x - w - k, d.y - taper, 1, 1 + taper, c);
+        pc.rect(d.x + w - 1 + k, d.y - taper, 1, 1 + taper, c);
+      }
+    }
   };
   const fin = (d: SerpentDisc) => {
     const h = Math.max(2, d.r * 0.9);
@@ -152,9 +186,55 @@ export function drawSerpentBody(
   const order = [...l.discs].sort((p, q) => p.z - q.z);
   const behind = order.filter((d) => d.z < 0);
   const front = order.filter((d) => d.z >= 0);
-  for (const d of behind) disc(d);
+  const drawn = (d: SerpentDisc) => {
+    const i = l.discs.indexOf(d);
+    if (o.spikes && i >= 1 && i % 2 === 1 && i < l.discs.length - 1) spike(d);
+    disc(d);
+  };
+  for (const d of behind) drawn(d);
   if (a.back) blob(l.headCx, l.headCy, l.headRx, l.headRy);
   for (const f of fins) fin(f);
-  for (const d of front) disc(d);
-  if (!a.back) blob(l.headCx, l.headCy, l.headRx, l.headRy);
+  for (const d of front) drawn(d);
+  if (!a.back) {
+    blob(l.headCx, l.headCy, l.headRx, l.headRy);
+    if (o.jaw) jaw(pc, a, spec, l, side);
+  } else if (o.jaw) jaw(pc, a, spec, l, side);
+}
+
+/** The underbite: a wide square lower jaw jutting past the head, with a pale lip and two tusks. */
+function jaw(
+  pc: PixelCanvas,
+  a: Anchors,
+  spec: CreatureSpec,
+  l: SerpentLayout,
+  side: boolean,
+): void {
+  const col = spec.colors;
+  const cx = Math.round(l.headCx);
+  const bottom = Math.round(l.headCy + l.headRy);
+  const h = Math.max(3, Math.round(l.headRy * 0.5));
+  if (a.back) {
+    // From behind only the jaw's corners show beyond the head.
+    pc.rect(cx - l.headRx, bottom - 2, l.headRx * 2, 2, col.shade);
+    return;
+  }
+  if (side) {
+    // Facing right: the jaw juts forward past the face and drops below the chin.
+    const x1 = Math.round(l.headCx + l.headRx * 1.15);
+    const x0 = Math.round(l.headCx - l.headRx * 0.2);
+    const top = bottom - h + 2;
+    pc.rect(x0, top, x1 - x0, h, col.shade);
+    pc.rect(x0 + 1, top + 1, x1 - x0 - 2, h - 2, col.body);
+    pc.rect(x0 + 1, top, x1 - x0 - 2, 1, col.belly);
+    pc.rect(x1 - 3, top - 2, 1, 2, col.belly);
+    pc.rect(x1 - 6, top - 1, 1, 1, col.belly);
+    return;
+  }
+  const w = Math.round(l.headRx * 1.05);
+  const top = bottom - h + 2;
+  pc.rect(cx - w, top, w * 2, h, col.shade);
+  pc.rect(cx - w + 1, top + 1, w * 2 - 2, h - 2, col.body);
+  pc.rect(cx - w + 1, top, w * 2 - 2, 1, col.belly);
+  pc.rect(cx - w + 2, top - 2, 1, 2, col.belly);
+  pc.rect(cx + w - 3, top - 2, 1, 2, col.belly);
 }

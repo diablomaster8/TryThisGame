@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // R0342 (FUN-53): read-aloud with a stubbed speech engine. The audio module is mocked so
 // sound counts as on, and window, the utterance class and the synth are plain stand-ins.
@@ -38,6 +38,10 @@ function stubSpeech(): FakeUtterance[] {
   return said;
 }
 
+import { resetVoicesForTest } from '../../src/platform/voices';
+
+// The read-aloud switches default to off; these tests are about the voices themselves.
+beforeEach(() => resetVoicesForTest({ story: true, ui: true }));
 afterEach(() => vi.unstubAllGlobals());
 
 describe('R0342 read-aloud voices', () => {

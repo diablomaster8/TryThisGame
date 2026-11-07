@@ -1,4 +1,4 @@
-import { paintJob, type PaintJob, type PaintedBytes } from '../samples/surface-paint';
+import { paintJob, type PaintJob, type PaintedBytes } from './art/surface-paint';
 
 /**
  * The texture worker: paints one of the Grove's surfaces or cards per request

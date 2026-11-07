@@ -1,6 +1,6 @@
 import { npcLookOf, type NpcLook } from '../config/npc-looks';
-import { V, type Prim } from '../samples/sculpted';
-import type { SpeciesSpec } from '../samples/species';
+import { V, type Prim } from './art/sculpted';
+import type { SpeciesSpec } from './art/species';
 
 /**
  * H12 in Full 3D: a named Keeper's silhouette prop, as extra primitives on the existing

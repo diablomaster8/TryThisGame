@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { PHOTO3D } from '../config/tuning-photo3d';
-import type { Expression, PoseName, Rigged } from '../samples/species';
+import type { Expression, PoseName, Rigged } from './art/species';
 
 /**
  * R0412 (LOOK-56): the Full 3D photo mode's camera and subjects. The UI (`ui/photo-3d.ts`)

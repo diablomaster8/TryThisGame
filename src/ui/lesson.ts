@@ -6,17 +6,12 @@
  */
 import { playVoClip, stopVoClip } from '../platform/lang-audio';
 import { playUiText, stopUiClips } from '../platform/edu-audio';
+import { isVoiceOn, noteSpeaking, onVoiceStop, type VoiceChannel } from '../platform/voices';
 import { EDU_STORY_TEXT } from '../config/strings';
 import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
 import { lineParts } from './line-parts';
 import type { Lesson, LessonOption } from '../content/types';
-import {
-  holdMusicDuck,
-  isAudioUnlocked,
-  isSoundEnabled,
-  playSound,
-  type SoundName,
-} from '../platform/audio';
+import { holdMusicDuck, isAudioUnlocked, playSound, type SoundName } from '../platform/audio';
 import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
@@ -207,12 +202,17 @@ function glossaryPattern(glossary: Map<string, string>): RegExp {
  * speech support.
  */
 export function speakLine(text: string, opts: SpeakOptions = {}): boolean {
+  // The read-aloud switches (platform/voices.ts) gate every spoken line here, whichever
+  // screen asked: story lines on "story", everything else on "ui". Off means no engine call.
+  const channel = opts.channel ?? 'ui';
+  if (!isVoiceOn(channel)) return false;
+  noteSpeaking(channel);
   if (playVoClip(opts.clipId, opts.onDone)) return true;
   // R0699: a fixed child-facing line plays from its recording once all its clips exist.
   if (!opts.clipId && playUiText(text, opts.onDone)) return true;
   try {
     const synth = window.speechSynthesis;
-    if (!synth || !isAudioUnlocked() || !isSoundEnabled()) return false;
+    if (!synth || !isAudioUnlocked()) return false;
     const said = withoutScript(text.replace(PROMPT, ' ')).replace(/\s+/g, ' ').trim();
     synth.cancel();
     if (!said) return false;
@@ -278,7 +278,11 @@ export interface SpeakOptions {
   onDone?: () => void;
   /** R0344: the line's stable id; a recorded clip plays in place of the device voice. */
   clipId?: string | undefined;
+  /** Which read-aloud switch governs this line: the story's, or (default) everything else. */
+  channel?: VoiceChannel;
 }
+
+onVoiceStop(() => stopSpeaking());
 
 export function stopSpeaking(): void {
   stopVoClip();

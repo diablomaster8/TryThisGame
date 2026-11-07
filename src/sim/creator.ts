@@ -1,8 +1,11 @@
 import { LIFECYCLE } from '../config/tuning';
+import { EGG_COLOR_LABELS, NAMES, SPECIES_LABELS, TYPE_LABELS } from '../config/strings';
+import { COSMETIC_LABELS } from '../config/strings-look';
+import { CREATOR_TEXT, GALLERY_TEXT, STAGE_NAMES } from '../config/strings-evo';
 import { COSMETICS } from '../config/cosmetics';
 import { createEgg, EGG_COLORS, JEWEL_EGG_COLORS } from './nubbin';
 import { hasRoom } from './roster';
-import { SPECIES, speciesOf } from './species';
+import { SPECIES, speciesOf, type Family } from './species';
 import { isSinglePocket, lineRoot } from './growth-stage';
 import type { AlignmentBand, Nubbin, NubbinType, SimEvent, World } from './types';
 import { NUBBIN_TYPES } from './types';
@@ -168,6 +171,132 @@ export function creatorTransform(
   applyPick(n, p, world);
   events.push({ kind: 'creatorApplied', nubbinId: n.id });
   return true;
+}
+
+/** One browsable version of one pet, for the creator gallery. */
+export interface CatalogueEntry {
+  id: string;
+  family: Family;
+  group: string;
+  label: string;
+  pick: CreatorPick;
+}
+
+const BAND_ORDER: readonly AlignmentBand[] = ['sun', 'moon', 'neutral'];
+const BAND_WORD: Record<AlignmentBand, string> = {
+  sun: NAMES.alignmentSun,
+  moon: NAMES.alignmentMoon,
+  neutral: NAMES.alignmentNeutral,
+};
+
+/** Every version of every pet, each a pick `pickProblem` accepts. Pure: no DOM. */
+export function creatorCatalogue(): CatalogueEntry[] {
+  const out: CatalogueEntry[] = [];
+  const G = GALLERY_TEXT.groups;
+  const add = (
+    id: string,
+    family: Family,
+    group: string,
+    label: string,
+    pick: CreatorPick,
+  ): void => {
+    out.push({ id, family, group, label, pick });
+  };
+  const colourName = (c: string): string => EGG_COLOR_LABELS[c] ?? c;
+  const chaoName = SPECIES_LABELS['chao'] ?? NAMES.creature;
+  add('chao:egg', 'chao', G.chaoEarly, `${chaoName} ${STAGE_NAMES.egg}`, {
+    species: 'chao',
+    stage: 'egg',
+  });
+  add('chao:child', 'chao', G.chaoEarly, CREATOR_TEXT.stages.child, {
+    species: 'chao',
+    stage: 'child',
+  });
+  for (const band of BAND_ORDER)
+    for (const type of NUBBIN_TYPES)
+      add(
+        `chao:first:${band}:${type}`,
+        'chao',
+        G.chaoFirst,
+        `${BAND_WORD[band]} ${TYPE_LABELS[type]}`,
+        { species: 'chao', stage: 'first', band, type },
+      );
+  for (const band of BAND_ORDER)
+    for (const type of NUBBIN_TYPES)
+      for (const second of NUBBIN_TYPES) {
+        const name = `${BAND_WORD[band]} ${TYPE_LABELS[type]} / ${TYPE_LABELS[second]}`;
+        add(`chao:second:${band}:${type}:${second}`, 'chao', G.chaoSecond, name, {
+          species: 'chao',
+          stage: 'second',
+          band,
+          type,
+          second,
+        });
+        add(
+          `chao:radiant:${band}:${type}:${second}`,
+          'chao',
+          G.chaoRadiant,
+          GALLERY_TEXT.chaosOf(name),
+          { species: 'chao', stage: 'radiant', band, type, second },
+        );
+      }
+  for (const band of BAND_ORDER)
+    add(`chao:eternal:${band}`, 'chao', G.chaoEternal, GALLERY_TEXT.eternalOf(BAND_WORD[band]), {
+      species: 'chao',
+      stage: 'eternal',
+      band,
+    });
+  for (const look of CREATOR_LOOKS)
+    add(
+      `chao:look:${look}`,
+      'chao',
+      G.chaoLooks,
+      GALLERY_TEXT.lookOn(COSMETIC_LABELS[look] ?? look),
+      { species: 'chao', stage: 'first', band: 'neutral', type: 'normal', look },
+    );
+  for (const c of CREATOR_COLOURS)
+    add(`chao:colour:${c}`, 'chao', G.chaoColours, GALLERY_TEXT.childOf(colourName(c)), {
+      species: 'chao',
+      stage: 'child',
+      eggColor: c,
+    });
+  add('chao:shiny', 'chao', G.chaoVariants, GALLERY_TEXT.shinyChild, {
+    species: 'chao',
+    stage: 'child',
+    shiny: true,
+  });
+  const tone = CREATOR_COLOURS.find((c) => c !== 'plain') ?? 'plain';
+  add('chao:twotone', 'chao', G.chaoVariants, GALLERY_TEXT.twoToneChild, {
+    species: 'chao',
+    stage: 'child',
+    tone,
+  });
+  for (const s of SPECIES) {
+    if (s.family === 'chao') continue;
+    const fam = s.family;
+    const name = SPECIES_LABELS[s.id] ?? s.id;
+    const baby = s.stage === 'baby';
+    const pocket = fam === 'pocket';
+    if (baby)
+      add(`${s.id}:child`, fam, pocket ? G.pocketBaby : G.digiBaby, name, {
+        species: s.id,
+        stage: 'child',
+      });
+    if (!baby || isSinglePocket(s.id))
+      add(
+        `${s.id}:adult`,
+        fam,
+        pocket ? G.pocketAdult : G.digiAdult,
+        baby ? GALLERY_TEXT.adultOf(name) : name,
+        { species: s.id, stage: 'adult' },
+      );
+    if (pocket && !s.evolve)
+      add(`${s.id}:radiant`, fam, G.pocketRadiant, GALLERY_TEXT.radiantOf(name), {
+        species: s.id,
+        stage: 'radiant',
+      });
+  }
+  return out;
 }
 
 // ---- SHA-256 (FIPS 180-4), small and synchronous so the sim can check the code ----

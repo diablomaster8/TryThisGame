@@ -3,8 +3,8 @@ import type { InteriorId } from '../config/stage-marks';
 import { CG4_C4, GROVE3D } from '../config/tuning';
 import { ROOM_FURNITURE, type Piece } from '../render/interior-layout';
 import { ROOM_LOOKS } from '../render/paint/interiors';
-import type { Tex } from '../samples/aaa-kit';
-import { toonShader } from '../samples/creatures';
+import type { Tex } from './art/aaa-kit';
+import { toonShader } from './art/creatures';
 import { box, cyl, Parts, sph } from './prop-kit';
 
 /**

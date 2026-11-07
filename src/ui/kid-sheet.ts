@@ -6,6 +6,7 @@
  */
 import { KID_SHEET_TEXT } from '../config/strings-kids';
 import type { Game } from '../game';
+import { applyVoices, masterMuteSettings } from '../platform/voices';
 import { setMusicEnabled, setMusicVolume, setSfxVolume, setSoundEnabled } from '../platform/audio';
 import { button, el, modal } from './dom';
 
@@ -113,9 +114,11 @@ export class KidSoundSheet {
     const g = this.game();
     if (!g) return;
     const on = !g.world.settings.sound;
-    g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
+    const muted = masterMuteSettings({ ...g.world.settings, sound: on, music: on }, on);
+    g.send({ kind: 'setSettings', settings: muted });
     setSoundEnabled(on);
     setMusicEnabled(on);
+    applyVoices(muted, g.world.edu);
     // The command lands on the next step; show the new state now.
     this.toggle.textContent = on ? `🔊 ${KID_SHEET_TEXT.soundOn}` : `🔇 ${KID_SHEET_TEXT.soundOff}`;
     this.toggle.setAttribute('aria-pressed', String(on));
