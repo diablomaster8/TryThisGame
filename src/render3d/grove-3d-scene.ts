@@ -50,6 +50,8 @@ import { crackWarmObject } from './egg-crack';
 import { uniqueStandIns } from './compile-unique';
 import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
+import { SnowSlideFx } from '../render/snow-slide-fx';
+import { SLIDE_FX } from '../config/tuning-r16d1';
 import { FinishPass } from './finish-pass';
 import { caveShed } from './cave-shed';
 import { GroveShed } from './grove-shed';
@@ -109,6 +111,9 @@ import { AmbientLife3d } from './ambient';
 import { RegionLife3d } from './region-life';
 import { RegionMarks3d } from './region-marks';
 import { ambientAwake } from '../render/ambient-life';
+
+/** R0118: scratch point for the snow slide spray. */
+const SLIDE_AT = new THREE.Vector3();
 
 /** R0094: the haze a drawn region's fog spell blends the scene's fog colour toward. */
 const FOG_WHITE = new THREE.Color('#e8eef2');
@@ -446,6 +451,8 @@ export class Grove3dScene {
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
+  /** R0118: the snow slide's swish and spray. */
+  private readonly slideFx = new SnowSlideFx();
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
   readonly frameMs: number[] = [];
   /** WORLD-14: the device tier, from the sculpt grid (`setSculptRes`); caps the grass. */
@@ -2122,6 +2129,19 @@ export class Grove3dScene {
       this.reduceMotion,
     );
     this.r9a.update(world, nowMs, this.actors.keeperPosition(), this.reduceMotion, standHeight);
+    // R0118: snow off the Keeper's feet while sliding (a scratch vector, no per-frame allocation).
+    if (this.slideFx.tick(world, nowMs)) {
+      const kp = this.actors.keeperPosition();
+      SLIDE_AT.set(kp.x, this.actors.keeperFeetY() + 0.1, kp.z);
+      this.bursts.burst(
+        'dust',
+        SLIDE_AT,
+        SLIDE_FX.count,
+        { spread: 0.25, speed: 0.8, rise: 0.3, lifeMs: 480 },
+        nowMs,
+        SLIDE_FX.colour,
+      );
+    }
 
     // Grass parting under the creatures nearest the camera.
     this.nearPushers.begin(this.camPos.x, this.camPos.z);

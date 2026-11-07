@@ -41,6 +41,7 @@ const BASE = URL_ARG || process.env.SMOKE_URL || 'http://localhost:4173/';
 const EDGE = process.env.EDGE || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const SHOTS = process.env.SMOKE_SHOTS || '';
 const LANDSCAPE = process.env.MOBILE_LANDSCAPE === '1';
+const GRAPHICS_3D = process.env.GRAPHICS === '3d';
 const VIEW = LANDSCAPE ? { width: 812, height: 375 } : { width: 375, height: 812 };
 const MIN = 44;
 
@@ -116,7 +117,7 @@ function measure(minSize) {
     hasTouch: true,
     deviceScaleFactor: 2,
   });
-  if (process.env.GRAPHICS === '3d') {
+  if (GRAPHICS_3D) {
     await ctx.addInitScript(() => {
       try {
         window.localStorage.setItem('grove.graphics', '3d');
@@ -169,7 +170,10 @@ function measure(minSize) {
     await check('title');
 
     // A Free Grove slot (the sandbox, so no story gates), straight to play.
-    await page.goto(`${BASE}?free&slot=3`, { waitUntil: 'domcontentloaded', timeout: 120000 });
+    await page.goto(`${BASE}?free&slot=3&e2e&debug`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 120000,
+    });
     await page.waitForSelector('.actionbar, #hud .topbar', { timeout: 120000 });
     await page.waitForTimeout(3500);
     await check('grove hud');
@@ -209,9 +213,49 @@ function measure(minSize) {
       await page.keyboard.press('Escape').catch(() => {});
     }
 
+    // The map (the compass opens it): the place labels must not sit on top of each other.
+    await page.evaluate(() =>
+      [...document.querySelectorAll('button')]
+        .find((e) => e.offsetParent && /^compass/i.test(e.getAttribute('aria-label') || ''))
+        ?.click(),
+    );
+    await page.waitForSelector('.wm-view', { timeout: 10000 }).catch(() => {});
+    await check('map');
+    const overlaps = await page.evaluate(() => {
+      const chips = [...document.querySelectorAll('.wm-chips > *')].filter((e) => {
+        const r = e.getBoundingClientRect();
+        return e.offsetParent && r.width > 0 && r.height > 0;
+      });
+      const out = [];
+      for (let i = 0; i < chips.length; i++) {
+        for (let j = i + 1; j < chips.length; j++) {
+          const a = chips[i].getBoundingClientRect();
+          const b = chips[j].getBoundingClientRect();
+          const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+          const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+          if (w > 3 && h > 3) {
+            const t = (e) => (e.textContent || '').trim().slice(0, 18);
+            out.push(
+              `"${t(chips[i])}" and "${t(chips[j])}" overlap ${Math.round(w)}x${Math.round(h)}`,
+            );
+          }
+        }
+      }
+      return { n: chips.length, out };
+    });
+    console.log(`${overlaps.out.length ? 'FAIL' : 'PASS'}  map labels (${overlaps.n} on the map)`);
+    for (const o of overlaps.out) {
+      console.log(`      ${o}`);
+      problems.push(`map labels: ${o}`);
+    }
+    await closePanel();
+    await page.keyboard.press('Escape').catch(() => {});
+
     // The debug panel (backtick): it holds the narrow text fields and selects the audit caught.
     await page.keyboard.press('Backquote');
-    await page.waitForSelector('.debug:not([hidden])', { timeout: 5000 }).catch(() => {});
+    await page
+      .waitForSelector('.debug:not([hidden])', { timeout: 5000 })
+      .catch(() => problems.push('debug panel: it did not open on the backtick (needs ?debug)'));
     await check('debug panel');
     await page.keyboard.press('Backquote');
     await page.waitForTimeout(300);
@@ -234,6 +278,185 @@ function measure(minSize) {
       await check(`settings tab ${i + 1} of ${tabs}`);
     }
     await closePanel();
+
+    // ---- A party, then a dojo bout and the Hollow (round 2) ----
+    // `?e2e` gives the production build `window.grove`; the debug panel starts the bout.
+    const hasGrove = await page.evaluate(() => !!(window.grove && window.grove.world));
+    if (!hasGrove) {
+      problems.push('window.grove is missing: the battle and Hollow steps need the ?e2e handle');
+    } else {
+      await page.evaluate(() => {
+        const g = window.grove;
+        for (const n of g.world.nubbins) {
+          if (n.stage === 'egg') g.send({ kind: 'debugHatchNow', nubbinId: n.id });
+        }
+      });
+      await page.waitForTimeout(3000);
+      // Hatch and guide pop-ups sit over everything: dismiss them like a player would.
+      const dismiss = async () => {
+        for (let k = 0; k < 6; k++) {
+          const did = await page.evaluate(() => {
+            const rx = /^(close|skip|i know how to play|ok|got it|not now|later)\b/i;
+            const b = [...document.querySelectorAll('button')].find(
+              (e) =>
+                e.getClientRects().length > 0 &&
+                !e.closest('.debug, .battle-screen, .bs-prebout, .hollow-bar, .hollow-phone-bar') &&
+                rx.test((e.textContent || '').replace(/[^\w ]/g, '').trim()),
+            );
+            if (b) b.click();
+            return !!b;
+          });
+          if (!did) break;
+          await page.waitForTimeout(500);
+        }
+      };
+      await dismiss();
+
+      // A dojo bout, from Debug > Battle: the sheet, the fight, and its side panels.
+      await page.keyboard.press('Backquote');
+      await page
+        .waitForSelector('.debug:not([hidden])', { timeout: 5000 })
+        .catch(() => problems.push('bout: the debug panel did not open'));
+      await page.evaluate(() => {
+        const det = document.querySelector('.debug-battle');
+        if (det) det.open = true;
+        const b = [...document.querySelectorAll('.debug-battle button')].find(
+          (e) => e.textContent === 'Dojo T1',
+        );
+        if (b) b.click();
+      });
+      await page.keyboard.press('Backquote');
+      await page.waitForSelector('.bs-prebout', { timeout: 10000 }).catch(() => {});
+      await check('bout sheet');
+      const playReach = await page.evaluate(() => {
+        const b = [...document.querySelectorAll('.bs-prebout button')].find((e) =>
+          /let.s play/i.test(e.textContent),
+        );
+        if (!b) return 'no "Let\'s play" button';
+        const r = b.getBoundingClientRect();
+        return r.top >= 0 && r.bottom <= window.innerHeight
+          ? ''
+          : `"Let's play" is off the screen (${Math.round(r.top)}..${Math.round(r.bottom)} of ${window.innerHeight})`;
+      });
+      console.log(
+        `${playReach ? 'FAIL' : 'PASS'}  bout sheet: start button on screen${playReach ? ` (${playReach})` : ''}`,
+      );
+      if (playReach) problems.push(`bout sheet: ${playReach}`);
+      await page.evaluate(() => {
+        const b = [...document.querySelectorAll('.bs-prebout button')].find((e) =>
+          /let.s play/i.test(e.textContent),
+        );
+        if (b) b.click();
+      });
+      await page.waitForSelector('.battle-screen .bs-tile', { timeout: 10000 }).catch(() => {});
+      await check('battle');
+      await page.evaluate(() => {
+        const b = [...document.querySelectorAll('.battle-screen button')].find((e) =>
+          /^types/i.test((e.textContent || '').trim()),
+        );
+        if (b) b.click();
+      });
+      await check('battle types card');
+      await page.evaluate(() => {
+        const b = [...document.querySelectorAll('button')].find(
+          (e) => e.getClientRects().length > 0 && /^got it/i.test((e.textContent || '').trim()),
+        );
+        if (b) b.click();
+      });
+      await page.waitForTimeout(500);
+      await page.evaluate(() => {
+        const b = [...document.querySelectorAll('.bs-tile')].find(
+          (e) => e.getClientRects().length > 0 && !e.disabled,
+        );
+        if (b) b.click();
+      });
+      await page.waitForTimeout(3500);
+      await check('battle after a move');
+      // Leave the bout: Back, then whatever asks to confirm.
+      for (let k = 0; k < 4; k++) {
+        await page.evaluate(() => {
+          // The confirmation's primary button leaves; otherwise Back asks first.
+          const yes = document.querySelector('.bs-confirm:not([hidden]) .btn-primary');
+          const back = [...document.querySelectorAll('.battle-screen button')].find(
+            (e) => e.getClientRects().length > 0 && /back/i.test(e.textContent || ''),
+          );
+          const b = yes || back;
+          if (b) b.click();
+        });
+        await page.waitForTimeout(700);
+      }
+
+      // The Hollow: the floor bar, the corner map, the phone bar and the engage button.
+      await dismiss();
+      await page.evaluate(() => window.grove.send({ kind: 'enterDungeon', daily: false }));
+      await page
+        .waitForSelector('.hollow-bar', { state: 'visible', timeout: 30000 })
+        .catch(() => {});
+      await page.waitForTimeout(GRAPHICS_3D ? 8000 : 3000);
+      await dismiss();
+      await check('hollow hud');
+      const hollowOverlaps = await page.evaluate(() => {
+        const rect = (sel) => {
+          const e = [...document.querySelectorAll(sel)].find((x) => x.getClientRects().length > 0);
+          return e ? e.getBoundingClientRect() : null;
+        };
+        const bar = rect('.hollow-bar');
+        const pairs = [
+          ['floor bar', bar],
+          ['compass', rect('.compass')],
+          ['corner map', rect('.hollow-map:not([hidden])')],
+        ];
+        const out = [];
+        const over = (a, b) =>
+          Math.min(a.right, b.right) - Math.max(a.left, b.left) > 3 &&
+          Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 3;
+        for (let i = 0; i < pairs.length; i++) {
+          for (let j = i + 1; j < pairs.length; j++) {
+            const a = pairs[i][1];
+            const b = pairs[j][1];
+            if (a && b && over(a, b)) out.push(`${pairs[i][0]} sits on the ${pairs[j][0]}`);
+          }
+        }
+        const fab = [...document.querySelectorAll('.hollow-engage-fab')].find(
+          (x) => x.getClientRects().length > 0,
+        );
+        if (fab) {
+          const r = fab.getBoundingClientRect();
+          const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height - 4);
+          if (top && top !== fab && !fab.contains(top)) {
+            const what = `${top.tagName.toLowerCase()}.${[...top.classList].join('.')}`;
+            out.push(`the engage button is covered by ${what}`);
+          }
+        }
+        return out;
+      });
+      console.log(
+        `${hollowOverlaps.length ? 'FAIL' : 'PASS'}  hollow hud: nothing sits on anything`,
+      );
+      for (const o of hollowOverlaps) {
+        console.log(`      ${o}`);
+        problems.push(`hollow hud: ${o}`);
+      }
+      const phoneBtn = async (re) =>
+        page.evaluate((src) => {
+          const rx = new RegExp(src, 'i');
+          const b = [...document.querySelectorAll('.hollow-phone-bar button')].find(
+            (e) => e.getClientRects().length > 0 && rx.test(e.textContent || ''),
+          );
+          if (b) b.click();
+          return !!b;
+        }, re.source);
+      if (await phoneBtn(/map/)) {
+        await check('hollow map');
+        await phoneBtn(/map/);
+      }
+      if (await phoneBtn(/more/)) {
+        await check('hollow more');
+        await phoneBtn(/less|more/);
+      }
+      await page.evaluate(() => window.grove.send({ kind: 'leaveDungeon' }));
+      await page.waitForTimeout(1500);
+    }
 
     // The stats sheet of the first egg (tap it through the sim handle if the build has one).
     const opened = await page.evaluate(() => {

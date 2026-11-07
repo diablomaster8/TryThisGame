@@ -439,6 +439,8 @@ export class HollowMap {
     this.panel.hidden = true;
     this.panel.setAttribute('role', 'region');
     this.panel.setAttribute('aria-label', T.open);
+    // The panel scrolls on a short screen and holds no control, so a keyboard needs a way in.
+    this.panel.tabIndex = 0;
     this.panel.append(this.canvas, this.legend);
     parent.appendChild(this.panel);
     this.overlay.hidden = true;

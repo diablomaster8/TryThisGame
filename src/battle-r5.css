@@ -149,6 +149,21 @@
   gap: 6px;
   margin-top: auto;
   padding-top: 10px;
+  /* Phone pass round 2: on a landscape phone the sheet is taller than the screen and the
+     "Let's play!" button sat below the fold. It stays at the bottom edge, and the way back
+     stays at the top, while the middle scrolls. */
+  position: sticky;
+  bottom: calc(-1 * max(12px, env(safe-area-inset-bottom)));
+  z-index: 2;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  background: linear-gradient(to top, #0d0a1a 80%, rgba(13, 10, 26, 0));
+}
+.bs-prebout-head {
+  position: sticky;
+  top: calc(-1 * max(8px, env(safe-area-inset-top)));
+  z-index: 2;
+  padding-block: 4px;
+  background: #0d0a1a;
 }
 .bs-pb-skip {
   min-height: 48px;

@@ -285,6 +285,7 @@ export function drawKitExtras(
   const extras = spec.extras;
   if (!extras || extras.length === 0) return;
   const col = spec.colors;
+  const kk = (spec.grid ?? 32) / 32;
   const side = a.face >= 1;
   const top = a.headCy - a.headRy;
   const ey = a.headCy + (spec.plan === 'round' ? 0 : 1);
@@ -339,8 +340,8 @@ export function drawKitExtras(
         pc.ellipse(a.headCx - (side ? 1 : 0), top + 2.5, a.headRx + 0.5, 3, bark);
         pc.line(a.headCx - a.headRx + 1, top + 4, a.headCx + a.headRx - 1, top + 4, C.darkBark);
         if (side) {
-          pc.tri(a.headCx - 3, top + 1, a.headCx, top + 1, a.headCx - 5, top - 5, horn);
-          if (!a.back) pc.tri(fx - 2, top + 5, fx, top + 6, fx + 1, top + 1, horn);
+          pc.tri(a.headCx - 3, top + 1, a.headCx, top + 1, a.headCx - 5 * kk, top - 5 * kk, horn);
+          if (!a.back) pc.tri(fx - 2, top + 5, fx, top + 6, fx + 1, top + 1 - (kk - 1) * 3, horn);
         } else {
           for (const d of [-1, 1] as const)
             pc.tri(
@@ -348,8 +349,8 @@ export function drawKitExtras(
               top + 2,
               a.headCx + d * (a.headRx - 4),
               top + 1,
-              a.headCx + d * (a.headRx + 2),
-              top - 5,
+              a.headCx + d * (a.headRx + 2 * kk),
+              top - 5 * kk,
               horn,
             );
           if (!a.back)
