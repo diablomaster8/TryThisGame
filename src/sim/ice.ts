@@ -5,7 +5,7 @@
  * keeper, nav and behaviour read it.
  */
 import { GROVE } from '../config/tuning';
-import { ICE } from '../config/tuning-r14d2';
+import { ICE } from '../config/tuning-more/world-edu-trail-ice';
 import { WATER_LEVEL } from './terrain';
 import type { Vec2, World } from './types';
 

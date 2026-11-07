@@ -1,5 +1,5 @@
 import type { RegionId } from '../config/regions';
-import { WILD_NUBBIN } from '../config/tuning-r12d2';
+import { WILD_NUBBIN } from '../config/tuning-more/world-content-tables';
 import { hashSeed } from './rng';
 import { scatterSpots } from './region-spots';
 import { drawnRegionOf } from './region-walk';

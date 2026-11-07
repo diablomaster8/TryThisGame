@@ -58,7 +58,7 @@ function dungeonGroup1(
   return;
 }
 
-export const handlers: Handlers = {
+export const handlers = {
   // Lane C: the battle core keeps the live bout in world.battle.
   battleStart(world, cmd, events) {
     startBattleCmd(world, cmd.context, events);
@@ -275,4 +275,4 @@ export const handlers: Handlers = {
     feedStray(world, cmd.id, events);
     return;
   },
-};
+} satisfies Handlers;

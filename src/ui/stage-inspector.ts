@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { markSetFor, STAGE_MARKS } from '../config/stage-marks';
-import { STAGE4 } from '../config/tuning-f4';
+import { STAGE4 } from '../config/tuning-more/campaign4-fit-shots';
 import type { Game } from '../game';
 import { terraceY } from '../render/scene-stage';
 import { safeRect, viewRect } from '../render/stage-api';

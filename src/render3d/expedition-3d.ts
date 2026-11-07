@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { minigameNowMs } from '../minigames/frame-time';
 import { EXPEDITION3D, READ3D } from '../config/tuning';
 import { EXPEDITION3D_PORTRAIT } from '../config/tuning-fx3d';
 import { NAMES } from '../config/strings';
@@ -7,7 +8,7 @@ import { progressOf, type RunState, type ThingKind } from '../minigames/expediti
 import { buildGrass } from './art/aaa-kit';
 import type { Rigged } from './art/species';
 import type { SpriteSheet } from '../render/sprites/atlas';
-import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../config/tuning-more/soul-old-souls';
 import type { Nubbin, NubbinType, Personality } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
@@ -70,7 +71,7 @@ export class Expedition3dView implements ExpeditionView {
     this.nameTag.textContent = runner.name || NAMES.creature;
     this.look = nubbinLook(runner);
     this.personality = runner.personality;
-    this.openedMs = performance.now();
+    this.openedMs = minigameNowMs();
     this.lastEventAt = -1;
     this.lastMs = 0;
     const back = EXPEDITION3D.backdrop[theme];
@@ -212,7 +213,7 @@ export class Expedition3dView implements ExpeditionView {
     if (!stage || !e || e.atMs === this.lastEventAt) return;
     this.lastEventAt = e.atMs;
     this.at.set(at.x + 0.2, at.y + 0.7, 0);
-    const now = performance.now();
+    const now = minigameNowMs();
     if (e.kind === 'hit') {
       stage.kick(EXPEDITION3D.shake);
       if (!stage.reduceMotion) stage.bursts.burst('dust', this.at, 10, BURST.hit, now);

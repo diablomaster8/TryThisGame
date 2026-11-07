@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { REGIONS, REGION_ORDER } from '../../src/config/regions';
 import { regionLayout, walkableAt } from '../../src/config/region-layout';
 import { WOOD_PATH, WOOD_POIS, WOOD_SPEC } from '../../src/config/region-wood';
-import { REGION_ORIGIN } from '../../src/config/tuning-r11d1';
+import { REGION_ORIGIN } from '../../src/config/tuning-more/world-region-engine';
 import { SIM } from '../../src/config/tuning';
 import { WORLD_STREAM } from '../../src/config/tuning-world';
 import { regionOf } from '../../src/sim/regions';

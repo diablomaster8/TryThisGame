@@ -20,7 +20,7 @@ import { renderBeat } from './do-beats'; /* Lane E r10, R0700 */
 import { doBeatFor } from './do-plan';
 import { currentVoice } from '../platform/voice';
 import { bestVoice, pauseAfterLine, shoutChunks, voiceFor } from './read-aloud';
-import { READ_ALOUD } from '../config/tuning-fun-r7';
+import { READ_ALOUD } from '../config/tuning-more/fun-voice-antics';
 import { KIDS_STORY_TEXT } from '../config/strings-story-r11e';
 import { childPrompts, type CoPlayMode } from './co-play';
 

@@ -1,7 +1,7 @@
 import type { SceneStage } from './story';
 import type { Season } from '../sim/types';
-import { CG2_Y } from './tuning-y';
-import { CG4_B4 } from './tuning-b4';
+import { CG2_Y } from './tuning-more/campaign2-night-grade';
+import { CG4_B4 } from './tuning-more/campaign4-people-tale-grade';
 import { GROVE, LANTERN_POSTS, STORY } from './tuning';
 
 /**

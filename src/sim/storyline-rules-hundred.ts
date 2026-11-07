@@ -5,7 +5,7 @@ import { createEgg } from './nubbin';
 import { setPartner } from './partners';
 import { Rng } from './rng';
 import { speciesByFamily } from './species';
-import { HUNDRED_PROSPERITY_GAIN } from '../config/tuning-camp11c';
+import { HUNDRED_PROSPERITY_GAIN } from '../config/tuning-more/story-open-lines';
 import { isSharedLine, registerStorylineRule } from './storyline-rules';
 import { counter, storyPartner } from './storyline-checks';
 import { setWeather } from './weather';

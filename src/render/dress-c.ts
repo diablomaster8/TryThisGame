@@ -15,7 +15,7 @@ import {
 import type { Vector3 } from 'three';
 import { GROVE } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
-import { CG_C } from '../config/tuning-c';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 import type { SceneStage } from '../config/story';
 import { hillHeight, rampPath, TERRACES } from '../sim/terrain';
 import type { World } from '../sim/types';

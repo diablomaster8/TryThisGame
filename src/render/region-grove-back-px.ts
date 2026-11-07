@@ -1,4 +1,4 @@
-import { BORDER } from '../config/tuning-r9d2';
+import { BORDER } from '../config/tuning-more/ui-tap-prints-border';
 import type { World } from '../sim/types';
 import { borderBlockers, borderEdge } from '../sim/border';
 import type { ChunkMask, SpriteCuller } from './chunks';

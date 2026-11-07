@@ -1,5 +1,5 @@
 import { hasRoom } from './roster';
-import { EDU_SOUL } from '../config/tuning-fun-r7';
+import { EDU_SOUL } from '../config/tuning-more/fun-voice-antics';
 import { GROVE, NEEDS, TRUST } from '../config/tuning';
 import type { Nubbin, SimEvent, Stray, World } from './types';
 

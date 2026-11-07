@@ -1,5 +1,5 @@
 import type { ReadonlyWorld } from './readonly-world';
-import { PUDDLES } from '../config/tuning-r11d6';
+import { PUDDLES } from '../config/tuning-more/world-overview-puddles';
 import { Raster, hex } from './paint/raster';
 import { RasterAtlas } from './paint/atlas';
 import type { SpriteSheet } from './sprites/atlas';

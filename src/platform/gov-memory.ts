@@ -4,7 +4,7 @@
  * renderer (`GOV_MEMORY.key3d`, `keyPx`), every access in try/catch: blocked storage only
  * means each boot starts from the tier's settings.
  */
-import { GOV_MEMORY } from '../config/tuning-r8d-perf';
+import { GOV_MEMORY } from '../config/tuning-more/perf-tiers';
 
 export type GovMemoryValue = Record<string, number>;
 

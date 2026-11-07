@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CG4_D4 } from '../../src/config/tuning-d4';
+import { CG4_D4 } from '../../src/config/tuning-more/campaign4-hush-depth';
 import {
   hushFog,
   hushPathAt,

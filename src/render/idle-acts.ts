@@ -10,7 +10,7 @@
  * already draw. Reduced motion keeps the poses and props and drops the spin and hops. A trip
  * never cries.
  */
-import { IDLE_ACTS } from '../config/tuning-look-r10e';
+import { IDLE_ACTS } from '../config/tuning-more/look-creature-fx';
 import type { Nubbin, Vec2 } from '../sim/types';
 import type { PoseName } from '../render3d/art/species';
 import { gagAt, gagPersonality } from './gag-play';

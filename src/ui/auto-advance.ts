@@ -5,7 +5,7 @@
  * beat (those fill the choice row, which stops it). A small ▶️/⏸️ toggle on the box flips the
  * same switch. The dialogue owns the lines; this owns the timer and the toggle.
  */
-import { KIDS_READ } from '../config/tuning-look-r9e';
+import { KIDS_READ } from '../config/tuning-more/kids-session-flow';
 import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
 import type { Game } from '../game';
 import { button } from './dom';

@@ -8,7 +8,7 @@
  * personality). Nothing here is read by `stepRace`, `staminaPool` or any result.
  */
 import { RACE_COUNT, RACE_VOICE } from '../config/strings-soul-r11h';
-import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../config/tuning-more/soul-old-souls';
 import { h01 } from './soul-kit';
 import type { Racer, RaceState } from './race';
 import type { Personality } from './types';

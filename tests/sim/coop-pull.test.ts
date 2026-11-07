@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { KEEPER2_PULL } from '../../src/config/tuning-r13d2';
+import { KEEPER2_PULL } from '../../src/config/tuning-more/world-backdrops';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 // R0140: Keeper 2 left far behind with an idle stick walks back; a held stick overrides it.

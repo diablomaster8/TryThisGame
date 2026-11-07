@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PKG_E4_STAGES } from '../../src/config/scene-stages-pkg-e4';
 import type { SceneStage } from '../../src/config/story';
-import { CG4_E4 } from '../../src/config/tuning-e4';
+import { CG4_E4 } from '../../src/config/tuning-more/campaign4-world-detail';
 import {
   paintBird,
   paintCrop,

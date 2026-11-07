@@ -1,5 +1,5 @@
 import { FLIGHT_SPOTS } from '../sim/flight-zones';
-import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { CANOPY_CUT, FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { regionCameraFor } from '../config/region-camera';
 import { regionOf } from '../sim/regions';
 import { openSky } from '../render/cave-bands';
@@ -11,7 +11,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, SHADOW_MERGE, UI } from '../config/tuning';
-import { POOL_LOOKS } from '../config/tuning-r10d1';
+import { POOL_LOOKS } from '../config/tuning-more/perf-view-cache';
 import {
   PERF_BUDGET,
   WORLD_LOD,
@@ -22,7 +22,7 @@ import {
   type DeviceTier,
 } from '../config/tuning-world';
 import { KEEPER_JUMP_FX } from '../config/tuning-move';
-import { KEEPER_POOF } from '../config/tuning-move-r10';
+import { KEEPER_POOF } from '../config/tuning-more/move-keeper-ui';
 import { WATER_LEVEL } from '../sim/terrain';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
@@ -53,7 +53,7 @@ import { FinishPass } from './finish-pass';
 import { caveShed } from './cave-shed';
 import { GroveShed } from './grove-shed';
 import { GovMemory } from '../platform/gov-memory';
-import { GOV_MEMORY, TIER_BUDGET, type PerfTier } from '../config/tuning-r8d-perf';
+import { GOV_MEMORY, TIER_BUDGET, type PerfTier } from '../config/tuning-more/perf-tiers';
 import { DofPass } from './dof-pass';
 import { applyPhotoCam, type PhotoCam, type PhotoSubject } from './photo-cam';
 import { Turntable } from './turntable-3d';
@@ -89,8 +89,8 @@ import {
 import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
 import { LOOK_STATE } from '../config/npc-looks';
 import { stageHides } from '../config/stage-sets';
-import { STAGE2 } from '../config/tuning-f2';
-import { STAGE4 } from '../config/tuning-f4';
+import { STAGE2 } from '../config/tuning-more/campaign2-staging';
+import { STAGE4 } from '../config/tuning-more/campaign4-fit-shots';
 import { StageBuildings3d } from './stage-buildings-3d';
 import { Dressings3d } from './dressings';
 import { Village } from './village';

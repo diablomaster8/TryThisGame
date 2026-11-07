@@ -4,7 +4,7 @@
 import { describe, expect, it } from 'vitest';
 import { REGIONS } from '../../src/config/regions';
 import { SIM } from '../../src/config/tuning';
-import { BORDER } from '../../src/config/tuning-r9d2';
+import { BORDER } from '../../src/config/tuning-more/ui-tap-prints-border';
 import { borderBlockers, borderEdge, BORDER_WAYS } from '../../src/sim/border';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';

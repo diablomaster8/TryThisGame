@@ -29,7 +29,7 @@ import { costumeOf } from '../sim/wear';
 import { SculptFarm } from './sculpt-farm';
 import { qualityForRes } from './sculpt-res';
 import { stubOnce } from './stubs';
-import { POOL_SHED } from '../config/tuning-r12d3';
+import { POOL_SHED } from '../config/tuning-more/perf-heap-pool';
 import { glbFor, glbRig } from './glb-art';
 
 /**

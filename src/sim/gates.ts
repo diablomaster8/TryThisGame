@@ -1,4 +1,4 @@
-import { GATE_MAX_CHAPTER } from '../config/tuning-camp11c';
+import { GATE_MAX_CHAPTER } from '../config/tuning-more/story-open-lines';
 import { audienceAllowed } from './audience';
 import type { World } from './types';
 

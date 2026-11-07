@@ -1,4 +1,4 @@
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 
 /**
  * K35, pixel: the wind's two-frame sway for bushes and banners. The d4 dressing sets `lean`

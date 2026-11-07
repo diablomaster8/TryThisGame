@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { AMBIENT_LIFE } from '../../src/config/tuning-r11d8';
+import { AMBIENT_LIFE } from '../../src/config/tuning-more/world-region-sky';
 import {
   ambientAwake,
   ambientFor,

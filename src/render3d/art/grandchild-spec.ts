@@ -1,7 +1,7 @@
 import { GRANDCHILD3D } from '../../config/tuning-fx3d';
-import { keeperSpec, type KeeperColors } from './keeper-spec';
+import { keeperSpec, type KeeperSpecColors } from './keeper-spec';
 import { V, type Prim } from './sculpted';
-import type { Mark, SpeciesSpec } from './species';
+import type { SpeciesMark, SpeciesSpec } from './species';
 import { tuft, tuftRow } from './species-kit';
 
 /**
@@ -20,12 +20,12 @@ import { tuft, tuftRow } from './species-kit';
  * trousers, shoes, trim) through `keeperColours`, so switching Keeper changes only those, the
  * Sun or Moon trim and the badge. Hair, skin and eyes are the grandchild's own.
  */
-export function grandchildColours(outfit: KeeperColors): KeeperColors {
+export function grandchildColours(outfit: KeeperSpecColors): KeeperSpecColors {
   const g = GRANDCHILD3D;
   return { ...outfit, hair: g.hair, skin: g.skin, blush: g.blush, iris: g.iris };
 }
 
-function hair(c: KeeperColors): Prim[] {
+function hair(c: KeeperSpecColors): Prim[] {
   const g = GRANDCHILD3D;
   const ell = (x: number, y: number, z: number, rx: number, ry: number, rz: number): Prim => ({
     kind: 'ellipsoid',
@@ -78,9 +78,9 @@ function hair(c: KeeperColors): Prim[] {
   ];
 }
 
-function marks(c: KeeperColors): Mark[] {
+function marks(c: KeeperSpecColors): SpeciesMark[] {
   const g = GRANDCHILD3D;
-  const dot = (x: number, y: number, z: number): Mark => ({
+  const dot = (x: number, y: number, z: number): SpeciesMark => ({
     kind: 'sphere',
     a: V(x, y, z),
     r: 0.03,
@@ -92,7 +92,7 @@ function marks(c: KeeperColors): Mark[] {
     [0.38, 2.5, 0.51],
     [0.35, 2.4, 0.53],
   ].flatMap(([x, y, z]) => [dot(-x!, y!, z!), dot(x!, y!, z!)]);
-  const strap = (s: -1 | 1): Mark => ({
+  const strap = (s: -1 | 1): SpeciesMark => ({
     kind: 'capsule',
     a: V(0.24 * s, 1.98, 0.4),
     b: V(-0.28 * s, 2.0, -0.4),
@@ -100,7 +100,7 @@ function marks(c: KeeperColors): Mark[] {
     color: c.vest,
     soft: 0,
   });
-  const button = (s: -1 | 1): Mark => ({
+  const button = (s: -1 | 1): SpeciesMark => ({
     kind: 'sphere',
     a: V(0.24 * s, 1.96, 0.45),
     r: 0.05,
@@ -109,7 +109,7 @@ function marks(c: KeeperColors): Mark[] {
   });
   // The badge again, on the bib (the stock one sits under it): a sun disc or a crescent cut
   // by a disc of the bib colour.
-  const badge: Mark[] =
+  const badge: SpeciesMark[] =
     c.emblem === 'sun'
       ? [{ kind: 'sphere', a: V(0, 1.72, 0.53), r: 0.11, color: c.badge, soft: 0 }]
       : [
@@ -138,7 +138,7 @@ function marks(c: KeeperColors): Mark[] {
 }
 
 /** The grandchild in an outfit (the picked role's colours for its side). */
-export function grandchildSpec(outfit: KeeperColors): SpeciesSpec {
+export function grandchildSpec(outfit: KeeperSpecColors): SpeciesSpec {
   const c = grandchildColours(outfit);
   return keeperSpec(c, 'Grandchild', {
     hair: hair(c),

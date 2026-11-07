@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BATTLE_R6 } from '../../src/config/tuning-battle-r6';
+import { BATTLE_R6 } from '../../src/config/tuning-more/battle-ladder-fusion';
 import { battleAct, createBattle, onField, type BattleState } from '../../src/sim/battle';
 import { hatch } from '../../src/sim/lifecycle';
 import { STAT_KEYS, type SimEvent, type World } from '../../src/sim/types';

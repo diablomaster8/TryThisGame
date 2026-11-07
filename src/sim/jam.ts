@@ -13,7 +13,7 @@
  * never the world's rng. Live play only; nothing forms while catching up on time away.
  * Behaviour and looks only, never stats.
  */
-import { JAM } from '../config/tuning-soul-r11g';
+import { JAM } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
 import { lessonLevel } from './kindergarten';

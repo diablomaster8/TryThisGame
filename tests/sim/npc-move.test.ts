@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SCENE_STAGES } from '../../src/config/scene-stages';
-import { E_STAGES } from '../../src/config/tuning-e';
+import { E_STAGES } from '../../src/config/tuning-more/campaign-people-lanterns';
 import { CAMPAIGN_SCENES } from '../../src/content/campaign';
 import { STORYLINE_BEETLE } from '../../src/content/storyline-beetle';
 import { STORYLINE_DAWN, STORYLINE_DUSK } from '../../src/content/storyline-dawndusk';

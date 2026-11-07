@@ -4,7 +4,7 @@
  * `PACKS.ranges`). Finishing every caper of a pack keeps a one-time pack keepsake,
  * `pack-<id>`, in `inventory.keepsakes`; walking a caper again gives nothing more. Pure.
  */
-import { PACKS } from '../config/tuning-camp11-profiles';
+import { PACKS } from '../config/tuning-more/story-profiles-packs';
 import type { CampaignState, SimEvent, World } from './types';
 
 export type PackId = (typeof PACKS.ranges)[number]['id'];

@@ -4,7 +4,7 @@
  * allows, until `SHY_TRUST.allowsUntil`, get a line that admits nothing. Null for anyone else.
  */
 import { SHY_LINES } from '../config/strings-fun-r7';
-import { SHY_TRUST } from '../config/tuning-fun-r7';
+import { SHY_TRUST } from '../config/tuning-more/fun-voice-antics';
 import type { Interaction, Nubbin } from '../sim/types';
 import type { ToastBand } from '../config/strings-fun-r5';
 

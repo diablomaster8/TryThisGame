@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { TIDY } from '../../src/config/tuning-soul-r10';
+import { TIDY } from '../../src/config/tuning-more/soul-friends-rivals';
 import { evolve, hatch } from '../../src/sim/lifecycle';
 import { toyCorner } from '../../src/sim/tidy';
 import { createWorld, stepWorld } from '../../src/sim/world';

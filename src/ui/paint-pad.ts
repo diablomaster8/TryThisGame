@@ -5,7 +5,7 @@
  * `draw` do-beat. Draws on a canvas; the only sim write is the `saveDrawing` command.
  */
 import { PAINT_TEXT } from '../config/strings-paint';
-import { PAINT } from '../config/tuning-kids-r11e';
+import { PAINT } from '../config/tuning-more/kids-noticing';
 import type { Game } from '../game';
 import { PALETTE } from '../render/sprites/palette';
 import { nubbinPortrait } from './battle-party-pick';

@@ -22,7 +22,7 @@ import {
   KEEPER_SPEC,
   KEEPER_SUN,
   keeperSpec,
-  type KeeperColors,
+  type KeeperSpecColors,
 } from './art/keeper-spec';
 import { NUBBIN_SPEC } from './art/species-data';
 import { grandchildSpec } from './art/grandchild-spec';
@@ -253,7 +253,7 @@ function ashen(base: SpeciesSpec): SpeciesSpec {
  * carry the Sun or Moon side (the outfit's shirt shade and hat band). Skin, blush, eyes, the
  * soles, the goggle glass and the badge stay the side's own.
  */
-export function keeperColours(trainerId: string, side: 'sun' | 'moon'): KeeperColors {
+export function keeperColours(trainerId: string, side: 'sun' | 'moon'): KeeperSpecColors {
   const base = side === 'moon' ? KEEPER_MOON : KEEPER_SUN;
   const o = keeperOutfit(trainerId, side);
   return {

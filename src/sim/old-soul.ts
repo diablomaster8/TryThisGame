@@ -6,7 +6,7 @@
  * Eternal sitting still and the child learning a little by watching. Live play only,
  * behaviour and looks only.
  */
-import { OLD_SOUL_TEACH } from '../config/tuning-soul-r11h';
+import { OLD_SOUL_TEACH } from '../config/tuning-more/soul-old-souls';
 import { soulLive } from './antics';
 import { react } from './behavior';
 import { act, dist, h01, idle, stillIn } from './soul-kit';

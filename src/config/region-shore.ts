@@ -12,7 +12,7 @@
  */
 import type { PoiDef } from './regions';
 import type { RegionSpec } from './region-layout';
-import { SHORE_LOOK } from './tuning-r11d7';
+import { SHORE_LOOK } from './tuning-more/world-region-lands';
 
 /** The beach path, west (the Grove's border) to east (the lighthouse). */
 export const SHORE_PATH: readonly { x: number; z: number }[] = [

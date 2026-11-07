@@ -1,4 +1,4 @@
-import { CG_C } from '../config/tuning-c';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 
 /**
  * One atlas of painted numbers (campaign graphics H15), shared by both renderers: the

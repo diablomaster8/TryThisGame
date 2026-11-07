@@ -1,6 +1,6 @@
 /**
  * R0127 (WORLD-61): the world teaches its rules once, in the world. Each mechanic has a safe,
- * obvious spot in the Grove (`WORLD_HINTS` in config/tuning-r9d4.ts); the first time the Keeper
+ * obvious spot in the Grove (`WORLD_HINTS` in config/tuning-more/ui-world-hints.ts); the first time the Keeper
  * walks there while the mechanic applies, one narrator line shows with an icon, and
  * `world.hintsSeen` (an optional save field) remembers it so it never repeats. Two hints never
  * land within `gapMs` of each other: the later one simply waits for the next pass. Only live
@@ -10,8 +10,11 @@
  * reaching the nook at the falls' foot finds it once (`world.secrets`): a statue for the
  * garden and a few Shells. Without the key the nook only shows its keyhole, once.
  */
-import { WORLD_HINTS, SECRETS, type HintId } from '../config/tuning-r9d4';
+import { WORLD_HINTS, SECRETS, type HintId } from '../config/tuning-more/ui-world-hints';
+import { REGION_SECRETS } from '../config/tuning-r15d1';
 import { regionOf } from './regions';
+import { drawnRegionOf } from './region-walk';
+import { spotNear } from './region-spots';
 import { examineTrace } from './regions-trace';
 import { keeperPerks } from './perks';
 import { rideRefusal } from './ride';
@@ -58,14 +61,15 @@ function show(world: World, id: string, events: SimEvent[]): boolean {
 const lastAt = new WeakMap<World, { x: number; z: number }>();
 
 export function stepWorldHints(world: World, events: SimEvent[]): void {
-  if (world.location !== 'grove' || world.campaign?.queue.length) return;
+  const here = world.location === 'grove' ? 'grove' : drawnRegionOf(world.location);
+  if (!here || world.campaign?.queue.length) return;
   const k = world.keeper.pos;
   const at = lastAt.get(world);
   if (at && at.x === k.x && at.z === k.z) return;
   lastAt.set(world, { x: k.x, z: k.z });
   const region = regionOf(world.location);
   const seen = world.hintsSeen ?? {};
-  for (const h of WORLD_HINTS.spots) {
+  for (const h of here === 'grove' ? WORLD_HINTS.spots : []) {
     if (h.region !== region || seen[h.id] !== undefined) continue;
     if (Math.hypot(h.x - k.x, h.z - k.z) > WORLD_HINTS.radius) continue;
     if (!applies(world, h.id)) continue;
@@ -75,14 +79,36 @@ export function stepWorldHints(world: World, events: SimEvent[]): void {
   stepSecret(world, region, events);
 }
 
+/**
+ * R0096: where a region's secret is. The Grove's is authored; the Sun and Moon lands' are
+ * wanted spots snapped to open reachable ground (so the Keeper can always walk to them).
+ */
+const secretAt = new Map<
+  string,
+  { x: number; z: number; reward: { decor: 'statue'; shells: number } } | null
+>();
+export function secretSpot(
+  region: ReturnType<typeof regionOf>,
+): { x: number; z: number; reward: { decor: 'statue'; shells: number } } | null {
+  const g = SECRETS.spots[region];
+  if (g) return g;
+  const w = REGION_SECRETS[region];
+  if (!w) return null;
+  if (secretAt.has(region)) return secretAt.get(region)!;
+  const p = spotNear(region, w.x, w.z);
+  const out = p ? { x: p.x, z: p.z, reward: w.reward } : null;
+  secretAt.set(region, out);
+  return out;
+}
+
 /** R0111: the region's secret, found once with its Old Key. */
 function stepSecret(world: World, region: ReturnType<typeof regionOf>, events: SimEvent[]): void {
-  const s = SECRETS.spots[region];
+  const s = secretSpot(region);
   if (!s || world.secrets?.[region] !== undefined) return;
   const k = world.keeper.pos;
   if (Math.hypot(s.x - k.x, s.z - k.z) > SECRETS.radius) return;
   if (!hasKey(world, region)) {
-    show(world, 'nook', events);
+    show(world, region === 'grove' ? 'nook' : `nook-${region}`, events);
     return;
   }
   (world.secrets ??= {})[region] = world.timeMs;
@@ -94,9 +120,9 @@ function stepSecret(world: World, region: ReturnType<typeof regionOf>, events: S
 
 /** R0111: the nook twinkles while its key is held and the secret is unfound (render reads it). */
 export function secretGlint(world: World): { x: number; z: number } | null {
-  if (world.location !== 'grove') return null;
+  if (world.location !== 'grove' && !drawnRegionOf(world.location)) return null;
   const region = regionOf(world.location);
-  const s = SECRETS.spots[region];
+  const s = secretSpot(region);
   if (!s || world.secrets?.[region] !== undefined || !hasKey(world, region)) return null;
   const k = world.keeper.pos;
   return Math.hypot(s.x - k.x, s.z - k.z) <= SECRETS.glintRadius ? { x: s.x, z: s.z } : null;

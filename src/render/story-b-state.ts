@@ -1,4 +1,4 @@
-import { STORY_B } from '../config/tuning-b';
+import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
 import { STORY } from '../config/tuning';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';

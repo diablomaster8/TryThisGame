@@ -65,3 +65,35 @@ describe('the lane (WORLD-33)', () => {
     expect(w.keeper.pos).toEqual({ x: 0, z: 4 });
   });
 });
+
+describe('R0112: the Visit menu walks the lane to a neighbour gate', () => {
+  it('visitWalk from the Grove arrives on the lane and walks into the fifth garden in 15–30 s', () => {
+    const w = createWorld(9, 0);
+    const fifth = LANE_GATES[4]!;
+    const t0 = w.timeMs;
+    applyCommand(w, { kind: 'visitWalk', trainer: fifth.id }, []);
+    expect(w.location).toBe('region:lane');
+    expect(w.keeper.moveTarget).not.toBeNull();
+    for (let i = 0; i < 500 && w.location === 'region:lane'; i++) step(w);
+    expect(w.location).toBe(`visit:${fifth.id}`);
+    const s = (w.timeMs - t0) / 1000;
+    expect(s).toBeGreaterThanOrEqual(15);
+    expect(s).toBeLessThanOrEqual(30);
+  });
+
+  it('the plain visit command is still the quick way in, and a walk from a garden goes via the lane', () => {
+    const w = createWorld(9, 0);
+    applyCommand(w, { kind: 'visit', trainer: 'luna' }, []);
+    expect(w.location).toBe('visit:luna');
+    applyCommand(w, { kind: 'visitWalk', trainer: 'fern' }, []);
+    expect(w.location).toBe('region:lane');
+    for (let i = 0; i < 500 && w.location === 'region:lane'; i++) step(w);
+    expect(w.location).toBe('visit:fern');
+  });
+
+  it('an unknown trainer changes nothing', () => {
+    const w = createWorld(9, 0);
+    applyCommand(w, { kind: 'visitWalk', trainer: 'nobody' }, []);
+    expect(w.location).toBe('grove');
+  });
+});

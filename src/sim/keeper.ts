@@ -1,15 +1,15 @@
 import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
-import { ICE } from '../config/tuning-r14d2';
+import { ICE } from '../config/tuning-more/world-edu-trail-ice';
 import { ICE_Y, keeperOnIce, overPond, pondIsIce } from './ice';
 import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from './terrain';
-import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
-import { CG_C } from '../config/tuning-c';
+import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-more/move-keeper-ui';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { propStandAt } from './dungeon-props';
 import { holdAtShelves } from './dungeon-shelves';
 import { keeperWaypoint } from './dungeon-nav';
 import { hopWaypoint } from './dungeon-hops';
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import { springBounce, springShroomAt } from './decorate';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
 import { windGlideMul } from './region-weather-play';
@@ -28,7 +28,7 @@ import {
   UNREACHABLE,
 } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
-import { MOODY } from '../config/tuning-soul-r8';
+import { MOODY } from '../config/tuning-more/soul-likes-moods';
 import {
   JUMP,
   KEEPER_ACCEL,
@@ -55,7 +55,7 @@ import { hasTrait, noteTraitCare } from './traits';
 import { findHiding } from './peek';
 import { rememberCare } from './care-memory';
 import { noticePet } from './jealousy';
-import { TRAIT_TUNING } from '../config/tuning-soul-r9';
+import { TRAIT_TUNING } from '../config/tuning-more/soul-traits';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 import { noteBorderPush } from './border';
 import { noteCoopPet, noteCoopShake } from './coop-gags';

@@ -3,7 +3,7 @@
  * (the file names still carry the review pass that added them), so a number can be found by
  * domain. `tests/arch/tuning-domains.test.ts` checks every tuning-*.ts file is in one domain.
  */
-export * from '../tuning-fun-r10';
-export * from '../tuning-fun-r7';
+export * from '../tuning-more/fun-keeper-gags';
+export * from '../tuning-more/fun-voice-antics';
 export * from '../tuning-fun';
-export * from '../tuning-fun-r11e';
+export * from '../tuning-more/fun-coop-gags';

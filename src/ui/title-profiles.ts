@@ -9,8 +9,8 @@
  * - R0598: the one-time "Your saves moved" card with Combine endings, and Older saves.
  */
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
-import { PROFILES } from '../config/tuning-camp11-profiles';
-import { SAVE_LAYOUT } from '../config/tuning-camp11-save';
+import { PROFILES } from '../config/tuning-more/story-profiles-packs';
+import { SAVE_LAYOUT } from '../config/tuning-more/story-save-layout';
 import { SLOT_TEXT } from '../config/strings';
 import { EDU_TAG } from '../config/tuning';
 import {

@@ -3,7 +3,7 @@ import { REGION_GATES, GATE_LEVEL } from '../../src/config/region-wild';
 import { RIDGE_FLIGHTS, RIDGE_JUMPS } from '../../src/config/region-ridge';
 import { REGIONS } from '../../src/config/regions';
 import { SIM } from '../../src/config/tuning';
-import { FLIGHT_ZONES } from '../../src/config/tuning-r11d2';
+import { FLIGHT_ZONES } from '../../src/config/tuning-more/world-camera-terrain';
 import { hatch } from '../../src/sim/lifecycle';
 import { setPartner } from '../../src/sim/partners';
 import { gateIsOpen } from '../../src/sim/region-gates';

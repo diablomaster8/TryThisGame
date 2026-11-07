@@ -1,5 +1,5 @@
 import { seasonFor } from '../config/campaign-look';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import { groveHeight, WATER_LEVEL } from '../render3d/terrain-shape';

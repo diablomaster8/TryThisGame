@@ -7,7 +7,7 @@
  * (no `Math.random`), so the sim, the two renderers and the tests all see the same wood.
  * Region-local coordinates, centred: x east, z south (WORLD-56).
  */
-import { REGION_LAYOUT } from './tuning-r11d1';
+import { REGION_LAYOUT } from './tuning-more/world-region-engine';
 import { WORLD_STREAM } from './tuning-world';
 import type { PoiDef, RegionId } from './regions';
 

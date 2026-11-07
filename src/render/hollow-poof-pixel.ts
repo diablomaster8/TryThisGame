@@ -1,4 +1,4 @@
-import { R10B3 } from '../config/tuning-r10b3';
+import { R10B3 } from '../config/tuning-more/dungeon-poof-kid-mode';
 import type { Floor } from '../sim/dungeon';
 import { actSparkColour, FoePoofs, poofFrame, sparkleAt } from './foe-poof';
 import type { PixelPackCtx } from './hollow-packs-pixel';
