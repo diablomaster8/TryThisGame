@@ -16,3 +16,10 @@ export const REGION_SECRET_TEXT: Record<string, readonly string[]> = {
     'Tucked behind it: a small statue of your own, and a few Shells.',
   ],
 };
+
+/** R0112: the Visit menu's walk option (the plain Visit button stays as the quick way). */
+export const VISIT_WALK_TEXT = {
+  walkBtn: 'Walk there',
+  walkAria: (name: string): string => `Walk down the lane to ${name}’s gate`,
+  quickAria: (name: string): string => `Visit ${name} straight away`,
+} as const;
