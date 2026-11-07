@@ -17,3 +17,19 @@ describe('save size', () => {
     expect(serialize(w, 0).length).toBeLessThanOrEqual(64 * 1024);
   });
 });
+
+describe('save size, long saves (R0497)', () => {
+  it('100 placed decor items stay under 96 kB', () => {
+    const w = createWorld(1, 0);
+    const kinds = ['nursery', 'bench', 'flowerbed', 'fence'] as const;
+    for (let i = 0; i < 100; i++)
+      w.placed.push({
+        id: `bot-${i}`,
+        kind: kinds[i % kinds.length]!,
+        pos: { x: -30 + (i % 20) * 3, z: -30 + Math.floor(i / 20) * 3 },
+      });
+    const kb = serialize(w, 0).length / 1024;
+    console.info(`save size: 100 decor ${kb.toFixed(1)} kB`);
+    expect(kb).toBeLessThanOrEqual(96);
+  });
+});

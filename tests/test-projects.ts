@@ -195,6 +195,7 @@ const VERIFIED_UNIT_FILES: readonly string[] = [
  * Measured in CI on 2026-11-06 by running every file with no story registered: these failed.
  */
 export const STORY_FILES: readonly string[] = [
+  'tests/sim/save-size-campaign.test.ts',
   'tests/render/scene-stage.test.ts',
   'tests/render/stage-foundation.test.ts',
   'tests/render/story-shots.test.ts',

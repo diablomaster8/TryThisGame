@@ -13,7 +13,7 @@ import { normaliseWear } from './wear';
 import { cleanSlotLabel } from './slot-label';
 import { isPersonality } from './personality';
 
-export const SAVE_VERSION = 15;
+export const SAVE_VERSION = 16;
 
 export interface SaveFile {
   version: number;
@@ -197,6 +197,14 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
     if (world) world.creator ??= false;
     return data;
   },
+  // 15 to 16 (lane C r13, R0509 TECH-67): the renderer is this device's choice, not the save's.
+  // The platform layer reads the old field before it is dropped (`adoptLegacyGraphics`).
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const settings = world?.settings as Record<string, unknown> | undefined;
+    if (settings) delete settings.graphics;
+    return data;
+  },
 ];
 
 export function serialize(world: World, savedAtWallMs: number): string {
@@ -300,7 +308,6 @@ export function validateWorld(w: World): World {
   w.settings.musicVolume ??= 0.8;
   w.settings.sfxVolume ??= 0.8;
   w.settings.textSpeed ??= 'normal';
-  w.settings.graphics ??= 'pixel';
   w.settings.sculptRes ??= null;
   w.settings.screenShake ??= true;
   w.settings.gentleJumps ??= false;

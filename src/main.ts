@@ -23,7 +23,9 @@ import {
   endVisit,
   hasSave,
   profileModes,
+  adoptLegacyGraphics,
   readGraphicsPref,
+  readSave,
   restoreFromMirror,
   setSaveSlot,
   slotsFor,
@@ -321,6 +323,7 @@ function startGame(
   eduAge?: NewEdu,
   storyline: string | null = null,
 ): void {
+  adoptLegacyGraphics(readSave());
   const mode = readGraphicsPref();
   if (!hasWebGL2()) {
     showGlFailure('unsupported', mode);

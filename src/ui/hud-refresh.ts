@@ -96,6 +96,7 @@ import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { ShakeMeter } from './shake-meter';
 import { Joystick } from './joystick';
+import { joystickWanted } from './joystick-math';
 import { setIconGlyph } from './pixel-icons';
 import type { HudState } from './hud-events';
 import type { DebugPanel } from './debug-panel';
@@ -285,9 +286,9 @@ export function refreshStep(hc: RefreshCtx, rs: RefreshState): void {
       g.framePollers.push(() => rs.joystick?.poll());
     }
     // R0510: in the Hollow on a touch device the stick is on without a trip to Settings.
-    const hollowTouch =
-      (g.world.location === 'hollow' || g.world.location === 'dungeon') && coarsePointer();
-    rs.joystick.setVisible(g.world.settings.joystick || !!hollowTouch);
+    rs.joystick.setVisible(
+      joystickWanted(!!g.world.settings.joystick, g.world.location, coarsePointer()),
+    );
     rs.joystick.onEdge = () =>
       void buzz(
         'stickEdge',

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { inPadZone, stickSpeed, stickState, stickToWorld } from '../../src/ui/joystick-math';
+import {
+  inPadZone,
+  joystickWanted,
+  stickSpeed,
+  stickState,
+  stickToWorld,
+} from '../../src/ui/joystick-math';
 import { JOYSTICK_TUNING as J } from '../../src/config/tuning-move-joy';
 
 describe('joystick speed curve', () => {
@@ -63,5 +69,19 @@ describe('floating pad', () => {
   it('is the right 45% for a left-handed player (MOVE-14)', () => {
     expect(inPadZone(300, 300, 400, 60, true)).toBe(true);
     expect(inPadZone(100, 300, 400, 60, true)).toBe(false);
+  });
+});
+
+describe('joystickWanted (R0510)', () => {
+  it('is on in Settings anywhere, touch or not', () => {
+    expect(joystickWanted(true, 'grove', false)).toBe(true);
+    expect(joystickWanted(true, 'dungeon', true)).toBe(true);
+  });
+
+  it('is on by default in the Hollow on a touch device only', () => {
+    expect(joystickWanted(false, 'dungeon', true)).toBe(true);
+    expect(joystickWanted(false, 'hollow', true)).toBe(true);
+    expect(joystickWanted(false, 'dungeon', false)).toBe(false);
+    expect(joystickWanted(false, 'grove', true)).toBe(false);
   });
 });

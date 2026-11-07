@@ -77,3 +77,16 @@ export function inPadZone(
   const inSide = leftHanded ? x >= width * (1 - J.zoneWidth) : x <= width * J.zoneWidth;
   return inSide && y > topBarBottom;
 }
+
+/**
+ * R0510: whether the stick is up. A player can turn it on in Settings; in the Hollow on a touch
+ * device it is on without a trip there (the Hollow wants direct control).
+ */
+export function joystickWanted(
+  setting: boolean,
+  location: string,
+  coarsePointer: boolean,
+): boolean {
+  const hollow = location === 'hollow' || location === 'dungeon';
+  return setting || (hollow && coarsePointer);
+}
