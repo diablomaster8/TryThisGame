@@ -1,5 +1,5 @@
 import { CanvasTexture, NearestFilter, SRGBColorSpace } from 'three';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import { hex, hash, mix, Raster, type RGB } from './paint/raster';
 import type { Season } from './e4-shared';
 

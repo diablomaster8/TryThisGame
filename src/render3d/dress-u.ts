@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG2_U } from '../config/tuning-u';
+import { CG2_U } from '../config/tuning-more/campaign2-cards-postcards';
 import type { Tex } from './art/aaa-kit';
 import { pixelItem } from '../ui/item-art';
 import { setItemSource } from '../ui/item-card';

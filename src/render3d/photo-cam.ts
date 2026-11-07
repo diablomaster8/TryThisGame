@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { PHOTO3D } from '../config/tuning-photo3d';
-import type { Expression, PoseName, Rigged } from './art/species';
+import type { SpeciesExpression, PoseName, Rigged } from './art/species';
 
 /**
  * R0412 (LOOK-56): the Full 3D photo mode's camera and subjects. The UI (`ui/photo-3d.ts`)
@@ -30,7 +30,7 @@ export interface PhotoSubject {
   /** The pose, or undefined for the Nubbin's own. */
   pose?: PoseName;
   wave: boolean;
-  face: (Partial<Expression> & { wink?: boolean }) | null;
+  face: (Partial<SpeciesExpression> & { wink?: boolean }) | null;
   /** The point the eyes follow (the camera), or null. */
   look: THREE.Vector3 | null;
 }
@@ -50,7 +50,7 @@ export const PHOTO_FACES = ['own', 'happy', 'wink', 'surprised', 'sleepy'] as co
 export type PhotoFace = (typeof PHOTO_FACES)[number];
 
 /** The expression picker's faces, laid over the pose's own. */
-export const FACE_SET: Record<PhotoFace, (Partial<Expression> & { wink?: boolean }) | null> = {
+export const FACE_SET: Record<PhotoFace, (Partial<SpeciesExpression> & { wink?: boolean }) | null> = {
   own: null,
   happy: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true, frown: 0, gape: 0 },
   wink: { lid: 0, squint: 0.25, brow: 0.25, browLift: 0.08, arc: false, wink: true, frown: 0 },

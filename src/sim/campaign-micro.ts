@@ -7,7 +7,7 @@
  * Pure sim: no DOM, no randomness.
  */
 import { MICRO_SLOTS } from '../content/campaign-micro';
-import { FUN_R10 } from '../config/tuning-fun-r10';
+import { FUN_R10 } from '../config/tuning-more/fun-keeper-gags';
 import { paced } from './story-pace';
 import { queueScene } from './story-state';
 import type { CampaignState, World } from './types';

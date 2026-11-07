@@ -43,7 +43,7 @@ function campaignGroup1(
   return;
 }
 
-export const handlers: Handlers = {
+export const handlers = {
   startLesson(world, cmd, events) {
     const n = findNubbin(world, cmd.nubbinId);
     if (n && cmd.variant) startVariantLesson(world, n, cmd.variant, events);
@@ -154,4 +154,4 @@ export const handlers: Handlers = {
       react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
     return;
   },
-};
+} satisfies Handlers;

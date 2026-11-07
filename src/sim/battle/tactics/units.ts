@@ -17,7 +17,7 @@ import type { Combatant, SideIx } from '../types';
 import type { UnitSeed } from './engine';
 import { jobFor, jobMoveJump, jobOfNubbin, jobOfSpecies, layerOf } from './jobs';
 import { canSwim, moveJump } from './path';
-import type { Cell, JobId } from './types';
+import type { TacticsCell, JobId } from './types';
 
 function seedOf(
   c: Combatant,
@@ -62,7 +62,7 @@ export function unitFromLevels(o: {
   moves?: string[];
   child?: boolean;
   job?: JobId;
-  at?: Cell;
+  at?: TacticsCell;
   name?: string;
 }): UnitSeed {
   const L = {

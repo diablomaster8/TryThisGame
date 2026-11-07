@@ -6,7 +6,7 @@
  */
 import { SHOP_ITEMS, TRAINER_LABELS } from '../config/strings';
 import { INSPECT_TEXT } from '../config/strings-r10d2';
-import { INSPECT_CARD } from '../config/tuning-r10d2';
+import { INSPECT_CARD } from '../config/tuning-more/ui-inspect-egg';
 import type { Game } from '../game';
 import { INSPECT_EVENT, type InspectDetail } from '../input/press-kind';
 import type { World } from '../sim/types';

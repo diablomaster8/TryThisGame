@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { WEATHER_PLAY } from '../../src/config/tuning-soul-r11g';
-import { RACE_PERSONA } from '../../src/config/tuning-soul-r11h';
+import { WEATHER_PLAY } from '../../src/config/tuning-more/soul-ambient-games';
+import { RACE_PERSONA } from '../../src/config/tuning-more/soul-old-souls';
 import { chaseLook } from '../../src/render/ambient-look';
 import { FrameGovernor } from '../../src/render3d/governor';
 import { setAnticsLive } from '../../src/sim/antics';

@@ -1,7 +1,7 @@
 import { Sprite, SpriteMaterial, type CanvasTexture, type Vector3 } from 'three';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
-import { CG2_Y } from '../config/tuning-y';
+import { CG2_Y } from '../config/tuning-more/campaign2-night-grade';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { SceneClock } from './dress-e';

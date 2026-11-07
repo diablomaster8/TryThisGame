@@ -14,7 +14,7 @@ import { buildTree, pbr, type Tex } from './art/aaa-kit';
 import { treeOf, type GroveTree } from './crowns';
 import { groveHeight } from './terrain';
 import { borderBlockers } from '../sim/border';
-import { BORDER } from '../config/tuning-r9d2';
+import { BORDER } from '../config/tuning-more/ui-tap-prints-border';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 /**

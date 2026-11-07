@@ -26,7 +26,7 @@ import { boxesView } from './lang-boxes';
 import { TraceBook } from './trace-book'; /* R0707 */
 import { TRACE_BOOK_TEXT } from '../config/strings-trace-book';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
-import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
+import { KIDS_R10_TUNING } from '../config/tuning-more/kids-screens';
 
 /** Words the child's band shows: sprouts skip the reader-only words. */
 function bandWords(g: Game, course: LanguageCourse): VocabItem[] {

@@ -7,7 +7,7 @@
  */
 import '../kids-r10.css';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
-import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
+import { KIDS_R10_TUNING } from '../config/tuning-more/kids-screens';
 import type { Game } from '../game';
 import { isAudioUnlocked } from '../platform/audio';
 import { isVoiceOn } from '../platform/voices';

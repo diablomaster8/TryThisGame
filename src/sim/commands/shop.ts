@@ -18,7 +18,7 @@ import type { DyeColor } from '../types';
 import { findNubbin, withRng } from '../world';
 import type { Handlers } from './types';
 
-export const handlers: Handlers = {
+export const handlers = {
   addRewards(world, cmd, events) {
     const r = {
       ...cmd.rewards,
@@ -81,4 +81,4 @@ export const handlers: Handlers = {
     buySkill(world, cmd.id, events);
     return;
   },
-};
+} satisfies Handlers;

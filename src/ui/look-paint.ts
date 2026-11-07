@@ -1,5 +1,5 @@
 import type { LookDef } from '../config/campaign-look';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 
 /**
  * Canvas versions of two screen-space looks (campaign graphics 4): the grade layers painted

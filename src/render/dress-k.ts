@@ -1,8 +1,8 @@
 import type { Vector3 } from 'three';
 import type { SceneStage } from '../config/story';
 import { GROVE, STORY } from '../config/tuning';
-import { LOOK_F } from '../config/tuning-f';
-import { CG2_K } from '../config/tuning-k';
+import { LOOK_F } from '../config/tuning-more/campaign-looks-titles';
+import { CG2_K } from '../config/tuning-more/campaign2-landmarks';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';

@@ -11,7 +11,7 @@
 import { BUDDY_A11Y, BUDDY_TEXT } from '../config/strings-buddy';
 import { BUDDY_TUNING as T } from '../config/tuning-buddy';
 import { EDU_VOICE } from '../config/tuning-kids';
-import { EDU_KEEPSAKES } from '../config/tuning-kids-r11e';
+import { EDU_KEEPSAKES } from '../config/tuning-more/kids-noticing';
 import type { Game } from '../game';
 import type { EduOption, EduRound } from '../minigames/edu/games';
 import { reducedMotion } from '../platform/motion';

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { EDU_NOTICING } from '../../src/config/tuning-kids-r11e';
+import { EDU_NOTICING } from '../../src/config/tuning-more/kids-noticing';
 import { eduNotice } from '../../src/sim/edu-notice';
 import type { World } from '../../src/sim/types';
 import { EduNoticing } from '../../src/ui/edu-noticing';

@@ -27,7 +27,7 @@ import { aoeTiles, canAim, gridOf, manhattan, type GridProfile } from './range';
 import { attackTerrain, flutterBonus, inLantern, isShade, isWater, reflectOf } from './terrain';
 import {
   TILE,
-  type Cell,
+  type TacticsCell,
   type Dir,
   type GridMap,
   type JobId,
@@ -59,7 +59,7 @@ export interface UnitSeed {
   /** The Keeper's piece (FIGHT-66) and the snacks it packed. */
   keeper?: boolean;
   snacks?: number;
-  at?: Cell;
+  at?: TacticsCell;
 }
 
 export interface TacticsSetup {
@@ -71,7 +71,7 @@ export interface TacticsSetup {
   objective?: Objective;
   ai?: [AiLevel | null, AiLevel | null];
   aura?: 'sun' | 'moon' | null;
-  fruit?: Cell[];
+  fruit?: TacticsCell[];
 }
 
 /** The status helpers only push events to `log` (and read `gentle`, never set here). */
@@ -96,7 +96,7 @@ function log(s: TacticsState, e: TacticsState['log'][number]): void {
 export function createTactics(o: TacticsSetup): TacticsState {
   const rng = new Rng(o.seed);
   const taken = new Set<string>();
-  const place = (seed: UnitSeed, zone: Cell[], i: number): Cell => {
+  const place = (seed: UnitSeed, zone: TacticsCell[], i: number): TacticsCell => {
     const want = seed.at ?? zone[i] ?? zone.find((c) => !taken.has(`${c.x},${c.y}`));
     let at = want ?? { x: 0, y: 0 };
     if (taken.has(`${at.x},${at.y}`)) at = zone.find((c) => !taken.has(`${c.x},${c.y}`)) ?? at;
@@ -104,7 +104,7 @@ export function createTactics(o: TacticsSetup): TacticsState {
     return at;
   };
   const units: TUnit[] = [];
-  const add = (seed: UnitSeed, zone: Cell[], i: number, face: Dir) => {
+  const add = (seed: UnitSeed, zone: TacticsCell[], i: number, face: Dir) => {
     const at = place(seed, zone, i);
     units.push({
       c: seed.c,
@@ -405,7 +405,7 @@ export function tacticsAct(s: TacticsState, a: TacticsAction): boolean {
     case 'undo': {
       const snap = JSON.parse(s.snap!) as {
         u: TUnit;
-        fruit: Cell[];
+        fruit: TacticsCell[];
         progress: TacticsState['progress'];
         log: number;
       };
@@ -519,7 +519,7 @@ function pickFruit(s: TacticsState, u: TUnit): void {
   }
 }
 
-function togetherOk(s: TacticsState, u: TUnit, mateId: string, at: Cell): boolean {
+function togetherOk(s: TacticsState, u: TUnit, mateId: string, at: TacticsCell): boolean {
   const mate = unitOf(s, mateId);
   if (!mate || mate === u || mate.c.side !== u.c.side || !alive(mate)) return false;
   const score = u.friends?.[mate.c.id] ?? mate.friends?.[u.c.id] ?? 0;
@@ -551,14 +551,14 @@ function whistleOk(s: TacticsState, u: TUnit, a: string, b: string): boolean {
 }
 
 /** Allies "Together!" could call on with this target (the bar's button reads it). */
-export function togetherMates(s: TacticsState, at: Cell): string[] {
+export function togetherMates(s: TacticsState, at: TacticsCell): string[] {
   const u = activeUnit(s);
   if (!u) return [];
   return s.units.filter((v) => togetherOk(s, u, v.c.id, at)).map((v) => v.c.id);
 }
 
 /** Who a move aimed at `to` affects. */
-export function affected(s: TacticsState, u: TUnit, def: MoveDef, to: Cell): TUnit[] {
+export function affected(s: TacticsState, u: TUnit, def: MoveDef, to: TacticsCell): TUnit[] {
   const m = mapOf(s);
   const p = gridOf(def);
   const foe = def.kind === 'bonk' || def.kind === 'splash' || def.kind === 'status';
@@ -630,7 +630,7 @@ export interface PreviewRow {
 }
 
 /** What a move aimed at `to` would do, with the spread roll fixed at `roll` and no crit. */
-export function preview(s: TacticsState, moveId: string, to: Cell, roll = 1): PreviewRow[] {
+export function preview(s: TacticsState, moveId: string, to: TacticsCell, roll = 1): PreviewRow[] {
   const u = activeUnit(s);
   const def = moveById(moveId);
   if (!u || !def) return [];
@@ -655,7 +655,7 @@ function resolve(
   rng: Rng,
   u: TUnit,
   def: MoveDef,
-  to: Cell,
+  to: TacticsCell,
   knockAll = false,
 ): void {
   const m = mapOf(s);
@@ -795,9 +795,9 @@ export function pushUnit(s: TacticsState, by: string, who: string): void {
 }
 
 /** For the views: the pending tiles of every charge. */
-export function chargeTiles(s: TacticsState): Array<Cell & { by: string }> {
+export function chargeTiles(s: TacticsState): Array<TacticsCell & { by: string }> {
   const m = mapOf(s);
-  const out: Array<Cell & { by: string }> = [];
+  const out: Array<TacticsCell & { by: string }> = [];
   for (const c of s.charges) {
     const by = unitOf(s, c.by);
     const def = moveById(c.move);

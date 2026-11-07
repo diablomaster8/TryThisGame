@@ -1,6 +1,6 @@
 /**
  * R0127 (WORLD-61): the world teaches its rules once, in the world. Each mechanic has a safe,
- * obvious spot in the Grove (`WORLD_HINTS` in config/tuning-r9d4.ts); the first time the Keeper
+ * obvious spot in the Grove (`WORLD_HINTS` in config/tuning-more/ui-world-hints.ts); the first time the Keeper
  * walks there while the mechanic applies, one narrator line shows with an icon, and
  * `world.hintsSeen` (an optional save field) remembers it so it never repeats. Two hints never
  * land within `gapMs` of each other: the later one simply waits for the next pass. Only live
@@ -10,7 +10,7 @@
  * reaching the nook at the falls' foot finds it once (`world.secrets`): a statue for the
  * garden and a few Shells. Without the key the nook only shows its keyhole, once.
  */
-import { WORLD_HINTS, SECRETS, type HintId } from '../config/tuning-r9d4';
+import { WORLD_HINTS, SECRETS, type HintId } from '../config/tuning-more/ui-world-hints';
 import { REGION_SECRETS } from '../config/tuning-r15d1';
 import { regionOf } from './regions';
 import { drawnRegionOf } from './region-walk';

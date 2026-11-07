@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import { hash01 } from '../render/e4-shared';
 import type { Dress3dCtx } from './dressings';
 import { groveHeight } from './terrain';

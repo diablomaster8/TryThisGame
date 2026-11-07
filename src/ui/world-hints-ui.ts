@@ -5,7 +5,7 @@
  */
 import { SECRET_TEXT, WORLD_HINT_TEXT } from '../config/strings-r9d4';
 import { REGION_NOOK_TEXT, REGION_SECRET_TEXT } from '../config/strings-r15d1';
-import { WORLD_HINTS } from '../config/tuning-r9d4';
+import { WORLD_HINTS } from '../config/tuning-more/ui-world-hints';
 import { WORLD_TRACES } from '../content/world-traces';
 import { CLUE_TRACE } from '../sim/world-hints';
 import type { World } from '../sim/types';

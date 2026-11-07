@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SECRETS, WORLD_HINTS } from '../../src/config/tuning-r9d4';
+import { SECRETS, WORLD_HINTS } from '../../src/config/tuning-more/ui-world-hints';
 import { WORLD_HINT_TEXT, SECRET_TEXT } from '../../src/config/strings-r9d4';
 import { WORLD_TRACES } from '../../src/content/world-traces';
 import { clampToWorld, inPond } from '../../src/sim/behavior';

@@ -5,7 +5,7 @@ import { at, kitMaterial, merged, tinted } from './region-kit';
 import type { Region3d, Region3dModule } from './region-host';
 import { groveBackSource, type GroveBackSource } from './region-grove-source';
 import { GROVE } from '../config/tuning';
-import { GROVE_BACK } from '../config/tuning-r12d1';
+import { GROVE_BACK } from '../config/tuning-more/world-region-moves';
 import { TERRAIN_SEGS, TERRAIN_SIZE } from './terrain-shape';
 import { groveHeight } from './terrain';
 

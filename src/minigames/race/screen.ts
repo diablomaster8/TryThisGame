@@ -1,7 +1,7 @@
 import { playArea } from '../play-area';
 import { minigameFrameMs, minigameNowMs, resetMinigameTime } from '../frame-time';
 import { RACE, SIM } from '../../config/tuning';
-import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../../config/tuning-more/soul-old-souls';
 import { countLabel, inCountdown } from '../../sim/race-persona';
 import { UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';

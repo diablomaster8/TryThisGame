@@ -9,7 +9,7 @@ import { C, color } from '../../render/sprites/palette';
 import { startLook } from '../../sim/race-persona';
 import { startRect } from '../../render/start-pose';
 import type { Nubbin, Personality } from '../../sim/types';
-import { RACE_PERSONA } from '../../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../../config/tuning-more/soul-old-souls';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from './art';
 import { skyBands } from '../race/pixel-track';

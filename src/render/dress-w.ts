@@ -12,15 +12,15 @@ import {
 import { freeIce, seasonHere } from './grove-season';
 import type { SceneStage } from '../config/story';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
-import { HUSH } from '../config/tuning-e';
-import { CG2_W } from '../config/tuning-w';
+import { HUSH } from '../config/tuning-more/campaign-people-lanterns';
+import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
 import type { TileKind, World } from '../sim/types';
 import type { Daylight } from './daylight';
 import { lanternLights, SceneClock } from './dress-e';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { groundTexture } from './ground';
 import type { GroundJob, GroundResult } from './ground.worker';
-import { CG4_D4 } from '../config/tuning-d4';
+import { CG4_D4 } from '../config/tuning-more/campaign4-hush-depth';
 import { hushFog, hushWalk, levelOf, pathWear, snowCover } from './d4-state';
 import { HUSH_PX } from './hush-art';
 import { HushTrail } from './hush-trail';

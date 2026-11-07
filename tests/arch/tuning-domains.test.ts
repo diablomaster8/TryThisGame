@@ -2,13 +2,19 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 /**
- * TECH-36: every satellite `src/config/tuning-*.ts` file belongs to exactly one domain
- * index in `src/config/tuning-domains/`, so a new tuning file cannot be added without a home.
+ * TECH-36: every satellite `src/config/tuning-*.ts` and `tuning-more/*.ts` file belongs to
+ * exactly one domain index in `src/config/tuning-domains/`, so a new tuning file cannot be added without a home.
  */
 const dir = 'src/config';
-const files = readdirSync(dir)
-  .filter((f) => /^tuning-.*\.ts$/.test(f))
-  .map((f) => f.slice(0, -3));
+const files = [
+  ...readdirSync(dir)
+    .filter((f) => /^tuning-.*\.ts$/.test(f))
+    .map((f) => f.slice(0, -3)),
+  // The renamed pass satellites (tests/tools/rename-config.mjs) live in tuning-more/.
+  ...readdirSync(`${dir}/tuning-more`)
+    .filter((f) => f.endsWith('.ts'))
+    .map((f) => `tuning-more/${f.slice(0, -3)}`),
+];
 
 describe('tuning domains', () => {
   const owners = new Map<string, string[]>();

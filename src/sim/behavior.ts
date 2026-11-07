@@ -60,7 +60,7 @@ import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
 import { isPairToy, isSocialToy } from './toy-pair';
-import { TOY_PAIR } from '../config/tuning-soul-r11a';
+import { TOY_PAIR } from '../config/tuning-more/soul-toy-pairs';
 import { peekAct } from './peek';
 import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
@@ -71,7 +71,7 @@ import { hiderFound, hideAct, rewardFound } from './hide';
 import { approachAct, followFruitAct } from './care-memory';
 import { quirkAct } from './quirks';
 import { eatFlavour, napSpot, shyTurnAway, swimPace } from './state-flavour';
-import { STATE_FLAVOUR } from '../config/tuning-soul-r10';
+import { STATE_FLAVOUR } from '../config/tuning-more/soul-friends-rivals';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
@@ -112,14 +112,14 @@ import {
   rainAct,
   type IdleAct,
 } from './soul-idle';
-import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
+import { LIKES, TOY_SOUL } from '../config/tuning-more/soul-likes-moods';
 import { cryWalkSpeed, startCry } from './cry-soul';
 import { gaitSpeed, meanderStep } from './soul-gait';
 import { splashFriend, swimFactor, swimSpot } from './swim-soul';
 import { shadowAct } from './shadow-soul';
 import { fondGreet, tiltAct } from './keeper-fondness';
 import { spotWander } from './fav-spot';
-import { FAV_SPOT } from '../config/tuning-soul-r11';
+import { FAV_SPOT } from '../config/tuning-more/soul-quirks-gait';
 /* Lane E r9, R0724: the Learning Grove's wind-down yawn. */
 import { eduYawnAct } from './edu-session';
 import type {

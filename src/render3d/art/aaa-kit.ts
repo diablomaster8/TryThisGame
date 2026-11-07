@@ -16,7 +16,7 @@ export type LightMood = 'noon' | 'golden' | 'rain';
 // The painters are pure (`surface-paint.ts`), so the 3D Grove can run them in workers.
 export type { Kind } from './surface-paint';
 
-export interface Surface {
+export interface AaaSurface {
   map: THREE.Texture;
   normal: THREE.DataTexture;
 }
@@ -35,7 +35,7 @@ export function rgbaCanvas(size: number, rgba: Uint8Array): HTMLCanvasElement {
 }
 
 /** A tiling albedo and its normal map, from painted bytes. */
-export function surfaceFrom(b: PaintedBytes): Surface {
+export function surfaceFrom(b: PaintedBytes): AaaSurface {
   const map = new THREE.CanvasTexture(rgbaCanvas(b.size, b.albedo));
   map.colorSpace = THREE.SRGBColorSpace;
   map.wrapS = THREE.RepeatWrapping;
@@ -68,7 +68,7 @@ export function cardFrom(b: PaintedBytes): THREE.CanvasTexture {
   return t;
 }
 
-export function surface(kind: Kind, size: number, strength: number): Surface {
+export function surface(kind: Kind, size: number, strength: number): AaaSurface {
   return surfaceFrom(paintJob({ kind, size, strength }));
 }
 
@@ -82,14 +82,14 @@ export function tuftCard(size: number): THREE.CanvasTexture {
   return cardFrom(paintJob({ kind: 'tuft', size }));
 }
 export interface Tex {
-  grass: Surface;
-  rock: Surface;
-  dirt: Surface;
-  bark: Surface;
-  cobble: Surface;
-  plaster: Surface;
-  roof: Surface;
-  wood: Surface;
+  grass: AaaSurface;
+  rock: AaaSurface;
+  dirt: AaaSurface;
+  bark: AaaSurface;
+  cobble: AaaSurface;
+  plaster: AaaSurface;
+  roof: AaaSurface;
+  wood: AaaSurface;
   leaf: THREE.CanvasTexture;
   tuft: THREE.CanvasTexture;
 }
@@ -304,7 +304,7 @@ export function pourGrass(meshes: THREE.InstancedMesh[], placement: GrassPlaceme
 }
 
 export function pbr(
-  map: Surface,
+  map: AaaSurface,
   opts: { color?: string; rough?: number; repeat?: number; scale?: number } = {},
 ): THREE.MeshStandardMaterial {
   const m = new THREE.MeshStandardMaterial({

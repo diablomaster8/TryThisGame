@@ -1,4 +1,4 @@
-import { CG_C } from '../config/tuning-c';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 
 /**
  * Where Corvin's penned grey Nubbins stand (campaign graphics H15), in the order the pixel

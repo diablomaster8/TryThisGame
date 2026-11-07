@@ -12,7 +12,7 @@ import { mountAccessSettings } from './access-r10';
 import { bugReport } from '../platform/bug-log';
 import { groveBytes, storageEstimate } from '../platform/storage-use';
 import { STORAGE_TEXT } from '../config/strings-r10d4';
-import { STORAGE_WATCH } from '../config/tuning-r10d4';
+import { STORAGE_WATCH } from '../config/tuning-more/perf-offline-packs';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { BIG_BUBBLES_TEXT, LIVELINESS_TEXT } from '../config/strings-soul-r8';
 import { livelinessOf } from '../sim/antics';

@@ -14,8 +14,8 @@ import {
   isTap,
   type InspectDetail,
 } from './press-kind';
-import { POINTER_INPUT } from '../config/tuning-r9d3';
-import { SURVEY_R11 } from '../config/tuning-r11d2';
+import { POINTER_INPUT } from '../config/tuning-more/ui-shake-hint';
+import { SURVEY_R11 } from '../config/tuning-more/world-camera-terrain';
 import { HoldWalk, isGroundHold } from './hold-walk';
 
 /** What a ground tap places while a panel is in placing mode. */

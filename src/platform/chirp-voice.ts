@@ -3,7 +3,7 @@
  * the same species sound different and each sounds the same after a reload. Pure: no
  * audio, no randomness, just a hash of the id into the tuning ranges.
  */
-import { CHIRP_VOICE } from '../config/tuning-r8d-audio';
+import { CHIRP_VOICE } from '../config/tuning-more/audio-mix';
 import { basePersonality } from '../sim/personality';
 import type { Personality } from '../sim/types';
 

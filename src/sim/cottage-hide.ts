@@ -8,9 +8,9 @@
  * Learning Grove and live play only: nothing starts while catching up on time away. The
  * time at the floor is transient, so a reload starts that count again (a kindness).
  */
-import { EDU_SOUL } from '../config/tuning-fun-r7';
+import { EDU_SOUL } from '../config/tuning-more/fun-voice-antics';
 import { TRUST } from '../config/tuning';
-import { COTTAGE_HIDE } from '../config/tuning-soul-r10';
+import { COTTAGE_HIDE } from '../config/tuning-more/soul-friends-rivals';
 import { addHappiness } from './needs';
 import { isFree } from './nubbin';
 import { resolve } from './obstacles';

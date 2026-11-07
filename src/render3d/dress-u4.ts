@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { dressItems } from '../render/dress-d-rules';
 import { stageFlags } from '../render/scene-stage';
 import type { Tex } from './art/aaa-kit';

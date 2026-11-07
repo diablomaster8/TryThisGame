@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PLOT_RULES } from '../../src/config/tuning-r12d2';
+import { PLOT_RULES } from '../../src/config/tuning-more/world-content-tables';
 import { plotAt } from '../../src/sim/region-marks';
 import { plotPieces, plotRefusal } from '../../src/sim/region-plots';
 import { regionLocation } from '../../src/sim/region-walk';

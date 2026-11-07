@@ -3,9 +3,9 @@ import { C, color } from '../render/sprites/palette';
 import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-quad';
 import { leansForward, type CreatureSpec } from '../render/sprites/creature';
 import { V, type Prim } from './art/sculpted';
-import type { Mark, PartSpec, SpeciesSpec } from './art/species';
+import type { SpeciesMark, PartSpec, SpeciesSpec } from './art/species';
 import type { Layout } from './art-species';
-import { CHEST_MISSILE, DINO_LEAN_DEG, STRIPE_WRAP } from '../config/tuning-look-r10e';
+import { CHEST_MISSILE, DINO_LEAN_DEG, STRIPE_WRAP } from '../config/tuning-more/look-creature-fx';
 
 /**
  * The 3D side of the digital-line kit (render/sprites/creature-kit-quad.ts): layouts for
@@ -381,11 +381,11 @@ function wrapStripes(
   L: Layout,
   c: Record<string, string>,
   parts: PartSpec[],
-): Mark[] {
+): SpeciesMark[] {
   const { from, to, segs, r, out: grow } = STRIPE_WRAP;
   const b = L.body;
   const lean = Math.tan((DINO_LEAN_DEG * Math.PI) / 180);
-  const out: Mark[] = [];
+  const out: SpeciesMark[] = [];
   for (let i = 0; i < 3; i++) {
     const y = b.y + 0.3 - i * 0.28;
     const k = grow * Math.sqrt(Math.max(0, 1 - ((y - b.y) / b.r.y) ** 2));

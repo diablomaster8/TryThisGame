@@ -31,14 +31,14 @@ import { comboFor, comboMove } from './combos';
 import { dirTo, DIRS } from './facing';
 import { heightAt, N4, tileAt } from './map';
 import { canAim, gridOf, manhattan } from './range';
-import { TILE, type Cell, type TacticsAction, type TacticsState, type TUnit } from './types';
+import { TILE, type TacticsCell, type TacticsAction, type TacticsState, type TUnit } from './types';
 
 const W = TACTICS.ai;
 /** Evaluations per decision before the search stops (about 8 ms on a phone, measured). */
 export const EVAL_CAP = 2500;
 
 interface Option {
-  tile: Cell;
+  tile: TacticsCell;
   act: TacticsAction | null;
   score: number;
 }
@@ -46,7 +46,7 @@ interface Option {
 const alive = (u: TUnit) => standing(u.c);
 
 /** Expected damage foes can do to `u` standing at each tile next turn, cached per decision. */
-function threatMap(s: TacticsState, u: TUnit): (c: Cell) => number {
+function threatMap(s: TacticsState, u: TUnit): (c: TacticsCell) => number {
   const bonk = moveById('bonk')!;
   const foes = s.units.filter((e) => alive(e) && e.c.side !== u.c.side && !e.ward && !e.keeper);
   const per = foes.map((e) => ({ e, dmg: damageWith(e.c, u.c, bonk, false, 1).dmg }));
@@ -69,7 +69,7 @@ function ticksToTurn(t: TUnit): number {
   return Math.ceil((TACTICS.ct.full - t.ct) / gain);
 }
 
-function scoreMove(s: TacticsState, u: TUnit, def: MoveDef, at: Cell, level: AiLevel): number {
+function scoreMove(s: TacticsState, u: TUnit, def: MoveDef, at: TacticsCell, level: AiLevel): number {
   let score = 0;
   const p = gridOf(def);
   const boss = s.objective.kind === 'calmBoss' ? s.objective.target : undefined;
@@ -100,7 +100,7 @@ function scoreMove(s: TacticsState, u: TUnit, def: MoveDef, at: Cell, level: AiL
 }
 
 /** Where the objective pulls this side, if anywhere. */
-function objectiveTile(s: TacticsState, u: TUnit): Cell | null {
+function objectiveTile(s: TacticsState, u: TUnit): TacticsCell | null {
   const o = s.objective;
   if (u.c.side === 0 && (o.kind === 'reach' || o.kind === 'escort') && o.goal) return o.goal;
   if (o.kind === 'gather' && s.fruit.length)
@@ -123,7 +123,7 @@ function options(s: TacticsState, u: TUnit, level: AiLevel): Option[] {
             .filter((c) => unitOf(s, c.by)?.c.side !== u.c.side)
             .map((c) => `${c.x},${c.y}`),
         );
-  const near = (c: Cell) =>
+  const near = (c: TacticsCell) =>
     goal ? manhattan(c, goal) : foes.reduce((b, e) => Math.min(b, manhattan(c, e)), 99);
   const tiles = s.moved ? [{ x: u.x, y: u.y }] : [...reachOf(s, u).tiles];
   tiles.sort((a, b) => near(a) - near(b) || a.y - b.y || a.x - b.x);
@@ -148,7 +148,7 @@ function options(s: TacticsState, u: TUnit, level: AiLevel): Option[] {
     if (!s.acted) {
       for (const def of moves) {
         const p = gridOf(def);
-        const aims: Cell[] =
+        const aims: TacticsCell[] =
           p.range[1] === 0 ? [t] : def.target === 'ally' || def.kind === 'support' ? allies : foes;
         for (const a of aims) {
           evals++;

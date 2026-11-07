@@ -7,7 +7,7 @@ import { STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { audienceAllowed, isFunQuestCode } from '../sim/audience';
 import { PROFILE_TEXT } from '../config/strings-camp11-profiles';
-import { PACKS } from '../config/tuning-camp11-profiles';
+import { PACKS } from '../config/tuning-more/story-profiles-packs';
 import { caperId, packKeepsake, packProgress } from '../sim/pack-rewards';
 import { questAreaKey } from '../sim/quest-offers';
 import { sideStory, storylines } from '../sim/story-scenes';

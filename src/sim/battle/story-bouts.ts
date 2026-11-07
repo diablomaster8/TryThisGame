@@ -1,5 +1,5 @@
 import { BATTLE_STORY_MAPS } from '../../config/battle-maps';
-import { BATTLE_R6 } from '../../config/tuning-battle-r6';
+import { BATTLE_R6 } from '../../config/tuning-more/battle-ladder-fusion';
 import type { NubbinType, SimEvent, World } from '../types';
 import type { BattleContext } from './types';
 import { QUIET_CHAPTERS } from './contexts';

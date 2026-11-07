@@ -7,7 +7,7 @@
  */
 import type { MoveDef } from '../types';
 import { unitFromLevels } from './units';
-import type { Cell } from './types';
+import type { TacticsCell } from './types';
 import type { UnitSeed } from './engine';
 
 export const KEEPER_UNIT = {
@@ -56,7 +56,7 @@ const BY_ID = new Map(KEEPER_MOVES.map((m) => [m.id, m]));
 export const keeperMoveById = (id: string): MoveDef | undefined => BY_ID.get(id);
 
 /** The Keeper's seed: a plain body for the CT and the tiles; its HP never matters. */
-export function keeperSeed(at?: Cell, name = 'Keeper'): UnitSeed {
+export function keeperSeed(at?: TacticsCell, name = 'Keeper'): UnitSeed {
   const seed = unitFromLevels({
     id: KEEPER_UNIT.id,
     side: 0,

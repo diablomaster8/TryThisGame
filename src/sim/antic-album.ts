@@ -10,7 +10,7 @@
  * fade from the ground can be kept. Both live in optional world fields (no save bump).
  * Pure rules: no DOM, no Three.js, no rng.
  */
-import { ALBUM } from '../config/tuning-soul-r11b';
+import { ALBUM } from '../config/tuning-more/soul-wider-kindergarten';
 import { inConcert } from './jam';
 import type { Nubbin, SimEvent, World } from './types';
 

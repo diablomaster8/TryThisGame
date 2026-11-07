@@ -30,7 +30,7 @@ import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
 import { slideOnSnow, stopSlide } from './snow-slide';
 import { holdInSlice } from './edu-region-bounds';
-import { REGION_WALK } from '../config/tuning-r11d1';
+import { REGION_WALK } from '../config/tuning-more/world-region-engine';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
 import { GLIDE } from '../config/tuning-move';

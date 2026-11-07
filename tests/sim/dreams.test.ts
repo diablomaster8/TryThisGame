@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DREAMS } from '../../src/config/tuning-soul-r11b';
+import { DREAMS } from '../../src/config/tuning-more/soul-wider-kindergarten';
 import { dreamEveryMs, dreamNow } from '../../src/sim/dreams';
 import { hatch } from '../../src/sim/lifecycle';
 import { createWorld } from '../../src/sim/world';

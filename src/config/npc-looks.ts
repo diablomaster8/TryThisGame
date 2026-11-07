@@ -1,7 +1,7 @@
 import type { TrainerLook } from '../sim/trainers';
 import { C } from '../render/sprites/palette';
 import type { SceneStage, StageCast } from './story';
-import { CG4_B4 } from './tuning-b4';
+import { CG4_B4 } from './tuning-more/campaign4-people-tale-grade';
 
 /**
  * H12, M1, C2: one silhouette prop per named person, so the cast reads apart at a distance

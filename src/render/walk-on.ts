@@ -1,4 +1,4 @@
-import { CG4_A2 } from '../config/tuning-a2';
+import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
 import { markAt } from '../config/stage-marks';
 import type { Vec2 } from '../sim/types';
 import type { StageFlags } from './scene-stage';

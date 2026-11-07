@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { DRESS_D } from '../config/tuning-d';
+import { DRESS_D } from '../config/tuning-more/campaign-props-items';
 
 /**
  * The story items' star glints in Full 3D (campaign graphics H11): one instanced mesh, one

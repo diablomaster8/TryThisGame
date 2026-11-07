@@ -11,27 +11,27 @@
  * character, like the idle table, and a short gap must play exactly as live play would
  * (the coarse steps of a long absence never run behaviour at all).
  */
-import { TRAIT_IDS, TRAIT_TUNING, TRAITS, type TraitId } from '../config/tuning';
+import { TRAIT_IDS, TRAIT_TUNING, TRAITS, type SoulTraitId } from '../config/tuning';
 import { liveliness } from './antics';
 import { noteSecondCare } from './personality';
 import { hashSeed } from './rng';
 import type { IdleAct } from './soul-idle';
 import type { Nubbin, SimEvent, World } from './types';
 
-export type { TraitId };
+export type { SoulTraitId };
 
 /** The trait its seed gives it at hatch. */
-export function seedTrait(n: Pick<Nubbin, 'seed'>): TraitId {
+export function seedTrait(n: Pick<Nubbin, 'seed'>): SoulTraitId {
   return TRAIT_IDS[hashSeed(`trait:${n.seed}`) % TRAIT_IDS.length]!;
 }
 
 /** Its traits: the seed's, then the earned one (at most two, never the same twice). */
-export function traitsOf(n: Pick<Nubbin, 'seed' | 'earnedTrait'>): TraitId[] {
+export function traitsOf(n: Pick<Nubbin, 'seed' | 'earnedTrait'>): SoulTraitId[] {
   const first = seedTrait(n);
   return n.earnedTrait && n.earnedTrait !== first ? [first, n.earnedTrait] : [first];
 }
 
-export function hasTrait(n: Pick<Nubbin, 'seed' | 'earnedTrait'>, t: TraitId): boolean {
+export function hasTrait(n: Pick<Nubbin, 'seed' | 'earnedTrait'>, t: SoulTraitId): boolean {
   return seedTrait(n) === t || n.earnedTrait === t;
 }
 

@@ -2,7 +2,7 @@ import { rampPath, TERRACES } from '../../src/sim/terrain';
 import { describe, expect, it } from 'vitest';
 import { markAt } from '../../src/config/stage-marks';
 import { GROVE } from '../../src/config/tuning';
-import { CG_C } from '../../src/config/tuning-c';
+import { CG_C } from '../../src/config/tuning-more/campaign-story-places';
 import { leafHinge, pennedSpots } from '../../src/render/corvin-layout';
 import { NUMBER_CELL, numberAtlasSize, numberCell } from '../../src/render/number-atlas';
 import type { StageFlags } from '../../src/render/scene-stage';

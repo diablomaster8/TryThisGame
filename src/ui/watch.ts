@@ -7,7 +7,7 @@
  * sim only; the camera moves through `Game.panTo` and `Game.watch`.
  */
 import { ACTIVITY_CAPTIONS, DREAM_TEXT, WATCH_TEXT } from '../config/strings-soul-r11b';
-import { WATCH } from '../config/tuning-soul-r11b';
+import { WATCH } from '../config/tuning-more/soul-wider-kindergarten';
 import type { Game } from '../game';
 import { dreamNow } from '../sim/dreams';
 import { nubbinHere } from '../sim/nubbin-home';

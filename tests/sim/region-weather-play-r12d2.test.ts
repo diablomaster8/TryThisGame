@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { WEATHER_PLAY } from '../../src/config/tuning-r12d2';
+import { WEATHER_PLAY } from '../../src/config/tuning-more/world-content-tables';
 import { skyForce } from '../../src/sim/region-weather-live';
 import {
   ghostShipHere,

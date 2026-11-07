@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG_C } from '../config/tuning-c';
+import { CG_C } from '../config/tuning-more/campaign-story-places';
 import { leafHinge, pennedSpots } from '../render/corvin-layout';
 import { NUMBER_CELL, numberAtlasSize, numberCell, paintNumberAtlas } from '../render/number-atlas';
 import { C, color } from '../render/sprites/palette';

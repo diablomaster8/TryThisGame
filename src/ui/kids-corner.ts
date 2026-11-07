@@ -7,7 +7,7 @@
  */
 import '../kids-r10.css';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
-import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
+import { KIDS_R10_TUNING } from '../config/tuning-more/kids-screens';
 import { el } from './dom';
 
 /** Pure: a press that started at `downMs` has been held long enough at `nowMs`. */

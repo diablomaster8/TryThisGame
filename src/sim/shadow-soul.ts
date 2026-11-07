@@ -9,7 +9,7 @@
  * Chances are hashed (`roll`); live play only for the quirks (`soulLive`), so catch-up runs
  * as before.
  */
-import { SHADOW_SOUL } from '../config/tuning-soul-r11';
+import { SHADOW_SOUL } from '../config/tuning-more/soul-quirks-gait';
 import { soulLive } from './antics';
 import type { IdleAct } from './soul-idle';
 import { roll } from './traits';

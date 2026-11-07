@@ -4,7 +4,7 @@
  * down. The UI starts it (`startQuip`); both renderers ask `quipBeat` each frame. Under
  * reduced motion it is one still frame: sitting, for the whole beat.
  */
-import { EVOLVE_QUIP } from '../config/tuning-fun-r7';
+import { EVOLVE_QUIP } from '../config/tuning-more/fun-voice-antics';
 
 const started = new Map<string, number>();
 

@@ -23,7 +23,7 @@ import { PKG_U4_STAGES } from './scene-stages-pkg-u4';
 /**
  * Staging authored beside the scripts rather than in them (campaign graphics C1): a scene's
  * own `stage` wins, field by field, over its entry here. Keyed by scene id. One file per
- * campaign, merged here. Package E's `E_STAGES` (tuning-e.ts) sits under these: where a
+ * campaign, merged here. Package E's `E_STAGES` (tuning-more/campaign-people-lanterns.ts) sits under these: where a
  * field is set in both, this one wins, so entries leave out what E already seats. The second
  * pass's package overlays (`scene-stages-pkg-<pkg>.ts`, test data) sit under the content
  * files, field by field: where both set a field, the content file's wins.

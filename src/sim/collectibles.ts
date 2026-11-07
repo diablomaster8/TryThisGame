@@ -5,7 +5,7 @@ import {
   type CollectibleKind,
 } from '../config/region-collectibles';
 import type { RegionId } from '../config/regions';
-import { KEEPSAKE_SPOTS, SET_REWARDS } from '../config/tuning-r12d2';
+import { KEEPSAKE_SPOTS, SET_REWARDS } from '../config/tuning-more/world-content-tables';
 import { WORLD_TRACES } from '../content/world-traces';
 import { drawnRegionOf } from './region-walk';
 import { scatterSpots } from './region-spots';

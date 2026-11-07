@@ -6,7 +6,7 @@
  */
 import type { AiLevel, BattleContext, BattleEvent, Combatant, SideIx } from '../types';
 
-export interface Cell {
+export interface TacticsCell {
   x: number;
   y: number;
 }
@@ -31,7 +31,7 @@ export const TILE = {
   /** An exit tile (the escort and reach objectives). */
   exit: 12,
 } as const;
-export type TileKind = (typeof TILE)[keyof typeof TILE];
+export type TacticsTileKind = (typeof TILE)[keyof typeof TILE];
 
 /** A map in memory. `height` is 0..4; a blocking tile's height is its top. */
 export interface GridMap {
@@ -39,7 +39,7 @@ export interface GridMap {
   h: number;
   tiles: Uint8Array;
   height: Uint8Array;
-  deploy: { a: Cell[]; b: Cell[] };
+  deploy: { a: TacticsCell[]; b: TacticsCell[] };
 }
 
 /** A map as it travels in the state and the save. */
@@ -48,7 +48,7 @@ export interface SerialMap {
   h: number;
   tiles: string;
   height: string;
-  deploy: { a: Cell[]; b: Cell[] };
+  deploy: { a: TacticsCell[]; b: TacticsCell[] };
 }
 
 /** North is −y. */
@@ -116,7 +116,7 @@ export interface Objective {
   kind: ObjectiveKind;
   /** calmBoss: the boss's id. escort: the critter's id. reach and escort: the goal tile. */
   target?: string;
-  goal?: Cell;
+  goal?: TacticsCell;
   /** holdLanterns: lanterns to keep lit; gather: fruit to collect; survive/hold: rounds. */
   count?: number;
   rounds?: number;
@@ -149,7 +149,7 @@ export type TacticsAction =
 export type TacticsEvent =
   | BattleEvent
   | { k: 'turn'; who: string; tick: number }
-  | { k: 'step'; who: string; path: Cell[] }
+  | { k: 'step'; who: string; path: TacticsCell[] }
   | { k: 'undo'; who: string }
   | { k: 'wait'; who: string; face: Dir }
   | { k: 'charge'; who: string; move: string; x: number; y: number; ticks: number }
@@ -188,10 +188,10 @@ export interface TacticsState {
   /** The active unit's turn so far: where it started (for undo) and what it has done. */
   moved: boolean;
   acted: boolean;
-  from: Cell | null;
+  from: TacticsCell | null;
   charges: Charge[];
   /** Fruit lying on tiles (shaken from a tree, or the gather objective's). */
-  fruit: Cell[];
+  fruit: TacticsCell[];
   objective: Objective;
   progress: ObjectiveProgress;
   /** How each side chooses; a side with no level is the player's. */

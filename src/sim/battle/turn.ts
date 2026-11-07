@@ -1,8 +1,8 @@
-import { FUN_FUMBLE } from '../../config/tuning-battle-r6';
+import { FUN_FUMBLE } from '../../config/tuning-more/battle-ladder-fusion';
 import { fuse, tickFusion } from './fusion';
 import { BATTLE } from '../../config/tuning-battle';
 import { BATTLE_DOUBLES, BATTLE_STALEMATE } from '../../config/tuning-battle-atb';
-import { BATTLE_R5 } from '../../config/tuning-battle-r5';
+import { BATTLE_R5 } from '../../config/tuning-more/battle-doors';
 import type { Rng } from '../rng';
 import { chooseAction, levelFor, replacementFor } from './ai';
 import { addCalm, calmGain } from './befriend';

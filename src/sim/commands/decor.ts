@@ -7,7 +7,7 @@ import { paintTile } from '../tiles';
 import { placeOnPlot, removeFromPlot } from '../region-plots';
 import type { Handlers } from './types';
 
-export const handlers: Handlers = {
+export const handlers = {
   buyDecor(world, cmd, events) {
     buyDecor(world, cmd.decor, events);
     return;
@@ -35,4 +35,4 @@ export const handlers: Handlers = {
     paintTile(world, cmd.pos, cmd.tile, events);
     return;
   },
-};
+} satisfies Handlers;

@@ -1,5 +1,5 @@
 import { FRIENDS } from '../config/tuning';
-import { FRIENDS_AWAY } from '../config/tuning-fun-r7';
+import { FRIENDS_AWAY } from '../config/tuning-more/fun-voice-antics';
 import { stepPairPlay } from './pair-play';
 import { stepToyPairs } from './toy-pair';
 import { addHappiness } from './needs';
