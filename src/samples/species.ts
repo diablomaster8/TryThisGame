@@ -1205,6 +1205,9 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
             // The Chao leaf is an opaque painted wing; the fairy, feather and bat ones see through.
             opacity: w.shape === undefined ? 1 : 0.8,
             side: THREE.DoubleSide,
+            // A flat shape: one pass draws exactly what three's back-then-front pair would,
+            // without re-picking the program twice a frame for each see-through wing.
+            forceSinglePass: true,
             roughness: 0.2,
             transmission: w.shape === undefined ? 0 : 0.3,
           }),
@@ -1367,6 +1370,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   const blobWorld = new THREE.Matrix4();
   const blobPos = new THREE.Vector3();
   const blobScale = new THREE.Vector3();
+  // What the blob's heights were last laid for (x, z, scale and the four footprint samples):
+  // a body standing still keeps them, so the 81 ground lookups and the upload are skipped.
+  // A typed array, so writing it each frame allocates nothing.
+  const blobKey = new Float64Array(7).fill(NaN);
 
   root.scale.setScalar(spec.scale);
   root.userData.footprint = footprint * spec.scale;
@@ -2438,10 +2445,30 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       root.updateMatrix();
       blobWorld.compose(blobPos.set(px, 0, pz), BLOB_UPRIGHT, blobScale.setScalar(bs));
       blob.matrix.copy(root.matrix).invert().multiply(blobWorld);
-      const bp = blobGeo.attributes.position as THREE.BufferAttribute;
-      for (let i = 0; i < bp.count; i++)
-        bp.setY(i, (rig.ground(px + bp.getX(i) * bs, pz + bp.getZ(i) * bs) + BLOB_CLEARANCE) / bs);
-      bp.needsUpdate = true;
+      if (
+        blobKey[0] !== px ||
+        blobKey[1] !== pz ||
+        blobKey[2] !== bs ||
+        blobKey[3] !== hF ||
+        blobKey[4] !== hB ||
+        blobKey[5] !== hR ||
+        blobKey[6] !== hL
+      ) {
+        blobKey[0] = px;
+        blobKey[1] = pz;
+        blobKey[2] = bs;
+        blobKey[3] = hF;
+        blobKey[4] = hB;
+        blobKey[5] = hR;
+        blobKey[6] = hL;
+        const bp = blobGeo.attributes.position as THREE.BufferAttribute;
+        for (let i = 0; i < bp.count; i++)
+          bp.setY(
+            i,
+            (rig.ground(px + bp.getX(i) * bs, pz + bp.getZ(i) * bs) + BLOB_CLEARANCE) / bs,
+          );
+        bp.needsUpdate = true;
+      }
     }
     crownSpring?.update(fdt, still);
     mouth.open(mouthOpen);
@@ -2477,13 +2504,15 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     }
     // The irises: each eye takes the look point in its own frame, so the pair converge on
     // a near point by themselves; with nothing to look at they drift in a slow wander.
-    if (rig.lookAt) root.updateWorldMatrix(true, true);
+    // Each eye's own chain is brought up to date below (not the whole rig: the render updates
+    // every other part anyway, and the rig is a few dozen objects).
     const ease = 1 - Math.exp(-IRIS_EASE * fdt);
     eyes.forEach((e, i) => {
       const u = e.iris.userData as { r: number; tall: number; depth: number };
       let tx: number;
       let ty: number;
       if (rig.lookAt) {
+        e.group.updateWorldMatrix(true, false);
         gaze.copy(rig.lookAt);
         e.group.worldToLocal(gaze);
         const len = gaze.length() || 1;

@@ -24,8 +24,10 @@ const patched = new WeakSet<THREE.Material>();
 
 export class Occluders {
   private boxes: Box[] = [];
-  private readonly a = { value: [] as THREE.Vector4[] };
-  private readonly b = { value: [] as THREE.Vector4[] };
+  // Flat vec4 arrays (min and roof height, max and fade per box): three passes a flat array
+  // straight to its equality check, where an array of vectors is flattened on every draw.
+  private readonly a = { value: new Float32Array(OCCLUDE.max * 4) };
+  private readonly b = { value: new Float32Array(OCCLUDE.max * 4) };
   private readonly n = { value: 0 };
   private readonly keep = { value: new THREE.Vector2(OCCLUDE.roofKeep, OCCLUDE.wallKeep) };
   private readonly ray = new THREE.Vector3();
@@ -61,10 +63,6 @@ export class Occluders {
   private readonly ghosted = new WeakSet<THREE.Object3D>();
 
   constructor() {
-    for (let i = 0; i < OCCLUDE.max; i++) {
-      this.a.value.push(new THREE.Vector4());
-      this.b.value.push(new THREE.Vector4());
-    }
     this.ghostMat.visible = false;
     this.edgeMat.visible = false;
   }
@@ -212,8 +210,16 @@ uniform vec2 uObxKeep;`,
       else
         bx.t = hit ? Math.min(1, bx.t + dt / OCCLUDE.inS) : Math.max(0, bx.t - dt / OCCLUDE.outS);
       if (bx.t > 0) any = true;
-      this.a.value[i]!.set(bx.min.x, bx.min.y, bx.min.z, bx.roofY);
-      this.b.value[i]!.set(bx.max.x, bx.max.y, bx.max.z, bx.t);
+      const a = this.a.value;
+      const b = this.b.value;
+      a[i * 4] = bx.min.x;
+      a[i * 4 + 1] = bx.min.y;
+      a[i * 4 + 2] = bx.min.z;
+      a[i * 4 + 3] = bx.roofY;
+      b[i * 4] = bx.max.x;
+      b[i * 4 + 1] = bx.max.y;
+      b[i * 4 + 2] = bx.max.z;
+      b[i * 4 + 3] = bx.t;
     }
     this.n.value = any ? this.boxes.length : 0;
     return keeperHidden;

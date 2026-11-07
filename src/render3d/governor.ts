@@ -3,9 +3,10 @@ import { GROVE3D, PERF_BUDGET } from '../config/tuning';
 /**
  * The Full 3D frame-time governor (review C, item 6). It watches the time between frames
  * and lowers the render scale (the renderer's pixel ratio) while the device cannot hold the
- * 30 fps floor, then raises it again slowly once frames come easily. A step that buys no
- * time (a frame held up by the CPU, not by filling pixels) is taken back, and the scale
- * never drops that low again, so a CPU-bound phone keeps a sharp picture.
+ * 60 fps target (`GROVE3D.governor`), then raises it again slowly once frames come easily.
+ * A step that buys no time (a frame held up by the CPU, not by filling pixels) is taken
+ * back, and the scale never drops that low again, so a CPU-bound phone keeps a sharp
+ * picture.
  *
  * A frame still slow at the lowest useful scale is held up by the CPU, so the governor then
  * steps through CPU savings (`cpuLevel`, 0 to `cpuLevels`: the scene decides what each step
@@ -14,11 +15,10 @@ import { GROVE3D, PERF_BUDGET } from '../config/tuning';
  * frames straight back is kept for good, so the picture does not flicker between the two.
  * Some places shed effects before any sharpness (`setShedSteps`; the Hollow Below sheds
  * particles, then triplanar rock, then bloom, `cave-shed.ts`): while shed steps are set, a
- * frame slower than the shed target (`GROVE3D.cave.light.governor.slowMs`, the phone target
- * rather than the 30 fps floor) takes the next shed step (`shedLevel`) before the render scale
+ * frame slower than the shed target (`GROVE3D.cave.light.governor.slowMs` underground, the
+ * governor's own above it) takes the next shed step (`shedLevel`) before the render scale
  * moves, and a fast run gives sharpness back before the shed steps, the latest first; a shed
- * step given back
- * that brings the slow frames straight back stays on while the place lasts.
+ * step given back that brings the slow frames straight back stays on while the place lasts.
  * Pure apart from the numbers it is fed, so the tests drive it with made-up frame times.
  */
 /** TECH-52: a governor's level, as kept between sessions (`platform/gov-memory.ts`). */

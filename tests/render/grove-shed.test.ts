@@ -48,12 +48,20 @@ describe('3D start at the device tier', () => {
     expect(firstRatioDrop).toBe(shed.steps);
   });
 
-  it('keeps everything on a device that holds 30 fps', () => {
+  it('keeps everything on a device that holds 60 fps', () => {
     const g = new FrameGovernor(1.5);
-    g.setShedSteps(4, 'grove', GROVE3D.governor);
-    for (let i = 0; i < 1000; i++) g.sample(25);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    for (let i = 0; i < 1000; i++) g.sample(16.7);
     expect(g.shedLevel).toBe(0);
     expect(g.ratio).toBe(1.5);
+  });
+
+  it('starts shedding once the frame runs past 60 fps (hot/perf-leaks)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    // 45 fps: once over the 30 fps floor this was left alone.
+    for (let i = 0; i < 200; i++) g.sample(22);
+    expect(g.shedLevel).toBeGreaterThan(0);
   });
 
   it('starts the Grove list at the remembered step and the cave list clean', () => {

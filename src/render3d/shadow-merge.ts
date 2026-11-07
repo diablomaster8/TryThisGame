@@ -111,7 +111,11 @@ export class ShadowMerge {
     const map = renderer.shadowMap;
     const draw = map.render.bind(map);
     map.render = (lights, scene, camera) => {
-      this.show(lights);
+      // Three draws nothing on these calls (`WebGLShadowMap.render` returns first), so the merged
+      // index is left as it is: the post passes render with no lights, and re-slicing for them
+      // rewrote (and re-uploaded) every merged index twice a frame.
+      if (map.enabled && (map.autoUpdate || map.needsUpdate) && lights.length > 0)
+        this.show(lights);
       for (const o of this.shadowOnly) o.visible = this.enabled;
       try {
         draw(lights, scene, camera);

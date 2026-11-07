@@ -32,9 +32,11 @@ and no memory), so they read as mid; Settings → Quality → High lifts them.
 
 ## How the renderers hold it
 
-- **Full 3D** starts at the tier's settings (TECH-52) and the frame governor sheds, in order:
-  particles, SMAA, bloom, shadow redraws, then the render scale, then CPU savings. The settled
-  level is kept per device in `grove.gov3d` and the next boot starts there.
+- **Full 3D** starts at the tier's settings (TECH-52) and, once the smoothed frame runs over
+  19 ms (the 60 fps target, hot/perf-leaks 2026-11-06), the frame governor sheds, in order:
+  particles, the sun's shadow redrawn every second frame, SMAA, bloom, the sun's shadow, then
+  the render scale, then CPU savings. The settled level is kept per device in `grove.gov3d`
+  and the next boot starts there.
 - **Pixel** has a light governor (TECH-53): full particles to light, wind sway off, weather
   overlay off, then the frame height 540 → 432. Kept in `grove.govpx`.
 

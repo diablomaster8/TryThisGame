@@ -46,6 +46,9 @@ export class AmbientLife3d {
         transparent: opacity < 1,
         opacity,
         depthWrite: opacity >= 1,
+        // Flat quads: one pass draws exactly what three's back-then-front pair would, without
+        // re-picking the program twice a frame for a see-through double-sided material.
+        forceSinglePass: true,
       });
       const mesh = new THREE.InstancedMesh(g, mat, CAP);
       mesh.count = 0;
