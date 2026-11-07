@@ -5928,8 +5928,33 @@ body.edu-sprout .topbar .btn-logo::before {
     linear-gradient(90deg, rgba(255, 255, 255, 0.35) 2px, transparent 2px);
   background-size: 14px 14px;
 }
-.edu-pat-solid {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18));
+.edu-pat-chequer {
+  background-image:
+    linear-gradient(45deg, rgba(27, 19, 38, 0.28) 25%, transparent 25% 75%, rgba(27, 19, 38, 0.28) 75%),
+    linear-gradient(45deg, rgba(27, 19, 38, 0.28) 25%, transparent 25% 75%, rgba(27, 19, 38, 0.28) 75%);
+  background-size: 12px 12px;
+  background-position:
+    0 0,
+    6px 6px;
+}
+.edu-pat-dotborder {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 2px, transparent 2.5px), radial-gradient(circle, rgba(255, 255, 255, 0.9) 2px, transparent 2.5px), radial-gradient(circle, rgba(255, 255, 255, 0.9) 2px, transparent 2.5px), radial-gradient(circle, rgba(255, 255, 255, 0.9) 2px, transparent 2.5px);
+  background-size: 12px 12px;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-position:
+    0 -3px,
+    0 calc(100% - 9px),
+    -3px 0,
+    calc(100% - 9px) 0;
+}
+.edu-nopat .edu-swatch {
+  background-image: none;
+}
+.edu-pat-toggle {
+  display: block;
+  margin: 10px auto 0;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 /* R0733: the shape hunt */

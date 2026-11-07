@@ -16,7 +16,12 @@ import type { EduBand } from '../../content/types';
 import type { Rng } from '../../sim/rng';
 import { READER_ROUNDS } from './reader-games';
 import { GROVE_HUNT_SHAPES, GROVE_SHAPES } from '../../config/edu-grove-shapes';
-import { EDU_COLOUR_THINGS, EDU_COLOUR_THING_SHARE } from '../../config/edu-things';
+import {
+  EDU_COLOUR_THINGS,
+  EDU_COLOUR_THING_SHARE,
+  EDU_HUNT_COLOURS,
+  EDU_HUNT_SHARE,
+} from '../../config/edu-things';
 import { animalClip, firstSound, phonemeClip, wordClip } from '../../config/edu';
 
 /**
@@ -31,7 +36,7 @@ export type EduOption =
   /** R0732: a pixel object in a colour (a red apple); `label` is the colour word. */
   | { kind: 'thing'; icon: string; colour: string; label: string; name: string }
   /** R0733: a tappable prop in the Grove still; `prop` is its id in `GROVE_SHAPES`. */
-  | { kind: 'prop'; prop: string; shape: string; label: string }
+  | { kind: 'prop'; prop: string; shape: string; label: string; colour?: string | undefined }
   | { kind: 'letter'; letter: string }
   | { kind: 'count'; icon: string; n: number; label: string }
   | { kind: 'number'; n: number }
@@ -179,9 +184,12 @@ export function colourRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
 export function shapeHuntRound(rng: Rng): EduRound {
   const right = rng.pick(GROVE_HUNT_SHAPES);
   const others = pickDistinct(rng, GROVE_HUNT_SHAPES, 2, (s) => s === right);
+  // Each prop gets its own colour from the pool, so no colour goes with a shape.
+  const hues = pickDistinct(rng, EDU_HUNT_COLOURS, others.length + 1);
+  let n = 0;
   const mk = (shape: string): EduOption => {
     const p = rng.pick(GROVE_SHAPES.filter((x) => x.shape === shape));
-    return { kind: 'prop', prop: p.id, shape, label: cap(shape) };
+    return { kind: 'prop', prop: p.id, shape, label: cap(shape), colour: hues[n++] };
   };
   const { options, answer } = shuffleWithAnswer(rng, mk(right), others.map(mk));
   return {
@@ -197,7 +205,7 @@ export function shapeHuntRound(rng: Rng): EduRound {
 }
 
 export function shapeRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
-  if (age >= 5 && rng.chance(0.3)) return shapeHuntRound(rng);
+  if (age >= 5 && rng.chance(EDU_HUNT_SHARE)) return shapeHuntRound(rng);
   const shapes = EDU_SHAPES[age];
   const right = pickTarget(rng, shapes, (x) => `shape:${x}`, weigh);
   const others = pickDistinct(rng, shapes, optionCount(age) - 1, (s) => s === right);

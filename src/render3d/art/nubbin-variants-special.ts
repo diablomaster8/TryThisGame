@@ -60,7 +60,7 @@ const ETERNAL_SUN = variant(SUN_ADULT, 'Nubbin (Eternal Sun)', {
     ball(V(0, 3.17, -0.62), 0.07, '#c8ffe0'),
   ],
   ball: { shape: 'halo', y: 3.65, color: '#ffe680', glow: '#d0a020' },
-  wings: { shape: 'feather', size: 2.2 },
+  wings: { shape: 'feather', size: 2.2, x: 0.6, y: 0.9 },
   scale: 0.9,
   // R0404 (LOOK-37): the angel-white glowing rim.
   surface: { ...GLASS, rimGlow: 0.3 },
@@ -86,17 +86,17 @@ const ETERNAL_MOON = variant(MOON_ADULT, 'Nubbin (Eternal Moon)', {
     blush: MOON_BODY,
     star: MOON_BODY,
     iris: '#e0562e',
-    wing: MOON_BODY,
+    wing: '#4a3c9a',
   },
   // Small blue horns at the top corners of the head; the crest is painted between them.
   crown: [-1, 1].map((dx) =>
     cone(V(dx * 0.72, 2.45, -0.05), V(dx * 0.85, 2.85, -0.1), 0.13, 0.02, MOON_ICE, 'horn', 0.04),
   ),
   // LOOK-37 (R0404): the Chaos-tier signature, bat wings at 2.2 and a spade-tipped tail.
-  wings: { shape: 'bat', size: 2.2 },
+  wings: { shape: 'bat', size: 2.2, full: true, raise: 0.3, x: 1.0, y: 0.9 },
   ball: { shape: 'spikes', color: '#2a1a60', glow: '#7a4fc0' },
   slots: {
-    tail: devilTail(MOON_BODY, MOON_ICE),
+    tail: devilTail(MOON_BODY, MOON_ICE, 1.3),
     arms: [
       gloveArm(-1, MOON_BODY, MOON_BODY, { y: 1.2, reach: 1.0, hand: 0.3 }),
       gloveArm(1, MOON_BODY, MOON_BODY, { y: 1.2, reach: 1.0, hand: 0.3 }),
@@ -131,7 +131,7 @@ const ETERNAL_MOON = variant(MOON_ADULT, 'Nubbin (Eternal Moon)', {
   // R0404 (LOOK-37): the line-up eyes, their red-orange lit from within (glow 0.6).
   eyes: { x: 0.42, y: 2.0, r: 0.24, tall: 1.4, lidColor: WHITE, brow: false, glow: 0.6 },
   mouth: { shape: 'o', width: 0.07, y: 1.66, z: 1.0, line: '#6a1a2a' },
-  surface: { ...GLASS, glowStrength: 1.4 },
+  surface: { ...GLASS, glowStrength: 1.4, rimGlow: 0.3 },
   patch: (spec) => {
     const dome = spec.head.prims.find((p) => p.tag === 'head')!;
     dome.a.set(0, 2.0, 0);
@@ -235,7 +235,7 @@ const ETERNAL_NEUTRAL = variant(NEUTRAL_ADULT, 'Nubbin (Eternal Neutral)', {
   // The closed eye is a white oval with a grey ^; the lids carry the white.
   eyes: { x: 0.46, y: 2.02, r: 0.27, tall: 1.3, lidColor: WHITE, brow: false },
   mouth: { shape: 'smile', width: 0.1, y: 1.7, z: 1.0, line: NEUTRAL_LIME },
-  surface: GLASS,
+  surface: { ...GLASS, rimGlow: 0.3 },
   hints: [
     ...[-1, 1].map((dx) => ({
       kind: 'ellipsoid' as const,

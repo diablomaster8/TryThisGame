@@ -8,6 +8,7 @@ import { LANE_E_R9_COSMETICS } from './cosmetics-r9e'; /* Lane E r9 */
 import { SECRETS_R9B_COSMETICS } from './cosmetics-r9b'; /* Lane B r9 */
 import { FACE_COSMETICS, RACE_BAND_COSMETICS } from './cosmetics-r11e'; /* Lane E r11 */
 import { COSTUME_COSMETICS } from './cosmetics-costumes'; /* Lane E r11 */
+import { EDU_COSMETICS } from './cosmetics-edu'; /* R0741 */
 import type { Season } from '../sim/types';
 
 /**
@@ -601,6 +602,8 @@ export const COSMETICS: readonly Cosmetic[] = [
   ...RACE_BAND_COSMETICS,
   // Lane E r11 (R0413): the five body costumes.
   ...COSTUME_COSMETICS,
+  // R0741: the Learning Grove's keepsakes, worn as hats.
+  ...EDU_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));
