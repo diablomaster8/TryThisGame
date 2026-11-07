@@ -11,14 +11,19 @@ const slash = (p: string): string => p.replaceAll('\\', '/');
  * together they still cover every file exactly once.
  */
 export default class WeightedShardSequencer extends BaseSequencer {
+  /** The file's path from the repo root, as `shard-weights.ts` lists it. */
+  private rel(spec: TestSpecification): string {
+    const root = slash(this.ctx.config.root).replace(/\/$/, '');
+    const id = slash(spec.moduleId);
+    return id.startsWith(`${root}/`) ? id.slice(root.length + 1) : id;
+  }
+
   override async shard(files: TestSpecification[]): Promise<TestSpecification[]> {
     const shard = this.ctx.config.shard;
     if (!shard) return files;
-    const root = slash(this.ctx.config.root).replace(/\/$/, '');
     const items = files
       .map((spec) => {
-        const id = slash(spec.moduleId);
-        const rel = id.startsWith(`${root}/`) ? id.slice(root.length + 1) : id;
+        const rel = this.rel(spec);
         return { spec, rel, weight: SHARD_WEIGHTS[rel] ?? DEFAULT_WEIGHT };
       })
       .sort((a, b) => b.weight - a.weight || (a.rel < b.rel ? -1 : 1));
@@ -31,5 +36,19 @@ export default class WeightedShardSequencer extends BaseSequencer {
       if (lightest === shard.index - 1) mine.push(item.spec);
     }
     return mine;
+  }
+
+  /**
+   * Heaviest files first inside the shard as well. Vitest's own order (cached durations, else
+   * file size) has nothing to go on in a fresh CI checkout, so a 76 s scripted run could start
+   * last and hold the shard open long after the other workers went idle. Longest first, the
+   * shard ends close to max(heaviest file, total / workers).
+   */
+  override async sort(files: TestSpecification[]): Promise<TestSpecification[]> {
+    const sorted = await super.sort(files);
+    const weight = (spec: TestSpecification): number =>
+      SHARD_WEIGHTS[this.rel(spec)] ?? DEFAULT_WEIGHT;
+    // Array.prototype.sort is stable: equal weights keep Vitest's order.
+    return sorted.sort((a, b) => weight(b) - weight(a));
   }
 }

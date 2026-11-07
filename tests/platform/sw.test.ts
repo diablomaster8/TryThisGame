@@ -35,7 +35,9 @@ class FakeCache {
   }
 }
 
-function boot(opts: { active?: boolean; network?: (req: Request) => Promise<Response> } = {}) {
+function boot(
+  opts: { active?: boolean; network?: (req: Request) => Promise<Response>; src?: string } = {},
+) {
   const caches = new Map<string, FakeCache>();
   const storage = {
     open: (n: string) => {
@@ -64,7 +66,12 @@ function boot(opts: { active?: boolean; network?: (req: Request) => Promise<Resp
       super(new URL(url, `${ORIGIN}/`).href, init);
     }
   }
-  new Function('self', 'caches', 'fetch', 'Request', SRC)(self, storage, fetch, ScopedRequest);
+  new Function('self', 'caches', 'fetch', 'Request', opts.src ?? SRC)(
+    self,
+    storage,
+    fetch,
+    ScopedRequest,
+  );
 
   /** Fires one event; resolves once every waitUntil and respondWith promise has settled. */
   async function fire(type: string, extra: Record<string, unknown> = {}) {
@@ -182,5 +189,24 @@ describe('service worker (TECH-43)', () => {
     expect(await (await now.match(HASHED_URL))!.text()).toBe('old chunk');
     expect(now.store.has(`${ORIGIN}/index.html`)).toBe(false);
     expect(sw.self.clients.claim).toHaveBeenCalled();
+  });
+
+  it('carries over only the chunks the new build still has', async () => {
+    // As the `sw-build-id` plugin writes it in: this build's files under assets/.
+    const src = SRC.replace(
+      '/*__GROVE_BUILD_FILES__*/ null',
+      JSON.stringify(['assets/index-B2x9fQ1a.js']),
+    );
+    const sw = boot({ active: true, src });
+    const old = new FakeCache();
+    const gone = `${ORIGIN}/TryThisGame/assets/hud-Zz9yX8wV.js`;
+    await old.put(HASHED_URL, new Response('kept chunk'));
+    await old.put(gone, new Response('replaced chunk'));
+    sw.caches.set('grove-old', old);
+    await sw.fire('activate');
+    const now = sw.caches.get('grove-new')!;
+    expect(await (await now.match(HASHED_URL))!.text()).toBe('kept chunk');
+    expect(now.store.has(gone)).toBe(false);
+    expect([...sw.caches.keys()]).toEqual(['grove-new']);
   });
 });

@@ -23,6 +23,7 @@ process.env.TZ ??= 'UTC';
 function swBuildId(): Plugin {
   let outDir = 'dist';
   let id = '';
+  let files: string[] = [];
   return {
     name: 'sw-build-id',
     apply: 'build',
@@ -30,17 +31,22 @@ function swBuildId(): Plugin {
       outDir = resolve(config.root, config.build.outDir);
     },
     generateBundle(_options, bundle) {
-      id = createHash('sha256')
-        .update(Object.keys(bundle).sort().join('\n'))
-        .digest('hex')
-        .slice(0, 12);
+      const names = Object.keys(bundle).sort();
+      id = createHash('sha256').update(names.join('\n')).digest('hex').slice(0, 12);
+      // Efficiency (2026-11-07): the worker carries over only this build's files on a deploy.
+      files = names.filter((f) => f.startsWith('assets/'));
     },
     closeBundle() {
       const file = resolve(outDir, 'sw.js');
       if (!id || !existsSync(file)) return;
       const src = readFileSync(file, 'utf8');
+      const slot = '/*__GROVE_BUILD_FILES__*/ null';
       if (!src.includes('__GROVE_BUILD_ID__')) throw new Error('sw.js has no build id slot');
-      writeFileSync(file, src.replaceAll('__GROVE_BUILD_ID__', id));
+      if (!src.includes(slot)) throw new Error('sw.js has no build files slot');
+      writeFileSync(
+        file,
+        src.replaceAll('__GROVE_BUILD_ID__', id).replace(slot, () => JSON.stringify(files)),
+      );
     },
   };
 }

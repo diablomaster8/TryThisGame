@@ -23,6 +23,13 @@ const HASHED = /\/assets\/[^/]+-[\w-]{8,}\.\w+$/;
  * copy that was stored from a plain fetch.
  */
 const ANY = { ignoreVary: true };
+/**
+ * This build's hashed files (paths from the site root, such as "assets/index-B2x9fQ1a.js"),
+ * written in by the `sw-build-id` plugin. Taking over, the worker carries over from an old
+ * cache only the files this build still has, so the cache no longer grows by every changed
+ * chunk of every deploy. null (an unbuilt copy) carries every hashed file over.
+ */
+const BUILD_FILES = /*__GROVE_BUILD_FILES__*/ null;
 /** How long a navigation waits on the network before a held copy of the page answers. */
 const NAV_WAIT_MS = 2500;
 
@@ -144,14 +151,20 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/** Copy the old caches' hashed chunks (same name, same bytes) so offline play keeps them. */
+/**
+ * Copy the old caches' hashed chunks (same name, same bytes) that this build still uses, so
+ * offline play keeps them; chunks a deploy replaced are left behind with the old cache.
+ */
 async function carryOver(oldNames) {
   const cache = await caches.open(CACHE);
+  const current = Array.isArray(BUILD_FILES) ? new Set(BUILD_FILES) : null;
+  const inBuild = (path) => !current || current.has(path.slice(path.lastIndexOf('/assets/') + 1));
   for (const name of oldNames) {
     try {
       const old = await caches.open(name);
       for (const req of await old.keys()) {
-        if (!HASHED.test(new URL(req.url).pathname) || (await cache.match(req, ANY))) continue;
+        const path = new URL(req.url).pathname;
+        if (!HASHED.test(path) || !inBuild(path) || (await cache.match(req, ANY))) continue;
         const res = await old.match(req, ANY);
         if (res) await cache.put(req, res).catch(() => undefined);
       }
