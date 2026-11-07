@@ -33,7 +33,12 @@ export function pondIsIce(
 ): boolean {
   if (world.location !== 'grove') return false;
   const c = world.campaign;
-  if (c) return (c.storyline ?? 'hazel') === 'hazel' && c.chapter >= 10 && c.chapter <= 12;
+  // As the renderers draw it: Hazel's frozen chapters, or the debug panel's forced winter.
+  if (c)
+    return (
+      ((c.storyline ?? 'hazel') === 'hazel' && c.chapter >= 10 && c.chapter <= 12) ||
+      world.debugSeason === 'winter'
+    );
   if (world.debugSeason) return world.debugSeason === 'winter';
   return world.season === 'winter' && calendarWorlds.has(world);
 }
