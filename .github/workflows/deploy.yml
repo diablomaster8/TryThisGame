@@ -12,13 +12,16 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # A running deploy always finishes; newer pushes queue behind it (a push used to cancel it, and
+  # with a 10+ minute build nothing ever deployed).
+  cancel-in-progress: false
 
 jobs:
   # Test-speed: the checks run as parallel jobs, and deploy waits for all of them. The unit
   # tests are split into six shards (npx vitest run --shard=N/6, files dealt out by weight, see tests/shard-weights.ts).
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,6 +35,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -53,6 +57,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

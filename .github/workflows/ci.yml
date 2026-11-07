@@ -27,6 +27,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -48,6 +49,7 @@ jobs:
   # TECH-45: the sim reads no time zone, so its suite must pass outside UTC too.
   test-tokyo:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:

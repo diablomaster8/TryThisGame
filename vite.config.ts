@@ -259,6 +259,8 @@ export default defineConfig({
     // Test-speed: `--shard` deals the heavy scripted runs out by weight (tests/shard-weights.ts).
     sequence: { sequencer: WeightedShardSequencer },
     // HOT-CI: CI runners are slower and noisier; long sim tests get the scaled timeout there.
+    // A hook (beforeAll and the like) that never settles must fail, not hold a worker.
+    hookTimeout: 60_000,
     testTimeout: TIMING_BUDGET.testTimeoutMs * (process.env.CI ? TIMING_BUDGET.ciTimeoutScale : 1),
     // TECH-42: two projects. `unit` skips the story scripts (see tests/test-projects.ts);
     // `stories` registers them up front, as the app's boot does. The sample generators in
