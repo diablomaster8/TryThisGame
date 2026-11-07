@@ -1,4 +1,4 @@
-import { CG4_A2 } from '../config/tuning-a2';
+import { CG4_A2 } from '../config/tuning-more/campaign4-walkons';
 
 /**
  * Campaign graphics 4, package a2 (K36): the shared half of the walk-ons' footprints. Fed

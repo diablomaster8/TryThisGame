@@ -11,7 +11,7 @@ import type { MoveDef } from '../types';
 import { reachBonus } from './facing';
 import { blocks, heightAt, inside, tileAt } from './map';
 import { hiddenFrom } from './terrain';
-import type { Cell, GridMap } from './types';
+import type { TacticsCell, GridMap } from './types';
 
 export interface GridProfile {
   range: [number, number];
@@ -50,11 +50,11 @@ export function gridOf(m: MoveDef): GridProfile {
   };
 }
 
-export const manhattan = (a: Cell, b: Cell): number => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+export const manhattan = (a: TacticsCell, b: TacticsCell): number => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
 /** The tiles a straight line from `a` to `b` crosses, ends excluded (Bresenham). */
-export function lineCells(a: Cell, b: Cell): Cell[] {
-  const out: Cell[] = [];
+export function lineCells(a: TacticsCell, b: TacticsCell): TacticsCell[] {
+  const out: TacticsCell[] = [];
   let x = a.x;
   let y = a.y;
   const dx = Math.abs(b.x - a.x);
@@ -83,7 +83,7 @@ export function lineCells(a: Cell, b: Cell): Cell[] {
  * Whether a shot gets from `a` to `b`. An arc clears anything whose top is under
  * max(hA, hB) + 2; a line shot stops at any wall, tree or lantern, or ground higher than both ends.
  */
-export function clearShot(m: GridMap, a: Cell, b: Cell, shot: GridProfile['shot']): boolean {
+export function clearShot(m: GridMap, a: TacticsCell, b: TacticsCell, shot: GridProfile['shot']): boolean {
   if (shot === 'melee') return true;
   const ha = heightAt(m, a.x, a.y);
   const hb = heightAt(m, b.x, b.y);
@@ -104,8 +104,8 @@ export function clearShot(m: GridMap, a: Cell, b: Cell, shot: GridProfile['shot'
  */
 export function canAim(
   m: GridMap,
-  from: Cell,
-  to: Cell,
+  from: TacticsCell,
+  to: TacticsCell,
   p: GridProfile,
   jump: number,
   glider: boolean,
@@ -121,8 +121,8 @@ export function canAim(
 }
 
 /** The tiles a move aimed at `to` covers. */
-export function aoeTiles(m: GridMap, from: Cell, to: Cell, p: GridProfile): Cell[] {
-  const out: Cell[] = [];
+export function aoeTiles(m: GridMap, from: TacticsCell, to: TacticsCell, p: GridProfile): TacticsCell[] {
+  const out: TacticsCell[] = [];
   const add = (x: number, y: number) => {
     if (inside(m, x, y)) out.push({ x, y });
   };

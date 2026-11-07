@@ -16,7 +16,7 @@ import { portraitFrame } from './dialogue';
 import { SPEAKER_NOW } from '../render/stage-actors';
 import { giverOf } from './journal-search';
 import { LINE_REWARD_TEXT, OFFER_WINDOW_TEXT } from '../config/strings-camp9';
-import { OFFER_WINDOWS } from '../config/tuning-camp9';
+import { OFFER_WINDOWS } from '../config/tuning-more/story-quest-flow';
 import { LineCastPrompt } from './line-cast-prompt';
 
 /**

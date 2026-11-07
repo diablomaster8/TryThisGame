@@ -1,5 +1,5 @@
 import { LANTERN_POSTS } from '../config/tuning';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { SceneClock } from '../render/dress-e';

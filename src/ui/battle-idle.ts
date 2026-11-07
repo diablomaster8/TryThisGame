@@ -1,5 +1,5 @@
 import { reducedMotion as motionReduced } from '../platform/motion';
-import { BATTLE_R6 } from '../config/tuning-battle-r6';
+import { BATTLE_R6 } from '../config/tuning-more/battle-ladder-fusion';
 import type { Combatant } from '../sim/battle/types';
 
 /**

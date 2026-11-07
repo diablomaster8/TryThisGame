@@ -14,7 +14,7 @@ import { buildPerformSheet, doodleKey, propKey } from '../render/sprites/perform
 import type { FrameRect, SpriteSheet } from '../render/sprites/atlas';
 import { doodleAlpha } from '../sim/perform';
 import { actDoodleAlpha, actDoodles } from '../render/idle-acts';
-import { IDLE_ACTS } from '../config/tuning-look-r10e';
+import { IDLE_ACTS } from '../config/tuning-more/look-creature-fx';
 import type { World } from '../sim/types';
 
 const NOTE_MS = 1100;

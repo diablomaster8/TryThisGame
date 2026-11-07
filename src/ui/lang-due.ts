@@ -6,7 +6,7 @@
  * simply stops when no word is due. Which word and Nubbin is the sim's pure `pickDueWave`.
  */
 import { DUE_WAVE_TEXT } from '../config/strings-story-r11e';
-import { DUE_WAVE } from '../config/tuning-story-r11e';
+import { DUE_WAVE } from '../config/tuning-more/story-read-aloud';
 import type { Game } from '../game';
 import { playWord } from '../platform/lang-audio';
 import { langWord, peekSrsDay, pickDueWave } from '../sim/lang';

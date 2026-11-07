@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { AMBIENT_LIFE } from '../config/tuning-r11d8';
+import { AMBIENT_LIFE } from '../config/tuning-more/world-region-sky';
 import { WORLD_STREAM } from '../config/tuning-world';
 import {
   ambientFor,

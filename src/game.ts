@@ -56,7 +56,7 @@ import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
 
 import { PixelGovernor } from './render/pixel-gov';
-import { FAST_TIME } from './config/tuning-r8d-perf';
+import { FAST_TIME } from './config/tuning-more/perf-tiers';
 import { dedupeEvents } from './ui/event-dedupe';
 import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';

@@ -3,7 +3,7 @@
  */
 import { UI } from '../config/tuning';
 import { TOASTS } from '../config/tuning-ui';
-import { FIRST_MINUTE } from '../config/tuning-r11d4';
+import { FIRST_MINUTE } from '../config/tuning-more/ui-first-loop';
 import { setIconGlyph } from './pixel-icons';
 
 /**

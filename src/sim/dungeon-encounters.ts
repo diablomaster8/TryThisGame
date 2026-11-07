@@ -11,7 +11,7 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { bravePower } from './dungeon-gear-effects';
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import { GEAR_EFFECTS } from '../config/dungeon-items-r8';
 import { friendBrave, friendPower } from './dungeon-friends';
 import { packKeyWin } from './dungeon-keys';

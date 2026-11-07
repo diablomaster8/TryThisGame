@@ -4,7 +4,7 @@
  * Reads world state and sends commands only.
  */
 import { GROVE } from '../config/tuning';
-import { SNOWBALL } from '../config/tuning-r13d1';
+import { SNOWBALL } from '../config/tuning-more/world-region-content';
 import { GROVE_LABELS, NAMES, UI_TEXT, EDU_TEXT } from '../config/strings';
 import { HATCH_BUTTON_TEXT } from '../config/strings-r8d';
 import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e';

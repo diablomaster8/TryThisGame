@@ -1,4 +1,4 @@
-import { BATTLE_R6 } from '../../config/tuning-battle-r6';
+import { BATTLE_R6 } from '../../config/tuning-more/battle-ladder-fusion';
 import type { Nubbin, SimEvent, World } from '../types';
 import type { BattleContext, BattleState } from './types';
 

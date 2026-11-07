@@ -5,7 +5,7 @@ import {
   SONG_LUFS,
   SONG_MEASURED_LUFS,
   SONG_TRIM_DB,
-} from '../../src/config/tuning-r8d-audio';
+} from '../../src/config/tuning-more/audio-mix';
 
 /** R0507 (TECH-64): the songs sit level once trimmed (the levels are the `?audiolab` offline measurements in LUFS). */
 describe('music levels', () => {

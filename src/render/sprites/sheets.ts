@@ -44,7 +44,7 @@ import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
 import { SHEET_CACHE } from '../../config/tuning-px';
-import { FRAME_LOG } from '../../config/tuning-r8d-perf';
+import { FRAME_LOG } from '../../config/tuning-more/perf-tiers';
 import { FRAME_WORK } from '../../platform/frame-spikes';
 import { dyeToken, rainbowStep } from './rainbow-dye';
 

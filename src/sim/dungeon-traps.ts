@@ -11,7 +11,7 @@
  *   slide on until something stops you.
  */
 import { HOLLOW } from '../config/tuning';
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import { wireOf } from './dungeon-bell-wire';
 import { cellAt, cellCentre, cellDist, cellOf, FLOOR, type Cell, type Floor } from './dungeon';
 import { propBlocked } from './dungeon-props';

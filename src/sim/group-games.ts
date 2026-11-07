@@ -13,7 +13,7 @@
  * live play only, behaviour and looks only.
  */
 import { BEHAVIOR } from '../config/tuning';
-import { GAMES, KEEPER_TAG } from '../config/tuning-soul-r11g';
+import { GAMES, KEEPER_TAG } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
 import { friendship } from './friendships';

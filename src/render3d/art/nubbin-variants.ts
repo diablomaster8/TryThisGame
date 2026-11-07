@@ -1,9 +1,9 @@
 import type * as THREE from 'three';
 import type { NubbinType } from '../../sim/types';
 import { sdf, V, type Prim } from './sculpted';
-import type { Mark, PartSpec, SpeciesSpec } from './species';
+import type { SpeciesMark, PartSpec, SpeciesSpec } from './species';
 import { NUBBIN_SPEC } from './species-data';
-import { CROWN_RUN } from '../../config/tuning-look-r10e';
+import { CROWN_RUN } from '../../config/tuning-more/look-creature-fx';
 
 /**
  * The Nubbin variants as small diffs on `NUBBIN_SPEC`. `variant(base, name, overrides)`
@@ -49,7 +49,7 @@ export interface VariantOverrides {
   /** Parts per slot: `arms` replaces the arms, the others replace any part in that slot. */
   slots?: Partial<Record<Slot, PartSpec[]>>;
   /** Extra marks painted after the base's: alignment hints, patches, rings. */
-  hints?: Mark[];
+  hints?: SpeciesMark[];
   /**
    * The type tells at full strength (quills, a crest and flippers, a long crown and big
    * wings, horns and a wide body) and a second type at half strength.
@@ -82,7 +82,7 @@ const clonePrim = (p: Prim): Prim => ({
   ...(p.b ? { b: vec(p.b) } : {}),
   ...(p.radii ? { radii: vec(p.radii) } : {}),
 });
-const cloneMark = (m: Mark): Mark => ({
+const cloneMark = (m: SpeciesMark): SpeciesMark => ({
   ...m,
   a: vec(m.a),
   ...(m.b ? { b: vec(m.b) } : {}),
@@ -549,7 +549,7 @@ function setSlot(spec: SpeciesSpec, slot: Slot, parts: PartSpec[]): void {
 function scaleHead(spec: SpeciesSpec, k: number): void {
   const o = spec.head.pivot;
   const pt = (p: THREE.Vector3) => p.sub(o).multiplyScalar(k).add(o);
-  const prim = (p: Prim | Mark) => {
+  const prim = (p: Prim | SpeciesMark) => {
     pt(p.a);
     if (p.b) pt(p.b);
     if (p.r !== undefined) p.r *= k;

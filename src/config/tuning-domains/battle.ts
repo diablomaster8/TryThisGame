@@ -4,10 +4,10 @@
  * domain. `tests/arch/tuning-domains.test.ts` checks every tuning-*.ts file is in one domain.
  */
 export * from '../tuning-battle-atb';
-export * from '../tuning-battle-r5';
-export * from '../tuning-battle-r6';
+export * from '../tuning-more/battle-doors';
+export * from '../tuning-more/battle-ladder-fusion';
 export * from '../tuning-friendly-match';
-export * from '../tuning-battle-r9';
+export * from '../tuning-more/battle-champions';
 export * from '../tuning-battle';
 export * from '../tuning-tactics';
 export * from '../tuning-battle-3d';

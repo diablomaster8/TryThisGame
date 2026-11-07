@@ -1,4 +1,4 @@
-import { BATTLE_R6 } from '../../config/tuning-battle-r6';
+import { BATTLE_R6 } from '../../config/tuning-more/battle-ladder-fusion';
 import type { World } from '../types';
 import { settle, standing } from './damage';
 import type { BattleState, Combatant } from './types';

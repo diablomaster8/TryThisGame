@@ -7,7 +7,7 @@
  */
 import { EGG_COLOR_LABELS } from '../config/strings';
 import { NOTICING_TEXT } from '../config/strings-kids-r11e';
-import { EDU_NOTICING } from '../config/tuning-kids-r11e';
+import { EDU_NOTICING } from '../config/tuning-more/kids-noticing';
 import type { SimEvent, World } from '../sim/types';
 import { noteFruitEaten, setNoticeHighlight } from './grove-noticed';
 

@@ -1,5 +1,5 @@
 import { BATTLE_DEBUG_TEXT as T } from '../config/strings-battle-r5';
-import { BATTLE_R5 } from '../config/tuning-battle-r5';
+import { BATTLE_R5 } from '../config/tuning-more/battle-doors';
 import type { Game } from '../game';
 import {
   battleAct,

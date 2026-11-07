@@ -1,6 +1,6 @@
 import type { ReadonlyWorld } from './readonly-world';
 import { markAt } from '../config/stage-marks';
-import { C12C } from '../config/tuning-camp12c';
+import { C12C } from '../config/tuning-more/story-quest-markers';
 import type { SceneStage } from '../config/story';
 
 import type { DressItem, DressShape } from './dress-d-rules';

@@ -1,4 +1,4 @@
-import { RACE_PERSONA } from '../config/tuning-soul-r11h';
+import { RACE_PERSONA } from '../config/tuning-more/soul-old-souls';
 import { START_POSE_3D } from '../render/start-pose';
 import { lineClock, racerPersonality, startKind } from '../sim/race-persona';
 import * as THREE from 'three';

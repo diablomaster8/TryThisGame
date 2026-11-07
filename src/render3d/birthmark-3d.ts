@@ -8,7 +8,7 @@
 import { Color, Vector3 } from 'three';
 import { cloneSpec, paletteOf } from './art/nubbin-variants';
 import { headDome } from './art/nubbin-critter-parts';
-import type { Mark, SpeciesSpec } from './art/species';
+import type { SpeciesMark, SpeciesSpec } from './art/species';
 
 export function withBirthmark(base: SpeciesSpec, mod: string): SpeciesSpec {
   const [kind, sideText] = mod.split(':');
@@ -22,7 +22,7 @@ export function withBirthmark(base: SpeciesSpec, mod: string): SpeciesSpec {
     const w = Math.sqrt(Math.max(0, 1 - u * u - v * v));
     return new Vector3(d.c.x + u * d.rx, d.c.y + v * d.ry, d.c.z + w * d.rz * 0.98);
   };
-  const dot = (u: number, v: number, r: number, color: string, soft = 0.02): Mark => ({
+  const dot = (u: number, v: number, r: number, color: string, soft = 0.02): SpeciesMark => ({
     kind: 'sphere',
     a: at(u, v),
     r: r * d.rx,
@@ -30,7 +30,7 @@ export function withBirthmark(base: SpeciesSpec, mod: string): SpeciesSpec {
     soft,
   });
   const s = side;
-  const marks: Mark[] = [];
+  const marks: SpeciesMark[] = [];
   switch (kind) {
     case 'spots':
       marks.push(dot(0.62 * s, -0.05, 0.07, dark), dot(0.5 * s, -0.25, 0.05, dark));

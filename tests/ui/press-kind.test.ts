@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { INPUT } from '../../src/config/tuning';
-import { POINTER_INPUT } from '../../src/config/tuning-r9d3';
+import { POINTER_INPUT } from '../../src/config/tuning-more/ui-shake-hint';
 import { dragThresholdPx, isDrag, isLongPress, isTap } from '../../src/input/press-kind';
 
 /** TECH-30: tap, drag and long press by pointer type. */

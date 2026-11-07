@@ -11,7 +11,7 @@ import {
   SONG_NAMES,
   type SoundName,
 } from '../platform/audio';
-import { SFX_TARGETS, SONG_LEVEL, SONG_LUFS } from '../config/tuning-r8d-audio';
+import { SFX_TARGETS, SONG_LEVEL, SONG_LUFS } from '../config/tuning-more/audio-mix';
 
 /** Every name in the SoundName union, read from the source so the list never goes stale. */
 export function soundNamesFromSource(src: string): string[] {

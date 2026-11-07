@@ -5,7 +5,7 @@
  * "HEY" out letter by letter; the device's best English voice is picked once and kept; and
  * the word being said is reported back so the dialogue box can light it (karaoke).
  */
-import { READ_ALOUD, VOICE_TTS } from '../config/tuning-fun-r7';
+import { READ_ALOUD, VOICE_TTS } from '../config/tuning-more/fun-voice-antics';
 
 /** One utterance: its text, whether it is a shout, and where it starts in the said line. */
 export interface SayChunk {

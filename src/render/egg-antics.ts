@@ -4,7 +4,7 @@
  * every third shake a tiny foot pokes out of the bottom and goes back in. It reads the sim
  * (the shake count and time) and never changes it.
  */
-import { EGG_ANTICS } from '../config/tuning-fun-r7';
+import { EGG_ANTICS } from '../config/tuning-more/fun-voice-antics';
 import type { Nubbin } from '../sim/types';
 
 export interface EggAntics {

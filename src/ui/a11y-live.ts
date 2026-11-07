@@ -17,7 +17,7 @@ import { careKey } from '../input/keys';
 import { PIXEL_VIEW, toScreen } from '../render/stage-api';
 import { STAGE_LABELS } from '../config/strings';
 import { NEEDS } from '../config/tuning';
-import { A11Y_SUMMARY } from '../config/tuning-r9d3';
+import { A11Y_SUMMARY } from '../config/tuning-more/ui-shake-hint';
 import type { Game } from '../game';
 import type { Nubbin, World } from '../sim/types';
 
