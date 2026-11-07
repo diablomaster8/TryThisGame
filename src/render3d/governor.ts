@@ -33,6 +33,8 @@ export class FrameGovernor {
   private avgMs = 0;
   private samples = 0;
   private slowFor = 0;
+  /** Raw frames in a row far over budget (round 3's fast descent). */
+  private farFor = 0;
   private fastFor = 0;
   /** CPU savings in force, 0 = none. */
   cpuLevel = 0;
@@ -106,7 +108,12 @@ export class FrameGovernor {
     if (!(frameMs > 0) || frameMs > 250) return null;
     this.avgMs = this.samples === 0 ? frameMs : this.avgMs + (frameMs - this.avgMs) * g.smoothing;
     this.samples++;
-    if (this.trial && this.samples >= g.downFrames) {
+    // Round 3: frames far over budget, a few in a row (a phone at half the target or worse;
+    // one hitch is not enough), take a step at once, so the whole ladder is walked in a second
+    // or two instead of ten.
+    this.farFor = frameMs > g.slowMs * g.farOver ? this.farFor + 1 : 0;
+    const far = this.farFor >= g.downFramesFar;
+    if (this.trial && this.samples >= (far ? g.downFramesFar : g.downFrames)) {
       const { fromRatio, fromMs } = this.trial;
       this.trial = null;
       if (this.avgMs > fromMs * g.minGain) {
@@ -124,20 +131,20 @@ export class FrameGovernor {
     const shed = this.shedTarget;
     this.shedSlowFor = this.avgMs > shed.slowMs ? this.shedSlowFor + 1 : 0;
     this.shedFastFor = this.avgMs < shed.fastMs ? this.shedFastFor + 1 : 0;
-    if (this.shedSlowFor >= g.downFrames && this.shedLevel < this.shedSteps) {
+    if ((this.shedSlowFor >= g.downFrames || far) && this.shedLevel < this.shedSteps) {
       if (this.sinceShedRestore < g.upFrames) this.shedFloor = this.shedLevel + 1;
       this.shedLevel++;
       this.settle();
       return null;
     }
-    if (this.slowFor >= g.downFrames && this.ratio > this.floor + 1e-6) {
+    if ((this.slowFor >= g.downFrames || far) && this.ratio > this.floor + 1e-6) {
       const fromRatio = this.ratio;
       const fromMs = this.avgMs;
       const next = this.set(Math.max(this.floor, this.ratio * g.stepDown));
       this.trial = { fromRatio, fromMs };
       return next;
     }
-    if (this.slowFor >= g.downFrames && this.cpuLevel < g.cpuLevels) {
+    if ((this.slowFor >= g.downFrames || far) && this.cpuLevel < g.cpuLevels) {
       // Slow at the lowest useful scale: the CPU is the limit. A saving just given back
       // that did not hold stays on from now on.
       if (this.sinceRestore < g.upFrames) this.cpuFloor = this.cpuLevel + 1;
@@ -259,6 +266,7 @@ export class FrameGovernor {
   /** Let the average settle at the new setting before judging it again. */
   private settle(): void {
     this.slowFor = 0;
+    this.farFor = 0;
     this.fastFor = 0;
     this.shedSlowFor = 0;
     this.shedFastFor = 0;
