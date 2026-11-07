@@ -345,6 +345,8 @@ export class Grove3dScene {
   private caveShadowOff = false;
   /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
   private shadowMerge!: ShadowMerge;
+  /** Round 3: skip instanced draws with no instances (an A/B switch; always on). */
+  skipEmptyDraws = true;
   /** Round 2: leave dormant rigs out of the render walk (an A/B and kill switch). */
   skipDormant = true;
   /** Scratch: the creature group's children minus this frame's dormant rigs. */
@@ -611,6 +613,22 @@ export class Grove3dScene {
     this.renderer.render = (scene, camera) => {
       syncOcclude();
       draw(scene, camera);
+    };
+    // Round 3: an instanced draw with no instances draws nothing, but three still picks its
+    // program and uploads its uniforms first. The Grove keeps about ten such meshes in the
+    // scene (ambient life, region marks, glints, idle particle pools), so they are skipped
+    // before any of that.
+    const direct = this.renderer.renderBufferDirect.bind(this.renderer);
+    this.renderer.renderBufferDirect = (camera, scene, geometry, material, object, group) => {
+      if (!this.skipEmptyDraws) return direct(camera, scene, geometry, material, object, group);
+      if (
+        (object as THREE.InstancedMesh).isInstancedMesh &&
+        (object as THREE.InstancedMesh).count === 0
+      )
+        return;
+      const ig = geometry as THREE.InstancedBufferGeometry;
+      if (ig.isInstancedBufferGeometry && ig.instanceCount === 0) return;
+      direct(camera, scene, geometry, material, object, group);
     };
     this.governor = new FrameGovernor(window.devicePixelRatio);
     this.renderer.setPixelRatio(this.governor.ratio);
