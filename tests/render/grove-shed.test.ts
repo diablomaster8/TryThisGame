@@ -74,6 +74,29 @@ describe('3D start at the device tier', () => {
     expect(g.ratio).toBe(1.5);
   });
 
+  it('never reaches the race steps on a device that holds 60 fps with jitter (round 5)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    // A phone at 60 with ordinary jitter: most frames on time, a few late, one missed a second.
+    const jitter = [16.7, 16.6, 16.8, 17.5, 16.7, 16.2, 18.4, 16.7, 16.9, 16.5];
+    for (let i = 0; i < 6000; i++) g.sample(i % 60 === 30 ? 33.4 : jitter[i % jitter.length]!);
+    expect(g.cpuLevel).toBeLessThan(GROVE3D.governor.cpuStandIns);
+    expect(g.cpuLevel).toBe(0);
+    expect(g.shedLevel).toBe(0);
+    expect(g.ratio).toBe(1.5);
+  });
+
+  it('reaches the one-whole-runner step under sustained load and gives it back after (round 5)', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);
+    for (let i = 0; i < 200; i++) g.sample(40);
+    expect(g.cpuLevel).toBeGreaterThanOrEqual(GROVE3D.governor.cpuRaceOne);
+    // The load lifts: every step comes back in time, the latest first.
+    for (let i = 0; i < 20000; i++) g.sample(12);
+    expect(g.cpuLevel).toBe(0);
+    expect(g.shedLevel).toBe(0);
+  });
+
   it('walks the whole ladder within two seconds on a phone at half speed (round 3)', () => {
     const g = new FrameGovernor(1.5);
     g.setShedSteps(GROVE_SHED.order.length, 'grove', GROVE3D.governor);

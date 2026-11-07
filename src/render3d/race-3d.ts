@@ -244,13 +244,16 @@ export class Race3dView implements RaceView {
     for (const r of this.runners) {
       if (!r.rig || r.compiling) continue;
       roots.push(r.rig.group);
-      depths.push(r.rig.group.getWorldPosition(this.at).distanceTo(cam));
+      // Round 5: the player's runner ranks first, so it is the last to become a stand-in.
+      depths.push(r.racer.isPlayer ? -1 : r.rig.group.getWorldPosition(this.at).distanceTo(cam));
     }
     // The nearest few stay whole (the runners run side by side, so this goes by rank, not
-    // distance); the rest are stand-ins.
+    // distance); the rest are stand-ins. Round 5: at the deeper step only the player's runner.
+    const whole =
+      this.host.governor.cpuLevel >= g.cpuRaceOne ? g.raceWholeRunnersDeep : g.raceWholeRunners;
     const order = roots.map((_, i) => i).sort((a, b) => depths[a]! - depths[b]!);
     this.lod.forced.clear();
-    for (let k = g.raceWholeRunners; k < order.length; k++) this.lod.forced.add(roots[order[k]!]!);
+    for (let k = whole; k < order.length; k++) this.lod.forced.add(roots[order[k]!]!);
     this.lod.update(roots, stage.camera, 3, stage.renderer.domElement.clientHeight);
   }
 

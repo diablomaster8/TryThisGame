@@ -523,7 +523,7 @@ export const GROVE3D = {
      * creatures past `proxyFromUnderLoad` units as their one-draw stand-ins (which still walk)
      * in the Grove and all but the `raceWholeRunners` nearest runners in a race, 5 updates
      * the far creatures (stand-ins, impostors) every other frame and leaves out the distant
-     * decor named in `decor`.
+     * decor named in `decor`; in a race (round 5) it keeps only the player's runner whole.
      */
     cpuLevels: 5,
     /** The CPU step from which far creatures are updated at half rate and the decor goes. */
@@ -536,6 +536,10 @@ export const GROVE3D = {
     proxyFromUnderLoad: 3.5,
     /** Runners a race keeps whole at that step, nearest the camera first. */
     raceWholeRunners: 3,
+    /** Round 5: the CPU step from which a race keeps only `raceWholeRunnersDeep` whole. */
+    cpuRaceOne: 5,
+    /** Runners kept whole at that step: the player's own (it ranks first). */
+    raceWholeRunnersDeep: 1,
   },
   /** Camera shake in world units: a Nubbin landing, a tree shaken (pixel: 0.18 / 0.08). */
   shake: { landed: 0.12, tree: 0.05 },
