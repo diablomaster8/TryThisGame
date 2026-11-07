@@ -256,3 +256,36 @@ html.a11y-contrast .settings-tabs,
 html.a11y-contrast .wm-tabs {
   background: none;
 }
+
+/* R0709: the bundled Lexend face (loaded only when chosen: ui/access-font.ts), with the same
+ * spacing and line height as the system-stack option. */
+html.a11y-dyslexia body,
+html.a11y-dyslexia button,
+html.a11y-dyslexia input,
+html.a11y-dyslexia select,
+html.a11y-dyslexia textarea,
+html.a11y-dyslexia .dialogue-text,
+html.a11y-dyslexia .dialogue-name,
+html.a11y-dyslexia .modal-card,
+html.a11y-dyslexia .sheet {
+  font-family: 'Lexend', var(--a11y-font);
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+html.a11y-dyslexia .dialogue-text,
+html.a11y-dyslexia p,
+html.a11y-dyslexia .help,
+html.a11y-dyslexia small {
+  line-height: 1.6;
+}
+html.a11y-dyslexia .lang-he,
+html.a11y-dyslexia .lang-ja {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+/* Action-bar symbols with no pixel icon (the Keeper's sun and moon) are drawn from the glyph
+   attribute, so the button's visible text is just its word (WCAG 2.5.3, R0709 axe check). */
+.act-glyph[data-glyph]:not(.px-icon)::before {
+  content: attr(data-glyph);
+}

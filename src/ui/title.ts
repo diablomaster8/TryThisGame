@@ -513,9 +513,14 @@ export function showTitle(
           const main = button('', () => startNew(slot), 'btn title-slot-main');
           main.append(
             el('strong', undefined, `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.empty}`),
+            ' ',
             el('small', undefined, SLOT_TEXT.newHere),
           );
-          main.setAttribute('aria-label', SLOT_TEXT.newLabel(modeName, index));
+          // WCAG 2.5.3: the name starts with the words the button shows.
+          main.setAttribute(
+            'aria-label',
+            `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.empty}. ${SLOT_TEXT.newHere}: ${SLOT_TEXT.newLabel(modeName, index)}`,
+          );
           row.append(main);
         }
         if (!isRoad && (returning() || (!filled && ++emptyShown > 1)))

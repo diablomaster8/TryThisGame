@@ -98,6 +98,7 @@ import { ShakeMeter } from './shake-meter';
 import { Joystick } from './joystick';
 import { joystickWanted } from './joystick-math';
 import { setIconGlyph } from './pixel-icons';
+import { syncActionName } from './hud-toasts';
 import type { HudState } from './hud-events';
 import type { DebugPanel } from './debug-panel';
 import type { PanelStack } from './panel-stack';
@@ -428,7 +429,7 @@ export function refreshStep(hc: RefreshCtx, rs: RefreshState): void {
     dungeon.refresh(g.world);
     glowCave.refresh();
     expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
-    expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
+    // The accessible name follows below, in setActionLabel.
     setActionGlyph(expeditionBtn, isEdu ? '🎓' : '🧭');
     setActionLabel(
       expeditionBtn,
@@ -643,6 +644,7 @@ export function setActionGlyph(b: HTMLButtonElement, glyph: string): void {
 export function setActionLabel(b: HTMLButtonElement, label: string): void {
   const l = b.querySelector('.act-label');
   if (l && l.textContent !== label) l.textContent = label;
+  syncActionName(b, label);
 }
 
 /** HOT-1: the sheet's Nubbin and where it should sit, from the sheet's box over the canvas. */

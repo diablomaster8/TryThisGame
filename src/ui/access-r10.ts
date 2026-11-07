@@ -7,6 +7,7 @@
  */
 import '../access-r10.css';
 import { ACCESS_TEXT } from '../config/strings-access-r10';
+import { loadAccessFont } from './access-font';
 import type { Game } from '../game';
 import { SIMPLE_TOUCH_CLASS } from '../input/simple-touch';
 import { accessOf } from '../sim/access';
@@ -22,6 +23,8 @@ export function applyAccess(world: World): void {
   shownKey = key;
   const root = document.documentElement.classList;
   root.toggle('a11y-readable', a.font === 'readable');
+  root.toggle('a11y-dyslexia', a.font === 'dyslexia');
+  if (a.font === 'dyslexia') void loadAccessFont();
   root.toggle('a11y-contrast', a.contrast === 'high');
   root.toggle(SIMPLE_TOUCH_CLASS, a.simpleTouch);
 }
@@ -58,7 +61,9 @@ export function mountAccessSettings(body: HTMLElement, game: () => Game | null):
     return sel;
   };
   const font = select(ACCESS_TEXT.fontLabel, ACCESS_TEXT.fonts, (v) =>
-    setAccess(game, { font: v === 'readable' ? 'readable' : 'default' }),
+    setAccess(game, {
+      font: v === 'readable' ? 'readable' : v === 'dyslexia' ? 'dyslexia' : 'default',
+    }),
   );
   const contrast = select(ACCESS_TEXT.contrastLabel, ACCESS_TEXT.contrasts, (v) =>
     setAccess(game, { contrast: v === 'high' ? 'high' : 'normal' }),
