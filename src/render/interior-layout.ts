@@ -22,7 +22,7 @@ export type FurnitureKind =
   | 'bench'
   | 'lamp';
 
-export interface Piece {
+export interface InteriorPiece {
   kind: FurnitureKind;
   x: number;
   z: number;
@@ -31,7 +31,7 @@ export interface Piece {
   y3d?: number;
 }
 
-export const ROOM_FURNITURE: Readonly<Record<InteriorId, readonly Piece[]>> = {
+export const ROOM_FURNITURE: Readonly<Record<InteriorId, readonly InteriorPiece[]>> = {
   kitchen: [
     { kind: 'stove', x: 2.6, z: -2.4 },
     { kind: 'table', x: 0.2, z: -0.6 },
