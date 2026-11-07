@@ -14,7 +14,7 @@
  *   npm run preview -- --port 4173      (after npm run build)
  *   npm run smoke:mobile -- http://localhost:4173/
  * Env: PLAYWRIGHT_CORE (module path), EDGE (browser executable), SMOKE_SHOTS (screenshot
- * folder, optional), MOBILE_LANDSCAPE=1 for 812x375.
+ * folder, optional), MOBILE_LANDSCAPE=1 for 812x375, GRAPHICS=3d for Full 3D.
  */
 const path = require('path');
 const fs = require('fs');
@@ -116,6 +116,15 @@ function measure(minSize) {
     hasTouch: true,
     deviceScaleFactor: 2,
   });
+  if (process.env.GRAPHICS === '3d') {
+    await ctx.addInitScript(() => {
+      try {
+        window.localStorage.setItem('grove.graphics', '3d');
+      } catch {
+        // Storage blocked: the smoke then runs in Pixel.
+      }
+    });
+  }
   const page = await ctx.newPage();
   page.on('pageerror', (e) => errors.push(`pageerror: ${String(e).slice(0, 200)}`));
   page.on('console', (m) => {
