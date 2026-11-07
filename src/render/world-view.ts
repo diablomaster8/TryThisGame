@@ -40,6 +40,8 @@ import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { EDU_TRAIL } from '../config/tuning-more/world-edu-trail-ice';
 import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
 import { Footfall } from './footfall';
+import { SnowSlideFx } from './snow-slide-fx';
+import { SLIDE_FX } from '../config/tuning-r16d1';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -236,6 +238,8 @@ export class WorldView {
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
+  /** R0118: the snow slide's swish and spray. */
+  private readonly slideFx = new SnowSlideFx();
   /** MOVE-43: bushes the Keeper rustled, by spot, and when. */
   private readonly bushShakes = new Map<string, number>();
   /** MOVE-44: the tap walk's footprint dots and target marker. */
@@ -1856,6 +1860,15 @@ export class WorldView {
           size: 0.4,
         });
     }
+
+    if (this.slideFx.tick(world, nowMs))
+      this.particles.burst('snow', kx, 0.1, kz, SLIDE_FX.count, {
+        spread: 0.2,
+        speed: 0.7,
+        rise: 0.5,
+        lifeMs: 480,
+        size: 0.4,
+      });
 
     this.onDraw?.(world, nowMs);
 
