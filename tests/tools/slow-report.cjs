@@ -62,3 +62,18 @@ if (failedFiles.length) {
   console.log(line);
   if (gha) console.log(`::error title=${label} failed files::${line}`);
 }
+
+// The first failure message of each failed file (three files at most), one annotation each.
+let shown = 0;
+for (const f of report.testResults) {
+  if (f.status !== 'failed' || shown++ >= 3) continue;
+  const t = f.assertionResults.find((a) => a.status === 'failed');
+  const msg = String((t && t.failureMessages && t.failureMessages[0]) || f.message || '')
+    .split('\n')
+    .slice(0, 6)
+    .join(' | ')
+    .slice(0, 700);
+  const line = `${f.name.replaceAll('\\', '/').replace(/^.*\/(tests\/)/, '$1')} > ${t ? t.title : '(file)'}: ${msg}`;
+  console.log(line);
+  if (gha) console.log(`::error title=${label} failure::${line}`);
+}

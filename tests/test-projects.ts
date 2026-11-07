@@ -241,7 +241,7 @@ export const STORY_FILES: readonly string[] = [
 
 /** A relative import, dynamic import or mock whose path names a story module. */
 const STORY_IMPORT =
-  /['"]\.{1,2}\/[^'"]*(story-scenes|side-stor|storyline|\/campaign|\/content\/|fun-quest|quest-|chapter|barks|audience|expansion|atlas|arcade|neopia|multiverse|goal|objective|story)[^'"]*['"]/i;
+  /['"]\.{1,2}\/[^'"]*(story-scenes|side-stor|storyline|campaign|driver|\/content\/|fun-quest|quest-|chapter|barks|audience|expansion|atlas|arcade|neopia|multiverse|goal|objective|story)[^'"]*['"]/i;
 
 function allTestFiles(dir: string): string[] {
   const out: string[] = [];
