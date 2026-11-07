@@ -14,7 +14,7 @@ export interface RegionSpot {
 }
 
 const RADII = [2.3, 3.1, 1.7, 3.9];
-const FAN = [0, 0.75, -0.75, 1.5, -1.5, 2.25, -2.25];
+const FAN = [0.75, -0.75, 1.5, -1.5, 0, 2.25, -2.25];
 /** A figure's footprint for the walkable check. */
 const BODY = 0.45;
 
@@ -50,7 +50,11 @@ export function regionCastSpots(world: World, ids: readonly string[]): Map<strin
         break search;
       }
     }
-    if (!best) best = { x: k.x + Math.sin(base) * 1.6, z: k.z + Math.cos(base) * 1.6 };
+    if (!best) {
+      // Nowhere open (the Keeper stands at an edge): fan out regardless, one slot each.
+      const a = base + FAN[taken.length % FAN.length]!;
+      best = { x: k.x + Math.sin(a) * 1.8, z: k.z + Math.cos(a) * 1.8 };
+    }
     taken.push(best);
     out.set(who, { x: best.x, z: best.z, yaw: Math.atan2(k.x - best.x, k.z - best.z) });
   }
