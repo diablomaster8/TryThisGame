@@ -18,7 +18,8 @@ const path = require('path');
 const zlib = require('zlib');
 
 const root = path.resolve(__dirname, '../..');
-const dist = path.join(root, 'dist');
+// DIST: check another build folder (default dist/).
+const dist = path.resolve(root, process.env.DIST || 'dist');
 const basePath = path.join(__dirname, 'bundle-baseline.json');
 const LAZY_ONLY = ['grove-3d-scene', 'debug-panel', 'toon-outline'];
 const GROW = 1.1;
@@ -105,6 +106,15 @@ for (const [k, v] of Object.entries(chunks)) {
   if (was === undefined && v > base.chunkCeilingKb)
     fails.push(`new chunk ${k} ${v.toFixed(0)} kB > ceiling`);
 }
+// Efficiency (2026-11-07): the service worker must know this build's files, or every deploy
+// carries every old chunk over and a player's Cache Storage grows without end.
+const sw = fs.readFileSync(path.join(dist, 'sw.js'), 'utf8');
+const swFiles = /const BUILD_FILES = (\[[^\]]*\])/.exec(sw);
+const entry = eager.find((f) => group(f) === 'index');
+if (!swFiles) fails.push('dist/sw.js has no BUILD_FILES list (sw-build-id plugin)');
+else if (entry && !JSON.parse(swFiles[1]).includes(`assets/${entry}`))
+  fails.push(`dist/sw.js BUILD_FILES lacks the entry chunk ${entry}`);
+else console.log(`sw.js: ${JSON.parse(swFiles[1]).length} build files listed`);
 if (fails.length) {
   console.error('\nbundle budget FAILED:\n  ' + fails.join('\n  '));
   process.exit(1);

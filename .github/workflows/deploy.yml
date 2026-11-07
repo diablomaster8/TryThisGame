@@ -27,8 +27,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      # Efficiency (2026-11-07): node_modules comes back whole while package-lock.json is
+      # unchanged, so npm ci (27-45 s in every job) only runs on a cache miss.
+      - id: deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ runner.arch }}-node24-${{ hashFiles('package-lock.json') }}
+      - if: steps.deps.outputs.cache-hit != 'true'
+        run: npm ci
+      # ESLint's content cache carries over between runs (the newest run's copy is restored).
+      - uses: actions/cache@v4
+        with:
+          path: .cache/eslint
+          key: eslint-${{ github.sha }}
+          restore-keys: eslint-
       - run: npm run lint
       # TECH-10: content problems block a deploy.
       - run: npx tsx tests/tools/content-check.ts
@@ -45,8 +58,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      # Efficiency (2026-11-07): node_modules comes back whole while package-lock.json is
+      # unchanged, so npm ci (27-45 s in every job) only runs on a cache miss.
+      - id: deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ runner.arch }}-node24-${{ hashFiles('package-lock.json') }}
+      - if: steps.deps.outputs.cache-hit != 'true'
+        run: npm ci
       # A hang must not take the job to its six-hour limit: the step times out, and the next step
       # reports the files still running (tests/tools/running-reporter.mjs).
       - run: npx vitest run --shard=${{ matrix.shard }}/6 --reporter=default --reporter=json --reporter=./tests/tools/running-reporter.mjs --outputFile.json=vitest-report.json
@@ -63,8 +83,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      # Efficiency (2026-11-07): node_modules comes back whole while package-lock.json is
+      # unchanged, so npm ci (27-45 s in every job) only runs on a cache miss.
+      - id: deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ runner.arch }}-node24-${{ hashFiles('package-lock.json') }}
+      - if: steps.deps.outputs.cache-hit != 'true'
+        run: npm ci
+      # tsc's incremental build info (tsconfig `tsBuildInfoFile`) carries over the same way.
+      - uses: actions/cache@v4
+        with:
+          path: .cache/tsc.tsbuildinfo
+          key: tsc-${{ github.sha }}
+          restore-keys: tsc-
       - run: npm run build
         env:
           # Project sites are served from https://<user>.github.io/<repo>/
@@ -86,8 +119,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      # Efficiency (2026-11-07): node_modules comes back whole while package-lock.json is
+      # unchanged, so npm ci (27-45 s in every job) only runs on a cache miss.
+      - id: deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ runner.arch }}-node24-${{ hashFiles('package-lock.json') }}
+      - if: steps.deps.outputs.cache-hit != 'true'
+        run: npm ci
       - run: npx vitest run --no-file-parallelism tests/sim/world.test.ts tests/sim/lifecycle.test.ts tests/sim/offline.test.ts tests/sim/battle-balance.test.ts tests/sim/battle-resume.test.ts tests/sim/pond-glide.test.ts tests/sim/story-book.test.ts tests/sim/battle-round3.test.ts tests/sim/battle-atb.test.ts tests/render/hollow-automap.test.ts tests/render/frame-budget.test.ts tests/sim/dungeon-r8-deep-perf.test.ts tests/sim/dungeon-v3.test.ts tests/sim/tactics-ai.test.ts tests/sim/tactics-core.test.ts tests/sim/nav.test.ts
         env:
           PERF: 1

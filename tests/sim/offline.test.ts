@@ -77,6 +77,22 @@ describe('catchUp', () => {
     }
   });
 
+  // Efficiency (2026-11-07): the same budget with a full roster of 8, the case CLAUDE.md
+  // names. Measured ~0.3 s on a loaded desktop (2 Nubbins: ~0.18 s).
+  it('a 7-day catch-up with 8 Nubbins also finishes in under 3 s', () => {
+    const w = hatched();
+    while (w.nubbins.length < 8) {
+      const src = w.nubbins[0]!;
+      w.nubbins.push({ ...structuredClone(src), id: `nub-x${w.nubbins.length}` });
+    }
+    w.settings.offlineAging.mode = 'indefinite';
+    const start = performance.now();
+    const report = catchUp(w, 7 * DAY, 0);
+    expect(performance.now() - start).toBeLessThan(budgetMs());
+    expect(report.simulatedMs).toBe(7 * DAY);
+    expect(w.nubbins).toHaveLength(8);
+  });
+
   it('short gaps use fine steps and keep determinism with stepping flagged offline', () => {
     const a = hatched();
     const b = hatched();

@@ -227,6 +227,7 @@ export const STORY_FILES: readonly string[] = [
   'tests/sim/side-stories-early.test.ts',
   'tests/sim/side-stories-late.test.ts',
   'tests/sim/side-stories-mid.test.ts',
+  'tests/sim/side-stories-mid-runs.test.ts',
   'tests/sim/side-story-audience.test.ts',
   'tests/sim/side-story-chunk.test.ts',
   'tests/sim/story-book.test.ts',
