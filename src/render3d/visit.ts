@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { buildTree, pbr, repeatUv, type Tex } from './art/aaa-kit';
 import { trainerOf } from '../sim/trainers';
+import { VISIT_GARDEN as VISIT_GATE_DEF } from '../sim/neighbourhood';
 import { CrownFade, treeOf } from './crowns';
 import { occluders } from './occluders';
 import { OCCLUDE_R10 } from '../config/tuning-move-r10b';
@@ -72,9 +73,9 @@ export class VisitSet {
     const flat = () => 0;
     // Three trees, out of the way of where the neighbour's Nubbins wander (|x| < 8, z in -6..8).
     const trees: Array<[number, number, number]> = [
-      [-13, -6, 1],
-      [13, -9, 2],
-      [-12, 12, 3],
+      [-20, -6, 1],
+      [20, -9, 2],
+      [-19, 11, 3],
     ];
     for (const [x, z, seed] of trees) {
       const parts = buildTree(this.group, tex, x, z, 1.05, seed, flat);
@@ -83,7 +84,7 @@ export class VisitSet {
       if (tree) this.crowns.add(tree);
     }
     // The front fence with a gate gap in the middle, where the Keeper stands on arrival.
-    for (let i = -7; i <= 7; i++) {
+    for (let i = -12; i <= 12; i++) {
       if (Math.abs(i) < 1) continue;
       const post = decorModel('fence');
       post.scale.setScalar(FENCE_SCALE);
@@ -91,6 +92,35 @@ export class VisitSet {
       this.group.add(post);
       this.dressed.push(post);
     }
+    // R0112: the garden's gate in the gap: two posts, a lintel and a pennant in the trainer's
+    // colour (the same as the lane's mailbox for them).
+    const gateMat = new THREE.MeshStandardMaterial({ color: '#6a4a2e', roughness: 0.85 });
+    const pennant = new THREE.MeshStandardMaterial({
+      color:
+        trainerOf(trainer).band === 'sun'
+          ? '#e8a03a'
+          : trainerOf(trainer).band === 'moon'
+            ? '#7a5ac8'
+            : '#4aa86a',
+      roughness: 0.7,
+      side: THREE.DoubleSide,
+    });
+    const gate = new THREE.Group();
+    for (const x of [-1.9, 1.9]) {
+      const post = new THREE.Mesh(new THREE.BoxGeometry(0.25, 2.2, 0.25), gateMat);
+      post.position.set(x, 1.1, 0);
+      post.castShadow = true;
+      gate.add(post);
+    }
+    const lintel = new THREE.Mesh(new THREE.BoxGeometry(4.3, 0.22, 0.28), gateMat);
+    lintel.position.set(0, 2.25, 0);
+    gate.add(lintel);
+    const flag = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.5), pennant);
+    flag.position.set(0, 1.85, 0.02);
+    gate.add(flag);
+    gate.position.set(VISIT_GATE.x, 0, VISIT_GATE.z);
+    this.group.add(gate);
+    this.dressed.push(gate);
     // The neighbour's house: roof in their alignment's colour, door toward the garden.
     const band = trainerOf(trainer).band;
     const roof = new THREE.MeshStandardMaterial({
@@ -132,3 +162,4 @@ const VISIT_RADIUS = 24;
 /** The garden fence model is a metre wide and knee high; the boundary fence is bigger. */
 const FENCE_SCALE = 1.6;
 const FENCE_Z = 13;
+const VISIT_GATE = VISIT_GATE_DEF.gate;
