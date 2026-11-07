@@ -189,6 +189,19 @@ describe('game input: drags, throws and long presses (TECH-43)', () => {
     expect(surface.style.cursor).toBe('');
   });
 
+  it('shakes what is held when the drag swings quickly to and fro', () => {
+    hit = nubbin();
+    surface.dispatchEvent(pointer('pointerdown', { x: 100 }));
+    let x = 100;
+    for (let i = 0; i < 40 && !kinds().includes('shakeHeld'); i++) {
+      vi.advanceTimersByTime(16);
+      x += (Math.floor(i / 3) % 2 === 0 ? 1 : -1) * 14;
+      surface.dispatchEvent(pointer('pointermove', { x }));
+    }
+    expect(kinds()).toContain('shakeHeld');
+    surface.dispatchEvent(pointer('pointerup', { x }));
+  });
+
   it('puts a held Nubbin down gently when a second finger lands', () => {
     hit = nubbin();
     surface.dispatchEvent(pointer('pointerdown', { kind: 'touch' }));
