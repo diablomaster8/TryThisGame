@@ -13,3 +13,12 @@ export const SHEET_CACHE = {
   /** A sheet drawn within this long is never evicted, so a busy frame cannot thrash. */
   idleMs: 10_000,
 } as const;
+
+/**
+ * HOT (load time): when the title's stand-in ground has not landed yet, the Pixel veil waits
+ * this long at most for the ground worker's quick painting before it opens on the plain
+ * grass colour (the painting then swaps in).
+ */
+export const PIXEL_LOAD = {
+  groundWaitMs: 1500,
+} as const;

@@ -2309,6 +2309,28 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
     for (const style of ['paddle', 'crawl'] as const)
       for (let f = 0; f < 2; f++)
         atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));
+    // R0321: the hider's peek glancing left (frame 2) or right (3) toward the Keeper.
+    if (angle === 'front')
+      for (const [f, glance] of [
+        [2, -1],
+        [3, 1],
+      ] as const)
+        atlas.add(
+          frameKey('peek', angle, f),
+          drawChao(
+            angle,
+            {
+              ...BASE,
+              squash: 0.9,
+              eyes: 'wide',
+              mouth: 'none',
+              arms: 'up',
+              legs: 'tucked',
+              glance,
+            },
+            look,
+          ),
+        );
     // FUN-04 gags (render/gag-looks.ts): a shy peek (ducked, then eyes up over the hands), a
     // wave (one beat up, one out) and a clap.
     for (let f = 0; f < 2; f++) {

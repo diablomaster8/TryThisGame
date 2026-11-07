@@ -2,7 +2,9 @@
    The cache name carries the build id, which the `sw-build-id` plugin in vite.config.ts
    writes in at build time, so every deploy installs a new worker and drops the old cache.
    Navigations go to the network first, so a deploy is picked up on the next load; the
-   cached shell is only the offline fallback. Hashed build chunks under assets/ never change
+   cached page answers when offline, or when the network has not answered within
+   NAV_WAIT_MS (a slow connection then opens on the build already held, at once, and the
+   fresh page is stored for the next load). Hashed build chunks under assets/ never change
    under the same name, so they are served cache-first; other static files are served
    stale-while-revalidate. The shell is precached with cache: 'reload' so the install never
    stores a stale copy from the HTTP cache.
@@ -21,6 +23,8 @@ const HASHED = /\/assets\/[^/]+-[\w-]{8,}\.\w+$/;
  * copy that was stored from a plain fetch.
  */
 const ANY = { ignoreVary: true };
+/** How long a navigation waits on the network before a held copy of the page answers. */
+const NAV_WAIT_MS = 2500;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -201,16 +205,33 @@ async function rangeFromCache(req) {
   });
 }
 
-/** Network first; the cached page, then the cached shell, only when offline. */
+/**
+ * Network first; the cached page, then the cached shell, when offline or when the network
+ * is slower than NAV_WAIT_MS. A late answer is still stored, so the next load is current.
+ */
 async function navigate(event, req) {
   const cache = await caches.open(CACHE);
-  try {
-    const res = await fetch(req);
+  const held = async () => (await cache.match(req)) ?? (await cache.match('./index.html'));
+  const network = fetch(req).then((res) => {
     store(event, cache, req, res);
     return res;
+  });
+  // The late answer is kept: the worker stays up until it is stored.
+  event.waitUntil(network.catch(() => undefined));
+  let timer = 0;
+  const slow = new Promise((resolve) => {
+    timer = setTimeout(() => resolve('slow'), NAV_WAIT_MS);
+  });
+  try {
+    const first = await Promise.race([network, slow]);
+    if (first !== 'slow') return first;
+    const cached = await held();
+    return cached ?? (await network);
   } catch {
-    const cached = (await cache.match(req)) ?? (await cache.match('./index.html'));
+    const cached = await held();
     return cached ?? new Response('Offline', { status: 503, statusText: 'Offline' });
+  } finally {
+    clearTimeout(timer);
   }
 }
 

@@ -126,7 +126,22 @@ function play(): Run {
   const all = GROVE_SIDE_STORIES.map((q) => q.id);
   const offered = new Set<string>();
   const opened = new Set<string>();
-  let walk = 0;
+  // A sweep visits every spot once, in a shuffled order. A fixed round-robin ran in step with the
+  // calendar: adding one spot anywhere (a ferry stop) shifted which weather and hour each spot met,
+  // and a rainy-evening quest (q72) was never offered at its spot. A shuffle meets every pair.
+  let seed = 12345;
+  let sweep: number[] = [];
+  const nextSpot = (): number => {
+    if (sweep.length === 0) {
+      sweep = spots.map((_, i) => i);
+      for (let i = sweep.length - 1; i > 0; i--) {
+        seed = (seed * 1103515245 + 12345) % 2147483648;
+        const j = seed % (i + 1);
+        [sweep[i], sweep[j]] = [sweep[j]!, sweep[i]!];
+      }
+    }
+    return sweep.pop()!;
+  };
   let chapter = 0;
   let chapterFrom = 0;
   let lastNews = 0;
@@ -195,7 +210,7 @@ function play(): Run {
         !goalMetNow(world)
       )
         meetGoal(world, events);
-      spots[walk++ % spots.length]!();
+      spots[nextSpot()]!();
       world.keeper.moveTarget = null;
     }
     tick(world, events, 1.1);
@@ -222,10 +237,7 @@ const KNOWN_UNREACHED: Record<string, string> = {
 };
 
 describe('reachability from one world (R0604)', () => {
-  // TEMPORARY (hot/test-speed, 2026-11-06): this fails on main since the merges of 11-05/06 (12 quests
-  // unreached, not the 8 below: q72 to q74 and more). `it.fails` keeps the deploy open and turns red
-  // again the day the bug is fixed; then change it back to `it` and update KNOWN_UNREACHED if needed.
-  it.fails(
+  it(
     'the spine ends and every quest in the catalogue is reached, most of them finished',
     () => {
       const { world, offered, opened, ms } = play();

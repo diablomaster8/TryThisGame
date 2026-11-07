@@ -24,6 +24,7 @@ import { ghostTrail } from '../sim/dungeon-speed';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
 import { guideOn } from '../sim/dungeon-kid';
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
+import { shelfAt } from '../sim/dungeon-shelves';
 
 /**
  * The Hollow's maps (item 40, R0154), drawn from the sim's explored mask so they work in
@@ -524,7 +525,8 @@ export class HollowMap {
     const t = mapTrails(world, run, f);
     this.trailLegend = { guide: !!t?.steps.length, ghost: !!t?.ghost.length };
     const tl = this.trailLegend;
-    const key = `${[...kinds].join()}:${way}:${tl.guide}:${tl.ghost}`;
+    const raised = raisedKinds(f);
+    const key = `${[...kinds].join()}:${way}:${tl.guide}:${tl.ghost}:${raised.ledge}:${raised.shelf}`;
     if (key === this.legendKey) return;
     this.legendKey = key;
     this.legend.replaceChildren();
@@ -533,6 +535,8 @@ export class HollowMap {
     if (way) this.legend.appendChild(el('span', undefined, `➤ ${A.way}`));
     if (tl.guide) this.legend.appendChild(el('span', undefined, HOLLOW_R8_TEXT.guideLegend));
     if (tl.ghost) this.legend.appendChild(el('span', undefined, HOLLOW_R8_TEXT.ghostLegend));
+    if (raised.ledge) this.legend.appendChild(el('span', undefined, HOLLOW_R8_TEXT.ledgeLegend));
+    if (raised.shelf) this.legend.appendChild(el('span', undefined, HOLLOW_R8_TEXT.shelfLegend));
   }
 
   private drawOverlay(
@@ -647,6 +651,7 @@ export class HollowMap {
         } else if (c === WATER) g.fillStyle = inRoom[i] ? '#3d86ad' : '#2f6a8a';
         else g.fillStyle = inRoom[i] ? '#7a6bc0' : '#4a4378';
         g.fillRect(x * s, y * s, s, s);
+        drawRaised(g, f, x, y, s);
       }
     // R0187's ghost line and R0208's footprints, under the markers.
     const trails = mapTrails(world, run, f);
@@ -663,6 +668,38 @@ export class HollowMap {
       drawMark(g, m.kind, p.x * s, p.y * s, big, m.dim ?? false);
     }
   }
+}
+
+/** Which raised blocks (R0031 ledges, R0191 shelves) this floor has, for the legend. */
+export function raisedKinds(f: Floor): { ledge: boolean; shelf: boolean } {
+  const sh = f.shelves ?? [];
+  return { ledge: sh.some((x) => x.ledge), shelf: sh.some((x) => !x.ledge) };
+}
+
+/**
+ * A raised cell on the corner map: a lighter tint, and a bright lip along each side that
+ * faces lower ground. A ledge's lip is a thick pale-gold line; a shelf's (it carries a find)
+ * a thin pink one over a warmer tint, so the two differ by shape and by colour.
+ */
+export function drawRaised(g: Ctx2D, f: Floor, x: number, y: number, s: number): void {
+  const si = shelfAt(f, { x, y });
+  if (si < 0) return;
+  const ledge = !!f.shelves![si]!.ledge;
+  g.fillStyle = ledge ? 'rgba(255,233,168,0.28)' : 'rgba(255,150,200,0.32)';
+  g.fillRect(x * s, y * s, s, s);
+  g.strokeStyle = ledge ? '#ffe9a8' : '#ff9ac8';
+  g.lineWidth = ledge ? Math.max(2, s / 3) : Math.max(1, s / 6);
+  const open = (dx: number, dy: number) => shelfAt(f, { x: x + dx, y: y + dy }) !== si;
+  g.beginPath();
+  const line = (x0: number, y0: number, x1: number, y1: number) => {
+    g.moveTo(x0 * s, y0 * s);
+    g.lineTo(x1 * s, y1 * s);
+  };
+  if (open(0, -1)) line(x, y, x + 1, y);
+  if (open(0, 1)) line(x, y + 1, x + 1, y + 1);
+  if (open(-1, 0)) line(x, y, x, y + 1);
+  if (open(1, 0)) line(x + 1, y, x + 1, y + 1);
+  g.stroke();
 }
 
 /** The chevron shows once the stairs down have been seen. */

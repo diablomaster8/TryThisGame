@@ -115,6 +115,23 @@ describe('service worker (TECH-43)', () => {
     expect(await offline!.text()).toBe('shell');
   });
 
+  it('answers a slow navigation from the held page, and stores the late one', async () => {
+    vi.useFakeTimers();
+    try {
+      let answer: (r: Response) => void = () => undefined;
+      const sw = boot({ network: () => new Promise<Response>((r) => (answer = r)) });
+      await sw.fire('install');
+      const pending = sw.get(`${ORIGIN}/`, {}, 'navigate');
+      await vi.advanceTimersByTimeAsync(2600);
+      answer(new Response('late'));
+      expect(await (await pending)!.text()).toBe('shell');
+      const stored = await sw.caches.get('grove-new')!.match(`${ORIGIN}/`);
+      expect(await stored!.text()).toBe('late');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('serves hashed chunks cache first, without touching the network', async () => {
     const sw = boot();
     const cache = new FakeCache();

@@ -15,6 +15,8 @@ export interface GroundJob {
   /** K25, K26: the snow and path-wear levels, 0..3. */
   snow?: number;
   wear?: number;
+  /** HOT load time: a quick low-detail painting first (pixels per unit); absent means full. */
+  ppu?: number;
 }
 
 export interface GroundResult {
@@ -22,6 +24,8 @@ export interface GroundResult {
   width: number;
   height: number;
   rgba: Uint8Array;
+  /** Set on the quick low-detail painting, which a full one replaces. */
+  preview?: boolean;
 }
 
 const scope = self as unknown as {
@@ -30,7 +34,10 @@ const scope = self as unknown as {
 };
 
 scope.onmessage = (e: MessageEvent<GroundJob>) => {
-  const { id, seed, tiles, season, snow, wear } = e.data;
-  const p = paintGround(seed, tiles, undefined, season ?? null, snow ?? 0, wear ?? 0);
-  scope.postMessage({ id, width: p.width, height: p.height, rgba: p.rgba }, [p.rgba.buffer]);
+  const { id, seed, tiles, season, snow, wear, ppu } = e.data;
+  const p = paintGround(seed, tiles, ppu, season ?? null, snow ?? 0, wear ?? 0);
+  const preview = ppu !== undefined;
+  scope.postMessage({ id, width: p.width, height: p.height, rgba: p.rgba, preview }, [
+    p.rgba.buffer,
+  ]);
 };
