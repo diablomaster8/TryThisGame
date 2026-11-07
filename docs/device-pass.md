@@ -1,7 +1,7 @@
 # Device pass: manual checks
 
-`tests/e2e/` does not exist yet (no Playwright), so these are manual. Move them into
-Playwright when G11 creates the folder.
+`tests/e2e/` now holds the Playwright smoke run (R0453), but these checks are still manual. Move them into
+its specs as they become scriptable.
 
 ## B2: the debug panel never ships in production
 
