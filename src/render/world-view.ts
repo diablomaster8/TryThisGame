@@ -63,6 +63,7 @@ import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
+import { HidePeek } from '../render-common/hide-peek';
 import { noticeFace } from './notice';
 import { Glances } from './glances';
 import { soulEmote } from './soul-emotes';
@@ -202,6 +203,8 @@ export class WorldView {
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
   private readonly petBeats = new PetBeats();
+  // R0321: where a hider is drawn, behind its cover from the camera.
+  private readonly hidePeek = new HidePeek();
   /** R0580 (lane A r11): glances at what happens nearby. */
   private readonly glances = new Glances();
   private readonly decor = placeDecorations();
@@ -2395,8 +2398,16 @@ export class WorldView {
     const merged = isMerged(world, n.id);
     // A scene that seats Moss or Sable on a mark draws them there (render/scene-stage.ts).
     const held = this.staging?.active ? this.staging.nubbinHolds.get(n.id) : undefined;
-    const x = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
-    const z = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
+    const bx = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
+    const bz = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
+    // R0321: a hider is drawn behind its cover as the camera sees it (drawn only).
+    const pcam = PIXEL_VIEW.camera?.position;
+    const peek =
+      held || !pcam || n.stage === 'egg' || n.stage === 'cocoon'
+        ? null
+        : this.hidePeek.place(world, n, pcam, bx, bz, nowMs, this.particles.reduceMotion);
+    const x = peek?.x ?? bx;
+    const z = peek?.z ?? bz;
     // LOOK-24: a strong flier on a flight leg is drawn in the air; the shadow shrinks below.
     const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
     // LOOK-44: an idle favourite plays its signature beat now and then (render/signature.ts).
@@ -2522,7 +2533,10 @@ export class WorldView {
       const look = held
         ? null
         : (noticeFace(n, world.keeper.pos) ?? this.glances.face(n, world, nowMs));
-      const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
+      // R0321: a peeking hider looks out at the camera (and, below, the Keeper).
+      const view = peek
+        ? viewAngle(yaw, yaw)
+        : viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -2652,6 +2666,14 @@ export class WorldView {
       const angle = key.split(':')[1] ?? 'front';
       const bkey = frameKey(beat.clip, angle, beat.frame ?? Math.floor(nowMs / 180) % 2);
       if (sheet.frames.has(bkey)) key = bkey;
+    }
+    // R0321: the peek glances toward the Keeper's side of the screen (front frames 2 and 3).
+    if (peek && beat?.kind === 'hidePeek') {
+      const gk = frameKey('peek', 'front', peek.side > 0 ? 3 : 2);
+      if (sheet.frames.has(gk)) {
+        key = gk;
+        flip = false;
+      }
     }
     if (beat?.fresh) {
       const kind = PET_BEAT_BURST[beat.kind];
