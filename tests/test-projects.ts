@@ -269,6 +269,7 @@ export const TOOL_FILES: readonly string[] = [
   'tests/tools/env-directions.test.ts',
   'tests/tools/env-fractal.test.ts',
   'tests/tools/env-samples.test.ts',
+  'tests/tools/evo-preview.test.ts',
   'tests/tools/make-icons.test.ts',
   'tests/tools/preview.test.ts',
   'tests/tools/scenery.test.ts',

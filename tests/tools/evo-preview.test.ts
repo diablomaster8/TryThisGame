@@ -59,7 +59,7 @@ function chaoLadder(
 
 const art = (id: string) => (a: Angle) => drawCreature(a, poseFor('idle', 0), speciesArt(id)!);
 
-if (process.env.PREVIEW_EVO) it('writes the evolution ladders', () => {
+it.skipIf(!process.env.PREVIEW_EVO)('writes the evolution ladders', () => {
   const chaoOnly = !!process.env.PREVIEW_EVO_CHAO;
   const all = [
     chaoLadder('sun', 'power', 'fly'),
