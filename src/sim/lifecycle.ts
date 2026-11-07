@@ -343,6 +343,13 @@ export function eternalBandFor(n: Nubbin, type: NubbinType): AlignmentBand | nul
 }
 
 /** Returns the stat whose grade went up, if any. */
+/** R0414: the character look each Eternal band unlocks (Sun the Angel, Moon the Devil). */
+export const ETERNAL_LOOK: Record<AlignmentBand, string> = {
+  sun: 'look-angel',
+  moon: 'look-devil',
+  neutral: 'look-chaos',
+};
+
 export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | null {
   const band = bandOf(n.alignment);
   const type = winningType(n.typeLean);
@@ -407,6 +414,12 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | 
   n.eternal = eternal;
   if (eternal) {
     events.push({ kind: 'eternal', nubbinId: n.id, band: eternal });
+    // R0414 (LOOK-38): becoming Eternal unlocks the band's classic character look, once.
+    const look = ETERNAL_LOOK[eternal];
+    if (world && !world.inventory.hats.includes(look)) {
+      world.inventory.hats.push(look);
+      events.push({ kind: 'lookUnlocked', nubbinId: n.id, look });
+    }
   }
   return upgraded;
 }

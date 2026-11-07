@@ -2007,6 +2007,8 @@ export type SimEvent =
   | { kind: 'creatorApplied'; nubbinId: string }
   | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
   | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
+  /** R0414: a character look (`look-angel`...) joined the wardrobe when a Nubbin became Eternal. */
+  | { kind: 'lookUnlocked'; nubbinId: string; look: string }
   | { kind: 'awaitingKeeper'; nubbinId: string }
   /** The last day: a check that would end in a departure opened the gentle window instead. */
   | { kind: 'graceStarted'; nubbinId: string }

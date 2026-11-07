@@ -394,3 +394,54 @@ export const earTips = (color: string): Prim[] =>
   [-1, 1].map((dx) =>
     cone(V(dx * 0.72, 2.4, -0.1), V(dx * 0.98, 2.72, -0.15), 0.13, 0.02, color, 'tip', 0.04),
   );
+
+/**
+ * LOOK-37 (R0404): a devil tail, a chain of four capsules curling down and up behind the
+ * hips, ending in a spade.
+ */
+export function devilTail(color: string, tip: string): PartSpec[] {
+  const pts = [
+    V(0, 0.55, -0.6),
+    V(0, 0.4, -1.0),
+    V(0, 0.5, -1.4),
+    V(0, 0.78, -1.62),
+    V(0, 1.05, -1.66),
+  ];
+  return [
+    {
+      name: 'tail',
+      pivot: V(0, 0.55, -0.6),
+      prims: [
+        ...pts.slice(1).map((b, i) => ({
+          kind: 'capsule' as const,
+          a: pts[i]!,
+          b,
+          r: 0.1 - i * 0.012,
+          color,
+          tag: 'tail',
+          blend: 0.06,
+        })),
+        {
+          kind: 'ellipsoid' as const,
+          a: V(0, 1.17, -1.66),
+          r: 0.2,
+          radii: V(0.2, 0.18, 0.06),
+          color: tip,
+          tag: 'tail',
+          blend: 0.02,
+        },
+        {
+          kind: 'cone' as const,
+          a: V(0, 1.25, -1.66),
+          b: V(0, 1.45, -1.66),
+          r: 0.12,
+          r2: 0.01,
+          color: tip,
+          tag: 'tail',
+        },
+      ],
+      box: [V(-0.5, 0.1, -2.0), V(0.5, 1.6, -0.2)],
+      resolution: 44,
+    },
+  ];
+}
