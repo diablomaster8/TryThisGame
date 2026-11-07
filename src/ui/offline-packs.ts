@@ -96,8 +96,12 @@ export function refreshOfflinePacks(
 ): void {
   // On a first visit the worker is active but not yet in control: post to it directly.
   if (!sw || navigator.onLine === false) return;
-  const ids = new Set<OfflinePackId>(['core', ...keptPacks()]);
+  // R0721: the pack the slot in play needs comes right after `core`, before the ticked packs,
+  // so a new Learning Grove (boot runs the moment its slot is created) is whole before the
+  // Story or worlds packs queue behind it.
+  const ids = new Set<OfflinePackId>(['core']);
   if (slotNeeds) ids.add(slotNeeds);
+  for (const id of keptPacks()) ids.add(id);
   void loadManifest().then((m) => {
     if (!m) return;
     // One pack at a time, so the worker's fetches never compete with play for long.
