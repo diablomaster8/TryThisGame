@@ -115,7 +115,9 @@ function eagerModules(): Plugin {
  * system font offline) and the language clips in public/audio/lang.
  */
 const OFFLINE_PACKS: Record<string, RegExp> = {
-  story: /^(campaign|side-story-content|storyline-content|strings-fun-r6)$/,
+  // R0491: the side stories are a skeleton plus one text chunk per script file.
+  story:
+    /^(campaign|side-story-skeleton|side-stories-.+|quests-.+|expansion-e\d|storyline-content|strings-fun-r6)$/,
   edu: /^edu-/,
   worlds: /^(atlas|arcade|multiverse|neopia)-catalogue$/,
 };

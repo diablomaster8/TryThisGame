@@ -27,9 +27,9 @@ import { SIDE_STORY_S30, SIDE_STORY_S30_VARIANTS } from '../content/side-stories
 import { SIDE_STORY_S31, SIDE_STORY_S31_VARIANTS } from '../content/side-stories-s31';
 
 /**
- * Every Grove side-story script (S1–S31, the fun quests Q1–Q95, E1–E3) and its variant scenes. This module is its own
- * chunk: story-scenes.ts loads it with `loadSideStories` and registers it, so the scripts
- * stay out of the main bundle. Tests import it directly.
+ * Every Grove side-story script (S1–S31, the fun quests Q1–Q95, E1–E3) and its variant scenes,
+ * all at once. Tests and tools import it directly; the app never does (R0491): it boots from
+ * side-story-skeleton.ts and loads each file's text on demand (side-story-files.ts).
  */
 export const SIDE_STORY_CONTENT: SideStoryContent = {
   quests: [

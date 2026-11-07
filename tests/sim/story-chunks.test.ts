@@ -6,7 +6,11 @@ import { storyNeeds } from '../../src/story-chunks';
 describe('what a save needs before play', () => {
   const save = (world: unknown) => JSON.stringify({ version: 1, world });
   it('reads the story and the bands from the stored save', () => {
-    expect(storyNeeds(save({ campaign: null, edu: null }))).toEqual({ story: false, bands: [] });
+    expect(storyNeeds(save({ campaign: null, edu: null }))).toEqual({
+      story: false,
+      bands: [],
+      side: [],
+    });
     expect(storyNeeds(save({ campaign: { chapter: 1 } }))?.story).toBe(true);
     expect(
       storyNeeds(
