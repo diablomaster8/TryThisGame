@@ -427,6 +427,13 @@ function schedule(p: Playing): void {
   while (p.startTime + p.nextBeat * secPerBeat < horizon) {
     const beatInLoop = p.nextBeat % p.song.beats;
     const beatTime = p.startTime + p.nextBeat * secPerBeat;
+    // PERF: after a stall (a slow frame, a hidden tab) the timer found a backlog of beats that
+    // had already gone by and built every note's nodes at once (about 45 ms in one task on a
+    // phone), to play a smear of past notes. A beat more than a tenth of a second late is let go.
+    if (beatTime < ctx.currentTime - 0.1) {
+      p.nextBeat += 1;
+      continue;
+    }
     for (const track of p.song.tracks) {
       for (const n of track.notes) {
         if (n.t !== beatInLoop) continue;
@@ -435,6 +442,28 @@ function schedule(p: Playing): void {
     }
     p.nextBeat += 1;
   }
+}
+
+/**
+ * PERF: a hat or snare filled a fresh noise buffer (2400 to 6700 samples of Math.random) every
+ * hit. Four bursts per length are made once and taken in turn, so successive hits still differ.
+ */
+const noiseBursts = new Map<string, AudioBuffer[]>();
+let noiseTurn = 0;
+function noiseBurst(ac: AudioContext, len: number): AudioBuffer {
+  const key = `${ac.sampleRate}:${len}`;
+  let set = noiseBursts.get(key);
+  if (!set) {
+    set = [];
+    for (let k = 0; k < 4; k++) {
+      const buf = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+      set.push(buf);
+    }
+    noiseBursts.set(key, set);
+  }
+  return set[noiseTurn++ % set.length]!;
 }
 
 const mtof = (m: number): number => 440 * Math.pow(2, (m - 69) / 12);
@@ -458,9 +487,7 @@ function play(track: Track, n: Note, t0: number, dur: number, out: GainNode): vo
     case 'snare':
     case 'hat': {
       const len = track.inst === 'hat' ? 0.05 : 0.14;
-      const buf = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate);
-      const d = buf.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+      const buf = noiseBurst(ac, len);
       const src = ac.createBufferSource();
       src.buffer = buf;
       const f = ac.createBiquadFilter();
