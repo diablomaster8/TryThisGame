@@ -36,13 +36,13 @@ left out, and an example as it appears in a spec.
 | `poses`       | A species' own poses, keyed by pose name, each `(c: PoseContext) => void` (see PoseContext below). It replaces the stock pose of that name; the stock `carry` and `throw` just stand, so a species that wants them writes them.                                                                                                                                                                                                                                           | the stock poses                         | `poses: { pet, carry, throw: throwPose, sleep: sleepSitting }` (the Keeper)            |
 | `hearts`      | Whether hearts rise from the head during `pet`. The one doing the petting turns them off.                                                                                                                                                                                                                                                                                                                                                                                 | `true`                                  | `hearts: false` (the Keeper)                                                           |
 | `expressions` | Per-pose overrides of the Expression table, partial: only the fields given change.                                                                                                                                                                                                                                                                                                                                                                                        | the stock table below                   | `expressions: { eat: { squint: 0.6 } }`                                                |
-| `wings`       | Translucent wings that flutter: position of the right root (mirrored for the left), `size`, `color` and `shape` (`fairy` by default, a rounded `feather` lobe, a scalloped `bat` wing). Optional `raise` (radians) tips them up in their own plane at rest (Charizard's 20 degrees, LOOK-10).                                                                                                                                                                                                                                                                                   | none                                    | `wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' }`                      |
-| `blush`       | Cheek blush colour, scaled in over 150 ms only while petted (the Chao line). | none | `blush: '#ffb3c6'` |
-| `waddle`      | Walk body roll over the stance foot, radians; the head counter-rolls 0.43 of it. | 0.03 | `waddle: 0.12` |
-| `eyes.glow`   | The iris's own light (emissive intensity). | 0.3 | the Shadow Nubbin, `glow: 0.4` (LOOK-64) |
-| `hop`         | Moves by hopping: two hops a stride (three a metre), stretch 1.15 at the apex, squash 0.75 landing; no leg swing. | unset | the in-training blobs (`move: 'hop'` on their pixel art) |
-| `armRest`     | Extra arm roll down and pitch forward at rest, radians; the walk uses half. | none | `armRest: { roll: 0.38, pitch: -0.26 }` |
-| `ball`        | The emote ball over the head, with its own light: height, colour, `shape` (a plain `ball`, a flat `halo` ring, a `spikes` ball) and `glow`, the emissive tint that also colours its light (warm gold by default). `tip` colours the spikes on their own (the Moon ball's red tips, LOOK-17).                                                                                                                                                                                                                                                         | none                                    | `ball: { y: 3.5, color: '#ffd94a', shape: 'halo', glow: '#c08a10' }`                   |
+| `wings`       | Translucent wings that flutter: position of the right root (mirrored for the left), `size`, `color` and `shape` (`fairy` by default, a rounded `feather` lobe, a scalloped `bat` wing). Optional `raise` (radians) tips them up in their own plane at rest (Charizard's 20 degrees, LOOK-10).                                                                                                                                                                             | none                                    | `wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' }`                      |
+| `blush`       | Cheek blush colour, scaled in over 150 ms only while petted (the Chao line).                                                                                                                                                                                                                                                                                                                                                                                              | none                                    | `blush: '#ffb3c6'`                                                                     |
+| `waddle`      | Walk body roll over the stance foot, radians; the head counter-rolls 0.43 of it.                                                                                                                                                                                                                                                                                                                                                                                          | 0.03                                    | `waddle: 0.12`                                                                         |
+| `eyes.glow`   | The iris's own light (emissive intensity).                                                                                                                                                                                                                                                                                                                                                                                                                                | 0.3                                     | the Shadow Nubbin, `glow: 0.4` (LOOK-64)                                               |
+| `hop`         | Moves by hopping: two hops a stride (three a metre), stretch 1.15 at the apex, squash 0.75 landing; no leg swing.                                                                                                                                                                                                                                                                                                                                                         | unset                                   | the in-training blobs (`move: 'hop'` on their pixel art)                               |
+| `armRest`     | Extra arm roll down and pitch forward at rest, radians; the walk uses half.                                                                                                                                                                                                                                                                                                                                                                                               | none                                    | `armRest: { roll: 0.38, pitch: -0.26 }`                                                |
+| `ball`        | The emote ball over the head, with its own light: height, colour, `shape` (a plain `ball`, a flat `halo` ring, a `spikes` ball) and `glow`, the emissive tint that also colours its light (warm gold by default). `tip` colours the spikes on their own (the Moon ball's red tips, LOOK-17).                                                                                                                                                                              | none                                    | `ball: { y: 3.5, color: '#ffd94a', shape: 'halo', glow: '#c08a10' }`                   |
 | `hipY`        | Hip height: the body bobs, crouches and squashes from here.                                                                                                                                                                                                                                                                                                                                                                                                               | required                                | `hipY: 0.98`                                                                           |
 | `stride`      | The walk step: `length` scales how far the body moves per cycle (jointed legs: 1 is one leg length, and the hips crouch as far as the step needs; unjointed legs: it widens the hip swing), `period` is the cycle in seconds, `duty` the planted share of it for jointed feet (below 0.5 the figure jogs, and crouches less). The Grove speeds the cycle up to the sim's speed (`render3d/gait.ts`, at most `GROVE3D.maxCadence`), so longer steps mean a calmer cadence. | `{ length: 1, period: 0.8, duty: 0.6 }` | `stride: { length: 2.2, period: 0.7, duty: 0.45 }` (the Keeper)                        |
 | `footprint`   | Radius of the contact shadow and of the slope probes.                                                                                                                                                                                                                                                                                                                                                                                                                     | 0.85 × the torso box's half-width       | `footprint: 1.1`                                                                       |
@@ -143,23 +143,23 @@ shape. Each is a glossy dome, a painted iris bent onto it (big pupil, ring lit f
 two catchlights), a thin liner and a lid that blinks and closes for sleep. The irises
 follow `lookAt` when the stage sets it.
 
-| Field       | What it is                                                               | Default  | Example                                        |
-| ----------- | ------------------------------------------------------------------------ | -------- | ---------------------------------------------- |
-| `x`         | Half the distance between the eyes.                                      | required | `x: 0.36`                                      |
-| `y`, `z`    | Height and depth of the pair before projection onto the skin.            | required | `y: 1.78, z: 1.08`                             |
-| `r`         | Eye radius.                                                              | required | `r: 0.23`                                      |
-| `iris`      | Iris colour.                                                             | required | `iris: '#4a9a3a'`                              |
-| `lidColor`  | Lid colour, usually the skin or fur colour.                              | required | `lidColor: fur`                                |
-| `yaw`       | Extra outward turn of each eye, radians.                                 | required | `yaw: 0`                                       |
-| `lid`       | How far the upper lid sits over the eye at rest, 0..1.                   | required | `lid: 0.18`                                    |
-| `irisScale` | Iris disc size as a fraction of the eye.                                 | required | `irisScale: 0.8`                               |
-| `pitch`     | Extra tilt of each eye beyond the face normal, radians.                  | 0        | `pitch: 0`                                     |
-| `tall`      | Height over width; 1 is round.                                           | 1.2      | `tall: 1.3`                                    |
-| `brow`      | `false` leaves the brow ridge off (the line-up figures have none).       | on       | `brow: false`                                  |
-| `style`     | `chao` solid dark oval, two glints, no sclera or brows; `dot` bead; `cute` flat iris, thin rim. | `anime`  | `style: 'chao'` |
-| `roll`      | Roll of each eye, outer end up, radians (a slanted angry eye).            | 0        | `roll: 0.44` |
-| `pupil`     | `slit`: a narrow upright pupil in the iris (Ekans, Arbok, Charmander's line). | `round`  | `pupil: 'slit'` |
-| `extra`     | Small bead eyes set in the skin (a spider's row): `{ x, y, z, r }` each. | none     | `extra: [{ x: 0.5, y: 0.7, z: 1.4, r: 0.07 }]` |
+| Field       | What it is                                                                                      | Default  | Example                                        |
+| ----------- | ----------------------------------------------------------------------------------------------- | -------- | ---------------------------------------------- |
+| `x`         | Half the distance between the eyes.                                                             | required | `x: 0.36`                                      |
+| `y`, `z`    | Height and depth of the pair before projection onto the skin.                                   | required | `y: 1.78, z: 1.08`                             |
+| `r`         | Eye radius.                                                                                     | required | `r: 0.23`                                      |
+| `iris`      | Iris colour.                                                                                    | required | `iris: '#4a9a3a'`                              |
+| `lidColor`  | Lid colour, usually the skin or fur colour.                                                     | required | `lidColor: fur`                                |
+| `yaw`       | Extra outward turn of each eye, radians.                                                        | required | `yaw: 0`                                       |
+| `lid`       | How far the upper lid sits over the eye at rest, 0..1.                                          | required | `lid: 0.18`                                    |
+| `irisScale` | Iris disc size as a fraction of the eye.                                                        | required | `irisScale: 0.8`                               |
+| `pitch`     | Extra tilt of each eye beyond the face normal, radians.                                         | 0        | `pitch: 0`                                     |
+| `tall`      | Height over width; 1 is round.                                                                  | 1.2      | `tall: 1.3`                                    |
+| `brow`      | `false` leaves the brow ridge off (the line-up figures have none).                              | on       | `brow: false`                                  |
+| `style`     | `chao` solid dark oval, two glints, no sclera or brows; `dot` bead; `cute` flat iris, thin rim. | `anime`  | `style: 'chao'`                                |
+| `roll`      | Roll of each eye, outer end up, radians (a slanted angry eye).                                  | 0        | `roll: 0.44`                                   |
+| `pupil`     | `slit`: a narrow upright pupil in the iris (Ekans, Arbok, Charmander's line).                   | `round`  | `pupil: 'slit'`                                |
+| `extra`     | Small bead eyes set in the skin (a spider's row): `{ x, y, z, r }` each.                        | none     | `extra: [{ x: 0.5, y: 0.7, z: 1.4, r: 0.07 }]` |
 
 ## Mouth
 
@@ -378,16 +378,16 @@ The pocket and digital lines are generated from the pixel recipe (`render/sprite
 `render3d/art-species.ts`). A recipe with `plan: 'serpent'` may carry a `serpent` block, read by
 both renderers (LOOK-05):
 
-| Field      | What it does                                                                                     |
-| ---------- | ------------------------------------------------------------------------------------------------ |
-| `segments` | Discs (pixel) and spine nodes (3D), 7–10; 8 by default.                                          |
-| `taper`    | The tail's radius as a share of the neck's; 0.35 by default.                                     |
-| `rise`     | How many segments stand up under the head; 2 by default (Gyarados 4, Airdramon 5).               |
-| `belly`    | A belly stripe in the belly colour.                                                              |
-| `fin`      | A dorsal fin in the accent colour on segments 2 and 5 (Gyarados).                                |
-| `plated`   | Squarer, studded plates instead of round discs (Steelix); 3D adds a stud and a wider block.      |
-| `spikes`   | A ring of short accent spikes on every other segment, sticking out sideways (Steelix).           |
-| `jaw`      | A wide, square, jutting lower jaw on the head with two tusks, an underbite (Steelix).            |
+| Field      | What it does                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------- |
+| `segments` | Discs (pixel) and spine nodes (3D), 7–10; 8 by default.                                     |
+| `taper`    | The tail's radius as a share of the neck's; 0.35 by default.                                |
+| `rise`     | How many segments stand up under the head; 2 by default (Gyarados 4, Airdramon 5).          |
+| `belly`    | A belly stripe in the belly colour.                                                         |
+| `fin`      | A dorsal fin in the accent colour on segments 2 and 5 (Gyarados).                           |
+| `plated`   | Squarer, studded plates instead of round discs (Steelix); 3D adds a stud and a wider block. |
+| `spikes`   | A ring of short accent spikes on every other segment, sticking out sideways (Steelix).      |
+| `jaw`      | A wide, square, jutting lower jaw on the head with two tusks, an underbite (Steelix).       |
 
 In 3D the neck is sculpted into the torso and each lying segment is a part named `seg<i>`, re-hung
 bone under bone (`render3d/art-serpent.ts`); the walk is a travelling yaw wave on the gait clock.
@@ -405,6 +405,17 @@ by both renderers. Babies (size under 0.95) keep a head a third bigger.
 | `neck`    | How far the head stands up and forward on a neck, 0–0.6.                                      |
 | `snout`   | Muzzle length, 0–0.5.                                                                         |
 | `tailSet` | `high` (default, off the top of the rump) or `low` (drooping, Rattata, Slowpoke).             |
+
+## Generated species: long necks, palms and seahorses (R0405)
+
+Read by both renderers (`creature-gen1b.ts`, `render3d/art-species-gen1b.ts`, `art-species-extras.ts`).
+
+| Field                       | What it does                                                                                                                                      |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heads.neck` above 1        | Long thin necks (up to 2) and smaller heads (×0.68 for two): the running birds (Doduo, Dodrio). 0 to 1 is unchanged.                              |
+| `gen1b: ['trunk']`          | The whole body is a ringed trunk in the accent2 colour, slimmer toward the top; heads stay in the body colour (Exeggutor, with `palm` fronds).    |
+| `gen1b: ['seahorse']`       | On the `stalk` plan: a belly bulging toward the face with pale rings, a back fin, a forward-curling tail spiral, a longer snout (Horsea, Seadra). |
+| `addons: [ex('flameMane')]` | Flame tongues down the back of the neck, emissive in 3D (Ponyta, Rapidash). `c` is the outer flame, `c2` the inner.                               |
 
 ## Where it is seen
 
