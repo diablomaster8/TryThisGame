@@ -558,8 +558,11 @@ function boot(
       reg.active?.postMessage({ type: 'cache-urls', urls });
     });
     // R0461 (TECH-20): keep the ticked offline packs, and the one this slot needs.
+    // R0721: boot() runs as soon as a new Learning Grove slot is created (eduAge is set), so
+    // that creation asks for the whole edu pack here, online only and silently, without
+    // waiting for a later load of the slot.
     void navigator.serviceWorker.ready.then((reg) => {
-      const m = currentSlot().mode;
+      const m = eduAge ? 'edu' : currentSlot().mode;
       refreshOfflinePacks(reg.active, m === 'edu' ? 'edu' : m === 'free' ? null : 'story');
     });
   }
