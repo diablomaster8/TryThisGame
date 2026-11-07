@@ -101,6 +101,7 @@ import { nubbinsHere } from '../sim/nubbin-home';
 import { regionShown } from '../sim/region-gardens';
 import { noteDue, performLook } from '../render/perform-look';
 import { poseOfState, visualStateFor } from '../render-common/visual-state';
+import { HidePeek, isPeeking } from '../render-common/hide-peek';
 import { Perform3D } from './perform-3d';
 import { chatClip, chatHop } from '../render/chat-look';
 import { emoteMotion } from '../render/emote-mood';
@@ -274,6 +275,8 @@ export class Actors {
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
   private readonly petBeats = new PetBeats();
+  // R0321: where a hider is drawn, behind its cover from the camera.
+  private readonly hidePeek = new HidePeek();
   /** R0580 (lane A r11): glances at what happens nearby, and a look point per Nubbin. */
   private readonly glances = new Glances();
   private readonly glanceAts = new Map<string, THREE.Vector3>();
@@ -400,10 +403,12 @@ export class Actors {
 
   /**
    * The opening build, for the loading bar: surfaces back (most of the wait) and figures
-   * rigged. Done once the Keeper (both in co-op), every Nubbin the world will draw here
-   * and the crowd all stand as themselves, no stand-ins left. Nubbins are counted from
-   * the world, not from the actors already made, so a frame that has not reached them
-   * yet (or one that just swapped a look) does not count as finished.
+   * rigged. Done once the Keeper (both in co-op) and every Nubbin the world will draw here
+   * stand as themselves, no stand-ins left. Nubbins are counted from the world, not from the
+   * actors already made, so a frame that has not reached them yet (or one that just swapped
+   * a look) does not count as finished. HOT-3: the crowd is not waited for; it stands in
+   * and builds a rig a frame once the veil lifts (`Crowd.update` holds off while the pool
+   * is in its loading burst).
    */
   loadState(): { progress: number; done: boolean } {
     const world = this.world;
@@ -414,7 +419,6 @@ export class Actors {
       const a = this.nubbins.get(n.id);
       figures.push(!!a && a.key === this.wantKey(n) && !!(a.rig || a.shell));
     }
-    figures.push(...this.crowd.readiness());
     const rigged = figures.filter(Boolean).length;
     if (rigged === figures.length && this.pool.burst) this.pool.loaded();
     return {
@@ -1098,8 +1102,15 @@ export class Actors {
       // A scene that seats Moss or Sable on a mark draws them there (scene-stage.ts).
       const ph = this.photo?.get(n.id);
       const held = ph ?? this.nubbinHolds?.get(n.id);
-      const x = held?.x ?? lerp(a.prev.pos.x, n.pos.x, alpha);
-      const z = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
+      const bx = held?.x ?? lerp(a.prev.pos.x, n.pos.x, alpha);
+      const bz = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
+      // R0321: a hider is seated behind its cover as the camera sees it (drawn only).
+      const peek =
+        held || !a.rig || n.stage === 'egg' || n.stage === 'cocoon'
+          ? null
+          : this.hidePeek.place(world, n, cameraPos, bx, bz, nowMs, this.calm);
+      const x = peek?.x ?? bx;
+      const z = peek?.z ?? bz;
       // LOOK-24: a strong flier on a flight leg flies (drawn only, sim/flight.ts).
       const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
       // LOOK-44: an idle favourite plays its signature beat (render/signature.ts).
@@ -1254,15 +1265,23 @@ export class Actors {
           this.sigFx?.play(n.id, sig!, this.nubbinSpot(n.id), nowMs, this.calm);
         /* Lane E r10 */ if (pose === 'cry' && this.cryFx)
           this.cryFx.play(n.id, this.nubbinSpot(n.id), this.nubbinFront(n.id), nowMs, this.calm);
-        a.rig.face(ph ? ph.yaw : ((held && this.stager?.faces.get(n.id)) ?? n.facing));
+        a.rig.face(
+          ph
+            ? ph.yaw
+            : peek
+              ? Math.atan2(cameraPos.x - x, cameraPos.z - z)
+              : ((held && this.stager?.faces.get(n.id)) ?? n.facing),
+        );
         a.rig.lookAt = ph
           ? ph.look
           : pose === 'pet'
             ? hand
-            : GLANCE_POSES.has(pose) &&
-                Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
+            : peek && isPeeking(n)
               ? this.glanceAt
-              : this.glanceOf(n, world, nowMs);
+              : GLANCE_POSES.has(pose) &&
+                  Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
+                ? this.glanceAt
+                : this.glanceOf(n, world, nowMs);
         a.rig.faceOverride = ph?.face ?? null;
         if (n.behavior.state === 'pet' && near) petted = true;
         this.dresser.update(a.rig, n);

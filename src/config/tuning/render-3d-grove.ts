@@ -54,6 +54,12 @@ export const GROVE3D = {
   /** The longest the 3D loading veil waits before showing the Grove with its stand-ins. */
   loadSafetyMs: 90_000,
   /**
+   * HOT-3 (load time): the light sets not on screen link after the veil, in the background:
+   * `linkMs` of each frame, `linkPack` stand-ins a compile call; `openAfterMs` is how long
+   * `loadState` may go unasked before the scene counts the veil as gone.
+   */
+  boot: { linkMs: 10, linkPack: 6, openAfterMs: 1500 },
+  /**
    * Entering a place whose programs are still linking keeps the last frame up; after
    * `delayMs` it dims over `ms` (and brightens back as fast once the place draws).
    */
