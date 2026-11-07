@@ -22,11 +22,18 @@ export function noteCalendarSeason(world: World): void {
   calendarWorlds.add(world);
 }
 
-/** True while the Grove's pond is frozen for walking on: a free-play winter, at home. */
+/**
+ * True while the Grove's pond is frozen for walking on, at home: a free-play winter, or in
+ * story mode the chapters the renderers draw the pond frozen (`pondIceWanted` in
+ * render/dress-w.ts: Hazel's Grove, chapters 10 to 12). A scene's own stage can hide the ice
+ * for its shot; the sim keeps it frozen through the chapter, as the Long Night's cold does.
+ */
 export function pondIsIce(
   world: Pick<World, 'season' | 'debugSeason' | 'location' | 'campaign'>,
 ): boolean {
-  if (world.location !== 'grove' || world.campaign) return false;
+  if (world.location !== 'grove') return false;
+  const c = world.campaign;
+  if (c) return (c.storyline ?? 'hazel') === 'hazel' && c.chapter >= 10 && c.chapter <= 12;
   if (world.debugSeason) return world.debugSeason === 'winter';
   return world.season === 'winter' && calendarWorlds.has(world);
 }
