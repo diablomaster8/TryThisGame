@@ -44,3 +44,81 @@ export function sheetShift(
   const top = 1 - 2 * shift.y;
   return left >= 0.5 + margin && top >= 0.5 + margin ? { x: 0, y: 0 } : shift;
 }
+
+/** Which Keeper's input moved last: 1 or 2. */
+export type Mover = 1 | 2;
+
+/**
+ * R18 d2 (R0140): the Keeper the co-op camera follows when they are far apart is the one whose
+ * input began moving most recently. `was` / `now` say who had input last frame / this frame; a
+ * Keeper that has just started moving wins, otherwise the choice holds.
+ */
+export function lastMover(
+  prev: Mover,
+  was: { k1: boolean; k2: boolean },
+  now: { k1: boolean; k2: boolean },
+): Mover {
+  const start1 = now.k1 && !was.k1;
+  const start2 = now.k2 && !was.k2;
+  if (start1 !== start2) return start1 ? 1 : 2;
+  if (now.k1 !== now.k2) return now.k1 ? 1 : 2;
+  return prev;
+}
+
+/** One view's size in world units, across the screen and up it. */
+export interface ViewSize {
+  w: number;
+  h: number;
+}
+
+/**
+ * Whether two spots fit in a view with a margin: their spread is turned into screen axes (yaw)
+ * and the ground depth is foreshortened by the pitch, then compared with `fit` of the view.
+ */
+export function fitsView(
+  a: Spot,
+  b: Spot,
+  yaw: number,
+  pitch: number,
+  view: ViewSize,
+  fit: number,
+) {
+  const dx = b.x - a.x;
+  const dz = b.z - a.z;
+  const across = Math.abs(dx * Math.cos(yaw) - dz * Math.sin(yaw));
+  const up = Math.abs(dx * Math.sin(yaw) + dz * Math.cos(yaw)) * Math.sin(pitch);
+  return across <= view.w * fit && up <= view.h * fit;
+}
+
+export interface CoopFrame {
+  /** What the camera aims at. */
+  at: Spot;
+  /** Both Keepers are in the frame (the midpoint), or only the active one. */
+  framed: boolean;
+  /** Zoom out one notch to fit them (never past the survey step). */
+  notch: boolean;
+}
+
+/**
+ * The co-op camera's subject. Close together: the midpoint, easing out one zoom notch when that
+ * is what it takes to fit (`out` is the view one notch farther, or null when already at the
+ * survey step). Far apart: whoever moved last (`mover`). `wasFramed` gives the margin hysteresis.
+ */
+export function coopFrame(
+  k1: Spot,
+  k2: Spot,
+  mover: Mover,
+  yaw: number,
+  pitch: number,
+  view: ViewSize,
+  out: ViewSize | null,
+  wasFramed: boolean,
+  enter: number,
+  exit: number,
+): CoopFrame {
+  const fit = wasFramed ? exit : enter;
+  const mid = { x: (k1.x + k2.x) / 2, z: (k1.z + k2.z) / 2 };
+  if (fitsView(k1, k2, yaw, pitch, view, fit)) return { at: mid, framed: true, notch: false };
+  if (out && fitsView(k1, k2, yaw, pitch, out, fit)) return { at: mid, framed: true, notch: true };
+  return { at: mover === 2 ? k2 : k1, framed: false, notch: false };
+}
