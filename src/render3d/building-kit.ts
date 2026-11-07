@@ -121,6 +121,24 @@ export function syncOcclude(): void {
   flatInto(OCCLUDE_FLAT.hideMax.value, OCCLUDE.hideMax.value, 3);
 }
 
+/**
+ * Everything the hide-aware depth program (`hideDepthMaterial`) reads, appended to `out`: the
+ * shadow cache (`shadow-cache.ts`) redraws its static casters when any of it changes.
+ */
+export function occludeDepthKey(out: number[]): void {
+  syncOcclude();
+  out.push(OCCLUDE.on.value, OCCLUDE.hides.value, OCCLUDE.boxes.value);
+  out.push(OCCLUDE.footprint.value.x, OCCLUDE.footprint.value.y);
+  for (const v of OCCLUDE.hideFade.value) out.push(v);
+  for (const a of [
+    OCCLUDE_FLAT.hideMin,
+    OCCLUDE_FLAT.hideMax,
+    OCCLUDE_FLAT.boxMin,
+    OCCLUDE_FLAT.boxMax,
+  ])
+    for (const v of a.value) out.push(v);
+}
+
 const GROUND_YES = { value: 1 };
 
 /** Bucket names whose low flat pieces are part of a house, never ground (K2 review). */

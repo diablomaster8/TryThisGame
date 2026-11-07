@@ -49,7 +49,10 @@ export function skyBands(
     if (i > 0) {
       // A checker row at the seam, so the bands blend like a painted sky.
       ctx.fillStyle = color(stops[i - 1]!);
-      for (let x = (i % 2) * 2; x < W; x += 4) ctx.fillRect(x, y0, 2, 1);
+      // PERF: the checker as one path (W / 4 fillRects a band, every frame).
+      ctx.beginPath();
+      for (let x = (i % 2) * 2; x < W; x += 4) ctx.rect(x, y0, 2, 1);
+      ctx.fill();
     }
   }
 }
@@ -195,35 +198,49 @@ function paintFly(f: TrackFrame, a: number, b: number, x0: number, x1: number): 
   skyBandsX(ctx, a, b, gapTop, f.bandBottom, [C.skyLight, C.shallows, C.water]);
   const cam = Math.round(f.camX);
   const wallTop = Math.round(gapTop + (f.bandBottom - gapTop) * 0.3);
+  // PERF: the per-column fillRects (about eight a column, every frame) become one path per colour.
+  // Columns never overlap, and each column's layers stay in the order they were painted (rim,
+  // strata, base rock, river), so painting the colours one after another is the same picture.
+  ctx.fillStyle = color(C.lilacGrey);
+  ctx.beginPath();
   for (let x = a; x < b; x++) {
     // The far wall, with a jagged rim and rock strata, drifting slower than the lanes.
     const wx = x + Math.round(cam * 0.6);
     const rim = wallTop + (hash(Math.floor(wx / 3)) % 6);
-    ctx.fillStyle = color(C.lilacGrey);
-    ctx.fillRect(x, rim, 1, f.bandBottom - rim);
-    // Rock strata on a fixed grid, so the layers run level across the wall.
-    ctx.fillStyle = color(C.dusk);
-    for (let y = wallTop + 5; y < f.bandBottom - 7; y += 6)
-      if (y > rim + 1) ctx.fillRect(x, y, 1, 1);
-    ctx.fillStyle = color(C.greyDeep);
-    ctx.fillRect(x, f.bandBottom - 7, 1, 3);
-    // The river far below, with the odd glint.
-    ctx.fillStyle = color(C.deepWater);
-    ctx.fillRect(x, f.bandBottom - 4, 1, 4);
+    ctx.rect(x, rim, 1, f.bandBottom - rim);
   }
+  ctx.fill();
+  // Rock strata on a fixed grid, so the layers run level across the wall.
+  ctx.fillStyle = color(C.dusk);
+  ctx.beginPath();
+  for (let x = a; x < b; x++) {
+    const wx = x + Math.round(cam * 0.6);
+    const rim = wallTop + (hash(Math.floor(wx / 3)) % 6);
+    for (let y = wallTop + 5; y < f.bandBottom - 7; y += 6) if (y > rim + 1) ctx.rect(x, y, 1, 1);
+  }
+  ctx.fill();
+  ctx.fillStyle = color(C.greyDeep);
+  ctx.fillRect(a, f.bandBottom - 7, b - a, 3);
+  // The river far below, with the odd glint.
+  ctx.fillStyle = color(C.deepWater);
+  ctx.fillRect(a, f.bandBottom - 4, b - a, 4);
   const t = f.still ? 0 : Math.floor(f.nowMs / 300);
   ctx.fillStyle = color(C.skyLight);
+  ctx.beginPath();
   for (let x = a; x < b; x++)
-    if (hash(Math.floor((x + cam + t) / 2)) % 13 === 0) ctx.fillRect(x, f.bandBottom - 3, 2, 1);
+    if (hash(Math.floor((x + cam + t) / 2)) % 13 === 0) ctx.rect(x, f.bandBottom - 3, 2, 1);
+  ctx.fill();
   // A bank of cloud along the top of the gap: the drop is below the runners.
+  ctx.fillStyle = color(C.white);
+  ctx.beginPath();
   for (let x = a; x < b; x++) {
     const h = hash(Math.floor((x + cam) / 5));
     const puff = 2 + (h % 4);
-    ctx.fillStyle = color(C.white);
-    ctx.fillRect(x, gapTop - puff + 2, 1, puff);
-    ctx.fillStyle = color(C.skyLight);
-    ctx.fillRect(x, gapTop + 2, 1, 2);
+    ctx.rect(x, gapTop - puff + 2, 1, puff);
   }
+  ctx.fill();
+  ctx.fillStyle = color(C.skyLight);
+  ctx.fillRect(a, gapTop + 2, b - a, 2);
   // Wisps of cloud drifting through the lanes.
   const drift = f.still ? 0 : f.nowMs / 400;
   for (let i = 0; i < 6; i++) {
