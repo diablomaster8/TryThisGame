@@ -491,11 +491,18 @@ function boot(
 
   // A context the browser takes away (GPU reset, memory pressure) leaves a frozen canvas:
   // save, and say so with a way back, rather than keep drawing nothing.
-  canvas.addEventListener('webglcontextlost', (e) => {
-    e.preventDefault();
-    game?.save();
-    showGlFailure('lost', scene3d ? '3d' : 'pixel');
-  });
+  // R0509: heard on the way down to whichever canvas is live (a Graphics switch replaces it);
+  // the canvas a switch let go is lost on purpose and is no longer in the page.
+  app.addEventListener(
+    'webglcontextlost',
+    (e) => {
+      if (!game || e.target !== game.canvas) return;
+      e.preventDefault();
+      game.save();
+      showGlFailure('lost', game.graphics);
+    },
+    true,
+  );
 
   // ---------- resize / rotation ----------
 
