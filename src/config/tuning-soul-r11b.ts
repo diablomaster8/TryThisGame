@@ -18,6 +18,8 @@ export const WATCH = {
   chipPx: 44,
   /** How far inside the screen edge a chip sits, in CSS px. */
   edgePad: 8,
+  /** BS-03: how far below the top HUD bar and above the bottom bar a chip sits, in CSS px. */
+  barPad: 64,
   /** A Nubbin counts as off screen when its projected point is this far outside, in px. */
   margin: 12,
   /** The caption is re-read this often, in ms (it must update within a second). */

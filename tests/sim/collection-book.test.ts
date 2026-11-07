@@ -18,7 +18,7 @@ describe('the widened collection book', () => {
     const keys = allKeys();
     expect(new Set(keys).size).toBe(keys.length);
     expect(keys.filter((k) => /^chao:(sun|moon|neutral):\w+:\w+$/.test(k)).length).toBe(60);
-    expect(keys.filter((k) => k.startsWith('look:')).length).toBe(6);
+    expect(keys.filter((k) => k.startsWith('look:')).length).toBe(9);
     expect(keys.filter((k) => k.startsWith('jewel:')).length).toBe(JEWEL_EGG_COLORS.length);
     expect(keys).toContain('colour:sky:shiny');
     expect(keys).toContain('colour:sky:twotone:rose');
@@ -72,7 +72,7 @@ describe('the widened collection book', () => {
     n.stage = 'child';
     n.hat = 'look-shade';
     noteNubbin(world, n, []);
-    expect(tabProgress(world, 'looks')).toEqual({ seen: 6, total: 6 });
+    expect(tabProgress(world, 'looks')).toEqual({ seen: 9, total: 9 });
     expect(world.bookTabs).toEqual(['looks']);
     noteNubbin(world, n, []);
     expect(world.bookTabs).toEqual(['looks']);

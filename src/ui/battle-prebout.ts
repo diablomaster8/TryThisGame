@@ -26,6 +26,11 @@ export interface PreBoutHandlers {
 
 type TurnContext = Exclude<BattleContext, { kind: 'karate' }>;
 
+/** Why "Let's play" is switched off, or null when it is on. */
+export function playBlockedHint(partySize: number): string | null {
+  return partySize > 0 ? null : BATTLE_SCREEN_TEXT.partyNone;
+}
+
 export class PreBout {
   readonly root: HTMLDivElement;
   private readonly card: HTMLDivElement;
@@ -211,7 +216,12 @@ export class PreBout {
     }
     const play = button(T.play, () => this.go(false), 'btn btn-primary bs-pb-play');
     play.disabled = party.length === 0;
-    if (!party.length) play.title = BATTLE_SCREEN_TEXT.partyNone;
+    const why = playBlockedHint(party.length);
+    // BS-06: a tooltip alone never shows on a phone, so the reason is written out too.
+    if (why) {
+      play.title = why;
+      foot.appendChild(el('small', 'help', why));
+    }
     foot.appendChild(play);
     box.appendChild(foot);
   }

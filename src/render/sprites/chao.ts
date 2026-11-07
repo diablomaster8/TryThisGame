@@ -899,7 +899,51 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
       eye: C.darkPlum,
     },
   },
+  // R0414 (LOOK-38): the classic three, unlocked when a Nubbin becomes Eternal.
+  'look-angel': {
+    label: 'Angel look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.white,
+      shade: C.pale,
+      belly: C.white,
+      tip: C.cream,
+      tipShade: C.sunLight,
+      wing: C.white,
+      eye: C.nightBlue,
+    },
+  },
+  'look-devil': {
+    label: 'Devil look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.darkPlum,
+      shade: C.ink,
+      belly: C.ember,
+      bellyPatch: C.ember,
+      tip: C.ember,
+      tipShade: C.berry,
+      wing: C.berry,
+      eye: C.ember,
+    },
+  },
+  'look-chaos': {
+    label: 'Chaos look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.shallows,
+      shade: C.water,
+      belly: C.skyLight,
+      tip: C.skyLight,
+      tipShade: C.shallows,
+      wing: C.skyLight,
+      eye: C.leaf,
+    },
+  },
 };
+
+/** R0414: the looks whose body is glass whatever the egg (the Chaos look). */
+const GLASS_LOOKS: readonly string[] = ['look-chaos'];
 
 /** Hats sit on the crown. Five styles plus the character accessories. */
 export function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, hat: string): void {
@@ -967,6 +1011,39 @@ export function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: SpriteLayout, hat
       }
       break;
     }
+    case 'look-angel': {
+      // A gold halo floating over a small white tuft.
+      for (const dx of [-3, 0, 3])
+        pc.tri(
+          cx + dx - 1.5,
+          top + 2,
+          cx + dx + 1.5,
+          top + 2,
+          cx + dx * 0.8,
+          top - 3 + Math.abs(dx) / 3,
+          C.white,
+        );
+      for (let i = 0; i < 28; i++) {
+        const a = (i / 28) * Math.PI * 2;
+        pc.px(cx + Math.cos(a) * 6, top - 5 + Math.sin(a) * 1.8, C.sunYellow);
+      }
+      pc.px(cx - 5, top - 5, C.sunLight);
+      break;
+    }
+    case 'look-devil':
+      // Two curved red horns.
+      for (const d of [-1, 1]) {
+        const hx = cx + d * 5;
+        pc.tri(hx - 2, top + 3, hx + 2, top + 3, hx + d * 2.5, top - 5, C.ember);
+        pc.px(hx + d * 2, top - 4, C.sunYellow);
+      }
+      break;
+    case 'look-chaos':
+      // The green core inside the head, with its glint.
+      pc.ellipse(L.headCx, L.headCy + 1, 3.2, 3.2, C.leaf);
+      pc.ellipse(L.headCx, L.headCy + 1, 1.8, 1.8, C.sprout);
+      pc.px(L.headCx - 1, L.headCy, C.white);
+      break;
     case 'look-shade':
       // Tall pointed ears with grey insides, white spikes behind, a white collar with a lilac diamond.
       for (const d of [-1, 1]) {
@@ -1046,6 +1123,63 @@ export const NO_PARTS: NubbinParts = {
 };
 
 // ---------- body features ----------
+
+/**
+ * R0414: what the Angel and Devil carry beyond the little wings: the Angel's second, lower pair
+ * of feathered wings and the Devil's big bat wings and spade tail. Drawn on the same layers as
+ * the wings (`front` false behind the body for front views, true in front for back views).
+ */
+function drawLookWings(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  L: Layout,
+  hat: string | null | undefined,
+  front: boolean,
+): void {
+  if (hat !== 'look-angel' && hat !== 'look-devil') return;
+  const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
+  if (fromFront === front) return;
+  const y = L.headCy + L.headRy - 2;
+  const sides: (-1 | 1)[] =
+    angle === 'side'
+      ? [-1]
+      : angle === 'frontQuarter' || angle === 'backQuarter'
+        ? [-1, 1]
+        : [-1, 1];
+  if (hat === 'look-angel') {
+    for (const dir of sides) {
+      const cx = L.headCx + dir * (L.headRx - 2);
+      // The lower pair: a rounded lobe swept down and out, a pale feather line through it.
+      pc.tri(cx, y + 3, cx + dir * 7, y + 2, cx + dir * 4, y + 9, C.white);
+      pc.tri(cx, y + 3, cx + dir * 6, y + 3, cx + dir * 2, y + 8, C.pale);
+      pc.line(cx + dir, y + 4, cx + dir * 4, y + 6, C.lilacGrey);
+      // The upper pair: bigger and swept up.
+      pc.tri(cx, y + 1, cx + dir * 9, y - 5, cx + dir * 7, y + 3, C.white);
+      pc.line(cx + dir, y, cx + dir * 7, y - 3, C.pale);
+    }
+    return;
+  }
+  for (const dir of sides) {
+    const cx = L.headCx + dir * (L.headRx - 2);
+    // A bat wing: a spar up and out, a scalloped membrane hanging from it.
+    pc.tri(cx, y + 2, cx + dir * 9, y - 6, cx + dir * 8, y + 5, C.berry);
+    pc.tri(cx + dir * 3, y + 4, cx + dir * 8, y + 5, cx + dir * 5, y + 8, C.berry);
+    pc.line(cx, y + 2, cx + dir * 9, y - 6, C.ink);
+    pc.line(cx + dir * 2, y + 2, cx + dir * 7, y + 5, C.ember);
+  }
+  // The spade tail curls out from the back of the body and ends in a spade.
+  const tx = angle === 'side' ? L.bodyCx - L.bodyRx : L.bodyCx + L.bodyRx - 1;
+  const d = angle === 'side' ? -1 : 1;
+  if (angle === 'back' || angle === 'backQuarter') {
+    pc.line(L.bodyCx, L.bodyCy + 3, L.bodyCx, L.bodyCy + 6, C.ink);
+    return;
+  }
+  const ty = L.bodyCy + 2;
+  pc.line(tx, ty, tx + d * 3, ty + 2, C.ink);
+  pc.line(tx + d * 3, ty + 2, tx + d * 5, ty - 2, C.ink);
+  pc.tri(tx + d * 3, ty - 2, tx + d * 7, ty - 2, tx + d * 5, ty - 6, C.ember);
+  pc.tri(tx + d * 3, ty - 2, tx + d * 7, ty - 2, tx + d * 5, ty + 0, C.ember);
+}
 
 function drawWings(
   pc: PixelCanvas,
@@ -1825,6 +1959,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
 
   // Back layer: wings/back part and tail behind the body for front-ish views.
   drawWings(pc, angle, pose, L, wingLook, false);
+  drawLookWings(pc, angle, L, look.hat, false);
   if (tail && fromFront) drawTail(pc, angle, L, tail);
   const horn = partFor(look, 'horn');
   if (horn) drawHorn(pc, angle, L, horn, false);
@@ -2011,6 +2146,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
 
   // Front layer: wings over the body for back views, tail in front for back views.
   drawWings(pc, angle, pose, L, wingLook, true);
+  drawLookWings(pc, angle, L, look.hat, true);
   if (tail && !fromFront) drawTail(pc, angle, L, tail);
 
   if (pose.waterline) {
@@ -2039,7 +2175,8 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   if (look.shape.eternalBand) drawEternalSign(pc, angle, L, look.shape.eternalBand);
   if (look.shape.radiantBand) drawRadiantSign(pc, angle, L, look.shape.radiantBand, col.tip);
   pc.finish(col.outline, [col.eye, col.glint, C.white]);
-  if (look.finish === 'glass') ditherGlass(pc, [col.outline, col.eye, col.glint, C.white, C.ink]);
+  if (look.finish === 'glass' || (look.hat && GLASS_LOOKS.includes(look.hat)))
+    ditherGlass(pc, [col.outline, col.eye, col.glint, C.white, C.ink]);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
