@@ -105,6 +105,7 @@ import { regionGround } from '../sim/region-walk';
 import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 import { ShadowMerge } from './shadow-merge';
+import { WorldMerge, mergeWanted } from './world-merge';
 import { StaticFreezer, freezeWanted } from './static-freeze';
 import { GrovePuddles } from './puddles';
 import { AmbientLife3d } from './ambient';
@@ -345,6 +346,8 @@ export class Grove3dScene {
   private caveShadowOff = false;
   /** Phone headroom: still scenery casts its sun shadow in one merged draw (lane D r8). */
   private shadowMerge!: ShadowMerge;
+  /** Round 5: the still scenery drawn per program in a few calls; `enabled` is the switch. */
+  readonly worldMerge: WorldMerge;
   /** Round 3: skip instanced draws with no instances (an A/B switch; always on). */
   skipEmptyDraws = true;
   /** Round 3: the distant decor hidden for the render at the governor's CPU step 5, or null. */
@@ -666,6 +669,8 @@ export class Grove3dScene {
     // Installed first, so the shadow merge's per-pass slicing runs before it looks.
     this.shadowCache = new ShadowCache(this.renderer, () => [this.actors.group], occludeDepthKey);
     this.shadowMerge = new ShadowMerge(this.world3d, this.renderer);
+    this.worldMerge = new WorldMerge(this.world3d, this.scene, this.renderer);
+    this.worldMerge.enabled = mergeWanted();
     // Sampled in a worker too; the mesh is in place at once and filled when it lands.
     this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
     this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };

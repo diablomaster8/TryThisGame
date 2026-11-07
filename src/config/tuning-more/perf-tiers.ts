@@ -185,3 +185,21 @@ export const SHADOW_MERGE = {
   /** A mesh that has moved this many times casts its own shadow for good. */
   moves: 3,
 } as const;
+
+/**
+ * hot/perf-leaks round 5: the still scenery drawn in a few calls (`render3d/world-merge.ts`):
+ * meshes that share a program are merged into one mesh per program, their per-material
+ * colours, glow, normal strength and ground flag read per piece from a small data texture.
+ */
+export const WORLD_MERGE = {
+  /** How often new pieces are looked for and members checked for change. */
+  sweepMs: 1000,
+  /** At most one rebuild of a merged mesh this often. */
+  rebuildMs: 2000,
+  /** A piece that has changed this many times draws itself for good. */
+  moves: 3,
+  /** Texture sets (colour map + normal map) one merged program samples from. */
+  maxSets: 6,
+  /** A merged mesh over this many vertices takes no late pieces (they start another). */
+  sealVerts: 20000,
+} as const;
