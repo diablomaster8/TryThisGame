@@ -6,7 +6,7 @@
  */
 import { SHAKE_METER_TEXT } from '../config/strings-r8d';
 import { INPUT } from '../config/tuning';
-import { SHAKE_METER } from '../config/tuning-r8d';
+import { SHAKE_METER } from '../config/tuning-more/ui-shake-sheet';
 import type { Nubbin, World } from '../sim/types';
 
 /** The egg a drag is holding and shaking, if any (a ready egg needs no more shaking). */

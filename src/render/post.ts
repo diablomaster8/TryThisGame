@@ -11,7 +11,7 @@ import {
   WebGLRenderTarget,
   type WebGLRenderer,
 } from 'three';
-import { CG4_B4 } from '../config/tuning-b4';
+import { CG4_B4 } from '../config/tuning-more/campaign4-people-tale-grade';
 
 /**
  * The HD-2D pass. The scene is rendered to a low-res target, then one full-screen

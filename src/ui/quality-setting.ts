@@ -5,7 +5,7 @@
  */
 import { QUALITY_TEXT } from '../config/strings';
 import { tierForRes } from '../config/tuning-world';
-import { PERF_TIERS } from '../config/tuning-r8d-perf';
+import { PERF_TIERS } from '../config/tuning-more/perf-tiers';
 import type { Game } from '../game';
 import { readDeviceTier, readQualityOverride, writeQualityOverride } from '../platform/device-tier';
 

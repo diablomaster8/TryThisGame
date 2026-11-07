@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PUDDLES } from '../config/tuning-r11d6';
+import { PUDDLES } from '../config/tuning-more/world-overview-puddles';
 import { puddleFill } from '../render/puddles';
 import type { World } from '../sim/types';
 

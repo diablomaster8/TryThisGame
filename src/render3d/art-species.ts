@@ -11,7 +11,7 @@ import { vivid } from './art-species-colour';
 import { serpentChain, serpentSpec } from './art-serpent';
 import { birdLayout, birdPatch } from './art-bird';
 import { FLAME_PART, flameTailPrims, withFlameFlicker } from './art-flame';
-import { METAL_ARM } from '../config/tuning-look-r10e';
+import { METAL_ARM } from '../config/tuning-more/look-creature-fx';
 import { QUAD_SEAL } from '../config/tuning/render-3d';
 
 /**

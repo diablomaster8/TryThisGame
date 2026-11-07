@@ -3,7 +3,7 @@ import { settleFriendly } from './friendly';
 import { markStoryBout } from './story-bouts';
 import { foeName } from '../../config/strings-battle';
 import { BATTLE, BATTLE_ONCE, BATTLE_PROGRESS } from '../../config/tuning-battle';
-import { BATTLE_R5 } from '../../config/tuning-battle-r5';
+import { BATTLE_R5 } from '../../config/tuning-more/battle-doors';
 import { hashSeed } from '../rng';
 import { addRecruit } from '../town';
 import { Rng } from '../rng';

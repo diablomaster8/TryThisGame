@@ -6,7 +6,7 @@
  * the release), averaged over one loop. A rendered `?audiolab` measurement is still to
  * come; until then this keeps a new or edited song from landing far louder or quieter.
  */
-import { SONG_TRIM_DB } from '../config/tuning-r8d-audio';
+import { SONG_TRIM_DB } from '../config/tuning-more/audio-mix';
 import { SCORE, type SongName } from './audio';
 
 type Song = (typeof SCORE)[SongName];

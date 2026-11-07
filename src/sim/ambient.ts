@@ -13,7 +13,7 @@
  * Live play only: nothing spawns or chases while catching up on time away.
  */
 import { GROVE } from '../config/tuning';
-import { AMBIENT } from '../config/tuning-soul-r11g';
+import { AMBIENT } from '../config/tuning-more/soul-ambient-games';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
 import { isFree } from './nubbin';

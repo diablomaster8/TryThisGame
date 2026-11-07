@@ -5,7 +5,7 @@
  * since phones have no hover. Pure, so the tests can walk every pointer type.
  */
 import { INPUT } from '../config/tuning';
-import { POINTER_INPUT } from '../config/tuning-r9d3';
+import { POINTER_INPUT } from '../config/tuning-more/ui-shake-hint';
 
 export function dragThresholdPx(pointerType: string): number {
   return POINTER_INPUT.dragPx[pointerType] ?? INPUT.dragThresholdPx;

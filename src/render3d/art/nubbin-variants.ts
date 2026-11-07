@@ -3,7 +3,7 @@ import type { NubbinType } from '../../sim/types';
 import { sdf, V, type Prim } from './sculpted';
 import type { SpeciesMark, PartSpec, SpeciesSpec } from './species';
 import { NUBBIN_SPEC } from './species-data';
-import { CROWN_RUN } from '../../config/tuning-look-r10e';
+import { CROWN_RUN } from '../../config/tuning-more/look-creature-fx';
 
 /**
  * The Nubbin variants as small diffs on `NUBBIN_SPEC`. `variant(base, name, overrides)`

@@ -6,7 +6,7 @@
  * target is taken at most every `GLANCE.everyMs`, and a calm Nubbin is the only one that
  * looks up (one walking keeps its way, one asleep sleeps).
  */
-import { GLANCE } from '../config/tuning-soul-r11';
+import { GLANCE } from '../config/tuning-more/soul-quirks-gait';
 import type { Nubbin, Vec2, World } from '../sim/types';
 
 /** Acts worth turning to look at. */

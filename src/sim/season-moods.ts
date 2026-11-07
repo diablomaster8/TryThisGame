@@ -6,7 +6,7 @@
  * nothing else. Hashed chances, live play only, behaviour and looks only.
  */
 import { GROVE } from '../config/tuning';
-import { SEASON_MOODS as M } from '../config/tuning-soul-r11h';
+import { SEASON_MOODS as M } from '../config/tuning-more/soul-old-souls';
 import { liveliness, soulLive } from './antics';
 import { react } from './behavior';
 import { act, awake, dist, h01, idle, stillIn } from './soul-kit';

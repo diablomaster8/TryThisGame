@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CAMERA, GROVE3D, STAGE2 } from '../../src/config/tuning';
-import { E_STAGES } from '../../src/config/tuning-e';
+import { E_STAGES } from '../../src/config/tuning-more/campaign-people-lanterns';
 import { SCENE_STAGES } from '../../src/config/scene-stages';
 import { placeSet } from '../../src/config/stage-marks';
 import { STORYLINE_BEETLE } from '../../src/content/storyline-beetle';
@@ -17,7 +17,7 @@ import {
   type Lens,
   type SafeNdc,
 } from '../../src/render3d/fit-shot';
-import { STAGE4 } from '../../src/config/tuning-f4';
+import { STAGE4 } from '../../src/config/tuning-more/campaign4-fit-shots';
 import { markAt } from '../../src/config/stage-marks';
 import { standHeight } from '../../src/render3d/terrain-shape';
 import { startCampaign } from '../../src/sim/campaign';

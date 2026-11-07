@@ -3,7 +3,7 @@
  * stars of a domain's games reach its threshold (`EDU_KEEPSAKES`), the keepsake is added to
  * `inventory.keepsakes` once. Called by `eduResult`; answers the ids newly granted.
  */
-import { EDU_KEEPSAKES } from '../config/tuning-kids-r11e';
+import { EDU_KEEPSAKES } from '../config/tuning-more/kids-noticing';
 import type { World } from './types';
 
 export function eduKeepsakes(world: World): string[] {

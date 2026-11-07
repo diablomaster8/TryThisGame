@@ -3,7 +3,7 @@
  * (R0546) and the shy one's hide and seek (R0543). Bands follow the toasts: main, reader
  * (7–10) and sprout (3–6).
  */
-import type { SoulTraitId } from './tuning-soul-r9';
+import type { SoulTraitId } from './tuning-more/soul-traits';
 
 /** R0528: each trait's icon, word and one-line blurb for the sheet. */
 export const TRAIT_LABELS: Record<SoulTraitId, { icon: string; word: string; blurb: string }> = {

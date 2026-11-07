@@ -5,7 +5,7 @@
  * ("moveType>foeType"), optional in the save and written only here, from the sim, when a hit
  * lands. Kid mode shows the badges always; that is the screen's call, not this file's.
  */
-import { BATTLE_R5 } from '../../config/tuning-battle-r5';
+import { BATTLE_R5 } from '../../config/tuning-more/battle-doors';
 import type { World } from '../types';
 import { moveOf } from './moves';
 import type { BattleState } from './types';

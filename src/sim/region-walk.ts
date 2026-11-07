@@ -28,7 +28,7 @@ import { RUINS_SPEC, ruinsState } from '../config/region-ruins';
 import { SHORE_SPEC } from '../config/region-shore';
 import { MOON_SPEC, SUN_SPEC } from '../config/region-sunmoon';
 import { GROVE_EDGE_SPEC } from '../config/region-grove-edge';
-import { REGION_WALK } from '../config/tuning-r11d1';
+import { REGION_WALK } from '../config/tuning-more/world-region-engine';
 import { KEEPER } from '../config/tuning';
 import { astar, stringPull, gridLineOfSight } from './astar';
 import { GLIDE } from '../config/tuning-move';

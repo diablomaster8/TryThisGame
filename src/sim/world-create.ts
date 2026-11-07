@@ -2,7 +2,7 @@
  * Building a fresh world: default settings, the starting Grove and unique Nubbin names. Split out
  * of world.ts (R0477); world.ts re-exports all three.
  */
-import { AUDIO_MIX } from '../config/tuning-r8d-audio';
+import { AUDIO_MIX } from '../config/tuning-more/audio-mix';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, TREES } from '../config/tuning';
 import { createKeeper } from './keeper';

@@ -32,7 +32,7 @@ import {
 } from './creature-serpent';
 import { C, shadeOf } from './palette';
 import { PixelCanvas, PX } from './pixel-canvas';
-import { DINO_LEAN_PX } from '../../config/tuning-look-r10e';
+import { DINO_LEAN_PX } from '../../config/tuning-more/look-creature-fx';
 import { drawExtras, type Extra } from './creature-extras';
 import { birdAnchors, drawBirdBody, type BirdOpts } from './creature-bird';
 

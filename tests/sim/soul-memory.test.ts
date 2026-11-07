@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { THROW } from '../../src/config/tuning';
-import { CARE_MEMORY } from '../../src/config/tuning-soul-r10';
+import { CARE_MEMORY } from '../../src/config/tuning-more/soul-friends-rivals';
 import { setAnticsLive } from '../../src/sim/antics';
 import { rememberCare } from '../../src/sim/care-memory';
 import { petNubbin } from '../../src/sim/keeper';

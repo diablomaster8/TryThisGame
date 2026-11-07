@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { storyId, WEATHERED } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
 import { GROVE3D } from '../config/tuning';
-import { HAND_LANTERN } from '../config/tuning-e';
-import { CG2_P } from '../config/tuning-p';
-import { CG4_A1 } from '../config/tuning-a1';
+import { HAND_LANTERN } from '../config/tuning-more/campaign-people-lanterns';
+import { CG2_P } from '../config/tuning-more/campaign2-actors-pip';
+import { CG4_A1 } from '../config/tuning-more/campaign4-stage-poses';
 import type { Daylight } from '../render/daylight';
 import {
   festivalNubbinSpots,

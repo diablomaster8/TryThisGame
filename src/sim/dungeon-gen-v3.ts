@@ -39,7 +39,7 @@ import {
 import { Rng } from './rng';
 import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { NUBBIN_TYPES, type DungeonLootKind } from './types';
-import { HOLLOW_TOUR } from '../config/tuning-r10b1';
+import { HOLLOW_TOUR } from '../config/tuning-more/dungeon-tour-tiles';
 import { tourOf } from './dungeon-tour';
 
 const V = HOLLOW.v3;

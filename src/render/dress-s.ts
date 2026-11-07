@@ -10,8 +10,8 @@ import {
 } from 'three';
 import { markAt } from '../config/stage-marks';
 import { DUNGEON } from '../config/tuning';
-import { CG2_S } from '../config/tuning-s';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG2_S } from '../config/tuning-more/campaign2-white-room';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import type { World } from '../sim/types';
 import { buildArtS, gridTexture, ovalMaskTexture, US, type ArtS } from './art-s';
 import type { PixelDressCtx, PixelDressing } from './dressings';

@@ -6,7 +6,7 @@
  * never takes anything. Placed only on Wild floors, after the other traps, from its own seeded
  * stream, so Cosy and Brisk floors are unchanged.
  */
-import { R10B4 } from '../config/tuning-r10b4';
+import { R10B4 } from '../config/tuning-more/dungeon-champions-wires';
 import { cellAt, cellCentre, cellDist, FLOOR, type Cell, type Floor } from './dungeon';
 import { propBlocked } from './dungeon-props';
 import { Rng } from './rng';

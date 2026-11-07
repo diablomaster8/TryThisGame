@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { PLAQUE_OUTLINES, type PlaqueCreature } from '../config/tuning-k';
+import { PLAQUE_OUTLINES, type PlaqueCreature } from '../config/tuning-more/campaign2-landmarks';
 
 /**
  * Campaign graphics 2, package k, Full 3D models: small kits merged by vertex colour so each

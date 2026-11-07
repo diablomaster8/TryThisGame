@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PAINT } from '../../src/config/tuning-kids-r11e';
+import { PAINT } from '../../src/config/tuning-more/kids-noticing';
 import { deserialize, serialize } from '../../src/sim/save';
 import { applyCommand } from '../../src/sim/world';
 import { campaignWorld } from './campaign-driver';

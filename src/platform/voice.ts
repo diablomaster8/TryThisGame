@@ -7,7 +7,7 @@
  * browser (never in the save: voices differ per device). Pure helpers plus two guarded
  * storage calls.
  */
-import { READ_ALOUD } from '../config/tuning-fun-r7';
+import { READ_ALOUD } from '../config/tuning-more/fun-voice-antics';
 
 const KEY = 'grove-voice';
 

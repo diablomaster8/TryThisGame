@@ -1,9 +1,9 @@
 import { CircleGeometry, Color, Mesh, MeshBasicMaterial, RingGeometry, type Vector3 } from 'three';
 import { markAt } from '../config/stage-marks';
 import { GROVE } from '../config/tuning';
-import { STORY_B } from '../config/tuning-b';
-import { CG2_W } from '../config/tuning-w';
-import { CG2_K } from '../config/tuning-k';
+import { STORY_B } from '../config/tuning-more/campaign-gate-fold';
+import { CG2_W } from '../config/tuning-more/campaign2-winter-water';
+import { CG2_K } from '../config/tuning-more/campaign2-landmarks';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';

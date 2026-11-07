@@ -5,7 +5,7 @@
  * UI only: it reads the world and sends nothing.
  */
 import { BUDDY_TEXT } from '../config/strings-buddy';
-import { EDU_KEEPSAKES } from '../config/tuning-kids-r11e';
+import { EDU_KEEPSAKES } from '../config/tuning-more/kids-noticing';
 import type { Game } from '../game';
 import { reducedMotion } from '../platform/motion';
 import { nubbinPortrait } from './battle-party-pick';

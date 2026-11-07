@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { ACTS } from '../../src/config/dungeon-acts';
 import { HUB_MAPS } from '../../src/config/dungeon-hubs-r10b2';
 import { DUNGEON, HOLLOW_ZONES, KEEPER, SIM } from '../../src/config/tuning';
-import { FIELD_R10 } from '../../src/config/tuning-r10b2';
+import { FIELD_R10 } from '../../src/config/tuning-more/dungeon-field-streaming';
 import { bandForFloor } from '../../src/render/cave-bands';
 import { sectorWindow } from '../../src/render/field-sectors';
 import { cellCentre, runFloor, WALL, type Cell, type Floor } from '../../src/sim/dungeon';

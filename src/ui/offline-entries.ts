@@ -1,5 +1,5 @@
 import { OFFLINE_ENTRY_TEXT } from '../config/strings-r8d-plat';
-import { OFFLINE_ENTRIES } from '../config/tuning-r8d-plat';
+import { OFFLINE_ENTRIES } from '../config/tuning-more/perf-platform';
 
 /**
  * R0520 (TECH-80): offline, the More menu greys out the story worlds whose script chunk

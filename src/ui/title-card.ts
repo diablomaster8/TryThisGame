@@ -16,12 +16,12 @@ import {
 import { seasonHere } from '../render/grove-season';
 import { HAZEL_PS } from '../config/strings-fun-r6';
 import type { SceneStage } from '../config/story';
-import { LOOK_F } from '../config/tuning-f';
+import { LOOK_F } from '../config/tuning-more/campaign-looks-titles';
 import { TITLE_CARD_TEXT } from '../config/strings';
 import { stageFlags, type StageFlags } from '../render/scene-stage';
 import { chapterTitle, storylineOf } from '../sim/storyline';
 import type { World } from '../sim/types';
-import { CG4_U4 } from '../config/tuning-u4';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { drawSilhouette, type GradeFrame } from './look-paint';
 import { CHAPTER_SAY_TEXT } from '../config/strings-kids';
 import { numberWord } from './edu-voice';

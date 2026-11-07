@@ -5,7 +5,7 @@
  * works the same in Pixel and Full 3D. It reads the world and the camera and sends nothing.
  */
 import { SHAKE_HINT_TEXT } from '../config/strings-r9d3';
-import { SHAKE_HINT } from '../config/tuning-r9d3';
+import { SHAKE_HINT } from '../config/tuning-more/ui-shake-hint';
 import type { Game } from '../game';
 import { PIXEL_VIEW, toScreen } from '../render/stage-api';
 import { textBandOf } from '../sim/story-scenes';

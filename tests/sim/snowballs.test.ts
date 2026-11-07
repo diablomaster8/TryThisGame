@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SNOWBALL } from '../../src/config/tuning-r13d1';
+import { SNOWBALL } from '../../src/config/tuning-more/world-region-content';
 import { SIM } from '../../src/config/tuning';
 import { snowballs } from '../../src/sim/snowballs';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';

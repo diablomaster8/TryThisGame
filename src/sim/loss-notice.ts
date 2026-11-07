@@ -10,7 +10,7 @@ import {
   LOSS_TOGETHER_MAX_AGE,
   SENSITIVE_CHAPTERS,
   SENSITIVE_SIDE_STORIES,
-} from '../config/tuning-access-r10';
+} from '../config/tuning-more/sim-access';
 import type { LossHold, World } from './types';
 
 /** A tagged story: a chapter number or a side story id. */

@@ -4,7 +4,7 @@
  * with a bonk for whoever stands nearer the trunk; the Keepers bump and each bows, "after
  * you". Transient state only (a WeakMap), so the save is untouched.
  */
-import { COOP_GAGS } from '../config/tuning-fun-r11e';
+import { COOP_GAGS } from '../config/tuning-more/fun-coop-gags';
 import type { Nubbin, SimEvent, Tree, World } from './types';
 import { dropFruit, withRng } from './world';
 import { react } from './behavior';

@@ -2,7 +2,7 @@
  * Lane A round 10 (SOUL, kindergarten and expression): the fortune teller's readings
  * (R0557) and the doctor's check-up (R0556). British spelling, the dry voice of STYLE.
  */
-import type { SoulTraitId } from './tuning-soul-r9';
+import type { SoulTraitId } from './tuning-more/soul-traits';
 
 type Flavour = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moon' | 'plain';
 type Toy = 'ball' | 'radio' | 'blocks' | 'mirror' | 'tv';

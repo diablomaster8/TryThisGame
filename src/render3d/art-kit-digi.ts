@@ -5,7 +5,7 @@ import { leansForward, type CreatureSpec } from '../render/sprites/creature';
 import { V, type Prim } from './art/sculpted';
 import type { SpeciesMark, PartSpec, SpeciesSpec } from './art/species';
 import type { Layout } from './art-species';
-import { CHEST_MISSILE, DINO_LEAN_DEG, STRIPE_WRAP } from '../config/tuning-look-r10e';
+import { CHEST_MISSILE, DINO_LEAN_DEG, STRIPE_WRAP } from '../config/tuning-more/look-creature-fx';
 
 /**
  * The 3D side of the digital-line kit (render/sprites/creature-kit-quad.ts): layouts for

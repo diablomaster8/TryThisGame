@@ -6,7 +6,7 @@
  * Nubbin or egg cares for it (the `tapCare` command).
  */
 import { INPUT } from '../config/tuning';
-import { SIMPLE_TOUCH } from '../config/tuning-access-r10';
+import { SIMPLE_TOUCH } from '../config/tuning-more/sim-access';
 
 export const SIMPLE_TOUCH_CLASS = 'a11y-simple-touch';
 

@@ -4,7 +4,7 @@
  * trace's own (content/world-traces.ts), the child line in a Learning Grove where it has one.
  */
 import { SECRET_TEXT, WORLD_HINT_TEXT } from '../config/strings-r9d4';
-import { WORLD_HINTS } from '../config/tuning-r9d4';
+import { WORLD_HINTS } from '../config/tuning-more/ui-world-hints';
 import { WORLD_TRACES } from '../content/world-traces';
 import { CLUE_TRACE } from '../sim/world-hints';
 import type { World } from '../sim/types';

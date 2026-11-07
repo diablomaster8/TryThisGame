@@ -8,7 +8,7 @@
  * the slot in play needs (a Learning Grove save keeps its band, a story save its scripts).
  */
 import { OFFLINE_PACK_TEXT } from '../config/strings-r10d4';
-import { OFFLINE_PACKS } from '../config/tuning-r10d4';
+import { OFFLINE_PACKS } from '../config/tuning-more/perf-offline-packs';
 import { el } from './dom';
 
 /** `core` (the workers and the sprite manifest) is always kept and has no tick box. */

@@ -8,7 +8,7 @@ import { surface, type AaaSurface, type Tex } from './art/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
 import { tileLookOf } from '../render/paint/dungeon-tiles';
-import type { TileLook } from '../config/tuning-r10b1';
+import type { TileLook } from '../config/tuning-more/dungeon-tour-tiles';
 import { SectorIndex } from '../render/field-sectors';
 import { HOLLOW_PERF } from '../config/tuning-dungeon-tap';
 import { cellRects } from './hollow-lod';

@@ -73,7 +73,7 @@ import { stepTeams } from './teams';
 import { stepEdu } from './edu';
 /* Lane E r9 */
 import { type Command, type SimEvent, type World } from './types';
-import { SYSTEM_THROTTLE } from '../config/tuning-r13d3';
+import { SYSTEM_THROTTLE } from '../config/tuning-more/ui-system-throttle';
 import { stepLevelWatch } from './level-watch';
 
 // ---------- commands ----------

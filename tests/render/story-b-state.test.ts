@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { STORY_B } from '../../src/config/tuning-b';
+import { STORY_B } from '../../src/config/tuning-more/campaign-gate-fold';
 import { storyBState } from '../../src/render/story-b-state';
 import { startCampaign } from '../../src/sim/campaign';
 import { loadStoryScripts } from '../../src/sim/story-scenes';

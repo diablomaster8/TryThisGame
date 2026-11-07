@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { CG4_E4 } from '../config/tuning-e4';
+import { CG4_E4 } from '../config/tuning-more/campaign4-world-detail';
 import type { Dress3dCtx } from './dressings';
 import { groveHeight } from './terrain';
 

@@ -91,7 +91,7 @@ import {
   keeperRoll,
   keeperRunningNow,
 } from '../sim/keeper';
-import { RUN_ARMS } from '../config/tuning-move-r10';
+import { RUN_ARMS } from '../config/tuning-more/move-keeper-ui';
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
 import { sitWithBeat, towardKeeper } from '../render/sit-with';

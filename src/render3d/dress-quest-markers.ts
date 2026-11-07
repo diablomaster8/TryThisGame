@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { SceneStage } from '../config/story';
-import { C12C } from '../config/tuning-camp12c';
+import { C12C } from '../config/tuning-more/story-quest-markers';
 import type { Daylight } from '../render/daylight';
 import { questMarkers } from '../render/quest-markers';
 import type { World } from '../sim/types';

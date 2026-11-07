@@ -1,8 +1,8 @@
 import { CanvasTexture } from 'three';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
-import { HUSH } from '../config/tuning-e';
-import { CG2_Y } from '../config/tuning-y';
+import { HUSH } from '../config/tuning-more/campaign-people-lanterns';
+import { CG2_Y } from '../config/tuning-more/campaign2-night-grade';
 import { flickerAt, type LampState } from './dress-e';
 import type { StageFlags } from './scene-stage';
 

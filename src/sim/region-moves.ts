@@ -18,11 +18,11 @@ import { JUMP_ROUTES, type JumpLedge } from '../config/region-jumps';
 import { terraceHeight, type RegionLayout } from '../config/region-layout';
 import { RIDGE_FLIGHTS, type RegionFlightDef } from '../config/region-ridge';
 import type { RegionId } from '../config/regions';
-import { REGION_MOVES } from '../config/tuning-r12d1';
+import { REGION_MOVES } from '../config/tuning-more/world-region-moves';
 import { JUMP } from '../config/tuning-sim';
 import { GLIDE } from '../config/tuning-move';
 import { glided, keeperGliding } from './glide-state';
-import { FLIGHT_ZONES } from '../config/tuning-r11d2';
+import { FLIGHT_ZONES } from '../config/tuning-more/world-camera-terrain';
 import { levelOf } from './stats';
 import type { SimEvent, Vec2, World } from './types';
 

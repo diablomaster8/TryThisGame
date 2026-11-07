@@ -11,7 +11,7 @@ import { EDU_TEXT, NAMES } from '../config/strings';
 import { ACCESS_TEXT, GROWN_UP_TEXT } from '../config/strings-access-r10';
 import { EDU_REBORN_TEXT, EDU_ROUNDS_TEXT } from '../config/strings-kids';
 import { KIDS_R10_TEXT } from '../config/strings-kids-r10';
-import { KIDS_R10_TUNING } from '../config/tuning-kids-r10';
+import { KIDS_R10_TUNING } from '../config/tuning-more/kids-screens';
 import type { Game } from '../game';
 import { eduRounds, gamesForBand } from '../sim/edu';
 import { mountAccessSettings } from './access-r10';

@@ -6,7 +6,7 @@
  * until the Keeper steps out and back in. The same bout can be started by the
  * `guardianStart` command.
  */
-import { BATTLE_R6 } from '../config/tuning-battle-r6';
+import { BATTLE_R6 } from '../config/tuning-more/battle-ladder-fusion';
 import { startGuardian } from './battle/story-bouts';
 import { cellOf, type Floor } from './dungeon';
 import { levelIdOf } from './dungeon-levels';

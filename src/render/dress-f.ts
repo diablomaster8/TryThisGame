@@ -7,8 +7,8 @@ import {
 } from '../config/campaign-look';
 import { markAt } from '../config/stage-marks';
 import { LANTERN_POSTS } from '../config/tuning';
-import { LOOK_F } from '../config/tuning-f';
-import { CG4_U4 } from '../config/tuning-u4';
+import { LOOK_F } from '../config/tuning-more/campaign-looks-titles';
+import { CG4_U4 } from '../config/tuning-more/campaign4-keepsakes-boards';
 import { townUnlocks } from '../sim/town';
 import type { World } from '../sim/types';
 import { disposeLook, driveCampaign } from '../ui/title-card';

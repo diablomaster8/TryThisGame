@@ -7,7 +7,7 @@
  */
 import { WORLD_TEXT } from '../config/strings-world';
 import { COMPASS, LANDMARKS } from '../config/tuning';
-import { BEACON_BACKDROP } from '../config/tuning-r13d2';
+import { BEACON_BACKDROP } from '../config/tuning-more/world-backdrops';
 import type { Game } from '../game';
 import { compassTicks, roseAngle, screenBearing, type TickKind } from './hud-world-math';
 import { neighbourBeacons } from '../sim/beacons';
