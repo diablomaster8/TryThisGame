@@ -13,6 +13,7 @@ import type { CreaturePool, Look } from './creature-pool';
 import type { Grove3dScene } from './grove-3d-scene';
 import { chasePosition, frameCamera, type CameraFrame } from './minigame-layout';
 import { GroveSky } from './sky';
+import { WorldMerge } from './world-merge';
 
 /**
  * What the Full 3D Expedition and races (G17) stand on: a scene of their own drawn
@@ -41,6 +42,8 @@ export class MiniStage {
   /** Textures made here (name tags, water normals); the shared surfaces are not ours. */
   private readonly textures: THREE.Texture[] = [];
   private readonly rigs = new Map<Rigged, string>();
+  /** Round 5: the course's still scenery drawn per program in a few calls (rigs left out). */
+  readonly worldMerge: WorldMerge;
   private width = 0;
   private height = 0;
   private frame: CameraFrame = { fovDeg: 42, distance: 10 };
@@ -70,6 +73,10 @@ export class MiniStage {
     // Tone mapping, the sRGB encode, the clamp and the grade in one draw (they were three).
     this.composer.addPass(new FinishPass(1.15));
     this.composer.addPass(new SMAAPass());
+    this.worldMerge = new WorldMerge(this.scene, this.scene, this.renderer, (o) => {
+      for (const rig of this.rigs.keys()) if (rig.group === o) return true;
+      return false;
+    });
     // Console access during development: `miniStage.scene`, `miniStage.camera`.
     if (import.meta.env.DEV) (window as unknown as { miniStage: MiniStage }).miniStage = this;
   }
@@ -508,6 +515,7 @@ export class MiniStage {
 
   /** Hand every rig back to the pool and free everything else the stage made. */
   dispose(): void {
+    this.worldMerge.dispose();
     for (const [rig, key] of this.rigs) {
       rig.group.visible = true;
       this.pool.release(key, rig);
