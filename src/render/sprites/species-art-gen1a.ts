@@ -108,6 +108,8 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
   cinderwing: spec(pal(C.orange, C.ember, C.cream, C.ember, C.teal), {
     plan: 'tall',
     extras: ['dinoSnout'],
+    grid: 48,
+    big: ['longNeck', 'wingBones', 'bigTail', 'clawArms'],
     size: 1.25,
     ears: 'horns',
     wings: 'bat',

@@ -23,6 +23,7 @@ export type ExtraKind =
   | 'backShell'
   | 'cannons'
   | 'backSpikes'
+  | 'flameMane'
   | 'mushrooms'
   | 'hood'
   | 'foxTails'
@@ -96,6 +97,7 @@ const BACK_KINDS = new Set<ExtraKind>([
   'backShell',
   'cannons',
   'backSpikes',
+  'flameMane',
   'mushrooms',
   'hood',
   'foxTails',
@@ -150,7 +152,7 @@ function drawOne(
   const col = spec.colors;
   const c = e.c ?? col.accent;
   const c2 = e.c2 ?? col.accent2;
-  const s = spec.size;
+  const s = spec.size * ((spec.grid ?? 32) / 32);
   const top = a.headCy - a.headRy;
   const hasBody = a.bodyRx > 0;
   // The torso to mount things on: the body, or the lower head for one-piece plans.
@@ -170,7 +172,7 @@ function drawOne(
 
   switch (e.kind) {
     case 'bulb': {
-      const r = Math.max(3, a.headRx * 0.7);
+      const r = Math.max(3.5, a.headRx * 0.88);
       const [x, y] =
         v === 'back'
           ? [tx, ty - 1]
@@ -289,6 +291,31 @@ function drawOne(
             tx + d * (trx + 3),
             tTop - 1,
             c,
+          );
+        }
+      }
+      break;
+    }
+    case 'flameMane': {
+      // R0405: tongues of flame along the neck (a horse's mane), from the crown to the withers.
+      const tongue = (x: number, y: number, k: number, dx: number) => {
+        pc.tri(x - 1.6 * k, y + 1, x + 1.6 * k, y + 1, x + dx * k, y - 5 * k, c);
+        pc.tri(x - 0.8 * k, y + 1, x + 0.8 * k, y + 1, x + dx * 0.6 * k, y - 3 * k, c2);
+      };
+      const n = 6;
+      const sides = v === 'side' ? [-1] : v === 'back' ? [0] : [-1, 1];
+      for (const d of sides) {
+        const x0 = v === 'side' ? a.headCx - a.headRx * 0.5 : a.headCx + d * (a.headRx - 1);
+        const y0 = v === 'back' ? a.headCy + a.headRy * 0.4 : top + (v === 'side' ? 2 : 4);
+        const x1 = v === 'side' ? a.bodyCx + a.bodyRx * 0.3 : tx + d * trx * 0.7;
+        const y1 = tTop + 1;
+        for (let i = 0; i < n; i++) {
+          const t = i / (n - 1);
+          tongue(
+            x0 + (x1 - x0) * t,
+            y0 + (y1 - y0) * t,
+            1.15 - t * 0.35,
+            d * 2.5 + (v === 'side' ? -1.5 : 0),
           );
         }
       }
