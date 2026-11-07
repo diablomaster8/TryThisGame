@@ -61,7 +61,11 @@ export const EDU_COLOUR_THINGS: Record<string, readonly ColourThing[]> = {
   ],
 };
 
-/** One pattern class per colour, so no two swatches look alike without their colour. */
+/**
+ * One pattern class per colour, so no two swatches look alike without their colour. Every
+ * colour has a real pattern: white is a two-tone chequer and black a solid with a dotted
+ * border (both drawn in edu css as `edu-pat-<id>`), and no id repeats.
+ */
 export const EDU_COLOUR_PATTERN: Record<string, string> = {
   red: 'dots',
   blue: 'waves',
@@ -71,9 +75,34 @@ export const EDU_COLOUR_PATTERN: Record<string, string> = {
   purple: 'zigzag',
   pink: 'rings',
   brown: 'cross',
-  black: 'solid',
-  white: 'plain',
+  black: 'dotborder',
+  white: 'chequer',
 };
 
 /** The share of colour rounds that show things rather than plain swatches. */
 export const EDU_COLOUR_THING_SHARE = 0.7;
+
+/** R0732: the "Show patterns on colours" setting (edu.patterns, default on), kept per device. */
+export const EDU_PATTERNS_KEY = 'grove.edu.patterns';
+
+export const EDU_PATTERN_TEXT = {
+  label: 'Show patterns on colours',
+  on: 'Patterns: on',
+  off: 'Patterns: off',
+} as const;
+
+/**
+ * R0733: the share of age 5-6 shape rounds that are the Grove hunt. The hunt's props take
+ * colours from this pool (all different in a round, and not tied to a shape) so the shape,
+ * not the colour, is the cue.
+ */
+export const EDU_HUNT_SHARE = 0.5;
+export const EDU_HUNT_COLOURS: readonly string[] = [
+  'red',
+  'blue',
+  'yellow',
+  'green',
+  'orange',
+  'purple',
+  'pink',
+];

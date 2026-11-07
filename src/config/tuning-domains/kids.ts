@@ -8,3 +8,4 @@ export * from '../tuning-more/kids-screens';
 export * from '../tuning-kids';
 export * from '../tuning-more/kids-session-flow';
 export * from '../tuning-more/kids-noticing';
+export * from '../tuning-buddy';

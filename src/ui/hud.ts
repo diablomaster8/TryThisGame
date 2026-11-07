@@ -7,6 +7,7 @@ import { EduNoticing } from './edu-noticing'; /* R0723 */
 import { GlowCave } from './glow-cave';
 import { DueWave } from './lang-due'; /* R0701 */
 import { mountEduSignposts } from './edu-signposts';
+import { mountEduDesks, mountEduHut } from './edu-hut'; /* R0742 */
 
 import { offerStorageFull } from './backup'; /* Lane C r11 */
 import { lastSaveProblem } from '../platform/save-room';
@@ -618,6 +619,20 @@ export function mountHud(
       breakScreen.isOpen() ||
       !catching.hidden,
   );
+  // R0742: in a Learning Grove, walking the Keeper to the Kindergarten hut's door opens Play
+  // and learn, and the Nubbins sit at little desks under each round.
+  mountEduHut(game, {
+    open: () => edu.open(),
+    busy: () =>
+      stack.anyOpen() ||
+      kidBusy() ||
+      away.isOpen ||
+      recap.isOpen() ||
+      celebration.isOpen ||
+      memorialCard.isOpen() ||
+      !catching.hidden,
+  });
+  mountEduDesks(root, game);
 
   // Triple-tap the logo, or press backtick, for the debug panel.
   let logoTaps: number[] = [];

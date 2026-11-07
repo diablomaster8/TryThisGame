@@ -13,7 +13,6 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
-import { console } from 'node:console';
 
 const DRY = process.argv.includes('--dry-run');
 const CFG = 'src/config';
