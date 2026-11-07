@@ -36,6 +36,8 @@ import { TapPath, type TapMark } from './tap-path';
 import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
 import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
+import { EDU_TRAIL } from '../config/tuning-r14d2';
+import { FIRST_RING, firstLoopSpot, firstRingPulse } from '../render-common/first-loop-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
@@ -754,6 +756,28 @@ export class WorldView {
           h: HELD_RING.radius * 2,
           opacity: hr.gentle ? 0.95 : 0.7,
         });
+    }
+
+    // R0448: the pulsing ring on the first loop's target (egg, or the child to pat/feed/name).
+    const fl = firstLoopSpot(world);
+    if (fl) {
+      const rs = this.sheets.get('tech:heldRing', buildHeldRingSheet);
+      const rect = rs.frames.get(frameKey('firstLoopRing', 'front', 0));
+      if (rect) {
+        const p = firstRingPulse(nowMs, this.particles.reduceMotion);
+        batch.draw({
+          sheet: rs,
+          rect,
+          flip: false,
+          x: fl.x,
+          y: FIRST_RING.lift,
+          z: fl.z,
+          mode: 'flat',
+          w: FIRST_RING.radius * 2 * p.scale,
+          h: FIRST_RING.radius * 2 * p.scale,
+          opacity: p.opacity,
+        });
+      }
     }
 
     const home = this.location === 'grove';
@@ -1569,6 +1593,25 @@ export class WorldView {
           h: rl * 2,
           opacity: 0.45 * a,
         });
+      const glowSheet = this.tapPath.glow
+        ? this.sheets.get('tech:heldRing', buildHeldRingSheet)
+        : null;
+      const glowRect = glowSheet?.frames.get(frameKey('firstLoopRing', 'front', 0));
+      const glowDot = (m: TapMark, a: number) => {
+        if (!glowSheet || !glowRect) return;
+        batch.draw({
+          sheet: glowSheet,
+          rect: glowRect,
+          flip: false,
+          x: m.x,
+          y: m.y - paintedGround(m.x, m.z) + 0.02,
+          z: m.z,
+          mode: 'flat',
+          w: 0.5,
+          h: 0.5,
+          opacity: Math.min(0.9, a),
+        });
+      };
       // WORLD-41: soft footprints every 0.8 u, as small long shadows.
       const da = this.tapPath.dotAlpha(nowMs, calm);
       if (da > 0)
@@ -1577,7 +1620,10 @@ export class WorldView {
           const across = Math.abs(Math.sin(d.yaw)) > Math.abs(Math.cos(d.yaw));
           const pw = (across ? TAP_PRINTS.l : TAP_PRINTS.w) / 2;
           const pl = (across ? TAP_PRINTS.w : TAP_PRINTS.l) / 2;
-          mark(d, pw, Math.min(2.2, da * 2.2), pl);
+          const gs = this.tapPath.glow ? EDU_TRAIL.size : 1;
+          mark(d, pw * gs, Math.min(2.2, da * 2.2), pl * gs);
+          // R0099: in the Learning Grove each print also carries a warm glow ring.
+          if (this.tapPath.glow) glowDot(d, da);
         }
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);

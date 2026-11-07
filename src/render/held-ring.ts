@@ -77,5 +77,13 @@ export function buildHeldRingSheet(): SpriteSheet {
       }
     atlas.add(frameKey(gentle ? 'heldRingGentle' : 'heldRing', 'front', 0), pc);
   }
+  // R0448: the first-loop ring, a thicker warm gold so it never reads as the held ring.
+  const fr = new PixelCanvas(16, 16);
+  for (let y = 0; y < 16; y++)
+    for (let x = 0; x < 16; x++) {
+      const d = Math.hypot(x - 7.5, y - 7.5);
+      if (d >= 5.2 && d <= 7.5) fr.px(x, y, d >= 6.1 ? C.sunYellow : C.cream);
+    }
+  atlas.add(frameKey('firstLoopRing', 'front', 0), fr);
   return atlas.build();
 }
