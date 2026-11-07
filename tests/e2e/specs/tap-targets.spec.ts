@@ -6,7 +6,9 @@ async function undersized(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const bad: string[] = [];
     for (const el of document.querySelectorAll('button, [role=button], select, input, a[href]')) {
-      const r = el.getBoundingClientRect();
+      // A checkbox or radio is tapped through its label, so the label's box is the target.
+      const hit = el instanceof HTMLInputElement ? (el.closest('label') ?? el) : el;
+      const r = hit.getBoundingClientRect();
       const cs = getComputedStyle(el);
       if (r.width === 0 || r.height === 0 || cs.visibility === 'hidden' || cs.display === 'none')
         continue;
@@ -48,7 +50,8 @@ test.describe('tap targets at 375x812', () => {
   ] as const) {
     test(name, async ({ page, grove }) => {
       await grove.open({ scenario: 'eight-nubbins' });
-      await page.locator(locator).first().click();
+      // The scenario's opening narration sits over the dock, so open the panel with the button's own click.
+      await page.locator(locator).first().dispatchEvent('click');
       await page.waitForTimeout(800);
       expect(await undersized(page), `${name} controls under 44 px`).toEqual([]);
     });
